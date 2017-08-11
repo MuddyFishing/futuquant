@@ -1,21 +1,30 @@
-# OpenQuant - 富途量化投资平台
+# FutuQuant - 富途量化投资平台 (Futu Quant Trading API)
 
 ### 简介
 
-​	OpenQuant开源项目可以满足使用**富途牛牛**软件进行量化投资的需求。提供包括Python接口、Json接口的行情及交易的API。
+​**FutuQuant**开源项目可以满足使用[**富途牛牛**](http://www.futunn.com/)软件进行量化投资的需求, 提供包括Python接口、Json接口的行情及交易的API。
 
+-------------------
+### 安装
+```
+pip install futuquant
+```
 
+### 使用
+```
+import 
+```
 
 ---
 
 ### 富途牛牛行情交易API入门指引
-### [点击查看](https://github.com/FutunnOpen/OpenQuant/blob/master/OpenInterface/Python/入门指引及接口文档/富途牛牛行情交易API入门指引.md)
+### [点击查看](https://github.com/FutunnOpen/futuquant/blob/master/docs/document/Futunn_API_Intro.md)
 
 ---
 
 ### 组织结构
 
-![image](https://github.com/FutunnOpen/OpenQuant/raw/master/Resources/Structure.png)
+![image](https://github.com/FutunnOpen/futuquant/raw/master/docs/resources/Structure.png)
 
 ​	最新版本在master分支。之前各版本在其他分支上。
 
@@ -23,7 +32,7 @@
 
 ### API与富途牛牛客户端架构
 
-![image](https://github.com/FutunnOpen/OpenQuant/raw/master/Resources/API.png)
+![image](https://github.com/FutunnOpen/futuquant/raw/master/docs/resources/API.png)
 
 ***
 
@@ -36,7 +45,7 @@
 ---
 
 ### 历史数据及除权除息下载问题
-### [历史K线下载指引](https://github.com/FutunnOpen/OpenQuant/blob/master/OpenInterface/Python/入门指引及接口文档/历史K线下载指引.md)
+### [历史K线下载指引](https://github.com/FutunnOpen/futuquant/blob/master/docs/document/Hist_KLine_Download_Intro.md)
 
 - 在富途牛牛安装目录的plugin文件夹内有历史数据下载配置文件(ftplugin.ini)，请先详细阅读再进行操作。
 - 如果不想下载新数据、可以将开始时间和暂停下载时间设置为相同时间。
@@ -48,9 +57,9 @@
 
 * 富途开放API群(108534288)    群文件 >富途牛牛客户端(API接口专用版本)
 
-  ![image](https://github.com/FutunnOpen/OpenQuant/raw/master/Resources/Download.png)
+  ![image](https://github.com/FutunnOpen/futuquant/raw/master/docs/resources/Download.png)
 
-* <https://github.com/FutunnOpen/OpenQuant/issues>
+* <https://github.com/FutunnOpen/futuquant/issues>
 
 
 ***
