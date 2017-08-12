@@ -12,7 +12,8 @@ pip install futuquant
 
 ### 快速上手
 ```
-import futuquant as ft  # 导入futuquant api
+# 导入futuquant api
+import futuquant as ft
 
 # 实例化行情上下文对象
 quote_ctx = ft.OpenQuoteContext(host="127.0.0.1", port=11111)
@@ -59,9 +60,15 @@ ret_code, ret_data = trade_hk_ctx.deal_list_query(envtype=0)                    
 ```
 
 ---
+### 示例策略
+
+- 示例策略文件位于目录: (futuquant包安装目录)/futuquant/examples 下，用户可参考实例策略来学习API的使用。
+- 另外，可参考API相对应的[视频课程](https://live.futunn.com/course/1056)学习API的使用。
+
+---
 
 ### 富途牛牛行情交易API入门指引
-### [点击查看](https://github.com/FutunnOpen/futuquant/blob/master/docs/document/Futunn_API_Intro.md)
+###### [点击查看](https://github.com/FutunnOpen/futuquant/blob/master/docs/document/Futunn_API_Intro.md)
 
 ---
 
@@ -88,7 +95,7 @@ ret_code, ret_data = trade_hk_ctx.deal_list_query(envtype=0)                    
 ---
 
 ### 历史数据及除权除息下载问题
-### [历史K线下载指引](https://github.com/FutunnOpen/futuquant/blob/master/docs/document/Hist_KLine_Download_Intro.md)
+###### [历史K线下载指引](https://github.com/FutunnOpen/futuquant/blob/master/docs/document/Hist_KLine_Download_Intro.md)
 
 - 在富途牛牛安装目录的plugin文件夹内有历史数据下载配置文件(ftplugin.ini)，请先详细阅读再进行操作。
 - 如果不想下载新数据、可以将开始时间和暂停下载时间设置为相同时间。
