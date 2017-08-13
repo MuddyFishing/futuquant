@@ -2,14 +2,17 @@
 
 ### 简介
 
-​**FutuQuant**开源项目可以满足使用[**富途牛牛**](http://www.futunn.com/)软件进行量化投资的需求, 提供包括Python接口、Json接口的行情及交易的API。
+[​**FutuQuant**](https://futunnopen.github.io/futuquant/)开源项目可以满足使用[**富途牛牛**](http://www.futunn.com/)软件进行量化投资的需求, 提供包括Python接口、Json接口的行情及交易的API。 
+
+- [官方在线文档](https://futunnopen.github.io/futuquant/)
 
 -------------------
 ### 安装
 ```
 pip install futuquant
 ```
-
+######注: 本API同时兼容Python2和Python3, 推荐安装anaconda环境，方便快捷。
+---
 ### 快速上手
 ```
 # 导入futuquant api
@@ -56,7 +59,6 @@ ret_code, ret_data = trade_hk_ctx.accinfo_query(envtype=0)                      
 ret_code, ret_data = trade_hk_ctx.order_list_query(statusfilter="", envtype=0)   # 查询订单列表
 ret_code, ret_data = trade_hk_ctx.position_list_query(envtype=0)                 # 查询持仓列表
 ret_code, ret_data = trade_hk_ctx.deal_list_query(envtype=0)                     # 查询成交列表
-
 ```
 
 ---
@@ -64,12 +66,6 @@ ret_code, ret_data = trade_hk_ctx.deal_list_query(envtype=0)                    
 
 - 示例策略文件位于目录: (futuquant包安装目录)/futuquant/examples 下，用户可参考实例策略来学习API的使用。
 - 另外，可参考API相对应的[视频课程](https://live.futunn.com/course/1056)学习API的使用。
-
----
-
-### 富途牛牛行情交易API入门指引
-###### [点击查看](https://github.com/FutunnOpen/futuquant/blob/master/docs/document/Futunn_API_Intro.md)
-
 ---
 
 ### 组织结构
@@ -120,3 +116,4 @@ ret_code, ret_data = trade_hk_ctx.deal_list_query(envtype=0)                    
 * 使用新版本时请先仔细阅读接口文档，大部分问题都可以在接口文档中找到你想要的答案。
 * 欢迎大家提出建议、也可以提出各种需求，我们一定会尽量满足大家的需求。
 
+---
