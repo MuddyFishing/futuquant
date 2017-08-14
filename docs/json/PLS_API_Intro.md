@@ -172,13 +172,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.4  **获取基础报价(**Protocol: **1001)**
 
 **C-\>S eg:**
-
+```
 {'Protocol':'1001', 'ReqParam':{'Market':'1','StockCode':'00700'},'Version':'1'}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"1001","RetData":{"Close":"135400","CurPrice":"135400","High":"137600","LastClose":"139800","LotSize":"0","Low":"133800","Market":"1","Open":"136900","StockCode":"00700","Time":"57600","Turnover":"3588168326322","Volume":"26441962"},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名          | 字段值       | 备注                    |
@@ -197,13 +197,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.5  **获取摆盘数据(**Protocol: **1002)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"1002","ReqParam":{"Num":"3","Market":"1","StockCode":"00700"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"1002","RetData":{"GearArr":[{"BuyOrder":"1","BuyPrice":"135300","BuyVol":"3400","SellOrder":"2","SellPrice":"135400","SellVol":"27000"},{"BuyOrder":"5","BuyPrice":"135200","BuyVol":"64000","SellOrder":"5","SellPrice":"135500","SellVol":"70200"},{"BuyOrder":"20","BuyPrice":"135100","BuyVol":"108300","SellOrder":"9","SellPrice":"135600","SellVol":"142300"}],"Market":"1","StockCode":"00700"},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名       | 字段值          | 备注       |
@@ -226,37 +226,37 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.6  **订阅股票协议 (**Protocol: 1005**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"1005","ReqParam":{ "StockSubType": "1", "Market": "1", "StockCode":
 "00700"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"1005","RetData":{"Market":"1","StockCode":"00700","StockSubType":"1"}"Version":"1"}
-
+```
 3.7  **反订阅股票协议 (**Protocol: 1006**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"1006","ReqParam":{ "StockSubType": "1", "Market": "1", "StockCode":
 "00700"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"1006","RetData":{"Market":"1","StockCode":"00700","StockSubType":"1"}"Version":"1"}
-
+```
 注：反订阅带有1分钟的时间限制，如果不满足时间要求则会反订阅失败。
 
 3.8  **查询订阅股票协议 (**Protocol: 1007**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"1007","ReqParam":{"QueryAllSocket":"0"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"1007","RetData":{"SubInfoArr":[{"Market":"1","StockCode":"00038","StockSubType":"1"},{"Market":"1","StockCode":"00700","StockSubType":"1"},{"Market":"1","StockCode":"00700","StockSubType":"4"}]},Version":"1"}
-
+```
 字段说明:
 
 | 字段名            | 字段值   | 备注                                 |
@@ -267,15 +267,15 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.9  **设置要接收推送协议的股票信息 (**Protocol: 1008**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"1008","ReqParam":{ "StockPushType": "1", "Market": "1",
 "StockCode": "00700"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"1008","RetData":{ "StockPushType": "1",
 "Market": "1", "StockCode": "00700"},Version":"1"}
-
+```
 字段说明:
 
 | 字段名           | 字段值   | 备注            |
@@ -298,12 +298,12 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.10  **拉取分时数据(**Protocol: 1010**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"1010", "ReqParam":{"Market":"1","StockCode":"00700"},"Version":
 "1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"1010","RetData":{"Num":"305","Market":"1","RTDataArr":[{"Volume":"0","Turnover":"0","OpenedMins":"570","AvgPrice":"0","CurPrice":"4350","DataStatu":"1","LastClose":"4350","Time":"2016-11-129:30"},{"Volume":"0","Turnover":"0","OpenedMins":"571","AvgPrice":"0","CurPrice":"4350","DataStatus":"1","LastClose":"4350","Time":"2016-11-12
 9:31:0"},{"Volume":"0","Turnover":"0",
 
@@ -314,7 +314,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 
 "4340","DataStatus":"1","LastClose":"4350","Time":"2016-11-12
 9:33:0"}],"StockCode":"00700"},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名        | 字段值    | 备注                      |
@@ -333,18 +333,18 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.11  **拉取最近1000根K线数据(**Protocol:1011**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"1011","ReqParam":{ "Num":
 "2","Market":"1","StockCode":"00700","KLType":"1","RehabType":
 
 "1"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"1011","RetData":{"Market":"1","StockCode":"00700","KLType":"1","RehabType":"1""KLDataArr":[{"Close":"181400","DataStatus":"1","High":"181400","Low":"181300","Open":"181300","PERatio":"0","Turnover":"6982740000","Volume":"38500","Time":"2016-11-19
 15:54:0","Turnover":"0"},{"Close":"181300","DataStatus":"1","High":"181400","Low":"181200","Open":"181300","PERatio":"0","Turnover":"9374000000","Volume":"51700","Time":"2016-11-19
 15:55:0","Turnover":"0"}],"Version":"1"}
-
+```
 字段说明:
 
 | 字段名          | 字段值            | 备注                                       |
@@ -369,11 +369,11 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.12  **逐笔协议**(Protocol:1012)
 
 **C-\>S eg:**
-
+```
 {"Protocol":"1012","ReqParam":{"Market":"1","StockCode":"00700","Num":"3","Sequence":"-1"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"1012","RetData":{"Market":"1","NextSequence":"-1","StockCode":"00700","TickerArr":[{"Direction":"2","Price":"199000","Sequence":"6376603941391569400","Time":"2017-01-18
 14:22:16","Turnover":"119400000","Volume":"600"},{"Direction":"2","Price":"199000","Sequence":"6376603941391569401","Time":"2017-01-18
 14:22:16","Turnover":"19900000","Volume":"100"},{"Direction":"2","Price"
@@ -382,7 +382,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 14:22:18","Turnover":"59700000",
 
 "Volume":"300"}]},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名          | 字段值    | 备注                     |
@@ -406,14 +406,14 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.13  **交易日列表协议**(Protocol:1013)
 
 **C-\>S eg:**
-
+```
 {"Protocol":"1013", "ReqParam":{"start_date":"2017-01-10","end_date":
 "2017-01-17", "Market": "1"}, "Version": "1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"1013","RetData":{"Market":"1","TradeDateArr":["2017-01-16","2017-01-13","2017-01-12","2017-01-11","2017-01-10"],"end_date":"2017-01-17","start_date":"2017-01-10"},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名          | 字段值    | 备注      |
@@ -425,12 +425,12 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.14  **股票信息协议**(Protocol:1014)
 
 **C-\>S eg:**
-
+```
 {"Protocol":"1014", "ReqParam": {"StockType": "3", "Market": "1"}, "Version":
 "1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"1013","RetData":{"Market":"1",
 "BasicInfoArr":[{"LotSize":"500",
 
@@ -448,7 +448,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 
 ,"StockType":"3","StockChildType":"0",
 "OwnerStockCode":"","OwnerMarketType":"0"}]},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名             | 字段值    | 备注                                       |
@@ -469,12 +469,12 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.15  **市场快照协议**(Protocol:1015)
 
 **C-\>S eg:**
-
+```
 {"Protocol": "1015", "Version":"1","ReqParam":{"StockArr": [{"Market": "1",
 "StockCode": "00700"}, {"Market": "1", "StockCode": "00038"}]}}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"1015","RetData":{"SnapshotArr":[{"HighestPrice":"226400","StockType":"3","LastClose":"225200","ListingDate":"1087315200","ListingStatus":"0","LotSize":"100","LowestPrice":"222600","MarketType":"1","NominalPrice":"222800","OpenPrice":"225400","RetErrCode":"0","Volume":"16116998","StockCode":"00700","StockID":"54047868453564","SuspendFlag":"0",,"Turnover":"3614003913900","TurnoverRate":"170","UpdateTime":"1490947724","CircularMarketVal":"0","TotalMarketVal":"0","UpdateTimeStr":"2017-03-31
 16:08:44","Wrt_ConversionRatio":"0","Wrt_Delta":"0","Wrt_EndTradeDateStr":"",
 
@@ -482,7 +482,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 16:08:46",
 
 "Wrt_ConversionRatio":"0","Wrt_Delta":"0","Wrt_EndTradeDateStr":"","Wrt_ImpliedVolatility":"0","Wrt_IssueVol":"0","Wrt_MaturityDateStr":"","Wrt_OwnerMarketType":"0","Wrt_OwnerStockCode":"","Wrt_Premium":"0","Wrt_RecoveryPrice":"0","Wrt_StreetRatio":"0","Wrt_StreetVol":"0","Wrt_StrikePrice":"0","Wrt_Type":"0","Wrt_Valid":"0"}]},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名                   | 字段值    | 备注                               |
@@ -521,16 +521,16 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.16  **批量报价协议**(Protocol:1023)
 
 **C-\>S eg:**
-
+```
 {"Protocol":"1023","ReqParam":{"ReqArr":[{"Market":"1","StockCode": "00700"},
 {"Market": "1", "StockCode": "00038"}]},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"1023","RetData":{
 "SubSnapshotArr":[{"Amplitude":"910","CurPrice":"199500","Date":"2017-01-18","High":"199800","LastClose":"197700","ListTime":"2004-06-16","Low":"198000","Market":"1","Open":"197700","StockCode":"00700","Suspension":"2","Turnover":"1609391321800","Volume":"8082594","Time":"15:02:13","TurnoverRate":"85"
 ,{"Amplitude":"3571","CurPrice":"4610","Date":"2017-01-18","High":"4640","LastClose":"4480","ListTime":"1997-06-23","Low":"4480","Market":"1","Open":"4480","StockCode":"00038","Suspension":"2","Turnover":"14022680000","Volume":"3068000","Time":"15:02:13","TurnoverRate":"763"}]},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名            | 字段值    | 备注                                       |
@@ -552,17 +552,17 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.17  **历史K线**(Protocol:1024)
 
 **C-\>S eg:**
-
+```
 {"Protocol":"1024","ReqParam":{"KLType":"2","Market":"2","RehabType":"1","StockCode":"CFO","end_date":"2017-03-01","start_date":"2017-01-01"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"1024","RetData":{"HistoryKLArr":[{"Close":"42710000000","High":"42745000000","Low":"42360000000","Open":"42360000000","PERatio":"0","Turnover":"1872941000","Volume":"43904","Time":"2017-02-21
 00:00:00","TurnoverRate":"0"},{"Close":"42704000000","High":"42718000000",
 
 "Low":"42580000000","Open":"42700000000","PERatio":"0","Turnover":"1059874000","Volume":"24830","Time":"2017-02-2200:00:00","TurnoverRate":"0"},{"Close":"42620000000","High":"42900000000","Low":"42535000000","Open":"42900000000","PERatio":"0","Turnover":"1211681000","Volume":"28394","Time":"2017-02-23
 00:00:00","TurnoverRate":"0"}],"KLType":"2","Market":"2","RehabType":"1","StockCode":"CFO","end_date":"2017-03-01","start_date":"2017-01-01"},"Version":"1"}
-
+```
 放大系数：Close/High/Low/Open为10的9次方。成交额为10的3次方。
 
 | 字段名          | 字段值    | 备注                                       |
@@ -586,13 +586,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.18  **复权因子**(Protocol:1025)
 
 **C-\>S eg:**
-
+```
 {"Protocol":"1025","ReqParam":{"StockArr":[{"Market":"2","StockCode":"CFO"}]},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"1025","RetData":{"ExRightInfoArr":[{"AllotmentPrice":"0","AllotmentRatio":"0","BackwarAdjFactorB":"2020","BackwardAdjFactorA":"100000","ExDivDate":"2017-01-17","ForwardAdjFactorA":"100000","ForwardAdjFactorB":"-2020","Market":"2","PerCashDiv":"2000","PerShareDivRatio":"0","PerShareTransRatio":"0","SplitRatio":"0","StkSpoPrice":"0","StkSpoRatio":"0","StockCode":"CFO"},{"AllotmentPrice":"0","AllotmentRatio":"0","BackwarAdjFactorB":"2600","BackwardAdjFactorA":"100000","ExDivDate":"2017-02-14","ForwardAdjFactorA":"100000","ForwardAdjFactorB":"-2600","Market":"2","PerCashDiv":"2600","PerShareDivRatio":"0","PerShareTransRatio":"0","SplitRatio":"0","StkSpoPrice":"0","StkSpoRatio":"0","StockCode":"CFO"}]},"Version":"1"}
-
+```
 放大系数全部为10的5次方。
 
 | 字段名                | 字段值    | 备注     |
@@ -615,15 +615,15 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.19  **获取板块集合下的子板块列表(**Protocol: 1026**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"1026","ReqParam":{"Market":"1","PlateClass":"1"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"1026","RetData":
 
 {"Market":"1","PlateClass":"1","PlatesetIDsArr":[{"Market":"1","StockCode":"BK1001","StockID":"10001001","StockName":"乳制品"},{"Market":"1","StockCode":"BK1002","StockID":"10001002","StockName":"供应链管理"}]},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名          | 字段值                                 | 备注                                       |
@@ -637,11 +637,11 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.20  **获取板块下的股票列表(**Protocol: 1027**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"1027","ReqParam":{"Market":"1","StockCode":"BK1001"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"1027","RetData":{"Market":"1","PlateSubIDsArr":[{"LotSize"
 
 :"4000","Market":"1","StockName":"天然乳品","OwnerMarketType":"0","OwnerStockCode":"","StockCode"
@@ -649,7 +649,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 :"00462","StockChildType":"0","StockType":"3"},{"LotSize":"1000","Market":"1","StockName":"大庆乳业","OwnerMarketType":"0","OwnerStockCode":"","StockCode":"01007","StockChildType":"0","StockType":"3"}
 
 ],"StockCode":"BK1001"},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名               | 字段值         | 备注                                       |
@@ -666,11 +666,11 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.21  **获取经纪队列(**Protocol: **1028)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"1028","ReqParam":{"Market":"1","StockCode":"00700"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"1028","RetData":{"BrokerAskArr":
 
 [{"BrokerID":"4057","BrokerName":"法巴","BrokerPos":"0"},
@@ -684,7 +684,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 {"BrokerID":"5347","BrokerName":"J.P.摩根","BrokerPos":"0"}],
 
 "Market":"1","StockCode":"00700"},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名            | 字段值         | 备注               |
@@ -702,13 +702,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.22  **获取牛牛程序全局状态(**Protocol: **1029)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"1029","ReqParam":{"StateType":"0"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"1029","RetData":{"Market_HK":"5","Market_HKFuture":"15","Market_SH":"6","Market_SZ":"6","Market_US":"11","Quote_Logined":"1","Trade_Logined":"1"},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名               | 字段值           | 备注                     |
@@ -750,13 +750,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.23  **港股下单交易(**Protocol: 6003**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"6003","ReqParam":{"Cookie":"123456","EnvType":"0","OrderSide":"0","OrderType":"0","Price":"253600","Qty":"100","StockCode":"00700"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"6003","RetData":{"Cookie":"123456","EnvType":"0","LocalID":"2233082358006646","OrderID":"10486570","SvrResult":"0"},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名           | 字段值                                      | 备注         |
@@ -774,13 +774,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.24  **港股设置订单状态(**Protocol: 6004**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"6004","ReqParam":{"Cookie":"33333","EnvType":"0","LocalID":"0","OrderID":"11283","SetOrderStatus":"0"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"6004","RetData":{"Cookie":"33333","EnvType":"0","LocalID":"0","OrderID":"11283","SvrResult":"0"},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名                | 字段值                         | 备注          |
@@ -798,13 +798,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.25  **港股修改订单(**Protocol: 6005**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"6005","ReqParam":{"Cookie":"654231","EnvType":"0","LocalID":"0","OrderID":"11283","Price":"365","Qty":"4000"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"6005","RetData":{"Cookie":"654231","EnvType":"0","LocalID":"0","OrderID":"11283","SvrResult":"0"},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名         | 字段值                    | 备注                            |
@@ -823,13 +823,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.26  **解锁交易(**Protocol: 6006**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"6006","ReqParam":{"Cookie":"123456","Password":"123456"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"6006","RetData":{"Cookie":"123456","SvrResult":"0"},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名       | 字段值    | 备注                            |
@@ -841,13 +841,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.27  **港股查询帐户信息(**Protocol: 6007**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"6007","ReqParam":{"Cookie":"123456","EnvType":"0"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"6007","RetData":{"Cookie":"123456","DJZJ":"0","EnvType":"0","GPBZJ":"0","KQXJ":"0","Power":"0","XJJY":"0","YYJDE":"0","ZCJZ":"0","ZGJDE":"0","ZQSZ":"0","ZSJE":"0"},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名         | 字段值                    | 备注                                       |
@@ -871,12 +871,12 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.28  **港股查询订单列表(**Protocol: 6008**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"6008","ReqParam":{"Cookie":"123123","EnvType":"0",
 "StatusFilterStr": "0,1,2" },"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"6008","RetData":{"Cookie":"123123","EnvType":"0","HKOrderArr":[
 
 {"DealtAvgPrice":"0","DealtQty":"0","ErrCode":"0","LocalID":"2827880381052386","OrderID":"18680","Price":"150000","Qty":"100","OrderSide":"1","Status":"1","StockCode":"00700","StockName":"腾讯控股",
@@ -886,7 +886,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 "DealtQty":"0","ErrCode":"0","LocalID":"2827934046337573","OrderID":"18687","Price":"151000","Qty":"100","OrderSide":"1","Status":"1","StockCode":"00700","StockName":"腾讯控股","SubmitedTime":"1454485424"
 
 ,"OrderType":"0","UpdatedTime":"1454485424"}]},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名                 | 字段值                                      | 备注                                     |
@@ -912,11 +912,11 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.29  **港股查询持仓列表(**Protocol: 6009**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"6009","ReqParam":{"Cookie":"123123","EnvType":"0"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"6009","RetData":{"Cookie":"123123","EnvType":"0","HKPositionArr"[
 
 {"CanSellQty":"100","CostPrice":"140000","CostPriceValid":"1","MarketVal":"15000000","NominalPrice":"141000","PLRatio":"0","PLRatioValid":"1","PLVal":"0","PLValValid":"1","Qty":"100","StockCode":"00700","StockName":"腾讯控股","Today_BuyQty":"0","Today_BuyVal":"0","Today_PLVal":"0","Today_SellQty":"0",
@@ -924,7 +924,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 "Today_SellVal":"0"},{"CanSellQty":"12000","CostPrice":"1953","CostPriceValid":"1","MarketVal":"9480000","NominalPrice":"790","PLRatio":"-54320","PLRatioValid":"1","PLVal":"-13960000","PLValValid":"1","Qty":"12000","StockCode":"00587","StockName":"华瀚健康","Today_BuyQty":"0","Today_BuyVal":"0","Today_PLVal"
 
 :"0","Today_SellQty":"0","Today_SellVal":"0"},]},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名                | 字段值                    | 备注                                |
@@ -953,15 +953,15 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.30  **港股查询成交记录(**Protocol:6010**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"6010","ReqParam":{"Cookie":"123123","EnvType":"0"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"6010","RetData":{"Cookie":"123123","EnvType":"0","HKDealArr":
 
 [{"DealID":"2827880381052386","OrderID":"18680","Price":"150000","Qty":"100","Orderside":"1","StockCode":"00700","StockName":"腾讯控股","Time":"1454485407",}]},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名         | 字段值                                      | 备注                            |
@@ -981,13 +981,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.31  **美股下单交易(**Protocol: 7003**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"7003","ReqParam":{"Cookie":"123456","EnvType":"0","OrderSide":"0","OrderType":"2","Price":"153000","Qty":"1","StockCode":"AAPL"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"7003","RetData":{"Cookie":"123456","EnvType":"0","LocalID":"2237423408207425","OrderID":"2237423408207425","SvrResult":"0"},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名           | 字段值                                      | 备注         |
@@ -1006,13 +1006,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.32  **美股设置订单状态(**Protocol: 7004**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"7004","ReqParam":{"Cookie":"33333","EnvType":"0","LocalID":"127958246102014","OrderID":"0","SetOrderStatus":"0"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"7004","RetData":{"Cookie":"33333","EnvType":"0","LocalID":"127958246102014","OrderID":"8105524018778112041","SvrResult":"0"},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名                | 字段值                          | 备注          |
@@ -1030,13 +1030,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.33  **美股修改订单(**Protocol: 7005**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"7005","ReqParam":{"Cookie":"654231","EnvType":"0","LocalID":"131717320241577","OrderID":"0","Price":"51500","Qty":"2000"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"7005","RetData":{"Cookie":"654231","EnvType":"0","LocalID":"131717320241577","OrderID":"7190271782920348012","SvrResult":"0"},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名         | 字段值                          | 备注                            |
@@ -1055,14 +1055,14 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.34  **美股查询帐户信息(**Protocol: 7007**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"7007","ReqParam":{"Cookie":"123456","EnvType":"0"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"EnvType":"0","Cookie":"123456","Power":"1000","ZCJZ":"1000","ZQSZ":"1000","XJJY":"1000","KQXJ":"1000","DJZJ":"0",
 "ZSJE":"0", "ZGJDE":"0" ,"YYJDE":"0", "GPBZJ":"0"},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名         | 字段值                    | 备注                            |
@@ -1086,18 +1086,18 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.35  **美股查询订单列表(**Protocol: 7008**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"7008","ReqParam":{"Cookie":"123123","EnvType":"0",
 "StatusFilterStr": "0,1,2"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"7008","RetData":{"Cookie":"123123","EnvType":"0","USOrderArr":[
 
 {"DealtAvgPrice":"65090","DealtQty":"100","ErrCode":"0","LocalID":"2850058438979314","OrderID":"5001812055423488114","OrderSide":"0","OrderType":"2","Price":"65090","Qty":"100","Status":"3","StockCode":"BABA","StockName":"阿里巴巴","SubmitedTime":"1454492354","UpdatedTime":"1454492354"},{"DealtAvgPrice"
 
 :"94480","DealtQty":"200","ErrCode":"0","LocalID":"2850119943956001","OrderID":"948333054225995228","OrderSide":"0","OrderType":"2","Price":"94480","Qty":"200","Status":"3","StockCode":"AAPL","StockName":"苹果","SubmitedTime":"1454492373","UpdatedTime":"1454492373"}]},"Version":"1"}}
-
+```
 字段说明:
 
 | 字段名                 | 字段值                                      | 备注                                     |
@@ -1123,11 +1123,11 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.36  **美股查询持仓列表(**Protocol: 7009**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"7009","ReqParam":{"Cookie":"123123","EnvType":"0"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"7009","RetData":{"Cookie":"123123","EnvType":"0","USPositionArr"[
 
 {"CanSellQty":"100","CostPrice":"65090","CostPriceValid":"1","MarketVal":"6509000","NominalPrice":"65090","PLRatio":"0","PLRatioValid":"1","PLVal":"0","PLValValid":"1","Qty":"100","StockCode":"BABA","StockName":"阿里巴巴","Today_BuyQty":"100","Today_BuyVal":"6509000","Today_PLVal":"0","Today_SellQty":"0",
@@ -1137,7 +1137,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 ,"NominalPrice":"94480","PLRatio":"0","PLRatioValid":"1","PLVal":"0","PLValValid":"1","Qty":"200","StockCode":"AAPL","StockName":"苹果","Today_BuyQty":"200","Today_BuyVal":"18896000","Today_PLVal":"0",
 
 "Today_SellQty":"0","Today_SellVal":"0"}]},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名                | 字段值                          | 备注                                |
@@ -1166,15 +1166,15 @@ PluginServer”目录 , 该工程在vc2005下编译通过
 3.37  **美股查询成交记录(**Protocol: 7010**)**
 
 **C-\>S eg:**
-
+```
 {"Protocol":"7010","ReqParam":{"Cookie":"123123","EnvType":"0"},"Version":"1"}
-
+```
 **S-\>C eg:**
-
+```
 {"ErrCode":"0","ErrDesc":"","Protocol":"7010","RetData":{"Cookie":"123123","EnvType":"0","USDealArr":
 
 [{"DealID":"2827880381052386","OrderID":"18680","Price":"150000","Qty":"100","Orderside":"1","StockCode":"BABA","StockName":"阿里巴巴","nTime":"1454485407",}]},"Version":"1"}
-
+```
 字段说明:
 
 | 字段名         | 字段值                                      | 备注                            |
