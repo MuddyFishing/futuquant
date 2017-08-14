@@ -7,7 +7,6 @@ from .quote_query import *
 from .trade_query import *
 from multiprocessing import Queue
 from threading import RLock, Thread
-# import socket
 import select
 import sys
 import pandas as pd
@@ -961,11 +960,11 @@ class OpenQuoteContext(OpenContextBase):
                 error_str = ERROR_STR_PREFIX + "the type of market param is wrong"
                 return RET_ERROR, error_str
 
-        if market not in mkt_map:
+        if market not in MKT_MAP:
             error_str = ERROR_STR_PREFIX + "the value of market param is wrong "
             return RET_ERROR, error_str
 
-        if plate_class not in plate_class_map:
+        if plate_class not in PLATE_CLASS_MAP:
             error_str = ERROR_STR_PREFIX + "the class of plate is wrong"
             return RET_ERROR, error_str
 
@@ -1288,7 +1287,7 @@ class OpenHKTradeContext(OpenContextBase):
 
     def place_order(self, price, qty, strcode, orderside, ordertype=0, envtype=0):
         """place order"""
-        if int(envtype) not in rev_envtype_map:
+        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
@@ -1320,11 +1319,11 @@ class OpenHKTradeContext(OpenContextBase):
 
     def set_order_status(self, status, orderid=0, envtype=0):
         """for setting the status of order"""
-        if int(status) not in rev_order_status:
+        if int(status) not in TRADE.REV_ORDER_STATUS:
             error_str = ERROR_STR_PREFIX + "the type of status is wrong "
             return RET_ERROR, error_str
 
-        if int(envtype) not in rev_envtype_map:
+        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
@@ -1346,7 +1345,7 @@ class OpenHKTradeContext(OpenContextBase):
 
     def change_order(self, price, qty, orderid=0, envtype=0):
         """for changing the order"""
-        if int(envtype) not in rev_envtype_map:
+        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
@@ -1372,7 +1371,7 @@ class OpenHKTradeContext(OpenContextBase):
         :param envtype: trading environment parameters,0 means real transaction and 1 means simulation trading
         :return:error return RET_ERROR,msg and ok return RET_OK,ret
         """
-        if int(envtype) not in rev_envtype_map:
+        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
@@ -1393,7 +1392,7 @@ class OpenHKTradeContext(OpenContextBase):
 
     def order_list_query(self, statusfilter="", envtype=0):
         """for querying the order list"""
-        if int(envtype) not in rev_envtype_map:
+        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
@@ -1417,7 +1416,7 @@ class OpenHKTradeContext(OpenContextBase):
 
     def position_list_query(self, envtype=0):
         """for querying the position list"""
-        if int(envtype) not in rev_envtype_map:
+        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
@@ -1442,7 +1441,7 @@ class OpenHKTradeContext(OpenContextBase):
 
     def deal_list_query(self, envtype=0):
         """for querying deal list"""
-        if int(envtype) not in rev_envtype_map:
+        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 

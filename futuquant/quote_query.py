@@ -7,91 +7,7 @@ import json
 from datetime import datetime
 from datetime import timedelta
 
-'''
- parameter relation Mappings between PLS and Python programs
-'''
-mkt_map = {"HK": 1,
-           "US": 2,
-           "SH": 3,
-           "SZ": 4,
-           "HK_FUTURE": 6
-           }
-rev_mkt_map = {mkt_map[x]: x for x in mkt_map}
-
-
-wrt_type_map = {"CALL": 1,
-                "PUT": 2,
-                "BULL": 3,
-                "BEAR": 4,
-                "N/A": 0
-                }
-rev_wrt_type_map = {wrt_type_map[x]: x for x in wrt_type_map}
-
-plate_class_map = {"ALL": 0,
-                   "INDUSTRY": 1,
-                   "REGION": 2,
-                   "CONCEPT": 3
-                   }
-rev_plate_class_map = {plate_class_map[x]: x for x in plate_class_map}
-
-sec_type_map = {"STOCK": 3,
-                "IDX": 6,
-                "ETF": 4,
-                "WARRANT": 5,
-                "BOND": 1,
-                "N/A": 0
-                }
-rev_sec_type_map = {sec_type_map[x]: x for x in sec_type_map}
-
-
-subtype_map = {"TICKER": 4,
-               "QUOTE":  1,
-               "ORDER_BOOK": 2,
-               "K_1M":    11,
-               "K_5M":     7,
-               "K_15M":    8,
-               "K_30M":    9,
-               "K_60M":   10,
-               "K_DAY":    6,
-               "K_WEEK":  12,
-               "K_MON":   13,
-               "RT_DATA": 5,
-               "BROKER": 14
-               }
-rev_subtype_map = {subtype_map[x]: x for x in subtype_map}
-
-
-ktype_map = {"K_1M":     1,
-             "K_5M":     6,
-             "K_15M":    7,
-             "K_30M":    8,
-             "K_60M":    9,
-             "K_DAY":    2,
-             "K_WEEK":   3,
-             "K_MON":    4
-             }
-
-rev_ktype_map = {ktype_map[x]: x for x in ktype_map}
-
-autype_map = {'None': 0,
-              "qfq": 1,
-              "hfq": 2
-              }
-
-rev_autype_map = {autype_map[x]: x for x in autype_map}
-
-
-ticker_direction = {"TT_BUY": 1,
-                    "TT_SELL": 2,
-                    "TT_NEUTRAL": 3
-                    }
-
-rev_ticker_direction = {ticker_direction[x]: x for x in ticker_direction}
-
-RET_OK = 0
-RET_ERROR = -1
-
-ERROR_STR_PREFIX = 'ERROR. '
+from .constant import *
 
 
 def check_date_str_format(s):
@@ -145,9 +61,9 @@ def split_stock_str(stock_str):
     '''do not use the built-in split function in python.
     The built-in function cannot handle some stock strings correctly.
     for instance, US..DJI, where the dot . itself is a part of original code'''
-    if 0 <= split_loc < len(stock_str) - 1 and stock_str[0:split_loc] in mkt_map:
+    if 0 <= split_loc < len(stock_str) - 1 and stock_str[0:split_loc] in MKT_MAP:
         market_str = stock_str[0:split_loc]
-        market_code = mkt_map[market_str]
+        market_code = MKT_MAP[market_str]
         partial_stock_str = stock_str[split_loc+1:]
         return RET_OK, (market_code, partial_stock_str)
 
@@ -165,9 +81,9 @@ def merge_stock_str(market, partial_stock_str):
     :return: unified representation of a stock code. i.e. "US.AAPL", "HK.00700", "SZ.000001"
 
     """
-    if (market not in mkt_map) and (market not in rev_mkt_map):
+    if (market not in MKT_MAP) and (market not in QUOTE.REV_MKT_MAP):
         return ""
-    market_str = rev_mkt_map[market]
+    market_str = QUOTE.REV_MKT_MAP[market]
     stock_str = '.'.join([market_str, partial_stock_str])
     return stock_str
 
@@ -219,9 +135,9 @@ class TradeDayQuery:
         """
 
         # '''Parameter check'''
-        if market not in mkt_map:
+        if market not in MKT_MAP:
             error_str = ERROR_STR_PREFIX + " market is %s, which is not valid. (%s)" \
-                                           % (market, ",".join([x for x in mkt_map]))
+                                           % (market, ",".join([x for x in MKT_MAP]))
             return RET_ERROR, error_str, None
 
         if start_date is None:
@@ -245,7 +161,7 @@ class TradeDayQuery:
             end_date = normalize_date_format(end_date)
 
         # pack to json
-        mkt_str = str(mkt_map[market])
+        mkt_str = str(MKT_MAP[market])
         req = {"Protocol": "1013",
                "Version": "1",
                "ReqParam": {"Market": mkt_str,
@@ -329,20 +245,20 @@ class StockBasicInfoQuery:
          msg : ""
          content : '{"Protocol": "1014", "Version": "1", "ReqParam": {"Market": "6", "StockType": "6"}}\r\n'
         """
-        if market not in mkt_map:
+        if market not in MKT_MAP:
             error_str = ERROR_STR_PREFIX + " market is %s, which is not valid. (%s)" \
-                                           % (market, ",".join([x for x in mkt_map]))
+                                           % (market, ",".join([x for x in MKT_MAP]))
             return RET_ERROR, error_str, None
 
-        if stock_type not in sec_type_map:
+        if stock_type not in SEC_TYPE_MAP:
             error_str = ERROR_STR_PREFIX + " stock_type is %s, which is not valid. (%s)" \
-                                           % (stock_type, ",".join([x for x in sec_type_map]))
+                                           % (stock_type, ",".join([x for x in SEC_TYPE_MAP]))
             return RET_ERROR, error_str, None
 
         req = {"Protocol": "1014",
                "Version": "1",
-               "ReqParam": {"Market": str(mkt_map[market]),
-                            "StockType": str(sec_type_map[stock_type]),
+               "ReqParam": {"Market": str(MKT_MAP[market]),
+                            "StockType": str(SEC_TYPE_MAP[stock_type]),
                             }
                }
         req_str = json.dumps(req) + '\r\n'
@@ -396,8 +312,8 @@ class StockBasicInfoQuery:
         basic_info_list = [{"code": merge_stock_str(int(market), record['StockCode']),
                             "name": record["StockName"],
                             "lot_size": int(record["LotSize"]),
-                            "stock_type": rev_sec_type_map[int(record["StockType"])],
-                            "stock_child_type": (rev_wrt_type_map[int(record["StockChildType"])] if
+                            "stock_type": QUOTE.REV_SEC_TYPE_MAP[int(record["StockType"])],
+                            "stock_child_type": (QUOTE.REV_WRT_TYPE_MAP[int(record["StockChildType"])] if
                                                  int(record["StockType"]) == 5 else 0),
                             "owner_stock_code": (merge_stock_str(int(record["OwnerMarketType"]),
                                                                  record["OwnerStockCode"])
@@ -476,7 +392,8 @@ class MarketSnapshotQuery:
                           'total_market_val': float(record['TotalMarketVal']) / 1000,
                           'wrt_valid': True if int(record['Wrt_Valid']) == 1 else False,
                           'wrt_conversion_ratio': float(record['Wrt_ConversionRatio']) / 1000,
-                          'wrt_type': rev_wrt_type_map[int(record['Wrt_Type'])] if int(record['Wrt_Valid']) == 1 else 0,
+                          'wrt_type': QUOTE.REV_WRT_TYPE_MAP[int(record['Wrt_Type'])]
+                          if int(record['Wrt_Valid']) == 1 else 0,
                           'wrt_strike_price': float(record['Wrt_StrikePrice']) / 1000,
                           'wrt_maturity_date': str(record['Wrt_MaturityDateStr']),
                           'wrt_end_trade': str(record['Wrt_EndTradeDateStr']),
@@ -558,20 +475,20 @@ class SubplateQuery:
     @classmethod
     def pack_req(cls, market, plate_class):
         """Convert from user request for trading days to PLS request"""
-        if market not in mkt_map:
+        if market not in MKT_MAP:
             error_str = ERROR_STR_PREFIX + "market is %s, which is not valid. (%s)" \
-                                           % (market, ",".join([x for x in mkt_map]))
+                                           % (market, ",".join([x for x in MKT_MAP]))
             return RET_ERROR, error_str, None
 
-        if plate_class not in plate_class_map:
+        if plate_class not in PLATE_CLASS_MAP:
             error_str = ERROR_STR_PREFIX + "the class of plate is %s, which is not valid. (%s)" \
-                                           % (plate_class, ",".join([x for x in mkt_map]))
+                                           % (plate_class, ",".join([x for x in MKT_MAP]))
             return RET_ERROR, error_str, None
 
         req = {"Protocol": "1026",
                "Version": "1",
-               "ReqParam": {"Market": str(mkt_map[market]),
-                            "PlateClass": str(plate_class_map[plate_class])}
+               "ReqParam": {"Market": str(MKT_MAP[market]),
+                            "PlateClass": str(PLATE_CLASS_MAP[plate_class])}
                }
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
@@ -618,9 +535,9 @@ class PlateStockQuery:
             return RET_ERROR, error_str, None
 
         market, stock_code = content
-        if market not in rev_mkt_map:
+        if market not in QUOTE.REV_MKT_MAP:
             error_str = ERROR_STR_PREFIX + "market is %s, which is not valid. (%s)" \
-                                           % (market, ",".join([x for x in mkt_map]))
+                                           % (market, ",".join([x for x in MKT_MAP]))
             return RET_ERROR, error_str, None
 
         req = {"Protocol": "1027",
@@ -652,9 +569,9 @@ class PlateStockQuery:
                        "code": merge_stock_str(int(record['Market']), record['StockCode']),
                        "stock_name": record['StockName'],
                        "owner_market": merge_stock_str(int(record['OwnerMarketType']), record['OwnerStockCode']),
-                       "stock_child_type": (str(rev_wrt_type_map['StockChildType'])
+                       "stock_child_type": (str(QUOTE.REV_WRT_TYPE_MAP['StockChildType'])
                                             if int(record['StockType']) == 5 else 0),
-                       "stock_type": rev_sec_type_map[int(record['StockType'])]
+                       "stock_type": QUOTE.REV_SEC_TYPE_MAP[int(record['StockType'])]
                        }for record in raw_stock_list]
 
         return RET_OK, "", stock_list
@@ -751,14 +668,14 @@ class HistoryKlineQuery:
             end_date = normalize_date_format(end_date)
 
         # check k line type
-        if ktype not in ktype_map:
+        if ktype not in KTYPE_MAP:
             error_str = ERROR_STR_PREFIX + "ktype is %s, which is not valid. (%s)" \
-                                           % (ktype, ", ".join([x for x in ktype_map]))
+                                           % (ktype, ", ".join([x for x in KTYPE_MAP]))
             return RET_ERROR, error_str, None
 
-        if autype not in autype_map:
+        if autype not in AUTYPE_MAP:
             error_str = ERROR_STR_PREFIX + "autype is %s, which is not valid. (%s)" \
-                                           % (autype, ", ".join([str(x) for x in autype_map]))
+                                           % (autype, ", ".join([str(x) for x in AUTYPE_MAP]))
             return RET_ERROR, error_str, None
 
         req = {"Protocol": "1024",
@@ -767,8 +684,8 @@ class HistoryKlineQuery:
                             'StockCode': stock_code,
                             'start_date': start_date,
                             'end_date': end_date,
-                            'KLType': str(ktype_map[ktype]),
-                            'RehabType': str(autype_map[autype])
+                            'KLType': str(KTYPE_MAP[ktype]),
+                            'RehabType': str(AUTYPE_MAP[autype])
                             }
                }
 
@@ -902,12 +819,12 @@ class SubscriptionQuery:
 
         market_code, stock_code = content
 
-        if data_type not in subtype_map:
-            subtype_str = ','.join([x for x in subtype_map])
+        if data_type not in SUBTYPE_MAP:
+            subtype_str = ','.join([x for x in SUBTYPE_MAP])
             error_str = ERROR_STR_PREFIX + 'data_type is %s , which is wrong. (%s)' % (data_type, subtype_str)
             return RET_ERROR, error_str, None
 
-        subtype = subtype_map[data_type]
+        subtype = SUBTYPE_MAP[data_type]
         req = {"Protocol": "1005",
                "Version": "1",
                "ReqParam": {"Market": str(market_code),
@@ -937,12 +854,12 @@ class SubscriptionQuery:
 
         market_code, stock_code = content
 
-        if data_type not in subtype_map:
-            subtype_str = ','.join([x for x in subtype_map])
+        if data_type not in SUBTYPE_MAP:
+            subtype_str = ','.join([x for x in SUBTYPE_MAP])
             error_str = ERROR_STR_PREFIX + 'data_type is %s, which is wrong. (%s)' % (data_type, subtype_str)
             return RET_ERROR, error_str, None
 
-        subtype = subtype_map[data_type]
+        subtype = SUBTYPE_MAP[data_type]
 
         req = {"Protocol": "1006",
                "Version": "1",
@@ -993,7 +910,7 @@ class SubscriptionQuery:
             return RET_OK, "", subscription_table
 
         subscription_list = [(merge_stock_str(int(x['Market']), x['StockCode']),
-                              rev_subtype_map[int(x['StockSubType'])])
+                              QUOTE.REV_SUBTYPE_MAP[int(x['StockSubType'])])
                              for x in raw_subscription_list]
 
         for stock_code_str, sub_type in subscription_list:
@@ -1013,12 +930,12 @@ class SubscriptionQuery:
 
         market_code, stock_code = content
 
-        if data_type not in subtype_map:
-            subtype_str = ','.join([x for x in subtype_map])
+        if data_type not in SUBTYPE_MAP:
+            subtype_str = ','.join([x for x in SUBTYPE_MAP])
             error_str = ERROR_STR_PREFIX + 'data_type is %s , which is wrong. (%s)' % (data_type, subtype_str)
             return RET_ERROR, error_str, None
 
-        subtype = subtype_map[data_type]
+        subtype = SUBTYPE_MAP[data_type]
         req = {"Protocol": "1008",
                "Version": "1",
                "ReqParam": {"Market": str(market_code),
@@ -1039,12 +956,12 @@ class SubscriptionQuery:
 
         market_code, stock_code = content
 
-        if data_type not in subtype_map:
-            subtype_str = ','.join([x for x in subtype_map])
+        if data_type not in SUBTYPE_MAP:
+            subtype_str = ','.join([x for x in SUBTYPE_MAP])
             error_str = ERROR_STR_PREFIX + 'data_type is %s , which is wrong. (%s)' % (data_type, subtype_str)
             return RET_ERROR, error_str, None
 
-        subtype = subtype_map[data_type]
+        subtype = SUBTYPE_MAP[data_type]
         req = {"Protocol": "1008",
                "Version": "1",
                "ReqParam": {"Market": str(market_code),
@@ -1184,7 +1101,7 @@ class TickerQuery:
                         "price": float(record['Price'])/1000,
                         "volume": record['Volume'],
                         "turnover": float(record['Turnover'])/1000,
-                        "ticker_direction": rev_ticker_direction[int(record['Direction'])],
+                        "ticker_direction": QUOTE.REV_TICKER_DIRECTION[int(record['Direction'])],
                         "sequence": int(record["Sequence"])
                         }
                        for record in raw_ticker_list]
@@ -1206,14 +1123,14 @@ class CurKlineQuery:
 
         market_code, stock_code = content
 
-        if ktype not in ktype_map:
+        if ktype not in KTYPE_MAP:
             error_str = ERROR_STR_PREFIX + "ktype is %s, which is not valid. (%s)" \
-                                           % (ktype, ", ".join([x for x in ktype_map]))
+                                           % (ktype, ", ".join([x for x in KTYPE_MAP]))
             return RET_ERROR, error_str, None
 
-        if autype not in autype_map:
+        if autype not in AUTYPE_MAP:
             error_str = ERROR_STR_PREFIX + "autype is %s, which is not valid. (%s)" \
-                                           % (autype, ", ".join([str(x) for x in autype_map]))
+                                           % (autype, ", ".join([str(x) for x in AUTYPE_MAP]))
             return RET_ERROR, error_str, None
 
         if isinstance(num, int) is False:
@@ -1230,8 +1147,8 @@ class CurKlineQuery:
                "ReqParam": {'Market': str(market_code),
                             'StockCode': stock_code,
                             'Num': str(num),
-                            'KLType': str(ktype_map[ktype]),
-                            'RehabType': str(autype_map[autype])
+                            'KLType': str(KTYPE_MAP[ktype]),
+                            'RehabType': str(AUTYPE_MAP[autype])
                             }
                }
 
@@ -1261,7 +1178,7 @@ class CurKlineQuery:
         k_type = rsp_data["KLType"]
         try:
             k_type = int(k_type)
-            k_type = rev_ktype_map[k_type]
+            k_type = QUOTE.REV_KTYPE_MAP[k_type]
         except TypeError:
             err = sys.exc_info()[1]
             error_str = ERROR_STR_PREFIX + str(err) + str(rsp_data["KLType"])

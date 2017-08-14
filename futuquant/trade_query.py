@@ -6,89 +6,7 @@ import sys
 import json
 from datetime import datetime
 
-
-'''
- parameter relation Mappings between PLS and Python programs
-'''
-mkt_map = {"HK": 1,
-           "US": 2,
-           "SH": 3,
-           "SZ": 4,
-           "HK_FUTURE": 6
-           }
-rev_mkt_map = {mkt_map[x]: x for x in mkt_map}
-
-
-sec_type_map = {"STOCK": 3,
-                "IDX": 6,
-                "ETF": 4,
-                "WARRANT": 5,
-                "BOND": 1
-                }
-rev_sec_type_map = {sec_type_map[x]: x for x in sec_type_map}
-
-
-subtype_map = {"TICKER": 4,
-               "QUOTE":  1,
-               "ORDER_BOOK": 2,
-               "K_1M":    11,
-               "K_5M":     7,
-               "K_15M":    8,
-               "K_30M":    9,
-               "K_60M":   10,
-               "K_DAY":    6,
-               "K_WEEK":  12,
-               "K_MON":   13
-               }
-rev_subtype_map = {subtype_map[x]: x for x in subtype_map}
-
-
-ktype_map = {"K_1M":     1,
-             "K_5M":     6,
-             "K_15M":    7,
-             "K_30M":    8,
-             "K_60M":    9,
-             "K_DAY":    2,
-             "K_WEEK":   3,
-             "K_MON":    4
-             }
-
-rev_ktype_map = {ktype_map[x]: x for x in ktype_map}
-
-autype_map = {None: 0,
-              "qfq": 1,
-              "hfq": 2
-              }
-
-rev_autype_map = {autype_map[x]: x for x in autype_map}
-
-
-ticker_direction = {"TT_BUY": 1,
-                    "TT_SELL": 2,
-                    "TT_NEUTRAL": 3
-                    }
-
-rev_ticker_direction = {ticker_direction[x]: x for x in ticker_direction}
-
-order_status = {"CANCEL": 0,
-                "INVALID": 1,
-                "VALID": 2,
-                "DELETE": 3}
-
-rev_order_status = {order_status[x]: x for x in order_status}
-
-envtype_map = {"TRUE": 0,
-               "SIMULATE": 1}
-
-rev_envtype_map = {envtype_map[x]: x for x in envtype_map}
-
-
-RET_OK = 0
-RET_ERROR = -1
-
-ERROR_STR_PREFIX = 'ERROR. '
-
-EMPTY_STRING = ''
+from .constant import *
 
 
 def check_date_str_format(s):
@@ -142,9 +60,9 @@ def split_stock_str(stock_str):
     '''do not use the built-in split function in python.
     The built-in function cannot handle some stock strings correctly.
     for instance, US..DJI, where the dot . itself is a part of original code'''
-    if 0 <= split_loc < len(stock_str) - 1 and stock_str[0:split_loc] in mkt_map:
+    if 0 <= split_loc < len(stock_str) - 1 and stock_str[0:split_loc] in MKT_MAP:
         market_str = stock_str[0:split_loc]
-        market_code = mkt_map[market_str]
+        market_code = MKT_MAP[market_str]
         partial_stock_str = stock_str[split_loc+1:]
         return RET_OK, (market_code, partial_stock_str)
 
@@ -163,7 +81,7 @@ def merge_stock_str(market, partial_stock_str):
 
     """
 
-    market_str = rev_mkt_map[market]
+    market_str = TRADE.REV_MKT_MAP[market]
     stock_str = '.'.join([market_str, partial_stock_str])
     return stock_str
 
