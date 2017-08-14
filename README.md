@@ -7,12 +7,16 @@
 - [官方在线文档](https://futunnopen.github.io/futuquant/)
 
 -------------------
+
 ### 安装
 ```
 pip install futuquant
 ```
+
 ######注: 本API同时兼容Python2和Python3, 推荐安装anaconda环境，方便快捷。
+
 ---
+
 ### 快速上手
 ```
 # 导入futuquant api
@@ -62,10 +66,12 @@ ret_code, ret_data = trade_hk_ctx.deal_list_query(envtype=0)                    
 ```
 
 ---
+
 ### 示例策略
 
 - 示例策略文件位于目录: (futuquant包安装目录)/futuquant/examples 下，用户可参考实例策略来学习API的使用。
 - 另外，可参考API相对应的[视频课程](https://live.futunn.com/course/1056)学习API的使用。
+
 ---
 
 ### 组织结构
