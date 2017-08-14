@@ -617,9 +617,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.4  <strong>获取基础报价(</strong>Protocol: <strong>1001)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{'Protocol':'1001', 'ReqParam':{'Market':'1','StockCode':'00700'},'Version':'1'}</p>
+<pre><code>{'Protocol':'1001', 'ReqParam':{'Market':'1','StockCode':'00700'},'Version':'1'}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"1001","RetData":{"Close":"135400","CurPrice":"135400","High":"137600","LastClose":"139800","LotSize":"0","Low":"133800","Market":"1","Open":"136900","StockCode":"00700","Time":"57600","Turnover":"3588168326322","Volume":"26441962"},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;1001&quot;,&quot;RetData&quot;:{&quot;Close&quot;:&quot;135400&quot;,&quot;CurPrice&quot;:&quot;135400&quot;,&quot;High&quot;:&quot;137600&quot;,&quot;LastClose&quot;:&quot;139800&quot;,&quot;LotSize&quot;:&quot;0&quot;,&quot;Low&quot;:&quot;133800&quot;,&quot;Market&quot;:&quot;1&quot;,&quot;Open&quot;:&quot;136900&quot;,&quot;StockCode&quot;:&quot;00700&quot;,&quot;Time&quot;:&quot;57600&quot;,&quot;Turnover&quot;:&quot;3588168326322&quot;,&quot;Volume&quot;:&quot;26441962&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -684,9 +688,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.5  <strong>获取摆盘数据(</strong>Protocol: <strong>1002)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"1002","ReqParam":{"Num":"3","Market":"1","StockCode":"00700"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;1002&quot;,&quot;ReqParam&quot;:{&quot;Num&quot;:&quot;3&quot;,&quot;Market&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;00700&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"1002","RetData":{"GearArr":[{"BuyOrder":"1","BuyPrice":"135300","BuyVol":"3400","SellOrder":"2","SellPrice":"135400","SellVol":"27000"},{"BuyOrder":"5","BuyPrice":"135200","BuyVol":"64000","SellOrder":"5","SellPrice":"135500","SellVol":"70200"},{"BuyOrder":"20","BuyPrice":"135100","BuyVol":"108300","SellOrder":"9","SellPrice":"135600","SellVol":"142300"}],"Market":"1","StockCode":"00700"},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;1002&quot;,&quot;RetData&quot;:{&quot;GearArr&quot;:[{&quot;BuyOrder&quot;:&quot;1&quot;,&quot;BuyPrice&quot;:&quot;135300&quot;,&quot;BuyVol&quot;:&quot;3400&quot;,&quot;SellOrder&quot;:&quot;2&quot;,&quot;SellPrice&quot;:&quot;135400&quot;,&quot;SellVol&quot;:&quot;27000&quot;},{&quot;BuyOrder&quot;:&quot;5&quot;,&quot;BuyPrice&quot;:&quot;135200&quot;,&quot;BuyVol&quot;:&quot;64000&quot;,&quot;SellOrder&quot;:&quot;5&quot;,&quot;SellPrice&quot;:&quot;135500&quot;,&quot;SellVol&quot;:&quot;70200&quot;},{&quot;BuyOrder&quot;:&quot;20&quot;,&quot;BuyPrice&quot;:&quot;135100&quot;,&quot;BuyVol&quot;:&quot;108300&quot;,&quot;SellOrder&quot;:&quot;9&quot;,&quot;SellPrice&quot;:&quot;135600&quot;,&quot;SellVol&quot;:&quot;142300&quot;}],&quot;Market&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;00700&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -744,22 +752,34 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <p><strong>3.调用前须先1005订阅摆盘</strong></p>
 <p>3.6  <strong>订阅股票协议 (</strong>Protocol: 1005<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"1005","ReqParam":{ "StockSubType": "1", "Market": "1", "StockCode":
-"00700"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;1005&quot;,&quot;ReqParam&quot;:{ &quot;StockSubType&quot;: &quot;1&quot;, &quot;Market&quot;: &quot;1&quot;, &quot;StockCode&quot;:
+&quot;00700&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"1005","RetData":{"Market":"1","StockCode":"00700","StockSubType":"1"}"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;1005&quot;,&quot;RetData&quot;:{&quot;Market&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;00700&quot;,&quot;StockSubType&quot;:&quot;1&quot;}&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>3.7  <strong>反订阅股票协议 (</strong>Protocol: 1006<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"1006","ReqParam":{ "StockSubType": "1", "Market": "1", "StockCode":
-"00700"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;1006&quot;,&quot;ReqParam&quot;:{ &quot;StockSubType&quot;: &quot;1&quot;, &quot;Market&quot;: &quot;1&quot;, &quot;StockCode&quot;:
+&quot;00700&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"1006","RetData":{"Market":"1","StockCode":"00700","StockSubType":"1"}"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;1006&quot;,&quot;RetData&quot;:{&quot;Market&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;00700&quot;,&quot;StockSubType&quot;:&quot;1&quot;}&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>注：反订阅带有1分钟的时间限制，如果不满足时间要求则会反订阅失败。</p>
 <p>3.8  <strong>查询订阅股票协议 (</strong>Protocol: 1007<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"1007","ReqParam":{"QueryAllSocket":"0"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;1007&quot;,&quot;ReqParam&quot;:{&quot;QueryAllSocket&quot;:&quot;0&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"1007","RetData":{"SubInfoArr":[{"Market":"1","StockCode":"00038","StockSubType":"1"},{"Market":"1","StockCode":"00700","StockSubType":"1"},{"Market":"1","StockCode":"00700","StockSubType":"4"}]},Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;1007&quot;,&quot;RetData&quot;:{&quot;SubInfoArr&quot;:[{&quot;Market&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;00038&quot;,&quot;StockSubType&quot;:&quot;1&quot;},{&quot;Market&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;00700&quot;,&quot;StockSubType&quot;:&quot;1&quot;},{&quot;Market&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;00700&quot;,&quot;StockSubType&quot;:&quot;4&quot;}]},Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -784,11 +804,15 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.9  <strong>设置要接收推送协议的股票信息 (</strong>Protocol: 1008<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"1008","ReqParam":{ "StockPushType": "1", "Market": "1",
-"StockCode": "00700"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;1008&quot;,&quot;ReqParam&quot;:{ &quot;StockPushType&quot;: &quot;1&quot;, &quot;Market&quot;: &quot;1&quot;,
+&quot;StockCode&quot;: &quot;00700&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"1008","RetData":{ "StockPushType": "1",
-"Market": "1", "StockCode": "00700"},Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;1008&quot;,&quot;RetData&quot;:{ &quot;StockPushType&quot;: &quot;1&quot;,
+&quot;Market&quot;: &quot;1&quot;, &quot;StockCode&quot;: &quot;00700&quot;},Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -851,16 +875,23 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <p><strong>注:调用该接口会在该条连接上推送数据。建议所有推送数据请求在同一条新建连接上，并做好异步处理。推送的数据协议号如上表所示，结构与拉取数据相同。例如：拉取摆盘时协议号为1002、推送摆盘为1031。其他协议字段不变。</strong></p>
 <p>3.10  <strong>拉取分时数据(</strong>Protocol: 1010<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"1010", "ReqParam":{"Market":"1","StockCode":"00700"},"Version":
-"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;1010&quot;, &quot;ReqParam&quot;:{&quot;Market&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;00700&quot;},&quot;Version&quot;:
+&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"1010","RetData":{"Num":"305","Market":"1","RTDataArr":[{"Volume":"0","Turnover":"0","OpenedMins":"570","AvgPrice":"0","CurPrice":"4350","DataStatu":"1","LastClose":"4350","Time":"2016-11-129:30"},{"Volume":"0","Turnover":"0","OpenedMins":"571","AvgPrice":"0","CurPrice":"4350","DataStatus":"1","LastClose":"4350","Time":"2016-11-12
-9:31:0"},{"Volume":"0","Turnover":"0",</p>
-<p>"OpenedMins":"572","AvgPrice":"0","CurPrice":"4330","DataStatus":"1","LastClose":"4350",</p>
-<p>"strTime":"2016-11-12
-9:32"},{"Volume":"0","Turnover":"0","OpenedMins":"573","AvgPrice":"0","CurPrice":</p>
-<p>"4340","DataStatus":"1","LastClose":"4350","Time":"2016-11-12
-9:33:0"}],"StockCode":"00700"},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;1010&quot;,&quot;RetData&quot;:{&quot;Num&quot;:&quot;305&quot;,&quot;Market&quot;:&quot;1&quot;,&quot;RTDataArr&quot;:[{&quot;Volume&quot;:&quot;0&quot;,&quot;Turnover&quot;:&quot;0&quot;,&quot;OpenedMins&quot;:&quot;570&quot;,&quot;AvgPrice&quot;:&quot;0&quot;,&quot;CurPrice&quot;:&quot;4350&quot;,&quot;DataStatu&quot;:&quot;1&quot;,&quot;LastClose&quot;:&quot;4350&quot;,&quot;Time&quot;:&quot;2016-11-129:30&quot;},{&quot;Volume&quot;:&quot;0&quot;,&quot;Turnover&quot;:&quot;0&quot;,&quot;OpenedMins&quot;:&quot;571&quot;,&quot;AvgPrice&quot;:&quot;0&quot;,&quot;CurPrice&quot;:&quot;4350&quot;,&quot;DataStatus&quot;:&quot;1&quot;,&quot;LastClose&quot;:&quot;4350&quot;,&quot;Time&quot;:&quot;2016-11-12
+9:31:0&quot;},{&quot;Volume&quot;:&quot;0&quot;,&quot;Turnover&quot;:&quot;0&quot;,
+
+&quot;OpenedMins&quot;:&quot;572&quot;,&quot;AvgPrice&quot;:&quot;0&quot;,&quot;CurPrice&quot;:&quot;4330&quot;,&quot;DataStatus&quot;:&quot;1&quot;,&quot;LastClose&quot;:&quot;4350&quot;,
+
+&quot;strTime&quot;:&quot;2016-11-12
+9:32&quot;},{&quot;Volume&quot;:&quot;0&quot;,&quot;Turnover&quot;:&quot;0&quot;,&quot;OpenedMins&quot;:&quot;573&quot;,&quot;AvgPrice&quot;:&quot;0&quot;,&quot;CurPrice&quot;:
+
+&quot;4340&quot;,&quot;DataStatus&quot;:&quot;1&quot;,&quot;LastClose&quot;:&quot;4350&quot;,&quot;Time&quot;:&quot;2016-11-12
+9:33:0&quot;}],&quot;StockCode&quot;:&quot;00700&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -925,13 +956,18 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.11  <strong>拉取最近1000根K线数据(</strong>Protocol:1011<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"1011","ReqParam":{ "Num":
-"2","Market":"1","StockCode":"00700","KLType":"1","RehabType":</p>
-<p>"1"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;1011&quot;,&quot;ReqParam&quot;:{ &quot;Num&quot;:
+&quot;2&quot;,&quot;Market&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;00700&quot;,&quot;KLType&quot;:&quot;1&quot;,&quot;RehabType&quot;:
+
+&quot;1&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"1011","RetData":{"Market":"1","StockCode":"00700","KLType":"1","RehabType":"1""KLDataArr":[{"Close":"181400","DataStatus":"1","High":"181400","Low":"181300","Open":"181300","PERatio":"0","Turnover":"6982740000","Volume":"38500","Time":"2016-11-19
-15:54:0","Turnover":"0"},{"Close":"181300","DataStatus":"1","High":"181400","Low":"181200","Open":"181300","PERatio":"0","Turnover":"9374000000","Volume":"51700","Time":"2016-11-19
-15:55:0","Turnover":"0"}],"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;1011&quot;,&quot;RetData&quot;:{&quot;Market&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;00700&quot;,&quot;KLType&quot;:&quot;1&quot;,&quot;RehabType&quot;:&quot;1&quot;&quot;KLDataArr&quot;:[{&quot;Close&quot;:&quot;181400&quot;,&quot;DataStatus&quot;:&quot;1&quot;,&quot;High&quot;:&quot;181400&quot;,&quot;Low&quot;:&quot;181300&quot;,&quot;Open&quot;:&quot;181300&quot;,&quot;PERatio&quot;:&quot;0&quot;,&quot;Turnover&quot;:&quot;6982740000&quot;,&quot;Volume&quot;:&quot;38500&quot;,&quot;Time&quot;:&quot;2016-11-19
+15:54:0&quot;,&quot;Turnover&quot;:&quot;0&quot;},{&quot;Close&quot;:&quot;181300&quot;,&quot;DataStatus&quot;:&quot;1&quot;,&quot;High&quot;:&quot;181400&quot;,&quot;Low&quot;:&quot;181200&quot;,&quot;Open&quot;:&quot;181300&quot;,&quot;PERatio&quot;:&quot;0&quot;,&quot;Turnover&quot;:&quot;9374000000&quot;,&quot;Volume&quot;:&quot;51700&quot;,&quot;Time&quot;:&quot;2016-11-19
+15:55:0&quot;,&quot;Turnover&quot;:&quot;0&quot;}],&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -1017,14 +1053,20 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <p><strong>注:Num为新增参数，为拉取个数。但实际返回个数不一定有Num个。Num取值为1至1000。</strong></p>
 <p>3.12  <strong>逐笔协议</strong>(Protocol:1012)</p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"1012","ReqParam":{"Market":"1","StockCode":"00700","Num":"3","Sequence":"-1"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;1012&quot;,&quot;ReqParam&quot;:{&quot;Market&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;00700&quot;,&quot;Num&quot;:&quot;3&quot;,&quot;Sequence&quot;:&quot;-1&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"1012","RetData":{"Market":"1","NextSequence":"-1","StockCode":"00700","TickerArr":[{"Direction":"2","Price":"199000","Sequence":"6376603941391569400","Time":"2017-01-18
-14:22:16","Turnover":"119400000","Volume":"600"},{"Direction":"2","Price":"199000","Sequence":"6376603941391569401","Time":"2017-01-18
-14:22:16","Turnover":"19900000","Volume":"100"},{"Direction":"2","Price"</p>
-<p>:"199000","Sequence":"6376603941391569402","Time":"2017-01-18
-14:22:18","Turnover":"59700000",</p>
-<p>"Volume":"300"}]},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;1012&quot;,&quot;RetData&quot;:{&quot;Market&quot;:&quot;1&quot;,&quot;NextSequence&quot;:&quot;-1&quot;,&quot;StockCode&quot;:&quot;00700&quot;,&quot;TickerArr&quot;:[{&quot;Direction&quot;:&quot;2&quot;,&quot;Price&quot;:&quot;199000&quot;,&quot;Sequence&quot;:&quot;6376603941391569400&quot;,&quot;Time&quot;:&quot;2017-01-18
+14:22:16&quot;,&quot;Turnover&quot;:&quot;119400000&quot;,&quot;Volume&quot;:&quot;600&quot;},{&quot;Direction&quot;:&quot;2&quot;,&quot;Price&quot;:&quot;199000&quot;,&quot;Sequence&quot;:&quot;6376603941391569401&quot;,&quot;Time&quot;:&quot;2017-01-18
+14:22:16&quot;,&quot;Turnover&quot;:&quot;19900000&quot;,&quot;Volume&quot;:&quot;100&quot;},{&quot;Direction&quot;:&quot;2&quot;,&quot;Price&quot;
+
+:&quot;199000&quot;,&quot;Sequence&quot;:&quot;6376603941391569402&quot;,&quot;Time&quot;:&quot;2017-01-18
+14:22:18&quot;,&quot;Turnover&quot;:&quot;59700000&quot;,
+
+&quot;Volume&quot;:&quot;300&quot;}]},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -1087,10 +1129,14 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <p><strong>3.Sequence、NextSequence暂时没用到，将在以后版本用于扩展。本版本使用者只需注意在发送请求时将Sequence值设为-1即可。</strong></p>
 <p>3.13  <strong>交易日列表协议</strong>(Protocol:1013)</p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"1013", "ReqParam":{"start_date":"2017-01-10","end_date":
-"2017-01-17", "Market": "1"}, "Version": "1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;1013&quot;, &quot;ReqParam&quot;:{&quot;start_date&quot;:&quot;2017-01-10&quot;,&quot;end_date&quot;:
+&quot;2017-01-17&quot;, &quot;Market&quot;: &quot;1&quot;}, &quot;Version&quot;: &quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"1013","RetData":{"Market":"1","TradeDateArr":["2017-01-16","2017-01-13","2017-01-12","2017-01-11","2017-01-10"],"end_date":"2017-01-17","start_date":"2017-01-10"},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;1013&quot;,&quot;RetData&quot;:{&quot;Market&quot;:&quot;1&quot;,&quot;TradeDateArr&quot;:[&quot;2017-01-16&quot;,&quot;2017-01-13&quot;,&quot;2017-01-12&quot;,&quot;2017-01-11&quot;,&quot;2017-01-10&quot;],&quot;end_date&quot;:&quot;2017-01-17&quot;,&quot;start_date&quot;:&quot;2017-01-10&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -1120,21 +1166,30 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.14  <strong>股票信息协议</strong>(Protocol:1014)</p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"1014", "ReqParam": {"StockType": "3", "Market": "1"}, "Version":
-"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;1014&quot;, &quot;ReqParam&quot;: {&quot;StockType&quot;: &quot;3&quot;, &quot;Market&quot;: &quot;1&quot;}, &quot;Version&quot;:
+&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"1013","RetData":{"Market":"1",
-"BasicInfoArr":[{"LotSize":"500",</p>
-<p>" StockName
-":"长和","StockCode":"00001","StockID":"4440996184065","StockType":"3","StockChildType"</p>
-<p>:"0", "OwnerStockCode":"","OwnerMarketType":"0"},{"LotSize":"6000","StockName
-":"九号运通","StockCode"</p>
-<p>:"00009","StockID":"49718541418505","StockType":"3","StockChildType":"0",
-"OwnerStockCode":"",</p>
-<p>"OwnerMarketType":"0"},{"LotSize":"1000"," StockName
-":"鹰君","StockCode":"00041","StockID":"41"</p>
-<p>,"StockType":"3","StockChildType":"0",
-"OwnerStockCode":"","OwnerMarketType":"0"}]},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;1013&quot;,&quot;RetData&quot;:{&quot;Market&quot;:&quot;1&quot;,
+&quot;BasicInfoArr&quot;:[{&quot;LotSize&quot;:&quot;500&quot;,
+
+&quot; StockName
+&quot;:&quot;长和&quot;,&quot;StockCode&quot;:&quot;00001&quot;,&quot;StockID&quot;:&quot;4440996184065&quot;,&quot;StockType&quot;:&quot;3&quot;,&quot;StockChildType&quot;
+
+:&quot;0&quot;, &quot;OwnerStockCode&quot;:&quot;&quot;,&quot;OwnerMarketType&quot;:&quot;0&quot;},{&quot;LotSize&quot;:&quot;6000&quot;,&quot;StockName
+&quot;:&quot;九号运通&quot;,&quot;StockCode&quot;
+
+:&quot;00009&quot;,&quot;StockID&quot;:&quot;49718541418505&quot;,&quot;StockType&quot;:&quot;3&quot;,&quot;StockChildType&quot;:&quot;0&quot;,
+&quot;OwnerStockCode&quot;:&quot;&quot;,
+
+&quot;OwnerMarketType&quot;:&quot;0&quot;},{&quot;LotSize&quot;:&quot;1000&quot;,&quot; StockName
+&quot;:&quot;鹰君&quot;,&quot;StockCode&quot;:&quot;00041&quot;,&quot;StockID&quot;:&quot;41&quot;
+
+,&quot;StockType&quot;:&quot;3&quot;,&quot;StockChildType&quot;:&quot;0&quot;,
+&quot;OwnerStockCode&quot;:&quot;&quot;,&quot;OwnerMarketType&quot;:&quot;0&quot;}]},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -1200,14 +1255,20 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <p><strong>注：start_date需小于end_date，否则TradeDateArr为空</strong></p>
 <p>3.15  <strong>市场快照协议</strong>(Protocol:1015)</p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol": "1015", "Version":"1","ReqParam":{"StockArr": [{"Market": "1",
-"StockCode": "00700"}, {"Market": "1", "StockCode": "00038"}]}}</p>
+<pre><code>{&quot;Protocol&quot;: &quot;1015&quot;, &quot;Version&quot;:&quot;1&quot;,&quot;ReqParam&quot;:{&quot;StockArr&quot;: [{&quot;Market&quot;: &quot;1&quot;,
+&quot;StockCode&quot;: &quot;00700&quot;}, {&quot;Market&quot;: &quot;1&quot;, &quot;StockCode&quot;: &quot;00038&quot;}]}}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"1015","RetData":{"SnapshotArr":[{"HighestPrice":"226400","StockType":"3","LastClose":"225200","ListingDate":"1087315200","ListingStatus":"0","LotSize":"100","LowestPrice":"222600","MarketType":"1","NominalPrice":"222800","OpenPrice":"225400","RetErrCode":"0","Volume":"16116998","StockCode":"00700","StockID":"54047868453564","SuspendFlag":"0",,"Turnover":"3614003913900","TurnoverRate":"170","UpdateTime":"1490947724","CircularMarketVal":"0","TotalMarketVal":"0","UpdateTimeStr":"2017-03-31
-16:08:44","Wrt_ConversionRatio":"0","Wrt_Delta":"0","Wrt_EndTradeDateStr":"",</p>
-<p>"Wrt_ImpliedVolatility":"0","Wrt_IssueVol":"0","Wrt_MaturityDateStr":"","Wrt_OwnerMarketType":"0","Wrt_OwnerStockCode":"","Wrt_Premium":"0","Wrt_RecoveryPrice":"0","Wrt_StreetRatio":"0","Wrt_StreetVol":"0","Wrt_StrikePrice":"0","Wrt_Type":"0","Wrt_Valid":"0"},{"CircularMarketVal":"0","HighestPrice":"4540","StockType":"3","LastClose":"4480","ListingDate":"866995200","ListingStatus":"0","LotSize":"2000","LowestPrice":"4460","MarketType":"1","NominalPrice":"4540","OpenPrice":"4500","RetErrCode":"0","Volume":"1164000","StockCode":"00038","StockID":"43095701848102","SuspendFlag":"0","TotalMarketVal":"0","Turnover":"5240900000","TurnoverRate":"290","UpdateTime":"1490947726","UpdateTimeStr":"2017-03-31
-16:08:46",</p>
-<p>"Wrt_ConversionRatio":"0","Wrt_Delta":"0","Wrt_EndTradeDateStr":"","Wrt_ImpliedVolatility":"0","Wrt_IssueVol":"0","Wrt_MaturityDateStr":"","Wrt_OwnerMarketType":"0","Wrt_OwnerStockCode":"","Wrt_Premium":"0","Wrt_RecoveryPrice":"0","Wrt_StreetRatio":"0","Wrt_StreetVol":"0","Wrt_StrikePrice":"0","Wrt_Type":"0","Wrt_Valid":"0"}]},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;1015&quot;,&quot;RetData&quot;:{&quot;SnapshotArr&quot;:[{&quot;HighestPrice&quot;:&quot;226400&quot;,&quot;StockType&quot;:&quot;3&quot;,&quot;LastClose&quot;:&quot;225200&quot;,&quot;ListingDate&quot;:&quot;1087315200&quot;,&quot;ListingStatus&quot;:&quot;0&quot;,&quot;LotSize&quot;:&quot;100&quot;,&quot;LowestPrice&quot;:&quot;222600&quot;,&quot;MarketType&quot;:&quot;1&quot;,&quot;NominalPrice&quot;:&quot;222800&quot;,&quot;OpenPrice&quot;:&quot;225400&quot;,&quot;RetErrCode&quot;:&quot;0&quot;,&quot;Volume&quot;:&quot;16116998&quot;,&quot;StockCode&quot;:&quot;00700&quot;,&quot;StockID&quot;:&quot;54047868453564&quot;,&quot;SuspendFlag&quot;:&quot;0&quot;,,&quot;Turnover&quot;:&quot;3614003913900&quot;,&quot;TurnoverRate&quot;:&quot;170&quot;,&quot;UpdateTime&quot;:&quot;1490947724&quot;,&quot;CircularMarketVal&quot;:&quot;0&quot;,&quot;TotalMarketVal&quot;:&quot;0&quot;,&quot;UpdateTimeStr&quot;:&quot;2017-03-31
+16:08:44&quot;,&quot;Wrt_ConversionRatio&quot;:&quot;0&quot;,&quot;Wrt_Delta&quot;:&quot;0&quot;,&quot;Wrt_EndTradeDateStr&quot;:&quot;&quot;,
+
+&quot;Wrt_ImpliedVolatility&quot;:&quot;0&quot;,&quot;Wrt_IssueVol&quot;:&quot;0&quot;,&quot;Wrt_MaturityDateStr&quot;:&quot;&quot;,&quot;Wrt_OwnerMarketType&quot;:&quot;0&quot;,&quot;Wrt_OwnerStockCode&quot;:&quot;&quot;,&quot;Wrt_Premium&quot;:&quot;0&quot;,&quot;Wrt_RecoveryPrice&quot;:&quot;0&quot;,&quot;Wrt_StreetRatio&quot;:&quot;0&quot;,&quot;Wrt_StreetVol&quot;:&quot;0&quot;,&quot;Wrt_StrikePrice&quot;:&quot;0&quot;,&quot;Wrt_Type&quot;:&quot;0&quot;,&quot;Wrt_Valid&quot;:&quot;0&quot;},{&quot;CircularMarketVal&quot;:&quot;0&quot;,&quot;HighestPrice&quot;:&quot;4540&quot;,&quot;StockType&quot;:&quot;3&quot;,&quot;LastClose&quot;:&quot;4480&quot;,&quot;ListingDate&quot;:&quot;866995200&quot;,&quot;ListingStatus&quot;:&quot;0&quot;,&quot;LotSize&quot;:&quot;2000&quot;,&quot;LowestPrice&quot;:&quot;4460&quot;,&quot;MarketType&quot;:&quot;1&quot;,&quot;NominalPrice&quot;:&quot;4540&quot;,&quot;OpenPrice&quot;:&quot;4500&quot;,&quot;RetErrCode&quot;:&quot;0&quot;,&quot;Volume&quot;:&quot;1164000&quot;,&quot;StockCode&quot;:&quot;00038&quot;,&quot;StockID&quot;:&quot;43095701848102&quot;,&quot;SuspendFlag&quot;:&quot;0&quot;,&quot;TotalMarketVal&quot;:&quot;0&quot;,&quot;Turnover&quot;:&quot;5240900000&quot;,&quot;TurnoverRate&quot;:&quot;290&quot;,&quot;UpdateTime&quot;:&quot;1490947726&quot;,&quot;UpdateTimeStr&quot;:&quot;2017-03-31
+16:08:46&quot;,
+
+&quot;Wrt_ConversionRatio&quot;:&quot;0&quot;,&quot;Wrt_Delta&quot;:&quot;0&quot;,&quot;Wrt_EndTradeDateStr&quot;:&quot;&quot;,&quot;Wrt_ImpliedVolatility&quot;:&quot;0&quot;,&quot;Wrt_IssueVol&quot;:&quot;0&quot;,&quot;Wrt_MaturityDateStr&quot;:&quot;&quot;,&quot;Wrt_OwnerMarketType&quot;:&quot;0&quot;,&quot;Wrt_OwnerStockCode&quot;:&quot;&quot;,&quot;Wrt_Premium&quot;:&quot;0&quot;,&quot;Wrt_RecoveryPrice&quot;:&quot;0&quot;,&quot;Wrt_StreetRatio&quot;:&quot;0&quot;,&quot;Wrt_StreetVol&quot;:&quot;0&quot;,&quot;Wrt_StrikePrice&quot;:&quot;0&quot;,&quot;Wrt_Type&quot;:&quot;0&quot;,&quot;Wrt_Valid&quot;:&quot;0&quot;}]},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -1372,12 +1433,16 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.16  <strong>批量报价协议</strong>(Protocol:1023)</p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"1023","ReqParam":{"ReqArr":[{"Market":"1","StockCode": "00700"},
-{"Market": "1", "StockCode": "00038"}]},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;1023&quot;,&quot;ReqParam&quot;:{&quot;ReqArr&quot;:[{&quot;Market&quot;:&quot;1&quot;,&quot;StockCode&quot;: &quot;00700&quot;},
+{&quot;Market&quot;: &quot;1&quot;, &quot;StockCode&quot;: &quot;00038&quot;}]},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"1023","RetData":{
-"SubSnapshotArr":[{"Amplitude":"910","CurPrice":"199500","Date":"2017-01-18","High":"199800","LastClose":"197700","ListTime":"2004-06-16","Low":"198000","Market":"1","Open":"197700","StockCode":"00700","Suspension":"2","Turnover":"1609391321800","Volume":"8082594","Time":"15:02:13","TurnoverRate":"85"
-,{"Amplitude":"3571","CurPrice":"4610","Date":"2017-01-18","High":"4640","LastClose":"4480","ListTime":"1997-06-23","Low":"4480","Market":"1","Open":"4480","StockCode":"00038","Suspension":"2","Turnover":"14022680000","Volume":"3068000","Time":"15:02:13","TurnoverRate":"763"}]},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;1023&quot;,&quot;RetData&quot;:{
+&quot;SubSnapshotArr&quot;:[{&quot;Amplitude&quot;:&quot;910&quot;,&quot;CurPrice&quot;:&quot;199500&quot;,&quot;Date&quot;:&quot;2017-01-18&quot;,&quot;High&quot;:&quot;199800&quot;,&quot;LastClose&quot;:&quot;197700&quot;,&quot;ListTime&quot;:&quot;2004-06-16&quot;,&quot;Low&quot;:&quot;198000&quot;,&quot;Market&quot;:&quot;1&quot;,&quot;Open&quot;:&quot;197700&quot;,&quot;StockCode&quot;:&quot;00700&quot;,&quot;Suspension&quot;:&quot;2&quot;,&quot;Turnover&quot;:&quot;1609391321800&quot;,&quot;Volume&quot;:&quot;8082594&quot;,&quot;Time&quot;:&quot;15:02:13&quot;,&quot;TurnoverRate&quot;:&quot;85&quot;
+,{&quot;Amplitude&quot;:&quot;3571&quot;,&quot;CurPrice&quot;:&quot;4610&quot;,&quot;Date&quot;:&quot;2017-01-18&quot;,&quot;High&quot;:&quot;4640&quot;,&quot;LastClose&quot;:&quot;4480&quot;,&quot;ListTime&quot;:&quot;1997-06-23&quot;,&quot;Low&quot;:&quot;4480&quot;,&quot;Market&quot;:&quot;1&quot;,&quot;Open&quot;:&quot;4480&quot;,&quot;StockCode&quot;:&quot;00038&quot;,&quot;Suspension&quot;:&quot;2&quot;,&quot;Turnover&quot;:&quot;14022680000&quot;,&quot;Volume&quot;:&quot;3068000&quot;,&quot;Time&quot;:&quot;15:02:13&quot;,&quot;TurnoverRate&quot;:&quot;763&quot;}]},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -1439,12 +1504,17 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <p><strong>2.每次查询的股票个数上限为50支（与订阅基础报价的上限个数相同）</strong></p>
 <p>3.17  <strong>历史K线</strong>(Protocol:1024)</p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"1024","ReqParam":{"KLType":"2","Market":"2","RehabType":"1","StockCode":"CFO","end_date":"2017-03-01","start_date":"2017-01-01"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;1024&quot;,&quot;ReqParam&quot;:{&quot;KLType&quot;:&quot;2&quot;,&quot;Market&quot;:&quot;2&quot;,&quot;RehabType&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;CFO&quot;,&quot;end_date&quot;:&quot;2017-03-01&quot;,&quot;start_date&quot;:&quot;2017-01-01&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"1024","RetData":{"HistoryKLArr":[{"Close":"42710000000","High":"42745000000","Low":"42360000000","Open":"42360000000","PERatio":"0","Turnover":"1872941000","Volume":"43904","Time":"2017-02-21
-00:00:00","TurnoverRate":"0"},{"Close":"42704000000","High":"42718000000",</p>
-<p>"Low":"42580000000","Open":"42700000000","PERatio":"0","Turnover":"1059874000","Volume":"24830","Time":"2017-02-2200:00:00","TurnoverRate":"0"},{"Close":"42620000000","High":"42900000000","Low":"42535000000","Open":"42900000000","PERatio":"0","Turnover":"1211681000","Volume":"28394","Time":"2017-02-23
-00:00:00","TurnoverRate":"0"}],"KLType":"2","Market":"2","RehabType":"1","StockCode":"CFO","end_date":"2017-03-01","start_date":"2017-01-01"},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;1024&quot;,&quot;RetData&quot;:{&quot;HistoryKLArr&quot;:[{&quot;Close&quot;:&quot;42710000000&quot;,&quot;High&quot;:&quot;42745000000&quot;,&quot;Low&quot;:&quot;42360000000&quot;,&quot;Open&quot;:&quot;42360000000&quot;,&quot;PERatio&quot;:&quot;0&quot;,&quot;Turnover&quot;:&quot;1872941000&quot;,&quot;Volume&quot;:&quot;43904&quot;,&quot;Time&quot;:&quot;2017-02-21
+00:00:00&quot;,&quot;TurnoverRate&quot;:&quot;0&quot;},{&quot;Close&quot;:&quot;42704000000&quot;,&quot;High&quot;:&quot;42718000000&quot;,
+
+&quot;Low&quot;:&quot;42580000000&quot;,&quot;Open&quot;:&quot;42700000000&quot;,&quot;PERatio&quot;:&quot;0&quot;,&quot;Turnover&quot;:&quot;1059874000&quot;,&quot;Volume&quot;:&quot;24830&quot;,&quot;Time&quot;:&quot;2017-02-2200:00:00&quot;,&quot;TurnoverRate&quot;:&quot;0&quot;},{&quot;Close&quot;:&quot;42620000000&quot;,&quot;High&quot;:&quot;42900000000&quot;,&quot;Low&quot;:&quot;42535000000&quot;,&quot;Open&quot;:&quot;42900000000&quot;,&quot;PERatio&quot;:&quot;0&quot;,&quot;Turnover&quot;:&quot;1211681000&quot;,&quot;Volume&quot;:&quot;28394&quot;,&quot;Time&quot;:&quot;2017-02-23
+00:00:00&quot;,&quot;TurnoverRate&quot;:&quot;0&quot;}],&quot;KLType&quot;:&quot;2&quot;,&quot;Market&quot;:&quot;2&quot;,&quot;RehabType&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;CFO&quot;,&quot;end_date&quot;:&quot;2017-03-01&quot;,&quot;start_date&quot;:&quot;2017-01-01&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>放大系数：Close/High/Low/Open为10的9次方。成交额为10的3次方。</p>
 <table>
 <thead>
@@ -1534,9 +1604,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.18  <strong>复权因子</strong>(Protocol:1025)</p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"1025","ReqParam":{"StockArr":[{"Market":"2","StockCode":"CFO"}]},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;1025&quot;,&quot;ReqParam&quot;:{&quot;StockArr&quot;:[{&quot;Market&quot;:&quot;2&quot;,&quot;StockCode&quot;:&quot;CFO&quot;}]},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"1025","RetData":{"ExRightInfoArr":[{"AllotmentPrice":"0","AllotmentRatio":"0","BackwarAdjFactorB":"2020","BackwardAdjFactorA":"100000","ExDivDate":"2017-01-17","ForwardAdjFactorA":"100000","ForwardAdjFactorB":"-2020","Market":"2","PerCashDiv":"2000","PerShareDivRatio":"0","PerShareTransRatio":"0","SplitRatio":"0","StkSpoPrice":"0","StkSpoRatio":"0","StockCode":"CFO"},{"AllotmentPrice":"0","AllotmentRatio":"0","BackwarAdjFactorB":"2600","BackwardAdjFactorA":"100000","ExDivDate":"2017-02-14","ForwardAdjFactorA":"100000","ForwardAdjFactorB":"-2600","Market":"2","PerCashDiv":"2600","PerShareDivRatio":"0","PerShareTransRatio":"0","SplitRatio":"0","StkSpoPrice":"0","StkSpoRatio":"0","StockCode":"CFO"}]},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;1025&quot;,&quot;RetData&quot;:{&quot;ExRightInfoArr&quot;:[{&quot;AllotmentPrice&quot;:&quot;0&quot;,&quot;AllotmentRatio&quot;:&quot;0&quot;,&quot;BackwarAdjFactorB&quot;:&quot;2020&quot;,&quot;BackwardAdjFactorA&quot;:&quot;100000&quot;,&quot;ExDivDate&quot;:&quot;2017-01-17&quot;,&quot;ForwardAdjFactorA&quot;:&quot;100000&quot;,&quot;ForwardAdjFactorB&quot;:&quot;-2020&quot;,&quot;Market&quot;:&quot;2&quot;,&quot;PerCashDiv&quot;:&quot;2000&quot;,&quot;PerShareDivRatio&quot;:&quot;0&quot;,&quot;PerShareTransRatio&quot;:&quot;0&quot;,&quot;SplitRatio&quot;:&quot;0&quot;,&quot;StkSpoPrice&quot;:&quot;0&quot;,&quot;StkSpoRatio&quot;:&quot;0&quot;,&quot;StockCode&quot;:&quot;CFO&quot;},{&quot;AllotmentPrice&quot;:&quot;0&quot;,&quot;AllotmentRatio&quot;:&quot;0&quot;,&quot;BackwarAdjFactorB&quot;:&quot;2600&quot;,&quot;BackwardAdjFactorA&quot;:&quot;100000&quot;,&quot;ExDivDate&quot;:&quot;2017-02-14&quot;,&quot;ForwardAdjFactorA&quot;:&quot;100000&quot;,&quot;ForwardAdjFactorB&quot;:&quot;-2600&quot;,&quot;Market&quot;:&quot;2&quot;,&quot;PerCashDiv&quot;:&quot;2600&quot;,&quot;PerShareDivRatio&quot;:&quot;0&quot;,&quot;PerShareTransRatio&quot;:&quot;0&quot;,&quot;SplitRatio&quot;:&quot;0&quot;,&quot;StkSpoPrice&quot;:&quot;0&quot;,&quot;StkSpoRatio&quot;:&quot;0&quot;,&quot;StockCode&quot;:&quot;CFO&quot;}]},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>放大系数全部为10的5次方。</p>
 <table>
 <thead>
@@ -1621,10 +1695,15 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.19  <strong>获取板块集合下的子板块列表(</strong>Protocol: 1026<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"1026","ReqParam":{"Market":"1","PlateClass":"1"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;1026&quot;,&quot;ReqParam&quot;:{&quot;Market&quot;:&quot;1&quot;,&quot;PlateClass&quot;:&quot;1&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"1026","RetData":</p>
-<p>{"Market":"1","PlateClass":"1","PlatesetIDsArr":[{"Market":"1","StockCode":"BK1001","StockID":"10001001","StockName":"乳制品"},{"Market":"1","StockCode":"BK1002","StockID":"10001002","StockName":"供应链管理"}]},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;1026&quot;,&quot;RetData&quot;:
+
+{&quot;Market&quot;:&quot;1&quot;,&quot;PlateClass&quot;:&quot;1&quot;,&quot;PlatesetIDsArr&quot;:[{&quot;Market&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;BK1001&quot;,&quot;StockID&quot;:&quot;10001001&quot;,&quot;StockName&quot;:&quot;乳制品&quot;},{&quot;Market&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;BK1002&quot;,&quot;StockID&quot;:&quot;10001002&quot;,&quot;StockName&quot;:&quot;供应链管理&quot;}]},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -1664,12 +1743,19 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.20  <strong>获取板块下的股票列表(</strong>Protocol: 1027<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"1027","ReqParam":{"Market":"1","StockCode":"BK1001"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;1027&quot;,&quot;ReqParam&quot;:{&quot;Market&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;BK1001&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"1027","RetData":{"Market":"1","PlateSubIDsArr":[{"LotSize"</p>
-<p>:"4000","Market":"1","StockName":"天然乳品","OwnerMarketType":"0","OwnerStockCode":"","StockCode"</p>
-<p>:"00462","StockChildType":"0","StockType":"3"},{"LotSize":"1000","Market":"1","StockName":"大庆乳业","OwnerMarketType":"0","OwnerStockCode":"","StockCode":"01007","StockChildType":"0","StockType":"3"}</p>
-<p>],"StockCode":"BK1001"},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;1027&quot;,&quot;RetData&quot;:{&quot;Market&quot;:&quot;1&quot;,&quot;PlateSubIDsArr&quot;:[{&quot;LotSize&quot;
+
+:&quot;4000&quot;,&quot;Market&quot;:&quot;1&quot;,&quot;StockName&quot;:&quot;天然乳品&quot;,&quot;OwnerMarketType&quot;:&quot;0&quot;,&quot;OwnerStockCode&quot;:&quot;&quot;,&quot;StockCode&quot;
+
+:&quot;00462&quot;,&quot;StockChildType&quot;:&quot;0&quot;,&quot;StockType&quot;:&quot;3&quot;},{&quot;LotSize&quot;:&quot;1000&quot;,&quot;Market&quot;:&quot;1&quot;,&quot;StockName&quot;:&quot;大庆乳业&quot;,&quot;OwnerMarketType&quot;:&quot;0&quot;,&quot;OwnerStockCode&quot;:&quot;&quot;,&quot;StockCode&quot;:&quot;01007&quot;,&quot;StockChildType&quot;:&quot;0&quot;,&quot;StockType&quot;:&quot;3&quot;}
+
+],&quot;StockCode&quot;:&quot;BK1001&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -1724,15 +1810,25 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.21  <strong>获取经纪队列(</strong>Protocol: <strong>1028)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"1028","ReqParam":{"Market":"1","StockCode":"00700"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;1028&quot;,&quot;ReqParam&quot;:{&quot;Market&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;00700&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"1028","RetData":{"BrokerAskArr":</p>
-<p>[{"BrokerID":"4057","BrokerName":"法巴","BrokerPos":"0"},</p>
-<p>{"BrokerID":"4057","BrokerName":"法巴","BrokerPos":"1"}],</p>
-<p>"BrokerBidArr":</p>
-<p>[{"BrokerID":"3440","BrokerName":"高盛","BrokerPos":"0"},</p>
-<p>{"BrokerID":"5347","BrokerName":"J.P.摩根","BrokerPos":"0"}],</p>
-<p>"Market":"1","StockCode":"00700"},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;1028&quot;,&quot;RetData&quot;:{&quot;BrokerAskArr&quot;:
+
+[{&quot;BrokerID&quot;:&quot;4057&quot;,&quot;BrokerName&quot;:&quot;法巴&quot;,&quot;BrokerPos&quot;:&quot;0&quot;},
+
+{&quot;BrokerID&quot;:&quot;4057&quot;,&quot;BrokerName&quot;:&quot;法巴&quot;,&quot;BrokerPos&quot;:&quot;1&quot;}],
+
+&quot;BrokerBidArr&quot;:
+
+[{&quot;BrokerID&quot;:&quot;3440&quot;,&quot;BrokerName&quot;:&quot;高盛&quot;,&quot;BrokerPos&quot;:&quot;0&quot;},
+
+{&quot;BrokerID&quot;:&quot;5347&quot;,&quot;BrokerName&quot;:&quot;J.P.摩根&quot;,&quot;BrokerPos&quot;:&quot;0&quot;}],
+
+&quot;Market&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;00700&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -1783,9 +1879,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <p><strong>注： 同1001拉取报价接口一样，调用拉取时，需先主动定阅</strong></p>
 <p>3.22  <strong>获取牛牛程序全局状态(</strong>Protocol: <strong>1029)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"1029","ReqParam":{"StateType":"0"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;1029&quot;,&quot;ReqParam&quot;:{&quot;StateType&quot;:&quot;0&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"1029","RetData":{"Market_HK":"5","Market_HKFuture":"15","Market_SH":"6","Market_SZ":"6","Market_US":"11","Quote_Logined":"1","Trade_Logined":"1"},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;1029&quot;,&quot;RetData&quot;:{&quot;Market_HK&quot;:&quot;5&quot;,&quot;Market_HKFuture&quot;:&quot;15&quot;,&quot;Market_SH&quot;:&quot;6&quot;,&quot;Market_SZ&quot;:&quot;6&quot;,&quot;Market_US&quot;:&quot;11&quot;,&quot;Quote_Logined&quot;:&quot;1&quot;,&quot;Trade_Logined&quot;:&quot;1&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -1932,9 +2032,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.23  <strong>港股下单交易(</strong>Protocol: 6003<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"6003","ReqParam":{"Cookie":"123456","EnvType":"0","OrderSide":"0","OrderType":"0","Price":"253600","Qty":"100","StockCode":"00700"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;6003&quot;,&quot;ReqParam&quot;:{&quot;Cookie&quot;:&quot;123456&quot;,&quot;EnvType&quot;:&quot;0&quot;,&quot;OrderSide&quot;:&quot;0&quot;,&quot;OrderType&quot;:&quot;0&quot;,&quot;Price&quot;:&quot;253600&quot;,&quot;Qty&quot;:&quot;100&quot;,&quot;StockCode&quot;:&quot;00700&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"6003","RetData":{"Cookie":"123456","EnvType":"0","LocalID":"2233082358006646","OrderID":"10486570","SvrResult":"0"},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;6003&quot;,&quot;RetData&quot;:{&quot;Cookie&quot;:&quot;123456&quot;,&quot;EnvType&quot;:&quot;0&quot;,&quot;LocalID&quot;:&quot;2233082358006646&quot;,&quot;OrderID&quot;:&quot;10486570&quot;,&quot;SvrResult&quot;:&quot;0&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -1994,9 +2098,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.24  <strong>港股设置订单状态(</strong>Protocol: 6004<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"6004","ReqParam":{"Cookie":"33333","EnvType":"0","LocalID":"0","OrderID":"11283","SetOrderStatus":"0"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;6004&quot;,&quot;ReqParam&quot;:{&quot;Cookie&quot;:&quot;33333&quot;,&quot;EnvType&quot;:&quot;0&quot;,&quot;LocalID&quot;:&quot;0&quot;,&quot;OrderID&quot;:&quot;11283&quot;,&quot;SetOrderStatus&quot;:&quot;0&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"6004","RetData":{"Cookie":"33333","EnvType":"0","LocalID":"0","OrderID":"11283","SvrResult":"0"},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;6004&quot;,&quot;RetData&quot;:{&quot;Cookie&quot;:&quot;33333&quot;,&quot;EnvType&quot;:&quot;0&quot;,&quot;LocalID&quot;:&quot;0&quot;,&quot;OrderID&quot;:&quot;11283&quot;,&quot;SvrResult&quot;:&quot;0&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -2047,9 +2155,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <p><strong>注：OrderID、LocalID只用设一个非0有效值(因PlaceOrder只能返回LocalID),OrderID参数优先处理</strong></p>
 <p>3.25  <strong>港股修改订单(</strong>Protocol: 6005<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"6005","ReqParam":{"Cookie":"654231","EnvType":"0","LocalID":"0","OrderID":"11283","Price":"365","Qty":"4000"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;6005&quot;,&quot;ReqParam&quot;:{&quot;Cookie&quot;:&quot;654231&quot;,&quot;EnvType&quot;:&quot;0&quot;,&quot;LocalID&quot;:&quot;0&quot;,&quot;OrderID&quot;:&quot;11283&quot;,&quot;Price&quot;:&quot;365&quot;,&quot;Qty&quot;:&quot;4000&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"6005","RetData":{"Cookie":"654231","EnvType":"0","LocalID":"0","OrderID":"11283","SvrResult":"0"},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;6005&quot;,&quot;RetData&quot;:{&quot;Cookie&quot;:&quot;654231&quot;,&quot;EnvType&quot;:&quot;0&quot;,&quot;LocalID&quot;:&quot;0&quot;,&quot;OrderID&quot;:&quot;11283&quot;,&quot;SvrResult&quot;:&quot;0&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -2105,9 +2217,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <p><strong>注：OrderID、LocalID只用设一个非0有效值(因PlaceOrder只能返回LocalID),OrderID参数优先处理</strong></p>
 <p>3.26  <strong>解锁交易(</strong>Protocol: 6006<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"6006","ReqParam":{"Cookie":"123456","Password":"123456"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;6006&quot;,&quot;ReqParam&quot;:{&quot;Cookie&quot;:&quot;123456&quot;,&quot;Password&quot;:&quot;123456&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"6006","RetData":{"Cookie":"123456","SvrResult":"0"},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;6006&quot;,&quot;RetData&quot;:{&quot;Cookie&quot;:&quot;123456&quot;,&quot;SvrResult&quot;:&quot;0&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -2137,9 +2253,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.27  <strong>港股查询帐户信息(</strong>Protocol: 6007<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"6007","ReqParam":{"Cookie":"123456","EnvType":"0"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;6007&quot;,&quot;ReqParam&quot;:{&quot;Cookie&quot;:&quot;123456&quot;,&quot;EnvType&quot;:&quot;0&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"6007","RetData":{"Cookie":"123456","DJZJ":"0","EnvType":"0","GPBZJ":"0","KQXJ":"0","Power":"0","XJJY":"0","YYJDE":"0","ZCJZ":"0","ZGJDE":"0","ZQSZ":"0","ZSJE":"0"},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;6007&quot;,&quot;RetData&quot;:{&quot;Cookie&quot;:&quot;123456&quot;,&quot;DJZJ&quot;:&quot;0&quot;,&quot;EnvType&quot;:&quot;0&quot;,&quot;GPBZJ&quot;:&quot;0&quot;,&quot;KQXJ&quot;:&quot;0&quot;,&quot;Power&quot;:&quot;0&quot;,&quot;XJJY&quot;:&quot;0&quot;,&quot;YYJDE&quot;:&quot;0&quot;,&quot;ZCJZ&quot;:&quot;0&quot;,&quot;ZGJDE&quot;:&quot;0&quot;,&quot;ZQSZ&quot;:&quot;0&quot;,&quot;ZSJE&quot;:&quot;0&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -2229,14 +2349,22 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.28  <strong>港股查询订单列表(</strong>Protocol: 6008<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"6008","ReqParam":{"Cookie":"123123","EnvType":"0",
-"StatusFilterStr": "0,1,2" },"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;6008&quot;,&quot;ReqParam&quot;:{&quot;Cookie&quot;:&quot;123123&quot;,&quot;EnvType&quot;:&quot;0&quot;,
+&quot;StatusFilterStr&quot;: &quot;0,1,2&quot; },&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"6008","RetData":{"Cookie":"123123","EnvType":"0","HKOrderArr":[</p>
-<p>{"DealtAvgPrice":"0","DealtQty":"0","ErrCode":"0","LocalID":"2827880381052386","OrderID":"18680","Price":"150000","Qty":"100","OrderSide":"1","Status":"1","StockCode":"00700","StockName":"腾讯控股",</p>
-<p>"SubmitedTime":"1454485407","OrderType":"0","UpdatedTime":"1454485407"},{"DealtAvgPrice":"0",</p>
-<p>"DealtQty":"0","ErrCode":"0","LocalID":"2827934046337573","OrderID":"18687","Price":"151000","Qty":"100","OrderSide":"1","Status":"1","StockCode":"00700","StockName":"腾讯控股","SubmitedTime":"1454485424"</p>
-<p>,"OrderType":"0","UpdatedTime":"1454485424"}]},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;6008&quot;,&quot;RetData&quot;:{&quot;Cookie&quot;:&quot;123123&quot;,&quot;EnvType&quot;:&quot;0&quot;,&quot;HKOrderArr&quot;:[
+
+{&quot;DealtAvgPrice&quot;:&quot;0&quot;,&quot;DealtQty&quot;:&quot;0&quot;,&quot;ErrCode&quot;:&quot;0&quot;,&quot;LocalID&quot;:&quot;2827880381052386&quot;,&quot;OrderID&quot;:&quot;18680&quot;,&quot;Price&quot;:&quot;150000&quot;,&quot;Qty&quot;:&quot;100&quot;,&quot;OrderSide&quot;:&quot;1&quot;,&quot;Status&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;00700&quot;,&quot;StockName&quot;:&quot;腾讯控股&quot;,
+
+&quot;SubmitedTime&quot;:&quot;1454485407&quot;,&quot;OrderType&quot;:&quot;0&quot;,&quot;UpdatedTime&quot;:&quot;1454485407&quot;},{&quot;DealtAvgPrice&quot;:&quot;0&quot;,
+
+&quot;DealtQty&quot;:&quot;0&quot;,&quot;ErrCode&quot;:&quot;0&quot;,&quot;LocalID&quot;:&quot;2827934046337573&quot;,&quot;OrderID&quot;:&quot;18687&quot;,&quot;Price&quot;:&quot;151000&quot;,&quot;Qty&quot;:&quot;100&quot;,&quot;OrderSide&quot;:&quot;1&quot;,&quot;Status&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;00700&quot;,&quot;StockName&quot;:&quot;腾讯控股&quot;,&quot;SubmitedTime&quot;:&quot;1454485424&quot;
+
+,&quot;OrderType&quot;:&quot;0&quot;,&quot;UpdatedTime&quot;:&quot;1454485424&quot;}]},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -2336,12 +2464,19 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.29  <strong>港股查询持仓列表(</strong>Protocol: 6009<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"6009","ReqParam":{"Cookie":"123123","EnvType":"0"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;6009&quot;,&quot;ReqParam&quot;:{&quot;Cookie&quot;:&quot;123123&quot;,&quot;EnvType&quot;:&quot;0&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"6009","RetData":{"Cookie":"123123","EnvType":"0","HKPositionArr"[</p>
-<p>{"CanSellQty":"100","CostPrice":"140000","CostPriceValid":"1","MarketVal":"15000000","NominalPrice":"141000","PLRatio":"0","PLRatioValid":"1","PLVal":"0","PLValValid":"1","Qty":"100","StockCode":"00700","StockName":"腾讯控股","Today_BuyQty":"0","Today_BuyVal":"0","Today_PLVal":"0","Today_SellQty":"0",</p>
-<p>"Today_SellVal":"0"},{"CanSellQty":"12000","CostPrice":"1953","CostPriceValid":"1","MarketVal":"9480000","NominalPrice":"790","PLRatio":"-54320","PLRatioValid":"1","PLVal":"-13960000","PLValValid":"1","Qty":"12000","StockCode":"00587","StockName":"华瀚健康","Today_BuyQty":"0","Today_BuyVal":"0","Today_PLVal"</p>
-<p>:"0","Today_SellQty":"0","Today_SellVal":"0"},]},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;6009&quot;,&quot;RetData&quot;:{&quot;Cookie&quot;:&quot;123123&quot;,&quot;EnvType&quot;:&quot;0&quot;,&quot;HKPositionArr&quot;[
+
+{&quot;CanSellQty&quot;:&quot;100&quot;,&quot;CostPrice&quot;:&quot;140000&quot;,&quot;CostPriceValid&quot;:&quot;1&quot;,&quot;MarketVal&quot;:&quot;15000000&quot;,&quot;NominalPrice&quot;:&quot;141000&quot;,&quot;PLRatio&quot;:&quot;0&quot;,&quot;PLRatioValid&quot;:&quot;1&quot;,&quot;PLVal&quot;:&quot;0&quot;,&quot;PLValValid&quot;:&quot;1&quot;,&quot;Qty&quot;:&quot;100&quot;,&quot;StockCode&quot;:&quot;00700&quot;,&quot;StockName&quot;:&quot;腾讯控股&quot;,&quot;Today_BuyQty&quot;:&quot;0&quot;,&quot;Today_BuyVal&quot;:&quot;0&quot;,&quot;Today_PLVal&quot;:&quot;0&quot;,&quot;Today_SellQty&quot;:&quot;0&quot;,
+
+&quot;Today_SellVal&quot;:&quot;0&quot;},{&quot;CanSellQty&quot;:&quot;12000&quot;,&quot;CostPrice&quot;:&quot;1953&quot;,&quot;CostPriceValid&quot;:&quot;1&quot;,&quot;MarketVal&quot;:&quot;9480000&quot;,&quot;NominalPrice&quot;:&quot;790&quot;,&quot;PLRatio&quot;:&quot;-54320&quot;,&quot;PLRatioValid&quot;:&quot;1&quot;,&quot;PLVal&quot;:&quot;-13960000&quot;,&quot;PLValValid&quot;:&quot;1&quot;,&quot;Qty&quot;:&quot;12000&quot;,&quot;StockCode&quot;:&quot;00587&quot;,&quot;StockName&quot;:&quot;华瀚健康&quot;,&quot;Today_BuyQty&quot;:&quot;0&quot;,&quot;Today_BuyVal&quot;:&quot;0&quot;,&quot;Today_PLVal&quot;
+
+:&quot;0&quot;,&quot;Today_SellQty&quot;:&quot;0&quot;,&quot;Today_SellVal&quot;:&quot;0&quot;},]},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -2456,10 +2591,15 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.30  <strong>港股查询成交记录(</strong>Protocol:6010<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"6010","ReqParam":{"Cookie":"123123","EnvType":"0"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;6010&quot;,&quot;ReqParam&quot;:{&quot;Cookie&quot;:&quot;123123&quot;,&quot;EnvType&quot;:&quot;0&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"6010","RetData":{"Cookie":"123123","EnvType":"0","HKDealArr":</p>
-<p>[{"DealID":"2827880381052386","OrderID":"18680","Price":"150000","Qty":"100","Orderside":"1","StockCode":"00700","StockName":"腾讯控股","Time":"1454485407",}]},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;6010&quot;,&quot;RetData&quot;:{&quot;Cookie&quot;:&quot;123123&quot;,&quot;EnvType&quot;:&quot;0&quot;,&quot;HKDealArr&quot;:
+
+[{&quot;DealID&quot;:&quot;2827880381052386&quot;,&quot;OrderID&quot;:&quot;18680&quot;,&quot;Price&quot;:&quot;150000&quot;,&quot;Qty&quot;:&quot;100&quot;,&quot;Orderside&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;00700&quot;,&quot;StockName&quot;:&quot;腾讯控股&quot;,&quot;Time&quot;:&quot;1454485407&quot;,}]},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -2529,9 +2669,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.31  <strong>美股下单交易(</strong>Protocol: 7003<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"7003","ReqParam":{"Cookie":"123456","EnvType":"0","OrderSide":"0","OrderType":"2","Price":"153000","Qty":"1","StockCode":"AAPL"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;7003&quot;,&quot;ReqParam&quot;:{&quot;Cookie&quot;:&quot;123456&quot;,&quot;EnvType&quot;:&quot;0&quot;,&quot;OrderSide&quot;:&quot;0&quot;,&quot;OrderType&quot;:&quot;2&quot;,&quot;Price&quot;:&quot;153000&quot;,&quot;Qty&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;AAPL&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"7003","RetData":{"Cookie":"123456","EnvType":"0","LocalID":"2237423408207425","OrderID":"2237423408207425","SvrResult":"0"},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;7003&quot;,&quot;RetData&quot;:{&quot;Cookie&quot;:&quot;123456&quot;,&quot;EnvType&quot;:&quot;0&quot;,&quot;LocalID&quot;:&quot;2237423408207425&quot;,&quot;OrderID&quot;:&quot;2237423408207425&quot;,&quot;SvrResult&quot;:&quot;0&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -2596,9 +2740,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.32  <strong>美股设置订单状态(</strong>Protocol: 7004<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"7004","ReqParam":{"Cookie":"33333","EnvType":"0","LocalID":"127958246102014","OrderID":"0","SetOrderStatus":"0"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;7004&quot;,&quot;ReqParam&quot;:{&quot;Cookie&quot;:&quot;33333&quot;,&quot;EnvType&quot;:&quot;0&quot;,&quot;LocalID&quot;:&quot;127958246102014&quot;,&quot;OrderID&quot;:&quot;0&quot;,&quot;SetOrderStatus&quot;:&quot;0&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"7004","RetData":{"Cookie":"33333","EnvType":"0","LocalID":"127958246102014","OrderID":"8105524018778112041","SvrResult":"0"},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;7004&quot;,&quot;RetData&quot;:{&quot;Cookie&quot;:&quot;33333&quot;,&quot;EnvType&quot;:&quot;0&quot;,&quot;LocalID&quot;:&quot;127958246102014&quot;,&quot;OrderID&quot;:&quot;8105524018778112041&quot;,&quot;SvrResult&quot;:&quot;0&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -2649,9 +2797,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <p><strong>注：OrderID、LocalID只用设一个非0有效值(因PlaceOrder只能返回LocalID),OrderID参数优先处理</strong></p>
 <p>3.33  <strong>美股修改订单(</strong>Protocol: 7005<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"7005","ReqParam":{"Cookie":"654231","EnvType":"0","LocalID":"131717320241577","OrderID":"0","Price":"51500","Qty":"2000"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;7005&quot;,&quot;ReqParam&quot;:{&quot;Cookie&quot;:&quot;654231&quot;,&quot;EnvType&quot;:&quot;0&quot;,&quot;LocalID&quot;:&quot;131717320241577&quot;,&quot;OrderID&quot;:&quot;0&quot;,&quot;Price&quot;:&quot;51500&quot;,&quot;Qty&quot;:&quot;2000&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"7005","RetData":{"Cookie":"654231","EnvType":"0","LocalID":"131717320241577","OrderID":"7190271782920348012","SvrResult":"0"},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;7005&quot;,&quot;RetData&quot;:{&quot;Cookie&quot;:&quot;654231&quot;,&quot;EnvType&quot;:&quot;0&quot;,&quot;LocalID&quot;:&quot;131717320241577&quot;,&quot;OrderID&quot;:&quot;7190271782920348012&quot;,&quot;SvrResult&quot;:&quot;0&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -2707,10 +2859,14 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <p><strong>注：OrderID、LocalID只用设一个非0有效值(因PlaceOrder只能返回LocalID),OrderID参数优先处理</strong></p>
 <p>3.34  <strong>美股查询帐户信息(</strong>Protocol: 7007<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"7007","ReqParam":{"Cookie":"123456","EnvType":"0"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;7007&quot;,&quot;ReqParam&quot;:{&quot;Cookie&quot;:&quot;123456&quot;,&quot;EnvType&quot;:&quot;0&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"EnvType":"0","Cookie":"123456","Power":"1000","ZCJZ":"1000","ZQSZ":"1000","XJJY":"1000","KQXJ":"1000","DJZJ":"0",
-"ZSJE":"0", "ZGJDE":"0" ,"YYJDE":"0", "GPBZJ":"0"},"Version":"1"}</p>
+<pre><code>{&quot;EnvType&quot;:&quot;0&quot;,&quot;Cookie&quot;:&quot;123456&quot;,&quot;Power&quot;:&quot;1000&quot;,&quot;ZCJZ&quot;:&quot;1000&quot;,&quot;ZQSZ&quot;:&quot;1000&quot;,&quot;XJJY&quot;:&quot;1000&quot;,&quot;KQXJ&quot;:&quot;1000&quot;,&quot;DJZJ&quot;:&quot;0&quot;,
+&quot;ZSJE&quot;:&quot;0&quot;, &quot;ZGJDE&quot;:&quot;0&quot; ,&quot;YYJDE&quot;:&quot;0&quot;, &quot;GPBZJ&quot;:&quot;0&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -2800,12 +2956,18 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.35  <strong>美股查询订单列表(</strong>Protocol: 7008<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"7008","ReqParam":{"Cookie":"123123","EnvType":"0",
-"StatusFilterStr": "0,1,2"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;7008&quot;,&quot;ReqParam&quot;:{&quot;Cookie&quot;:&quot;123123&quot;,&quot;EnvType&quot;:&quot;0&quot;,
+&quot;StatusFilterStr&quot;: &quot;0,1,2&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"7008","RetData":{"Cookie":"123123","EnvType":"0","USOrderArr":[</p>
-<p>{"DealtAvgPrice":"65090","DealtQty":"100","ErrCode":"0","LocalID":"2850058438979314","OrderID":"5001812055423488114","OrderSide":"0","OrderType":"2","Price":"65090","Qty":"100","Status":"3","StockCode":"BABA","StockName":"阿里巴巴","SubmitedTime":"1454492354","UpdatedTime":"1454492354"},{"DealtAvgPrice"</p>
-<p>:"94480","DealtQty":"200","ErrCode":"0","LocalID":"2850119943956001","OrderID":"948333054225995228","OrderSide":"0","OrderType":"2","Price":"94480","Qty":"200","Status":"3","StockCode":"AAPL","StockName":"苹果","SubmitedTime":"1454492373","UpdatedTime":"1454492373"}]},"Version":"1"}}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;7008&quot;,&quot;RetData&quot;:{&quot;Cookie&quot;:&quot;123123&quot;,&quot;EnvType&quot;:&quot;0&quot;,&quot;USOrderArr&quot;:[
+
+{&quot;DealtAvgPrice&quot;:&quot;65090&quot;,&quot;DealtQty&quot;:&quot;100&quot;,&quot;ErrCode&quot;:&quot;0&quot;,&quot;LocalID&quot;:&quot;2850058438979314&quot;,&quot;OrderID&quot;:&quot;5001812055423488114&quot;,&quot;OrderSide&quot;:&quot;0&quot;,&quot;OrderType&quot;:&quot;2&quot;,&quot;Price&quot;:&quot;65090&quot;,&quot;Qty&quot;:&quot;100&quot;,&quot;Status&quot;:&quot;3&quot;,&quot;StockCode&quot;:&quot;BABA&quot;,&quot;StockName&quot;:&quot;阿里巴巴&quot;,&quot;SubmitedTime&quot;:&quot;1454492354&quot;,&quot;UpdatedTime&quot;:&quot;1454492354&quot;},{&quot;DealtAvgPrice&quot;
+
+:&quot;94480&quot;,&quot;DealtQty&quot;:&quot;200&quot;,&quot;ErrCode&quot;:&quot;0&quot;,&quot;LocalID&quot;:&quot;2850119943956001&quot;,&quot;OrderID&quot;:&quot;948333054225995228&quot;,&quot;OrderSide&quot;:&quot;0&quot;,&quot;OrderType&quot;:&quot;2&quot;,&quot;Price&quot;:&quot;94480&quot;,&quot;Qty&quot;:&quot;200&quot;,&quot;Status&quot;:&quot;3&quot;,&quot;StockCode&quot;:&quot;AAPL&quot;,&quot;StockName&quot;:&quot;苹果&quot;,&quot;SubmitedTime&quot;:&quot;1454492373&quot;,&quot;UpdatedTime&quot;:&quot;1454492373&quot;}]},&quot;Version&quot;:&quot;1&quot;}}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -2905,13 +3067,21 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.36  <strong>美股查询持仓列表(</strong>Protocol: 7009<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"7009","ReqParam":{"Cookie":"123123","EnvType":"0"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;7009&quot;,&quot;ReqParam&quot;:{&quot;Cookie&quot;:&quot;123123&quot;,&quot;EnvType&quot;:&quot;0&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"7009","RetData":{"Cookie":"123123","EnvType":"0","USPositionArr"[</p>
-<p>{"CanSellQty":"100","CostPrice":"65090","CostPriceValid":"1","MarketVal":"6509000","NominalPrice":"65090","PLRatio":"0","PLRatioValid":"1","PLVal":"0","PLValValid":"1","Qty":"100","StockCode":"BABA","StockName":"阿里巴巴","Today_BuyQty":"100","Today_BuyVal":"6509000","Today_PLVal":"0","Today_SellQty":"0",</p>
-<p>"Today_SellVal":"0"},{"CanSellQty":"200","CostPrice":"94480","CostPriceValid":"1","MarketVal":"18896000"</p>
-<p>,"NominalPrice":"94480","PLRatio":"0","PLRatioValid":"1","PLVal":"0","PLValValid":"1","Qty":"200","StockCode":"AAPL","StockName":"苹果","Today_BuyQty":"200","Today_BuyVal":"18896000","Today_PLVal":"0",</p>
-<p>"Today_SellQty":"0","Today_SellVal":"0"}]},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;7009&quot;,&quot;RetData&quot;:{&quot;Cookie&quot;:&quot;123123&quot;,&quot;EnvType&quot;:&quot;0&quot;,&quot;USPositionArr&quot;[
+
+{&quot;CanSellQty&quot;:&quot;100&quot;,&quot;CostPrice&quot;:&quot;65090&quot;,&quot;CostPriceValid&quot;:&quot;1&quot;,&quot;MarketVal&quot;:&quot;6509000&quot;,&quot;NominalPrice&quot;:&quot;65090&quot;,&quot;PLRatio&quot;:&quot;0&quot;,&quot;PLRatioValid&quot;:&quot;1&quot;,&quot;PLVal&quot;:&quot;0&quot;,&quot;PLValValid&quot;:&quot;1&quot;,&quot;Qty&quot;:&quot;100&quot;,&quot;StockCode&quot;:&quot;BABA&quot;,&quot;StockName&quot;:&quot;阿里巴巴&quot;,&quot;Today_BuyQty&quot;:&quot;100&quot;,&quot;Today_BuyVal&quot;:&quot;6509000&quot;,&quot;Today_PLVal&quot;:&quot;0&quot;,&quot;Today_SellQty&quot;:&quot;0&quot;,
+
+&quot;Today_SellVal&quot;:&quot;0&quot;},{&quot;CanSellQty&quot;:&quot;200&quot;,&quot;CostPrice&quot;:&quot;94480&quot;,&quot;CostPriceValid&quot;:&quot;1&quot;,&quot;MarketVal&quot;:&quot;18896000&quot;
+
+,&quot;NominalPrice&quot;:&quot;94480&quot;,&quot;PLRatio&quot;:&quot;0&quot;,&quot;PLRatioValid&quot;:&quot;1&quot;,&quot;PLVal&quot;:&quot;0&quot;,&quot;PLValValid&quot;:&quot;1&quot;,&quot;Qty&quot;:&quot;200&quot;,&quot;StockCode&quot;:&quot;AAPL&quot;,&quot;StockName&quot;:&quot;苹果&quot;,&quot;Today_BuyQty&quot;:&quot;200&quot;,&quot;Today_BuyVal&quot;:&quot;18896000&quot;,&quot;Today_PLVal&quot;:&quot;0&quot;,
+
+&quot;Today_SellQty&quot;:&quot;0&quot;,&quot;Today_SellVal&quot;:&quot;0&quot;}]},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
@@ -3026,10 +3196,15 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </table>
 <p>3.37  <strong>美股查询成交记录(</strong>Protocol: 7010<strong>)</strong></p>
 <p><strong>C->S eg:</strong></p>
-<p>{"Protocol":"7010","ReqParam":{"Cookie":"123123","EnvType":"0"},"Version":"1"}</p>
+<pre><code>{&quot;Protocol&quot;:&quot;7010&quot;,&quot;ReqParam&quot;:{&quot;Cookie&quot;:&quot;123123&quot;,&quot;EnvType&quot;:&quot;0&quot;},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p><strong>S->C eg:</strong></p>
-<p>{"ErrCode":"0","ErrDesc":"","Protocol":"7010","RetData":{"Cookie":"123123","EnvType":"0","USDealArr":</p>
-<p>[{"DealID":"2827880381052386","OrderID":"18680","Price":"150000","Qty":"100","Orderside":"1","StockCode":"BABA","StockName":"阿里巴巴","nTime":"1454485407",}]},"Version":"1"}</p>
+<pre><code>{&quot;ErrCode&quot;:&quot;0&quot;,&quot;ErrDesc&quot;:&quot;&quot;,&quot;Protocol&quot;:&quot;7010&quot;,&quot;RetData&quot;:{&quot;Cookie&quot;:&quot;123123&quot;,&quot;EnvType&quot;:&quot;0&quot;,&quot;USDealArr&quot;:
+
+[{&quot;DealID&quot;:&quot;2827880381052386&quot;,&quot;OrderID&quot;:&quot;18680&quot;,&quot;Price&quot;:&quot;150000&quot;,&quot;Qty&quot;:&quot;100&quot;,&quot;Orderside&quot;:&quot;1&quot;,&quot;StockCode&quot;:&quot;BABA&quot;,&quot;StockName&quot;:&quot;阿里巴巴&quot;,&quot;nTime&quot;:&quot;1454485407&quot;,}]},&quot;Version&quot;:&quot;1&quot;}
+</code></pre>
+
 <p>字段说明:</p>
 <table>
 <thead>
