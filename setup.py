@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright 2017 Futu Securities
+# Copyright 2017 Futu, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ setup(
     description='Futu Quantitative Trading API',
     classifiers=[],
     keywords='Futu HK/US Stock Quant Trading API',
-    author='Futu Securities',
+    author='Futu, Inc.',
     author_email='ftdev@futunn.com',
     url='https://github.com/FutunnOpen/futuquant',
     license='Apache License 2.0',
