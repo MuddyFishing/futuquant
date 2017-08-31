@@ -23,6 +23,5 @@ Usage
 
 - make clean: 清空build目录下文件
 
-- make watch: 使用该命令可以根据源文件的变化自动编译文档
 
 
