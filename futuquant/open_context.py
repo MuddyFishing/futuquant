@@ -827,6 +827,21 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, basic_info_table
 
+    def get_multiple_history_kline(self, codelist, start=None, end=None, ktype='K_DAY', autype='qfq'):
+        if isinstance(codelist, str):
+            codelist = codelist.split(',')
+        elif isinstance(codelist, list):
+            pass
+        else:
+            raise Exception("code list must be like ['HK.00001', 'HK.00700'] or 'HK.00001,HK.00700'")
+        result = []
+        for code in codelist:
+            ret, data = self.get_history_kline(code, start, end, ktype, autype)
+            if ret != RET_OK:
+                raise Exception('get history kline error {},{},{},{}'.format(code, start, end, ktype))
+            result.append(data)
+        return 0, result
+
     def get_history_kline(self, code, start=None, end=None, ktype='K_DAY', autype='qfq'):
         """get the historic Kline data"""
         if start is not None and isinstance(start, str) is False:
