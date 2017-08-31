@@ -1,0 +1,1484 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>交易API &mdash; futuquant 2.1.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="futuquant 2.1.4 documentation" href="../index.html"/>
+        <link rel="next" title="PLS API" href="PLS_API_Intro.html"/>
+        <link rel="prev" title="行情API" href="Market_API_Python_Doc.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> futuquant
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">介绍</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/intro.html">FutuQuant - 富途量化投资平台 (Futu Quant Trading API)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">安装</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup/setup.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setup/Hist_KLine_Download_Intro.html">下载数据</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Market_API_Python_Doc.html">行情API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">交易API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">接口概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">港股交易接口</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">实例化上下文对象</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unlock-trade">解锁接口 unlock_trade</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#place-order">下单接口 place_order</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#set-order-status">设置订单状态 set_order_status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#change-order">修改订单 change_order</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accinfo-query">查询账户信息 accinfo_query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#order-list-query">查询订单列表 order_list_query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#position-list-query">查询持仓列表 position_list_query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deal-list-query">查询成交列表 deal_list_query</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">美股交易接口</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">实例化上下文对象</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">下单接口 place_order</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">设置订单状态 set_order_status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">修改订单 change_order</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">查询账户信息 accinfo_query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">查询订单列表 order_list_query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">查询持仓列表 position_list_query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">查询成交列表 deal_list_query</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="PLS_API_Intro.html">PLS API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Q&amp;A</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../q&amp;a/Q&amp;A.html">Q&amp;A</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">futuquant</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>交易API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/Trade_API_Python_Doc.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api">
+<h1>交易API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>接口概要<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p><strong>交易接口有频率限制，30秒内不能超过20次交易请求</strong></p>
+</div>
+<div class="section" id="id2">
+<h2>港股交易接口<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>实例化上下文对象<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">tradehk_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">sync_port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：创建上下文，建立网络连接</p>
+<p><strong>参数</strong>:</p>
+<p><strong>host</strong>：网络连接地址。</p>
+<p><strong>sync_port</strong>：网络连接端口，用于同步通信。</p>
+</div>
+<div class="section" id="unlock-trade">
+<h3>解锁接口 unlock_trade<a class="headerlink" href="#unlock-trade" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradehk_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：</p>
+<p>港股交易解锁。港股模拟交易不需要解锁，真实交易需要解锁</p>
+<p><strong>参数</strong>：</p>
+<p><strong>password</strong>: 用户交易密码。</p>
+<p><strong>返回</strong>：</p>
+<p>ret_code失败时，ret_data返回为错误描述字符串；
+正常情况下，ret_code为0, ret_data返回None。</p>
+<p><strong>失败情况</strong>：</p>
+<ol class="arabic simple">
+<li>交易密码错误</li>
+<li>客户端内部或网络错误</li>
+</ol>
+</div>
+<div class="section" id="place-order">
+<h3>下单接口 place_order<a class="headerlink" href="#place-order" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradehk_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">qty</span><span class="p">,</span> <span class="n">strcode</span><span class="p">,</span> <span class="n">orderside</span><span class="p">,</span> <span class="n">ordertype</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：港股下单接口。</p>
+<p><strong>参数</strong>：</p>
+<p><strong>price</strong>: 交易价格。</p>
+<p><strong>qty</strong>: 交易数量。</p>
+<p><strong>strcode</strong>: 股票代码。例如：“HK.00700”。</p>
+<p><strong>orderside</strong>: 交易方向。如下表所示。</p>
+<p><strong>ordertype</strong>: 交易类型。<strong>与美股不同！</strong>如下表所示。</p>
+<p><strong>envtype</strong>: 交易环境参数。如下表所示。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="52%" />
+<col width="48%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">orderside</th>
+<th class="head">交易方向</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>买入</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>卖出</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">ordertype</th>
+<th class="head">交易方向</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>增强限价单(普通交易)</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>竞价单(竞价交易)</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>竞价限价单(竞价限价)</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">envtype</th>
+<th class="head">交易环境参数</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>真实交易</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>仿真交易</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回:</strong></p>
+<p>ret_code失败时，ret_data返回为错误描述字符串；
+正常情况下，ret_code为0，ret_data为一个dataframe, 其中包括：</p>
+<p><strong>envtype</strong>: 交易环境参数。0是真实交易，1是仿真交易</p>
+<p><strong>orderid</strong>: 订单ID。</p>
+<p><strong>失败情况</strong>：</p>
+<ol class="arabic simple">
+<li>参数错误</li>
+<li>客户端内部或网络错误</li>
+<li>不满足下单条件</li>
+</ol>
+</div>
+<div class="section" id="set-order-status">
+<h3>设置订单状态 set_order_status<a class="headerlink" href="#set-order-status" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradehk_ctx</span><span class="o">.</span><span class="n">set_order_status</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">orderid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：更改某指定港股订单状态。</p>
+<p><strong>参数</strong>：</p>
+<p><strong>status</strong>: 更改状态的类型。如下表所示。</p>
+<p><strong>orderid</strong>: 订单ID。</p>
+<p><strong>envtype</strong>: 交易环境参数。如下表所示。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">status</th>
+<th class="head">更改状态的类型</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>撤单</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>失效</td>
+</tr>
+<tr class="row-even"><td>2</td>
+<td>生效</td>
+</tr>
+<tr class="row-odd"><td>3</td>
+<td>删除</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">envtype</th>
+<th class="head">交易环境参数</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>真实交易</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>仿真交易</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回:</strong></p>
+<p>ret_code失败时，ret_data返回为错误描述字符串；
+正常情况下，ret_code为0，ret_data为一个dataframe, 其中包括：</p>
+<p><strong>envtype</strong>: 交易环境参数。0是真实交易，1是仿真交易</p>
+<p><strong>orderid</strong>: 订单ID。</p>
+<p><strong>失败情况</strong>：</p>
+<ol class="arabic simple">
+<li>参数错误</li>
+<li>客户端内部或网络错误</li>
+<li>订单不存在</li>
+</ol>
+</div>
+<div class="section" id="change-order">
+<h3>修改订单 change_order<a class="headerlink" href="#change-order" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradehk_ctx</span><span class="o">.</span><span class="n">change_order</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">qty</span><span class="p">,</span> <span class="n">orderid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：修改某指定港股订单。</p>
+<p><strong>参数</strong>：</p>
+<p><strong>price</strong>: 交易价格。</p>
+<p><strong>qty</strong>: 交易数量。</p>
+<p><strong>orderid</strong>: 订单ID。</p>
+<p><strong>envtype</strong>: 交易环境参数。如下表所示。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">envtype</th>
+<th class="head">交易环境参数</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>真实交易</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>仿真交易</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回:</strong></p>
+<p>ret_code失败时，ret_data返回为错误描述字符串；
+正常情况下，ret_code为0，ret_data为一个dataframe, 其中包括：</p>
+<p><strong>envtype</strong>: 交易环境参数。0是真实交易，1是仿真交易</p>
+<p><strong>orderid</strong>: 订单ID。</p>
+<p><strong>失败情况</strong>：</p>
+<ol class="arabic simple">
+<li>参数错误</li>
+<li>客户端内部或网络错误</li>
+<li>订单不存在</li>
+</ol>
+</div>
+<div class="section" id="accinfo-query">
+<h3>查询账户信息 accinfo_query<a class="headerlink" href="#accinfo-query" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradehk_ctx</span><span class="o">.</span><span class="n">accinfo_query</span><span class="p">(</span><span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：查询港股账户信息。</p>
+<p><strong>参数</strong>：</p>
+<p><strong>envtype</strong>: 交易环境参数。如下表所示。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">envtype</th>
+<th class="head">交易环境参数</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>真实交易</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>仿真交易</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回:</strong></p>
+<p>ret_code失败时，ret_data返回为错误描述字符串；
+正常情况下，ret_code为0，ret_data为一个dataframe, 其中包括：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="70%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">返回字符串</th>
+<th class="head">说明</th>
+<th class="head">返回字符串</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ZQSZ</td>
+<td>证券市值</td>
+<td>XJJY</td>
+<td>现金结余</td>
+</tr>
+<tr class="row-odd"><td>KQXJ</td>
+<td>可取现金</td>
+<td>DJZJ</td>
+<td>冻结资金</td>
+</tr>
+<tr class="row-even"><td>ZSJE</td>
+<td>追收金额</td>
+<td>ZGJDE</td>
+<td>最高借贷额</td>
+</tr>
+<tr class="row-odd"><td>YYJDE</td>
+<td>已用借贷额</td>
+<td>GPBZJ</td>
+<td>股票保证金</td>
+</tr>
+<tr class="row-even"><td>ZCJZ</td>
+<td>资产净值</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>Power</td>
+<td>现金账号的购买力，不适用于融资账号(因每支股票的融资额不同，融资账户的购买力由购买的股票决定)</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<p><strong>失败情况</strong>：</p>
+<ol class="arabic simple">
+<li>参数错误</li>
+<li>客户端内部或网络错误</li>
+</ol>
+</div>
+<div class="section" id="order-list-query">
+<h3>查询订单列表 order_list_query<a class="headerlink" href="#order-list-query" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradehk_ctx</span><span class="o">.</span><span class="n">order_list_query</span><span class="p">(</span><span class="n">statusfilter</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：查询港股今日订单列表。</p>
+<p><strong>参数</strong>：</p>
+<p><strong>statusfilter</strong>:
+状态过滤字符串，为空返回全部订单，&#8221;,&#8221;分隔需要返回的状态，如&#8221;1,2,3&#8221;返回的是等待成交，部分成交以及全部成交的订单，状态如下表所示</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="48%" />
+<col width="17%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">statusfilter</th>
+<th class="head">返回订单的状态</th>
+<th class="head">statusfilter</th>
+<th class="head">返回订单的状态</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>服务器处理中</td>
+<td>1</td>
+<td>等待成交</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>部分成交</td>
+<td>3</td>
+<td>全部成交</td>
+</tr>
+<tr class="row-even"><td>4</td>
+<td>已失效</td>
+<td>5</td>
+<td>下单失败</td>
+</tr>
+<tr class="row-odd"><td>6</td>
+<td>已撤单</td>
+<td>7</td>
+<td>已删除</td>
+</tr>
+<tr class="row-even"><td>8</td>
+<td>等待开盘</td>
+<td>21</td>
+<td>本地已发送</td>
+</tr>
+<tr class="row-odd"><td>22</td>
+<td>本地已发送，服务器返回下单失败、没产生订单</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>23</td>
+<td>本地已发送，等待服务器返回超时</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<p><strong>envtype</strong>: 交易环境参数。如下表所示。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">envtype</th>
+<th class="head">交易环境参数</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>真实交易</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>仿真交易</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回:</strong></p>
+<p>ret_code失败时，ret_data返回为错误描述字符串；
+正常情况下，ret_code为0，ret_data为一个dataframe, 其中包括：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="34%" />
+<col width="23%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">返回字符串</th>
+<th class="head">说明</th>
+<th class="head">返回字符串</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>code</td>
+<td>股票ID</td>
+<td>stock_name</td>
+<td>股票名称</td>
+</tr>
+<tr class="row-odd"><td>dealt_avg_price</td>
+<td>成交均价</td>
+<td>dealt_qty</td>
+<td>成交数量</td>
+</tr>
+<tr class="row-even"><td>localid</td>
+<td>订单本地标识</td>
+<td>orderid</td>
+<td>订单ID</td>
+</tr>
+<tr class="row-odd"><td>order_type</td>
+<td>交易类型</td>
+<td>price</td>
+<td>交易价格</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>订单状态(具体状态如下)</td>
+<td>submited_time</td>
+<td>提交时间</td>
+</tr>
+<tr class="row-odd"><td>updated_time</td>
+<td>更新时间</td>
+<td>order_side</td>
+<td>交易方向</td>
+</tr>
+<tr class="row-even"><td>qty</td>
+<td>订单数量</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="58%" />
+<col width="13%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">status</th>
+<th class="head">订单类型</th>
+<th class="head">status</th>
+<th class="head">订单类型</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>服务器处理中</td>
+<td>1</td>
+<td>等待成交</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>部分成交</td>
+<td>3</td>
+<td>全部成交</td>
+</tr>
+<tr class="row-even"><td>4</td>
+<td>已失效</td>
+<td>5</td>
+<td>下单失败</td>
+</tr>
+<tr class="row-odd"><td>6</td>
+<td>已撤单</td>
+<td>7</td>
+<td>已删除</td>
+</tr>
+<tr class="row-even"><td>8</td>
+<td>等待开盘</td>
+<td>21</td>
+<td>本地已发送</td>
+</tr>
+<tr class="row-odd"><td>22</td>
+<td>本地已发送，服务器返回下单失败、没产生订单</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>23</td>
+<td>本地已发送，等待服务器返回超时</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="56%" />
+<col width="44%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">order_side</th>
+<th class="head">交易方向</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>买入</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>卖出</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="62%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">order_type</th>
+<th class="head">交易类型</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>增强限价单(普通交易)</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>竞价单(竞价交易)</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>竞价限价单(竞价限价)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>失败情况</strong>：</p>
+<ol class="arabic simple">
+<li>参数错误</li>
+<li>客户端内部或网络错误</li>
+</ol>
+</div>
+<div class="section" id="position-list-query">
+<h3>查询持仓列表 position_list_query<a class="headerlink" href="#position-list-query" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradehk_ctx</span><span class="o">.</span><span class="n">position_list_query</span><span class="p">(</span><span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：查询港股持仓列表。</p>
+<p><strong>参数</strong>：</p>
+<p><strong>envtype</strong>: 交易环境参数。如下表所示。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">envtype</th>
+<th class="head">交易环境参数</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>真实交易</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>仿真交易</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回:</strong></p>
+<p>ret_code失败时，ret_data返回为错误描述字符串；
+正常情况下，ret_code为0，ret_data为一个dataframe, 其中包括：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="18%" />
+<col width="25%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">返回字符串</th>
+<th class="head">说明</th>
+<th class="head">返回字符串</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>code</td>
+<td>股票ID</td>
+<td>stock_name</td>
+<td>股票名称</td>
+</tr>
+<tr class="row-odd"><td>qty</td>
+<td>持有数量</td>
+<td>can_sell_qty</td>
+<td>可卖数量</td>
+</tr>
+<tr class="row-even"><td>cost_price</td>
+<td>成本价</td>
+<td>cost_price_valid</td>
+<td>成本价是否有效(非0有效)</td>
+</tr>
+<tr class="row-odd"><td>market_val</td>
+<td>市值</td>
+<td>nominal_price</td>
+<td>市价</td>
+</tr>
+<tr class="row-even"><td>pl_ratio</td>
+<td>盈亏比例</td>
+<td>pl_ratio_valid</td>
+<td>盈亏比例是否有效(非0有效)</td>
+</tr>
+<tr class="row-odd"><td>pl_val</td>
+<td>盈亏金额</td>
+<td>pl_val_valid</td>
+<td>盈亏金额是否有效(非0有效)</td>
+</tr>
+<tr class="row-even"><td>today_buy_qty</td>
+<td>今日买入数量</td>
+<td>today_buy_val</td>
+<td>今日买入金额</td>
+</tr>
+<tr class="row-odd"><td>today_pl_val</td>
+<td>今日盈亏金额</td>
+<td>today_sell_qty</td>
+<td>今日卖出数量</td>
+</tr>
+<tr class="row-even"><td>today_sell_val</td>
+<td>今日卖出金额</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<p><strong>失败情况</strong>：</p>
+<ol class="arabic simple">
+<li>参数错误</li>
+<li>客户端内部或网络错误</li>
+</ol>
+</div>
+<div class="section" id="deal-list-query">
+<h3>查询成交列表 deal_list_query<a class="headerlink" href="#deal-list-query" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradehk_ctx</span><span class="o">.</span><span class="n">deal_list_query</span><span class="p">(</span><span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：查询港股今日成交列表。</p>
+<p><strong>参数</strong>：</p>
+<p><strong>envtype</strong>: 交易环境参数。如下表所示。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">envtype</th>
+<th class="head">交易环境参数</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>真实交易</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>仿真交易</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回:</strong></p>
+<p>ret_code失败时，ret_data返回为错误描述字符串；
+正常情况下，ret_code为0，ret_data为一个dataframe, 其中包括：</p>
+<p><strong>code</strong>: 股票代码。</p>
+<p><strong>stock_name</strong>: 股票名称。</p>
+<p><strong>dealid</strong>: 成交ID。</p>
+<p><strong>orderid</strong>: 订单ID。</p>
+<p><strong>price</strong>: 交易价格。</p>
+<p><strong>qty</strong>: 交易数量。</p>
+<p><strong>orderside</strong>: 交易方向，0表示买入，1表示卖出。</p>
+<p><strong>time</strong>: 成交时间。</p>
+<p><strong>失败情况</strong>：</p>
+<ol class="arabic simple">
+<li>参数错误</li>
+<li>客户端内部或网络错误</li>
+</ol>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>美股交易接口<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h3>实例化上下文对象<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">tradeus_ctx</span> <span class="o">=</span> <span class="n">OpenUSTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">sync_port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：创建上下文，建立网络连接。 <strong>参数</strong>:
+<strong>host</strong>：网络连接地址 <strong>sync_port</strong>：网络连接端口，用于同步通信。</p>
+<p><strong>解锁接口 unlock_trade</strong></p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：交易解锁。</p>
+<p><strong>参数</strong>：</p>
+<p><strong>password</strong>: 用户交易密码。</p>
+<p><strong>返回</strong>： ret_code失败时，ret_data返回为错误描述字符串；
+正常情况下，ret_code为0, ret_data返回None。</p>
+<p><strong>失败情况</strong>：</p>
+<ol class="arabic simple">
+<li>交易密码错误</li>
+<li>客户端内部或网络错误</li>
+</ol>
+</div>
+<div class="section" id="id6">
+<h3>下单接口 place_order<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">qty</span><span class="p">,</span> <span class="n">strcode</span><span class="p">,</span> <span class="n">orderside</span><span class="p">,</span> <span class="n">ordertype</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：美股下单接口。美股暂时不支持仿真交易。</p>
+<p><strong>参数</strong>：</p>
+<p><strong>price</strong>: 交易价格。</p>
+<p><strong>qty</strong>: 交易数量</p>
+<p><strong>strcode</strong>: 股票ID。例如：“US.AAPL”。</p>
+<p><strong>orderside</strong>: 交易方向。如下表所示。</p>
+<p><strong>ordertype</strong>: 交易类型。<strong>与港股不同！</strong>如下表所示。</p>
+<p><strong>envtype</strong>: 环境参数，0是真实环境，1是仿真环境。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="52%" />
+<col width="48%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">orderside</th>
+<th class="head">交易方向</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>买入</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>卖出</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="58%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">ordertype</th>
+<th class="head">交易类型</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>市价单</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>限价</td>
+</tr>
+<tr class="row-even"><td>51</td>
+<td>盘前交易、限价</td>
+</tr>
+<tr class="row-odd"><td>52</td>
+<td>盘后交易、限价</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回:</strong></p>
+<p>ret_code失败时，ret_data返回为错误描述字符串；
+正常情况下，ret_code为0，ret_data为一个dataframe, 其中包括：</p>
+<p><strong>envtype</strong>: 环境参数，0是真实环境，1是仿真环境。 <strong>orderid</strong>: 订单ID。</p>
+<p><strong>失败情况</strong>：</p>
+<ol class="arabic simple">
+<li>参数错误</li>
+<li>客户端内部或网络错误</li>
+<li>不满足下单条件</li>
+</ol>
+</div>
+<div class="section" id="id7">
+<h3>设置订单状态 set_order_status<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">set_order_status</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">orderid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：更改某指定美股订单状态。美股暂时不支持仿真交易。</p>
+<p><strong>参数</strong>：</p>
+<p><strong>status</strong>: 美股暂时只支持撤单，status的值只能为0。</p>
+<p><strong>orderid</strong>: 订单ID。</p>
+<p><strong>envtype</strong>: 环境参数，0是真实环境，1是仿真环境。</p>
+<p><strong>返回:</strong></p>
+<p>ret_code失败时，ret_data返回为错误描述字符串；
+正常情况下，ret_code为0，ret_data为一个dataframe, 其中包括：</p>
+<p><strong>envtype</strong>: 环境参数，0是真实环境，1是仿真环境。</p>
+<p><strong>orderid</strong>: 订单ID。</p>
+<p><strong>失败情况</strong>：</p>
+<ol class="arabic simple">
+<li>参数错误</li>
+<li>客户端内部或网络错误</li>
+<li>订单不存在</li>
+</ol>
+</div>
+<div class="section" id="id8">
+<h3>修改订单 change_order<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">change_order</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">qty</span><span class="p">,</span> <span class="n">orderid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：修改某指定美股订单。美股暂时不支持仿真交易。</p>
+<p><strong>参数</strong>：</p>
+<p><strong>price</strong>: 交易价格。</p>
+<p><strong>qty</strong>: 交易数量。</p>
+<p><strong>orderid</strong>: 订单ID。</p>
+<p><strong>envtype</strong>: 环境参数，0是真实环境，1是仿真环境。</p>
+<p><strong>返回:</strong></p>
+<p>ret_code失败时，ret_data返回为错误描述字符串；
+正常情况下，ret_code为0，ret_data为一个dataframe, 其中包括：</p>
+<p><strong>envtype</strong>: 环境参数，0是真实环境，1是仿真环境。</p>
+<p><strong>orderid</strong>: 订单ID。</p>
+<p><strong>失败情况</strong>：</p>
+<ol class="arabic simple">
+<li>参数错误</li>
+<li>客户端内部或网络错误</li>
+<li>订单不存在</li>
+</ol>
+</div>
+<div class="section" id="id9">
+<h3>查询账户信息 accinfo_query<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">accinfo_query</span><span class="p">(</span><span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：查询美股账户信息。美股暂时不支持仿真环境</p>
+<p><strong>参数</strong>：</p>
+<p><strong>envtype</strong>: 环境参数，0是真实环境，1是仿真环境。</p>
+<p><strong>返回:</strong></p>
+<p>ret_code失败时，ret_data返回为错误描述字符串；
+正常情况下，ret_code为0，ret_data为一个dataframe, 其中包括：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">返回字符串</th>
+<th class="head">说明</th>
+<th class="head">返回字符串</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Power</td>
+<td>购买力</td>
+<td>ZCJZ</td>
+<td>资产净值</td>
+</tr>
+<tr class="row-odd"><td>ZQSZ</td>
+<td>证券市值</td>
+<td>XJJY</td>
+<td>现金结余</td>
+</tr>
+<tr class="row-even"><td>KQXJ</td>
+<td>可取现金</td>
+<td>DJZJ</td>
+<td>冻结资金</td>
+</tr>
+<tr class="row-odd"><td>ZSJE</td>
+<td>追收金额</td>
+<td>ZGJDE</td>
+<td>最高借贷额</td>
+</tr>
+<tr class="row-even"><td>YYJDE</td>
+<td>已用借贷额</td>
+<td>GPBZJ</td>
+<td>股票保证金</td>
+</tr>
+</tbody>
+</table>
+<p><strong>失败情况</strong>：</p>
+<ol class="arabic simple">
+<li>参数错误</li>
+<li>客户端内部或网络错误</li>
+</ol>
+</div>
+<div class="section" id="id10">
+<h3>查询订单列表 order_list_query<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">order_list_query</span><span class="p">(</span><span class="n">statusfilter</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：查询美股今日订单列表。美股暂时不支持仿真环境。</p>
+<p><strong>参数</strong>：</p>
+<p><strong>statusfilter</strong>:
+状态过滤字符串，默认为空返回全部订单，&#8221;,&#8221;分隔需要返回的状态，如&#8221;1,2,3&#8221;返回的是等待成交，部分成交以及全部成交的订单，如下表所示</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="48%" />
+<col width="17%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">statusfilter</th>
+<th class="head">返回订单的状态</th>
+<th class="head">statusfilter</th>
+<th class="head">返回订单的状态</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>服务器处理中</td>
+<td>1</td>
+<td>等待成交</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>部分成交</td>
+<td>3</td>
+<td>全部成交</td>
+</tr>
+<tr class="row-even"><td>4</td>
+<td>已失效</td>
+<td>5</td>
+<td>下单失败</td>
+</tr>
+<tr class="row-odd"><td>6</td>
+<td>已撤单</td>
+<td>7</td>
+<td>已删除</td>
+</tr>
+<tr class="row-even"><td>8</td>
+<td>等待开盘</td>
+<td>21</td>
+<td>本地已发送</td>
+</tr>
+<tr class="row-odd"><td>22</td>
+<td>本地已发送，服务器返回下单失败、没产生订单</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>23</td>
+<td>本地已发送，等待服务器返回超时</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<p><strong>envtype</strong>: 环境参数，0是真实环境，1是仿真环境。</p>
+<p><strong>返回:</strong></p>
+<p>ret_code失败时，ret_data返回为错误描述字符串；
+正常情况下，ret_code为0，ret_data为一个dataframe, 其中包括：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="34%" />
+<col width="23%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">返回字符串</th>
+<th class="head">说明</th>
+<th class="head">返回字符串</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>code</td>
+<td>股票ID</td>
+<td>stock_name</td>
+<td>股票名称</td>
+</tr>
+<tr class="row-odd"><td>dealt_avg_price</td>
+<td>成交均价</td>
+<td>dealt_qty</td>
+<td>成交数量</td>
+</tr>
+<tr class="row-even"><td>localid</td>
+<td>订单本地标识</td>
+<td>orderid</td>
+<td>订单ID</td>
+</tr>
+<tr class="row-odd"><td>order_type</td>
+<td>交易类型</td>
+<td>price</td>
+<td>交易价格</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>订单状态(具体状态如下)</td>
+<td>submited_time</td>
+<td>提交时间</td>
+</tr>
+<tr class="row-odd"><td>updated_time</td>
+<td>更新时间</td>
+<td>order_side</td>
+<td>交易方向</td>
+</tr>
+<tr class="row-even"><td>qty</td>
+<td>订单数量</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="58%" />
+<col width="13%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">status</th>
+<th class="head">订单类型</th>
+<th class="head">status</th>
+<th class="head">订单类型</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>服务器处理中</td>
+<td>1</td>
+<td>等待成交</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>部分成交</td>
+<td>3</td>
+<td>全部成交</td>
+</tr>
+<tr class="row-even"><td>4</td>
+<td>已失效</td>
+<td>5</td>
+<td>下单失败</td>
+</tr>
+<tr class="row-odd"><td>6</td>
+<td>已撤单</td>
+<td>7</td>
+<td>已删除</td>
+</tr>
+<tr class="row-even"><td>8</td>
+<td>等待开盘</td>
+<td>21</td>
+<td>本地已发送</td>
+</tr>
+<tr class="row-odd"><td>22</td>
+<td>本地已发送，服务器返回下单失败、没产生订单</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>23</td>
+<td>本地已发送，等待服务器返回超时</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="56%" />
+<col width="44%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">order_side</th>
+<th class="head">交易方向</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>买入</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>卖出</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="45%" />
+<col width="55%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">order_type</th>
+<th class="head">交易类型</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>市价单</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>限价</td>
+</tr>
+<tr class="row-even"><td>51</td>
+<td>盘前交易、限价</td>
+</tr>
+<tr class="row-odd"><td>52</td>
+<td>盘后交易、限价</td>
+</tr>
+</tbody>
+</table>
+<p><strong>失败情况</strong>：</p>
+<ol class="arabic simple">
+<li>参数错误</li>
+<li>客户端内部或网络错误</li>
+</ol>
+</div>
+<div class="section" id="id11">
+<h3>查询持仓列表 position_list_query<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">position_list_query</span><span class="p">(</span><span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：查询美股持仓列表。美股暂时不支持仿真环境。</p>
+<p><strong>参数</strong>：</p>
+<p><strong>envtype</strong>: 环境参数，0是真实环境，1是仿真环境。</p>
+<p><strong>返回:</strong></p>
+<p>ret_code失败时，ret_data返回为错误描述字符串；
+正常情况下，ret_code为0，ret_data为一个dataframe, 其中包括：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="18%" />
+<col width="25%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">返回字符串</th>
+<th class="head">说明</th>
+<th class="head">返回字符串</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>code</td>
+<td>股票ID</td>
+<td>stock_name</td>
+<td>股票名称</td>
+</tr>
+<tr class="row-odd"><td>qty</td>
+<td>持有数量</td>
+<td>can_sell_qty</td>
+<td>可卖数量</td>
+</tr>
+<tr class="row-even"><td>cost_price</td>
+<td>成本价</td>
+<td>cost_price_valid</td>
+<td>成本价是否有效(非0有效)</td>
+</tr>
+<tr class="row-odd"><td>market_val</td>
+<td>市值</td>
+<td>nominal_price</td>
+<td>市价</td>
+</tr>
+<tr class="row-even"><td>pl_ratio</td>
+<td>盈亏比例</td>
+<td>pl_ratio_valid</td>
+<td>盈亏比例是否有效(非0有效)</td>
+</tr>
+<tr class="row-odd"><td>pl_val</td>
+<td>盈亏金额</td>
+<td>pl_val_valid</td>
+<td>盈亏金额是否有效(非0有效)</td>
+</tr>
+<tr class="row-even"><td>today_buy_qty</td>
+<td>今日买入数量</td>
+<td>today_buy_val</td>
+<td>今日买入金额</td>
+</tr>
+<tr class="row-odd"><td>today_pl_val</td>
+<td>今日盈亏金额</td>
+<td>today_sell_qty</td>
+<td>今日卖出数量</td>
+</tr>
+<tr class="row-even"><td>today_sell_val</td>
+<td>今日卖出金额</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<p><strong>失败情况</strong>：</p>
+<ol class="arabic simple">
+<li>参数错误</li>
+<li>客户端内部或网络错误</li>
+</ol>
+</div>
+<div class="section" id="id12">
+<h3>查询成交列表 deal_list_query<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">deal_list_query</span><span class="p">(</span><span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：查询美股今日成交列表。美股暂时不支持仿真环境。</p>
+<p><strong>参数</strong>：</p>
+<p><strong>envtype</strong>: 环境参数，0是真实环境，1是仿真环境。</p>
+<p><strong>返回:</strong></p>
+<p>ret_code失败时，ret_data返回为错误描述字符串；
+正常情况下，ret_code为0，ret_data为一个dataframe, 其中包括：</p>
+<p><strong>code</strong>: 股票代码。</p>
+<p><strong>stock_name</strong>: 股票名称。</p>
+<p><strong>dealid</strong>: 成交ID。</p>
+<p><strong>orderid</strong>: 订单ID。</p>
+<p><strong>price</strong>: 交易价格。</p>
+<p><strong>qty</strong>: 交易数量。</p>
+<p><strong>orderside</strong>: 交易方向，0表示买入，1表示卖出。</p>
+<p><strong>time</strong>: 成交时间。</p>
+<p><strong>失败情况</strong>：</p>
+<ol class="arabic simple">
+<li>参数错误</li>
+<li>客户端内部或网络错误</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="PLS_API_Intro.html" class="btn btn-neutral float-right" title="PLS API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Market_API_Python_Doc.html" class="btn btn-neutral" title="行情API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, futu.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'2.1.4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
