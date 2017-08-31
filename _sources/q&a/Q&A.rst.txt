@@ -3,7 +3,7 @@ Q&A
 ===
 
 1.  Q: 入门指引及接口文档获取方式： A:
-    https://github.com/FutunnOpen/OpenQuant/tree/master/OpenInterface/Python
+    https://futunnopen.github.io/futuquant/index.html
 
 2.  Q: API版本怎么下载？ A:
     加入FUTU开放API群：108534288，群文件中提供了最新版本，更新版本只会在群文件中更新，请勿任性升级。

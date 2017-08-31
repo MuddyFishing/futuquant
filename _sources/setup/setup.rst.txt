@@ -13,7 +13,7 @@
 
 3. 下载Anaconda python 3和 Pycharm 2016.3.2，Anaconda python是Python科学技术包的合集，提供了很多用于科学计算的模块，Pycharm是一款Python的IDE，用于程序开发，可以在QQ群108534288群文件中下载python接入开发相关工具，可选择32位或者64位下载。如果已经安装了Anaconda python2，也可以使用。
 
-4. 在GITHUB上下载FutunnOpen项目代码并解压\ https://github.com/FutunnOpen/OpenQuant
+4. 在GITHUB上下载FutunnOpen项目代码并解压\ https://github.com/FutunnOpen/futuquant
 
 --------------
 
@@ -39,4 +39,4 @@
 
 3. 行情和交易接口文档可在如下地址获取，
 
-   https://futunnopen.github.io/futuquant/document/Market_API_Python_Doc/
+   https://futunnopen.github.io/futuquant/api/Market_API_Python_Doc.html
