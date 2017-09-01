@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>FutuQuant - 富途量化投资平台 (Futu Quant Trading API) &mdash; futuquant 2.1.4 documentation</title>
+  <title>介绍 &mdash; futuquant 2.1.4 documentation</title>
   
 
   
@@ -90,24 +90,21 @@
               
             
             
-              <p class="caption"><span class="caption-text">介绍</span></p>
+              <p class="caption"><span class="caption-text">基础</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">FutuQuant - 富途量化投资平台 (Futu Quant Trading API)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">简介</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">简易安装</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">快速上手</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">示例策略</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">组织结构</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">介绍</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">简介</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">简易安装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">快速上手</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">示例策略</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">组织结构</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#api">API与富途牛牛客户端架构</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id9">使用须知</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id10">历史数据及除权除息下载问题</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id11">客户端下载及交流方式</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id12">使用说明</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">使用须知</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">历史数据及除权除息下载问题</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">客户端下载及交流方式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">使用说明</a></li>
 </ul>
 </li>
-</ul>
-<p class="caption"><span class="caption-text">安装</span></p>
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="../setup/setup.html">安装</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../setup/Hist_KLine_Download_Intro.html">下载数据</a></li>
 </ul>
@@ -164,7 +161,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>FutuQuant - 富途量化投资平台 (Futu Quant Trading API)</li>
+      <li>介绍</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -183,10 +180,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="futuquant-futu-quant-trading-api">
-<h1>FutuQuant - 富途量化投资平台 (Futu Quant Trading API)<a class="headerlink" href="#futuquant-futu-quant-trading-api" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2>简介<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="id1">
+<h1>介绍<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>简介<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://futunnopen.github.io/futuquant/">FutuQuant</a> 开源项目可以满足使用 <a class="reference external" href="http://www.futunn.com/">富途牛牛</a> 软件进行量化投资的需求,
 提供包括Python接口、Json接口的行情及交易的API。</p>
 <ul class="simple">
@@ -194,16 +191,16 @@
 </ul>
 </div>
 <hr class="docutils" />
-<div class="section" id="id4">
-<h2>简易安装<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h2>简易安装<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">futuquant</span>
 </pre></div>
 </div>
 <p><strong>注: 本API支持python&gt;=3.5, 推荐安装anaconda环境，方便快捷。</strong></p>
 </div>
 <hr class="docutils" />
-<div class="section" id="id5">
-<h2>快速上手<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2>快速上手<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="c1"># 导入futuquant api</span>
 <span class="kn">import</span> <span class="nn">futuquant</span> <span class="k">as</span> <span class="nn">ft</span>
 
@@ -252,8 +249,8 @@
 </div>
 </div>
 <hr class="docutils" />
-<div class="section" id="id6">
-<h2>示例策略<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h2>示例策略<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>示例策略文件位于目录: (futuquant包安装目录)/futuquant/examples
 下，用户可参考实例策略来学习API的使用。</li>
@@ -261,8 +258,8 @@
 </ul>
 </div>
 <hr class="docutils" />
-<div class="section" id="id8">
-<h2>组织结构<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h2>组织结构<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <img alt="../_images/Structure.png" src="../_images/Structure.png" />
 <p>最新版本在master分支。之前各版本在其他分支上。</p>
 </div>
@@ -272,8 +269,8 @@
 <img alt="../_images/API.png" src="../_images/API.png" />
 </div>
 <hr class="docutils" />
-<div class="section" id="id9">
-<h2>使用须知<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id10">
+<h2>使用须知<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>限定使用有API后缀的安装包。不要去掉勾选“安装量化交易插件API”选项。</li>
 <li>无需拷贝对应的dll插件。</li>
@@ -281,8 +278,8 @@
 </ul>
 </div>
 <hr class="docutils" />
-<div class="section" id="id10">
-<h2>历史数据及除权除息下载问题<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h2>历史数据及除权除息下载问题<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://github.com/FutunnOpen/futuquant/blob/master/docs/document/Hist_KLine_Download_Intro.md">历史K线下载指引</a></p>
 <ul class="simple">
 <li>在富途牛牛安装目录的plugin文件夹内有历史数据下载配置文件(ftplugin.ini)，请先详细阅读再进行操作。</li>
@@ -291,8 +288,8 @@
 </ul>
 </div>
 <hr class="docutils" />
-<div class="section" id="id11">
-<h2>客户端下载及交流方式<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id12">
+<h2>客户端下载及交流方式<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>富途开放API群(108534288) 群文件 &gt;富途牛牛客户端(API接口专用版本)</li>
 </ul>
@@ -302,8 +299,8 @@
 </ul>
 </div>
 <hr class="docutils" />
-<div class="section" id="id12">
-<h2>使用说明<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id13">
+<h2>使用说明<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>有任何问题可以到 issues 处提出，我们会及时进行解答。</li>
 <li>使用新版本时请先仔细阅读接口文档，大部分问题都可以在接口文档中找到你想要的答案。</li>
