@@ -2,9 +2,9 @@
 
 ### 简介
 
-[​**FutuQuant**](https://futunnopen.github.io/futuquant/)开源项目可以满足使用[**富途牛牛**](http://www.futunn.com/)软件进行量化投资的需求, 提供包括Python接口、Json接口的行情及交易的API。 
+[​**FutuQuant**](https://futunnopen.github.io/futuquant/intro/intro.html)开源项目可以满足使用[**富途牛牛**](http://www.futunn.com/)软件进行量化投资的需求, 提供包括Python接口、Json接口的行情及交易的API。 
 
-- [官方在线文档](https://futunnopen.github.io/futuquant/)
+- [官方在线文档](https://futunnopen.github.io/futuquant/intro/intro.html)
 
 -------------------
 
