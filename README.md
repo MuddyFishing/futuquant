@@ -109,7 +109,7 @@ ret_code, ret_data = trade_hk_ctx.deal_list_query(envtype=0)                    
 
 * 富途开放API群(108534288)    群文件 >富途牛牛客户端(API接口专用版本)
 
-  ![image](https://github.com/FutunnOpen/futuquant/raw/master/docs/resources/Download.png)
+  ![image](https://github.com/FutunnOpen/futuquant/raw/master/docs/source/_static/Download.png)
 
 * <https://github.com/FutunnOpen/futuquant/issues>
 
