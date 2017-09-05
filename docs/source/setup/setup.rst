@@ -40,3 +40,5 @@
 3. 行情和交易接口文档可在如下地址获取，
 
    https://futunnopen.github.io/futuquant/api/Market_API_Python_Doc.html
+
+4.  如果需要在其他机器（如Linux、Mac或者其他Windows）访问，需要修改%富途牛牛安装目录%\FTNN\plugin\config.ini文件，将其中的127.0.0.1改为0.0.0.0
