@@ -76,7 +76,7 @@ ret_code, ret_data = trade_hk_ctx.deal_list_query(envtype=0)                    
 
 ### 组织结构
 
-![image](https://github.com/FutunnOpen/futuquant/raw/master/docs/resources/Structure.png)
+![image](https://github.com/FutunnOpen/futuquant/raw/master/docs/source/_static/Structure.png)
 
 ​	最新版本在master分支。之前各版本在其他分支上。
 
@@ -84,7 +84,7 @@ ret_code, ret_data = trade_hk_ctx.deal_list_query(envtype=0)                    
 
 ### API与富途牛牛客户端架构
 
-![image](https://github.com/FutunnOpen/futuquant/raw/master/docs/resources/API.png)
+![image](https://github.com/FutunnOpen/futuquant/raw/master/docs/source/_static/API.png)
 
 ***
 
@@ -109,7 +109,7 @@ ret_code, ret_data = trade_hk_ctx.deal_list_query(envtype=0)                    
 
 * 富途开放API群(108534288)    群文件 >富途牛牛客户端(API接口专用版本)
 
-  ![image](https://github.com/FutunnOpen/futuquant/raw/master/docs/resources/Download.png)
+  ![image](https://github.com/FutunnOpen/futuquant/raw/master/docs/source/_static/Download.png)
 
 * <https://github.com/FutunnOpen/futuquant/issues>
 
