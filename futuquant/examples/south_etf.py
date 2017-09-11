@@ -8,13 +8,16 @@
     TRADE_ENV: (int) 0：真实交易 1：仿真交易（美股暂不支持仿真）
 """
 
-from futuquant.open_context import *
-
-from time import sleep
 import pickle
 import talib as ta   # 请自行安装
 import numpy as np
 import datetime
+import sys
+import os
+
+sys.path.append(os.path.split(os.path.abspath(os.path.pardir))[0])
+
+from futuquant.open_context import *
 
 
 class SouthETF(object):
@@ -275,7 +278,7 @@ class SouthETF(object):
 
 
 if __name__ == "__main__":
-    API_SVR_IP = '127.0.0.1'
+    API_SVR_IP = '119.29.141.202'
     API_SVR_PORT = 11111
     UNLOCK_PASSWORD = "123"
     TRADE_ENV = 1

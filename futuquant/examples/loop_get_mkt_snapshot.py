@@ -2,9 +2,12 @@
 """
 验证接口：获取某个市场的全部快照数据
 """
-from futuquant.open_context import *
+import sys
+import os
 
-import time
+sys.path.append(os.path.split(os.path.abspath(os.path.pardir))[0])
+
+from futuquant.open_context import *
 
 
 def loop_get_mkt_snapshot(api_svr_ip, api_svr_port, market):
@@ -43,7 +46,7 @@ def loop_get_mkt_snapshot(api_svr_ip, api_svr_port, market):
         time.sleep(10)
 
 if __name__ == "__main__":
-    API_SVR_IP = '127.0.0.1'
+    API_SVR_IP = '119.29.141.202'
     API_SVR_PORT = 11111
     MARKET = 'US'  # 'US'/'SH'/'SZ'
     loop_get_mkt_snapshot(API_SVR_IP, API_SVR_PORT, MARKET)

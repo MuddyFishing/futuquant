@@ -3,14 +3,18 @@
     跟踪止损:跟踪止损是一种更高级的条件单，需要指定如下参数，以便制造出移动止损价
     跟踪止损的详细介绍：https://www.futu5.com/faq/topic214
 """
+
+from math import floor
+import numpy as np
+import matplotlib.pyplot as plt
+import sys
+import os
+
+sys.path.append(os.path.split(os.path.abspath(os.path.pardir))[0])
+
 from futuquant.open_context import *
 from futuquant.examples.emailplugin import EmailNotification
 from futuquant.examples.stocksell import simple_sell, smart_sell
-
-from math import floor
-import time
-import numpy as np
-import matplotlib.pyplot as plt
 
 RET_OK = 0
 RET_ERROR = -1
@@ -239,7 +243,7 @@ def trailing_stop(api_svr_ip='127.0.0.1', api_svr_port=11111, unlock_password=""
 if __name__ == '__main__':
 
     # 全局参数配置
-    API_SVR_IP = '127.0.0.1'
+    API_SVR_IP = '119.29.141.202'
     API_SVR_PORT = 11111
     UNLOCK_PASSWORD = "a"
     CODE = 'HK.00700'   # 'US.BABA' #'HK.00700'

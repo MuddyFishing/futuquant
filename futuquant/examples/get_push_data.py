@@ -2,6 +2,10 @@
 """
 Examples for use the python functions: get push data
 """
+import sys
+import os
+sys.path.append(os.path.split(os.path.abspath(os.path.pardir))[0])
+
 from futuquant.open_context import *
 
 
@@ -93,7 +97,7 @@ class BrokerTest(BrokerHandlerBase):
 
 if __name__ == "__main__":
 
-    quote_context = OpenQuoteContext(host='127.0.0.1', port=11111)
+    quote_context = OpenQuoteContext(host='119.29.141.202', port=11111)
 
     # 获取推送数据
     quote_context.subscribe('HK.00700', "QUOTE", push=True)
