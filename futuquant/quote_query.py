@@ -310,6 +310,7 @@ class StockBasicInfoQuery:
             return RET_OK, "", []
 
         basic_info_list = [{"code": merge_stock_str(int(market), record['StockCode']),
+                            "stockid": record['StockID'],
                             "name": record["StockName"],
                             "lot_size": int(record["LotSize"]),
                             "stock_type": QUOTE.REV_SEC_TYPE_MAP[int(record["StockType"])],

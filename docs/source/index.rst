@@ -10,17 +10,11 @@ FutuQuant |version| Documentation
 This futuquant documentation.
 
 .. toctree::
-	:caption: 介绍
+	:caption: 基础
 	:maxdepth: 2
 	:hidden:
 
 	intro/intro
-
-.. toctree::
-	:caption: 安装
-	:maxdepth: 2
-	:hidden:
-
 	setup/setup
 	setup/Hist_KLine_Download_Intro
 
