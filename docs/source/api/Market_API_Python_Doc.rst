@@ -446,6 +446,8 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 
 **listing\_date**: 上市日期： str
 
+**stockid**: 股票ID： str
+
 **失败情况**\ ：
 
 1. 市场或股票类型不合法
