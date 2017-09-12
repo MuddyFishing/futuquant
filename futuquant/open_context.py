@@ -821,7 +821,7 @@ class OpenQuoteContext(OpenContextBase):
         if ret_code == RET_ERROR:
             return ret_code, msg
 
-        col_list = ['code', 'name', 'lot_size', 'stock_type', 'stock_child_type', "owner_stock_code", "listing_date"]
+        col_list = ['code', 'name', 'lot_size', 'stock_type', 'stock_child_type', "owner_stock_code", "listing_date", "stockid"]
 
         basic_info_table = pd.DataFrame(basic_info_list, columns=col_list)
 
