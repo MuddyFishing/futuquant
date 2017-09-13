@@ -20,7 +20,7 @@ def simple_sell(quote_ctx, trade_ctx, stock_code, trade_price, volume, trade_env
                 continue
             elif lot_size <= 0:
                 raise Exception('lot size error {}:{}'.format(lot_size, stock_code))
-        qty = floor(volume/lot_size)*lot_size
+        qty = floor(volume / lot_size) * lot_size
         ret, data = trade_ctx.place_order(price=trade_price, qty=qty, strcode=stock_code,
                                           orderside=1, envtype=trade_env)
         if ret != RET_OK:
@@ -43,7 +43,7 @@ def smart_sell(quote_ctx, trade_ctx, stock_code, volume, trade_env):
                 continue
             elif lot_size <= 0:
                 raise Exception('lot size error {}:{}'.format(lot_size, stock_code))
-        qty = floor(volume/lot_size)*lot_size
+        qty = floor(volume / lot_size) * lot_size
         ret, data = quote_ctx.get_order_book(stock_code)
         if ret != RET_OK:
             print("can't get orderbook, retrying")

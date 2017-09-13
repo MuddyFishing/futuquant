@@ -64,7 +64,7 @@ def split_stock_str(stock_str):
     if 0 <= split_loc < len(stock_str) - 1 and stock_str[0:split_loc] in MKT_MAP:
         market_str = stock_str[0:split_loc]
         market_code = MKT_MAP[market_str]
-        partial_stock_str = stock_str[split_loc+1:]
+        partial_stock_str = stock_str[split_loc + 1:]
         return RET_OK, (market_code, partial_stock_str)
 
     else:
@@ -110,6 +110,7 @@ class TradeDayQuery:
     """
     Query Conversion for getting trading days.
     """
+
     def __init__(self):
         pass
 
@@ -227,6 +228,7 @@ class StockBasicInfoQuery:
     """
     Query Conversion for getting stock basic information.
     """
+
     def __init__(self):
         pass
 
@@ -329,6 +331,7 @@ class MarketSnapshotQuery:
     """
     Query Conversion for getting market snapshot.
     """
+
     def __init__(self):
         pass
 
@@ -406,7 +409,7 @@ class MarketSnapshotQuery:
                           'wrt_delta': float(record['Wrt_Delta']) / 1000,
                           'wrt_implied_volatility': float(record['Wrt_ImpliedVolatility']) / 1000,
                           'wrt_premium': float(record['Wrt_Premium']) / 1000,
-                          'lot_size':int(record['LotSize'])
+                          'lot_size': int(record['LotSize'])
                           } for record in raw_snapshot_list]
 
         return RET_OK, "", snapshot_list
@@ -416,6 +419,7 @@ class RtDataQuery:
     """
     Query Conversion for getting stock real-time data.
     """
+
     def __init__(self):
         pass
 
@@ -459,7 +463,7 @@ class RtDataQuery:
                     "cur_price": float(record['CurPrice']) / 1000,
                     "last_close": float(record['LastClose']) / 1000,
                     "avg_price": float(record['AvgPrice']) / 1000,
-                    "turnover": float(record['Turnover'])/1000,
+                    "turnover": float(record['Turnover']) / 1000,
                     "volume": record['Volume']
                     } for record in rt_data_list]
 
@@ -470,6 +474,7 @@ class SubplateQuery:
     """
     Query Conversion for getting sub-plate stock list.
     """
+
     def __init__(self):
         pass
 
@@ -514,7 +519,7 @@ class SubplateQuery:
         plate_list = [{"code": merge_stock_str(int(record['Market']), record['StockCode']),
                        "plate_name": record['StockName'],
                        "plate_id": record['StockID']
-                       }for record in raw_plate_list]
+                       } for record in raw_plate_list]
 
         return RET_OK, "", plate_list
 
@@ -523,6 +528,7 @@ class PlateStockQuery:
     """
     Query Conversion for getting all the stock list of a given plate.
     """
+
     def __init__(self):
         pass
 
@@ -573,7 +579,7 @@ class PlateStockQuery:
                        "stock_child_type": (str(QUOTE.REV_WRT_TYPE_MAP['StockChildType'])
                                             if int(record['StockType']) == 5 else 0),
                        "stock_type": QUOTE.REV_SEC_TYPE_MAP[int(record['StockType'])]
-                       }for record in raw_stock_list]
+                       } for record in raw_stock_list]
 
         return RET_OK, "", stock_list
 
@@ -582,6 +588,7 @@ class BrokerQueueQuery:
     """
     Query Conversion for getting broker queue information.
     """
+
     def __init__(self):
         pass
 
@@ -639,6 +646,7 @@ class HistoryKlineQuery:
     """
     Query Conversion for getting historic Kline data.
     """
+
     def __init__(self):
         pass
 
@@ -710,16 +718,16 @@ class HistoryKlineQuery:
             return RET_OK, "", []
 
         raw_kline_list = rsp_data["HistoryKLArr"]
-        price_base = 10**9
+        price_base = 10 ** 9
         stock_code = merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
         kline_list = [{"code": stock_code,
                        "time_key": record['Time'],
-                       "open": float(record['Open'])/price_base,
-                       "high": float(record['High'])/price_base,
-                       "low": float(record['Low'])/price_base,
-                       "close": float(record['Close'])/price_base,
+                       "open": float(record['Open']) / price_base,
+                       "high": float(record['High']) / price_base,
+                       "low": float(record['Low']) / price_base,
+                       "close": float(record['Close']) / price_base,
                        "volume": record['Volume'],
-                       "turnover": float(record['Turnover'])/1000
+                       "turnover": float(record['Turnover']) / 1000
                        }
                       for record in raw_kline_list]
 
@@ -730,6 +738,7 @@ class ExrightQuery:
     """
     Query Conversion for getting exclude-right information of stock.
     """
+
     def __init__(self):
         pass
 
@@ -776,7 +785,7 @@ class ExrightQuery:
         if rsp_data["ExRightInfoArr"] is None or len(rsp_data["ExRightInfoArr"]) == 0:
             return RET_OK, "", []
 
-        get_val = (lambda x, y: float(y[x])/100000 if x in y else 0)
+        get_val = (lambda x, y: float(y[x]) / 100000 if x in y else 0)
         raw_exr_list = rsp_data["ExRightInfoArr"]
         exr_list = [{'code': merge_stock_str(int(record['Market']), record['StockCode']),
                      'ex_div_date': record['ExDivDate'],
@@ -787,7 +796,7 @@ class ExrightQuery:
                      'allotment_ratio': get_val(r'AllotmentRatio', record),
                      'allotment_price': get_val('AllotmentPrice', record),
                      'stk_spo_ratio': get_val('StkSpoRatio', record),
-                     'stk_spo_price':  get_val('StkSpoPrice', record),
+                     'stk_spo_price': get_val('StkSpoPrice', record),
                      'forward_adj_factorA': get_val('ForwardAdjFactorA', record),
                      'forward_adj_factorB': get_val('ForwardAdjFactorB', record),
                      'backward_adj_factorA': get_val('BackwardAdjFactorA', record),
@@ -802,6 +811,7 @@ class SubscriptionQuery:
     """
     Query Conversion for getting user's subscription information.
     """
+
     def __init__(self):
         pass
 
@@ -979,6 +989,7 @@ class StockQuoteQuery:
     """
     Query Conversion for getting stock quote data.
     """
+
     def __init__(self):
         pass
 
@@ -1027,15 +1038,15 @@ class StockQuoteQuery:
         quote_list = [{'code': merge_stock_str(int(record['Market']), record['StockCode']),
                        'data_date': record['Date'],
                        'data_time': record['Time'],
-                       'last_price': float(record['CurPrice'])/1000,
-                       'open_price': float(record['Open'])/1000,
-                       'high_price': float(record['High'])/1000,
-                       'low_price': float(record['Low'])/1000,
-                       'prev_close_price': float(record['LastClose'])/1000,
+                       'last_price': float(record['CurPrice']) / 1000,
+                       'open_price': float(record['Open']) / 1000,
+                       'high_price': float(record['High']) / 1000,
+                       'low_price': float(record['Low']) / 1000,
+                       'prev_close_price': float(record['LastClose']) / 1000,
                        'volume': int(record['Volume']),
-                       'turnover':  float(record['Turnover'])/1000,
-                       'turnover_rate': float(record['TurnoverRate'])/1000,
-                       'amplitude': float(record['Amplitude'])/1000,
+                       'turnover': float(record['Turnover']) / 1000,
+                       'turnover_rate': float(record['TurnoverRate']) / 1000,
+                       'amplitude': float(record['Amplitude']) / 1000,
                        'suspension': True if int(record['Suspension']) == 1 else False,
                        'listing_date': record['ListTime']
                        }
@@ -1046,6 +1057,7 @@ class StockQuoteQuery:
 
 class TickerQuery:
     """Stick ticker data query class"""
+
     def __init__(self):
         pass
 
@@ -1098,10 +1110,10 @@ class TickerQuery:
 
         stock_code = merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
         ticker_list = [{"code": stock_code,
-                        "time":  record['Time'],
-                        "price": float(record['Price'])/1000,
+                        "time": record['Time'],
+                        "price": float(record['Price']) / 1000,
                         "volume": record['Volume'],
-                        "turnover": float(record['Turnover'])/1000,
+                        "turnover": float(record['Turnover']) / 1000,
                         "ticker_direction": QUOTE.REV_TICKER_DIRECTION[int(record['Direction'])],
                         "sequence": int(record["Sequence"])
                         }
@@ -1111,6 +1123,7 @@ class TickerQuery:
 
 class CurKlineQuery:
     """Stock Kline data query class"""
+
     def __init__(self):
         pass
 
@@ -1189,12 +1202,12 @@ class CurKlineQuery:
         stock_code = merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
         kline_list = [{"code": stock_code,
                        "time_key": record['Time'],
-                       "open": round(float(record['Open'])/1000, 3),
-                       "high": round(float(record['High'])/1000, 3),
-                       "low": round(float(record['Low'])/1000, 3),
-                       "close": round(float(record['Close'])/1000, 3),
+                       "open": round(float(record['Open']) / 1000, 3),
+                       "high": round(float(record['High']) / 1000, 3),
+                       "low": round(float(record['Low']) / 1000, 3),
+                       "close": round(float(record['Close']) / 1000, 3),
                        "volume": record['Volume'],
-                       "turnover": round(float(record['Turnover'])/1000, 3),
+                       "turnover": round(float(record['Turnover']) / 1000, 3),
                        "k_type": k_type
                        }
                       for record in raw_kline_list]
@@ -1206,6 +1219,7 @@ class OrderBookQuery:
     """
     Query Conversion for getting stock order book data.
     """
+
     def __init__(self):
         pass
 
@@ -1243,8 +1257,8 @@ class OrderBookQuery:
         order_book = {'stock_code': stock_str, 'Ask': [], 'Bid': []}
 
         for record in raw_order_book:
-            bid_record = (float(record['BuyPrice'])/1000, int(record['BuyVol']), int(record['BuyOrder']))
-            ask_record = (float(record['SellPrice'])/1000, int(record['SellVol']), int(record['SellOrder']))
+            bid_record = (float(record['BuyPrice']) / 1000, int(record['BuyVol']), int(record['BuyOrder']))
+            ask_record = (float(record['SellPrice']) / 1000, int(record['SellVol']), int(record['SellOrder']))
 
             order_book['Bid'].append(bid_record)
             order_book['Ask'].append(ask_record)
@@ -1256,6 +1270,7 @@ class GlobalStateQuery:
     """
     Query process "FTNN.exe" global state : market state & logined state
     """
+
     def __init__(self):
         pass
 

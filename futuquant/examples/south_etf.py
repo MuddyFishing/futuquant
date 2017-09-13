@@ -12,7 +12,7 @@ from futuquant.open_context import *
 
 from time import sleep
 import pickle
-import talib as ta   # 请自行安装
+import talib as ta  # 请自行安装
 import numpy as np
 import datetime
 
@@ -33,7 +33,7 @@ class SouthETF(object):
     order_type = 0  # 港股增强限价单(普通交易)
 
     # parameter setting
-    index_type = 'HSI'      # HSI/HSCEI
+    index_type = 'HSI'  # HSI/HSCEI
     indicator_type = 'MA'  # CHG/MA
 
     # CHG: trading signal setting
@@ -116,7 +116,7 @@ class SouthETF(object):
             raise Exception("请先配置交易解锁密码! password: {}".format(self.unlock_password))
 
         quote_ctx = OpenQuoteContext(host=self.api_svr_ip, port=self.api_svr_port)
-        is_hk_trade = 'HK.' in (self.HSI_CALL_CODE+self.HSCEI_PUT_CODE+self.HSCEI_CALL_CODE+self.HSCEI_PUT_CODE)
+        is_hk_trade = 'HK.' in (self.HSI_CALL_CODE + self.HSCEI_PUT_CODE + self.HSCEI_CALL_CODE + self.HSCEI_PUT_CODE)
         if is_hk_trade:
             trade_ctx = OpenHKTradeContext(host=self.api_svr_ip, port=self.api_svr_port)
         else:
@@ -285,8 +285,8 @@ if __name__ == "__main__":
         print(lst_holding)
         strategy_test = SouthETF(API_SVR_IP, API_SVR_PORT, UNLOCK_PASSWORD, TRADE_ENV, lst_holding)
         etf_holding = strategy_test.handle_bar()
-        pickle.dump(etf_holding, open('south_etf.pkl', 'wb'))    # 序列化
+        pickle.dump(etf_holding, open('south_etf.pkl', 'wb'))  # 序列化
     else:
         strategy_test = SouthETF(API_SVR_IP, API_SVR_PORT, UNLOCK_PASSWORD, TRADE_ENV, {})
         etf_holding = strategy_test.handle_bar()
-        pickle.dump(etf_holding, open('south_etf.pkl', 'wb'))    # 序列化
+        pickle.dump(etf_holding, open('south_etf.pkl', 'wb'))  # 序列化

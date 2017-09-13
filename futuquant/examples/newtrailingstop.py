@@ -18,6 +18,7 @@ RET_ERROR = -1
 
 class TrailingStopHandler(StockQuoteHandlerBase):
     """"跟踪止损数据回调类"""
+
     def __init__(self, quote_ctx, is_hk_trade, method, drop):
         super(StockQuoteHandlerBase, self).__init__()
         self.quote_ctx = quote_ctx
@@ -150,7 +151,7 @@ def trailing_stop(api_svr_ip='127.0.0.1', api_svr_port=11111, unlock_password=""
             ret, data = quote_ctx.get_order_book(code)
             if ret != RET_OK:
                 raise Exception('获取order book失败: cannot get order book'.format(data))
-            min_diff = round(abs(data['Bid'][0][0]-data['Bid'][1][0]), 3)
+            min_diff = round(abs(data['Bid'][0][0] - data['Bid'][1][0]), 3)
             if floor(diff / min_diff) * min_diff != diff:
                 raise Exception('diff 应是{}的整数倍'.format(min_diff))
         else:
@@ -177,7 +178,7 @@ def trailing_stop(api_svr_ip='127.0.0.1', api_svr_port=11111, unlock_password=""
             sell_price = trailing_stop_handler.stop
             while qty > 0:
                 if how_to_sell == 0:
-                    data = simple_sell(quote_ctx, trade_ctx, code, sell_price-diff, qty, trade_env)
+                    data = simple_sell(quote_ctx, trade_ctx, code, sell_price - diff, qty, trade_env)
                 else:
                     data = smart_sell(quote_ctx, trade_ctx, code, qty, trade_env)
                 if data is None:
@@ -237,19 +238,18 @@ def trailing_stop(api_svr_ip='127.0.0.1', api_svr_port=11111, unlock_password=""
 
 
 if __name__ == '__main__':
-
     # 全局参数配置
     API_SVR_IP = '127.0.0.1'
     API_SVR_PORT = 11111
     UNLOCK_PASSWORD = "a"
-    CODE = 'HK.00700'   # 'US.BABA' #'HK.00700'
+    CODE = 'HK.00700'  # 'US.BABA' #'HK.00700'
     TRADE_ENV = 1
     METHOD = 0
     DROP = 0.2
     VOLUME = 0
     HOW_TO_SELL = 0
     DIFF = 0.2
-    REST_TIME = 2       # 每隔REST_TIME秒，会检查订单状态, 需要>=2
+    REST_TIME = 2  # 每隔REST_TIME秒，会检查订单状态, 需要>=2
 
     # 邮件通知参数
     ENABLE_EMAIL_NOTIFICATION = True

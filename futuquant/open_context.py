@@ -20,6 +20,7 @@ from struct import pack
 
 class RspHandlerBase(object):
     """callback function base class"""
+
     def __init__(self):
         pass
 
@@ -34,6 +35,7 @@ class RspHandlerBase(object):
 
 class StockQuoteHandlerBase(RspHandlerBase):
     """Base class for handle stock quote"""
+
     def on_recv_rsp(self, rsp_str):
         """receive response callback function"""
         ret_code, msg, quote_list = StockQuoteQuery.unpack_rsp(rsp_str)
@@ -56,6 +58,7 @@ class StockQuoteHandlerBase(RspHandlerBase):
 
 class OrderBookHandlerBase(RspHandlerBase):
     """Base class for handling order book data"""
+
     def on_recv_rsp(self, rsp_str):
         """receive response callback function"""
         ret_code, msg, order_book = OrderBookQuery.unpack_rsp(rsp_str)
@@ -71,6 +74,7 @@ class OrderBookHandlerBase(RspHandlerBase):
 
 class CurKlineHandlerBase(RspHandlerBase):
     """Base class for handling current Kline data"""
+
     def on_recv_rsp(self, rsp_str):
         """receive response callback function"""
         ret_code, msg, kline_list = CurKlineQuery.unpack_rsp(rsp_str)
@@ -89,6 +93,7 @@ class CurKlineHandlerBase(RspHandlerBase):
 
 class TickerHandlerBase(RspHandlerBase):
     """Base class for handling ticker data"""
+
     def on_recv_rsp(self, rsp_str):
         """receive response callback function"""
         ret_code, msg, ticker_list = TickerQuery.unpack_rsp(rsp_str)
@@ -108,6 +113,7 @@ class TickerHandlerBase(RspHandlerBase):
 
 class RTDataHandlerBase(RspHandlerBase):
     """Base class for handling real-time data"""
+
     def on_recv_rsp(self, rsp_str):
         """receive response callback function"""
         ret_code, msg, rt_data_list = RtDataQuery.unpack_rsp(rsp_str)
@@ -128,6 +134,7 @@ class RTDataHandlerBase(RspHandlerBase):
 
 class BrokerHandlerBase(RspHandlerBase):
     """Base class for handling broker"""
+
     def on_recv_rsp(self, rsp_str):
         """receive response callback function"""
         ret_code, bid_content, ask_content = BrokerQueueQuery.unpack_rsp(rsp_str)
@@ -148,11 +155,12 @@ class BrokerHandlerBase(RspHandlerBase):
 
 class HandlerContext:
     """Handle Context"""
+
     def __init__(self):
         self._default_handler = RspHandlerBase()
         self._handler_table = {"1030": {"type": StockQuoteHandlerBase, "obj": StockQuoteHandlerBase()},
-                               "1031": {"type": OrderBookHandlerBase,  "obj": OrderBookHandlerBase()},
-                               "1032": {"type": CurKlineHandlerBase,  "obj": CurKlineHandlerBase()},
+                               "1031": {"type": OrderBookHandlerBase, "obj": OrderBookHandlerBase()},
+                               "1032": {"type": CurKlineHandlerBase, "obj": CurKlineHandlerBase()},
                                "1033": {"type": TickerHandlerBase, "obj": TickerHandlerBase()},
                                "1034": {"type": RTDataHandlerBase, "obj": RTDataHandlerBase()},
                                "1035": {"type": BrokerHandlerBase, "obj": BrokerHandlerBase()},
@@ -210,6 +218,7 @@ class _SyncNetworkQueryCtx:
     connection is persisted after a query session finished, waiting for next query.
 
     """
+
     def __init__(self, host, port, long_conn=True, connected_handler=None):
         self.s = None
         self.__host = host
@@ -370,7 +379,6 @@ class _SyncNetworkQueryCtx:
 
 
 class _AsyncNetworkManager(asyncore.dispatcher_with_send):
-
     def __init__(self, host, port, handler_ctx, close_handler=None):
         self.__host = host
         self.__port = port
@@ -632,6 +640,7 @@ class OpenContextBase(object):
                 except ConnectionError:
                     err = sys.exc_info()[1]
                     print(err)
+
         return sync_query_processor
 
     def _stop_net_proc(self):
@@ -756,6 +765,7 @@ class OpenContextBase(object):
 
 class OpenQuoteContext(OpenContextBase):
     """Class for set context of stock quote"""
+
     def __init__(self, host='127.0.0.1', port=11111):
         self._ctx_subscribe = set()
         super(OpenQuoteContext, self).__init__(host, port, True, True)
@@ -821,7 +831,8 @@ class OpenQuoteContext(OpenContextBase):
         if ret_code == RET_ERROR:
             return ret_code, msg
 
-        col_list = ['code', 'name', 'lot_size', 'stock_type', 'stock_child_type', "owner_stock_code", "listing_date", "stockid"]
+        col_list = ['code', 'name', 'lot_size', 'stock_type', 'stock_child_type', "owner_stock_code", "listing_date",
+                    "stockid"]
 
         basic_info_table = pd.DataFrame(basic_info_list, columns=col_list)
 

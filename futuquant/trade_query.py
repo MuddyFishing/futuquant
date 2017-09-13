@@ -63,7 +63,7 @@ def split_stock_str(stock_str):
     if 0 <= split_loc < len(stock_str) - 1 and stock_str[0:split_loc] in MKT_MAP:
         market_str = stock_str[0:split_loc]
         market_code = MKT_MAP[market_str]
-        partial_stock_str = stock_str[split_loc+1:]
+        partial_stock_str = stock_str[split_loc + 1:]
         return RET_OK, (market_code, partial_stock_str)
 
     else:
@@ -106,6 +106,7 @@ def binary2str(b):
 
 class UnlockTrade:
     """Unlock trade limitation lock"""
+
     def __init__(self):
         pass
 
@@ -144,6 +145,7 @@ class UnlockTrade:
 
 class PlaceOrder:
     """Palce order class"""
+
     def __init__(self):
         pass
 
@@ -168,7 +170,7 @@ class PlaceOrder:
                             "EnvType": envtype,
                             "OrderSide": orderside,
                             "OrderType": ordertype,
-                            "Price": str(float(price)*1000),
+                            "Price": str(float(price) * 1000),
                             "Qty": qty,
                             "StockCode": strcode
                             }
@@ -220,7 +222,7 @@ class PlaceOrder:
                             "EnvType": envtype,
                             "OrderSide": orderside,
                             "OrderType": ordertype,
-                            "Price": str(float(price)*1000),
+                            "Price": str(float(price) * 1000),
                             "Qty": qty,
                             "StockCode": strcode
                             }
@@ -257,6 +259,7 @@ class PlaceOrder:
 
 class SetOrderStatus:
     """calss for setting status of order"""
+
     def __init__(self):
         pass
 
@@ -361,6 +364,7 @@ class SetOrderStatus:
 
 class ChangeOrder:
     """Class for changing order"""
+
     def __init__(self):
         pass
 
@@ -377,7 +381,7 @@ class ChangeOrder:
                             "EnvType": envtype,
                             "LocalID": localid,
                             "OrderID": orderid,
-                            "Price": str(float(price)*1000),
+                            "Price": str(float(price) * 1000),
                             "Qty": qty,
                             }
                }
@@ -423,7 +427,7 @@ class ChangeOrder:
                             "EnvType": envtype,
                             "LocalID": localid,
                             "OrderID": orderid,
-                            "Price": str(float(price)*1000),
+                            "Price": str(float(price) * 1000),
                             "Qty": qty,
                             }
                }
@@ -463,6 +467,7 @@ class ChangeOrder:
 
 class AccInfoQuery:
     """Class for querying information of account"""
+
     def __init__(self):
         pass
 
@@ -503,7 +508,7 @@ class AccInfoQuery:
         if 'YYJDE' not in rsp_data or 'GPBZJ' not in rsp_data:
             return RET_ERROR, msg, None
 
-        accinfo_list = [{'Power': float(rsp_data['Power'])/1000, 'ZCJZ': float(rsp_data['ZCJZ'])/1000,
+        accinfo_list = [{'Power': float(rsp_data['Power']) / 1000, 'ZCJZ': float(rsp_data['ZCJZ']) / 1000,
                          'ZQSZ': float(rsp_data['ZQSZ']) / 1000, 'XJJY': float(rsp_data['XJJY']) / 1000,
                          'KQXJ': float(rsp_data['KQXJ']) / 1000, 'DJZJ': float(rsp_data['DJZJ']) / 1000,
                          'ZSJE': float(rsp_data['ZSJE']) / 1000, 'ZGJDE': float(rsp_data['ZGJDE']) / 1000,
@@ -545,7 +550,7 @@ class AccInfoQuery:
         if 'YYJDE' not in rsp_data or 'GPBZJ' not in rsp_data:
             return RET_ERROR, msg, None
 
-        accinfo_list = [{'Power': float(rsp_data['Power'])/1000, 'ZCJZ': float(rsp_data['ZCJZ'])/1000,
+        accinfo_list = [{'Power': float(rsp_data['Power']) / 1000, 'ZCJZ': float(rsp_data['ZCJZ']) / 1000,
                          'ZQSZ': float(rsp_data['ZQSZ']) / 1000, 'XJJY': float(rsp_data['XJJY']) / 1000,
                          'KQXJ': float(rsp_data['KQXJ']) / 1000, 'DJZJ': float(rsp_data['DJZJ']) / 1000,
                          'ZSJE': float(rsp_data['ZSJE']) / 1000, 'ZGJDE': float(rsp_data['ZGJDE']) / 1000,
@@ -557,6 +562,7 @@ class AccInfoQuery:
 
 class OrderListQuery:
     """Class for querying list queue"""
+
     def __init__(self):
         pass
 
@@ -600,13 +606,13 @@ class OrderListQuery:
 
         order_list = [{"code": merge_stock_str(1, order['StockCode']),
                        "stock_name": order["StockName"],
-                       "dealt_avg_price": float(order['DealtAvgPrice'])/1000,
+                       "dealt_avg_price": float(order['DealtAvgPrice']) / 1000,
                        "dealt_qty": order['DealtQty'],
                        "qty": order['Qty'],
                        "orderid": order['OrderID'],
                        "order_type": order['OrderType'],
                        "order_side": order['OrderSide'],
-                       "price": float(order['Price'])/1000,
+                       "price": float(order['Price']) / 1000,
                        "status": order['Status'],
                        "submited_time": order['SubmitedTime'],
                        "updated_time": order['UpdatedTime']
@@ -646,13 +652,13 @@ class OrderListQuery:
 
         order_list = [{"code": merge_stock_str(2, order['StockCode']),
                        "stock_name": order["StockName"],
-                       "dealt_avg_price": float(order['DealtAvgPrice'])/1000,
+                       "dealt_avg_price": float(order['DealtAvgPrice']) / 1000,
                        "dealt_qty": order['DealtQty'],
                        "qty": order['Qty'],
                        "orderid": order['OrderID'],
                        "order_type": order['OrderType'],
                        "order_side": order['OrderSide'],
-                       "price": float(order['Price'])/1000,
+                       "price": float(order['Price']) / 1000,
                        "status": order['Status'],
                        "submited_time": order['SubmitedTime'],
                        "updated_time": order['UpdatedTime']
@@ -663,6 +669,7 @@ class OrderListQuery:
 
 class PositionListQuery:
     """Class for querying position list"""
+
     def __init__(self):
         pass
 
@@ -706,19 +713,19 @@ class PositionListQuery:
                           "stock_name": position["StockName"],
                           "qty": position['Qty'],
                           "can_sell_qty": position['CanSellQty'],
-                          "cost_price": float(position['CostPrice'])/1000,
+                          "cost_price": float(position['CostPrice']) / 1000,
                           "cost_price_valid": position['CostPriceValid'],
-                          "market_val": float(position['MarketVal'])/1000,
-                          "nominal_price": float(position['NominalPrice'])/1000,
-                          "pl_ratio": float(position['PLRatio'])/1000,
+                          "market_val": float(position['MarketVal']) / 1000,
+                          "nominal_price": float(position['NominalPrice']) / 1000,
+                          "pl_ratio": float(position['PLRatio']) / 1000,
                           "pl_ratio_valid": position['PLRatioValid'],
-                          "pl_val": float(position['PLVal'])/1000,
+                          "pl_val": float(position['PLVal']) / 1000,
                           "pl_val_valid": position['PLValValid'],
                           "today_buy_qty": position['Today_BuyQty'],
-                          "today_buy_val": float(position['Today_BuyVal'])/1000,
-                          "today_pl_val": float(position['Today_PLVal'])/1000,
+                          "today_buy_val": float(position['Today_BuyVal']) / 1000,
+                          "today_pl_val": float(position['Today_PLVal']) / 1000,
                           "today_sell_qty": position['Today_SellQty'],
-                          "today_sell_val": float(position['Today_SellVal'])/1000
+                          "today_sell_val": float(position['Today_SellVal']) / 1000
                           }
                          for position in raw_position_list]
         return RET_OK, "", position_list
@@ -756,19 +763,19 @@ class PositionListQuery:
                           "stock_name": position["StockName"],
                           "qty": position['Qty'],
                           "can_sell_qty": position['CanSellQty'],
-                          "cost_price": float(position['CostPrice'])/1000,
+                          "cost_price": float(position['CostPrice']) / 1000,
                           "cost_price_valid": position['CostPriceValid'],
-                          "market_val": float(position['MarketVal'])/1000,
-                          "nominal_price": float(position['NominalPrice'])/1000,
-                          "pl_ratio": float(position['PLRatio'])/1000,
+                          "market_val": float(position['MarketVal']) / 1000,
+                          "nominal_price": float(position['NominalPrice']) / 1000,
+                          "pl_ratio": float(position['PLRatio']) / 1000,
                           "pl_ratio_valid": position['PLRatioValid'],
-                          "pl_val": float(position['PLVal'])/1000,
+                          "pl_val": float(position['PLVal']) / 1000,
                           "pl_val_valid": position['PLValValid'],
                           "today_buy_qty": position['Today_BuyQty'],
-                          "today_buy_val": float(position['Today_BuyVal'])/1000,
-                          "today_pl_val": float(position['Today_PLVal'])/1000,
+                          "today_buy_val": float(position['Today_BuyVal']) / 1000,
+                          "today_pl_val": float(position['Today_PLVal']) / 1000,
                           "today_sell_qty": position['Today_SellQty'],
-                          "today_sell_val": float(position['Today_SellVal'])/1000
+                          "today_sell_val": float(position['Today_SellVal']) / 1000
                           }
                          for position in raw_position_list]
         return RET_OK, "", position_list
@@ -776,6 +783,7 @@ class PositionListQuery:
 
 class DealListQuery:
     """Class for """
+
     def __init__(self):
         pass
 
@@ -820,7 +828,7 @@ class DealListQuery:
                       "dealid": deal['DealID'],
                       "orderid": deal['OrderID'],
                       "qty": deal['Qty'],
-                      "price": float(deal['Price'])/1000,
+                      "price": float(deal['Price']) / 1000,
                       "orderside": deal['OrderSide'],
                       "time": deal['Time']
                       }
@@ -861,7 +869,7 @@ class DealListQuery:
                       "dealid": deal['DealID'],
                       "orderid": deal['OrderID'],
                       "qty": deal['Qty'],
-                      "price": float(deal['Price'])/1000,
+                      "price": float(deal['Price']) / 1000,
                       "orderside": deal['OrderSide'],
                       "time": deal['Time']
                       }

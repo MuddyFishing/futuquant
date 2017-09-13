@@ -237,7 +237,6 @@ def _example_global_state(quote_ctx):
 
 
 if __name__ == "__main__":
-
     quote_context = OpenQuoteContext(host='127.0.0.1', port=11111)
 
     # 获取实时数据
@@ -253,5 +252,3 @@ if __name__ == "__main__":
     _example_plate_stock(quote_context)
     _example_broker_queue(quote_context)
     _example_global_state(quote_context)
-
-
