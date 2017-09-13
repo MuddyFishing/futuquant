@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-    本策略基于日线, 由于交易时间的限制，不考虑同时交易港股和每股的可能性
+    本策略基于日线, 由于交易时间的限制，不考虑同时交易港股和美股的可能性
     使用请先配置正确参数:
     API_SVR_IP: (string) ip
     API_SVR_PORT: (int) port
@@ -12,12 +12,10 @@ import pickle
 import talib as ta   # 请自行安装
 import numpy as np
 import datetime
-import sys
+import time
 import os
 
-sys.path.append(os.path.split(os.path.abspath(os.path.pardir))[0])
-
-from futuquant.open_context import *
+from futuquant import *
 
 
 class SouthETF(object):
@@ -142,7 +140,7 @@ class SouthETF(object):
                 is_unlock_trade = (ret_code == 0)
                 if not is_unlock_trade:
                     print("请求交易解锁失败: {} 重试中...".format(ret_data))
-                    sleep(1)
+                    time.sleep(1)
                     continue
 
             ret_code, ret_data = self.quote_ctx.get_history_kline(self.code, start='2017-01-01')
@@ -150,7 +148,7 @@ class SouthETF(object):
                 close = np.array(ret_data['close'])
             else:
                 print('k线数据获取异常, 重试中: {}'.format(ret_data))
-                sleep(1)
+                time.sleep(1)
                 continue
 
             if self.indicator_type.lower() == 'chg':
