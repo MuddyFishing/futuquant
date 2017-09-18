@@ -101,3 +101,5 @@ ENV/
 !.gitignore
 >>>>>>> Stashed changes
 .idea/
+/dist/
+/futuquant.egg-info/

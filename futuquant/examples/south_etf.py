@@ -15,7 +15,7 @@ import pickle
 import talib as ta  # 请自行安装
 import numpy as np
 import datetime
-
+import os
 
 class SouthETF(object):
     """

@@ -6,7 +6,7 @@ import sys
 import json
 from datetime import datetime
 from datetime import timedelta
-
+from .utils import is_str
 from .constant import *
 
 
@@ -52,7 +52,7 @@ def normalize_date_format(date_str):
 
 def split_stock_str(stock_str):
     """split the stock string"""
-    if isinstance(stock_str, str) is False:
+    if is_str(stock_str) is False:
         error_str = ERROR_STR_PREFIX + "value of stock_str is %s of type %s, and type %s is expected" \
                                        % (stock_str, type(stock_str), str(str))
         return RET_ERROR, error_str
@@ -380,6 +380,12 @@ class MarketSnapshotQuery:
         if raw_snapshot_list is None or len(raw_snapshot_list) == 0:
             return RET_OK, "", []
 
+        def futu_timestamp_to_str(int_value):
+            if int_value == 0:
+                return '1970-01-01'
+            else: # for py3.6, fromtimestamp(value), value >= 86400
+                return datetime.fromtimestamp(int_value).strftime("%Y-%m-%d")
+
         snapshot_list = [{'code': merge_stock_str(int(record['MarketType']), record['StockCode']),
                           'update_time': str(record['UpdateTimeStr']),
                           'last_price': float(record['NominalPrice']) / 1000,
@@ -391,7 +397,7 @@ class MarketSnapshotQuery:
                           'turnover': float(record['Turnover']) / 1000,
                           'turnover_rate': float(record['TurnoverRate']) / 1000,
                           'suspension': True if int(record['SuspendFlag']) == 1 else False,
-                          'listing_date': datetime.fromtimestamp(int(record['ListingDate'])).strftime("%Y-%m-%d"),
+                          'listing_date': futu_timestamp_to_str(int(record['ListingDate'])),
                           'circular_market_val': float(record['CircularMarketVal']) / 1000,
                           'total_market_val': float(record['TotalMarketVal']) / 1000,
                           'wrt_valid': True if int(record['Wrt_Valid']) == 1 else False,

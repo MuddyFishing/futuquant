@@ -5,6 +5,7 @@
 
 from .quote_query import *
 from .trade_query import *
+from .utils import is_str
 from multiprocessing import Queue
 from threading import RLock, Thread
 import select
@@ -442,7 +443,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         if self.socket is not None:
             self.close()
         if self.__host is not None and self.__port is not None:
-            self.create_socket()
+            self.create_socket(sock.AF_INET, sock.SOCK_STREAM)
             self.connect((self.__host, self.__port))
 
 
@@ -790,15 +791,15 @@ class OpenQuoteContext(OpenContextBase):
 
     def get_trading_days(self, market, start_date=None, end_date=None):
         """get the trading days"""
-        if market is None or isinstance(market, str) is False:
+        if market is None or is_str(market) is False:
             error_str = ERROR_STR_PREFIX + "the type of market param is wrong"
             return RET_ERROR, error_str
 
-        if start_date is not None and isinstance(start_date, str) is False:
+        if start_date is not None and is_str(start_date) is False:
             error_str = ERROR_STR_PREFIX + "the type of start_date param is wrong"
             return RET_ERROR, error_str
 
-        if end_date is not None and isinstance(end_date, str) is False:
+        if end_date is not None and is_str(end_date) is False:
             error_str = ERROR_STR_PREFIX + "the type of end_date param is wrong"
             return RET_ERROR, error_str
 
@@ -819,7 +820,7 @@ class OpenQuoteContext(OpenContextBase):
         param_table = {'market': market, 'stock_type': stock_type}
         for x in param_table:
             param = param_table[x]
-            if param is None or isinstance(param, str) is False:
+            if param is None or is_str(param) is False:
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
 
@@ -839,7 +840,7 @@ class OpenQuoteContext(OpenContextBase):
         return RET_OK, basic_info_table
 
     def get_multiple_history_kline(self, codelist, start=None, end=None, ktype='K_DAY', autype='qfq'):
-        if isinstance(codelist, str):
+        if is_str(codelist):
             codelist = codelist.split(',')
         elif isinstance(codelist, list):
             pass
@@ -855,11 +856,11 @@ class OpenQuoteContext(OpenContextBase):
 
     def get_history_kline(self, code, start=None, end=None, ktype='K_DAY', autype='qfq'):
         """get the historic Kline data"""
-        if start is not None and isinstance(start, str) is False:
+        if start is not None and is_str(start) is False:
             error_str = ERROR_STR_PREFIX + "the type of start param is wrong"
             return RET_ERROR, error_str
 
-        if end is not None and isinstance(end, str) is False:
+        if end is not None and is_str(end) is False:
             error_str = ERROR_STR_PREFIX + "the type of end param is wrong"
             return RET_ERROR, error_str
 
@@ -869,7 +870,7 @@ class OpenQuoteContext(OpenContextBase):
         param_table = {'code': code, 'ktype': ktype, 'autype': autype}
         for x in param_table:
             param = param_table[x]
-            if param is None or isinstance(param, str) is False:
+            if param is None or is_str(param) is False:
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
 
@@ -893,7 +894,7 @@ class OpenQuoteContext(OpenContextBase):
             return RET_ERROR, error_str
 
         for code in code_list:
-            if code is None or isinstance(code, str) is False:
+            if code is None or is_str(code) is False:
                 error_str = ERROR_STR_PREFIX + "the type of param in code_list is wrong"
                 return RET_ERROR, error_str
 
@@ -930,7 +931,7 @@ class OpenQuoteContext(OpenContextBase):
             return RET_ERROR, error_str
 
         for code in code_list:
-            if code is None or isinstance(code, str) is False:
+            if code is None or is_str(code) is False:
                 error_str = ERROR_STR_PREFIX + "the type of param in code_list is wrong"
                 return RET_ERROR, error_str
 
@@ -958,7 +959,7 @@ class OpenQuoteContext(OpenContextBase):
 
     def get_rt_data(self, code):
         """get real-time data"""
-        if code is None or isinstance(code, str) is False:
+        if code is None or is_str(code) is False:
             error_str = ERROR_STR_PREFIX + "the type of param in code_list is wrong"
             return RET_ERROR, error_str
 
@@ -982,7 +983,7 @@ class OpenQuoteContext(OpenContextBase):
         param_table = {'market': market, 'plate_class': plate_class}
         for x in param_table:
             param = param_table[x]
-            if param is None or isinstance(market, str) is False:
+            if param is None or is_str(market) is False:
                 error_str = ERROR_STR_PREFIX + "the type of market param is wrong"
                 return RET_ERROR, error_str
 
@@ -1010,7 +1011,7 @@ class OpenQuoteContext(OpenContextBase):
 
     def get_plate_stock(self, plate_code):
         """get the stock of the given plate"""
-        if plate_code is None or isinstance(plate_code, str) is False:
+        if plate_code is None or is_str(plate_code) is False:
             error_str = ERROR_STR_PREFIX + "the type of stock_code is wrong"
             return RET_ERROR, error_str
 
@@ -1030,7 +1031,7 @@ class OpenQuoteContext(OpenContextBase):
 
     def get_broker_queue(self, code):
         """get teh queue of the broker"""
-        if code is None or isinstance(code, str) is False:
+        if code is None or is_str(code) is False:
             error_str = ERROR_STR_PREFIX + "the type of param in code_list is wrong"
             return RET_ERROR, error_str
 
@@ -1061,7 +1062,7 @@ class OpenQuoteContext(OpenContextBase):
         param_table = {'stock_code': stock_code, 'data_type': data_type}
         for x in param_table:
             param = param_table[x]
-            if param is None or isinstance(param, str) is False:
+            if param is None or is_str(param) is False:
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
 
@@ -1102,7 +1103,7 @@ class OpenQuoteContext(OpenContextBase):
         param_table = {'stock_code': stock_code, 'data_type': data_type}
         for x in param_table:
             param = param_table[x]
-            if param is None or isinstance(param, str) is False:
+            if param is None or is_str(param) is False:
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
 
@@ -1163,7 +1164,7 @@ class OpenQuoteContext(OpenContextBase):
             return RET_ERROR, error_str
 
         for code in code_list:
-            if code is None or isinstance(code, str) is False:
+            if code is None or is_str(code) is False:
                 error_str = ERROR_STR_PREFIX + "the type of param in code_list is wrong"
                 return RET_ERROR, error_str
 
@@ -1193,7 +1194,7 @@ class OpenQuoteContext(OpenContextBase):
         :return: (ret_ok, ticker_frame_table)
         """
 
-        if code is None or isinstance(code, str) is False:
+        if code is None or is_str(code) is False:
             error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
             return RET_ERROR, error_str
 
@@ -1226,7 +1227,7 @@ class OpenQuoteContext(OpenContextBase):
         param_table = {'code': code, 'ktype': ktype}
         for x in param_table:
             param = param_table[x]
-            if param is None or isinstance(param, str) is False:
+            if param is None or is_str(param) is False:
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
 
@@ -1234,7 +1235,7 @@ class OpenQuoteContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "the type of num param is wrong"
             return RET_ERROR, error_str
 
-        if autype is not None and isinstance(autype, str) is False:
+        if autype is not None and is_str(autype) is False:
             error_str = ERROR_STR_PREFIX + "the type of autype param is wrong"
             return RET_ERROR, error_str
 
@@ -1254,7 +1255,7 @@ class OpenQuoteContext(OpenContextBase):
 
     def get_order_book(self, code):
         """get the order book data"""
-        if code is None or isinstance(code, str) is False:
+        if code is None or is_str(code) is False:
             error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
             return RET_ERROR, error_str
 
