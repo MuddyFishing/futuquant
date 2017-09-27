@@ -280,7 +280,7 @@ class _SyncNetworkQueryCtx:
                     rsp_buf += recv_buf
                     if recv_buf == b'':
                         raise Exception("_SyncNetworkQueryCtx : remote server close")
-                except ConnectionError:
+                except Exception as e:
                     err = sys.exc_info()[1]
                     error_str = ERROR_STR_PREFIX + str(
                         err) + ' when receiving after sending %s bytes. For req: ' % s_cnt + req_str
@@ -289,7 +289,7 @@ class _SyncNetworkQueryCtx:
 
             rsp_str = binary2str(rsp_buf)
             self._close_session()
-        except ConnectionError:
+        except Exception as e:
             err = sys.exc_info()[1]
             error_str = ERROR_STR_PREFIX + str(err) + ' when sending. For req: ' + req_str
 
@@ -323,7 +323,7 @@ class _SyncNetworkQueryCtx:
                 s.settimeout(10)
                 self.s = s
                 self.s.connect((self.__host, self.__port))
-            except ConnectionError:
+            except Exception as e:
                 err = sys.exc_info()[1]
                 err_msg = ERROR_STR_PREFIX + str(err)
                 print("socket connect err:{}".format(err_msg))
@@ -421,7 +421,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
 
                 self.handler_ctx.recv_func(rsp_str)
                 loc = self.rsp_buf.find(delimiter)
-        except ConnectionError:
+        except Exception as e:
             err = sys.exc_info()[1]
             self.handler_ctx.error_func(str(err))
             return
@@ -638,7 +638,7 @@ class OpenContextBase(object):
                 try:
                     if self._sync_query_lock:
                         self._sync_query_lock.release()
-                except ConnectionError:
+                except Exception as e:
                     err = sys.exc_info()[1]
                     print(err)
 
@@ -707,7 +707,7 @@ class OpenContextBase(object):
                 self._is_socket_reconnecting = False
                 if self._sync_query_lock:
                     self._sync_query_lock.release()
-            except ConnectionError:
+            except Exception as e:
                 err = sys.exc_info()[1]
                 print(err)
 
