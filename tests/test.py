@@ -295,8 +295,8 @@ class BrokerTest(BrokerHandlerBase):
         print("BrokerTest", content[1])
         return RET_OK, content
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     quote_context = OpenQuoteContext(host='119.29.141.202', port=11111)
 
     # 获取推送数据

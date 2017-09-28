@@ -84,7 +84,6 @@ EMPTY_STRING = ''
 
 # noinspection PyPep8Naming
 class TRADE(object):
-
     REV_MKT_MAP = {MKT_MAP[x]: x for x in MKT_MAP}
     REV_SEC_TYPE_MAP = {SEC_TYPE_MAP[x]: x for x in SEC_TYPE_MAP}
     REV_SUBTYPE_MAP = {SUBTYPE_MAP[x]: x for x in SUBTYPE_MAP}
@@ -97,7 +96,6 @@ class TRADE(object):
 
 # noinspection PyPep8Naming
 class QUOTE(object):
-
     REV_MKT_MAP = {MKT_MAP[x]: x for x in MKT_MAP}
     REV_WRT_TYPE_MAP = {WRT_TYPE_MAP[x]: x for x in WRT_TYPE_MAP}
     REV_PLATE_CLASS_MAP = {PLATE_CLASS_MAP[x]: x for x in PLATE_CLASS_MAP}

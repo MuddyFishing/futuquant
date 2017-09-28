@@ -2,10 +2,6 @@
 """
 Examples for use the python functions: real-time data
 """
-import sys
-import os
-sys.path.append(os.path.split(os.path.abspath(os.path.pardir))[0])
-
 from futuquant.open_context import *
 
 
@@ -241,8 +237,7 @@ def _example_global_state(quote_ctx):
 
 
 if __name__ == "__main__":
-
-    quote_context = OpenQuoteContext(host='119.29.141.202', port=11111)
+    quote_context = OpenQuoteContext(host='127.0.0.1', port=11111)
 
     # 获取实时数据
     _example_stock_quote(quote_context)
@@ -257,5 +252,3 @@ if __name__ == "__main__":
     _example_plate_stock(quote_context)
     _example_broker_queue(quote_context)
     _example_global_state(quote_context)
-
-

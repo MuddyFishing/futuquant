@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-    本策略基于日线, 由于交易时间的限制，不考虑同时交易港股和美股的可能性
+    本策略基于日线, 由于交易时间的限制，不考虑同时交易港股和每股的可能性
     使用请先配置正确参数:
     API_SVR_IP: (string) ip
     API_SVR_PORT: (int) port
@@ -8,15 +8,14 @@
     TRADE_ENV: (int) 0：真实交易 1：仿真交易（美股暂不支持仿真）
 """
 
+from futuquant.open_context import *
+
+from time import sleep
 import pickle
-import talib as ta   # 请自行安装
+import talib as ta  # 请自行安装
 import numpy as np
 import datetime
-import time
 import os
-
-from futuquant import *
-
 
 class SouthETF(object):
     """
@@ -34,7 +33,7 @@ class SouthETF(object):
     order_type = 0  # 港股增强限价单(普通交易)
 
     # parameter setting
-    index_type = 'HSI'      # HSI/HSCEI
+    index_type = 'HSI'  # HSI/HSCEI
     indicator_type = 'MA'  # CHG/MA
 
     # CHG: trading signal setting
@@ -117,7 +116,7 @@ class SouthETF(object):
             raise Exception("请先配置交易解锁密码! password: {}".format(self.unlock_password))
 
         quote_ctx = OpenQuoteContext(host=self.api_svr_ip, port=self.api_svr_port)
-        is_hk_trade = 'HK.' in (self.HSI_CALL_CODE+self.HSCEI_PUT_CODE+self.HSCEI_CALL_CODE+self.HSCEI_PUT_CODE)
+        is_hk_trade = 'HK.' in (self.HSI_CALL_CODE + self.HSCEI_PUT_CODE + self.HSCEI_CALL_CODE + self.HSCEI_PUT_CODE)
         if is_hk_trade:
             trade_ctx = OpenHKTradeContext(host=self.api_svr_ip, port=self.api_svr_port)
         else:
@@ -140,7 +139,7 @@ class SouthETF(object):
                 is_unlock_trade = (ret_code == 0)
                 if not is_unlock_trade:
                     print("请求交易解锁失败: {} 重试中...".format(ret_data))
-                    time.sleep(1)
+                    sleep(1)
                     continue
 
             ret_code, ret_data = self.quote_ctx.get_history_kline(self.code, start='2017-01-01')
@@ -148,7 +147,7 @@ class SouthETF(object):
                 close = np.array(ret_data['close'])
             else:
                 print('k线数据获取异常, 重试中: {}'.format(ret_data))
-                time.sleep(1)
+                sleep(1)
                 continue
 
             if self.indicator_type.lower() == 'chg':
@@ -276,7 +275,7 @@ class SouthETF(object):
 
 
 if __name__ == "__main__":
-    API_SVR_IP = '119.29.141.202'
+    API_SVR_IP = '127.0.0.1'
     API_SVR_PORT = 11111
     UNLOCK_PASSWORD = "123"
     TRADE_ENV = 1
@@ -286,8 +285,8 @@ if __name__ == "__main__":
         print(lst_holding)
         strategy_test = SouthETF(API_SVR_IP, API_SVR_PORT, UNLOCK_PASSWORD, TRADE_ENV, lst_holding)
         etf_holding = strategy_test.handle_bar()
-        pickle.dump(etf_holding, open('south_etf.pkl', 'wb'))    # 序列化
+        pickle.dump(etf_holding, open('south_etf.pkl', 'wb'))  # 序列化
     else:
         strategy_test = SouthETF(API_SVR_IP, API_SVR_PORT, UNLOCK_PASSWORD, TRADE_ENV, {})
         etf_holding = strategy_test.handle_bar()
-        pickle.dump(etf_holding, open('south_etf.pkl', 'wb'))    # 序列化
+        pickle.dump(etf_holding, open('south_etf.pkl', 'wb'))  # 序列化

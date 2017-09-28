@@ -16,6 +16,7 @@ def get_process_by_name(namestr):
             return process
     return None
 
+
 if __name__ == '__main__':
     # 设置重启时间，时：分
     restart_time_str = '19:40'
@@ -25,8 +26,8 @@ if __name__ == '__main__':
         cur_time = time.localtime()
         print('current time is {}'.format(
             time.strftime('%Y-%m-%d %H:%M:%S', cur_time)))
-        if cur_time.tm_hour == restart_time.tm_hour and\
-                cur_time.tm_min == restart_time.tm_min:
+        if cur_time.tm_hour == restart_time.tm_hour and \
+                        cur_time.tm_min == restart_time.tm_min:
             print('{}:time to restart'.format(
                 time.strftime('%Y-%m-%d %H:%M:%S', cur_time)))
             ftnn_process = get_process_by_name('FTNN.exe')

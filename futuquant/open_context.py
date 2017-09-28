@@ -5,6 +5,7 @@
 
 from .quote_query import *
 from .trade_query import *
+from .utils import is_str
 from multiprocessing import Queue
 from threading import RLock, Thread
 import select
@@ -20,6 +21,7 @@ from struct import pack
 
 class RspHandlerBase(object):
     """callback function base class"""
+
     def __init__(self):
         pass
 
@@ -34,6 +36,7 @@ class RspHandlerBase(object):
 
 class StockQuoteHandlerBase(RspHandlerBase):
     """Base class for handle stock quote"""
+
     def on_recv_rsp(self, rsp_str):
         """receive response callback function"""
         ret_code, msg, quote_list = StockQuoteQuery.unpack_rsp(rsp_str)
@@ -56,6 +59,7 @@ class StockQuoteHandlerBase(RspHandlerBase):
 
 class OrderBookHandlerBase(RspHandlerBase):
     """Base class for handling order book data"""
+
     def on_recv_rsp(self, rsp_str):
         """receive response callback function"""
         ret_code, msg, order_book = OrderBookQuery.unpack_rsp(rsp_str)
@@ -71,6 +75,7 @@ class OrderBookHandlerBase(RspHandlerBase):
 
 class CurKlineHandlerBase(RspHandlerBase):
     """Base class for handling current Kline data"""
+
     def on_recv_rsp(self, rsp_str):
         """receive response callback function"""
         ret_code, msg, kline_list = CurKlineQuery.unpack_rsp(rsp_str)
@@ -89,6 +94,7 @@ class CurKlineHandlerBase(RspHandlerBase):
 
 class TickerHandlerBase(RspHandlerBase):
     """Base class for handling ticker data"""
+
     def on_recv_rsp(self, rsp_str):
         """receive response callback function"""
         ret_code, msg, ticker_list = TickerQuery.unpack_rsp(rsp_str)
@@ -108,6 +114,7 @@ class TickerHandlerBase(RspHandlerBase):
 
 class RTDataHandlerBase(RspHandlerBase):
     """Base class for handling real-time data"""
+
     def on_recv_rsp(self, rsp_str):
         """receive response callback function"""
         ret_code, msg, rt_data_list = RtDataQuery.unpack_rsp(rsp_str)
@@ -128,6 +135,7 @@ class RTDataHandlerBase(RspHandlerBase):
 
 class BrokerHandlerBase(RspHandlerBase):
     """Base class for handling broker"""
+
     def on_recv_rsp(self, rsp_str):
         """receive response callback function"""
         ret_code, bid_content, ask_content = BrokerQueueQuery.unpack_rsp(rsp_str)
@@ -148,11 +156,12 @@ class BrokerHandlerBase(RspHandlerBase):
 
 class HandlerContext:
     """Handle Context"""
+
     def __init__(self):
         self._default_handler = RspHandlerBase()
         self._handler_table = {"1030": {"type": StockQuoteHandlerBase, "obj": StockQuoteHandlerBase()},
-                               "1031": {"type": OrderBookHandlerBase,  "obj": OrderBookHandlerBase()},
-                               "1032": {"type": CurKlineHandlerBase,  "obj": CurKlineHandlerBase()},
+                               "1031": {"type": OrderBookHandlerBase, "obj": OrderBookHandlerBase()},
+                               "1032": {"type": CurKlineHandlerBase, "obj": CurKlineHandlerBase()},
                                "1033": {"type": TickerHandlerBase, "obj": TickerHandlerBase()},
                                "1034": {"type": RTDataHandlerBase, "obj": RTDataHandlerBase()},
                                "1035": {"type": BrokerHandlerBase, "obj": BrokerHandlerBase()},
@@ -210,6 +219,7 @@ class _SyncNetworkQueryCtx:
     connection is persisted after a query session finished, waiting for next query.
 
     """
+
     def __init__(self, host, port, long_conn=True, connected_handler=None):
         self.s = None
         self.__host = host
@@ -270,7 +280,7 @@ class _SyncNetworkQueryCtx:
                     rsp_buf += recv_buf
                     if recv_buf == b'':
                         raise Exception("_SyncNetworkQueryCtx : remote server close")
-                except ConnectionError:
+                except Exception as e:
                     err = sys.exc_info()[1]
                     error_str = ERROR_STR_PREFIX + str(
                         err) + ' when receiving after sending %s bytes. For req: ' % s_cnt + req_str
@@ -279,7 +289,7 @@ class _SyncNetworkQueryCtx:
 
             rsp_str = binary2str(rsp_buf)
             self._close_session()
-        except ConnectionError:
+        except Exception as e:
             err = sys.exc_info()[1]
             error_str = ERROR_STR_PREFIX + str(err) + ' when sending. For req: ' + req_str
 
@@ -313,7 +323,7 @@ class _SyncNetworkQueryCtx:
                 s.settimeout(10)
                 self.s = s
                 self.s.connect((self.__host, self.__port))
-            except ConnectionError:
+            except Exception as e:
                 err = sys.exc_info()[1]
                 err_msg = ERROR_STR_PREFIX + str(err)
                 print("socket connect err:{}".format(err_msg))
@@ -370,7 +380,6 @@ class _SyncNetworkQueryCtx:
 
 
 class _AsyncNetworkManager(asyncore.dispatcher_with_send):
-
     def __init__(self, host, port, handler_ctx, close_handler=None):
         self.__host = host
         self.__port = port
@@ -412,7 +421,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
 
                 self.handler_ctx.recv_func(rsp_str)
                 loc = self.rsp_buf.find(delimiter)
-        except ConnectionError:
+        except Exception as e:
             err = sys.exc_info()[1]
             self.handler_ctx.error_func(str(err))
             return
@@ -434,7 +443,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         if self.socket is not None:
             self.close()
         if self.__host is not None and self.__port is not None:
-            self.create_socket()
+            self.create_socket(sock.AF_INET, sock.SOCK_STREAM)
             self.connect((self.__host, self.__port))
 
 
@@ -629,9 +638,10 @@ class OpenContextBase(object):
                 try:
                     if self._sync_query_lock:
                         self._sync_query_lock.release()
-                except ConnectionError:
+                except Exception as e:
                     err = sys.exc_info()[1]
                     print(err)
+
         return sync_query_processor
 
     def _stop_net_proc(self):
@@ -697,7 +707,7 @@ class OpenContextBase(object):
                 self._is_socket_reconnecting = False
                 if self._sync_query_lock:
                     self._sync_query_lock.release()
-            except ConnectionError:
+            except Exception as e:
                 err = sys.exc_info()[1]
                 print(err)
 
@@ -756,6 +766,7 @@ class OpenContextBase(object):
 
 class OpenQuoteContext(OpenContextBase):
     """Class for set context of stock quote"""
+
     def __init__(self, host='127.0.0.1', port=11111):
         self._ctx_subscribe = set()
         super(OpenQuoteContext, self).__init__(host, port, True, True)
@@ -780,15 +791,15 @@ class OpenQuoteContext(OpenContextBase):
 
     def get_trading_days(self, market, start_date=None, end_date=None):
         """get the trading days"""
-        if market is None or isinstance(market, str) is False:
+        if market is None or is_str(market) is False:
             error_str = ERROR_STR_PREFIX + "the type of market param is wrong"
             return RET_ERROR, error_str
 
-        if start_date is not None and isinstance(start_date, str) is False:
+        if start_date is not None and is_str(start_date) is False:
             error_str = ERROR_STR_PREFIX + "the type of start_date param is wrong"
             return RET_ERROR, error_str
 
-        if end_date is not None and isinstance(end_date, str) is False:
+        if end_date is not None and is_str(end_date) is False:
             error_str = ERROR_STR_PREFIX + "the type of end_date param is wrong"
             return RET_ERROR, error_str
 
@@ -809,7 +820,7 @@ class OpenQuoteContext(OpenContextBase):
         param_table = {'market': market, 'stock_type': stock_type}
         for x in param_table:
             param = param_table[x]
-            if param is None or isinstance(param, str) is False:
+            if param is None or is_str(param) is False:
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
 
@@ -821,14 +832,15 @@ class OpenQuoteContext(OpenContextBase):
         if ret_code == RET_ERROR:
             return ret_code, msg
 
-        col_list = ['code', 'name', 'lot_size', 'stock_type', 'stock_child_type', "owner_stock_code", "listing_date", "stockid"]
+        col_list = ['code', 'name', 'lot_size', 'stock_type', 'stock_child_type', "owner_stock_code", "listing_date",
+                    "stockid"]
 
         basic_info_table = pd.DataFrame(basic_info_list, columns=col_list)
 
         return RET_OK, basic_info_table
 
     def get_multiple_history_kline(self, codelist, start=None, end=None, ktype='K_DAY', autype='qfq'):
-        if isinstance(codelist, str):
+        if is_str(codelist):
             codelist = codelist.split(',')
         elif isinstance(codelist, list):
             pass
@@ -844,11 +856,11 @@ class OpenQuoteContext(OpenContextBase):
 
     def get_history_kline(self, code, start=None, end=None, ktype='K_DAY', autype='qfq'):
         """get the historic Kline data"""
-        if start is not None and isinstance(start, str) is False:
+        if start is not None and is_str(start) is False:
             error_str = ERROR_STR_PREFIX + "the type of start param is wrong"
             return RET_ERROR, error_str
 
-        if end is not None and isinstance(end, str) is False:
+        if end is not None and is_str(end) is False:
             error_str = ERROR_STR_PREFIX + "the type of end param is wrong"
             return RET_ERROR, error_str
 
@@ -858,7 +870,7 @@ class OpenQuoteContext(OpenContextBase):
         param_table = {'code': code, 'ktype': ktype, 'autype': autype}
         for x in param_table:
             param = param_table[x]
-            if param is None or isinstance(param, str) is False:
+            if param is None or is_str(param) is False:
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
 
@@ -882,7 +894,7 @@ class OpenQuoteContext(OpenContextBase):
             return RET_ERROR, error_str
 
         for code in code_list:
-            if code is None or isinstance(code, str) is False:
+            if code is None or is_str(code) is False:
                 error_str = ERROR_STR_PREFIX + "the type of param in code_list is wrong"
                 return RET_ERROR, error_str
 
@@ -919,7 +931,7 @@ class OpenQuoteContext(OpenContextBase):
             return RET_ERROR, error_str
 
         for code in code_list:
-            if code is None or isinstance(code, str) is False:
+            if code is None or is_str(code) is False:
                 error_str = ERROR_STR_PREFIX + "the type of param in code_list is wrong"
                 return RET_ERROR, error_str
 
@@ -947,7 +959,7 @@ class OpenQuoteContext(OpenContextBase):
 
     def get_rt_data(self, code):
         """get real-time data"""
-        if code is None or isinstance(code, str) is False:
+        if code is None or is_str(code) is False:
             error_str = ERROR_STR_PREFIX + "the type of param in code_list is wrong"
             return RET_ERROR, error_str
 
@@ -971,7 +983,7 @@ class OpenQuoteContext(OpenContextBase):
         param_table = {'market': market, 'plate_class': plate_class}
         for x in param_table:
             param = param_table[x]
-            if param is None or isinstance(market, str) is False:
+            if param is None or is_str(market) is False:
                 error_str = ERROR_STR_PREFIX + "the type of market param is wrong"
                 return RET_ERROR, error_str
 
@@ -999,7 +1011,7 @@ class OpenQuoteContext(OpenContextBase):
 
     def get_plate_stock(self, plate_code):
         """get the stock of the given plate"""
-        if plate_code is None or isinstance(plate_code, str) is False:
+        if plate_code is None or is_str(plate_code) is False:
             error_str = ERROR_STR_PREFIX + "the type of stock_code is wrong"
             return RET_ERROR, error_str
 
@@ -1019,7 +1031,7 @@ class OpenQuoteContext(OpenContextBase):
 
     def get_broker_queue(self, code):
         """get teh queue of the broker"""
-        if code is None or isinstance(code, str) is False:
+        if code is None or is_str(code) is False:
             error_str = ERROR_STR_PREFIX + "the type of param in code_list is wrong"
             return RET_ERROR, error_str
 
@@ -1050,7 +1062,7 @@ class OpenQuoteContext(OpenContextBase):
         param_table = {'stock_code': stock_code, 'data_type': data_type}
         for x in param_table:
             param = param_table[x]
-            if param is None or isinstance(param, str) is False:
+            if param is None or is_str(param) is False:
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
 
@@ -1091,7 +1103,7 @@ class OpenQuoteContext(OpenContextBase):
         param_table = {'stock_code': stock_code, 'data_type': data_type}
         for x in param_table:
             param = param_table[x]
-            if param is None or isinstance(param, str) is False:
+            if param is None or is_str(param) is False:
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
 
@@ -1152,7 +1164,7 @@ class OpenQuoteContext(OpenContextBase):
             return RET_ERROR, error_str
 
         for code in code_list:
-            if code is None or isinstance(code, str) is False:
+            if code is None or is_str(code) is False:
                 error_str = ERROR_STR_PREFIX + "the type of param in code_list is wrong"
                 return RET_ERROR, error_str
 
@@ -1182,7 +1194,7 @@ class OpenQuoteContext(OpenContextBase):
         :return: (ret_ok, ticker_frame_table)
         """
 
-        if code is None or isinstance(code, str) is False:
+        if code is None or is_str(code) is False:
             error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
             return RET_ERROR, error_str
 
@@ -1215,7 +1227,7 @@ class OpenQuoteContext(OpenContextBase):
         param_table = {'code': code, 'ktype': ktype}
         for x in param_table:
             param = param_table[x]
-            if param is None or isinstance(param, str) is False:
+            if param is None or is_str(param) is False:
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
 
@@ -1223,7 +1235,7 @@ class OpenQuoteContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "the type of num param is wrong"
             return RET_ERROR, error_str
 
-        if autype is not None and isinstance(autype, str) is False:
+        if autype is not None and is_str(autype) is False:
             error_str = ERROR_STR_PREFIX + "the type of autype param is wrong"
             return RET_ERROR, error_str
 
@@ -1243,7 +1255,7 @@ class OpenQuoteContext(OpenContextBase):
 
     def get_order_book(self, code):
         """get the order book data"""
-        if code is None or isinstance(code, str) is False:
+        if code is None or is_str(code) is False:
             error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
             return RET_ERROR, error_str
 

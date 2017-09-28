@@ -2,10 +2,6 @@
 """
 Examples for use the python functions: get push data
 """
-import sys
-import os
-sys.path.append(os.path.split(os.path.abspath(os.path.pardir))[0])
-
 from futuquant.open_context import *
 
 
@@ -13,6 +9,7 @@ class StockQuoteTest(StockQuoteHandlerBase):
     """
     获得报价推送数据
     """
+
     def on_recv_rsp(self, rsp_str):
         """数据响应回调函数"""
         ret_code, content = super(StockQuoteTest, self).on_recv_rsp(rsp_str)
@@ -27,6 +24,7 @@ class OrderBookTest(OrderBookHandlerBase):
     """
     获得摆盘推送数据
     """
+
     def on_recv_rsp(self, rsp_str):
         """数据响应回调函数"""
         ret_code, content = super(OrderBookTest, self).on_recv_rsp(rsp_str)
@@ -41,6 +39,7 @@ class CurKlineTest(CurKlineHandlerBase):
     """
     获取K线推送数据
     """
+
     def on_recv_rsp(self, rsp_str):
         """数据响应回调函数"""
         ret_code, content = super(CurKlineTest, self).on_recv_rsp(rsp_str)
@@ -55,6 +54,7 @@ class TickerTest(TickerHandlerBase):
     """
     获取逐笔推送数据
     """
+
     def on_recv_rsp(self, rsp_str):
         """数据响应回调函数"""
         ret_code, content = super(TickerTest, self).on_recv_rsp(rsp_str)
@@ -69,6 +69,7 @@ class RTDataTest(RTDataHandlerBase):
     """
     获取分时推送数据
     """
+
     def on_recv_rsp(self, rsp_str):
         """数据响应回调函数"""
         ret_code, content = super(RTDataTest, self).on_recv_rsp(rsp_str)
@@ -84,6 +85,7 @@ class BrokerTest(BrokerHandlerBase):
     """
     获取经纪队列推送数据
     """
+
     def on_recv_rsp(self, rsp_str):
         """数据响应回调函数"""
         ret_code, content = super(BrokerTest, self).on_recv_rsp(rsp_str)
@@ -96,8 +98,7 @@ class BrokerTest(BrokerHandlerBase):
 
 
 if __name__ == "__main__":
-
-    quote_context = OpenQuoteContext(host='119.29.141.202', port=11111)
+    quote_context = OpenQuoteContext(host='127.0.0.1', port=11111)
 
     # 获取推送数据
     quote_context.subscribe('HK.00700', "QUOTE", push=True)

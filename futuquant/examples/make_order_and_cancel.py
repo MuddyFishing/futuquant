@@ -35,7 +35,7 @@ def make_order_and_cancel(api_svr_ip, api_svr_port, unlock_password, test_code, 
         raise Exception("请先配置交易解锁密码!")
 
     quote_ctx = OpenQuoteContext(host=api_svr_ip, port=api_svr_port)  # 创建行情api
-    quote_ctx.subscribe(test_code, "ORDER_BOOK", push=False)   # 定阅摆盘
+    quote_ctx.subscribe(test_code, "ORDER_BOOK", push=False)  # 定阅摆盘
 
     # 创建交易api
     is_hk_trade = 'HK.' in test_code
@@ -94,7 +94,7 @@ def make_order_and_cancel(api_svr_ip, api_svr_port, unlock_password, test_code, 
             continue
 
         # 交易类型
-        order_side = 0      # 买
+        order_side = 0  # 买
         if is_hk_trade:
             order_type = 0  # 港股增强限价单(普通交易)
         else:
