@@ -270,7 +270,7 @@
 </tr>
 <tr class="row-odd"><td>2015.1.21</td>
 <td><ol class="first last arabic simple">
-<li>更新港股交易接口文档，修改部分参数 <strong>&#8216;OrderTypeHK’</strong> 改为 <strong>&#8216;OrderType&#8217;</strong>
+<li>更新港股交易接口文档，修改部分参数 <strong>‘OrderTypeHK’</strong> 改为 <strong>‘OrderType’</strong>
 “ <strong>SetOrderStatusHK</strong> ”改为” <strong>SetOrderStatus</strong> ”</li>
 <li>增加美股交易接口(下单，撤单，改单)</li>
 <li>增加解锁接口</li>
@@ -1305,7 +1305,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </tr>
 <tr class="row-odd"><td>StockType</td>
 <td>Int32</td>
-<td>股票类型 1 = BOND&#8211;债券 3 = STOCK&#8211;正股 4 = ETF&#8211;ETF基金 5 = WARRANT&#8211;窝轮牛熊 6 = IDX&#8211;指数</td>
+<td>股票类型 1 = BOND–债券 3 = STOCK–正股 4 = ETF–ETF基金 5 = WARRANT–窝轮牛熊 6 = IDX–指数</td>
 </tr>
 <tr class="row-even"><td>StockID</td>
 <td>Int64</td>
@@ -1832,7 +1832,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </tr>
 <tr class="row-odd"><td>‘StockType’</td>
 <td>Int32</td>
-<td>股票类型 1 = BOND&#8211;债券 3 = STOCK&#8211;正股 4 = ETF&#8211;ETF基金 5 = WARRANT&#8211;窝轮牛熊 6 = IDX&#8211;指数</td>
+<td>股票类型 1 = BOND–债券 3 = STOCK–正股 4 = ETF–ETF基金 5 = WARRANT–窝轮牛熊 6 = IDX–指数</td>
 </tr>
 </tbody>
 </table>
@@ -1899,7 +1899,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </tr>
 <tr class="row-even"><td>‘BrokerPos’</td>
 <td>Int32</td>
-<td>经纪档位(0, 1, 2...)</td>
+<td>经纪档位(0, 1, 2…)</td>
 </tr>
 </tbody>
 </table>
@@ -2379,7 +2379,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <tbody valign="top">
 <tr class="row-even"><td><strong>StatusFilterStr</strong></td>
 <td><strong>String</strong></td>
-<td><strong>状态过滤字符串, &#8221;,”号分隔需要返回的状态, 空字符串返回全部订单</strong></td>
+<td><strong>状态过滤字符串, “,”号分隔需要返回的状态, 空字符串返回全部订单</strong></td>
 </tr>
 <tr class="row-odd"><td>Cookie</td>
 <td>Uint32</td>
@@ -2414,7 +2414,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td>交易方向</td>
 </tr>
 <tr class="row-odd"><td><strong>Status</strong></td>
-<td><strong>0 = 服务器处理中... 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
+<td><strong>0 = 服务器处理中… 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
 <td><strong>订单状态</strong></td>
 </tr>
 <tr class="row-even"><td>StockCode</td>
@@ -2433,7 +2433,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td><strong>Int64</strong></td>
 <td><strong>订单最后更新的时间(GMT)</strong></td>
 </tr>
-<tr class="row-even"><td><strong>&#8216;OrderType&#8217;</strong></td>
+<tr class="row-even"><td><strong>‘OrderType’</strong></td>
 <td><strong>0： 增强限价单(普通交易) 1： 竞价单(竞价交易) 2：限价单 （暂不支持)</strong> <strong>3： 竞价限价单(竞价限价)</strong></td>
 <td><strong>交易类型</strong></td>
 </tr>
@@ -2612,7 +2612,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td>交易方向</td>
 </tr>
 <tr class="row-even"><td><strong>Status</strong></td>
-<td><strong>0 = 服务器处理中... 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
+<td><strong>0 = 服务器处理中… 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
 <td><strong>订单状态</strong></td>
 </tr>
 <tr class="row-odd"><td>StockCode</td>
@@ -2936,7 +2936,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <tbody valign="top">
 <tr class="row-even"><td><strong>StatusFilterStr</strong></td>
 <td><strong>String</strong></td>
-<td><strong>状态过滤字符串, &#8221;,”号分隔需要返回的状态, 空字符串返回全部订单</strong></td>
+<td><strong>状态过滤字符串, “,”号分隔需要返回的状态, 空字符串返回全部订单</strong></td>
 </tr>
 <tr class="row-odd"><td>Cookie</td>
 <td>Uint32</td>
@@ -2971,7 +2971,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td>交易方向</td>
 </tr>
 <tr class="row-odd"><td><strong>Status</strong></td>
-<td><strong>0 = 服务器处理中... 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
+<td><strong>0 = 服务器处理中… 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
 <td><strong>订单状态</strong></td>
 </tr>
 <tr class="row-even"><td>StockCode</td>
@@ -3171,7 +3171,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td>交易方向</td>
 </tr>
 <tr class="row-even"><td><strong>Status</strong></td>
-<td><strong>0 = 服务器处理中... 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
+<td><strong>0 = 服务器处理中… 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
 <td><strong>订单状态</strong></td>
 </tr>
 <tr class="row-odd"><td>StockCode</td>
