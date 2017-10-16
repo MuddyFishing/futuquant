@@ -875,3 +875,98 @@ class DealListQuery:
                       }
                      for deal in raw_deal_list]
         return RET_OK, "", deal_list
+
+
+class TradePushQuery:
+    """ Query Trade push info"""
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def hk_pack_order_req(cls, cookie, envtype, order_id):
+        """Pack the pushed response"""
+
+        req = {"Protocol": "6011",
+               "Version": "1",
+               "ReqParam": {"Cookie": cookie,
+                            "EnvType": envtype,
+                            "OrderID": order_id,
+                            }
+               }
+        req_str = json.dumps(req) + '\r\n'
+        return RET_OK, "", req_str
+
+    @classmethod
+    def us_pack_order_req(cls, cookie, envtype, order_id):
+        """Pack the pushed response"""
+
+        req = {"Protocol": "7011",
+               "Version": "1",
+               "ReqParam":{"Cookie": cookie,
+                           "EnvType": envtype,
+                            "OrderID": order_id,
+                            }
+               }
+        req_str = json.dumps(req) + '\r\n'
+        return RET_OK, "", req_str
+
+    @classmethod
+    def hk_unpack_order_push_rsp(cls, rsp_str):
+        """Convert from PLS response to user response"""
+        ret, msg, rsp = extract_pls_rsp(rsp_str)
+        if ret != RET_OK:
+            return RET_ERROR, msg, None
+
+        rsp_data = rsp['RetData']
+
+        if 'EnvType' not in rsp_data:
+            error_str = ERROR_STR_PREFIX + "cannot find EnvType in client rsp. Response: %s" % rsp_str
+            return RET_ERROR, error_str, None
+
+        order_info = {
+                       "EnvType": int(rsp_data['EnvType']),
+                       "code": merge_stock_str(1, rsp_data['StockCode']),
+                       "stock_name": rsp_data["StockName"],
+                       "dealt_avg_price": float(rsp_data['DealtAvgPrice']) / 1000,
+                       "dealt_qty": int(rsp_data['DealtQty']),
+                       "qty": int(rsp_data['Qty']),
+                       "orderid": int(rsp_data['OrderID']),
+                       "order_type": int(rsp_data['OrderType']),
+                       "order_side": int(rsp_data['OrderSide']),
+                       "price": float(rsp_data['Price']) / 1000,
+                       "status": int(rsp_data['Status']),
+                       "submited_time": rsp_data['SubmitedTime'],
+                       "updated_time": rsp_data['UpdatedTime']
+                     }
+        return RET_OK, "", order_info
+
+    @classmethod
+    def us_unpack_order_push_rsp(cls, rsp_str):
+        """Convert from PLS response to user response"""
+        ret, msg, rsp = extract_pls_rsp(rsp_str)
+        if ret != RET_OK:
+            return RET_ERROR, msg, None
+
+        rsp_data = rsp['RetData']
+
+        if 'EnvType' not in rsp_data:
+            error_str = ERROR_STR_PREFIX + "cannot find EnvType in client rsp. Response: %s" % rsp_str
+            return RET_ERROR, error_str, None
+
+        order_info = {
+                       "EnvType": int(rsp_data['EnvType']),
+                       "code": merge_stock_str(2, rsp_data['StockCode']),
+                       "stock_name": rsp_data["StockName"],
+                       "dealt_avg_price": float(rsp_data['DealtAvgPrice']) / 1000,
+                       "dealt_qty": int(rsp_data['DealtQty']),
+                       "qty": int(rsp_data['Qty']),
+                       "orderid": int(rsp_data['OrderID']),
+                       "order_type": int(rsp_data['OrderType']),
+                       "order_side": int(rsp_data['OrderSide']),
+                       "price": float(rsp_data['Price']) / 1000,
+                       "status": int(rsp_data['Status']),
+                       "submited_time": rsp_data['SubmitedTime'],
+                       "updated_time": rsp_data['UpdatedTime']
+                     }
+        return RET_OK, "", order_info
