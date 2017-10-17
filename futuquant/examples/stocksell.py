@@ -2,10 +2,13 @@
 """
     实例: 股票卖出函数
 """
+import sys
+import os
+from math import floor
+
+sys.path.append(os.path.split(os.path.abspath(os.path.pardir))[0])
 
 from futuquant.open_context import *
-
-from math import floor
 
 
 def simple_sell(quote_ctx, trade_ctx, stock_code, trade_price, volume, trade_env):

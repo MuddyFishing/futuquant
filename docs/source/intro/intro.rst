@@ -114,7 +114,7 @@ API与富途牛牛客户端架构
 历史数据及除权除息下载问题
 --------------------------
 
-`历史K线下载指引 <https://github.com/FutunnOpen/futuquant/blob/master/docs/document/Hist_KLine_Download_Intro.md>`_
+`历史K线下载指引 <../setup/Hist_KLine_Download_Intro.html>`_
 
 -  在富途牛牛安装目录的plugin文件夹内有历史数据下载配置文件(ftplugin.ini)，请先详细阅读再进行操作。
 

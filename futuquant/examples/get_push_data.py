@@ -97,8 +97,23 @@ class BrokerTest(BrokerHandlerBase):
         return RET_OK, content
 
 
+class HeartBeatTest(HeartBeatHandlerBase):
+    """
+    心跳的推送
+    """
+
+    def on_recv_rsp(self, rsp_str):
+        """数据响应回调函数"""
+        ret_code, msg, timestamp = super(HeartBeatTest, self).on_recv_rsp(rsp_str)
+        if ret_code == RET_OK:
+            print("heart beat server timestamp = ", timestamp)
+        return ret_code, timestamp
+
 if __name__ == "__main__":
     quote_context = OpenQuoteContext(host='127.0.0.1', port=11111)
+
+    print(quote_context.get_global_state())
+    quote_context.set_handler(HeartBeatTest())
 
     # 获取推送数据
     quote_context.subscribe('HK.00700', "QUOTE", push=True)

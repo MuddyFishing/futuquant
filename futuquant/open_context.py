@@ -153,6 +153,19 @@ class BrokerHandlerBase(RspHandlerBase):
         """error callback function"""
         return error_str
 
+class HeartBeatHandlerBase(RspHandlerBase):
+    """Base class for handling Heart Beat"""
+
+    def on_recv_rsp(self, rsp_str):
+        """receive response callback function"""
+        ret_code, msg, timestamp = HeartBeatPush.unpack_rsp(rsp_str)
+
+        return ret_code, msg, timestamp
+
+    def on_error(self, error_str):
+        """error callback function"""
+        return error_str
+
 
 class HKTradeOrderHandlerBase(RspHandlerBase):
     """Base class for handle stock quote"""
@@ -215,6 +228,7 @@ class HandlerContext:
                                "1033": {"type": TickerHandlerBase, "obj": TickerHandlerBase()},
                                "1034": {"type": RTDataHandlerBase, "obj": RTDataHandlerBase()},
                                "1035": {"type": BrokerHandlerBase, "obj": BrokerHandlerBase()},
+                               "1036": {"type": HeartBeatHandlerBase, "obj": HeartBeatHandlerBase()},
                                "6012": {"type": HKTradeOrderHandlerBase, "obj": HKTradeOrderHandlerBase()},
                                "7012": {"type": USTradeOrderHandlerBase, "obj": USTradeOrderHandlerBase()},
                                }

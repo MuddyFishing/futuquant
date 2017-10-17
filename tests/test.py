@@ -2,6 +2,10 @@
 """
 Examples for use the python functions
 """
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.pardir))
 
 from futuquant.open_context import *
 

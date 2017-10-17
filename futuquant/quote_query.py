@@ -1333,3 +1333,27 @@ class GlobalStateQuery:
         rsp_data = rsp['RetData']
 
         return RET_OK, "", rsp_data
+
+
+class HeartBeatPush:
+    """
+    HeartBeatPush  per 30 second
+    """
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def unpack_rsp(cls, rsp_str):
+        """
+        Convert from PLS response to user response
+
+        """
+        # response check and unpack response json to objects
+        ret, msg, rsp = extract_pls_rsp(rsp_str)
+        if ret != RET_OK:
+            return RET_ERROR, msg, None
+
+        rsp_data = rsp['RetData']
+
+        return RET_OK, '', int(rsp_data['TimeStamp'])
