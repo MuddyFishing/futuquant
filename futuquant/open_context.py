@@ -168,7 +168,7 @@ class HeartBeatHandlerBase(RspHandlerBase):
 
 
 class HKTradeOrderHandlerBase(RspHandlerBase):
-    """Base class for handle stock quote"""
+    """Base class for handle trader order push"""
 
     def on_recv_rsp(self, rsp_str):
         """receive response callback function"""
@@ -178,7 +178,7 @@ class HKTradeOrderHandlerBase(RspHandlerBase):
         if ret_code == RET_ERROR:
             return ret_code, msg
         else:
-            col_list = ['EnvType', 'code', 'stock_name', 'dealt_avg_price', 'dealt_qty',
+            col_list = ['envtype', 'code', 'stock_name', 'dealt_avg_price', 'dealt_qty',
                         'qty', 'orderid', 'order_type',
                         'order_side', 'price', 'status', 'submited_time', 'updated_time'
                         ]
@@ -193,7 +193,7 @@ class HKTradeOrderHandlerBase(RspHandlerBase):
 
 
 class USTradeOrderHandlerBase(RspHandlerBase):
-    """Base class for handle stock quote"""
+    """Base class for handle trader order push"""
 
     def on_recv_rsp(self, rsp_str):
         """receive response callback function"""
@@ -203,12 +203,61 @@ class USTradeOrderHandlerBase(RspHandlerBase):
         if ret_code == RET_ERROR:
             return ret_code, msg
         else:
-            col_list = ['EnvType', 'code', 'stock_name', 'dealt_avg_price', 'dealt_qty',
+            col_list = ['envtype', 'code', 'stock_name', 'dealt_avg_price', 'dealt_qty',
                         'qty', 'orderid', 'order_type',
                         'order_side', 'price', 'status', 'submited_time', 'updated_time'
                         ]
 
             trade_frame_table = pd.DataFrame(order_list, columns=col_list)
+
+            return RET_OK, trade_frame_table
+
+    def on_error(self, error_str):
+        """error callback function"""
+        return error_str
+
+
+class HKTradeDealHandlerBase(RspHandlerBase):
+    """Base class for handle trade deal push"""
+
+    def on_recv_rsp(self, rsp_str):
+        """receive response callback function"""
+        ret_code, msg, deal_info = TradePushQuery.hk_unpack_deal_push_rsp(rsp_str)
+        deal_list = [deal_info]
+
+        if ret_code == RET_ERROR:
+            return ret_code, msg
+        else:
+            col_list = ['envtype', 'code', 'stock_name', 'dealid',
+                        'orderid', 'qty', 'price', 'order_side',
+                        'time', 'contra_broker_id', 'contra_broker_name'
+                        ]
+
+            trade_frame_table = pd.DataFrame(deal_list, columns=col_list)
+
+            return RET_OK, trade_frame_table
+
+    def on_error(self, error_str):
+        """error callback function"""
+        return error_str
+
+
+class USTradeDealHandlerBase(RspHandlerBase):
+    """Base class for handle trade deal push"""
+
+    def on_recv_rsp(self, rsp_str):
+        """receive response callback function"""
+        ret_code, msg, deal_info = TradePushQuery.us_unpack_deal_push_rsp(rsp_str)
+        deal_list = [deal_info]
+
+        if ret_code == RET_ERROR:
+            return ret_code, msg
+        else:
+            col_list = ['envtype', 'code', 'stock_name', 'dealid',
+                        'orderid', 'qty', 'price', 'order_side', 'time',
+                        ]
+
+            trade_frame_table = pd.DataFrame(deal_list, columns=col_list)
 
             return RET_OK, trade_frame_table
 
@@ -229,8 +278,10 @@ class HandlerContext:
                                "1034": {"type": RTDataHandlerBase, "obj": RTDataHandlerBase()},
                                "1035": {"type": BrokerHandlerBase, "obj": BrokerHandlerBase()},
                                "1036": {"type": HeartBeatHandlerBase, "obj": HeartBeatHandlerBase()},
-                               "6012": {"type": HKTradeOrderHandlerBase, "obj": HKTradeOrderHandlerBase()},
-                               "7012": {"type": USTradeOrderHandlerBase, "obj": USTradeOrderHandlerBase()},
+                               "6200": {"type": HKTradeOrderHandlerBase, "obj": HKTradeOrderHandlerBase()},
+                               "6201": {"type": HKTradeDealHandlerBase, "obj": HKTradeDealHandlerBase()},
+                               "7200": {"type": USTradeOrderHandlerBase, "obj": USTradeOrderHandlerBase()},
+                               "7201": {"type": USTradeDealHandlerBase, "obj": USTradeDealHandlerBase()},
                                }
 
     def set_handler(self, handler):
@@ -1378,7 +1429,7 @@ class OpenHKTradeContext(OpenContextBase):
             self._ctx_unlock = password
         return RET_OK, None
 
-    def place_order(self, price, qty, strcode, orderside, ordertype=0, envtype=0, orderpush=False):
+    def place_order(self, price, qty, strcode, orderside, ordertype=0, envtype=0, orderpush=False, dealpush=False):
         """
             place order
             use  set_handle(HKTradeOrderHandlerBase) to recv order push !
@@ -1411,10 +1462,11 @@ class OpenHKTradeContext(OpenContextBase):
         col_list = ['envtype', 'orderid']
         place_order_table = pd.DataFrame(place_order_list, columns=col_list)
 
-        # handle order push
-        if orderpush:
+        # handle order or deal push
+        if orderpush or dealpush:
             order_id = int(place_order_list[0]['orderid'])
-            ret_code, _, push_req_str = TradePushQuery.hk_pack_order_req(str(self.cookie), str(envtype), str(order_id))
+            ret_code, _, push_req_str = TradePushQuery.hk_pack_subscribe_req(
+                str(self.cookie), str(envtype), str(order_id),str(int(orderpush)), str(int(dealpush)))
             if ret_code == RET_OK:
                 self._send_async_req(push_req_str)
 
@@ -1558,8 +1610,9 @@ class OpenHKTradeContext(OpenContextBase):
         if ret_code != RET_OK:
             return RET_ERROR, msg
 
+        # "orderside" 保留是为了兼容旧版本, 对外文档统一为"order_side"
         col_list = ["code", "stock_name", "dealid", "orderid",
-                    "qty", "price", "orderside", "time"]
+                    "qty", "price", "orderside", "time", "order_side"]
 
         deal_list_table = pd.DataFrame(deal_list, columns=col_list)
 
@@ -1607,7 +1660,7 @@ class OpenUSTradeContext(OpenContextBase):
 
         return RET_OK, None
 
-    def place_order(self, price, qty, strcode, orderside, ordertype=2, envtype=0, orderpush=False):
+    def place_order(self, price, qty, strcode, orderside, ordertype=2, envtype=0, orderpush=False, dealpush=False):
         """
         place order
         use  set_handle(USTradeOrderHandlerBase) to recv order push !
@@ -1638,9 +1691,10 @@ class OpenUSTradeContext(OpenContextBase):
             return RET_ERROR, msg
 
         # handle order push
-        if orderpush:
+        if orderpush or dealpush:
             order_id = int(place_order_list[0]['orderid'])
-            ret_code, _, push_req_str = TradePushQuery.us_pack_order_req(str(self.cookie), str(envtype), str(order_id))
+            ret_code, _, push_req_str = TradePushQuery.us_pack_subscribe_req(
+                str(self.cookie), str(envtype), str(order_id), str(int(orderpush)), str(int(dealpush)))
             if ret_code == RET_OK:
                 self._send_async_req(push_req_str)
 
@@ -1783,8 +1837,9 @@ class OpenUSTradeContext(OpenContextBase):
         if ret_code != RET_OK:
             return RET_ERROR, msg
 
+        #"orderside" 保留是为了兼容旧版本, 对外文档统一为"order_side"
         col_list = ["code", "stock_name", "dealid", "orderid",
-                    "qty", "price", "orderside", "time"]
+                    "qty", "price", "orderside", "time", "order_side"]
 
         deal_list_table = pd.DataFrame(deal_list, columns=col_list)
 
