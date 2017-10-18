@@ -13,6 +13,7 @@ import socket
 import sys
 import configparser
 from threading import Thread
+import os
 
 class FTApiDaemon:
     '''
@@ -23,20 +24,23 @@ class FTApiDaemon:
         self._exe_path = self._root_path + 'FTNN.exe'
         self._crash_report_path = self._root_path + 'FTBugReport.exe'
         self._plugin_path = self._root_path + 'plugin\config.ini'
-
         self._api_port = None
         self._started = False
         self._thread_daemon = None
         self._close = False
-        '读取ini中api的配置信息'
-        try:
-            config = configparser.ConfigParser()
-            config.read_file(open(self._plugin_path))
-            self._api_port = int(config.get("pluginserver", "port"))
-            print('FTApiDaemon find api_port={}'.format(self._api_port))
-            del config
-        except Exception as e:
-            print('FTApiDaemon config read error!')
+
+        if not os.path.isfile(self._exe_path) or not os.path.isfile(self._crash_report_path):
+            print("FTApiDaemon erro file not exist !")
+        else:
+            '读取ini中api的配置信息'
+            try:
+                config = configparser.ConfigParser()
+                config.read_file(open(self._plugin_path))
+                self._api_port = int(config.get("pluginserver", "port"))
+                print('FTApiDaemon find api_port={}'.format(self._api_port))
+                del config
+            except Exception as e:
+                print('FTApiDaemon config read error!')
 
     ''' 启动线程监控ftnn api 进程'''
     def start(self):
@@ -45,6 +49,7 @@ class FTApiDaemon:
 
         if self._api_port is None:
             print("FTApiDaemon start fail!")
+            return
 
         self._started = True
         self._close = False
