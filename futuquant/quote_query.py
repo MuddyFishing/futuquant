@@ -1322,6 +1322,7 @@ class GlobalStateQuery:
                     "Market_US":"11",
                     "Quote_Logined":"1",
                     "Trade_Logined":"1"
+                    "TimeStamp":"1508250058"
                    }
 
         """
