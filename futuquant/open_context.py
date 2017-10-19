@@ -141,7 +141,7 @@ class BrokerHandlerBase(RspHandlerBase):
         """receive response callback function"""
         ret_code, bid_content, ask_content = BrokerQueueQuery.unpack_rsp(rsp_str)
         if ret_code == RET_ERROR:
-            return ret_code, bid_content, ask_content
+            return ret_code, [bid_content, ask_content]
         else:
             bid_list = ['code', 'bid_broker_id', 'bid_broker_name', 'bid_broker_pos']
             ask_list = ['code', 'ask_broker_id', 'ask_broker_name', 'ask_broker_pos']
@@ -161,7 +161,7 @@ class HeartBeatHandlerBase(RspHandlerBase):
         """receive response callback function"""
         ret_code, msg, timestamp = HeartBeatPush.unpack_rsp(rsp_str)
 
-        return ret_code, msg, timestamp
+        return ret_code, timestamp
 
     def on_error(self, error_str):
         """error callback function"""
