@@ -1031,3 +1031,210 @@ class TradePushQuery:
                     }
         return RET_OK, "", deal_info
 
+
+class HistoryOrderListQuery:
+    """Class for querying Histroy Order"""
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def hk_pack_req(cls, cookie, statusfilter, strcode, start, end, envtype):
+        """Convert from user request for trading days to PLS request"""
+        req = {"Protocol": "6011",
+               "Version": "1",
+               "ReqParam": {"Cookie": str(cookie),
+                            "EnvType": str(envtype),
+                            "StatusFilterStr": str(statusfilter),
+                            "StockCode": strcode,
+                            "start_date": start,
+                            "end_date": end,
+                            }
+               }
+        req_str = json.dumps(req) + '\r\n'
+        return RET_OK, "", req_str
+
+    @classmethod
+    def hk_unpack_rsp(cls, rsp_str):
+        """Convert from PLS response to user response"""
+        ret, msg, rsp = extract_pls_rsp(rsp_str)
+        if ret != RET_OK:
+            return RET_ERROR, msg, None
+
+        rsp_data = rsp['RetData']
+
+        if 'EnvType' not in rsp_data:
+            error_str = ERROR_STR_PREFIX + "cannot find EnvType in client rsp. Response: %s" % rsp_str
+            return RET_ERROR, error_str, None
+
+        if "HKOrderArr" not in rsp_data:
+            error_str = ERROR_STR_PREFIX + "cannot find HKOrderArr in client rsp. Response: %s" % rsp_str
+            return RET_ERROR, error_str, None
+
+        raw_order_list = rsp_data["HKOrderArr"]
+        if raw_order_list is None or len(raw_order_list) == 0:
+            return RET_OK, "", []
+
+        order_list = [{"code": merge_stock_str(1, order['StockCode']),
+                       "stock_name": order["StockName"],
+                       "dealt_qty": order['DealtQty'],
+                       "qty": order['Qty'],
+                       "orderid": order['OrderID'],
+                       "order_type": order['OrderType'],
+                       "order_side": order['OrderSide'],
+                       "price": float(order['Price']) / 1000,
+                       "status": order['Status'],
+                       "submited_time": order['SubmitedTime'],
+                       "updated_time": order['UpdatedTime']
+                       }
+                      for order in raw_order_list]
+        return RET_OK, "", order_list
+
+    @classmethod
+    def us_pack_req(cls, cookie, statusfilter, strcode, start, end, envtype):
+        """Convert from user request for trading days to PLS request"""
+        req = {"Protocol": "7011",
+               "Version": "1",
+               "ReqParam": {"Cookie": str(cookie),
+                            "EnvType": str(envtype),
+                            "StatusFilterStr": str(statusfilter),
+                            "StockCode": strcode,
+                            "start_date": start,
+                            "end_date": end,
+                            }
+               }
+        req_str = json.dumps(req) + '\r\n'
+        return RET_OK, "", req_str
+
+    @classmethod
+    def us_unpack_rsp(cls, rsp_str):
+        """Convert from PLS response to user response"""
+        ret, msg, rsp = extract_pls_rsp(rsp_str)
+        if ret != RET_OK:
+            return RET_ERROR, msg, None
+
+        rsp_data = rsp['RetData']
+
+        if "USOrderArr" not in rsp_data:
+            error_str = ERROR_STR_PREFIX + "cannot find USOrderArr in client rsp. Response: %s" % rsp_str
+            return RET_ERROR, error_str, None
+
+        raw_order_list = rsp_data["USOrderArr"]
+        if raw_order_list is None or len(raw_order_list) == 0:
+            return RET_OK, "", []
+
+        order_list = [{"code": merge_stock_str(2, order['StockCode']),
+                       "stock_name": order["StockName"],
+                       "dealt_qty": order['DealtQty'],
+                       "qty": order['Qty'],
+                       "orderid": order['OrderID'],
+                       "order_type": order['OrderType'],
+                       "order_side": order['OrderSide'],
+                       "price": float(order['Price']) / 1000,
+                       "status": order['Status'],
+                       "submited_time": order['SubmitedTime'],
+                       "updated_time": order['UpdatedTime']
+                       }
+                      for order in raw_order_list]
+        return RET_OK, "", order_list
+
+
+class HistoryDealListQuery:
+    """Class for """
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def hk_pack_req(cls, cookie, strcode, start, end, envtype):
+        """Convert from user request for trading days to PLS request"""
+        req = {"Protocol": "6012",
+               "Version": "1",
+               "ReqParam": {"Cookie": str(cookie),
+                            "EnvType": str(envtype),
+                            "StockCode": strcode,
+                            "start_date": start,
+                            "end_date": end,
+                            }
+               }
+        req_str = json.dumps(req) + '\r\n'
+        return RET_OK, "", req_str
+
+    @classmethod
+    def hk_unpack_rsp(cls, rsp_str):
+        """Convert from PLS response to user response"""
+        ret, msg, rsp = extract_pls_rsp(rsp_str)
+        if ret != RET_OK:
+            return RET_ERROR, msg, None
+
+        rsp_data = rsp['RetData']
+
+        if 'Cookie' not in rsp_data or 'EnvType' not in rsp_data:
+            return RET_ERROR, msg, None
+
+        if "HKDealArr" not in rsp_data:
+            error_str = ERROR_STR_PREFIX + "cannot find HKDealArr in client rsp. Response: %s" % rsp_str
+            return RET_ERROR, error_str, None
+
+        raw_deal_list = rsp_data["HKDealArr"]
+        if raw_deal_list is None or len(raw_deal_list) == 0:
+            return RET_OK, "", []
+
+        deal_list = [{"code": merge_stock_str(1, deal['StockCode']),
+                      "stock_name": deal["StockName"],
+                      "dealid": deal['DealID'],
+                      "orderid": deal['OrderID'],
+                      "qty": deal['Qty'],
+                      "price": float(deal['Price']) / 1000,
+                      "time": deal['Time'],
+                      "order_side": deal['OrderSide'],
+                      "contra_broker_id": int(deal['ContraBrokerID']),
+                      "contra_broker_name": deal['ContraBrokerName'],
+                      }
+                     for deal in raw_deal_list]
+        return RET_OK, "", deal_list
+
+    @classmethod
+    def us_pack_req(cls, cookie,  strcode, start, end, envtype):
+        """Convert from user request for trading days to PLS request"""
+        req = {"Protocol": "7012",
+               "Version": "1",
+               "ReqParam": {"Cookie": str(cookie),
+                            "EnvType": str(envtype),
+                            "StockCode": strcode,
+                            "start_date": start,
+                            "end_date": end,
+                            }
+               }
+        req_str = json.dumps(req) + '\r\n'
+        return RET_OK, "", req_str
+
+    @classmethod
+    def us_unpack_rsp(cls, rsp_str):
+        """Convert from PLS response to user response"""
+        ret, msg, rsp = extract_pls_rsp(rsp_str)
+        if ret != RET_OK:
+            return RET_ERROR, msg, None
+
+        rsp_data = rsp['RetData']
+
+        if "USDealArr" not in rsp_data:
+            error_str = ERROR_STR_PREFIX + "cannot find USDealArr in client rsp. Response: %s" % rsp_str
+            return RET_ERROR, error_str, None
+
+        raw_deal_list = rsp_data["USDealArr"]
+        if raw_deal_list is None or len(raw_deal_list) == 0:
+            return RET_OK, "", []
+
+        deal_list = [{"code": merge_stock_str(2, deal['StockCode']),
+                      "stock_name": deal["StockName"],
+                      "dealid": deal['DealID'],
+                      "orderid": deal['OrderID'],
+                      "qty": deal['Qty'],
+                      "price": float(deal['Price']) / 1000,
+                      "order_side": deal['OrderSide'],
+                      "time": deal['Time'],
+                      }
+                     for deal in raw_deal_list]
+        return RET_OK, "", deal_list
+

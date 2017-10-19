@@ -1630,6 +1630,62 @@ class OpenHKTradeContext(OpenContextBase):
 
         return RET_OK, deal_list_table
 
+    def history_order_list_query(self, statusfilter='', strcode='', start='', end='', envtype=0):
+        """for querying the order list"""
+        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
+            error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
+            return RET_ERROR, error_str
+
+        query_processor = self._get_sync_query_processor(HistoryOrderListQuery.hk_pack_req,
+                                                         HistoryOrderListQuery.hk_unpack_rsp)
+
+        # the keys of kargs should be corresponding to the actual function arguments
+        kargs = {'cookie': str(self.cookie),
+                 'statusfilter': str(statusfilter),
+                 'strcode': str(strcode),
+                 'start': str(start),
+                 'end': str(end),
+                 'envtype': str(envtype)}
+        ret_code, msg, order_list = query_processor(**kargs)
+
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
+
+        col_list = ["code", "stock_name", "dealt_qty", "qty",
+                    "orderid", "order_type", "order_side", "price",
+                    "status", "submited_time", "updated_time"]
+
+        order_list_table = pd.DataFrame(order_list, columns=col_list)
+
+        return RET_OK, order_list_table
+
+    def history_deal_list_query(self, strcode, start, end, envtype=0):
+        """for querying deal list"""
+        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
+            error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
+            return RET_ERROR, error_str
+
+        query_processor = self._get_sync_query_processor(HistoryDealListQuery.hk_pack_req,
+                                                         HistoryDealListQuery.hk_unpack_rsp)
+
+        # the keys of kargs should be corresponding to the actual function arguments
+        kargs = {'cookie': str(self.cookie),
+                 'strcode': str(strcode),
+                 'start': str(start),
+                 'end': str(end),
+                 'envtype': str(envtype)}
+
+        ret_code, msg, deal_list = query_processor(**kargs)
+
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
+
+        col_list = ["code", "stock_name", "dealid", "orderid", "qty", "price",
+                    "order_side", "time", "contra_broker_id", "contra_broker_name"]
+
+        deal_list_table = pd.DataFrame(deal_list, columns=col_list)
+
+        return RET_OK, deal_list_table
 
 class OpenUSTradeContext(OpenContextBase):
     """Class for set context of US stock trade"""
@@ -1852,6 +1908,63 @@ class OpenUSTradeContext(OpenContextBase):
         #"orderside" 保留是为了兼容旧版本, 对外文档统一为"order_side"
         col_list = ["code", "stock_name", "dealid", "orderid",
                     "qty", "price", "orderside", "time", "order_side"]
+
+        deal_list_table = pd.DataFrame(deal_list, columns=col_list)
+
+        return RET_OK, deal_list_table
+
+    def history_order_list_query(self, statusfilter='', strcode='', start='', end='', envtype=0):
+        """for querying order list"""
+        if int(envtype) != 0:
+            error_str = ERROR_STR_PREFIX + "us stocks temporarily only support real trading "
+            return RET_ERROR, error_str
+
+        query_processor = self._get_sync_query_processor(HistoryOrderListQuery.us_pack_req,
+                                                         HistoryOrderListQuery.us_unpack_rsp)
+
+        # the keys of kargs should be corresponding to the actual function arguments
+        kargs = {'cookie': str(self.cookie),
+                 'statusfilter': str(statusfilter),
+                 'strcode': str(strcode),
+                 'start': str(start),
+                 'end': str(end),
+                 'envtype': str(envtype)}
+
+        ret_code, msg, order_list = query_processor(**kargs)
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
+
+        col_list = ["code", "stock_name", "dealt_qty", "qty",
+                    "orderid", "order_type", "order_side", "price",
+                    "status", "submited_time", "updated_time"]
+
+        order_list_table = pd.DataFrame(order_list, columns=col_list)
+
+        return RET_OK, order_list_table
+
+    def history_deal_list_query(self, strcode, start, end, envtype=0):
+        """for querying deal list"""
+        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
+            error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
+            return RET_ERROR, error_str
+
+        query_processor = self._get_sync_query_processor(HistoryDealListQuery.us_pack_req,
+                                                         HistoryDealListQuery.us_unpack_rsp)
+
+        # the keys of kargs should be corresponding to the actual function arguments
+        kargs = {'cookie': str(self.cookie),
+                 'strcode': str(strcode),
+                 'start': str(start),
+                 'end': str(end),
+                 'envtype': str(envtype)}
+
+        ret_code, msg, deal_list = query_processor(**kargs)
+
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
+
+        col_list = ["code", "stock_name", "dealid", "orderid",
+                    "qty", "price", "order_side", "time"]
 
         deal_list_table = pd.DataFrame(deal_list, columns=col_list)
 
