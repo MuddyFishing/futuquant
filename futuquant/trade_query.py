@@ -4,8 +4,8 @@
 """
 import sys
 import json
+import traceback
 from datetime import datetime
-
 from .constant import *
 
 
@@ -15,6 +15,7 @@ def check_date_str_format(s):
         _ = datetime.strptime(s, "%Y-%m-%d")
         return RET_OK, None
     except ValueError:
+        traceback.print_exc()
         err = sys.exc_info()[1]
         error_str = ERROR_STR_PREFIX + str(err)
         return RET_ERROR, error_str
@@ -25,6 +26,7 @@ def extract_pls_rsp(rsp_str):
     try:
         rsp = json.loads(rsp_str)
     except ValueError:
+        traceback.print_exc()
         err = sys.exc_info()[1]
         err_str = ERROR_STR_PREFIX + str(err)
         return RET_ERROR, err_str, None
@@ -935,13 +937,13 @@ class TradePushQuery:
                        "code": merge_stock_str(1, rsp_data['StockCode']),
                        "stock_name": rsp_data["StockName"],
                        "dealt_avg_price": float(rsp_data['DealtAvgPrice']) / 1000,
-                       "dealt_qty": int(rsp_data['DealtQty']),
-                       "qty": int(rsp_data['Qty']),
-                       "orderid": int(rsp_data['OrderID']),
-                       "order_type": int(rsp_data['OrderType']),
-                       "order_side": int(rsp_data['OrderSide']),
+                       "dealt_qty": rsp_data['DealtQty'],
+                       "qty": rsp_data['Qty'],
+                       "orderid": rsp_data['OrderID'],
+                       "order_type": rsp_data['OrderType'],
+                       "order_side": rsp_data['OrderSide'],
                        "price": float(rsp_data['Price']) / 1000,
-                       "status": int(rsp_data['Status']),
+                       "status": rsp_data['Status'],
                        "submited_time": rsp_data['SubmitedTime'],
                        "updated_time": rsp_data['UpdatedTime']
                      }
@@ -992,13 +994,13 @@ class TradePushQuery:
                        "code": merge_stock_str(2, rsp_data['StockCode']),
                        "stock_name": rsp_data["StockName"],
                        "dealt_avg_price": float(rsp_data['DealtAvgPrice']) / 1000,
-                       "dealt_qty": int(rsp_data['DealtQty']),
-                       "qty": int(rsp_data['Qty']),
-                       "orderid": int(rsp_data['OrderID']),
-                       "order_type": int(rsp_data['OrderType']),
-                       "order_side": int(rsp_data['OrderSide']),
+                       "dealt_qty": rsp_data['DealtQty'],
+                       "qty": rsp_data['Qty'],
+                       "orderid": rsp_data['OrderID'],
+                       "order_type": rsp_data['OrderType'],
+                       "order_side": rsp_data['OrderSide'],
                        "price": float(rsp_data['Price']) / 1000,
-                       "status": int(rsp_data['Status']),
+                       "status": rsp_data['Status'],
                        "submited_time": rsp_data['SubmitedTime'],
                        "updated_time": rsp_data['UpdatedTime']
                      }

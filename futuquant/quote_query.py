@@ -8,6 +8,7 @@ from datetime import datetime
 from datetime import timedelta
 from .utils import is_str
 from .constant import *
+import traceback
 
 
 def check_date_str_format(s):
@@ -16,6 +17,7 @@ def check_date_str_format(s):
         _ = datetime.strptime(s, "%Y-%m-%d")
         return RET_OK, None
     except ValueError:
+        traceback.print_exc()
         err = sys.exc_info()[1]
         error_str = ERROR_STR_PREFIX + str(err)
         return RET_ERROR, error_str
@@ -26,6 +28,7 @@ def extract_pls_rsp(rsp_str):
     try:
         rsp = json.loads(rsp_str)
     except ValueError:
+        traceback.print_exc()
         err = sys.exc_info()[1]
         err_str = ERROR_STR_PREFIX + str(err)
         return RET_ERROR, err_str, None
@@ -1200,6 +1203,7 @@ class CurKlineQuery:
             k_type = int(k_type)
             k_type = QUOTE.REV_KTYPE_MAP[k_type]
         except TypeError:
+            traceback.print_exc()
             err = sys.exc_info()[1]
             error_str = ERROR_STR_PREFIX + str(err) + str(rsp_data["KLType"])
             return RET_ERROR, error_str, None

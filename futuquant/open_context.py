@@ -17,6 +17,7 @@ import time
 from time import sleep
 from abc import ABCMeta, abstractmethod
 from struct import pack
+import traceback
 
 
 class RspHandlerBase(object):
@@ -398,6 +399,7 @@ class _SyncNetworkQueryCtx:
                     if recv_buf == b'':
                         raise Exception("_SyncNetworkQueryCtx : remote server close")
                 except Exception as e:
+                    traceback.print_exc()
                     err = sys.exc_info()[1]
                     error_str = ERROR_STR_PREFIX + str(
                         err) + ' when receiving after sending %s bytes. For req: ' % s_cnt + req_str
@@ -407,6 +409,7 @@ class _SyncNetworkQueryCtx:
             rsp_str = binary2str(rsp_buf)
             self._close_session()
         except Exception as e:
+            traceback.print_exc()
             err = sys.exc_info()[1]
             error_str = ERROR_STR_PREFIX + str(err) + ' when sending. For req: ' + req_str
 
@@ -441,6 +444,7 @@ class _SyncNetworkQueryCtx:
                 self.s = s
                 self.s.connect((self.__host, self.__port))
             except Exception as e:
+                traceback.print_exc()
                 err = sys.exc_info()[1]
                 err_msg = ERROR_STR_PREFIX + str(err)
                 print("socket connect err:{}".format(err_msg))
@@ -539,6 +543,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                 self.handler_ctx.recv_func(rsp_str)
                 loc = self.rsp_buf.find(delimiter)
         except Exception as e:
+            traceback.print_exc()
             err = sys.exc_info()[1]
             self.handler_ctx.error_func(str(err))
             return
@@ -573,10 +578,13 @@ def _net_proc(async_ctx, req_queue):
     """
     while True:
         if req_queue.empty() is False:
-            ctl_flag, req_str = req_queue.get(timeout=0.001)
-            if ctl_flag is False:
-                break
-            async_ctx.network_query(req_str)
+            try:
+                ctl_flag, req_str = req_queue.get(timeout=0.001)
+                if ctl_flag is False:
+                    break
+                async_ctx.network_query(req_str)
+            except Exception as e:
+                traceback.print_exc()
 
         asyncore.loop(timeout=0.001, count=5)
 
@@ -712,6 +720,7 @@ class OpenContextBase(object):
                 self._req_queue.put((True, req_str), timeout=1)
                 return RET_OK, ''
             except Exception as e:
+                traceback.print_exc()
                 _ = e
                 err = sys.exc_info()[1]
                 error_str = ERROR_STR_PREFIX + str(err)
@@ -756,6 +765,7 @@ class OpenContextBase(object):
                     if self._sync_query_lock:
                         self._sync_query_lock.release()
                 except Exception as e:
+                    traceback.print_exc()
                     err = sys.exc_info()[1]
                     print(err)
 
@@ -771,6 +781,7 @@ class OpenContextBase(object):
                 self._req_queue.put((False, None), timeout=1)
                 return RET_OK, ''
             except Exception as e:
+                traceback.print_exc()
                 _ = e
                 err = sys.exc_info()[1]
                 error_str = ERROR_STR_PREFIX + str(err)
@@ -825,6 +836,7 @@ class OpenContextBase(object):
                 if self._sync_query_lock:
                     self._sync_query_lock.release()
             except Exception as e:
+                traceback.print_exc()
                 err = sys.exc_info()[1]
                 print(err)
 
