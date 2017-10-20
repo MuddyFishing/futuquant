@@ -543,7 +543,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                 self.handler_ctx.recv_func(rsp_str)
                 loc = self.rsp_buf.find(delimiter)
         except Exception as e:
-            if isinstance(e, BlockingIOError) and e.winerror == 10035:
+            if isinstance(e, IOError) and e.errno == 10035:
                 return
             traceback.print_exc()
             err = sys.exc_info()[1]
