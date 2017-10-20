@@ -543,6 +543,8 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                 self.handler_ctx.recv_func(rsp_str)
                 loc = self.rsp_buf.find(delimiter)
         except Exception as e:
+            if isinstance(e, BlockingIOError) and e.winerror == 10035:
+                return
             traceback.print_exc()
             err = sys.exc_info()[1]
             self.handler_ctx.error_func(str(err))
@@ -567,26 +569,6 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         if self.__host is not None and self.__port is not None:
             self.create_socket(sock.AF_INET, sock.SOCK_STREAM)
             self.connect((self.__host, self.__port))
-
-
-def _net_proc(async_ctx, req_queue):
-    """
-    processing request queue
-    :param async_ctx:
-    :param req_queue: request queue
-    :return:
-    """
-    while True:
-        if req_queue.empty() is False:
-            try:
-                ctl_flag, req_str = req_queue.get(timeout=0.001)
-                if ctl_flag is False:
-                    break
-                async_ctx.network_query(req_str)
-            except Exception as e:
-                traceback.print_exc()
-
-        asyncore.loop(timeout=0.001, count=5)
 
 
 class OpenContextBase(object):
@@ -810,7 +792,7 @@ class OpenContextBase(object):
                     self._req_queue = Queue()
                     self._async_ctx = _AsyncNetworkManager(self.__host, self.__port, self._handlers_ctx, self)
                     if self._net_proc is None:
-                        self._net_proc = Thread(target=_net_proc, args=(self._async_ctx, self._req_queue,))
+                        self._net_proc = Thread(target=self._fun_net_proc, args=(self._async_ctx, self._req_queue,))
                 else:
                     self._async_ctx.reconnect()
 
@@ -891,6 +873,25 @@ class OpenContextBase(object):
                 self._check_last_req_time = cur_time
                 if self._thread_check_sync_sock is thread_handle:
                     self.get_global_state()
+
+    def _fun_net_proc(self, async_ctx, req_queue):
+        """
+        processing request queue
+        :param async_ctx:
+        :param req_queue: request queue
+        :return:
+        """
+        while True:
+            if req_queue.empty() is False:
+                try:
+                    ctl_flag, req_str = req_queue.get(timeout=0.001)
+                    if ctl_flag is False:
+                        break
+                    async_ctx.network_query(req_str)
+                except Exception as e:
+                    traceback.print_exc()
+
+            asyncore.loop(timeout=0.001, count=5)
 
 
 class OpenQuoteContext(OpenContextBase):
