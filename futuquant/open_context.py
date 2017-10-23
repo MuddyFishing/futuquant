@@ -1558,7 +1558,7 @@ class OpenHKTradeContext(OpenContextBase):
 
         return RET_OK, accinfo_frame_table
 
-    def order_list_query(self, statusfilter="", envtype=0):
+    def order_list_query(self, statusfilter="",  strcode='', start='', end='', envtype=0):
         """for querying the order list"""
         if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
@@ -1568,7 +1568,12 @@ class OpenHKTradeContext(OpenContextBase):
                                                          OrderListQuery.hk_unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {'cookie': str(self.cookie), 'envtype': str(envtype), 'statusfilter': str(statusfilter)}
+        kargs = {'cookie': str(self.cookie),
+                 'statusfilter': str(statusfilter),
+                 'strcode': str(strcode),
+                 'start': str(start),
+                 'end': str(end),
+                 'envtype': str(envtype)}
         ret_code, msg, order_list = query_processor(**kargs)
 
         if ret_code != RET_OK:
@@ -1582,7 +1587,8 @@ class OpenHKTradeContext(OpenContextBase):
 
         return RET_OK, order_list_table
 
-    def position_list_query(self, envtype=0):
+    def position_list_query(self, strcode='', stocktype='', pl_ratio_min='',
+                            pl_ratio_max='', envtype=0):
         """for querying the position list"""
         if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
@@ -1592,7 +1598,12 @@ class OpenHKTradeContext(OpenContextBase):
                                                          PositionListQuery.hk_unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {'cookie': str(self.cookie), 'envtype': str(envtype)}
+        kargs = {'cookie': str(self.cookie),
+                 'strcode': str(strcode),
+                 'stocktype': str(stocktype),
+                 'pl_ratio_min': str(pl_ratio_min),
+                 'pl_ratio_max': str(pl_ratio_max),
+                 'envtype': str(envtype)}
         ret_code, msg, position_list = query_processor(**kargs)
 
         if ret_code != RET_OK:
@@ -1752,7 +1763,7 @@ class OpenUSTradeContext(OpenContextBase):
                                                          PlaceOrder.us_unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {'cookie': str(self.cookie), 'envtype': '0', 'orderside': str(orderside),
+        kargs = {'cookie': str(self.cookie), 'envtype': str(envtype), 'orderside': str(orderside),
                  'ordertype': str(ordertype), 'price': str(price), 'qty': str(qty), 'strcode': str(stock_code)}
 
         ret_code, msg, place_order_list = query_processor(**kargs)
@@ -1786,7 +1797,7 @@ class OpenUSTradeContext(OpenContextBase):
                                                          SetOrderStatus.us_unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {'cookie': str(self.cookie), 'envtype': '0', 'localid': str(0),
+        kargs = {'cookie': str(self.cookie), 'envtype': str(envtype), 'localid': str(0),
                  'orderid': str(orderid), 'status': '0'}
 
         ret_code, msg, set_order_list = query_processor(**kargs)
@@ -1808,7 +1819,7 @@ class OpenUSTradeContext(OpenContextBase):
                                                          ChangeOrder.us_unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {'cookie': str(self.cookie), 'envtype': '0', 'localid': str(0),
+        kargs = {'cookie': str(self.cookie), 'envtype': str(envtype), 'localid': str(0),
                  'orderid': str(orderid), 'price': str(price), 'qty': str(qty)}
 
         ret_code, msg, change_order_list = query_processor(**kargs)
@@ -1830,7 +1841,7 @@ class OpenUSTradeContext(OpenContextBase):
                                                          AccInfoQuery.us_unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {'cookie': str(self.cookie), 'envtype': '0'}
+        kargs = {'cookie': str(self.cookie), 'envtype': str(envtype)}
 
         ret_code, msg, accinfo_list = query_processor(**kargs)
         if ret_code != RET_OK:
@@ -1841,7 +1852,7 @@ class OpenUSTradeContext(OpenContextBase):
 
         return RET_OK, accinfo_frame_table
 
-    def order_list_query(self, statusfilter="", envtype=0):
+    def order_list_query(self, statusfilter="", strcode='', start='', end='', envtype=0):
         """for querying order list"""
         if int(envtype) != 0:
             error_str = ERROR_STR_PREFIX + "us stocks temporarily only support real trading "
@@ -1851,8 +1862,12 @@ class OpenUSTradeContext(OpenContextBase):
                                                          OrderListQuery.us_unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {'cookie': str(self.cookie), 'envtype': '0', 'statusfilter': str(statusfilter)}
-
+        kargs = {'cookie': str(self.cookie),
+                 'statusfilter': str(statusfilter),
+                 'strcode': str(strcode),
+                 'start': str(start),
+                 'end': str(end),
+                 'envtype': str(envtype)}
         ret_code, msg, order_list = query_processor(**kargs)
         if ret_code != RET_OK:
             return RET_ERROR, msg
@@ -1865,7 +1880,8 @@ class OpenUSTradeContext(OpenContextBase):
 
         return RET_OK, order_list_table
 
-    def position_list_query(self, envtype=0):
+    def position_list_query(self, strcode='', stocktype='', pl_ratio_min='',
+                            pl_ratio_max='', envtype=0):
         """for querying the position"""
         if int(envtype) != 0:
             error_str = ERROR_STR_PREFIX + "us stocks temporarily only support real trading "
@@ -1875,7 +1891,12 @@ class OpenUSTradeContext(OpenContextBase):
                                                          PositionListQuery.us_unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {'cookie': str(self.cookie), 'envtype': '0'}
+        kargs = {'cookie': str(self.cookie),
+                 'strcode': str(strcode),
+                 'stocktype': str(stocktype),
+                 'pl_ratio_min': str(pl_ratio_min),
+                 'pl_ratio_max': str(pl_ratio_max),
+                 'envtype': str(envtype)}
         ret_code, msg, position_list = query_processor(**kargs)
 
         if ret_code != RET_OK:
@@ -1900,7 +1921,7 @@ class OpenUSTradeContext(OpenContextBase):
                                                          DealListQuery.us_unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {'cookie': str(self.cookie), 'envtype': '0'}
+        kargs = {'cookie': str(self.cookie), 'envtype': str(envtype)}
         ret_code, msg, deal_list = query_processor(**kargs)
 
         if ret_code != RET_OK:

@@ -72,38 +72,52 @@ if __name__ == "__main__":
     trade_context.set_handler(HKDealPushHandler())
     trade_context.start()
 
+    # print('\nHK position_list_query:\n')
+    print(trade_context.position_list_query(strcode='', stocktype='',
+                                           pl_ratio_min='', pl_ratio_max='', envtype=1))
+
     # print('\nHK history_order_list_query:\n')
     # print(trade_context.history_order_list_query(statusfilter='2,3', strcode='', start='2016-01-01', end='2017-12-31', envtype=1))
-    # print('\nHK order_list_query:\n')
-    # print(trade_context.order_list_query(statusfilter='', envtype=1))
+
+    #print('\nHK order_list_query:\n')
+    #print(trade_context.order_list_query(statusfilter='1,2,3', strcode='HK.01357', start='09:30:00', end='15:00:00', envtype=1))
 
     # print('\nHK history_deal_list_query:\n')
     # print(trade_context.history_deal_list_query(strcode='', start='2016-01-01', end='2017-12-31', envtype=1))
+
     # print('\nHK deal_list_query:\n')
     # print(trade_context.deal_list_query(envtype=1))
 
-    print('\nHK place_order:')
-    print(trade_context.place_order(price=4.10, qty=1000, strcode='HK.03883', orderside=0, ordertype=0, envtype=1, orderpush=True, dealpush=True))
+    # print('\nHK place_order:')
+    # print(trade_context.place_order(price=4.09, qty=1000, strcode='HK.03883', orderside=0, ordertype=0, envtype=1,
+    #                                orderpush=True, dealpush=True))
+    # print(trade_context.place_order(price=11.500, qty=1000, strcode='HK.01357', orderside=0, ordertype=0, envtype=1,
+    #                                orderpush=True, dealpush=True))
     # '''
 
     '''
     #美股正式环境下单及推送
     trade_context = OpenUSTradeContext(host=api_ip, port=api_port)
-    trade_context.unlock_trade(unlock_pwd)
+    print(trade_context.unlock_trade(unlock_pwd))
     trade_context.set_handler(USOrderPushHandler())
     trade_context.set_handler(USDealPushHandler())
     trade_context.start()
 
+    print('\nUS position_list_query:\n')
+    print(trade_context.position_list_query(strcode='', stocktype='',
+                                            pl_ratio_min='', pl_ratio_max='', envtype=0))
+
     # print('\nUS. history_order_list_query:\n')
     # print(trade_context.history_order_list_query(statusfilter='', strcode='', start='2016-01-01', end='2017-12-31', envtype=0))
+
     # print('\nUS. order_list_query:\n')
-    # print(trade_context.order_list_query(statusfilter='', envtype=0))
+    # print(trade_context.order_list_query(statusfilter='', strcode='US.MIN', start='', end='', envtype=0))
 
     # print('\nUS. history_deal_list_query:\n')
     # print(trade_context.history_deal_list_query(strcode='', start='2016-01-01', end='2017-12-31', envtype=0))
     # print('\nUS. deal_list_query:\n')
     # print(trade_context.deal_list_query(envtype=0))
 
-    print('\nUS place_order:')
-    # print(trade_context.place_order(price=2.01, qty=1, strcode='US.MIN', orderside=0, ordertype=2, envtype=0, orderpush=True, dealpush=True))
+    # print('\nUS place_order:')
+    # print(trade_context.place_order(price="2.01", qty=1, strcode='US.MIN', orderside=0, ordertype=2, envtype=0, orderpush=True, dealpush=True))
     '''

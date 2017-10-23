@@ -7,6 +7,7 @@ import json
 import traceback
 from datetime import datetime
 from .constant import *
+from .utils import str_price1000
 
 
 def check_date_str_format(s):
@@ -172,7 +173,7 @@ class PlaceOrder:
                             "EnvType": envtype,
                             "OrderSide": orderside,
                             "OrderType": ordertype,
-                            "Price": str(float(price) * 1000),
+                            "Price": str_price1000(price),
                             "Qty": qty,
                             "StockCode": strcode
                             }
@@ -224,7 +225,7 @@ class PlaceOrder:
                             "EnvType": envtype,
                             "OrderSide": orderside,
                             "OrderType": ordertype,
-                            "Price": str(float(price) * 1000),
+                            "Price": str_price1000(price),
                             "Qty": qty,
                             "StockCode": strcode
                             }
@@ -383,7 +384,7 @@ class ChangeOrder:
                             "EnvType": envtype,
                             "LocalID": localid,
                             "OrderID": orderid,
-                            "Price": str(float(price) * 1000),
+                            "Price": str_price1000(price),
                             "Qty": qty,
                             }
                }
@@ -429,7 +430,7 @@ class ChangeOrder:
                             "EnvType": envtype,
                             "LocalID": localid,
                             "OrderID": orderid,
-                            "Price": str(float(price) * 1000),
+                            "Price": str_price1000(price),
                             "Qty": qty,
                             }
                }
@@ -569,7 +570,7 @@ class OrderListQuery:
         pass
 
     @classmethod
-    def hk_pack_req(cls, cookie, envtype, statusfilter):
+    def hk_pack_req(cls, cookie, statusfilter, strcode, start, end, envtype):
         """Convert from user request for trading days to PLS request"""
         if int(envtype) < 0 or int(envtype) > 1:
             error_str = ERROR_STR_PREFIX + "parameter envtype is wrong"
@@ -579,7 +580,10 @@ class OrderListQuery:
                "Version": "1",
                "ReqParam": {"Cookie": str(cookie),
                             "EnvType": str(envtype),
-                            "StatusFilterStr": str(statusfilter)
+                            "StatusFilterStr": str(statusfilter),
+                            "StockCode": strcode,
+                            "start_time": start,
+                            "end_time": end,
                             }
                }
         req_str = json.dumps(req) + '\r\n'
@@ -623,13 +627,16 @@ class OrderListQuery:
         return RET_OK, "", order_list
 
     @classmethod
-    def us_pack_req(cls, cookie, envtype, statusfilter):
+    def us_pack_req(cls, cookie, statusfilter, strcode, start, end, envtype):
         """Convert from user request for trading days to PLS request"""
         req = {"Protocol": "7008",
                "Version": "1",
                "ReqParam": {"Cookie": str(cookie),
                             "EnvType": str(envtype),
-                            "StatusFilterStr": str(statusfilter)
+                            "StatusFilterStr": str(statusfilter),
+                            "StockCode": strcode,
+                            "start_time": start,
+                            "end_time": end,
                             }
                }
         req_str = json.dumps(req) + '\r\n'
@@ -654,7 +661,6 @@ class OrderListQuery:
 
         order_list = [{"code": merge_stock_str(2, order['StockCode']),
                        "stock_name": order["StockName"],
-                       "dealt_avg_price": float(order['DealtAvgPrice']) / 1000,
                        "dealt_qty": order['DealtQty'],
                        "qty": order['Qty'],
                        "orderid": order['OrderID'],
@@ -676,7 +682,7 @@ class PositionListQuery:
         pass
 
     @classmethod
-    def hk_pack_req(cls, cookie, envtype):
+    def hk_pack_req(cls, cookie, strcode, stocktype, pl_ratio_min, pl_ratio_max, envtype):
         """Convert from user request for trading days to PLS request"""
         if int(envtype) < 0 or int(envtype) > 1:
             error_str = ERROR_STR_PREFIX + "parameter envtype is wrong"
@@ -685,6 +691,10 @@ class PositionListQuery:
         req = {"Protocol": "6009",
                "Version": "1",
                "ReqParam": {"Cookie": cookie,
+                            "StockCode": strcode,
+                            "StockType": stocktype,
+                            "PLRatioMin": str_price1000(pl_ratio_min),
+                            "PLRatioMax": str_price1000(pl_ratio_max),
                             "EnvType": envtype,
                             }
                }
@@ -733,11 +743,15 @@ class PositionListQuery:
         return RET_OK, "", position_list
 
     @classmethod
-    def us_pack_req(cls, cookie, envtype):
+    def us_pack_req(cls, cookie, strcode, stocktype, pl_ratio_min, pl_ratio_max, envtype):
         """Convert from user request for trading days to PLS request"""
         req = {"Protocol": "7009",
                "Version": "1",
                "ReqParam": {"Cookie": cookie,
+                            "StockCode": strcode,
+                            "StockType": stocktype,
+                            "PLRatioMin": str_price1000(pl_ratio_min),
+                            "PLRatioMax": str_price1000(pl_ratio_max),
                             "EnvType": envtype,
                             }
                }
