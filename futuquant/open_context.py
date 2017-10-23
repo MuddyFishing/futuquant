@@ -193,6 +193,25 @@ class HKTradeOrderHandlerBase(RspHandlerBase):
         return error_str
 
 
+class HKTradeOrderPreHandler(RspHandlerBase):
+    """class for pre handle trader order push"""
+    def __init__(self, notify_obj=None):
+        self._notify_obj = notify_obj
+        super(HKTradeOrderPreHandler, self).__init__()
+
+    def on_recv_rsp(self, rsp_str):
+        """receive response callback function"""
+        ret_code, msg, order_info = TradePushQuery.hk_unpack_order_push_rsp(rsp_str)
+
+        if ret_code == RET_OK:
+            orderid = order_info['orderid']
+            envtype = order_info['envtype']
+            status = order_info['status']
+            if self._notify_obj is not None and is_HKTrade_order_status_finish(status):
+                self._notify_obj.on_trade_order_finish(orderid, envtype, status)
+
+        return ret_code, None
+
 class USTradeOrderHandlerBase(RspHandlerBase):
     """Base class for handle trader order push"""
 
@@ -216,6 +235,26 @@ class USTradeOrderHandlerBase(RspHandlerBase):
     def on_error(self, error_str):
         """error callback function"""
         return error_str
+
+
+class USTradeOrderPreHandler(RspHandlerBase):
+    """class for pre handle trader order push"""
+    def __init__(self, notify_obj=None):
+        self._notify_obj = notify_obj
+        super(USTradeOrderPreHandler, self).__init__()
+
+    def on_recv_rsp(self, rsp_str):
+        """receive response callback function"""
+        ret_code, msg, order_info = TradePushQuery.us_unpack_order_push_rsp(rsp_str)
+
+        if ret_code == RET_OK:
+            orderid = order_info['orderid']
+            envtype = order_info['envtype']
+            status = order_info['status']
+            if self._notify_obj is not None and is_USTrade_order_status_finish(status):
+                self._notify_obj.on_trade_order_finish(orderid, envtype, status)
+
+        return ret_code, None
 
 
 class HKTradeDealHandlerBase(RspHandlerBase):
@@ -285,6 +324,25 @@ class HandlerContext:
                                "7201": {"type": USTradeDealHandlerBase, "obj": USTradeDealHandlerBase()},
                                }
 
+        self._pre_handler_table = {
+                               "6200": {"type": HKTradeOrderPreHandler, "obj": HKTradeOrderPreHandler()},
+                               "7200": {"type": USTradeOrderPreHandler, "obj": USTradeOrderPreHandler()},
+                               }
+        # self._pre_handler_table = self._handler_table.copy()
+
+    def set_pre_handler(self, handler):
+        '''pre handler push
+        return: ret_error or ret_ok
+        '''
+        set_flag = False
+        for protoc in self._pre_handler_table:
+            if isinstance(handler, self._pre_handler_table[protoc]["type"]):
+                self._pre_handler_table[protoc]["obj"] = handler
+                return RET_OK
+
+        if set_flag is False:
+            return RET_ERROR
+
     def set_handler(self, handler):
         """
         set the callback processing object to be used by the receiving thread after receiving the data.User should set
@@ -308,12 +366,19 @@ class HandlerContext:
             error_str = msg + rsp_str
             print(error_str)
             return
-        else:
-            protoc_num = rsp["Protocol"]
-            if protoc_num not in self._handler_table:
-                handler = self._default_handler
-            else:
-                handler = self._handler_table[protoc_num]['obj']
+
+        protoc_num = rsp["Protocol"]
+        handler = self._default_handler
+        pre_handler = None
+
+        if protoc_num in self._handler_table:
+            handler = self._handler_table[protoc_num]['obj']
+
+        if protoc_num in self._pre_handler_table:
+            pre_handler = self._pre_handler_table[protoc_num]['obj']
+
+        if pre_handler is not None:
+            pre_handler.on_recv_rsp(rsp_str)
 
         ret, result = handler.on_recv_rsp(rsp_str)
         if ret != RET_OK:
@@ -669,6 +734,12 @@ class OpenContextBase(object):
         """
         if self._handlers_ctx is not None:
             return self._handlers_ctx.set_handler(handler)
+        return RET_ERROR
+
+    def set_pre_handler(self, handler):
+        '''set pre handler'''
+        if self._handlers_ctx is not None:
+            return self._handlers_ctx.set_pre_handler(handler)
         return RET_ERROR
 
     def get_global_state(self):
@@ -1400,6 +1471,37 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, orderbook
 
+class SafeTradeSubscribeDic:
+    def __init__(self):
+        self._dict_sub = {}
+        self._lock = RLock()
+
+    def set_val(self, orderid, envtype, orderpush, dealpush):
+        self._lock.acquire()
+        self._dict_sub[(orderid, envtype)] = (orderpush, dealpush)
+        self._lock.release()
+
+    def has_val(self, orderid, envtype):
+        ret_val = False
+        self._lock.acquire()
+        if (orderid, envtype) in self._dict_sub:
+            ret_val = True
+        self._lock.release()
+        return ret_val
+
+    def del_val(self, orderid, envtype):
+        self._lock.acquire()
+        if (orderid, envtype) in self._dict_sub:
+            self._dict_sub.pop((orderid, envtype))
+        self._lock.release()
+
+    def copy(self):
+        dict_ret = None
+        self._lock.acquire()
+        dict_ret = self._dict_sub.copy()
+        self._lock.release()
+        return dict_ret
+
 
 class OpenHKTradeContext(OpenContextBase):
     """Class for set context of HK stock trade"""
@@ -1407,7 +1509,10 @@ class OpenHKTradeContext(OpenContextBase):
 
     def __init__(self, host="127.0.0.1", port=11111):
         self._ctx_unlock = None
+        self._obj_order_sub = SafeTradeSubscribeDic()
+
         super(OpenHKTradeContext, self).__init__(host, port, True, True)
+        self.set_pre_handler(HKTradeOrderPreHandler(self))
 
     def close(self):
         """
@@ -1425,6 +1530,35 @@ class OpenHKTradeContext(OpenContextBase):
                     break
                 sleep(1)
 
+        # auto subscribe order deal push
+        dict_order_sub = self._obj_order_sub.copy()
+        for (orderid, envtype) in dict_order_sub:
+            orderpush, dealpush = dict_order_sub[(orderid, envtype)]
+            self._subscribe_order_deal_push(orderid, orderpush, dealpush, envtype)
+
+    def on_trade_order_finish(self, orderid, envtype, status):
+        '''multi thread notify order finish after subscribe order push'''
+        self._obj_order_sub.del_val(orderid=orderid, envtype=envtype)
+
+        """order(deal) push subscribe"""
+    def _subscribe_order_deal_push(self, orderid, orderpush=True, dealpush=True, envtype=0):
+        """subscribe order for recv push data"""
+        if orderpush is False and dealpush is False:
+            if not self._obj_order_sub.has_val(orderid, envtype):
+                return RET_OK
+            else:
+                self._obj_order_sub.del_val(orderid, envtype)
+        else:
+            orderpush = True  # 后续优化为一个参数
+            self._obj_order_sub.set_val(orderid, envtype, orderpush, dealpush)
+
+        ret_code, _, push_req_str = TradePushQuery.hk_pack_subscribe_req(
+            str(self.cookie), str(envtype), str(orderid), str(int(orderpush)), str(int(dealpush)))
+        if ret_code == RET_OK:
+            ret_code, _ = self._send_async_req(push_req_str)
+
+        return ret_code
+
     def unlock_trade(self, password):
         """unlock trade"""
         query_processor = self._get_sync_query_processor(UnlockTrade.pack_req,
@@ -1440,8 +1574,18 @@ class OpenHKTradeContext(OpenContextBase):
         # reconnected to auto unlock
         if RET_OK == ret_code:
             self._ctx_unlock = password
+
+            # unlock push socket
+            ret_code, msg, push_req_str = UnlockTrade.pack_req(**kargs)
+            if ret_code == RET_OK:
+                self._send_async_req(push_req_str)
+
         return RET_OK, None
 
+    def subscribe_order_deal_push(self, orderid, order_deal_push=True, envtype=0):
+        self._subscribe_order_deal_push(orderid, order_deal_push, order_deal_push, envtype)
+
+    # orderpush,dealpush 后续优化为一个参数
     def place_order(self, price, qty, strcode, orderside, ordertype=0, envtype=0, orderpush=False, dealpush=False):
         """
             place order
@@ -1472,16 +1616,12 @@ class OpenHKTradeContext(OpenContextBase):
         if ret_code != RET_OK:
             return RET_ERROR, msg
 
+        # handle order push
+        self._subscribe_order_deal_push(orderid=place_order_list[0]['orderid'],
+                                        orderpush=orderpush, dealpush=dealpush, envtype=envtype)
+
         col_list = ['envtype', 'orderid']
         place_order_table = pd.DataFrame(place_order_list, columns=col_list)
-
-        # handle order or deal push
-        if orderpush or dealpush:
-            order_id = int(place_order_list[0]['orderid'])
-            ret_code, _, push_req_str = TradePushQuery.hk_pack_subscribe_req(
-                str(self.cookie), str(envtype), str(order_id),str(int(orderpush)), str(int(dealpush)))
-            if ret_code == RET_OK:
-                self._send_async_req(push_req_str)
 
         return RET_OK, place_order_table
 
@@ -1706,7 +1846,10 @@ class OpenUSTradeContext(OpenContextBase):
 
     def __init__(self, host="127.0.0.1", port=11111):
         self._ctx_unlock = None
+        self._obj_order_sub = SafeTradeSubscribeDic()
+
         super(OpenUSTradeContext, self).__init__(host, port, True, True)
+        self.set_pre_handler(USTradeOrderPreHandler(self))
 
     def close(self):
         """
@@ -1722,6 +1865,37 @@ class OpenUSTradeContext(OpenContextBase):
                 ret, data = self.unlock_trade(self._ctx_unlock)
                 if ret == RET_OK:
                     break
+
+        # order(deal) push subscribe
+        # auto subscribe order deal push
+        dict_order_sub = self._obj_order_sub.copy()
+        for (orderid, envtype) in dict_order_sub:
+            orderpush, dealpush = dict_order_sub[(orderid, envtype)]
+            self._subscribe_order_deal_push(orderid, orderpush, dealpush, envtype)
+
+    def on_trade_order_finish(self, orderid, envtype, status):
+        '''multi thread notify order finish after subscribe order push'''
+        self._obj_order_sub.del_val(orderid=orderid, envtype=envtype)
+
+        """order(deal) push subscribe"""
+
+    def _subscribe_order_deal_push(self, orderid, orderpush=True, dealpush=True, envtype=0):
+        """subscribe order for recv push data"""
+        if orderpush is False and dealpush is False:
+            if not self._obj_order_sub.has_val(orderid, envtype):
+                return RET_OK
+            else:
+                self._obj_order_sub.del_val(orderid, envtype)
+        else:
+            orderpush = True  # 后续优化为一个参数
+            self._obj_order_sub.set_val(orderid, envtype, orderpush, dealpush)
+
+        ret_code, _, push_req_str = TradePushQuery.us_pack_subscribe_req(
+            str(self.cookie), str(envtype), str(orderid), str(int(orderpush)), str(int(dealpush)))
+        if ret_code == RET_OK:
+            ret_code, _ = self._send_async_req(push_req_str)
+
+        return ret_code
 
     def unlock_trade(self, password):
         """unlock trade"""
@@ -1739,8 +1913,17 @@ class OpenUSTradeContext(OpenContextBase):
         if RET_OK == ret_code:
             self._ctx_unlock = password
 
+            # unlock push socket
+            ret_code, msg, push_req_str = UnlockTrade.pack_req(**kargs)
+            if ret_code == RET_OK:
+                self._send_async_req(push_req_str)
+
         return RET_OK, None
 
+    def subscribe_order_deal_push(self, orderid, order_deal_push=True, envtype=0):
+        self._subscribe_order_deal_push(orderid, order_deal_push, order_deal_push, envtype)
+
+    # orderpush,dealpush 后续优化为一个参数
     def place_order(self, price, qty, strcode, orderside, ordertype=2, envtype=0, orderpush=False, dealpush=False):
         """
         place order
@@ -1772,12 +1955,8 @@ class OpenUSTradeContext(OpenContextBase):
             return RET_ERROR, msg
 
         # handle order push
-        if orderpush or dealpush:
-            order_id = int(place_order_list[0]['orderid'])
-            ret_code, _, push_req_str = TradePushQuery.us_pack_subscribe_req(
-                str(self.cookie), str(envtype), str(order_id), str(int(orderpush)), str(int(dealpush)))
-            if ret_code == RET_OK:
-                self._send_async_req(push_req_str)
+        self._subscribe_order_deal_push(orderid=place_order_list[0]['orderid'],
+                                        orderpush=orderpush, dealpush=dealpush, envtype=envtype)
 
         col_list = ['envtype', 'orderid']
         place_order_table = pd.DataFrame(place_order_list, columns=col_list)

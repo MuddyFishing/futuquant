@@ -64,7 +64,7 @@ if __name__ == "__main__":
     api_port = 11111
     unlock_pwd = '123123'
 
-    # '''
+    '''
     #港股模拟环境下单及推送
     trade_context = OpenHKTradeContext(host=api_ip, port=api_port)
     trade_context.unlock_trade(unlock_pwd)
@@ -77,9 +77,10 @@ if __name__ == "__main__":
     #                                       pl_ratio_min='', pl_ratio_max='', envtype=1))
 
     # print('\nHK history_order_list_query:\n')
-    # print(trade_context.history_order_list_query(statusfilter='2,3', strcode='', start='2016-01-01', end='2017-12-31', envtype=1))
+    # print(trade_context.history_order_list_query(statusfilter='2,3', strcode='',
+    #                                             start='2016-01-01', end='2017-12-31', envtype=1))
 
-    #print('\nHK order_list_query:\n')
+    # print('\nHK order_list_query:\n')
     # print(trade_context.order_list_query(orderid='', statusfilter='1,2,3', strcode='',
     #                                     start='09:30:00', end='24:00:00', envtype=1))
 
@@ -92,11 +93,11 @@ if __name__ == "__main__":
     # print('\nHK place_order:')
     # print(trade_context.place_order(price=4.09, qty=1000, strcode='HK.03883', orderside=0, ordertype=0, envtype=1,
     #                                orderpush=True, dealpush=True))
-    # print(trade_context.place_order(price=11.500, qty=1000, strcode='HK.01357', orderside=0, ordertype=0, envtype=1,
-    #                                orderpush=True, dealpush=True))
-    # '''
-
+    print(trade_context.place_order(price=11.500, qty=1000, strcode='HK.01357', orderside=0, ordertype=0, envtype=1,
+                                   orderpush=True, dealpush=True))
     '''
+
+    #'''
     #美股正式环境下单及推送
     trade_context = OpenUSTradeContext(host=api_ip, port=api_port)
     print(trade_context.unlock_trade(unlock_pwd))
@@ -106,7 +107,7 @@ if __name__ == "__main__":
 
     print('\nUS position_list_query:\n')
     print(trade_context.position_list_query(strcode='', stocktype='',
-                                            pl_ratio_min='', pl_ratio_max='', envtype=0))
+                                             pl_ratio_min='', pl_ratio_max='', envtype=0))
 
     # print('\nUS. history_order_list_query:\n')
     # print(trade_context.history_order_list_query(statusfilter='', strcode='', start='2016-01-01', end='2017-12-31', envtype=0))
@@ -119,6 +120,6 @@ if __name__ == "__main__":
     # print('\nUS. deal_list_query:\n')
     # print(trade_context.deal_list_query(envtype=0))
 
-    # print('\nUS place_order:')
-    # print(trade_context.place_order(price="2.01", qty=1, strcode='US.MIN', orderside=0, ordertype=2, envtype=0, orderpush=True, dealpush=True))
-    '''
+    print('\nUS place_order:')
+    print(trade_context.place_order(price="4.50", qty=1, strcode='US.MIN', orderside=1, ordertype=2, envtype=0, orderpush=True, dealpush=True))
+    #'''

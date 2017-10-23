@@ -107,6 +107,18 @@ def binary2str(b):
     return b.decode('utf-8')
 
 
+def is_HKTrade_order_status_finish(status):
+    val = int(status)
+    if val == 3 or val == 5 or val == 6 or val == 7:
+        return True
+    return False
+
+def is_USTrade_order_status_finish(status):
+    val = int(status)
+    if val == 3 or val == 5 or val == 6 or val == 7:
+        return True
+    return False
+
 class UnlockTrade:
     """Unlock trade limitation lock"""
 
