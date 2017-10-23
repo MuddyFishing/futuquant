@@ -73,14 +73,15 @@ if __name__ == "__main__":
     trade_context.start()
 
     # print('\nHK position_list_query:\n')
-    print(trade_context.position_list_query(strcode='', stocktype='',
-                                           pl_ratio_min='', pl_ratio_max='', envtype=1))
+    # print(trade_context.position_list_query(strcode='', stocktype='',
+    #                                       pl_ratio_min='', pl_ratio_max='', envtype=1))
 
     # print('\nHK history_order_list_query:\n')
     # print(trade_context.history_order_list_query(statusfilter='2,3', strcode='', start='2016-01-01', end='2017-12-31', envtype=1))
 
     #print('\nHK order_list_query:\n')
-    #print(trade_context.order_list_query(statusfilter='1,2,3', strcode='HK.01357', start='09:30:00', end='15:00:00', envtype=1))
+    # print(trade_context.order_list_query(orderid='', statusfilter='1,2,3', strcode='',
+    #                                     start='09:30:00', end='24:00:00', envtype=1))
 
     # print('\nHK history_deal_list_query:\n')
     # print(trade_context.history_deal_list_query(strcode='', start='2016-01-01', end='2017-12-31', envtype=1))

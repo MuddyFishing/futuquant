@@ -1558,7 +1558,7 @@ class OpenHKTradeContext(OpenContextBase):
 
         return RET_OK, accinfo_frame_table
 
-    def order_list_query(self, statusfilter="",  strcode='', start='', end='', envtype=0):
+    def order_list_query(self, orderid="", statusfilter="",  strcode='', start='', end='', envtype=0):
         """for querying the order list"""
         if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
@@ -1569,6 +1569,7 @@ class OpenHKTradeContext(OpenContextBase):
 
         # the keys of kargs should be corresponding to the actual function arguments
         kargs = {'cookie': str(self.cookie),
+                 'orderid': str(orderid),
                  'statusfilter': str(statusfilter),
                  'strcode': str(strcode),
                  'start': str(start),
@@ -1852,7 +1853,7 @@ class OpenUSTradeContext(OpenContextBase):
 
         return RET_OK, accinfo_frame_table
 
-    def order_list_query(self, statusfilter="", strcode='', start='', end='', envtype=0):
+    def order_list_query(self, orderid="", statusfilter="", strcode='', start='', end='', envtype=0):
         """for querying order list"""
         if int(envtype) != 0:
             error_str = ERROR_STR_PREFIX + "us stocks temporarily only support real trading "
@@ -1863,6 +1864,7 @@ class OpenUSTradeContext(OpenContextBase):
 
         # the keys of kargs should be corresponding to the actual function arguments
         kargs = {'cookie': str(self.cookie),
+                 'orderid': str(orderid),
                  'statusfilter': str(statusfilter),
                  'strcode': str(strcode),
                  'start': str(start),

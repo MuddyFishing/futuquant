@@ -570,7 +570,7 @@ class OrderListQuery:
         pass
 
     @classmethod
-    def hk_pack_req(cls, cookie, statusfilter, strcode, start, end, envtype):
+    def hk_pack_req(cls, cookie, orderid, statusfilter, strcode, start, end, envtype):
         """Convert from user request for trading days to PLS request"""
         if int(envtype) < 0 or int(envtype) > 1:
             error_str = ERROR_STR_PREFIX + "parameter envtype is wrong"
@@ -580,6 +580,7 @@ class OrderListQuery:
                "Version": "1",
                "ReqParam": {"Cookie": str(cookie),
                             "EnvType": str(envtype),
+                            "OrderID": str(orderid),
                             "StatusFilterStr": str(statusfilter),
                             "StockCode": strcode,
                             "start_time": start,
@@ -627,12 +628,13 @@ class OrderListQuery:
         return RET_OK, "", order_list
 
     @classmethod
-    def us_pack_req(cls, cookie, statusfilter, strcode, start, end, envtype):
+    def us_pack_req(cls, cookie, orderid, statusfilter, strcode, start, end, envtype):
         """Convert from user request for trading days to PLS request"""
         req = {"Protocol": "7008",
                "Version": "1",
                "ReqParam": {"Cookie": str(cookie),
                             "EnvType": str(envtype),
+                            "OrderID": orderid,
                             "StatusFilterStr": str(statusfilter),
                             "StockCode": strcode,
                             "start_time": start,
