@@ -916,7 +916,7 @@ class TradePushQuery:
         pass
 
     @classmethod
-    def hk_pack_subscribe_req(cls, cookie, envtype, order_id, orderpush, dealpush):
+    def hk_pack_subscribe_req(cls, cookie, envtype, order_id, order_deal_push):
         """Pack the pushed response"""
 
         req = {"Protocol": "6100",
@@ -924,15 +924,15 @@ class TradePushQuery:
                "ReqParam": {"Cookie": cookie,
                             "EnvType": envtype,
                             "OrderID": order_id,
-                            "SubOrder": orderpush,
-                            "SubDeal": dealpush
+                            "SubOrder": order_deal_push,
+                            "SubDeal": order_deal_push
                             }
                }
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
 
     @classmethod
-    def us_pack_subscribe_req(cls, cookie, envtype, order_id, orderpush, dealpush):
+    def us_pack_subscribe_req(cls, cookie, envtype, order_id, order_deal_push):
         """Pack the pushed response"""
 
         req = {"Protocol": "7100",
@@ -940,8 +940,8 @@ class TradePushQuery:
                "ReqParam": {"Cookie": cookie,
                             "EnvType": envtype,
                             "OrderID": order_id,
-                            "SubOrder": orderpush,
-                            "SubDeal": dealpush
+                            "SubOrder": order_deal_push,
+                            "SubDeal": order_deal_push
                             }
                }
         req_str = json.dumps(req) + '\r\n'

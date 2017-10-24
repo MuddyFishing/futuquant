@@ -94,7 +94,7 @@ if __name__ == "__main__":
     # print(trade_context.place_order(price=4.09, qty=1000, strcode='HK.03883', orderside=0, ordertype=0, envtype=1,
     #                                orderpush=True, dealpush=True))
     print(trade_context.place_order(price=11.500, qty=1000, strcode='HK.01357', orderside=0, ordertype=0, envtype=1,
-                                   orderpush=True, dealpush=True))
+                                    order_deal_push=True))
     '''
 
     #'''
@@ -121,5 +121,5 @@ if __name__ == "__main__":
     # print(trade_context.deal_list_query(envtype=0))
 
     print('\nUS place_order:')
-    print(trade_context.place_order(price="4.50", qty=1, strcode='US.MIN', orderside=1, ordertype=2, envtype=0, orderpush=True, dealpush=True))
+    print(trade_context.place_order(price="4.50", qty=1, strcode='US.MIN', orderside=1, ordertype=2, envtype=0, order_deal_push=True))
     #'''

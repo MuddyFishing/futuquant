@@ -1476,23 +1476,24 @@ class SafeTradeSubscribeDic:
         self._dict_sub = {}
         self._lock = RLock()
 
-    def set_val(self, orderid, envtype, orderpush, dealpush):
+    def set_val(self, orderid, envtype, order_deal_push):
         self._lock.acquire()
-        self._dict_sub[(orderid, envtype)] = (orderpush, dealpush)
+        self._dict_sub[(str(orderid), int(envtype))] = order_deal_push
         self._lock.release()
 
     def has_val(self, orderid, envtype):
         ret_val = False
         self._lock.acquire()
-        if (orderid, envtype) in self._dict_sub:
+        if (str(orderid), int(envtype)) in self._dict_sub:
             ret_val = True
         self._lock.release()
         return ret_val
 
     def del_val(self, orderid, envtype):
         self._lock.acquire()
-        if (orderid, envtype) in self._dict_sub:
-            self._dict_sub.pop((orderid, envtype))
+        key = (str(orderid), int(envtype))
+        if key in self._dict_sub:
+            self._dict_sub.pop(key)
         self._lock.release()
 
     def copy(self):
@@ -1533,27 +1534,26 @@ class OpenHKTradeContext(OpenContextBase):
         # auto subscribe order deal push
         dict_order_sub = self._obj_order_sub.copy()
         for (orderid, envtype) in dict_order_sub:
-            orderpush, dealpush = dict_order_sub[(orderid, envtype)]
-            self._subscribe_order_deal_push(orderid, orderpush, dealpush, envtype)
+            order_deal_push = dict_order_sub[(orderid, envtype)]
+            self._subscribe_order_deal_push(orderid, order_deal_push, envtype)
 
     def on_trade_order_finish(self, orderid, envtype, status):
         '''multi thread notify order finish after subscribe order push'''
         self._obj_order_sub.del_val(orderid=orderid, envtype=envtype)
 
         """order(deal) push subscribe"""
-    def _subscribe_order_deal_push(self, orderid, orderpush=True, dealpush=True, envtype=0):
+    def _subscribe_order_deal_push(self, orderid, order_deal_push=True, envtype=0):
         """subscribe order for recv push data"""
-        if orderpush is False and dealpush is False:
+        if order_deal_push is False:
             if not self._obj_order_sub.has_val(orderid, envtype):
                 return RET_OK
             else:
                 self._obj_order_sub.del_val(orderid, envtype)
         else:
-            orderpush = True  # 后续优化为一个参数
-            self._obj_order_sub.set_val(orderid, envtype, orderpush, dealpush)
+            self._obj_order_sub.set_val(orderid, envtype, order_deal_push)
 
         ret_code, _, push_req_str = TradePushQuery.hk_pack_subscribe_req(
-            str(self.cookie), str(envtype), str(orderid), str(int(orderpush)), str(int(dealpush)))
+            str(self.cookie), str(envtype), str(orderid), str(int(order_deal_push)))
         if ret_code == RET_OK:
             ret_code, _ = self._send_async_req(push_req_str)
 
@@ -1583,10 +1583,9 @@ class OpenHKTradeContext(OpenContextBase):
         return RET_OK, None
 
     def subscribe_order_deal_push(self, orderid, order_deal_push=True, envtype=0):
-        self._subscribe_order_deal_push(orderid, order_deal_push, order_deal_push, envtype)
+        self._subscribe_order_deal_push(orderid, order_deal_push, envtype)
 
-    # orderpush,dealpush 后续优化为一个参数
-    def place_order(self, price, qty, strcode, orderside, ordertype=0, envtype=0, orderpush=False, dealpush=False):
+    def place_order(self, price, qty, strcode, orderside, ordertype=0, envtype=0, order_deal_push=False):
         """
             place order
             use  set_handle(HKTradeOrderHandlerBase) to recv order push !
@@ -1618,7 +1617,7 @@ class OpenHKTradeContext(OpenContextBase):
 
         # handle order push
         self._subscribe_order_deal_push(orderid=place_order_list[0]['orderid'],
-                                        orderpush=orderpush, dealpush=dealpush, envtype=envtype)
+                                        order_deal_push=order_deal_push, envtype=envtype)
 
         col_list = ['envtype', 'orderid']
         place_order_table = pd.DataFrame(place_order_list, columns=col_list)
@@ -1870,8 +1869,8 @@ class OpenUSTradeContext(OpenContextBase):
         # auto subscribe order deal push
         dict_order_sub = self._obj_order_sub.copy()
         for (orderid, envtype) in dict_order_sub:
-            orderpush, dealpush = dict_order_sub[(orderid, envtype)]
-            self._subscribe_order_deal_push(orderid, orderpush, dealpush, envtype)
+            order_deal_push = dict_order_sub[(orderid, envtype)]
+            self._subscribe_order_deal_push(orderid, order_deal_push, envtype)
 
     def on_trade_order_finish(self, orderid, envtype, status):
         '''multi thread notify order finish after subscribe order push'''
@@ -1879,19 +1878,18 @@ class OpenUSTradeContext(OpenContextBase):
 
         """order(deal) push subscribe"""
 
-    def _subscribe_order_deal_push(self, orderid, orderpush=True, dealpush=True, envtype=0):
+    def _subscribe_order_deal_push(self, orderid, order_deal_push=True, envtype=0):
         """subscribe order for recv push data"""
-        if orderpush is False and dealpush is False:
+        if order_deal_push is False:
             if not self._obj_order_sub.has_val(orderid, envtype):
                 return RET_OK
             else:
                 self._obj_order_sub.del_val(orderid, envtype)
         else:
-            orderpush = True  # 后续优化为一个参数
-            self._obj_order_sub.set_val(orderid, envtype, orderpush, dealpush)
+            self._obj_order_sub.set_val(orderid, envtype, order_deal_push)
 
         ret_code, _, push_req_str = TradePushQuery.us_pack_subscribe_req(
-            str(self.cookie), str(envtype), str(orderid), str(int(orderpush)), str(int(dealpush)))
+            str(self.cookie), str(envtype), str(orderid), str(int(order_deal_push)))
         if ret_code == RET_OK:
             ret_code, _ = self._send_async_req(push_req_str)
 
@@ -1923,8 +1921,7 @@ class OpenUSTradeContext(OpenContextBase):
     def subscribe_order_deal_push(self, orderid, order_deal_push=True, envtype=0):
         self._subscribe_order_deal_push(orderid, order_deal_push, order_deal_push, envtype)
 
-    # orderpush,dealpush 后续优化为一个参数
-    def place_order(self, price, qty, strcode, orderside, ordertype=2, envtype=0, orderpush=False, dealpush=False):
+    def place_order(self, price, qty, strcode, orderside, ordertype=2, envtype=0, order_deal_push=False):
         """
         place order
         use  set_handle(USTradeOrderHandlerBase) to recv order push !
@@ -1956,7 +1953,7 @@ class OpenUSTradeContext(OpenContextBase):
 
         # handle order push
         self._subscribe_order_deal_push(orderid=place_order_list[0]['orderid'],
-                                        orderpush=orderpush, dealpush=dealpush, envtype=envtype)
+                                        order_deal_push=order_deal_push, envtype=envtype)
 
         col_list = ['envtype', 'orderid']
         place_order_table = pd.DataFrame(place_order_list, columns=col_list)
