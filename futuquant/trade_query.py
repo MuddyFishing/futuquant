@@ -698,7 +698,7 @@ class PositionListQuery:
     @classmethod
     def hk_pack_req(cls, cookie, strcode, stocktype, pl_ratio_min, pl_ratio_max, envtype):
         """Convert from user request for trading days to PLS request"""
-        if int(envtype) < 0 or int(envtype) > 1 or stocktype not in SEC_TYPE_MAP:
+        if int(envtype) < 0 or int(envtype) > 1 or (stocktype != '' and stocktype not in SEC_TYPE_MAP):
             error_str = ERROR_STR_PREFIX + "parameter envtype or stocktype is wrong"
             return RET_ERROR, error_str, None
 
@@ -706,7 +706,7 @@ class PositionListQuery:
                "Version": "1",
                "ReqParam": {"Cookie": cookie,
                             "StockCode": strcode,
-                            "StockType": str(SEC_TYPE_MAP[stocktype]),
+                            "StockType": str(SEC_TYPE_MAP[stocktype]) if not stocktype == '' else '',
                             "PLRatioMin": str_price1000(pl_ratio_min),
                             "PLRatioMax": str_price1000(pl_ratio_max),
                             "EnvType": envtype,
@@ -759,7 +759,7 @@ class PositionListQuery:
     @classmethod
     def us_pack_req(cls, cookie, strcode, stocktype, pl_ratio_min, pl_ratio_max, envtype):
         """Convert from user request for trading days to PLS request"""
-        if int(envtype) < 0 or int(envtype) > 1 or stocktype not in SEC_TYPE_MAP:
+        if int(envtype) < 0 or int(envtype) > 1 or (stocktype != '' and stocktype not in SEC_TYPE_MAP):
             error_str = ERROR_STR_PREFIX + "parameter envtype or stocktype is wrong"
             return RET_ERROR, error_str, None
 
@@ -767,7 +767,7 @@ class PositionListQuery:
                "Version": "1",
                "ReqParam": {"Cookie": cookie,
                             "StockCode": strcode,
-                            "StockType": str(SEC_TYPE_MAP[stocktype]),
+                            "StockType": str(SEC_TYPE_MAP[stocktype]) if not stocktype == '' else '',
                             "PLRatioMin": str_price1000(pl_ratio_min),
                             "PLRatioMax": str_price1000(pl_ratio_max),
                             "EnvType": envtype,

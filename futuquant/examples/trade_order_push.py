@@ -73,7 +73,7 @@ if __name__ == "__main__":
     trade_context.start()
 
     print('\nHK position_list_query:\n')
-    print(trade_context.position_list_query(strcode='', stocktype='STOCK',
+    print(trade_context.position_list_query(strcode='', stocktype='',
                                           pl_ratio_min='10.15', pl_ratio_max='', envtype=1))
 
     # print('\nHK history_order_list_query:\n')
@@ -105,9 +105,9 @@ if __name__ == "__main__":
     trade_context.set_handler(USDealPushHandler())
     trade_context.start()
 
-    # print('\nUS position_list_query:\n')
-    # print(trade_context.position_list_query(strcode='', stocktype='STOCK',
-    #                                         pl_ratio_min='-20.5', pl_ratio_max='0', envtype=0))
+    print('\nUS position_list_query:\n')
+    print(trade_context.position_list_query(strcode='', stocktype='STOCK',
+                                            pl_ratio_min='-20.5', pl_ratio_max='0', envtype=0))
 
     # print('\nUS. history_order_list_query:\n')
     # print(trade_context.history_order_list_query(statusfilter='', strcode='', start='2016-01-01', end='2017-12-31', envtype=0))
