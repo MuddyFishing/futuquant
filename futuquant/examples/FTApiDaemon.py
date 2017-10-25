@@ -19,6 +19,7 @@ class FTApiDaemon:
     '''
     only run for windows,  to restart ftunn.exe when crashed
     '''
+
     def __init__(self, ftnn_root_path='C:\Program Files (x86)\FTNN\\'):
         self._root_path = ftnn_root_path
         self._exe_path = self._root_path + 'FTNN.exe'
@@ -28,6 +29,11 @@ class FTApiDaemon:
         self._started = False
         self._thread_daemon = None
         self._close = False
+        self._time_restart = 300 #5分钟一次
+        self._daemon_type = {
+            "TIMER_WATCH": self._fun_thread_daemon_watch,
+            "TIMER_RESTART": self._fun_thread_daemon_restart,
+        }
 
         if not os.path.isfile(self._exe_path) or not os.path.isfile(self._crash_report_path):
             print("FTApiDaemon erro file not exist !")
@@ -42,8 +48,19 @@ class FTApiDaemon:
             except Exception as e:
                 print('FTApiDaemon config read error!')
 
+    @property
+    def restart_time(self):
+        return self._time_restart
+
+    @restart_time.setter
+    def restart_time(self, val):
+        val = int(val)
+        if val < 1:
+            val = 1
+        self._time_restart = val
+
     ''' 启动线程监控ftnn api 进程'''
-    def start(self):
+    def start(self, daemon_type='TIMER_WATCH'):
         if self._started:
             return
 
@@ -51,9 +68,13 @@ class FTApiDaemon:
             print("FTApiDaemon start fail!")
             return
 
+        if daemon_type not in self._daemon_type:
+            print("Daemon type param err!")
+            return
+
         self._started = True
         self._close = False
-        self._thread_daemon = Thread(target = self._fun_thread_daemon)
+        self._thread_daemon = Thread(target=self._daemon_type[daemon_type])
         self._thread_daemon.setDaemon(False)
         self._thread_daemon.start()
 
@@ -69,7 +90,38 @@ class FTApiDaemon:
             self._thread_daemon.join(tiimeout=10)
             self._thread_daemon = None
 
-    def _fun_thread_daemon(self):
+    def _loop_kill_futunn(self, loop_timer=1):
+        '''loop to close exist ftnn.exe && ftbugreport.exe process'''
+        while True:
+            process_bugreport = self._get_process_by_path(self._crash_report_path)
+            process_ftnn = self._get_process_by_path(self._exe_path)
+            if process_bugreport is None and process_ftnn is None:
+                break
+
+            if process_bugreport is not None:
+                process_bugreport.kill()
+
+            if process_ftnn is not None:
+                process_ftnn.kill()
+
+            time.sleep(loop_timer)
+
+    def _fun_thread_daemon_restart(self):
+        if self._close:
+            return
+
+        while True:
+            if self._is_api_socket_ok() is False:
+                process_new = psutil.Popen([self._exe_path, "type=python_auto"])
+                if process_new is not None:
+                    print("FTApiDaemon new futnn process open ! pid={}".format(process_new.pid))
+                else:
+                    print("FTApiDaemon open process fail ! ")
+
+            time.sleep(self._time_restart)
+            self._loop_kill_futunn()
+
+    def _fun_thread_daemon_watch(self):
         time_sleep = 5
 
         if self._close:
@@ -83,20 +135,7 @@ class FTApiDaemon:
                 time.sleep(time_sleep)
                 continue
 
-            '''loop to close exist ftnn.exe && ftbugreport.exe process'''
-            while True:
-                process_bugreport = self._get_process_by_path(self._crash_report_path)
-                process_ftnn = self._get_process_by_path(self._exe_path)
-                if process_bugreport is None and process_ftnn is None:
-                    break
-
-                if process_bugreport is not None:
-                    process_bugreport.kill()
-
-                if process_ftnn is not None:
-                    process_ftnn.kill()
-
-                time.sleep(1)
+            self._loop_kill_futunn()
 
             '''start new ftnn.exe process'''
             process_new = psutil.Popen([self._exe_path, "type=python_auto"])
@@ -118,7 +157,7 @@ class FTApiDaemon:
         except Exception as e:
             err = sys.exc_info()[1]
             err_msg = str(err)
-            print("socket connect err:{}".format(err_msg))
+            # print("socket connect err:{}".format(err_msg))
             return False
         return True
 
@@ -137,7 +176,7 @@ class FTApiDaemon:
             try:
                 process = psutil.Process(pid)
                 tmp = process.exe()
-                if str(tmp).lower() == path:
+                if str(tmp).lower() == lower_path:
                     return process
             except:
                 continue
@@ -146,6 +185,14 @@ class FTApiDaemon:
 
 if __name__ == '__main__':
     root_path = 'C:\Program Files (x86)\FTNN\\'
+    # root_path = 'C:\Program Files (x86)\FTNN_api\\'
+
     daemon = FTApiDaemon(root_path)
-    daemon.start()
+
+    # 每5分钟重启一次futunn
+    daemon.restart_time = 5 * 60
+    daemon.start(daemon_type='TIMER_RESTART')
+
+    # 监控程序，发现有异常退出就重启
+    # daemon.start(daemon_type='TIMER_WATCH')
 
