@@ -1583,14 +1583,20 @@ class OpenHKTradeContext(OpenContextBase):
         return RET_OK, None
 
     def subscribe_order_deal_push(self, orderid, order_deal_push=True, envtype=0):
-        self._subscribe_order_deal_push(orderid, order_deal_push, envtype)
+        """
+        subscribe_order_deal_push
+        """
+        if not TRADE.check_envtype_us(envtype):
+            return RET_ERROR
+
+        return self._subscribe_order_deal_push(orderid, order_deal_push, envtype)
 
     def place_order(self, price, qty, strcode, orderside, ordertype=0, envtype=0, order_deal_push=False):
         """
-            place order
-            use  set_handle(HKTradeOrderHandlerBase) to recv order push !
+        place order
+        use  set_handle(HKTradeOrderHandlerBase) to recv order push !
         """
-        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
+        if not TRADE.check_envtype_hk(envtype):
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
@@ -1630,7 +1636,7 @@ class OpenHKTradeContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "the type of status is wrong "
             return RET_ERROR, error_str
 
-        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
+        if not TRADE.check_envtype_hk(envtype):
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
@@ -1652,7 +1658,7 @@ class OpenHKTradeContext(OpenContextBase):
 
     def change_order(self, price, qty, orderid=0, envtype=0):
         """for changing the order"""
-        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
+        if not TRADE.check_envtype_hk(envtype):
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
@@ -1678,7 +1684,7 @@ class OpenHKTradeContext(OpenContextBase):
         :param envtype: trading environment parameters,0 means real transaction and 1 means simulation trading
         :return:error return RET_ERROR,msg and ok return RET_OK,ret
         """
-        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
+        if not TRADE.check_envtype_hk(envtype):
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
@@ -1699,7 +1705,7 @@ class OpenHKTradeContext(OpenContextBase):
 
     def order_list_query(self, orderid="", statusfilter="",  strcode='', start='', end='', envtype=0):
         """for querying the order list"""
-        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
+        if not TRADE.check_envtype_hk(envtype):
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
@@ -1730,7 +1736,7 @@ class OpenHKTradeContext(OpenContextBase):
     def position_list_query(self, strcode='', stocktype='', pl_ratio_min='',
                             pl_ratio_max='', envtype=0):
         """for querying the position list"""
-        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
+        if not TRADE.check_envtype_hk(envtype):
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
@@ -1760,7 +1766,7 @@ class OpenHKTradeContext(OpenContextBase):
 
     def deal_list_query(self, envtype=0):
         """for querying deal list"""
-        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
+        if not TRADE.check_envtype_hk(envtype):
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
@@ -1784,7 +1790,7 @@ class OpenHKTradeContext(OpenContextBase):
 
     def history_order_list_query(self, statusfilter='', strcode='', start='', end='', envtype=0):
         """for querying the order list"""
-        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
+        if not TRADE.check_envtype_hk(envtype):
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
@@ -1813,7 +1819,7 @@ class OpenHKTradeContext(OpenContextBase):
 
     def history_deal_list_query(self, strcode, start, end, envtype=0):
         """for querying deal list"""
-        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
+        if not TRADE.check_envtype_hk(envtype):
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
@@ -1919,14 +1925,20 @@ class OpenUSTradeContext(OpenContextBase):
         return RET_OK, None
 
     def subscribe_order_deal_push(self, orderid, order_deal_push=True, envtype=0):
-        self._subscribe_order_deal_push(orderid, order_deal_push, order_deal_push, envtype)
+        """
+        subscribe_order_deal_push
+        """
+        if not TRADE.check_envtype_us(envtype):
+            return RET_ERROR
+
+        return self._subscribe_order_deal_push(orderid, order_deal_push, order_deal_push, envtype)
 
     def place_order(self, price, qty, strcode, orderside, ordertype=2, envtype=0, order_deal_push=False):
         """
         place order
         use  set_handle(USTradeOrderHandlerBase) to recv order push !
         """
-        if int(envtype) != 0:
+        if not TRADE.check_envtype_us(envtype):
             error_str = ERROR_STR_PREFIX + "us stocks temporarily only support real trading "
             return RET_ERROR, error_str
 
@@ -1962,7 +1974,7 @@ class OpenUSTradeContext(OpenContextBase):
 
     def set_order_status(self, status=0, orderid=0, envtype=0):
         """for setting the statusof order"""
-        if int(envtype) != 0:
+        if not TRADE.check_envtype_us(envtype):
             error_str = ERROR_STR_PREFIX + "us stocks temporarily only support real trading "
             return RET_ERROR, error_str
 
@@ -1988,7 +2000,7 @@ class OpenUSTradeContext(OpenContextBase):
 
     def change_order(self, price, qty, orderid=0, envtype=0):
         """for changing the order"""
-        if int(envtype) != 0:
+        if not TRADE.check_envtype_us(envtype):
             error_str = ERROR_STR_PREFIX + "us stocks temporarily only support real trading "
             return RET_ERROR, error_str
 
@@ -2010,7 +2022,7 @@ class OpenUSTradeContext(OpenContextBase):
 
     def accinfo_query(self, envtype=0):
         """for querying the information of account"""
-        if int(envtype) != 0:
+        if not TRADE.check_envtype_us(envtype):
             error_str = ERROR_STR_PREFIX + "us stocks temporarily only support real trading "
             return RET_ERROR, error_str
 
@@ -2031,7 +2043,7 @@ class OpenUSTradeContext(OpenContextBase):
 
     def order_list_query(self, orderid="", statusfilter="", strcode='', start='', end='', envtype=0):
         """for querying order list"""
-        if int(envtype) != 0:
+        if not TRADE.check_envtype_us(envtype):
             error_str = ERROR_STR_PREFIX + "us stocks temporarily only support real trading "
             return RET_ERROR, error_str
 
@@ -2061,7 +2073,7 @@ class OpenUSTradeContext(OpenContextBase):
     def position_list_query(self, strcode='', stocktype='', pl_ratio_min='',
                             pl_ratio_max='', envtype=0):
         """for querying the position"""
-        if int(envtype) != 0:
+        if not TRADE.check_envtype_us(envtype):
             error_str = ERROR_STR_PREFIX + "us stocks temporarily only support real trading "
             return RET_ERROR, error_str
 
@@ -2091,7 +2103,7 @@ class OpenUSTradeContext(OpenContextBase):
 
     def deal_list_query(self, envtype=0):
         """for querying the deal list"""
-        if int(envtype) != 0:
+        if not TRADE.check_envtype_us(envtype):
             error_str = ERROR_STR_PREFIX + "us stocks temporarily only support real trading "
             return RET_ERROR, error_str
 
@@ -2115,7 +2127,7 @@ class OpenUSTradeContext(OpenContextBase):
 
     def history_order_list_query(self, statusfilter='', strcode='', start='', end='', envtype=0):
         """for querying order list"""
-        if int(envtype) != 0:
+        if not TRADE.check_envtype_us(envtype):
             error_str = ERROR_STR_PREFIX + "us stocks temporarily only support real trading "
             return RET_ERROR, error_str
 
@@ -2144,7 +2156,7 @@ class OpenUSTradeContext(OpenContextBase):
 
     def history_deal_list_query(self, strcode, start, end, envtype=0):
         """for querying deal list"""
-        if int(envtype) not in TRADE.REV_ENVTYPE_MAP:
+        if not TRADE.check_envtype_us(envtype):
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 

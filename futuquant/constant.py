@@ -92,7 +92,17 @@ class TRADE(object):
     REV_TICKER_DIRECTION = {TICKER_DIRECTION[x]: x for x in TICKER_DIRECTION}
     REV_ORDER_STATUS = {ORDER_STATUS[x]: x for x in ORDER_STATUS}
     REV_ENVTYPE_MAP = {ENVTYPE_MAP[x]: x for x in ENVTYPE_MAP}
+    REV_ENVTYPE_STR_MAP = {str(ENVTYPE_MAP[x]): x for x in ENVTYPE_MAP}
 
+    # 港股支持模拟和真实环境
+    @staticmethod
+    def check_envtype_hk(envtype):
+        return str(envtype) in TRADE.REV_ENVTYPE_STR_MAP
+
+    # 美股目前不支持模拟环境
+    @staticmethod
+    def check_envtype_us(envtype):
+        return str(envtype) == u'0'
 
 # noinspection PyPep8Naming
 class QUOTE(object):
@@ -104,3 +114,8 @@ class QUOTE(object):
     REV_KTYPE_MAP = {KTYPE_MAP[x]: x for x in KTYPE_MAP}
     REV_AUTYPE_MAP = {AUTYPE_MAP[x]: x for x in AUTYPE_MAP}
     REV_TICKER_DIRECTION = {TICKER_DIRECTION[x]: x for x in TICKER_DIRECTION}
+
+
+
+
+
