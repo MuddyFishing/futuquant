@@ -920,32 +920,44 @@ class TradePushQuery:
         pass
 
     @classmethod
-    def hk_pack_subscribe_req(cls, cookie, envtype, order_id, order_deal_push):
+    def hk_pack_subscribe_req(cls, cookie, envtype, orderid_list, order_deal_push, push_at_once):
         """Pack the pushed response"""
+        str_id = u''
+        for orderid in orderid_list:
+            if len(str_id) > 0:
+                str_id += u','
+            str_id += str(orderid)
 
         req = {"Protocol": "6100",
                "Version": "1",
                "ReqParam": {"Cookie": cookie,
                             "EnvType": envtype,
-                            "OrderID": order_id,
+                            "OrderID": str_id,
                             "SubOrder": order_deal_push,
-                            "SubDeal": order_deal_push
+                            "SubDeal": order_deal_push,
+                            "FirstPush": push_at_once,
                             }
                }
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
 
     @classmethod
-    def us_pack_subscribe_req(cls, cookie, envtype, order_id, order_deal_push):
+    def us_pack_subscribe_req(cls, cookie, envtype, orderid_list, order_deal_push, push_at_once):
         """Pack the pushed response"""
+        str_id = u''
+        for orderid in orderid_list:
+            if len(str_id) > 0:
+                str_id += u','
+            str_id += str(orderid)
 
         req = {"Protocol": "7100",
                "Version": "1",
                "ReqParam": {"Cookie": cookie,
                             "EnvType": envtype,
-                            "OrderID": order_id,
+                            "OrderID": str_id,
                             "SubOrder": order_deal_push,
-                            "SubDeal": order_deal_push
+                            "SubDeal": order_deal_push,
+                            "FirstPush": push_at_once,
                             }
                }
         req_str = json.dumps(req) + '\r\n'
