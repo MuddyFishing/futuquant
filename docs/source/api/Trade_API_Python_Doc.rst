@@ -671,7 +671,7 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 
 .. code:: python
 
-    ret_code = tradehk_ctx.subscribe_order_deal_push(orderid, order_deal_push=True, envtype=0)
+    ret_code = tradehk_ctx.subscribe_order_deal_push(order_list, order_deal_push=True, envtype=0)
 
 **功能**\ ：订阅订单成交推送。
 
@@ -679,7 +679,7 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 
 **envtype**: 交易环境参数。如下表所示。
 
-**orderid**：订阅的订单ID。
+**order_list**：订阅的订单ID字符串，多个或单个，','分割，单独传空或0表示订阅全部订单，包括后来新增的。
 
 **order_deal_push**：是否订阅成交推送。
 
@@ -1298,7 +1298,7 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 
 .. code:: python
 
-    ret_code = tradeus_ctx.subscribe_order_deal_push(orderid, order_deal_push=True, envtype=0)
+    ret_code = tradeus_ctx.subscribe_order_deal_push(order_list, order_deal_push=True, envtype=0)
 
 **功能**\ ：订阅订单成交推送。
 
@@ -1306,7 +1306,7 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 
 **envtype**: 交易环境参数。如下表所示。
 
-**orderid**：订阅的订单ID。
+**order_list**：订阅的订单ID字符串，多个或单个，','分割，单独传空或0表示订阅全部订单，包括后来新增的。
 
 **order_deal_push**：是否订阅成交推送。
 
