@@ -62,7 +62,7 @@ class HKDealPushHandler(HKTradeDealHandlerBase):
 if __name__ == "__main__":
     api_ip = '127.0.0.1'  # ''119.29.141.202'
     api_port = 11111
-    unlock_pwd = '123123'
+    unlock_pwd = '979899'
 
     # '''
     # 港股模拟环境下单及推送
@@ -94,9 +94,10 @@ if __name__ == "__main__":
     # print(trade_context.deal_list_query(envtype=1))
 
     print('\nHK place_order:')
-    trade_context.subscribe_order_deal_push('', True, envtype=1)
-    print(trade_context.place_order(price=4.68, qty=1000, strcode='HK.03883', orderside=0, ordertype=0, envtype=1,
-                                 order_deal_push=False))
+    orderid_list = [] # ['836204', '836195'] # 传空表示定阅全部订单
+    trade_context.subscribe_order_deal_push(orderid_list, True, envtype=1)
+    # print(trade_context.place_order(price=4.50, qty=1000, strcode='HK.03883', orderside=0, ordertype=0, envtype=1,
+    #                              order_deal_push=False))
     # print(trade_context.place_order(price=11.500, qty=1000, strcode='HK.01357', orderside=0, ordertype=0, envtype=1,
     #                               order_deal_push=True))
     # '''

@@ -1606,7 +1606,7 @@ class OpenHKTradeContext(OpenContextBase):
         if orderid_list is None:
             list_sub = [u'']
         elif isinstance(orderid_list, list):
-            list_sub = [str(x) for x in list_sub]
+            list_sub = [str(x) for x in orderid_list]
         else:
             list_sub = [str(orderid_list)]
 
@@ -1967,7 +1967,7 @@ class OpenUSTradeContext(OpenContextBase):
         if orderid_list is None:
             list_sub = [u'']
         elif isinstance(orderid_list, list):
-            list_sub = [str(x) for x in list_sub]
+            list_sub = [str(x) for x in orderid_list]
         else:
             list_sub = [str(orderid_list)]
 
