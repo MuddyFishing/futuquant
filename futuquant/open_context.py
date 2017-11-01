@@ -1621,7 +1621,7 @@ class OpenHKTradeContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
-        ret_code, content = split_stock_str(strcode)
+        ret_code, content = split_stock_str(str(strcode))
         if ret_code == RET_ERROR:
             error_str = content
             return RET_ERROR, error_str, None
@@ -1982,7 +1982,7 @@ class OpenUSTradeContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "us stocks temporarily only support real trading "
             return RET_ERROR, error_str
 
-        ret_code, content = split_stock_str(strcode)
+        ret_code, content = split_stock_str(str(strcode))
         if ret_code == RET_ERROR:
             error_str = content
             return RET_ERROR, error_str, None
