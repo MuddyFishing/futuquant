@@ -674,6 +674,7 @@ class OrderListQuery:
             return RET_OK, "", []
 
         order_list = [{"code": merge_stock_str(2, order['StockCode']),
+                       "dealt_avg_price": int1000_price_to_float(order['DealtAvgPrice']),
                        "stock_name": order["StockName"],
                        "dealt_qty": order['DealtQty'],
                        "qty": order['Qty'],
