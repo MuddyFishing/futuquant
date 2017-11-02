@@ -7,7 +7,7 @@ import json
 import traceback
 from datetime import datetime
 from .constant import *
-from .utils import str_price1000
+from .utils import *
 
 
 def check_date_str_format(s):
@@ -185,7 +185,7 @@ class PlaceOrder:
                             "EnvType": envtype,
                             "OrderSide": orderside,
                             "OrderType": ordertype,
-                            "Price": str_price1000(price),
+                            "Price": price_to_str_int1000(price),
                             "Qty": qty,
                             "StockCode": strcode
                             }
@@ -237,7 +237,7 @@ class PlaceOrder:
                             "EnvType": envtype,
                             "OrderSide": orderside,
                             "OrderType": ordertype,
-                            "Price": str_price1000(price),
+                            "Price": price_to_str_int1000(price),
                             "Qty": qty,
                             "StockCode": strcode
                             }
@@ -396,7 +396,7 @@ class ChangeOrder:
                             "EnvType": envtype,
                             "LocalID": localid,
                             "OrderID": orderid,
-                            "Price": str_price1000(price),
+                            "Price": price_to_str_int1000(price),
                             "Qty": qty,
                             }
                }
@@ -442,7 +442,7 @@ class ChangeOrder:
                             "EnvType": envtype,
                             "LocalID": localid,
                             "OrderID": orderid,
-                            "Price": str_price1000(price),
+                            "Price": price_to_str_int1000(price),
                             "Qty": qty,
                             }
                }
@@ -523,11 +523,11 @@ class AccInfoQuery:
         if 'YYJDE' not in rsp_data or 'GPBZJ' not in rsp_data:
             return RET_ERROR, msg, None
 
-        accinfo_list = [{'Power': float(rsp_data['Power']) / 1000, 'ZCJZ': float(rsp_data['ZCJZ']) / 1000,
-                         'ZQSZ': float(rsp_data['ZQSZ']) / 1000, 'XJJY': float(rsp_data['XJJY']) / 1000,
-                         'KQXJ': float(rsp_data['KQXJ']) / 1000, 'DJZJ': float(rsp_data['DJZJ']) / 1000,
-                         'ZSJE': float(rsp_data['ZSJE']) / 1000, 'ZGJDE': float(rsp_data['ZGJDE']) / 1000,
-                         'YYJDE': float(rsp_data['YYJDE']) / 1000, 'GPBZJ': float(rsp_data['GPBZJ']) / 1000
+        accinfo_list = [{'Power': int1000_price_to_float(rsp_data['Power']), 'ZCJZ': int1000_price_to_float(rsp_data['ZCJZ']),
+                         'ZQSZ': int1000_price_to_float(rsp_data['ZQSZ']), 'XJJY': int1000_price_to_float(rsp_data['XJJY']),
+                         'KQXJ': int1000_price_to_float(rsp_data['KQXJ']), 'DJZJ': int1000_price_to_float(rsp_data['DJZJ']),
+                         'ZSJE': int1000_price_to_float(rsp_data['ZSJE']), 'ZGJDE': int1000_price_to_float(rsp_data['ZGJDE']),
+                         'YYJDE': int1000_price_to_float(rsp_data['YYJDE']), 'GPBZJ': int1000_price_to_float(rsp_data['GPBZJ'])
                          }]
 
         return RET_OK, "", accinfo_list
@@ -565,11 +565,11 @@ class AccInfoQuery:
         if 'YYJDE' not in rsp_data or 'GPBZJ' not in rsp_data:
             return RET_ERROR, msg, None
 
-        accinfo_list = [{'Power': float(rsp_data['Power']) / 1000, 'ZCJZ': float(rsp_data['ZCJZ']) / 1000,
-                         'ZQSZ': float(rsp_data['ZQSZ']) / 1000, 'XJJY': float(rsp_data['XJJY']) / 1000,
-                         'KQXJ': float(rsp_data['KQXJ']) / 1000, 'DJZJ': float(rsp_data['DJZJ']) / 1000,
-                         'ZSJE': float(rsp_data['ZSJE']) / 1000, 'ZGJDE': float(rsp_data['ZGJDE']) / 1000,
-                         'YYJDE': float(rsp_data['YYJDE']) / 1000, 'GPBZJ': float(rsp_data['GPBZJ']) / 1000
+        accinfo_list = [{'Power': int1000_price_to_float(rsp_data['Power']), 'ZCJZ': int1000_price_to_float(rsp_data['ZCJZ']),
+                         'ZQSZ': int1000_price_to_float(rsp_data['ZQSZ']), 'XJJY': int1000_price_to_float(rsp_data['XJJY']),
+                         'KQXJ': int1000_price_to_float(rsp_data['KQXJ']), 'DJZJ': int1000_price_to_float(rsp_data['DJZJ']),
+                         'ZSJE': int1000_price_to_float(rsp_data['ZSJE']), 'ZGJDE': int1000_price_to_float(rsp_data['ZGJDE']),
+                         'YYJDE': int1000_price_to_float(rsp_data['YYJDE']), 'GPBZJ': int1000_price_to_float(rsp_data['GPBZJ'])
                          }]
 
         return RET_OK, "", accinfo_list
@@ -625,13 +625,13 @@ class OrderListQuery:
 
         order_list = [{"code": merge_stock_str(1, order['StockCode']),
                        "stock_name": order["StockName"],
-                       "dealt_avg_price": float(order['DealtAvgPrice']) / 1000,
+                       "dealt_avg_price": int1000_price_to_float(order['DealtAvgPrice']),
                        "dealt_qty": order['DealtQty'],
                        "qty": order['Qty'],
                        "orderid": order['OrderID'],
                        "order_type": order['OrderType'],
                        "order_side": order['OrderSide'],
-                       "price": float(order['Price']) / 1000,
+                       "price": int1000_price_to_float(order['Price']),
                        "status": order['Status'],
                        "submited_time": order['SubmitedTime'],
                        "updated_time": order['UpdatedTime']
@@ -680,7 +680,7 @@ class OrderListQuery:
                        "orderid": order['OrderID'],
                        "order_type": order['OrderType'],
                        "order_side": order['OrderSide'],
-                       "price": float(order['Price']) / 1000,
+                       "price": int1000_price_to_float(order['Price']),
                        "status": order['Status'],
                        "submited_time": order['SubmitedTime'],
                        "updated_time": order['UpdatedTime']
@@ -707,8 +707,8 @@ class PositionListQuery:
                "ReqParam": {"Cookie": cookie,
                             "StockCode": strcode,
                             "StockType": str(SEC_TYPE_MAP[stocktype]) if not stocktype == '' else '',
-                            "PLRatioMin": str_price1000(pl_ratio_min),
-                            "PLRatioMax": str_price1000(pl_ratio_max),
+                            "PLRatioMin": price_to_str_int1000(pl_ratio_min),
+                            "PLRatioMax": price_to_str_int1000(pl_ratio_max),
                             "EnvType": envtype,
                             }
                }
@@ -739,19 +739,19 @@ class PositionListQuery:
                           "stock_name": position["StockName"],
                           "qty": position['Qty'],
                           "can_sell_qty": position['CanSellQty'],
-                          "cost_price": float(position['CostPrice']) / 1000,
+                          "cost_price": int1000_price_to_float(position['CostPrice']),
                           "cost_price_valid": position['CostPriceValid'],
-                          "market_val": float(position['MarketVal']) / 1000,
-                          "nominal_price": float(position['NominalPrice']) / 1000,
-                          "pl_ratio": float(position['PLRatio']) / 1000,
+                          "market_val": int1000_price_to_float(position['MarketVal']),
+                          "nominal_price": int1000_price_to_float(position['NominalPrice']),
+                          "pl_ratio": int1000_price_to_float(position['PLRatio']),
                           "pl_ratio_valid": position['PLRatioValid'],
-                          "pl_val": float(position['PLVal']) / 1000,
+                          "pl_val":  int1000_price_to_float(position['PLVal']),
                           "pl_val_valid": position['PLValValid'],
                           "today_buy_qty": position['Today_BuyQty'],
-                          "today_buy_val": float(position['Today_BuyVal']) / 1000,
-                          "today_pl_val": float(position['Today_PLVal']) / 1000,
+                          "today_buy_val": int1000_price_to_float(position['Today_BuyVal']),
+                          "today_pl_val": int1000_price_to_float(position['Today_PLVal']),
                           "today_sell_qty": position['Today_SellQty'],
-                          "today_sell_val": float(position['Today_SellVal']) / 1000
+                          "today_sell_val": int1000_price_to_float(position['Today_SellVal'])
                           }
                          for position in raw_position_list]
         return RET_OK, "", position_list
@@ -768,8 +768,8 @@ class PositionListQuery:
                "ReqParam": {"Cookie": cookie,
                             "StockCode": strcode,
                             "StockType": str(SEC_TYPE_MAP[stocktype]) if not stocktype == '' else '',
-                            "PLRatioMin": str_price1000(pl_ratio_min),
-                            "PLRatioMax": str_price1000(pl_ratio_max),
+                            "PLRatioMin": price_to_str_int1000(pl_ratio_min),
+                            "PLRatioMax": price_to_str_int1000(pl_ratio_max),
                             "EnvType": envtype,
                             }
                }
@@ -797,19 +797,19 @@ class PositionListQuery:
                           "stock_name": position["StockName"],
                           "qty": position['Qty'],
                           "can_sell_qty": position['CanSellQty'],
-                          "cost_price": float(position['CostPrice']) / 1000,
+                          "cost_price": int1000_price_to_float(position['CostPrice']),
                           "cost_price_valid": position['CostPriceValid'],
-                          "market_val": float(position['MarketVal']) / 1000,
-                          "nominal_price": float(position['NominalPrice']) / 1000,
-                          "pl_ratio": float(position['PLRatio']) / 1000,
+                          "market_val": int1000_price_to_float(position['MarketVal']),
+                          "nominal_price": int1000_price_to_float(position['NominalPrice']),
+                          "pl_ratio": int1000_price_to_float(position['PLRatio']),
                           "pl_ratio_valid": position['PLRatioValid'],
-                          "pl_val": float(position['PLVal']) / 1000,
+                          "pl_val": int1000_price_to_float(position['PLVal']),
                           "pl_val_valid": position['PLValValid'],
                           "today_buy_qty": position['Today_BuyQty'],
-                          "today_buy_val": float(position['Today_BuyVal']) / 1000,
-                          "today_pl_val": float(position['Today_PLVal']) / 1000,
+                          "today_buy_val": int1000_price_to_float(position['Today_BuyVal']),
+                          "today_pl_val": int1000_price_to_float(position['Today_PLVal']),
                           "today_sell_qty": position['Today_SellQty'],
-                          "today_sell_val": float(position['Today_SellVal']) / 1000
+                          "today_sell_val": int1000_price_to_float(position['Today_SellVal'])
                           }
                          for position in raw_position_list]
         return RET_OK, "", position_list
@@ -862,7 +862,7 @@ class DealListQuery:
                       "dealid": deal['DealID'],
                       "orderid": deal['OrderID'],
                       "qty": deal['Qty'],
-                      "price": float(deal['Price']) / 1000,
+                      "price": int1000_price_to_float(deal['Price']),
                       "orderside": deal['OrderSide'],
                       "time": deal['Time'],
                       "order_side": deal['OrderSide'],
@@ -904,7 +904,7 @@ class DealListQuery:
                       "dealid": deal['DealID'],
                       "orderid": deal['OrderID'],
                       "qty": deal['Qty'],
-                      "price": float(deal['Price']) / 1000,
+                      "price": int1000_price_to_float(deal['Price']),
                       "orderside": deal['OrderSide'],
                       "time": deal['Time'],
                       "order_side": deal['OrderSide'],
@@ -980,13 +980,13 @@ class TradePushQuery:
                        "envtype": int(rsp_data['EnvType']),
                        "code": merge_stock_str(1, rsp_data['StockCode']),
                        "stock_name": rsp_data["StockName"],
-                       "dealt_avg_price": float(rsp_data['DealtAvgPrice']) / 1000,
+                       "dealt_avg_price": int1000_price_to_float(rsp_data['DealtAvgPrice']),
                        "dealt_qty": rsp_data['DealtQty'],
                        "qty": rsp_data['Qty'],
                        "orderid": rsp_data['OrderID'],
                        "order_type": rsp_data['OrderType'],
                        "order_side": rsp_data['OrderSide'],
-                       "price": float(rsp_data['Price']) / 1000,
+                       "price": int1000_price_to_float(rsp_data['Price']),
                        "status": rsp_data['Status'],
                        "submited_time": rsp_data['SubmitedTime'],
                        "updated_time": rsp_data['UpdatedTime']
@@ -1012,7 +1012,7 @@ class TradePushQuery:
                      "dealid": rsp_data['DealID'],
                      "orderid": rsp_data['OrderID'],
                      "qty": rsp_data['Qty'],
-                     "price": float(rsp_data['Price']) / 1000,
+                     "price": int1000_price_to_float(rsp_data['Price']),
                      "order_side": rsp_data['OrderSide'],
                      "time": rsp_data['Time'],
                      "contra_broker_id": int(rsp_data['ContraBrokerID']),
@@ -1037,13 +1037,13 @@ class TradePushQuery:
                        "envtype": int(rsp_data['EnvType']),
                        "code": merge_stock_str(2, rsp_data['StockCode']),
                        "stock_name": rsp_data["StockName"],
-                       "dealt_avg_price": float(rsp_data['DealtAvgPrice']) / 1000,
+                       "dealt_avg_price": int1000_price_to_float(rsp_data['DealtAvgPrice']),
                        "dealt_qty": rsp_data['DealtQty'],
                        "qty": rsp_data['Qty'],
                        "orderid": rsp_data['OrderID'],
                        "order_type": rsp_data['OrderType'],
                        "order_side": rsp_data['OrderSide'],
-                       "price": float(rsp_data['Price']) / 1000,
+                       "price": int1000_price_to_float(rsp_data['Price']),
                        "status": rsp_data['Status'],
                        "submited_time": rsp_data['SubmitedTime'],
                        "updated_time": rsp_data['UpdatedTime']
@@ -1069,7 +1069,7 @@ class TradePushQuery:
                      "dealid": rsp_data['DealID'],
                      "orderid": rsp_data['OrderID'],
                      "qty": rsp_data['Qty'],
-                     "price": float(rsp_data['Price']) / 1000,
+                     "price": int1000_price_to_float(rsp_data['Price']),
                      "order_side": rsp_data['OrderSide'],
                      "time": rsp_data['Time']
                     }
@@ -1126,7 +1126,7 @@ class HistoryOrderListQuery:
                        "orderid": order['OrderID'],
                        "order_type": order['OrderType'],
                        "order_side": order['OrderSide'],
-                       "price": float(order['Price']) / 1000,
+                       "price": int1000_price_to_float(order['Price']),
                        "status": order['Status'],
                        "submited_time": order['SubmitedTime'],
                        "updated_time": order['UpdatedTime']
@@ -1174,7 +1174,7 @@ class HistoryOrderListQuery:
                        "orderid": order['OrderID'],
                        "order_type": order['OrderType'],
                        "order_side": order['OrderSide'],
-                       "price": float(order['Price']) / 1000,
+                       "price": int1000_price_to_float(order['Price']),
                        "status": order['Status'],
                        "submited_time": order['SubmitedTime'],
                        "updated_time": order['UpdatedTime']
@@ -1229,7 +1229,7 @@ class HistoryDealListQuery:
                       "dealid": deal['DealID'],
                       "orderid": deal['OrderID'],
                       "qty": deal['Qty'],
-                      "price": float(deal['Price']) / 1000,
+                      "price": int1000_price_to_float(deal['Price']),
                       "time": deal['Time'],
                       "order_side": deal['OrderSide'],
                       "contra_broker_id": int(deal['ContraBrokerID']),
@@ -1275,7 +1275,7 @@ class HistoryDealListQuery:
                       "dealid": deal['DealID'],
                       "orderid": deal['OrderID'],
                       "qty": deal['Qty'],
-                      "price": float(deal['Price']) / 1000,
+                      "price": int1000_price_to_float(deal['Price']),
                       "order_side": deal['OrderSide'],
                       "time": deal['Time'],
                       }

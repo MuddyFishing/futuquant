@@ -6,7 +6,7 @@ import sys
 import json
 from datetime import datetime
 from datetime import timedelta
-from .utils import is_str
+from .utils import *
 from .constant import *
 import traceback
 
@@ -391,33 +391,33 @@ class MarketSnapshotQuery:
 
         snapshot_list = [{'code': merge_stock_str(int(record['MarketType']), record['StockCode']),
                           'update_time': str(record['UpdateTimeStr']),
-                          'last_price': float(record['NominalPrice']) / 1000,
-                          'open_price': float(record['OpenPrice']) / 1000,
-                          'high_price': float(record['HighestPrice']) / 1000,
-                          'low_price': float(record['LowestPrice']) / 1000,
-                          'prev_close_price': float(record['LastClose']) / 1000,
+                          'last_price': int1000_price_to_float(record['NominalPrice']),
+                          'open_price': int1000_price_to_float(record['OpenPrice']),
+                          'high_price': int1000_price_to_float(record['HighestPrice']),
+                          'low_price': int1000_price_to_float(record['LowestPrice']),
+                          'prev_close_price': int1000_price_to_float(record['LastClose']),
                           'volume': record['Volume'],
-                          'turnover': float(record['Turnover']) / 1000,
-                          'turnover_rate': float(record['TurnoverRate']) / 1000,
+                          'turnover': int1000_price_to_float(record['Turnover']),
+                          'turnover_rate': int1000_price_to_float(record['TurnoverRate']),
                           'suspension': True if int(record['SuspendFlag']) == 1 else False,
                           'listing_date': futu_timestamp_to_str(int(record['ListingDate'])),
-                          'circular_market_val': float(record['CircularMarketVal']) / 1000,
-                          'total_market_val': float(record['TotalMarketVal']) / 1000,
+                          'circular_market_val': int1000_price_to_float(record['CircularMarketVal']),
+                          'total_market_val': int1000_price_to_float(record['TotalMarketVal']),
                           'wrt_valid': True if int(record['Wrt_Valid']) == 1 else False,
-                          'wrt_conversion_ratio': float(record['Wrt_ConversionRatio']) / 1000,
+                          'wrt_conversion_ratio': int1000_price_to_float(record['Wrt_ConversionRatio']),
                           'wrt_type': QUOTE.REV_WRT_TYPE_MAP[int(record['Wrt_Type'])]
                           if int(record['Wrt_Valid']) == 1 else 0,
-                          'wrt_strike_price': float(record['Wrt_StrikePrice']) / 1000,
+                          'wrt_strike_price': int1000_price_to_float(record['Wrt_StrikePrice']),
                           'wrt_maturity_date': str(record['Wrt_MaturityDateStr']),
                           'wrt_end_trade': str(record['Wrt_EndTradeDateStr']),
                           'wrt_code': merge_stock_str(int(record['Wrt_OwnerMarketType']), record['Wrt_OwnerStockCode']),
-                          'wrt_recovery_price': float(record['Wrt_RecoveryPrice']) / 1000,
-                          'wrt_street_vol': float(record['Wrt_StreetVol']) / 1000,
-                          'wrt_issue_vol': float(record['Wrt_IssueVol']) / 1000,
-                          'wrt_street_ratio': float(record['Wrt_StreetRatio']) / 100000,
-                          'wrt_delta': float(record['Wrt_Delta']) / 1000,
-                          'wrt_implied_volatility': float(record['Wrt_ImpliedVolatility']) / 1000,
-                          'wrt_premium': float(record['Wrt_Premium']) / 1000,
+                          'wrt_recovery_price': int1000_price_to_float(record['Wrt_RecoveryPrice']),
+                          'wrt_street_vol': int1000_price_to_float(record['Wrt_StreetVol']),
+                          'wrt_issue_vol': int1000_price_to_float(record['Wrt_IssueVol']),
+                          'wrt_street_ratio': int1000_price_to_float(record['Wrt_StreetRatio']),
+                          'wrt_delta': int1000_price_to_float(record['Wrt_Delta']),
+                          'wrt_implied_volatility': int1000_price_to_float(record['Wrt_ImpliedVolatility']),
+                          'wrt_premium': int1000_price_to_float(record['Wrt_Premium']),
                           'lot_size': int(record['LotSize'])
                           } for record in raw_snapshot_list]
 
@@ -469,10 +469,10 @@ class RtDataQuery:
                     "code": stock_code,
                     "data_status": True if int(record['DataStatus']) == 1 else False,
                     "opened_mins": record['OpenedMins'],
-                    "cur_price": float(record['CurPrice']) / 1000,
-                    "last_close": float(record['LastClose']) / 1000,
-                    "avg_price": float(record['AvgPrice']) / 1000,
-                    "turnover": float(record['Turnover']) / 1000,
+                    "cur_price": int1000_price_to_float(record['CurPrice']),
+                    "last_close": int1000_price_to_float(record['LastClose']),
+                    "avg_price": int1000_price_to_float(record['AvgPrice']),
+                    "turnover": int1000_price_to_float(record['Turnover']),
                     "volume": record['Volume']
                     } for record in rt_data_list]
 
@@ -727,16 +727,17 @@ class HistoryKlineQuery:
             return RET_OK, "", []
 
         raw_kline_list = rsp_data["HistoryKLArr"]
-        price_base = 10 ** 9
         stock_code = merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
         kline_list = [{"code": stock_code,
                        "time_key": record['Time'],
-                       "open": float(record['Open']) / price_base,
-                       "high": float(record['High']) / price_base,
-                       "low": float(record['Low']) / price_base,
-                       "close": float(record['Close']) / price_base,
+                       "open": int10_9_price_to_float(record['Open']),
+                       "high": int10_9_price_to_float(record['High']),
+                       "low": int10_9_price_to_float(record['Low']),
+                       "close": int10_9_price_to_float(record['Close']),
                        "volume": record['Volume'],
-                       "turnover": float(record['Turnover']) / 1000
+                       "turnover": int1000_price_to_float(record['Turnover']),
+                       "pe_ratio":int1000_price_to_float(record['PERatio']),
+                       "turnover_rate":int1000_price_to_float(record['TurnoverRate'])
                        }
                       for record in raw_kline_list]
 
@@ -1047,15 +1048,15 @@ class StockQuoteQuery:
         quote_list = [{'code': merge_stock_str(int(record['Market']), record['StockCode']),
                        'data_date': record['Date'],
                        'data_time': record['Time'],
-                       'last_price': float(record['CurPrice']) / 1000,
-                       'open_price': float(record['Open']) / 1000,
-                       'high_price': float(record['High']) / 1000,
-                       'low_price': float(record['Low']) / 1000,
-                       'prev_close_price': float(record['LastClose']) / 1000,
+                       'last_price': int1000_price_to_float(record['CurPrice']),
+                       'open_price': int1000_price_to_float(record['Open']),
+                       'high_price': int1000_price_to_float(record['High']),
+                       'low_price': int1000_price_to_float(record['Low']),
+                       'prev_close_price': int1000_price_to_float(record['LastClose']),
                        'volume': int(record['Volume']),
-                       'turnover': float(record['Turnover']) / 1000,
-                       'turnover_rate': float(record['TurnoverRate']) / 1000,
-                       'amplitude': float(record['Amplitude']) / 1000,
+                       'turnover': int1000_price_to_float(record['Turnover']),
+                       'turnover_rate': int1000_price_to_float(record['TurnoverRate']),
+                       'amplitude': int1000_price_to_float(record['Amplitude']),
                        'suspension': True if int(record['Suspension']) == 1 else False,
                        'listing_date': record['ListTime']
                        }
@@ -1120,9 +1121,9 @@ class TickerQuery:
         stock_code = merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
         ticker_list = [{"code": stock_code,
                         "time": record['Time'],
-                        "price": float(record['Price']) / 1000,
+                        "price": int1000_price_to_float(record['Price']),
                         "volume": record['Volume'],
-                        "turnover": float(record['Turnover']) / 1000,
+                        "turnover": int1000_price_to_float(record['Turnover']),
                         "ticker_direction": QUOTE.REV_TICKER_DIRECTION[int(record['Direction'])],
                         "sequence": int(record["Sequence"])
                         }
@@ -1212,13 +1213,15 @@ class CurKlineQuery:
         stock_code = merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
         kline_list = [{"code": stock_code,
                        "time_key": record['Time'],
-                       "open": round(float(record['Open']) / 1000, 3),
-                       "high": round(float(record['High']) / 1000, 3),
-                       "low": round(float(record['Low']) / 1000, 3),
-                       "close": round(float(record['Close']) / 1000, 3),
+                       "open": int1000_price_to_float(record['Open']),
+                       "high": int1000_price_to_float(record['High']),
+                       "low": int1000_price_to_float(record['Low']),
+                       "close": int1000_price_to_float(record['Close']),
                        "volume": record['Volume'],
-                       "turnover": round(float(record['Turnover']) / 1000, 3),
-                       "k_type": k_type
+                       "turnover": int1000_price_to_float(record['Turnover']),
+                       "k_type": k_type,
+                       "pe_ratio": int1000_price_to_float(record['PERatio']),
+                       "turnover_rate": int1000_price_to_float(record['TurnoverRate'])
                        }
                       for record in raw_kline_list]
 
@@ -1267,8 +1270,8 @@ class OrderBookQuery:
         order_book = {'stock_code': stock_str, 'Ask': [], 'Bid': []}
 
         for record in raw_order_book:
-            bid_record = (float(record['BuyPrice']) / 1000, int(record['BuyVol']), int(record['BuyOrder']))
-            ask_record = (float(record['SellPrice']) / 1000, int(record['SellVol']), int(record['SellOrder']))
+            bid_record = (int1000_price_to_float(record['BuyPrice']), int(record['BuyVol']), int(record['BuyOrder']))
+            ask_record = (int1000_price_to_float(record['SellPrice']), int(record['SellVol']), int(record['SellOrder']))
 
             order_book['Bid'].append(bid_record)
             order_book['Ask'].append(ask_record)

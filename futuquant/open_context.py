@@ -1083,7 +1083,7 @@ class OpenQuoteContext(OpenContextBase):
         if ret_code == RET_ERROR:
             return ret_code, msg
 
-        col_list = ['code', 'time_key', 'open', 'close', 'high', 'low', 'volume', 'turnover']
+        col_list = ['code', 'time_key', 'open', 'close', 'high', 'low', 'volume', 'turnover', 'pe_ratio', 'turnover_rate']
         kline_frame_table = pd.DataFrame(kline_list, columns=col_list)
 
         return RET_OK, kline_frame_table
@@ -1449,7 +1449,7 @@ class OpenQuoteContext(OpenContextBase):
         if ret_code == RET_ERROR:
             return ret_code, msg
 
-        col_list = ['code', 'time_key', 'open', 'close', 'high', 'low', 'volume', 'turnover']
+        col_list = ['code', 'time_key', 'open', 'close', 'high', 'low', 'volume', 'turnover', 'pe_ratio', 'turnover_rate']
         kline_frame_table = pd.DataFrame(kline_list, columns=col_list)
 
         return RET_OK, kline_frame_table

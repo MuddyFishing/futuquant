@@ -7,6 +7,18 @@ def is_str(obj):
     else:
         return isinstance(obj, basestring)
 
-def str_price1000(price):
+
+def price_to_str_int1000(price):
     return str(int(round(float(price) * 1000, 0))) if str(price) is not '' else ''
+
+
+# 1000*int price to float val
+def int1000_price_to_float(price):
+    return round(float(price) / 1000.0, 3) if str(price) is not '' else float(0)
+
+
+# 10^9 int price to float val
+def int10_9_price_to_float(price):
+    return round(float(price) / float(10**9), 3) if str(price) is not '' else float(0)
+
 
