@@ -1151,7 +1151,10 @@ class OpenQuoteContext(OpenContextBase):
                     'wrt_conversion_ratio', 'wrt_type', 'wrt_strike_price',
                     'wrt_maturity_date', 'wrt_end_trade', 'wrt_code',
                     'wrt_recovery_price', 'wrt_street_vol', 'wrt_issue_vol',
-                    'wrt_street_ratio', 'wrt_delta', 'wrt_implied_volatility', 'wrt_premium', 'lot_size'
+                    'wrt_street_ratio', 'wrt_delta', 'wrt_implied_volatility', 'wrt_premium', 'lot_size',
+                    # 2017.11.6 add
+                    'issued_shares', 'net_asset', 'net_profit', 'earning_per_share',
+                    'outstanding_shares', 'net_asset_per_share', 'ey_ratio', 'pe_ratio', 'pb_ratio',
                     ]
 
         snapshot_frame_table = pd.DataFrame(snapshot_list, columns=col_list)
@@ -1646,7 +1649,9 @@ class OpenHKTradeContext(OpenContextBase):
         self._subscribe_order_deal_push(orderid_list=[place_order_list[0]['orderid']],
                                         order_deal_push=order_deal_push, envtype=envtype)
 
-        col_list = ['envtype', 'orderid']
+        col_list = ["envtype", "orderid", "code", "stock_name", "dealt_avg_price", "dealt_qty", "qty",
+                    "order_type", "order_side", "price", "status", "submited_time", "updated_time"]
+
         place_order_table = pd.DataFrame(place_order_list, columns=col_list)
 
         return RET_OK, place_order_table
@@ -2007,7 +2012,9 @@ class OpenUSTradeContext(OpenContextBase):
         self._subscribe_order_deal_push(orderid_list=[place_order_list[0]['orderid']],
                                         order_deal_push=order_deal_push, envtype=envtype)
 
-        col_list = ['envtype', 'orderid']
+        col_list = ["envtype", "orderid", "code", "stock_name", "dealt_avg_price", "dealt_qty", "qty",
+                    "order_type", "order_side", "price", "status", "submited_time", "updated_time"]
+
         place_order_table = pd.DataFrame(place_order_list, columns=col_list)
 
         return RET_OK, place_order_table

@@ -214,7 +214,18 @@ class PlaceOrder:
             return RET_ERROR, error_str, None
 
         place_order_list = [{'envtype': rsp_data['EnvType'],
-                             'orderid': rsp_data['OrderID']
+                             'orderid': rsp_data['OrderID'],
+                             "code": merge_stock_str(1, rsp_data['StockCode']) if rsp_data.has_key('StockCode') else '',
+                             "stock_name": rsp_data["StockName"] if rsp_data.has_key('StockName') else '',
+                             "dealt_avg_price": int1000_price_to_float(rsp_data['DealtAvgPrice']) if rsp_data.has_key('DealtAvgPrice') else None,
+                             "dealt_qty": rsp_data['DealtQty'] if rsp_data.has_key('DealtQty') else None,
+                             "qty": rsp_data['Qty'] if rsp_data.has_key('Qty') else None,
+                             "order_type": rsp_data['OrderType'] if rsp_data.has_key('OrderType') else None,
+                             "order_side": rsp_data['OrderSide'] if rsp_data.has_key('OrderSide') else None,
+                             "price": int1000_price_to_float(rsp_data['Price']) if rsp_data.has_key('Price') else None,
+                             "status": rsp_data['Status'] if rsp_data.has_key('Status') else None,
+                             "submited_time": rsp_data['SubmitedTime'] if rsp_data.has_key('SubmitedTime') else None,
+                             "updated_time": rsp_data['UpdatedTime'] if rsp_data.has_key('UpdatedTime') else None,
                              }]
 
         return RET_OK, "", place_order_list
@@ -266,7 +277,18 @@ class PlaceOrder:
             return RET_ERROR, error_str, None
 
         place_order_list = [{'envtype': rsp_data['EnvType'],
-                             'orderid': rsp_data['OrderID']
+                             'orderid': rsp_data['OrderID'],
+                             "code": merge_stock_str(2, rsp_data['StockCode']) if rsp_data.has_key('StockCode') else '',
+                             "stock_name": rsp_data["StockName"] if rsp_data.has_key('StockName') else '',
+                             "dealt_avg_price": int1000_price_to_float(rsp_data['DealtAvgPrice']) if rsp_data.has_key('DealtAvgPrice') else None,
+                             "dealt_qty": rsp_data['DealtQty'] if rsp_data.has_key('DealtQty') else None,
+                             "qty": rsp_data['Qty'] if rsp_data.has_key('Qty') else None,
+                             "order_type": rsp_data['OrderType'] if rsp_data.has_key('OrderType') else None,
+                             "order_side": rsp_data['OrderSide'] if rsp_data.has_key('OrderSide') else None,
+                             "price": int1000_price_to_float(rsp_data['Price']) if rsp_data.has_key('Price') else None,
+                             "status": rsp_data['Status'] if rsp_data.has_key('Status') else None,
+                             "submited_time": rsp_data['SubmitedTime'] if rsp_data.has_key('SubmitedTime') else None,
+                             "updated_time": rsp_data['UpdatedTime'] if rsp_data.has_key('UpdatedTime') else None,
                              }]
 
         return RET_OK, "", place_order_list
