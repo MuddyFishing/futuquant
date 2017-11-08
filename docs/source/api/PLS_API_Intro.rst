@@ -1592,7 +1592,7 @@ Json基础字段
 
     {"Protocol":"6011","ReqParam":{"Cookie":"123123","EnvType":"0",
 	
-    "StatusFilterStr": "0,1,2","StockCode":"","start_time":"","end_time":"2017-10-22"},"Version":"1"}
+    "StatusFilterStr": "0,1,2","StockCode":"","start_date":"","end_date":"2017-10-22"},"Version":"1"}
 
 **S->C eg:**
 
@@ -2138,7 +2138,7 @@ Json基础字段
 
     {"Protocol":"7011","ReqParam":{"Cookie":"123123","EnvType":"0",
 	
-    "StatusFilterStr": "0,1,2","StockCode":"","start_time":"","end_time":"2017-10-22"},"Version":"1"}
+    "StatusFilterStr": "0,1,2","StockCode":"","start_date":"","end_date":"2017-10-22"},"Version":"1"}
 
 **S->C eg:**
 
