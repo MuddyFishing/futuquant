@@ -420,15 +420,15 @@ class MarketSnapshotQuery:
                           'wrt_premium': int1000_price_to_float(record['Wrt_Premium']),
                           'lot_size': int(record['LotSize']),
                           # 2017.11.6 add
-                          'issued_shares': int(record['Eqt_IssuedShares']) if record.has_key('Eqt_IssuedShares') else 0,
-                          'net_asset': int(record['Eqt_NetAssetValue']) if record.has_key('Eqt_NetAssetValue') else 0,
-                          'net_profit': int(record['Eqt_NetProfit']) if record.has_key('Eqt_NetProfit') else 0,
-                          'earning_per_share': int1000_price_to_float(record['Eqt_EarningPerShare']) if record.has_key('Eqt_EarningPerShare') else 0,
-                          'outstanding_shares': int(record['Eqt_OutStandingShares']) if record.has_key('Eqt_OutStandingShares') else 0,
-                          'net_asset_per_share': int1000_price_to_float(record['Eqt_NetAssetPerShare']) if record.has_key('Eqt_NetAssetPerShare') else 0,
-                          'ey_ratio': int1000_price_to_float(record['Eqt_EYRatio']) if record.has_key('Eqt_EYRatio') else 0,
-                          'pe_ratio': int1000_price_to_float(record['Eqt_PERatio']) if record.has_key('Eqt_PERatio') else 0,
-                          'pb_ratio': int1000_price_to_float(record['Eqt_PBRatio']) if record.has_key('Eqt_PBRatio') else 0,
+                          'issued_shares': int(record['Eqt_IssuedShares']) if 'Eqt_IssuedShares' in record else 0,
+                          'net_asset': int(record['Eqt_NetAssetValue']) if 'Eqt_NetAssetValue' in record else 0,
+                          'net_profit': int(record['Eqt_NetProfit']) if 'Eqt_NetProfit' in record else 0,
+                          'earning_per_share': int1000_price_to_float(record['Eqt_EarningPerShare']) if 'Eqt_EarningPerShare' in record else 0,
+                          'outstanding_shares': int(record['Eqt_OutStandingShares']) if 'Eqt_OutStandingShares' in record else 0,
+                          'net_asset_per_share': int1000_price_to_float(record['Eqt_NetAssetPerShare']) if 'Eqt_NetAssetPerShare' in record else 0,
+                          'ey_ratio': int1000_price_to_float(record['Eqt_EYRatio']) if 'Eqt_EYRatio' in record else 0,
+                          'pe_ratio': int1000_price_to_float(record['Eqt_PERatio']) if 'Eqt_PERatio' in record else 0,
+                          'pb_ratio': int1000_price_to_float(record['Eqt_PBRatio']) if 'Eqt_PBRatio' in record else 0,
                           } for record in raw_snapshot_list]
 
         return RET_OK, "", snapshot_list
