@@ -668,26 +668,24 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 **wrt\_premium**: 窝轮溢价；float
 
 **lot\_size**\ ：每手股数；int
-
-**Eqt\_Valid**：  			是否是正股  bool 
-                                         
-**Eqt\_IssuedShares**：   	发行股本	int    
+                                        
+**issued_Shares**：发行股本	int    
                                  
-**Eqt\_NetAssetValue**：  	资产净值  	int       
+**net_asset**：资产净值  int       
                                        
-**Eqt\_NetProfit**：      	盈利（亏损 	int       
+**net_profit**：盈利（亏损 	int       
                                    
-**Eqt\_EarningPerShare**：	每股盈利 	float  
+**earning_per_share**：	每股盈利 float  
                                           
-**Eqt\_OutStandingShares**：流通股本   	int   
+**outstanding_shares**：流通股本  int   
                                            
-**Eqt\_NetAssetPerShare**： 每股净资产 	float   
+**net_asset_per_share**：每股净资产 float   
                                          
-**Eqt\_EYRatio**：          收益率    	float      
+**ey_ratio**：收益率  float      
                                           
-**Eqt\_PERatio**：          市盈率    	float     
+**pe_ratio**：市盈率  float     
                                            
-**Eqt\_PBRatio**：          市净率    	float     
+**pb_ratio**：市净率  float     
                                            
 返回DataFrame，包含上述字段
 
