@@ -669,6 +669,26 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 
 **lot\_size**\ ：每手股数；int
 
+**Eqt\_Valid**：  			是否是正股  bool 
+                                         
+**Eqt\_IssuedShares**：   	发行股本	int    
+                                 
+**Eqt\_NetAssetValue**：  	资产净值  	int       
+                                       
+**Eqt\_NetProfit**：      	盈利（亏损 	int       
+                                   
+**Eqt\_EarningPerShare**：	每股盈利 	float  
+                                          
+**Eqt\_OutStandingShares**：流通股本   	int   
+                                           
+**Eqt\_NetAssetPerShare**： 每股净资产 	float   
+                                         
+**Eqt\_EYRatio**：          收益率    	float      
+                                          
+**Eqt\_PERatio**：          市盈率    	float     
+                                           
+**Eqt\_PBRatio**：          市净率    	float     
+                                           
 返回DataFrame，包含上述字段
 
 **窝轮类型** wrt\_type，（字符串类型）：
