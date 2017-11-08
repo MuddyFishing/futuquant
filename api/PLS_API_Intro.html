@@ -2771,7 +2771,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <p><strong>C-&gt;S eg:</strong></p>
 <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6011&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span>
 
-<span class="s2">&quot;StatusFilterStr&quot;</span><span class="p">:</span> <span class="s2">&quot;0,1,2&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;end_time&quot;</span><span class="p">:</span><span class="s2">&quot;2017-10-22&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+<span class="s2">&quot;StatusFilterStr&quot;</span><span class="p">:</span> <span class="s2">&quot;0,1,2&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;start_date&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;end_date&quot;</span><span class="p">:</span><span class="s2">&quot;2017-10-22&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <p><strong>S-&gt;C eg:</strong></p>
@@ -2978,11 +2978,11 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <div class="section" id="protocol-6100">
 <h4>港股订阅订单成交记录推送(Protocol:6100)<a class="headerlink" href="#protocol-6100" title="Permalink to this headline">¶</a></h4>
 <p><strong>C-&gt;S eg:</strong></p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6100&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;18680,18681&quot;</span><span class="p">,</span><span class="s2">&quot;SubOrder&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;SubDel&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;FirstPush&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6100&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;18680,18681&quot;</span><span class="p">,</span><span class="s2">&quot;SubOrder&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;SubDeal&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;FirstPush&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <p><strong>S-&gt;C eg:</strong></p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6100&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;18680,18681&quot;</span><span class="p">,</span><span class="s2">&quot;SubOrderSuc&quot;</span><span class="p">:</span><span class="s2">&quot;1,1&quot;</span><span class="p">,</span><span class="s2">&quot;SubDelSuc&quot;</span><span class="p">:</span><span class="s2">&quot;1,1&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6100&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;18680,18681&quot;</span><span class="p">,</span><span class="s2">&quot;SubOrderSuc&quot;</span><span class="p">:</span><span class="s2">&quot;1,1&quot;</span><span class="p">,</span><span class="s2">&quot;SubDealSuc&quot;</span><span class="p">:</span><span class="s2">&quot;1,1&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <p>字段说明:</p>
@@ -3015,21 +3015,24 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td><strong>0=不订阅成交推送</strong> <strong>1=订阅成交推送</strong></td>
 <td>是否订阅成交推送</td>
 </tr>
-<tr class="row-even"><td>SubOrderSuc</td>
+<tr class="row-even"><td><strong>FirstPush</strong></td>
+<td><strong>0=不立即推送</strong> <strong>1=订阅后立即推送当前状态</strong></td>
+<td>是否立即推送当前订阅信息的状</td>
+</tr>
+<tr class="row-odd"><td>SubOrderSuc</td>
 <td>string</td>
 <td>是否完成订单更新推送订阅，&#8217;,&#8217;分隔</td>
 </tr>
-<tr class="row-odd"><td>SubDealSuc</td>
+<tr class="row-even"><td>SubDealSuc</td>
 <td>string</td>
 <td>是否完成成交推送订阅，&#8217;,&#8217;分隔</td>
 </tr>
-<tr class="row-even"><td><strong>EnvType</strong></td>
+<tr class="row-odd"><td><strong>EnvType</strong></td>
 <td><strong>0=真实交易</strong> <strong>1=仿真交易</strong></td>
 <td><strong>交易环境参数</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>注：完成订单订阅后会立即推送一次订单信息，完成成交订阅后会立即推送该订单之前所有相关成交。所以订阅了成交，并在PLS断线重连情况下重新订阅，成交记录会重复推送。</strong></p>
 </div>
 <div class="section" id="protocol-7003">
 <h4>美股下单交易(Protocol: 7003)<a class="headerlink" href="#protocol-7003" title="Permalink to this headline">¶</a></h4>
@@ -3670,7 +3673,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <p><strong>C-&gt;S eg:</strong></p>
 <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;7011&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span>
 
-<span class="s2">&quot;StatusFilterStr&quot;</span><span class="p">:</span> <span class="s2">&quot;0,1,2&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;end_time&quot;</span><span class="p">:</span><span class="s2">&quot;2017-10-22&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+<span class="s2">&quot;StatusFilterStr&quot;</span><span class="p">:</span> <span class="s2">&quot;0,1,2&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;start_date&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;end_date&quot;</span><span class="p">:</span><span class="s2">&quot;2017-10-22&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <p><strong>S-&gt;C eg:</strong></p>
@@ -3869,13 +3872,11 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <div class="section" id="protocol-7100">
 <h4>美股订阅订单成交记录推送(Protocol:7100)<a class="headerlink" href="#protocol-7100" title="Permalink to this headline">¶</a></h4>
 <p><strong>C-&gt;S eg:</strong></p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;7003&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123456&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderSide&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderType&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;Price&quot;</span><span class="p">:</span><span class="s2">&quot;6200&quot;</span><span class="p">,</span><span class="s2">&quot;Qty&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;YANG&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;7100&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;18680,18681&quot;</span><span class="p">,</span><span class="s2">&quot;SubOrder&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;SubDeal&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;FirstPush&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <p><strong>S-&gt;C eg:</strong></p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;7003&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123456&quot;</span><span class="p">,</span><span class="s2">&quot;DealtAvgPrice&quot;</span><span class="p">:</span><span class="s2">&quot;88000&quot;</span><span class="p">,</span><span class="s2">&quot;DealtQty&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;LocalID&quot;</span><span class="p">:</span><span class="s2">&quot;17723675250279&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;6427022143249964638&quot;</span><span class="p">,</span>
-
-    <span class="s2">&quot;OrderSide&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderType&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;Price&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Qty&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;Status&quot;</span><span class="p">:</span><span class="s2">&quot;3&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;YANG&quot;</span><span class="p">,</span><span class="s2">&quot;StockName&quot;</span><span class="p">:</span><span class="s2">&quot;三倍做空FTSE中国ETF-Direxion&quot;</span><span class="p">,</span><span class="s2">&quot;SubmitedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1510109878&quot;</span><span class="p">,</span><span class="s2">&quot;SvrResult&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;UpdatedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1510109878&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;7100&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;18680,18681&quot;</span><span class="p">,</span><span class="s2">&quot;SubOrderSuc&quot;</span><span class="p">:</span><span class="s2">&quot;1,1&quot;</span><span class="p">,</span><span class="s2">&quot;SubDealSuc&quot;</span><span class="p">:</span><span class="s2">&quot;1,1&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <p>字段说明:</p>
@@ -3908,21 +3909,24 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td><strong>0=不订阅成交推送</strong> <strong>1=订阅成交推送</strong></td>
 <td>是否订阅成交推送</td>
 </tr>
-<tr class="row-even"><td>SubOrderSuc</td>
+<tr class="row-even"><td><strong>FirstPush</strong></td>
+<td><strong>0=不立即推送</strong> <strong>1=订阅后立即推送当前状态</strong></td>
+<td>是否立即推送当前订阅信息的状</td>
+</tr>
+<tr class="row-odd"><td>SubOrderSuc</td>
 <td>string</td>
 <td>是否完成订单更新推送订阅，&#8217;,&#8217;分隔</td>
 </tr>
-<tr class="row-odd"><td>SubDealSuc</td>
+<tr class="row-even"><td>SubDealSuc</td>
 <td>string</td>
 <td>是否完成成交推送订阅，&#8217;,&#8217;分隔</td>
 </tr>
-<tr class="row-even"><td><strong>EnvType</strong></td>
+<tr class="row-odd"><td><strong>EnvType</strong></td>
 <td><strong>0=真实交易</strong> <strong>美股暂不支持仿真交易！！</strong></td>
 <td><strong>交易环境参数</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>注：完成订单订阅后会立即推送一次订单信息，完成成交订阅后会立即推送该订单之前所有相关成交。所以订阅了成交，并在PLS断线重连情况下重新订阅，成交记录会重复推送。</strong></p>
 </div>
 </div>
 </div>
