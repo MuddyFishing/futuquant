@@ -1665,7 +1665,7 @@ Json基础字段
 
 .. code:: 
 
-    {"Protocol":"6012","ReqParam":{"Cookie":"123123","EnvType":"0","StockCode":"","start_time":"","end_time":"2017-10-22"},"Version":"1"}
+    {"Protocol":"6012","ReqParam":{"Cookie":"123123","EnvType":"0","StockCode":"","start_date":"","end_date":"2017-10-22"},"Version":"1"}
 
 **S->C eg:**
 
@@ -2205,7 +2205,7 @@ Json基础字段
 
 .. code:: 
 
-    {"Protocol":"7012","ReqParam":{"Cookie":"123123","EnvType":"0","StockCode":"","start_time":"","end_time":"2017-10-22"},"Version":"1"}
+    {"Protocol":"7012","ReqParam":{"Cookie":"123123","EnvType":"0","StockCode":"","start_date":"","end_date":"2017-10-22"},"Version":"1"}
 
 **S->C eg:**
 
