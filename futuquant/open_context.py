@@ -1735,6 +1735,13 @@ class OpenHKTradeContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
+        stock_code = ''
+        if strcode != '':
+            ret_code, content = split_stock_str(str(strcode))
+            if ret_code == RET_ERROR:
+                return RET_ERROR, content
+            _, stock_code = content
+
         query_processor = self._get_sync_query_processor(OrderListQuery.hk_pack_req,
                                                          OrderListQuery.hk_unpack_rsp)
 
@@ -1742,7 +1749,7 @@ class OpenHKTradeContext(OpenContextBase):
         kargs = {'cookie': str(self.cookie),
                  'orderid': str(orderid),
                  'statusfilter': str(statusfilter),
-                 'strcode': str(strcode),
+                 'strcode': str(stock_code),
                  'start': str(start),
                  'end': str(end),
                  'envtype': str(envtype)}
@@ -1766,12 +1773,19 @@ class OpenHKTradeContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
+        stock_code = ''
+        if strcode != '':
+            ret_code, content = split_stock_str(str(strcode))
+            if ret_code == RET_ERROR:
+                return RET_ERROR, content
+            _, stock_code = content
+
         query_processor = self._get_sync_query_processor(PositionListQuery.hk_pack_req,
                                                          PositionListQuery.hk_unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
         kargs = {'cookie': str(self.cookie),
-                 'strcode': str(strcode),
+                 'strcode': str(stock_code),
                  'stocktype': str(stocktype),
                  'pl_ratio_min': str(pl_ratio_min),
                  'pl_ratio_max': str(pl_ratio_max),
@@ -1820,13 +1834,20 @@ class OpenHKTradeContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
+        stock_code = ''
+        if strcode != '':
+            ret_code, content = split_stock_str(str(strcode))
+            if ret_code == RET_ERROR:
+                return RET_ERROR, content
+            _, stock_code = content
+
         query_processor = self._get_sync_query_processor(HistoryOrderListQuery.hk_pack_req,
                                                          HistoryOrderListQuery.hk_unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
         kargs = {'cookie': str(self.cookie),
                  'statusfilter': str(statusfilter),
-                 'strcode': str(strcode),
+                 'strcode': str(stock_code),
                  'start': str(start),
                  'end': str(end),
                  'envtype': str(envtype)}
@@ -1849,12 +1870,19 @@ class OpenHKTradeContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
+        stock_code = ''
+        if strcode != '':
+            ret_code, content = split_stock_str(str(strcode))
+            if ret_code == RET_ERROR:
+                return RET_ERROR, content
+            _, stock_code = content
+
         query_processor = self._get_sync_query_processor(HistoryDealListQuery.hk_pack_req,
                                                          HistoryDealListQuery.hk_unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
         kargs = {'cookie': str(self.cookie),
-                 'strcode': str(strcode),
+                 'strcode': str(stock_code),
                  'start': str(start),
                  'end': str(end),
                  'envtype': str(envtype)}
@@ -2094,6 +2122,13 @@ class OpenUSTradeContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "us stocks temporarily only support real trading "
             return RET_ERROR, error_str
 
+        stock_code = ''
+        if strcode != '':
+            ret_code, content = split_stock_str(str(strcode))
+            if ret_code == RET_ERROR:
+                return RET_ERROR, content
+            _, stock_code = content
+
         query_processor = self._get_sync_query_processor(OrderListQuery.us_pack_req,
                                                          OrderListQuery.us_unpack_rsp)
 
@@ -2101,7 +2136,7 @@ class OpenUSTradeContext(OpenContextBase):
         kargs = {'cookie': str(self.cookie),
                  'orderid': str(orderid),
                  'statusfilter': str(statusfilter),
-                 'strcode': str(strcode),
+                 'strcode': str(stock_code),
                  'start': str(start),
                  'end': str(end),
                  'envtype': str(envtype)}
@@ -2124,12 +2159,19 @@ class OpenUSTradeContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "us stocks temporarily only support real trading "
             return RET_ERROR, error_str
 
+        stock_code = ''
+        if strcode != '':
+            ret_code, content = split_stock_str(str(strcode))
+            if ret_code == RET_ERROR:
+                return RET_ERROR, content
+            _, stock_code = content
+
         query_processor = self._get_sync_query_processor(PositionListQuery.us_pack_req,
                                                          PositionListQuery.us_unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
         kargs = {'cookie': str(self.cookie),
-                 'strcode': str(strcode),
+                 'strcode': str(stock_code),
                  'stocktype': str(stocktype),
                  'pl_ratio_min': str(pl_ratio_min),
                  'pl_ratio_max': str(pl_ratio_max),
@@ -2178,13 +2220,20 @@ class OpenUSTradeContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "us stocks temporarily only support real trading "
             return RET_ERROR, error_str
 
+        stock_code = ''
+        if strcode != '':
+            ret_code, content = split_stock_str(str(strcode))
+            if ret_code == RET_ERROR:
+                return RET_ERROR, content
+            _, stock_code = content
+
         query_processor = self._get_sync_query_processor(HistoryOrderListQuery.us_pack_req,
                                                          HistoryOrderListQuery.us_unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
         kargs = {'cookie': str(self.cookie),
                  'statusfilter': str(statusfilter),
-                 'strcode': str(strcode),
+                 'strcode': str(stock_code),
                  'start': str(start),
                  'end': str(end),
                  'envtype': str(envtype)}
@@ -2207,12 +2256,19 @@ class OpenUSTradeContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
             return RET_ERROR, error_str
 
+        stock_code = ''
+        if strcode != '':
+            ret_code, content = split_stock_str(str(strcode))
+            if ret_code == RET_ERROR:
+                return RET_ERROR, content
+            _, stock_code = content
+
         query_processor = self._get_sync_query_processor(HistoryDealListQuery.us_pack_req,
                                                          HistoryDealListQuery.us_unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
         kargs = {'cookie': str(self.cookie),
-                 'strcode': str(strcode),
+                 'strcode': str(stock_code),
                  'start': str(start),
                  'end': str(end),
                  'envtype': str(envtype)}

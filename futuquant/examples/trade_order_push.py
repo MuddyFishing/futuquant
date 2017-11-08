@@ -81,14 +81,14 @@ if __name__ == "__main__":
 
     # print('\nHK history_order_list_query:\n')
     # print(trade_context.history_order_list_query(statusfilter='2,3', strcode='',
-    #                                             start='2016-01-01', end='2017-12-31', envtype=1))
+    #                                             start='2017-10-01', end='2017-11-31', envtype=1))
 
     # print('\nHK order_list_query:\n')
     # print(trade_context.order_list_query(orderid='', statusfilter='', strcode='',
     #                                     start='09:30:00', end='24:00:00', envtype=1))
 
     # print('\nHK history_deal_list_query:\n')
-    # print(trade_context.history_deal_list_query(strcode='', start='2016-01-01', end='2017-12-31', envtype=1))
+    # print(trade_context.history_deal_list_query(strcode='', start='2017-10-01', end='2017-11-31', envtype=1))
 
     # print('\nHK deal_list_query:\n')
     # print(trade_context.deal_list_query(envtype=1))
@@ -115,13 +115,13 @@ if __name__ == "__main__":
     #                                     pl_ratio_min='-20.5', pl_ratio_max='0', envtype=0))
 
     # print('\nUS. history_order_list_query:\n')
-    # print(trade_context.history_order_list_query(statusfilter='', strcode='', start='2016-01-01', end='2017-12-31', envtype=0))
+    # print(trade_context.history_order_list_query(statusfilter='', strcode='', start='2017-10-01', end='2017-11-31', envtype=0))
 
     # print('\nUS. order_list_query:\n')
     # print(trade_context.order_list_query(statusfilter='', strcode='US.MIN', start='', end='', envtype=0))
 
     # print('\nUS. history_deal_list_query:\n')
-    # print(trade_context.history_deal_list_query(strcode='', start='2016-01-01', end='2017-12-31', envtype=0))
+    # print(trade_context.history_deal_list_query(strcode='', start='2017-10-01', end='2017-11-31', envtype=0))
     # print('\nUS. deal_list_query:\n')
     # print(trade_context.deal_list_query(envtype=0))
 
