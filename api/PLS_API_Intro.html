@@ -32,9 +32,6 @@
   
 
   
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="futuquant 2.1.4 documentation" href="../index.html"/>
         <link rel="next" title="Q&amp;A" href="../q&amp;a/Q&amp;A.html"/>
         <link rel="prev" title="交易API" href="Trade_API_Python_Doc.html"/> 
@@ -146,6 +143,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#protocol-6008">港股查询订单列表(Protocol: 6008)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#protocol-6009">港股查询持仓列表(Protocol: 6009)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#protocol-6010">港股查询成交记录(Protocol:6010)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#protocol-6011">港股查询历史订单列表(Protocol: 6011)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#protocol-6012">港股查询历史成交记录(Protocol: 6012)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#protocol-6100">港股订阅订单成交记录推送(Protocol:6100)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#protocol-7003">美股下单交易(Protocol: 7003)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#protocol-7004">美股设置订单状态(Protocol: 7004)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#protocol-7005">美股修改订单(Protocol: 7005)</a></li>
@@ -153,6 +153,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#protocol-7008">美股查询订单列表(Protocol: 7008)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#protocol-7009">美股查询持仓列表(Protocol: 7009)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#protocol-7010">美股查询成交记录(Protocol: 7010)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#protocol-7011">美股查询历史订单列表(Protocol: 7011)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#protocol-7012">美股查询历史成交记录(Protocol: 7012)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#protocol-7100">美股订阅订单成交记录推送(Protocol:7100)</a></li>
 </ul>
 </li>
 </ul>
@@ -213,7 +216,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/api/PLS_API_Intro.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/api/PLS_API_Intro.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -249,8 +252,8 @@
 </ol>
 </td>
 <td>初稿</td>
-<td>&#160;</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
 </tr>
 <tr class="row-odd"><td>2015.11.5</td>
 <td><ol class="first last arabic simple">
@@ -266,11 +269,11 @@
 <td>1.报价增加时间字段
 2.股票个数上限由100上调至300</td>
 <td>Ysq</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
 </tr>
 <tr class="row-odd"><td>2015.1.21</td>
 <td><ol class="first last arabic simple">
-<li>更新港股交易接口文档，修改部分参数 <strong>‘OrderTypeHK’</strong> 改为 <strong>‘OrderType’</strong>
+<li>更新港股交易接口文档，修改部分参数 <strong>&#8216;OrderTypeHK’</strong> 改为 <strong>&#8216;OrderType&#8217;</strong>
 “ <strong>SetOrderStatusHK</strong> ”改为” <strong>SetOrderStatus</strong> ”</li>
 <li>增加美股交易接口(下单，撤单，改单)</li>
 <li>增加解锁接口</li>
@@ -282,27 +285,27 @@
 <tr class="row-even"><td>2015.2.22</td>
 <td>6007协议文档错误纠正</td>
 <td>Ysq</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
 </tr>
 <tr class="row-odd"><td>2016.11.23</td>
 <td>1001协议增加每手数量字段</td>
 <td>zeno</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
 </tr>
 <tr class="row-even"><td>2016.12.12</td>
 <td>1010协议 拉取当天分时数据 6010 协议 港股成交记录 7010 协议 美股成交记录</td>
 <td>zeno</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
 </tr>
 <tr class="row-odd"><td>2016.12.26</td>
 <td>1011协议 拉取最近1000根K线</td>
 <td>zeno</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
 </tr>
 <tr class="row-even"><td>2017.1.10</td>
 <td>API一期</td>
 <td>Zeno;Tajod</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
 </tr>
 <tr class="row-odd"><td>2017.4.~</td>
 <td><ol class="first last arabic simple">
@@ -313,7 +316,20 @@
 </ol>
 </td>
 <td>Ysq</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>2017.10.~</td>
+<td><ol class="first last arabic simple">
+<li>增加订阅订单成交推送接口</li>
+<li>港、美股查订单列表增加过滤选项</li>
+<li>港、美股查持仓列表增加过滤选项</li>
+<li>增加港、美股查历史订单和历史成交接口</li>
+<li>下单返回带上订单数据</li>
+<li>股票快照增加正股市盈率等字段</li>
+</ol>
+</td>
+<td>Hugh</td>
+<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -398,6 +414,12 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <tr class="row-even"><td>503</td>
 <td>网络错误</td>
 </tr>
+<tr class="row-odd"><td>504</td>
+<td>操作不允许</td>
+</tr>
+<tr class="row-even"><td>505</td>
+<td>未知订单</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -412,9 +434,9 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">行情相关</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
+<th class="head">&nbsp;</th>
+<th class="head">&nbsp;</th>
+<th class="head">&nbsp;</th>
 </tr>
 </thead>
 <tbody valign="top">
@@ -455,13 +477,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </tr>
 <tr class="row-odd"><td>1025</td>
 <td>复权因子</td>
-<td>&#160;</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
 </tr>
 <tr class="row-even"><td>交易相关</td>
-<td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
 </tr>
 <tr class="row-odd"><td>6003</td>
 <td>港股下单</td>
@@ -480,8 +502,8 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </tr>
 <tr class="row-even"><td>6006</td>
 <td>解锁交易</td>
-<td>&#160;</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
 </tr>
 <tr class="row-odd"><td>6007</td>
 <td>港股查询账户信息</td>
@@ -607,10 +629,6 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td><strong>经纪队列</strong></td>
 <td><strong>1028</strong></td>
 </tr>
-<tr class="row-odd"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -660,7 +678,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Protocol</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
 <td>请求协议号</td>
 </tr>
 <tr class="row-odd"><td>Version</td>
@@ -690,10 +708,6 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <tr class="row-odd"><td>RetData</td>
 <td>随协号定义</td>
 <td>返回数据</td>
-</tr>
-<tr class="row-even"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
 </tr>
 </tbody>
 </table>
@@ -792,7 +806,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>GearArr</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
 <td>摆盘数据结点</td>
 </tr>
 <tr class="row-odd"><td>BuyOrder</td>
@@ -998,7 +1012,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>RTDataArr</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
 <td>分时数据</td>
 </tr>
 <tr class="row-odd"><td>DataStatus</td>
@@ -1070,7 +1084,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>KLDataArr</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
 <td>K线数据</td>
 </tr>
 <tr class="row-odd"><td>DataStatus</td>
@@ -1305,7 +1319,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </tr>
 <tr class="row-odd"><td>StockType</td>
 <td>Int32</td>
-<td>股票类型 1 = BOND–债券 3 = STOCK–正股 4 = ETF–ETF基金 5 = WARRANT–窝轮牛熊 6 = IDX–指数</td>
+<td>股票类型 1 = BOND&#8211;债券 3 = STOCK&#8211;正股 4 = ETF&#8211;ETF基金 5 = WARRANT&#8211;窝轮牛熊 6 = IDX&#8211;指数</td>
 </tr>
 <tr class="row-even"><td>StockID</td>
 <td>Int64</td>
@@ -1331,17 +1345,15 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <h4>市场快照协议(Protocol:1015)<a class="headerlink" href="#protocol-1015" title="Permalink to this headline">¶</a></h4>
 <p><strong>C-&gt;S eg:</strong></p>
 <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;1015&quot;</span><span class="p">,</span> <span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;StockArr&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;Market&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
-<span class="s2">&quot;StockCode&quot;</span><span class="p">:</span> <span class="s2">&quot;00700&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;Market&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;StockCode&quot;</span><span class="p">:</span> <span class="s2">&quot;00038&quot;</span><span class="p">}]}}</span>
+<span class="s2">&quot;StockCode&quot;</span><span class="p">:</span> <span class="s2">&quot;00700&quot;</span><span class="p">}]}}</span>
 </pre></div>
 </div>
 <p><strong>S-&gt;C eg:</strong></p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;1015&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;SnapshotArr&quot;</span><span class="p">:[{</span><span class="s2">&quot;HighestPrice&quot;</span><span class="p">:</span><span class="s2">&quot;226400&quot;</span><span class="p">,</span><span class="s2">&quot;StockType&quot;</span><span class="p">:</span><span class="s2">&quot;3&quot;</span><span class="p">,</span><span class="s2">&quot;LastClose&quot;</span><span class="p">:</span><span class="s2">&quot;225200&quot;</span><span class="p">,</span><span class="s2">&quot;ListingDate&quot;</span><span class="p">:</span><span class="s2">&quot;1087315200&quot;</span><span class="p">,</span><span class="s2">&quot;ListingStatus&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;LotSize&quot;</span><span class="p">:</span><span class="s2">&quot;100&quot;</span><span class="p">,</span><span class="s2">&quot;LowestPrice&quot;</span><span class="p">:</span><span class="s2">&quot;222600&quot;</span><span class="p">,</span><span class="s2">&quot;MarketType&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;NominalPrice&quot;</span><span class="p">:</span><span class="s2">&quot;222800&quot;</span><span class="p">,</span><span class="s2">&quot;OpenPrice&quot;</span><span class="p">:</span><span class="s2">&quot;225400&quot;</span><span class="p">,</span><span class="s2">&quot;RetErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Volume&quot;</span><span class="p">:</span><span class="s2">&quot;16116998&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;00700&quot;</span><span class="p">,</span><span class="s2">&quot;StockID&quot;</span><span class="p">:</span><span class="s2">&quot;54047868453564&quot;</span><span class="p">,</span><span class="s2">&quot;SuspendFlag&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,,</span><span class="s2">&quot;Turnover&quot;</span><span class="p">:</span><span class="s2">&quot;3614003913900&quot;</span><span class="p">,</span><span class="s2">&quot;TurnoverRate&quot;</span><span class="p">:</span><span class="s2">&quot;170&quot;</span><span class="p">,</span><span class="s2">&quot;UpdateTime&quot;</span><span class="p">:</span><span class="s2">&quot;1490947724&quot;</span><span class="p">,</span><span class="s2">&quot;CircularMarketVal&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;TotalMarketVal&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;UpdateTimeStr&quot;</span><span class="p">:</span><span class="s2">&quot;2017-03-31</span>
-<span class="mi">16</span><span class="p">:</span><span class="mi">08</span><span class="p">:</span><span class="mi">44</span><span class="s2">&quot;,&quot;</span><span class="n">Wrt_ConversionRatio</span><span class="s2">&quot;:&quot;</span><span class="mi">0</span><span class="s2">&quot;,&quot;</span><span class="n">Wrt_Delta</span><span class="s2">&quot;:&quot;</span><span class="mi">0</span><span class="s2">&quot;,&quot;</span><span class="n">Wrt_EndTradeDateStr</span><span class="s2">&quot;:&quot;&quot;,</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;1015&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;SnapshotArr&quot;</span><span class="p">:[{</span><span class="s2">&quot;CircularMarketVal&quot;</span><span class="p">:</span><span class="s2">&quot;3581078018622000&quot;</span><span class="p">,</span><span class="s2">&quot;Eqt_EYRatio&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Eqt_EarningPerShare&quot;</span><span class="p">:</span><span class="s2">&quot;4871&quot;</span><span class="p">,</span><span class="s2">&quot;Eqt_IssuedShares&quot;</span><span class="p">:</span><span class="s2">&quot;9498880686&quot;</span><span class="p">,</span><span class="s2">&quot;Eqt_NetAssetPerShare&quot;</span><span class="p">:</span><span class="s2">&quot;26025&quot;</span><span class="p">,</span><span class="s2">&quot;Eqt_NetAssetValue&quot;</span><span class="p">:</span><span class="s2">&quot;247208361984000&quot;</span><span class="p">,</span><span class="s2">&quot;Eqt_NetProfit&quot;</span><span class="p">:</span><span class="s2">&quot;46269050880000&quot;</span><span class="p">,</span><span class="s2">&quot;Eqt_OutStandingShares&quot;</span><span class="p">:</span><span class="s2">&quot;9498880686&quot;</span><span class="p">,</span><span class="s2">&quot;Eqt_PBRatio&quot;</span><span class="p">:</span><span class="s2">&quot;14486&quot;</span><span class="p">,</span><span class="s2">&quot;Eqt_PERatio&quot;</span><span class="p">:</span><span class="s2">&quot;77396&quot;</span><span class="p">,</span><span class="s2">&quot;Eqt_Valid&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span>
 
-<span class="s2">&quot;Wrt_ImpliedVolatility&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_IssueVol&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_MaturityDateStr&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_OwnerMarketType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_OwnerStockCode&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_Premium&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_RecoveryPrice&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_StreetRatio&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_StreetVol&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_StrikePrice&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_Type&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_Valid&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">},{</span><span class="s2">&quot;CircularMarketVal&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;HighestPrice&quot;</span><span class="p">:</span><span class="s2">&quot;4540&quot;</span><span class="p">,</span><span class="s2">&quot;StockType&quot;</span><span class="p">:</span><span class="s2">&quot;3&quot;</span><span class="p">,</span><span class="s2">&quot;LastClose&quot;</span><span class="p">:</span><span class="s2">&quot;4480&quot;</span><span class="p">,</span><span class="s2">&quot;ListingDate&quot;</span><span class="p">:</span><span class="s2">&quot;866995200&quot;</span><span class="p">,</span><span class="s2">&quot;ListingStatus&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;LotSize&quot;</span><span class="p">:</span><span class="s2">&quot;2000&quot;</span><span class="p">,</span><span class="s2">&quot;LowestPrice&quot;</span><span class="p">:</span><span class="s2">&quot;4460&quot;</span><span class="p">,</span><span class="s2">&quot;MarketType&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;NominalPrice&quot;</span><span class="p">:</span><span class="s2">&quot;4540&quot;</span><span class="p">,</span><span class="s2">&quot;OpenPrice&quot;</span><span class="p">:</span><span class="s2">&quot;4500&quot;</span><span class="p">,</span><span class="s2">&quot;RetErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Volume&quot;</span><span class="p">:</span><span class="s2">&quot;1164000&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;00038&quot;</span><span class="p">,</span><span class="s2">&quot;StockID&quot;</span><span class="p">:</span><span class="s2">&quot;43095701848102&quot;</span><span class="p">,</span><span class="s2">&quot;SuspendFlag&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;TotalMarketVal&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Turnover&quot;</span><span class="p">:</span><span class="s2">&quot;5240900000&quot;</span><span class="p">,</span><span class="s2">&quot;TurnoverRate&quot;</span><span class="p">:</span><span class="s2">&quot;290&quot;</span><span class="p">,</span><span class="s2">&quot;UpdateTime&quot;</span><span class="p">:</span><span class="s2">&quot;1490947726&quot;</span><span class="p">,</span><span class="s2">&quot;UpdateTimeStr&quot;</span><span class="p">:</span><span class="s2">&quot;2017-03-31</span>
-<span class="mi">16</span><span class="p">:</span><span class="mi">08</span><span class="p">:</span><span class="mi">46</span><span class="s2">&quot;,</span>
+<span class="s2">&quot;HighestPrice&quot;</span><span class="p">:</span><span class="s2">&quot;379600&quot;</span><span class="p">,</span><span class="s2">&quot;LastClose&quot;</span><span class="p">:</span><span class="s2">&quot;368000&quot;</span><span class="p">,</span><span class="s2">&quot;ListingDate&quot;</span><span class="p">:</span><span class="s2">&quot;1087315200&quot;</span><span class="p">,</span><span class="s2">&quot;ListingStatus&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;LotSize&quot;</span><span class="p">:</span><span class="s2">&quot;100&quot;</span><span class="p">,</span><span class="s2">&quot;LowestPrice&quot;</span><span class="p">:</span><span class="s2">&quot;364600&quot;</span><span class="p">,</span><span class="s2">&quot;MarketType&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;NominalPrice&quot;</span><span class="p">:</span><span class="s2">&quot;377000&quot;</span><span class="p">,</span><span class="s2">&quot;OpenPrice&quot;</span><span class="p">:</span><span class="s2">&quot;369600&quot;</span><span class="p">,</span><span class="s2">&quot;RetErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;00700&quot;</span><span class="p">,</span><span class="s2">&quot;StockID&quot;</span><span class="p">:</span><span class="s2">&quot;54047868453564&quot;</span><span class="p">,</span><span class="s2">&quot;StockType&quot;</span><span class="p">:</span><span class="s2">&quot;3&quot;</span><span class="p">,</span><span class="s2">&quot;SuspendFlag&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;TotalMarketVal&quot;</span><span class="p">:</span><span class="s2">&quot;3581078018622000&quot;</span><span class="p">,</span><span class="s2">&quot;Turnover&quot;</span><span class="p">:</span><span class="s2">&quot;9315767131000&quot;</span><span class="p">,</span><span class="s2">&quot;TurnoverRate&quot;</span><span class="p">:</span><span class="s2">&quot;264&quot;</span><span class="p">,</span>
 
-<span class="s2">&quot;Wrt_ConversionRatio&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_Delta&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_EndTradeDateStr&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_ImpliedVolatility&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_IssueVol&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_MaturityDateStr&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_OwnerMarketType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_OwnerStockCode&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_Premium&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_RecoveryPrice&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_StreetRatio&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_StreetVol&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_StrikePrice&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_Type&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_Valid&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">}]},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+    <span class="s2">&quot;UpdateTime&quot;</span><span class="p">:</span><span class="s2">&quot;1509955700&quot;</span><span class="p">,</span><span class="s2">&quot;UpdateTimeStr&quot;</span><span class="p">:</span><span class="s2">&quot;2017-11-06 16:08:20&quot;</span><span class="p">,</span><span class="s2">&quot;Volume&quot;</span><span class="p">:</span><span class="s2">&quot;25043422&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_ConversionRatio&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_Delta&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_EndTradeDateStr&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_ImpliedVolatility&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_IssueVol&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_MaturityDateStr&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_OwnerMarketType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_OwnerStockCode&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_Premium&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_RecoveryPrice&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_StreetRatio&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_StreetVol&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_StrikePrice&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_Type&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Wrt_Valid&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">}]},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <p>字段说明:</p>
@@ -1474,9 +1486,45 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td>Int32</td>
 <td>窝轮溢价(3位精度)</td>
 </tr>
-<tr class="row-odd"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
+<tr class="row-odd"><td>Eqt_Valid</td>
+<td>Int32</td>
+<td>是否是正股</td>
+</tr>
+<tr class="row-even"><td>Eqt_IssuedShares</td>
+<td>Int64</td>
+<td>发行股本,即总股本</td>
+</tr>
+<tr class="row-odd"><td>Eqt_NetAssetValue</td>
+<td>Int64</td>
+<td>资产净值</td>
+</tr>
+<tr class="row-even"><td>Eqt_NetProfit</td>
+<td>Int64</td>
+<td>盈利（亏损）</td>
+</tr>
+<tr class="row-odd"><td>Eqt_EarningPerShare</td>
+<td>Int64</td>
+<td>每股盈利</td>
+</tr>
+<tr class="row-even"><td>Eqt_OutStandingShares</td>
+<td>Int64</td>
+<td>流通股本</td>
+</tr>
+<tr class="row-odd"><td>Eqt_NetAssetPerShare</td>
+<td>Int64</td>
+<td>每股净资产</td>
+</tr>
+<tr class="row-even"><td>Eqt_EYRatio</td>
+<td>Int32</td>
+<td>收益率</td>
+</tr>
+<tr class="row-odd"><td>Eqt_PERatio</td>
+<td>Int32</td>
+<td>市盈率</td>
+</tr>
+<tr class="row-even"><td>Eqt_PBRatio</td>
+<td>Int32</td>
+<td>市净率</td>
 </tr>
 </tbody>
 </table>
@@ -1578,7 +1626,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>HistoryKLArr</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
 <td>K线数据</td>
 </tr>
 <tr class="row-odd"><td>DataStatus</td>
@@ -1665,7 +1713,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>ExRightInfoArr</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
 <td>K线数据</td>
 </tr>
 <tr class="row-odd"><td>ExDivDate</td>
@@ -1832,7 +1880,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </tr>
 <tr class="row-odd"><td>‘StockType’</td>
 <td>Int32</td>
-<td>股票类型 1 = BOND–债券 3 = STOCK–正股 4 = ETF–ETF基金 5 = WARRANT–窝轮牛熊 6 = IDX–指数</td>
+<td>股票类型 1 = BOND&#8211;债券 3 = STOCK&#8211;正股 4 = ETF&#8211;ETF基金 5 = WARRANT&#8211;窝轮牛熊 6 = IDX&#8211;指数</td>
 </tr>
 </tbody>
 </table>
@@ -1899,7 +1947,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </tr>
 <tr class="row-even"><td>‘BrokerPos’</td>
 <td>Int32</td>
-<td>经纪档位(0, 1, 2…)</td>
+<td>经纪档位(0, 1, 2...)</td>
 </tr>
 </tbody>
 </table>
@@ -1960,10 +2008,6 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <tr class="row-odd"><td><strong>Trade_Logined</strong></td>
 <td>Int32(0 | 1)</td>
 <td>是否登陆交易服务器</td>
-</tr>
-<tr class="row-even"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
 </tr>
 </tbody>
 </table>
@@ -2042,11 +2086,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <div class="section" id="protocol-6003">
 <h4>港股下单交易(Protocol: 6003)<a class="headerlink" href="#protocol-6003" title="Permalink to this headline">¶</a></h4>
 <p><strong>C-&gt;S eg:</strong></p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6003&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123456&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderSide&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Price&quot;</span><span class="p">:</span><span class="s2">&quot;253600&quot;</span><span class="p">,</span><span class="s2">&quot;Qty&quot;</span><span class="p">:</span><span class="s2">&quot;100&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;00700&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6003&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123456&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderSide&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Price&quot;</span><span class="p">:</span><span class="s2">&quot;4340&quot;</span><span class="p">,</span><span class="s2">&quot;Qty&quot;</span><span class="p">:</span><span class="s2">&quot;2400&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;03883&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <p><strong>S-&gt;C eg:</strong></p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6003&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123456&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;LocalID&quot;</span><span class="p">:</span><span class="s2">&quot;2233082358006646&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;10486570&quot;</span><span class="p">,</span><span class="s2">&quot;SvrResult&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;系统繁忙，请稍后再试&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6003&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123456&quot;</span><span class="p">,</span><span class="s2">&quot;DealtAvgPrice&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;DealtQty&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;LocalID&quot;</span><span class="p">:</span><span class="s2">&quot;17160871827074&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;17160871827074&quot;</span><span class="p">,</span>
+
+    <span class="s2">&quot;OrderSide&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Price&quot;</span><span class="p">:</span><span class="s2">&quot;4340&quot;</span><span class="p">,</span><span class="s2">&quot;Qty&quot;</span><span class="p">:</span><span class="s2">&quot;2400&quot;</span><span class="p">,</span><span class="s2">&quot;Status&quot;</span><span class="p">:</span><span class="s2">&quot;22&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;03883&quot;</span><span class="p">,</span><span class="s2">&quot;StockName&quot;</span><span class="p">:</span><span class="s2">&quot;中国奥园&quot;</span><span class="p">,</span><span class="s2">&quot;SubmitedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1510109707&quot;</span><span class="p">,</span><span class="s2">&quot;SvrResult&quot;</span><span class="p">:</span><span class="s2">&quot;-1&quot;</span><span class="p">,</span><span class="s2">&quot;UpdatedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1510109707&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <p>字段说明:</p>
@@ -2127,7 +2173,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Cookie</td>
-<td>&#160;</td>
+<td>&nbsp;</td>
 <td>操作标识</td>
 </tr>
 <tr class="row-odd"><td><strong>SetOrderStatus</strong></td>
@@ -2149,10 +2195,6 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <tr class="row-odd"><td><strong>EnvType</strong></td>
 <td><strong>0=真实交易</strong> <strong>1=仿真交易</strong></td>
 <td><strong>交易环境参数</strong></td>
-</tr>
-<tr class="row-even"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
 </tr>
 </tbody>
 </table>
@@ -2210,9 +2252,74 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td><strong>0=真实交易</strong> <strong>1=仿真交易</strong></td>
 <td><strong>交易环境参数</strong></td>
 </tr>
-<tr class="row-odd"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="71%" />
+<col width="21%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>DealtAvgPrice</strong></td>
+<td><strong>Int32</strong></td>
+<td><strong>成交均价</strong></td>
+</tr>
+<tr class="row-even"><td><strong>DealtQty</strong></td>
+<td><strong>Int64</strong></td>
+<td><strong>成交数量</strong></td>
+</tr>
+<tr class="row-odd"><td>OrderID</td>
+<td>Int64</td>
+<td>定单id</td>
+</tr>
+<tr class="row-even"><td>LocalID</td>
+<td>Int64</td>
+<td>订单的本地标识</td>
+</tr>
+<tr class="row-odd"><td>Price</td>
+<td>Int32</td>
+<td>订单价格</td>
+</tr>
+<tr class="row-even"><td>Qty</td>
+<td>Int64</td>
+<td>订单数量</td>
+</tr>
+<tr class="row-odd"><td>OrderSide</td>
+<td>0: 买入 1: 卖出</td>
+<td>交易方向</td>
+</tr>
+<tr class="row-even"><td><strong>Status</strong></td>
+<td><strong>0 = 服务器处理中... 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
+<td><strong>订单状态</strong></td>
+</tr>
+<tr class="row-odd"><td>StockCode</td>
+<td>string</td>
+<td>股票代码</td>
+</tr>
+<tr class="row-even"><td>StockName</td>
+<td>string</td>
+<td>股票名称</td>
+</tr>
+<tr class="row-odd"><td><strong>SubmitedTime</strong></td>
+<td><strong>Int64</strong></td>
+<td><strong>服务器收到的订单提交时间(GMT)</strong></td>
+</tr>
+<tr class="row-even"><td><strong>UpdatedTime</strong></td>
+<td><strong>Int64</strong></td>
+<td><strong>订单最后更新的时间(GMT)</strong></td>
+</tr>
+<tr class="row-odd"><td><strong>&#8216;OrderType&#8217;</strong></td>
+<td><strong>0： 增强限价单(普通交易) 1： 竞价单(竞价交易) 2：限价单 （暂不支持)</strong> <strong>3： 竞价限价单(竞价限价)</strong></td>
+<td><strong>交易类型</strong></td>
+</tr>
+<tr class="row-even"><td><strong>EnvType</strong></td>
+<td><strong>0=真实交易</strong> <strong>1=仿真交易</strong></td>
+<td><strong>交易环境参数</strong></td>
+</tr>
+<tr class="row-odd"><td>ErrCode</td>
+<td>Int32</td>
+<td>订单错误码</td>
 </tr>
 </tbody>
 </table>
@@ -2250,8 +2357,8 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td>int32</td>
 <td>Svr的返回结果</td>
 </tr>
-<tr class="row-even"><td>&#160;</td>
-<td>&#160;</td>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
 <td>该接口会同时对美股和港股交易解锁</td>
 </tr>
 </tbody>
@@ -2305,9 +2412,9 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td><strong>Int64</strong></td>
 <td><strong>可取现金</strong></td>
 </tr>
-<tr class="row-even"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
 </tr>
 <tr class="row-odd"><td><strong>DJZJ</strong></td>
 <td><strong>Int64</strong></td>
@@ -2329,17 +2436,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td><strong>Int64</strong></td>
 <td><strong>股票保证金</strong></td>
 </tr>
-<tr class="row-even"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
 </tr>
 <tr class="row-odd"><td><strong>EnvType</strong></td>
 <td><strong>0=真实交易</strong> <strong>1=仿真交易</strong></td>
 <td><strong>交易环境参数</strong></td>
-</tr>
-<tr class="row-even"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
 </tr>
 </tbody>
 </table>
@@ -2347,8 +2450,9 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <div class="section" id="protocol-6008">
 <h4>港股查询订单列表(Protocol: 6008)<a class="headerlink" href="#protocol-6008" title="Permalink to this headline">¶</a></h4>
 <p><strong>C-&gt;S eg:</strong></p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6008&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span>
-<span class="s2">&quot;StatusFilterStr&quot;</span><span class="p">:</span> <span class="s2">&quot;0,1,2&quot;</span> <span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6008&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span>
+
+<span class="s2">&quot;StatusFilterStr&quot;</span><span class="p">:</span> <span class="s2">&quot;0,1,2&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="s2">&quot;00:00:00&quot;</span><span class="p">,</span><span class="s2">&quot;end_time&quot;</span><span class="p">:</span><span class="s2">&quot;23:59:59&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <p><strong>S-&gt;C eg:</strong></p>
@@ -2377,9 +2481,25 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><strong>StatusFilterStr</strong></td>
+<tr class="row-even"><td>OrderID</td>
+<td>Int64</td>
+<td>订单ID过滤, 空字符串或0为不限制</td>
+</tr>
+<tr class="row-odd"><td><strong>StatusFilterStr</strong></td>
 <td><strong>String</strong></td>
-<td><strong>状态过滤字符串, “,”号分隔需要返回的状态, 空字符串返回全部订单</strong></td>
+<td><strong>状态过滤字符串, &#8221;,”号分隔需要返回的状态, 空字符串返回全部订单</strong></td>
+</tr>
+<tr class="row-even"><td>StockCode</td>
+<td>String</td>
+<td>股票代码过滤, 空字符串为不限制</td>
+</tr>
+<tr class="row-odd"><td>start_time</td>
+<td>String</td>
+<td>订单提交时间过滤, hh:mm:ss格式, 空字符串为00:00:00</td>
+</tr>
+<tr class="row-even"><td>end_time</td>
+<td>String</td>
+<td>订单提交时间过滤, hh:mm:ss格式, 空字符串为23:59:59</td>
 </tr>
 <tr class="row-odd"><td>Cookie</td>
 <td>Uint32</td>
@@ -2414,7 +2534,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td>交易方向</td>
 </tr>
 <tr class="row-odd"><td><strong>Status</strong></td>
-<td><strong>0 = 服务器处理中… 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
+<td><strong>0 = 服务器处理中... 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
 <td><strong>订单状态</strong></td>
 </tr>
 <tr class="row-even"><td>StockCode</td>
@@ -2433,7 +2553,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td><strong>Int64</strong></td>
 <td><strong>订单最后更新的时间(GMT)</strong></td>
 </tr>
-<tr class="row-even"><td><strong>‘OrderType’</strong></td>
+<tr class="row-even"><td><strong>&#8216;OrderType&#8217;</strong></td>
 <td><strong>0： 增强限价单(普通交易) 1： 竞价单(竞价交易) 2：限价单 （暂不支持)</strong> <strong>3： 竞价限价单(竞价限价)</strong></td>
 <td><strong>交易类型</strong></td>
 </tr>
@@ -2441,9 +2561,9 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td><strong>0=真实交易</strong> <strong>1=仿真交易</strong></td>
 <td><strong>交易环境参数</strong></td>
 </tr>
-<tr class="row-even"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
+<tr class="row-even"><td>ErrCode</td>
+<td>Int32</td>
+<td>订单错误码</td>
 </tr>
 </tbody>
 </table>
@@ -2451,7 +2571,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <div class="section" id="protocol-6009">
 <h4>港股查询持仓列表(Protocol: 6009)<a class="headerlink" href="#protocol-6009" title="Permalink to this headline">¶</a></h4>
 <p><strong>C-&gt;S eg:</strong></p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6009&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6009&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;StockType&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;PLRatioMin&quot;</span><span class="p">:</span><span class="s2">&quot;-60%&quot;</span><span class="p">,</span><span class="s2">&quot;PLRatioMax&quot;</span><span class="p">:</span><span class="s2">&quot;100%&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <p><strong>S-&gt;C eg:</strong></p>
@@ -2467,9 +2587,9 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <p>字段说明:</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="18%" />
-<col width="28%" />
-<col width="54%" />
+<col width="16%" />
+<col width="37%" />
+<col width="47%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">字段名</th>
@@ -2478,69 +2598,85 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><strong>Cookie</strong></td>
-<td><strong>Uint32</strong></td>
-<td><strong>请求操作标识，输入参数,为了区分一个连接中有多个同样的请求</strong></td>
+<tr class="row-even"><td>Cookie</td>
+<td>Uint32</td>
+<td>请求操作标识,输入参数,为了区分一个连接中有多个同样的请求</td>
 </tr>
-<tr class="row-odd"><td><strong>Qty</strong></td>
-<td><strong>Int64</strong></td>
-<td><strong>持有数量</strong></td>
+<tr class="row-odd"><td>StockCode</td>
+<td>String</td>
+<td>股票代码,为空则为不限制</td>
 </tr>
-<tr class="row-even"><td><strong>CanSellQty</strong></td>
-<td><strong>Int64</strong></td>
-<td><strong>可卖数量</strong></td>
+<tr class="row-even"><td>StockType</td>
+<td>String</td>
+<td>股票类型,&#8221;1,2,3&#8221;,为空则为不限制</td>
 </tr>
-<tr class="row-odd"><td><strong>NominalPrice</strong></td>
-<td><strong>Int32</strong></td>
-<td><strong>市价</strong></td>
+<tr class="row-odd"><td>PLRatioMin</td>
+<td>String</td>
+<td>盈亏比例查询最小值,&#8221;2101&#8221;表示2.101%,为空则为不限制</td>
 </tr>
-<tr class="row-even"><td><strong>MarketVal</strong></td>
-<td><strong>Int64</strong></td>
-<td><strong>市值</strong></td>
+<tr class="row-even"><td>PLRatioMax</td>
+<td>String</td>
+<td>盈亏比例查询最大值,&#8221;2101&#8221;表示2.101%,为空则为不限制</td>
 </tr>
-<tr class="row-odd"><td><strong>CostPrice</strong></td>
-<td><strong>Int32</strong></td>
-<td><strong>成本价</strong></td>
+<tr class="row-odd"><td>Qty</td>
+<td>Int64</td>
+<td>持有数量</td>
 </tr>
-<tr class="row-even"><td><strong>CostPriceValid</strong></td>
-<td><strong>Int32 非0表求有效</strong></td>
-<td><strong>成本价是否有效</strong></td>
+<tr class="row-even"><td>CanSellQty</td>
+<td>Int64</td>
+<td>可卖数量</td>
 </tr>
-<tr class="row-odd"><td><strong>PLVal</strong></td>
-<td><strong>Int64</strong></td>
-<td><strong>盈亏金额</strong></td>
+<tr class="row-odd"><td>NominalPrice</td>
+<td>Int32</td>
+<td>市价</td>
 </tr>
-<tr class="row-even"><td><strong>PLRatioValid</strong></td>
-<td><strong>Int32 非0表求有效</strong></td>
-<td><strong>盈亏金额是否有效</strong></td>
+<tr class="row-even"><td>MarketVal</td>
+<td>Int64</td>
+<td>市值</td>
 </tr>
-<tr class="row-odd"><td><strong>PLRatio</strong></td>
-<td><strong>Int32</strong></td>
-<td><strong>盈亏比例 (*100000) eg: 1% = 1000</strong></td>
+<tr class="row-odd"><td>CostPrice</td>
+<td>Int32</td>
+<td>成本价</td>
 </tr>
-<tr class="row-even"><td><strong>PLRatioValid</strong></td>
-<td><strong>Int32 非0表求有效</strong></td>
-<td><strong>盈亏比例是否有效</strong></td>
+<tr class="row-even"><td>CostPriceValid</td>
+<td>Int32 非0表求有效</td>
+<td>成本价是否有效</td>
 </tr>
-<tr class="row-odd"><td><strong>Today_PLVal</strong></td>
-<td><strong>Int64</strong></td>
-<td><strong>今日盈亏金额</strong></td>
+<tr class="row-odd"><td>PLVal</td>
+<td>Int64</td>
+<td>盈亏金额</td>
 </tr>
-<tr class="row-even"><td><strong>Today_BuyQty</strong></td>
-<td><strong>Int64</strong></td>
-<td><strong>今日买入成交量</strong></td>
+<tr class="row-even"><td>PLRatioValid</td>
+<td>Int32 非0表求有效</td>
+<td>盈亏金额是否有效</td>
 </tr>
-<tr class="row-odd"><td><strong>Today_BuyVal</strong></td>
-<td><strong>Int64</strong></td>
-<td><strong>今日买入成交额</strong></td>
+<tr class="row-odd"><td>PLRatio</td>
+<td>Int32</td>
+<td>盈亏比例 (*100000) eg: 1% = 1000</td>
 </tr>
-<tr class="row-even"><td><strong>Today_SellQty</strong></td>
-<td><strong>Int64</strong></td>
-<td><strong>今日卖出成交量</strong></td>
+<tr class="row-even"><td>PLRatioValid</td>
+<td>Int32 非0表求有效</td>
+<td>盈亏比例是否有效</td>
 </tr>
-<tr class="row-odd"><td><strong>Today_SellVal</strong></td>
-<td><strong>Int64</strong></td>
-<td><strong>今日卖出成交额</strong></td>
+<tr class="row-odd"><td>Today_PLVal</td>
+<td>Int64</td>
+<td>今日盈亏金额</td>
+</tr>
+<tr class="row-even"><td>Today_BuyQty</td>
+<td>Int64</td>
+<td>今日买入成交量</td>
+</tr>
+<tr class="row-odd"><td>Today_BuyVal</td>
+<td>Int64</td>
+<td>今日买入成交额</td>
+</tr>
+<tr class="row-even"><td>Today_SellQty</td>
+<td>Int64</td>
+<td>今日卖出成交量</td>
+</tr>
+<tr class="row-odd"><td>Today_SellVal</td>
+<td>Int64</td>
+<td>今日卖出成交额</td>
 </tr>
 <tr class="row-even"><td>StockCode</td>
 <td>string</td>
@@ -2553,10 +2689,6 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <tr class="row-even"><td><strong>EnvType</strong></td>
 <td><strong>0=真实交易</strong> <strong>1=仿真交易</strong></td>
 <td><strong>交易环境参数</strong></td>
-</tr>
-<tr class="row-odd"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
 </tr>
 </tbody>
 </table>
@@ -2612,7 +2744,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td>交易方向</td>
 </tr>
 <tr class="row-even"><td><strong>Status</strong></td>
-<td><strong>0 = 服务器处理中… 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
+<td><strong>0 = 服务器处理中... 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
 <td><strong>订单状态</strong></td>
 </tr>
 <tr class="row-odd"><td>StockCode</td>
@@ -2633,6 +2765,271 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section" id="protocol-6011">
+<h4>港股查询历史订单列表(Protocol: 6011)<a class="headerlink" href="#protocol-6011" title="Permalink to this headline">¶</a></h4>
+<p><strong>C-&gt;S eg:</strong></p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6011&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span>
+
+<span class="s2">&quot;StatusFilterStr&quot;</span><span class="p">:</span> <span class="s2">&quot;0,1,2&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;end_time&quot;</span><span class="p">:</span><span class="s2">&quot;2017-10-22&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>S-&gt;C eg:</strong></p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6011&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;HKOrderArr&quot;</span><span class="p">:[</span>
+
+<span class="p">{</span><span class="s2">&quot;DealtQty&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;LocalID&quot;</span><span class="p">:</span><span class="s2">&quot;2827880381052386&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;18680&quot;</span><span class="p">,</span><span class="s2">&quot;Price&quot;</span><span class="p">:</span><span class="s2">&quot;150000&quot;</span><span class="p">,</span><span class="s2">&quot;Qty&quot;</span><span class="p">:</span><span class="s2">&quot;100&quot;</span><span class="p">,</span><span class="s2">&quot;OrderSide&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;Status&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;00700&quot;</span><span class="p">,</span><span class="s2">&quot;StockName&quot;</span><span class="p">:</span><span class="s2">&quot;腾讯控股&quot;</span><span class="p">,</span>
+
+<span class="s2">&quot;SubmitedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1508666010&quot;</span><span class="p">,</span><span class="s2">&quot;OrderType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;UpdatedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1508666060&quot;</span><span class="p">},</span>
+
+<span class="p">{</span><span class="s2">&quot;DealtQty&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;LocalID&quot;</span><span class="p">:</span><span class="s2">&quot;2827934046337573&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;18687&quot;</span><span class="p">,</span><span class="s2">&quot;Price&quot;</span><span class="p">:</span><span class="s2">&quot;151000&quot;</span><span class="p">,</span><span class="s2">&quot;Qty&quot;</span><span class="p">:</span><span class="s2">&quot;100&quot;</span><span class="p">,</span><span class="s2">&quot;OrderSide&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;Status&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;00700&quot;</span><span class="p">,</span><span class="s2">&quot;StockName&quot;</span><span class="p">:</span><span class="s2">&quot;腾讯控股&quot;</span><span class="p">,</span><span class="s2">&quot;SubmitedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1508666010&quot;</span>
+
+<span class="p">,</span><span class="s2">&quot;OrderType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;UpdatedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1508666070&quot;</span><span class="p">}]},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>字段说明:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="63%" />
+<col width="30%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">字段名</th>
+<th class="head">字段值</th>
+<th class="head">备注</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>OrderID</td>
+<td>Int64</td>
+<td>订单ID过滤, 空字符串或0为不限制</td>
+</tr>
+<tr class="row-odd"><td>StatusFilterStr</td>
+<td>String</td>
+<td>状态过滤字符串, &#8221;,”号分隔需要返回的状态, 空字符串返回全部订单</td>
+</tr>
+<tr class="row-even"><td>StockCode</td>
+<td>String</td>
+<td>股票代码过滤, 空字符串为不限制</td>
+</tr>
+<tr class="row-odd"><td>start_date</td>
+<td>String</td>
+<td>订单提交时间过滤, yyyy-mm-dd格式, 空字符串为end_date前90日</td>
+</tr>
+<tr class="row-even"><td>end_date</td>
+<td>String</td>
+<td>订单提交时间过滤, yyyy-mm-dd格式, 空字符串为start_date后90日, end_date,start_date都为空情况下,end_date为当日</td>
+</tr>
+<tr class="row-odd"><td rowspan="2">Cookie</td>
+<td rowspan="2">Uint32</td>
+<td rowspan="2">请求操作标识,输入参数,为了区分一个连接中有多个同样的请求</td>
+</tr>
+<tr class="row-even"></tr>
+<tr class="row-odd"><td>DealtQty</td>
+<td>Int64</td>
+<td>成交数量</td>
+</tr>
+<tr class="row-even"><td>OrderID</td>
+<td>Int64</td>
+<td>定单id</td>
+</tr>
+<tr class="row-odd"><td>LocalID</td>
+<td>Int64</td>
+<td>订单的本地标识</td>
+</tr>
+<tr class="row-even"><td>Price</td>
+<td>Int32</td>
+<td>订单价格</td>
+</tr>
+<tr class="row-odd"><td>Qty</td>
+<td>Int64</td>
+<td>订单数量</td>
+</tr>
+<tr class="row-even"><td><strong>OrderSide</strong></td>
+<td><strong>0: 买入</strong> <strong>1: 卖出</strong></td>
+<td>交易方向</td>
+</tr>
+<tr class="row-odd"><td><strong>Status</strong></td>
+<td><strong>0 = 服务器处理中... 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
+<td><strong>订单状态</strong></td>
+</tr>
+<tr class="row-even"><td>StockCode</td>
+<td>string</td>
+<td>股票代码</td>
+</tr>
+<tr class="row-odd"><td>StockName</td>
+<td>string</td>
+<td>股票名称</td>
+</tr>
+<tr class="row-even"><td>SubmitedTime</td>
+<td>Int64</td>
+<td>服务器收到的订单提交时间(GMT)</td>
+</tr>
+<tr class="row-odd"><td>UpdatedTime</td>
+<td>Int64</td>
+<td>订单最后更新的时间(GMT)</td>
+</tr>
+<tr class="row-even"><td>OrderType</td>
+<td><strong>0： 增强限价单(普通交易) 1： 竞价单(竞价交易) 2：限价单 （暂不支持)</strong> <strong>3： 竞价限价单(竞价限价)</strong></td>
+<td><strong>交易类型</strong></td>
+</tr>
+<tr class="row-odd"><td>ErrCode</td>
+<td>Int32</td>
+<td>订单错误码</td>
+</tr>
+<tr class="row-even"><td><strong>EnvType</strong></td>
+<td><strong>0=真实交易</strong> <strong>1=仿真交易</strong></td>
+<td><strong>交易环境参数</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>注：1.多个查询条件与组合，为空表示该字段不限制。
+2.拉取频率限制为：30内只允许5次拉取,超频返回错误。
+3.时间范围：最多90天（自然日)。</strong></p>
+</div>
+<div class="section" id="protocol-6012">
+<h4>港股查询历史成交记录(Protocol: 6012)<a class="headerlink" href="#protocol-6012" title="Permalink to this headline">¶</a></h4>
+<p><strong>C-&gt;S eg:</strong></p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6012&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;end_time&quot;</span><span class="p">:</span><span class="s2">&quot;2017-10-22&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>S-&gt;C eg:</strong></p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6010&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;HKDealArr&quot;</span><span class="p">:</span>
+
+<span class="p">[{</span><span class="s2">&quot;DealID&quot;</span><span class="p">:</span><span class="s2">&quot;2827880381052386&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;18680&quot;</span><span class="p">,</span><span class="s2">&quot;Price&quot;</span><span class="p">:</span><span class="s2">&quot;150000&quot;</span><span class="p">,</span><span class="s2">&quot;Qty&quot;</span><span class="p">:</span><span class="s2">&quot;100&quot;</span><span class="p">,</span><span class="s2">&quot;Orderside&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;00700&quot;</span><span class="p">,</span><span class="s2">&quot;StockName&quot;</span><span class="p">:</span><span class="s2">&quot;腾讯控股&quot;</span><span class="p">,</span><span class="s2">&quot;Time&quot;</span><span class="p">:</span><span class="s2">&quot;1508666010&quot;</span><span class="p">,}]},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>字段说明:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="65%" />
+<col width="31%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">字段名</th>
+<th class="head">字段值</th>
+<th class="head">备注</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Cookie</td>
+<td>Uint32</td>
+<td>请求操作标识，输入参数,为了区分一个连接中有多个同样的请求</td>
+</tr>
+<tr class="row-odd"><td>StockCode</td>
+<td>String</td>
+<td>股票代码过滤, 空字符串为不限制</td>
+</tr>
+<tr class="row-even"><td>start_date</td>
+<td>String</td>
+<td>订单提交时间过滤, yyyy-mm-dd格式, 空字符串为end_date前90日</td>
+</tr>
+<tr class="row-odd"><td>end_date</td>
+<td>String</td>
+<td>订单提交时间过滤, yyyy-mm-dd格式, 空字符串为start_date后90日, end_date,start_date都为空情况下,end_date为当日</td>
+</tr>
+<tr class="row-even"><td>OrderID</td>
+<td>Int64</td>
+<td>订单id</td>
+</tr>
+<tr class="row-odd"><td>DealID</td>
+<td>Int64</td>
+<td>成交id</td>
+</tr>
+<tr class="row-even"><td>Price</td>
+<td>Int32</td>
+<td>订单价格</td>
+</tr>
+<tr class="row-odd"><td>Qty</td>
+<td>Int64</td>
+<td>订单数量</td>
+</tr>
+<tr class="row-even"><td><strong>OrderSide</strong></td>
+<td><strong>0: 买入</strong> <strong>1: 卖出</strong></td>
+<td>交易方向</td>
+</tr>
+<tr class="row-odd"><td><strong>Status</strong></td>
+<td><strong>0 = 服务器处理中... 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
+<td><strong>订单状态</strong></td>
+</tr>
+<tr class="row-even"><td>StockCode</td>
+<td>string</td>
+<td>股票代码</td>
+</tr>
+<tr class="row-odd"><td>StockName</td>
+<td>string</td>
+<td>股票名称</td>
+</tr>
+<tr class="row-even"><td>Time</td>
+<td>Int64</td>
+<td>成交时间</td>
+</tr>
+<tr class="row-odd"><td><strong>EnvType</strong></td>
+<td><strong>0=真实交易</strong> <strong>1=仿真交易</strong></td>
+<td><strong>交易环境参数</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>注：1.多个查询条件与组合，为空表示该字段不限制。
+2.拉取频率限制为：30内只允许5次拉取,超频返回错误。
+3.时间范围：最多90天（自然日)。</strong></p>
+</div>
+<div class="section" id="protocol-6100">
+<h4>港股订阅订单成交记录推送(Protocol:6100)<a class="headerlink" href="#protocol-6100" title="Permalink to this headline">¶</a></h4>
+<p><strong>C-&gt;S eg:</strong></p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6100&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;18680,18681&quot;</span><span class="p">,</span><span class="s2">&quot;SubOrder&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;SubDel&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;FirstPush&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>S-&gt;C eg:</strong></p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6100&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;18680,18681&quot;</span><span class="p">,</span><span class="s2">&quot;SubOrderSuc&quot;</span><span class="p">:</span><span class="s2">&quot;1,1&quot;</span><span class="p">,</span><span class="s2">&quot;SubDelSuc&quot;</span><span class="p">:</span><span class="s2">&quot;1,1&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>字段说明:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="34%" />
+<col width="55%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">字段名</th>
+<th class="head">字段值</th>
+<th class="head">备注</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Cookie</td>
+<td>Uint32</td>
+<td>请求操作标识，输入参数,为了区分一个连接中有多个同样的请求</td>
+</tr>
+<tr class="row-odd"><td>OrderID</td>
+<td>string</td>
+<td>订阅的订单id，支持多个同时订阅，&#8217;,&#8217;分隔，单独传空或0表示订阅全部订单，包括后面新增的</td>
+</tr>
+<tr class="row-even"><td><strong>SubOrder</strong></td>
+<td><strong>0=不订阅订单推送</strong> <strong>1=订阅订单推送</strong></td>
+<td>是否订阅订单更新推送</td>
+</tr>
+<tr class="row-odd"><td><strong>SubDeal</strong></td>
+<td><strong>0=不订阅成交推送</strong> <strong>1=订阅成交推送</strong></td>
+<td>是否订阅成交推送</td>
+</tr>
+<tr class="row-even"><td>SubOrderSuc</td>
+<td>string</td>
+<td>是否完成订单更新推送订阅，&#8217;,&#8217;分隔</td>
+</tr>
+<tr class="row-odd"><td>SubDealSuc</td>
+<td>string</td>
+<td>是否完成成交推送订阅，&#8217;,&#8217;分隔</td>
+</tr>
+<tr class="row-even"><td><strong>EnvType</strong></td>
+<td><strong>0=真实交易</strong> <strong>1=仿真交易</strong></td>
+<td><strong>交易环境参数</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>注：完成订单订阅后会立即推送一次订单信息，完成成交订阅后会立即推送该订单之前所有相关成交。所以订阅了成交，并在PLS断线重连情况下重新订阅，成交记录会重复推送。</strong></p>
 </div>
 <div class="section" id="protocol-7003">
 <h4>美股下单交易(Protocol: 7003)<a class="headerlink" href="#protocol-7003" title="Permalink to this headline">¶</a></h4>
@@ -2694,9 +3091,66 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td><strong>0=真实交易</strong> <strong>美股暂不支持仿真交易！！</strong></td>
 <td><strong>交易环境参数</strong></td>
 </tr>
-<tr class="row-odd"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="71%" />
+<col width="21%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>DealtAvgPrice</strong></td>
+<td><strong>Int32</strong></td>
+<td><strong>成交均价</strong></td>
+</tr>
+<tr class="row-even"><td><strong>DealtQty</strong></td>
+<td><strong>Int64</strong></td>
+<td><strong>成交数量</strong></td>
+</tr>
+<tr class="row-odd"><td>OrderID</td>
+<td>Int64</td>
+<td>定单id</td>
+</tr>
+<tr class="row-even"><td>LocalID</td>
+<td>Int64</td>
+<td>订单的本地标识</td>
+</tr>
+<tr class="row-odd"><td>Price</td>
+<td>Int32</td>
+<td>订单价格</td>
+</tr>
+<tr class="row-even"><td>Qty</td>
+<td>Int64</td>
+<td>订单数量</td>
+</tr>
+<tr class="row-odd"><td>OrderSide</td>
+<td>0: 买入 1: 卖出</td>
+<td>交易方向</td>
+</tr>
+<tr class="row-even"><td><strong>Status</strong></td>
+<td><strong>0 = 服务器处理中... 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
+<td><strong>订单状态</strong></td>
+</tr>
+<tr class="row-odd"><td>StockCode</td>
+<td>string</td>
+<td>股票代码</td>
+</tr>
+<tr class="row-even"><td>StockName</td>
+<td>string</td>
+<td>股票名称</td>
+</tr>
+<tr class="row-odd"><td><strong>SubmitedTime</strong></td>
+<td><strong>Int64</strong></td>
+<td><strong>服务器收到的订单提交时间(GMT)</strong></td>
+</tr>
+<tr class="row-even"><td><strong>UpdatedTime</strong></td>
+<td><strong>Int64</strong></td>
+<td><strong>订单最后更新的时间(GMT)</strong></td>
+</tr>
+<tr class="row-odd"><td><strong>OrderType</strong></td>
+<td><strong>1: 市价单 2: 限价 51: 盘前交易，限价 52: 盘后交易，限价</strong></td>
+<td><strong>交易类型</strong></td>
 </tr>
 </tbody>
 </table>
@@ -2748,10 +3202,6 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <tr class="row-odd"><td><strong>EnvType</strong></td>
 <td><strong>0=真实交易</strong> <strong>美股暂不支持仿真交易！！</strong></td>
 <td><strong>交易环境参数</strong></td>
-</tr>
-<tr class="row-even"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
 </tr>
 </tbody>
 </table>
@@ -2809,10 +3259,6 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td><strong>0=真实交易</strong> <strong>美股暂不支持仿真交易！！</strong></td>
 <td><strong>交易环境参数</strong></td>
 </tr>
-<tr class="row-odd"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
-</tr>
 </tbody>
 </table>
 <p><strong>注：OrderID、LocalID只用设一个非0有效值(因PlaceOrder只能返回LocalID),OrderID参数优先处理</strong></p>
@@ -2825,6 +3271,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </div>
 <p><strong>S-&gt;C eg:</strong></p>
 <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123456&quot;</span><span class="p">,</span><span class="s2">&quot;Power&quot;</span><span class="p">:</span><span class="s2">&quot;1000&quot;</span><span class="p">,</span><span class="s2">&quot;ZCJZ&quot;</span><span class="p">:</span><span class="s2">&quot;1000&quot;</span><span class="p">,</span><span class="s2">&quot;ZQSZ&quot;</span><span class="p">:</span><span class="s2">&quot;1000&quot;</span><span class="p">,</span><span class="s2">&quot;XJJY&quot;</span><span class="p">:</span><span class="s2">&quot;1000&quot;</span><span class="p">,</span><span class="s2">&quot;KQXJ&quot;</span><span class="p">:</span><span class="s2">&quot;1000&quot;</span><span class="p">,</span><span class="s2">&quot;DJZJ&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span>
+
 <span class="s2">&quot;ZSJE&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;ZGJDE&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span> <span class="p">,</span><span class="s2">&quot;YYJDE&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;GPBZJ&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
@@ -2866,9 +3313,9 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td><strong>Int64</strong></td>
 <td><strong>可取现金</strong></td>
 </tr>
-<tr class="row-even"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
 </tr>
 <tr class="row-odd"><td><strong>DJZJ</strong></td>
 <td><strong>Int64</strong></td>
@@ -2890,16 +3337,16 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td><strong>Int64</strong></td>
 <td><strong>股票保证金</strong></td>
 </tr>
-<tr class="row-even"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
 </tr>
 <tr class="row-odd"><td><strong>EnvType</strong></td>
 <td><strong>0=真实交易</strong> <strong>1=仿真交易</strong></td>
 <td><strong>交易环境参数</strong></td>
 </tr>
-<tr class="row-even"><td>&#160;</td>
-<td>&#160;</td>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
 <td><strong>目前的字段名称与港股完全一样！！</strong></td>
 </tr>
 </tbody>
@@ -2908,16 +3355,17 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <div class="section" id="protocol-7008">
 <h4>美股查询订单列表(Protocol: 7008)<a class="headerlink" href="#protocol-7008" title="Permalink to this headline">¶</a></h4>
 <p><strong>C-&gt;S eg:</strong></p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;7008&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span>
-<span class="s2">&quot;StatusFilterStr&quot;</span><span class="p">:</span> <span class="s2">&quot;0,1,2&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;7008&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span>
+
+<span class="s2">&quot;StatusFilterStr&quot;</span><span class="p">:</span> <span class="s2">&quot;0,1,2&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="s2">&quot;00:00:00&quot;</span><span class="p">,</span><span class="s2">&quot;end_time&quot;</span><span class="p">:</span><span class="s2">&quot;23:59:59&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <p><strong>S-&gt;C eg:</strong></p>
 <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;7008&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;USOrderArr&quot;</span><span class="p">:[</span>
 
-<span class="p">{</span><span class="s2">&quot;DealtAvgPrice&quot;</span><span class="p">:</span><span class="s2">&quot;65090&quot;</span><span class="p">,</span><span class="s2">&quot;DealtQty&quot;</span><span class="p">:</span><span class="s2">&quot;100&quot;</span><span class="p">,</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;LocalID&quot;</span><span class="p">:</span><span class="s2">&quot;2850058438979314&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;5001812055423488114&quot;</span><span class="p">,</span><span class="s2">&quot;OrderSide&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderType&quot;</span><span class="p">:</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;Price&quot;</span><span class="p">:</span><span class="s2">&quot;65090&quot;</span><span class="p">,</span><span class="s2">&quot;Qty&quot;</span><span class="p">:</span><span class="s2">&quot;100&quot;</span><span class="p">,</span><span class="s2">&quot;Status&quot;</span><span class="p">:</span><span class="s2">&quot;3&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;BABA&quot;</span><span class="p">,</span><span class="s2">&quot;StockName&quot;</span><span class="p">:</span><span class="s2">&quot;阿里巴巴&quot;</span><span class="p">,</span><span class="s2">&quot;SubmitedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1454492354&quot;</span><span class="p">,</span><span class="s2">&quot;UpdatedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1454492354&quot;</span><span class="p">},{</span><span class="s2">&quot;DealtAvgPrice&quot;</span>
+<span class="p">{</span><span class="s2">&quot;DealtAvgPrice&quot;</span><span class="p">:</span><span class="s2">&quot;65090&quot;</span><span class="p">,</span><span class="s2">&quot;DealtQty&quot;</span><span class="p">:</span><span class="s2">&quot;100&quot;</span><span class="p">,</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;LocalID&quot;</span><span class="p">:</span><span class="s2">&quot;2850058438979314&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;5001812055423488114&quot;</span><span class="p">,</span><span class="s2">&quot;OrderSide&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderType&quot;</span><span class="p">:</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;Price&quot;</span><span class="p">:</span><span class="s2">&quot;65090&quot;</span><span class="p">,</span><span class="s2">&quot;Qty&quot;</span><span class="p">:</span><span class="s2">&quot;100&quot;</span><span class="p">,</span><span class="s2">&quot;Status&quot;</span><span class="p">:</span><span class="s2">&quot;3&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;BABA&quot;</span><span class="p">,</span><span class="s2">&quot;StockName&quot;</span><span class="p">:</span><span class="s2">&quot;阿里巴巴&quot;</span><span class="p">,</span><span class="s2">&quot;SubmitedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1454492354&quot;</span><span class="p">,</span><span class="s2">&quot;UpdatedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1454492354&quot;</span><span class="p">},</span>
 
-<span class="p">:</span><span class="s2">&quot;94480&quot;</span><span class="p">,</span><span class="s2">&quot;DealtQty&quot;</span><span class="p">:</span><span class="s2">&quot;200&quot;</span><span class="p">,</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;LocalID&quot;</span><span class="p">:</span><span class="s2">&quot;2850119943956001&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;948333054225995228&quot;</span><span class="p">,</span><span class="s2">&quot;OrderSide&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderType&quot;</span><span class="p">:</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;Price&quot;</span><span class="p">:</span><span class="s2">&quot;94480&quot;</span><span class="p">,</span><span class="s2">&quot;Qty&quot;</span><span class="p">:</span><span class="s2">&quot;200&quot;</span><span class="p">,</span><span class="s2">&quot;Status&quot;</span><span class="p">:</span><span class="s2">&quot;3&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;AAPL&quot;</span><span class="p">,</span><span class="s2">&quot;StockName&quot;</span><span class="p">:</span><span class="s2">&quot;苹果&quot;</span><span class="p">,</span><span class="s2">&quot;SubmitedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1454492373&quot;</span><span class="p">,</span><span class="s2">&quot;UpdatedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1454492373&quot;</span><span class="p">}]},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}}</span>
+    <span class="p">{</span><span class="s2">&quot;DealtAvgPrice&quot;</span><span class="p">:</span><span class="s2">&quot;94480&quot;</span><span class="p">,</span><span class="s2">&quot;DealtQty&quot;</span><span class="p">:</span><span class="s2">&quot;200&quot;</span><span class="p">,</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;LocalID&quot;</span><span class="p">:</span><span class="s2">&quot;2850119943956001&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;948333054225995228&quot;</span><span class="p">,</span><span class="s2">&quot;OrderSide&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderType&quot;</span><span class="p">:</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;Price&quot;</span><span class="p">:</span><span class="s2">&quot;94480&quot;</span><span class="p">,</span><span class="s2">&quot;Qty&quot;</span><span class="p">:</span><span class="s2">&quot;200&quot;</span><span class="p">,</span><span class="s2">&quot;Status&quot;</span><span class="p">:</span><span class="s2">&quot;3&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;AAPL&quot;</span><span class="p">,</span><span class="s2">&quot;StockName&quot;</span><span class="p">:</span><span class="s2">&quot;苹果&quot;</span><span class="p">,</span><span class="s2">&quot;SubmitedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1454492373&quot;</span><span class="p">,</span><span class="s2">&quot;UpdatedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1454492373&quot;</span><span class="p">}]},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}}</span>
 </pre></div>
 </div>
 <p>字段说明:</p>
@@ -2934,9 +3382,25 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><strong>StatusFilterStr</strong></td>
+<tr class="row-even"><td>OrderID</td>
+<td>Int64</td>
+<td>订单ID过滤, 空字符串或0为不限制</td>
+</tr>
+<tr class="row-odd"><td><strong>StatusFilterStr</strong></td>
 <td><strong>String</strong></td>
-<td><strong>状态过滤字符串, “,”号分隔需要返回的状态, 空字符串返回全部订单</strong></td>
+<td><strong>状态过滤字符串, &#8221;,”号分隔需要返回的状态, 空字符串返回全部订单</strong></td>
+</tr>
+<tr class="row-even"><td>StockCode</td>
+<td>String</td>
+<td>股票代码过滤, 空字符串为不限制</td>
+</tr>
+<tr class="row-odd"><td>start_time</td>
+<td>String</td>
+<td>订单提交时间过滤, hh:mm:ss格式, 空字符串为00:00:00</td>
+</tr>
+<tr class="row-even"><td>end_time</td>
+<td>String</td>
+<td>订单提交时间过滤, hh:mm:ss格式, 空字符串为23:59:59</td>
 </tr>
 <tr class="row-odd"><td>Cookie</td>
 <td>Uint32</td>
@@ -2971,7 +3435,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td>交易方向</td>
 </tr>
 <tr class="row-odd"><td><strong>Status</strong></td>
-<td><strong>0 = 服务器处理中… 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
+<td><strong>0 = 服务器处理中... 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
 <td><strong>订单状态</strong></td>
 </tr>
 <tr class="row-even"><td>StockCode</td>
@@ -2998,17 +3462,13 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td><strong>0=真实交易</strong> <strong>美股暂不支持仿真交易！！</strong></td>
 <td><strong>交易环境参数</strong></td>
 </tr>
-<tr class="row-even"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
-</tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="protocol-7009">
 <h4>美股查询持仓列表(Protocol: 7009)<a class="headerlink" href="#protocol-7009" title="Permalink to this headline">¶</a></h4>
 <p><strong>C-&gt;S eg:</strong></p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;7009&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;7009&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;StockType&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;PLRatioMin&quot;</span><span class="p">:</span><span class="s2">&quot;0%&quot;</span><span class="p">,</span><span class="s2">&quot;PLRatioMax&quot;</span><span class="p">:</span><span class="s2">&quot;60%&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <p><strong>S-&gt;C eg:</strong></p>
@@ -3027,8 +3487,8 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="16%" />
-<col width="35%" />
-<col width="49%" />
+<col width="37%" />
+<col width="47%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">字段名</th>
@@ -3037,69 +3497,85 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><strong>Cookie</strong></td>
-<td><strong>Uint32</strong></td>
-<td><strong>请求操作标识，输入参数,为了区分一个连接中有多个同样的请求</strong></td>
+<tr class="row-even"><td>Cookie</td>
+<td>Uint32</td>
+<td>请求操作标识,输入参数,为了区分一个连接中有多个同样的请求</td>
 </tr>
-<tr class="row-odd"><td><strong>Qty</strong></td>
-<td><strong>Int64</strong></td>
-<td><strong>持有数量</strong></td>
+<tr class="row-odd"><td>StockCode</td>
+<td>string</td>
+<td>股票代码,为空则为不限制</td>
 </tr>
-<tr class="row-even"><td><strong>CanSellQty</strong></td>
-<td><strong>Int64</strong></td>
-<td><strong>可卖数量</strong></td>
+<tr class="row-even"><td>StockType</td>
+<td>String</td>
+<td>股票类型,&#8221;1,2,3&#8221;,为空则为不限制</td>
 </tr>
-<tr class="row-odd"><td><strong>NominalPrice</strong></td>
-<td><strong>Int32</strong></td>
-<td><strong>市价</strong></td>
+<tr class="row-odd"><td>PLRatioMin</td>
+<td>String</td>
+<td>盈亏比例查询最小值,&#8221;2101&#8221;表示2.101%,为空则为不限制</td>
 </tr>
-<tr class="row-even"><td><strong>MarketVal</strong></td>
-<td><strong>Int64</strong></td>
-<td><strong>市值</strong></td>
+<tr class="row-even"><td>PLRatioMax</td>
+<td>String</td>
+<td>盈亏比例查询最大值,&#8221;2101&#8221;表示2.101%,为空则为不限制</td>
 </tr>
-<tr class="row-odd"><td><strong>CostPrice</strong></td>
-<td><strong>Int32</strong></td>
-<td><strong>成本价</strong></td>
+<tr class="row-odd"><td>Qty</td>
+<td>Int64</td>
+<td>持有数量</td>
 </tr>
-<tr class="row-even"><td><strong>CostPriceValid</strong></td>
-<td><strong>Int32 非0表求有效</strong></td>
-<td><strong>成本价是否有效</strong></td>
+<tr class="row-even"><td>CanSellQty</td>
+<td>Int64</td>
+<td>可卖数量</td>
 </tr>
-<tr class="row-odd"><td><strong>PLVal</strong></td>
-<td><strong>Int64</strong></td>
-<td><strong>盈亏金额</strong></td>
+<tr class="row-odd"><td>NominalPrice</td>
+<td>Int32</td>
+<td>市价</td>
 </tr>
-<tr class="row-even"><td><strong>PLRatioValid</strong></td>
-<td><strong>Int32 非0表求有效</strong></td>
-<td><strong>盈亏金额是否有效</strong></td>
+<tr class="row-even"><td>MarketVal</td>
+<td>Int64</td>
+<td>市值</td>
 </tr>
-<tr class="row-odd"><td><strong>PLRatio</strong></td>
-<td><strong>Int32</strong></td>
-<td><strong>盈亏比例 (*100000) eg: 1% = 1000</strong></td>
+<tr class="row-odd"><td>CostPrice</td>
+<td>Int32</td>
+<td>成本价</td>
 </tr>
-<tr class="row-even"><td><strong>PLRatioValid</strong></td>
-<td><strong>Int32 非0表求有效</strong></td>
-<td><strong>盈亏比例是否有效</strong></td>
+<tr class="row-even"><td>CostPriceValid</td>
+<td>Int32 非0表求有效</td>
+<td>成本价是否有效</td>
 </tr>
-<tr class="row-odd"><td><strong>Today_PLVal</strong></td>
-<td><strong>Int64</strong></td>
-<td><strong>今日盈亏金额</strong></td>
+<tr class="row-odd"><td>PLVal</td>
+<td>Int64</td>
+<td>盈亏金额</td>
 </tr>
-<tr class="row-even"><td><strong>Today_BuyQty</strong></td>
-<td><strong>Int64</strong></td>
-<td><strong>今日买入成交量</strong></td>
+<tr class="row-even"><td>PLRatioValid</td>
+<td>Int32 非0表求有效</td>
+<td>盈亏金额是否有效</td>
 </tr>
-<tr class="row-odd"><td><strong>Today_BuyVal</strong></td>
-<td><strong>Int64</strong></td>
-<td><strong>今日买入成交额</strong></td>
+<tr class="row-odd"><td>PLRatio</td>
+<td>Int32</td>
+<td>盈亏比例 (*100000) eg: 1% = 1000</td>
 </tr>
-<tr class="row-even"><td><strong>Today_SellQty</strong></td>
-<td><strong>Int64</strong></td>
-<td><strong>今日卖出成交量</strong></td>
+<tr class="row-even"><td>PLRatioValid</td>
+<td>Int32 非0表求有效</td>
+<td>盈亏比例是否有效</td>
 </tr>
-<tr class="row-odd"><td><strong>Today_SellVal</strong></td>
-<td><strong>Int64</strong></td>
-<td><strong>今日卖出成交额</strong></td>
+<tr class="row-odd"><td>Today_PLVal</td>
+<td>Int64</td>
+<td>今日盈亏金额</td>
+</tr>
+<tr class="row-even"><td>Today_BuyQty</td>
+<td>Int64</td>
+<td>今日买入成交量</td>
+</tr>
+<tr class="row-odd"><td>Today_BuyVal</td>
+<td>Int64</td>
+<td>今日买入成交额</td>
+</tr>
+<tr class="row-even"><td>Today_SellQty</td>
+<td>Int64</td>
+<td>今日卖出成交量</td>
+</tr>
+<tr class="row-odd"><td>Today_SellVal</td>
+<td>Int64</td>
+<td>今日卖出成交额</td>
 </tr>
 <tr class="row-even"><td>StockCode</td>
 <td>string</td>
@@ -3112,10 +3588,6 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <tr class="row-even"><td><strong>EnvType</strong></td>
 <td><strong>0=真实交易</strong> <strong>美股暂不支持仿真交易！！</strong></td>
 <td><strong>交易环境参数</strong></td>
-</tr>
-<tr class="row-odd"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
 </tr>
 </tbody>
 </table>
@@ -3152,7 +3624,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </tr>
 <tr class="row-odd"><td>OrderID</td>
 <td>Int64</td>
-<td>定单id</td>
+<td>订单id</td>
 </tr>
 <tr class="row-even"><td>DealID</td>
 <td>Int64</td>
@@ -3171,7 +3643,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td>交易方向</td>
 </tr>
 <tr class="row-even"><td><strong>Status</strong></td>
-<td><strong>0 = 服务器处理中… 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
+<td><strong>0 = 服务器处理中... 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
 <td><strong>订单状态</strong></td>
 </tr>
 <tr class="row-odd"><td>StockCode</td>
@@ -3187,11 +3659,270 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td><strong>成交时间</strong></td>
 </tr>
 <tr class="row-even"><td><strong>EnvType</strong></td>
-<td><strong>0=真实交易</strong> <strong>1=仿真交易</strong></td>
+<td><strong>0=真实交易</strong> <strong>美股暂不支持仿真交易！！</strong></td>
 <td><strong>交易环境参数</strong></td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section" id="protocol-7011">
+<h4>美股查询历史订单列表(Protocol: 7011)<a class="headerlink" href="#protocol-7011" title="Permalink to this headline">¶</a></h4>
+<p><strong>C-&gt;S eg:</strong></p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;7011&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span>
+
+<span class="s2">&quot;StatusFilterStr&quot;</span><span class="p">:</span> <span class="s2">&quot;0,1,2&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;end_time&quot;</span><span class="p">:</span><span class="s2">&quot;2017-10-22&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>S-&gt;C eg:</strong></p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;7011&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;USOrderArr&quot;</span><span class="p">:[</span>
+
+<span class="p">{</span><span class="s2">&quot;DealtQty&quot;</span><span class="p">:</span><span class="s2">&quot;100&quot;</span><span class="p">,</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;LocalID&quot;</span><span class="p">:</span><span class="s2">&quot;2850058438979314&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;5001812055423488114&quot;</span><span class="p">,</span><span class="s2">&quot;OrderSide&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderType&quot;</span><span class="p">:</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;Price&quot;</span><span class="p">:</span><span class="s2">&quot;65090&quot;</span><span class="p">,</span><span class="s2">&quot;Qty&quot;</span><span class="p">:</span><span class="s2">&quot;100&quot;</span><span class="p">,</span><span class="s2">&quot;Status&quot;</span><span class="p">:</span><span class="s2">&quot;3&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;BABA&quot;</span><span class="p">,</span><span class="s2">&quot;StockName&quot;</span><span class="p">:</span><span class="s2">&quot;阿里巴巴&quot;</span><span class="p">,</span><span class="s2">&quot;SubmitedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1508666010&quot;</span><span class="p">,</span><span class="s2">&quot;UpdatedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1508666060&quot;</span><span class="p">},</span>
+
+    <span class="p">{</span><span class="s2">&quot;DealtQty&quot;</span><span class="p">:</span><span class="s2">&quot;200&quot;</span><span class="p">,</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;LocalID&quot;</span><span class="p">:</span><span class="s2">&quot;2850119943956001&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;948333054225995228&quot;</span><span class="p">,</span><span class="s2">&quot;OrderSide&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderType&quot;</span><span class="p">:</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;Price&quot;</span><span class="p">:</span><span class="s2">&quot;94480&quot;</span><span class="p">,</span><span class="s2">&quot;Qty&quot;</span><span class="p">:</span><span class="s2">&quot;200&quot;</span><span class="p">,</span><span class="s2">&quot;Status&quot;</span><span class="p">:</span><span class="s2">&quot;3&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;AAPL&quot;</span><span class="p">,</span><span class="s2">&quot;StockName&quot;</span><span class="p">:</span><span class="s2">&quot;苹果&quot;</span><span class="p">,</span><span class="s2">&quot;SubmitedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1508666010&quot;</span><span class="p">,</span><span class="s2">&quot;UpdatedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1508666070&quot;</span><span class="p">}]},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}}</span>
+</pre></div>
+</div>
+<p>字段说明:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="63%" />
+<col width="30%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">字段名</th>
+<th class="head">字段值</th>
+<th class="head">备注</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>OrderID</td>
+<td>Int64</td>
+<td>订单ID过滤, 空字符串或0为不限制</td>
+</tr>
+<tr class="row-odd"><td>StatusFilterStr</td>
+<td>String</td>
+<td>状态过滤字符串, &#8221;,”号分隔需要返回的状态, 空字符串返回全部订单</td>
+</tr>
+<tr class="row-even"><td>StockCode</td>
+<td>String</td>
+<td>股票代码过滤, 空字符串为不限制</td>
+</tr>
+<tr class="row-odd"><td>start_date</td>
+<td>String</td>
+<td>订单提交时间过滤, yyyy-mm-dd格式, 空字符串为end_date前90日</td>
+</tr>
+<tr class="row-even"><td>end_date</td>
+<td>String</td>
+<td>订单提交时间过滤, yyyy-mm-dd格式, 空字符串为start_date后90日, end_date,start_date都为空情况下,end_date为当日</td>
+</tr>
+<tr class="row-odd"><td rowspan="2">Cookie</td>
+<td rowspan="2">Uint32</td>
+<td rowspan="2">请求操作标识,输入参数,为了区分一个连接中有多个同样的请求</td>
+</tr>
+<tr class="row-even"></tr>
+<tr class="row-odd"><td>DealtQty</td>
+<td>Int64</td>
+<td>成交数量</td>
+</tr>
+<tr class="row-even"><td>OrderID</td>
+<td>Int64</td>
+<td>定单id</td>
+</tr>
+<tr class="row-odd"><td>LocalID</td>
+<td>Int64</td>
+<td>订单的本地标识</td>
+</tr>
+<tr class="row-even"><td>Price</td>
+<td>Int32</td>
+<td>订单价格</td>
+</tr>
+<tr class="row-odd"><td>Qty</td>
+<td>Int64</td>
+<td>订单数量</td>
+</tr>
+<tr class="row-even"><td><strong>OrderSide</strong></td>
+<td><strong>0: 买入</strong> <strong>1: 卖出</strong></td>
+<td>交易方向</td>
+</tr>
+<tr class="row-odd"><td><strong>Status</strong></td>
+<td><strong>0 = 服务器处理中... 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
+<td><strong>订单状态</strong></td>
+</tr>
+<tr class="row-even"><td>StockCode</td>
+<td>string</td>
+<td>股票代码</td>
+</tr>
+<tr class="row-odd"><td>StockName</td>
+<td>string</td>
+<td>股票名称</td>
+</tr>
+<tr class="row-even"><td>SubmitedTime</td>
+<td>Int64</td>
+<td>服务器收到的订单提交时间(GMT)</td>
+</tr>
+<tr class="row-odd"><td>UpdatedTime</td>
+<td>Int64</td>
+<td>订单最后更新的时间(GMT)</td>
+</tr>
+<tr class="row-even"><td>OrderType</td>
+<td><strong>0： 增强限价单(普通交易) 1： 竞价单(竞价交易) 2：限价单 （暂不支持)</strong> <strong>3： 竞价限价单(竞价限价)</strong></td>
+<td><strong>交易类型</strong></td>
+</tr>
+<tr class="row-odd"><td><strong>EnvType</strong></td>
+<td><strong>0=真实交易</strong> <strong>美股暂不支持仿真交易！！</strong></td>
+<td><strong>交易环境参数</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>注：1.多个查询条件与组合，为空表示该字段不限制。
+2.拉取频率限制为：30内只允许5次拉取,超频返回错误。
+3.时间范围：最多90天（自然日)。</strong></p>
+</div>
+<div class="section" id="protocol-7012">
+<h4>美股查询历史成交记录(Protocol: 7012)<a class="headerlink" href="#protocol-7012" title="Permalink to this headline">¶</a></h4>
+<p><strong>C-&gt;S eg:</strong></p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;7012&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;end_time&quot;</span><span class="p">:</span><span class="s2">&quot;2017-10-22&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>S-&gt;C eg:</strong></p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;7012&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;USDealArr&quot;</span><span class="p">:</span>
+
+<span class="p">[{</span><span class="s2">&quot;DealID&quot;</span><span class="p">:</span><span class="s2">&quot;2827880381052386&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;18680&quot;</span><span class="p">,</span><span class="s2">&quot;Price&quot;</span><span class="p">:</span><span class="s2">&quot;150000&quot;</span><span class="p">,</span><span class="s2">&quot;Qty&quot;</span><span class="p">:</span><span class="s2">&quot;100&quot;</span><span class="p">,</span><span class="s2">&quot;Orderside&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;BABA&quot;</span><span class="p">,</span><span class="s2">&quot;StockName&quot;</span><span class="p">:</span><span class="s2">&quot;阿里巴巴&quot;</span><span class="p">,</span><span class="s2">&quot;nTime&quot;</span><span class="p">:</span><span class="s2">&quot;1508666010&quot;</span><span class="p">,}]},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>字段说明:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="65%" />
+<col width="31%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">字段名</th>
+<th class="head">字段值</th>
+<th class="head">备注</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Cookie</td>
+<td>Uint32</td>
+<td>请求操作标识，输入参数,为了区分一个连接中有多个同样的请求</td>
+</tr>
+<tr class="row-odd"><td>StockCode</td>
+<td>String</td>
+<td>股票代码过滤, 空字符串为不限制</td>
+</tr>
+<tr class="row-even"><td>start_date</td>
+<td>String</td>
+<td>订单提交时间过滤, yyyy-mm-dd格式, 空字符串为end_date前90日</td>
+</tr>
+<tr class="row-odd"><td>end_date</td>
+<td>String</td>
+<td>订单提交时间过滤, yyyy-mm-dd格式, 空字符串为start_date后90日, end_date,start_date都为空情况下,end_date为当日</td>
+</tr>
+<tr class="row-even"><td>OrderID</td>
+<td>Int64</td>
+<td>订单id</td>
+</tr>
+<tr class="row-odd"><td>DealID</td>
+<td>Int64</td>
+<td>成交id</td>
+</tr>
+<tr class="row-even"><td>Price</td>
+<td>Int32</td>
+<td>订单价格</td>
+</tr>
+<tr class="row-odd"><td>Qty</td>
+<td>Int64</td>
+<td>订单数量</td>
+</tr>
+<tr class="row-even"><td><strong>OrderSide</strong></td>
+<td><strong>0: 买入</strong> <strong>1: 卖出</strong></td>
+<td>交易方向</td>
+</tr>
+<tr class="row-odd"><td><strong>Status</strong></td>
+<td><strong>0 = 服务器处理中... 1 = 等待成交 2 = 部分成交 3 = 全部成交 4 = 已失效 5 = 下单失败</strong> <strong>6 = 已撤单 7 = 已删除 8 = 等待开盘 21 = 本地已发送 22 = 本地已发送，服务器返回下单失败，没产生订单 23 = 本地已发送，等待服务器返回超时</strong></td>
+<td><strong>订单状态</strong></td>
+</tr>
+<tr class="row-even"><td>StockCode</td>
+<td>string</td>
+<td>股票代码</td>
+</tr>
+<tr class="row-odd"><td>StockName</td>
+<td>string</td>
+<td>股票名称</td>
+</tr>
+<tr class="row-even"><td>Time</td>
+<td>Int64</td>
+<td>成交时间</td>
+</tr>
+<tr class="row-odd"><td><strong>EnvType</strong></td>
+<td><strong>0=真实交易</strong> <strong>美股暂不支持仿真交易！！</strong></td>
+<td><strong>交易环境参数</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>注：1.多个查询条件与组合，为空表示该字段不限制。
+2.拉取频率限制为：30内只允许5次拉取,超频返回错误。
+3.时间范围：最多90天（自然日)。</strong></p>
+</div>
+<div class="section" id="protocol-7100">
+<h4>美股订阅订单成交记录推送(Protocol:7100)<a class="headerlink" href="#protocol-7100" title="Permalink to this headline">¶</a></h4>
+<p><strong>C-&gt;S eg:</strong></p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;7003&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123456&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderSide&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderType&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;Price&quot;</span><span class="p">:</span><span class="s2">&quot;6200&quot;</span><span class="p">,</span><span class="s2">&quot;Qty&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;YANG&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>S-&gt;C eg:</strong></p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;7003&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123456&quot;</span><span class="p">,</span><span class="s2">&quot;DealtAvgPrice&quot;</span><span class="p">:</span><span class="s2">&quot;88000&quot;</span><span class="p">,</span><span class="s2">&quot;DealtQty&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;LocalID&quot;</span><span class="p">:</span><span class="s2">&quot;17723675250279&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;6427022143249964638&quot;</span><span class="p">,</span>
+
+    <span class="s2">&quot;OrderSide&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;OrderType&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;Price&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Qty&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;Status&quot;</span><span class="p">:</span><span class="s2">&quot;3&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;YANG&quot;</span><span class="p">,</span><span class="s2">&quot;StockName&quot;</span><span class="p">:</span><span class="s2">&quot;三倍做空FTSE中国ETF-Direxion&quot;</span><span class="p">,</span><span class="s2">&quot;SubmitedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1510109878&quot;</span><span class="p">,</span><span class="s2">&quot;SvrResult&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;UpdatedTime&quot;</span><span class="p">:</span><span class="s2">&quot;1510109878&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>字段说明:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="34%" />
+<col width="55%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">字段名</th>
+<th class="head">字段值</th>
+<th class="head">备注</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Cookie</td>
+<td>Uint32</td>
+<td>请求操作标识，输入参数,为了区分一个连接中有多个同样的请求</td>
+</tr>
+<tr class="row-odd"><td>OrderID</td>
+<td>string</td>
+<td>订阅的订单id，支持多个同时订阅，&#8217;,&#8217;分隔，单独传空或0表示订阅全部订单，包括后面新增的</td>
+</tr>
+<tr class="row-even"><td><strong>SubOrder</strong></td>
+<td><strong>0=不订阅订单推送</strong> <strong>1=订阅订单推送</strong></td>
+<td>是否订阅订单更新推送</td>
+</tr>
+<tr class="row-odd"><td><strong>SubDeal</strong></td>
+<td><strong>0=不订阅成交推送</strong> <strong>1=订阅成交推送</strong></td>
+<td>是否订阅成交推送</td>
+</tr>
+<tr class="row-even"><td>SubOrderSuc</td>
+<td>string</td>
+<td>是否完成订单更新推送订阅，&#8217;,&#8217;分隔</td>
+</tr>
+<tr class="row-odd"><td>SubDealSuc</td>
+<td>string</td>
+<td>是否完成成交推送订阅，&#8217;,&#8217;分隔</td>
+</tr>
+<tr class="row-even"><td><strong>EnvType</strong></td>
+<td><strong>0=真实交易</strong> <strong>美股暂不支持仿真交易！！</strong></td>
+<td><strong>交易环境参数</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>注：完成订单订阅后会立即推送一次订单信息，完成成交订阅后会立即推送该订单之前所有相关成交。所以订阅了成交，并在PLS断线重连情况下重新订阅，成交记录会重复推送。</strong></p>
 </div>
 </div>
 </div>
@@ -3245,7 +3976,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
+            SOURCELINK_SUFFIX: ''
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
