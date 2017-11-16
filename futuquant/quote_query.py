@@ -1278,6 +1278,8 @@ class OrderBookQuery:
         stock_str = merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
 
         order_book = {'stock_code': stock_str, 'Ask': [], 'Bid': []}
+        if raw_order_book is None:
+            return RET_OK, "", order_book
 
         for record in raw_order_book:
             bid_record = (int1000_price_to_float(record['BuyPrice']), int(record['BuyVol']), int(record['BuyOrder']))
