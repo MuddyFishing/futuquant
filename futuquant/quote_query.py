@@ -421,8 +421,8 @@ class MarketSnapshotQuery:
                           'lot_size': int(record['LotSize']),
                           # 2017.11.6 add
                           'issued_shares': int(record['Eqt_IssuedShares']) if 'Eqt_IssuedShares' in record else 0,
-                          'net_asset': int(record['Eqt_NetAssetValue']) if 'Eqt_NetAssetValue' in record else 0,
-                          'net_profit': int(record['Eqt_NetProfit']) if 'Eqt_NetProfit' in record else 0,
+                          'net_asset': int1000_price_to_float(record['Eqt_NetAssetValue']) if 'Eqt_NetAssetValue' in record else 0,
+                          'net_profit': int1000_price_to_float(record['Eqt_NetProfit']) if 'Eqt_NetProfit' in record else 0,
                           'earning_per_share': int1000_price_to_float(record['Eqt_EarningPerShare']) if 'Eqt_EarningPerShare' in record else 0,
                           'outstanding_shares': int(record['Eqt_OutStandingShares']) if 'Eqt_OutStandingShares' in record else 0,
                           'net_asset_per_share': int1000_price_to_float(record['Eqt_NetAssetPerShare']) if 'Eqt_NetAssetPerShare' in record else 0,
