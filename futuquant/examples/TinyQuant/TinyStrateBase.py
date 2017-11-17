@@ -10,7 +10,7 @@ from datetime import datetime
 class TinyStrateBase(object):
     """策略frame"""
     name = 'tiny_strate_base'
-    symbol_pools = ['HK.00700']
+    symbol_pools = ['HK.00700', 'HK.00010']
 
     def __init__(self):
         # 这里没有用None,因为None在 __loadSetting中当作错误参数检查用了
@@ -23,7 +23,7 @@ class TinyStrateBase(object):
     def on_quote_changed(self, tiny_quote):
         # TinyQuoteData
         data = tiny_quote
-        str_log = "on_quote_changed open=%s high=%s close=%s low=%s" % (data.openPrice, data.highPrice, data.lastPrice, data.lowPrice)
+        str_log = "on_quote_changed symbol=%s open=%s high=%s close=%s low=%s" % (data.symbol, data.openPrice, data.highPrice, data.lastPrice, data.lowPrice)
         self.writeCtaLog(str_log)
 
     @abstractmethod
