@@ -10,13 +10,15 @@ from datetime import datetime
 class TinyStrateBase(object):
     """策略frame"""
     name = 'tiny_strate_base'
-    symbol_pools = ['HK.00700', 'HK.00010']
+    # symbol_pools = ['US.AAPL', 'US.SNAP']
+    symbol_pools = ['HK.00700', 'HK.00001']
 
     def __init__(self):
         # 这里没有用None,因为None在 __loadSetting中当作错误参数检查用了
         self._no_use_val = 0
         self._quant_frame = 0
         self._event_engine = 0
+        self._market_opened= False
         pass
 
     @abstractmethod
@@ -81,17 +83,22 @@ class TinyStrateBase(object):
         return True
 
     def __event_before_trading(self, event):
+        self._market_opened= True
         date_time = datetime.fromtimestamp(int(event.dict_['TimeStamp']))
         self.on_before_trading(date_time)
 
     def __event_after_trading(self, event):
+        self._market_opened= False
         date_time = datetime.fromtimestamp(int(event.dict_['TimeStamp']))
 
         self.on_after_trading(date_time)
 
     def __event_quote_change(self, event):
-        tiny_quote = event.dict_['data']
+        # 没开盘不向外推送数据
+        if not self._market_opened:
+            return
 
+        tiny_quote = event.dict_['data']
         self.on_quote_changed(tiny_quote)
 
 
