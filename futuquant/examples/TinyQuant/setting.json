@@ -1,0 +1,22 @@
+{
+    "frame":
+    {
+        "_api_ip": "127.0.0.1",
+        "_api_port": 11111,
+        "_market": "HK",
+        "_env_type": 1,
+        "_cash_init": 5000,
+        "_tax_rate": 0.0025,
+
+        "logLevel": "info",
+        "logConsole": 1,
+        "logFile": 1
+    },
+    "tiny_strate_base":
+    {
+        "_no_use_val": 0
+    },
+    "cta_south_etf":
+    {
+    }
+}
