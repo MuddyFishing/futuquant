@@ -71,6 +71,7 @@ class FutuDataEvent(object):
         # 设置回调处理对象
         self._quote_context.set_handler(QuoteHandler())
         self._quote_context.set_handler(OrderBookHandler())
+        self._quote_context.set_handler(CurKlineHandler())
 
         for symbol in symbol_pools:
             for data_type in ['QUOTE', 'ORDER_BOOK', 'K_DAY', 'K_1M']:
@@ -113,12 +114,13 @@ class FutuDataEvent(object):
         array_manager = self._sym_kline_am_dict[symbol][ktype]
 
         # 导入历史数据
-        dt_now = self._quant_frame.today_date
-        dt_start = dt_now - timedelta(days=-365 if ktype == KTYPE_DAY else -30)
+        dt_now = datetime.now()
+        # 历史日k取近365天的数据 , 其它k线类型取近30天的数据
+        dt_start = dt_now - timedelta(days= 365 if ktype == KTYPE_DAY else 30)
         str_start = dt_start.strftime("%Y-%m-%d")
         str_end = dt_now.strftime("%Y-%m-%d")
         ret, data = self._quote_context.get_history_kline(code=symbol, start=str_start, end=str_end, ktype=ktype, autype='qfq')
-        if ret != 0:
+        if ret == 0:
             for ix, row in data.iterrows():
                 bar = TinyBarData()
                 bar.open = row['open']
@@ -136,7 +138,7 @@ class FutuDataEvent(object):
 
         # 导入今天的最新数据
         ret, data = self._quote_context.get_cur_kline(code=symbol, num=1000, ktype=ktype, autype='qfq')
-        if ret != 0:
+        if ret == 0:
             for ix, row in data.iterrows():
                 bar = TinyBarData()
                 bar.open = row['open']
@@ -202,23 +204,43 @@ class FutuDataEvent(object):
 
         dt_last1, dt_last2 = self._sym_kline_last_dt_dic[symbol][ktype]
         array_manager = self._sym_kline_am_dict[symbol][ktype]
-        if symbol not in self._sym_kline_last_event_time_dict.keys()
+        if symbol not in self._sym_kline_last_event_time_dict.keys():
             self._sym_kline_last_event_time_dict[symbol] = {}
-            if ktype not in self._sym_kline_last_event_time_dict[symbol].keys():
-                self._sym_kline_last_event_time_dict[symbol][ktype] = 0
+        if ktype not in self._sym_kline_last_event_time_dict[symbol].keys():
+            self._sym_kline_last_event_time_dict[symbol][ktype] = 0
         event_last_dt = self._sym_kline_last_event_time_dict[symbol][ktype]
 
         notify_event = False
         notify_bar = None
+        dt_now = datetime.now()
+        cur_timestamp = int(time.time())
 
-        for  bar in bars_data:
-            dt = bar.datetime
-            if dt > dt_last2:  #插入新数据
+        for bar in bars_data:
+            dt = bar.datetime # 正在数据累积中的点
+            if dt > dt_now:
+                if notify_bar and notify_event:
+                    continue
+                if event_last_dt != 0 and cur_timestamp >= event_last_dt + 60:
+                    bar = TinyBarData()
+                    bar.open = array_manager.openArray[-1]
+                    bar.close = array_manager.closeArray[-1]
+                    bar.high = array_manager.highArray[-1]
+                    bar.low = array_manager.lowArray[-1]
+                    bar.volume = array_manager.volumeArray[-1]
+                    bar.symbol = symbol
+                    bar.datetime = dt_last2
+
+                    event_last_dt = (cur_timestamp + 59) / 60 * 60
+                    notify_event = True
+                    notify_bar = bar
+
+            elif dt > dt_last2:  #插入新数据
                 array_manager.updateBar(bar)
                 dt_last1 = dt_last2
                 dt_last2 = dt
                 notify_bar = bar
                 notify_event = True
+
             elif dt == dt_last1 or dt == dt_last2: # 更新数据点
                 idx = -1 if dt == dt_last2 else -2
                 array_manager.openArray[idx] = bar.open
@@ -226,12 +248,12 @@ class FutuDataEvent(object):
                 array_manager.highArray[idx] = bar.high
                 array_manager.lowArray[idx] = bar.low
                 array_manager.volumeArray[idx] = bar.volume
-                if dt == dt_last2:  # 最后一个点更新， 每隔一分钟也发送一次事件
-                    cur_timestamp = datetime.now().timestamp()
-                    if cur_timestamp >= event_last_dt + 60:
-                        event_last_dt = cur_timestamp
-                        notify_bar = bar
-                        notify_event = True
+
+                # 最后一个点更新， 每隔一分钟也发送一次事件
+                if dt == dt_last2 and cur_timestamp >= event_last_dt + 60:
+                    event_last_dt = (cur_timestamp + 59) / 60 * 60
+                    notify_bar = bar
+                    notify_event = True
             else:
                 continue # 已经存在的点，忽略
 

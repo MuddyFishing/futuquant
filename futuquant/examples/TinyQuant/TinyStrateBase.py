@@ -11,7 +11,7 @@ class TinyStrateBase(object):
     """策略frame"""
     name = 'tiny_strate_base'
     # symbol_pools = ['US.AAPL', 'US.SNAP']
-    symbol_pools = ['HK.00700', 'HK.00001']
+    symbol_pools = ['HK.00700'] # , 'HK.00001']
 
     def __init__(self):
         # 这里没有用None,因为None在 __loadSetting中当作错误参数检查用了
@@ -26,12 +26,12 @@ class TinyStrateBase(object):
         # TinyQuoteData
         data = tiny_quote
         str_log = "on_quote_changed symbol=%s open=%s high=%s close=%s low=%s" % (data.symbol, data.openPrice, data.highPrice, data.lastPrice, data.lowPrice)
-        self.writeCtaLog(str_log)
+        # self.writeCtaLog(str_log)
 
     @abstractmethod
     def on_bar_min1(self, tiny_bar):
         bar = tiny_bar
-        dt = bar.datetime.strftime("%Y%m%d %H:%M%S")
+        dt = bar.datetime.strftime("%Y%m%d %H:%M:%S")
         str_log = "on_bar_min1 symbol=%s open=%s high=%s close=%s low=%s vol=%s dt=%s" % (
             bar.symbol, bar.open, bar.high, bar.close, bar.low, bar.volume, dt)
         self.writeCtaLog(str_log)
@@ -39,7 +39,7 @@ class TinyStrateBase(object):
     @abstractmethod
     def on_bar_day(self, tiny_bar):
         bar = tiny_bar
-        dt = bar.datetime.strftime("%Y%m%d %H:%M%S")
+        dt = bar.datetime.strftime("%Y%m%d %H:%M:%S")
         str_log = "on_bar_day symbol=%s open=%s high=%s close=%s low=%s vol=%s dt=%s" % (
             bar.symbol, bar.open, bar.high, bar.close, bar.low, bar.volume, dt)
         self.writeCtaLog(str_log)
@@ -124,9 +124,9 @@ class TinyStrateBase(object):
         bar = event.dict_['data']
         ktype = event.dict_['ktype']
 
-        if ktype == KTYPE_DAY:
+        if ktype == KTYPE_MIN1:
             self.on_bar_min1(bar)
-        elif ktype == KTYPE_MIN1:
+        elif ktype == KTYPE_DAY:
             self.on_bar_day(bar)
 
 
