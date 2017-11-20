@@ -42,6 +42,19 @@ class TinyQuantFrame(object):
             self.__initLogEngine()
             self._tiny_strate.init_strate(self._global_settings, self, self._event_engine)
 
+    @property
+    def today_date(self):
+        """今天的日期，服务器数据"""
+        return self._check_market_event.today_date
+
+    def get_kl_min1_am(self, symbol):
+        """一分钟k线的array manager数据"""
+        return self._futu_data_event.get_kl_min1_am(symbol)
+
+    def get_kl_day_am(self, symbol):
+        """日k线的array manager数据"""
+        return self._futu_data_event.get_kl_day_am(symbol)
+
     def writeCtaLog(self, content):
         log = VtLogData()
         log.logContent = content

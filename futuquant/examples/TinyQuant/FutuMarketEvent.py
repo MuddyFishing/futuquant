@@ -4,7 +4,7 @@
 '''
 
 from vnpyInc import *
-
+from datetime import datetime
 
 class Futu_Market_State:
     MARKET_NONE = "none"
@@ -24,6 +24,7 @@ class FutuMarketEvent(object):
         self._check_freq = 3
         self._check_tick = 0
         self._last_status = None
+        self._today_date = datetime.now().strftime('%Y%m%d')
 
         self._mkt_key = ""
         self._mkt_dic = {
@@ -59,6 +60,10 @@ class FutuMarketEvent(object):
         # 注册事件
         self._event_engine.register(EVENT_TIMER, self._timer_check_market)
 
+    @property
+    def today_date(self):
+        return self._today_date
+
     def _timer_check_market(self, event):
         self._check_tick += 1
         if self._check_tick % self._check_freq != 0:
@@ -73,6 +78,7 @@ class FutuMarketEvent(object):
         if self._last_status == new_status:
             return
         self._last_status = new_status
+        self._today_date = datetime.fromtimestamp(int(state_dict['TimeStamp'])).strftime('%Y%m%d')
 
         if new_status == Futu_Market_State.MARKET_OPEN:
             event = Event(type_= EVENT_BEFORE_TRADING)
