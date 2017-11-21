@@ -21,8 +21,7 @@ class TinyQuantFrame(object):
         self._api_port = None
         self._market = None
         self._env_type = None
-        self._cash_init = None
-        self._tax_rate = None
+
         self._global_settings = {}
         self._is_init = False
 

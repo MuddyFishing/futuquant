@@ -592,6 +592,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         :return: err
         """
         delimiter = b'\r\n\r\n'
+        rsp_str = u''
         try:
             recv_buf = self.recv(5 * 1024 * 1024)
             if recv_buf == b'':
@@ -599,8 +600,8 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
             self.rsp_buf += recv_buf
             loc = self.rsp_buf.find(delimiter)
             while loc >= 0:
-                loc += len(delimiter)
                 rsp_binary = self.rsp_buf[0:loc]
+                loc += len(delimiter)
                 self.rsp_buf = self.rsp_buf[loc:]
 
                 rsp_str = binary2str(rsp_binary)
@@ -613,6 +614,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
             traceback.print_exc()
             err = sys.exc_info()[1]
             self.handler_ctx.error_func(str(err))
+            print(rsp_str)
             return
 
     def network_query(self, req_str):

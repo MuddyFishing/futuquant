@@ -8,59 +8,77 @@ from abc import ABCMeta, abstractmethod
 from datetime import datetime
 
 class TinyStrateBase(object):
-    """策略frame"""
+    """策略名称, setting.json中作为该策略配置的key"""
     name = 'tiny_strate_base'
-    # symbol_pools = ['US.AAPL', 'US.SNAP']
-    symbol_pools = ['HK.00700'] # , 'HK.00001']
+
+    """策略需要用到行情数据的股票池"""
+    symbol_pools = ['HK.00700', 'HK.00001']
 
     def __init__(self):
         # 这里没有用None,因为None在 __loadSetting中当作错误参数检查用了
-        self._no_use_val = 0
         self._quant_frame = 0
         self._event_engine = 0
         self._market_opened= False
+
+    @abstractmethod
+    def on_start(self):
+        """策略启动入口"""
         pass
 
     @abstractmethod
     def on_quote_changed(self, tiny_quote):
+        """报价、摆盘实时数据变化时，会触发该回调"""
         # TinyQuoteData
         data = tiny_quote
         str_log = "on_quote_changed symbol=%s open=%s high=%s close=%s low=%s" % (data.symbol, data.openPrice, data.highPrice, data.lastPrice, data.lowPrice)
-        # self.writeCtaLog(str_log)
+        self.log(str_log)
 
     @abstractmethod
     def on_bar_min1(self, tiny_bar):
+        """每一分钟触发一次回调"""
         bar = tiny_bar
         dt = bar.datetime.strftime("%Y%m%d %H:%M:%S")
         str_log = "on_bar_min1 symbol=%s open=%s high=%s close=%s low=%s vol=%s dt=%s" % (
             bar.symbol, bar.open, bar.high, bar.close, bar.low, bar.volume, dt)
-        self.writeCtaLog(str_log)
+        self.log(str_log)
 
     @abstractmethod
     def on_bar_day(self, tiny_bar):
+        """收盘时会触发一次日k数据推送"""
         bar = tiny_bar
         dt = bar.datetime.strftime("%Y%m%d %H:%M:%S")
         str_log = "on_bar_day symbol=%s open=%s high=%s close=%s low=%s vol=%s dt=%s" % (
             bar.symbol, bar.open, bar.high, bar.close, bar.low, bar.volume, dt)
-        self.writeCtaLog(str_log)
+        self.log(str_log)
 
     @abstractmethod
     def on_before_trading(self, date_time):
+        """开盘时触发一次回调, 港股是09:30:00"""
         str_log = "on_before_trading - %s" % date_time.strftime('%Y-%m-%d %H:%M:%S')
-        self.writeCtaLog(str_log)
+        self.log(str_log)
 
     @abstractmethod
     def on_after_trading(self, date_time):
+        """收盘时触发一次回调, 港股是16:00:00"""
         str_log = "on_after_trading - %s" % date_time.strftime('%Y-%m-%d %H:%M:%S')
-        self.writeCtaLog(str_log)
+        self.log(str_log)
 
-    def writeCtaLog(self, content):
-        """记录CTA日志"""
+    def get_kl_min1_am(self, symbol):
+        """一分钟k线的array manager数据"""
+        return self._quant_frame.get_kl_min1_am(symbol)
+
+    def get_kl_day_am(self, symbol):
+        """日k线的array manager数据"""
+        return self._quant_frame.get_kl_day_am(symbol)
+
+    def log(self, content):
+        """写log的接口"""
         content = self.name + ':' + content
         if self._quant_frame is not None:
             self._quant_frame.writeCtaLog(content)
 
     def init_strate(self, global_setting, quant_frame, event_engine):
+        """TinyQuantFrame 初始化策略的接口"""
 
         if type(self._quant_frame) is not int:
             return True
@@ -75,7 +93,7 @@ class TinyStrateBase(object):
         self._event_engine.register(EVENT_QUOTE_CHANGE, self.__event_quote_change)
         self._event_engine.register(EVENT_CUR_KLINE_BAR, self.__event_cur_kline_bar)
 
-        self.writeCtaLog("init_strate '%s' ret = %s" % (self.name, init_ret))
+        self.log("init_strate '%s' ret = %s" % (self.name, init_ret))
 
         return init_ret
 

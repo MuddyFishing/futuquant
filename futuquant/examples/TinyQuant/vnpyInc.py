@@ -8,7 +8,7 @@ from __future__ import division
 import json
 import os
 import traceback
-
+import threading
 
 from vnpy.event import *
 from vnpy.event.eventType import *
@@ -51,6 +51,11 @@ MAP_KLINE_SIZE = {KTYPE_DAY: 200,
                   KTYPE_MIN30: 500,
                   KTYPE_MIN60: 500,
                   }
+
+
+class GLOBAL(object):
+    """ datetime.strptime 有线程安全问题"""
+    dt_lock = threading._RLock()
 
 class TinyQuoteData(object):
     """行情数据类"""

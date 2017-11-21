@@ -6,8 +6,12 @@
 from vnpyInc import *
 from futuquant.open_context import *
 import time
+import threading
 from copy import copy
+
+import _strptime
 from datetime import  datetime, timedelta
+
 
 class FutuDataEvent(object):
     name = "FutuDataEvent"
@@ -26,8 +30,10 @@ class FutuDataEvent(object):
         self._rt_tiny_quote = TinyQuoteData()
 
         self._sym_kline_am_dict = {}   # am = ArrayManager
-        self._sym_kline_last_dt_dic = {} # 记录最后两个bar时间
-        self._sym_kline_last_event_time_dict = {} # 记录最后一次event推送的时间
+
+        self._sym_kline_last_am_bar_dic = {} # 记录am 最后一个bar的数据
+        self._sym_kline_last_event_bar_dic = {} # 记录最后一个事件推送的bar
+        self._sym_kline_next_event_bar_dic = {} # 记录下一个准备推送的bar
 
         # 注册事件
         self._event_engine.register(EVENT_TINY_TICK, self._event_tiny_tick)
@@ -77,7 +83,10 @@ class FutuDataEvent(object):
             for data_type in ['QUOTE', 'ORDER_BOOK', 'K_DAY', 'K_1M']:
                 ret, data = self._quote_context.subscribe(symbol, data_type, True)
                 if ret != 0:
-                    self.writeCtaLog(u'订阅行情失败：%s' % data)
+                    self.log(u'订阅行情失败：%s' % data)
+
+        # 启动时先构建一次数据
+        self._rebuild_sym_kline_all()
 
     @property
     def rt_tiny_quote(self):
@@ -104,13 +113,11 @@ class FutuDataEvent(object):
             self._sym_kline_am_dict[symbol] = {}
         self._sym_kline_am_dict[symbol][ktype] = ArrayManager(kline_max_size)
 
-        if symbol not in self._sym_kline_last_dt_dic:
-            self._sym_kline_last_dt_dic[symbol] = {}
-        dt_zero = datetime.fromtimestamp(0)
-        self._sym_kline_last_dt_dic[symbol][ktype] = (dt_zero, dt_zero)
-
+        if symbol not in self._sym_kline_last_am_bar_dic.keys():
+            self._sym_kline_last_am_bar_dic[symbol] = {}
+        self._sym_kline_last_am_bar_dic[symbol][ktype] = None
+        last_am_bar = None
         #
-        dt_bar_last1, dt_bar_last2 = self._sym_kline_last_dt_dic[symbol][ktype]
         array_manager = self._sym_kline_am_dict[symbol][ktype]
 
         # 导入历史数据
@@ -121,6 +128,7 @@ class FutuDataEvent(object):
         str_end = dt_now.strftime("%Y-%m-%d")
         ret, data = self._quote_context.get_history_kline(code=symbol, start=str_start, end=str_end, ktype=ktype, autype='qfq')
         if ret == 0:
+            # with GLOBAL.dt_lock:
             for ix, row in data.iterrows():
                 bar = TinyBarData()
                 bar.open = row['open']
@@ -131,14 +139,14 @@ class FutuDataEvent(object):
                 bar.symbol = symbol
                 dt_bar = datetime.strptime(str(row['time_key']), "%Y-%m-%d %H:%M:%S")
                 bar.datetime = dt_bar
-                if dt_bar > dt_bar_last2:
+                if not last_am_bar or dt_bar > last_am_bar.datetime:
                     array_manager.updateBar(bar)
-                    dt_bar_last1 = dt_bar_last2
-                    dt_bar_last2 = dt_bar
+                    last_am_bar = bar
 
         # 导入今天的最新数据
         ret, data = self._quote_context.get_cur_kline(code=symbol, num=1000, ktype=ktype, autype='qfq')
         if ret == 0:
+            # with GLOBAL.dt_lock:
             for ix, row in data.iterrows():
                 bar = TinyBarData()
                 bar.open = row['open']
@@ -149,15 +157,14 @@ class FutuDataEvent(object):
                 bar.symbol = symbol
                 dt_bar = datetime.strptime(str(row['time_key']), "%Y-%m-%d %H:%M:%S")
                 bar.datetime = dt_bar
-                if dt_bar > dt_bar_last2:
+                if not last_am_bar or dt_bar > last_am_bar.datetime:
                     array_manager.updateBar(bar)
-                    dt_bar_last1 = dt_bar_last2
-                    dt_bar_last2 = dt_bar
+                    last_am_bar = bar
 
-        # 记录最后一次导入的时间，在实时数据来到时，会依据时间判断是否需要更新
-        self._sym_kline_last_dt_dic[symbol][ktype] = (dt_bar_last1, dt_bar_last2)
+        # 记录最后一次导入的数据，在实时数据来到时，会依据时间判断是否推送
+        self._sym_kline_last_am_bar_dic[symbol][ktype] = last_am_bar
 
-    def writeCtaLog(self, content):
+    def log(self, content):
         content = self.name + ':' + content
         if self._quant_frame is not None:
             self._quant_frame.writeCtaLog(content)
@@ -197,71 +204,73 @@ class FutuDataEvent(object):
         symbol = event.dict_['symbol']
         ktype = event.dict_['ktype']
 
-        if symbol not in self._sym_kline_last_dt_dic.keys() or symbol not in self._sym_kline_am_dict.keys():
+        if symbol not in self._sym_kline_last_am_bar_dic.keys() or symbol not in self._sym_kline_am_dict.keys():
             return
-        if ktype not in self._sym_kline_last_dt_dic[symbol].keys() or ktype not in self._sym_kline_am_dict[symbol].keys():
+        if ktype not in self._sym_kline_last_am_bar_dic[symbol].keys() or ktype not in self._sym_kline_am_dict[symbol].keys():
             return
 
-        dt_last1, dt_last2 = self._sym_kline_last_dt_dic[symbol][ktype]
+        # 上一次新增的am数据
+        last_am_bar = self._sym_kline_last_am_bar_dic[symbol][ktype]
         array_manager = self._sym_kline_am_dict[symbol][ktype]
-        if symbol not in self._sym_kline_last_event_time_dict.keys():
-            self._sym_kline_last_event_time_dict[symbol] = {}
-        if ktype not in self._sym_kline_last_event_time_dict[symbol].keys():
-            self._sym_kline_last_event_time_dict[symbol][ktype] = 0
-        event_last_dt = self._sym_kline_last_event_time_dict[symbol][ktype]
 
-        notify_event = False
+        # 上一次推送的event bar数据
+        if symbol not in self._sym_kline_last_event_bar_dic.keys():
+            self._sym_kline_last_event_bar_dic[symbol] = {}
+        if ktype not in self._sym_kline_last_event_bar_dic[symbol].keys():
+            self._sym_kline_last_event_bar_dic[symbol][ktype] = None
+        last_event_bar = self._sym_kline_last_event_bar_dic[symbol][ktype]
+
+        # 下一步将要推送的event bar数据
+        if symbol not in self._sym_kline_next_event_bar_dic.keys():
+            self._sym_kline_next_event_bar_dic[symbol] = {}
+        if ktype not in self._sym_kline_next_event_bar_dic[symbol].keys():
+            self._sym_kline_next_event_bar_dic[symbol][ktype] = None
+        next_event_bar = self._sym_kline_next_event_bar_dic[symbol][ktype]
+
         notify_bar = None
-        dt_now = datetime.now()
-        cur_timestamp = int(time.time())
 
         for bar in bars_data:
-            dt = bar.datetime # 正在数据累积中的点
-            if dt > dt_now:
-                if notify_bar and notify_event:
-                    continue
-                if event_last_dt != 0 and cur_timestamp >= event_last_dt + 60:
-                    bar = TinyBarData()
-                    bar.open = array_manager.openArray[-1]
-                    bar.close = array_manager.closeArray[-1]
-                    bar.high = array_manager.highArray[-1]
-                    bar.low = array_manager.lowArray[-1]
-                    bar.volume = array_manager.volumeArray[-1]
-                    bar.symbol = symbol
-                    bar.datetime = dt_last2
+            dt = bar.datetime
+            # 更新am最后一个点数据
+            if last_am_bar and last_am_bar.datetime == dt:
+                # self.log("last_am_bar dt = %s vol=%s" % (last_am_bar.datetime.strftime("%H:%M:%S"), last_am_bar.volume))
+                array_manager.openArray[-1] = bar.open
+                array_manager.closeArray[-1] = bar.close
+                array_manager.highArray[-1] = bar.high
+                array_manager.lowArray[-1] = bar.low
+                array_manager.volumeArray[-1] = bar.volume
+                if not next_event_bar:
+                    next_event_bar = bar
+                # self.log("next_event_bar dt = %s vol=%s" % (next_event_bar.datetime.strftime("%H:%M:%S"), next_event_bar.volume))
 
-                    event_last_dt = (cur_timestamp + 59) / 60 * 60
-                    notify_event = True
-                    notify_bar = bar
-
-            elif dt > dt_last2:  #插入新数据
-                array_manager.updateBar(bar)
-                dt_last1 = dt_last2
-                dt_last2 = dt
+            # 已经推送过的点，又来了一次新的点
+            if last_event_bar and dt == last_event_bar.datetime:
                 notify_bar = bar
-                notify_event = True
 
-            elif dt == dt_last1 or dt == dt_last2: # 更新数据点
-                idx = -1 if dt == dt_last2 else -2
-                array_manager.openArray[idx] = bar.open
-                array_manager.closeArray[idx] = bar.close
-                array_manager.highArray[idx] = bar.high
-                array_manager.lowArray[idx] = bar.low
-                array_manager.volumeArray[idx] = bar.volume
+            # 新的bar数据累积中
+            elif not last_event_bar or dt > last_event_bar.datetime:
+                # 之前记录的next_event_bar 推送
+                if next_event_bar and dt > next_event_bar.datetime:
+                    notify_bar = next_event_bar
+                    next_event_bar = None
 
-                # 最后一个点更新， 每隔一分钟也发送一次事件
-                if dt == dt_last2 and cur_timestamp >= event_last_dt + 60:
-                    event_last_dt = (cur_timestamp + 59) / 60 * 60
-                    notify_bar = bar
-                    notify_event = True
+                    # 更新am数据
+                    if not last_am_bar or notify_bar.datetime > last_am_bar.datetime:
+                        array_manager.updateBar(notify_bar)
+                        last_am_bar = notify_bar
+                        self._sym_kline_last_am_bar_dic[symbol][ktype] = last_am_bar
+                else:
+                    # 记录将在下一次推送的bar
+                    next_event_bar = bar
             else:
                 continue # 已经存在的点，忽略
 
-        self._sym_kline_last_dt_dic[symbol][ktype] = (dt_last1, dt_last2)
+        if self._sym_kline_next_event_bar_dic[symbol][ktype] is not next_event_bar:
+            self._sym_kline_next_event_bar_dic[symbol][ktype] = next_event_bar
 
-        #对外通知事件
-        if notify_event and self._market_opened:
-            self._sym_kline_last_event_time_dict[symbol][ktype] = event_last_dt
+        # 对外通知事件
+        if notify_bar and self._market_opened:
+            self._sym_kline_last_event_bar_dic[symbol][ktype] = notify_bar
 
             event = Event(type_=EVENT_CUR_KLINE_BAR)
             event.dict_['symbol'] = symbol
@@ -269,14 +278,43 @@ class FutuDataEvent(object):
             event.dict_['ktype'] = ktype
             self._event_engine.put(event)
 
-    def __event_before_trading(self, event):
+    def _rebuild_sym_kline_all(self):
         for symbol  in  self._symbol_pools:
             for ktype in [KTYPE_DAY, KTYPE_MIN1]:
                 self._rebuild_sym_kline_am(symbol, ktype)
+
+    def __event_before_trading(self, event):
+        self._rebuild_sym_kline_all()
         self._market_opened = True
 
     def __event_after_trading(self, event):
         self._market_opened = False
+
+        # 收盘将没推送的数据点再推一次
+        for symbol in self._sym_kline_next_event_bar_dic.keys():
+            for ktype in self._sym_kline_next_event_bar_dic[symbol].keys():
+                notify_bar = self._sym_kline_next_event_bar_dic[symbol][ktype]
+                if not notify_bar:
+                    continue
+                self._sym_kline_next_event_bar_dic[symbol][ktype] = None
+
+                array_manager = self._get_kl_am(symbol, ktype)
+                if not array_manager:
+                    continue
+
+                last_am_bar = None
+                if symbol in self._sym_kline_last_am_bar_dic.keys() and ktype in self._sym_kline_last_am_bar_dic[symbol].keys():
+                    last_am_bar = self._sym_kline_last_am_bar_dic[symbol][ktype]
+
+                if last_am_bar.datetime != notify_bar.datetime:
+                    array_manager.updateBar(notify_bar)
+
+                # 对外通知事件
+                event = Event(type_=EVENT_CUR_KLINE_BAR)
+                event.dict_['symbol'] = symbol
+                event.dict_['data'] = notify_bar
+                event.dict_['ktype'] = ktype
+                self._event_engine.put(event)
 
     def process_quote(self, data):
         """报价推送"""
@@ -291,6 +329,7 @@ class FutuDataEvent(object):
 
             tick.date = row['data_date'].replace('-', '')
             tick.time = row['data_time']
+            # with GLOBAL.dt_lock:
             if tick.date and tick.time:
                 tick.datetime = datetime.strptime(' '.join([tick.date, tick.time]), '%Y%m%d %H:%M:%S')
             else:
@@ -347,6 +386,7 @@ class FutuDataEvent(object):
             bar.low = row['low']
             bar.volume = row['volume']
             bar.symbol = symbol
+            # with GLOBAL.dt_lock:
             bar.datetime = datetime.strptime(str(row['time_key']), "%Y-%m-%d %H:%M:%S")
 
             bars_data.append(bar)
