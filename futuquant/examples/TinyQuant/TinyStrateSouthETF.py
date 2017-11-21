@@ -128,7 +128,7 @@ class TinyStrateSouthETF(TinyStrateBase):
         if self.cta_call['pos'] > 0:
             self.cta_call['days'] += 1
         if self.cta_put['pos'] > 0:
-            self.cta_put['days'] = 0
+            self.cta_put['days'] += 1
 
         self.cta_call['done'] = False
         self.cta_put['done'] = False
