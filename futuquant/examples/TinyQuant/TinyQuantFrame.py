@@ -46,6 +46,10 @@ class TinyQuantFrame(object):
         """今天的日期，服务器数据"""
         return self._check_market_event.today_date
 
+    def get_rt_tiny_quote(self, symbol):
+        """得到股票的实时行情数据"""
+        return self._futu_data_event.get_rt_tiny_quote(symbol)
+
     def get_kl_min1_am(self, symbol):
         """一分钟k线的array manager数据"""
         return self._futu_data_event.get_kl_min1_am(symbol)

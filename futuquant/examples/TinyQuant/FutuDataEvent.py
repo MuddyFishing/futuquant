@@ -27,7 +27,9 @@ class FutuDataEvent(object):
         # 控制频率，1秒钟最多推送quote多少次
         self._push_event_freq = 10
         self._dict_last_push_time = {}
-        self._rt_tiny_quote = TinyQuoteData()
+
+        # 记录当前股票池的实时行情数据
+        self._rt_tiny_quote = {}
 
         self._sym_kline_am_dict = {}   # am = ArrayManager
 
@@ -88,10 +90,11 @@ class FutuDataEvent(object):
         # 启动时先构建一次数据
         self._rebuild_sym_kline_all()
 
-    @property
-    def rt_tiny_quote(self):
-        """"返回当前的实时行情数据"""
-        return self._rt_tiny_quote
+    def get_rt_tiny_quote(self, symbol):
+        """得到股票的实时行情数据"""
+        if symbol in self._rt_tiny_quote:
+            return self._rt_tiny_quote[symbol]
+        return None
 
     def get_kl_min1_am(self, symbol):
         return self._get_kl_am(symbol, KTYPE_MIN1)
@@ -181,7 +184,7 @@ class FutuDataEvent(object):
         """推送"""
         event = Event(type_=EVENT_QUOTE_CHANGE)
         event.dict_['data'] = tiny_quote
-        self._rt_tiny_quote = tiny_quote
+        self._rt_tiny_quote[tiny_quote.symbol] = tiny_quote
         self._event_engine.put(event)
 
     def _event_tiny_tick(self, event):
@@ -285,6 +288,7 @@ class FutuDataEvent(object):
 
     def __event_before_trading(self, event):
         self._rebuild_sym_kline_all()
+        self._rt_tiny_quote = {}
         self._market_opened = True
 
     def __event_after_trading(self, event):

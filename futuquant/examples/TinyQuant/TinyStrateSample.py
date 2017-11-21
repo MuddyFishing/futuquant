@@ -20,9 +20,13 @@ class TinyStrateSample(TinyStrateBase):
        self.param1 = None
        self.param2 = None
 
+    def on_init_strate(self):
+        """策略加载完配置"""
+        pass
+
     def on_start(self):
         """策略启动入口"""
-        self.log("param1=%s param2=%s" %(self.param1, self.param2))
+        self.log("on_start param1=%s param2=%s" %(self.param1, self.param2))
 
     def on_quote_changed(self, tiny_quote):
         """报价、摆盘实时数据变化时，会触发该回调"""
@@ -96,5 +100,10 @@ class TinyStrateSample(TinyStrateBase):
             return result
         return result[-1]
 
-
+    def ema(self, np_array, n, array=False):
+        """简单均线"""
+        result = talib.EMA(np_array, n)
+        if array:
+            return result
+        return result[-1]
 

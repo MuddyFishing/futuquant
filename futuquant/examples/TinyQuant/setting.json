@@ -19,6 +19,7 @@
 
        "x": "常见配置问题:",
         "x.1":"由于json格式的限制，主键（如frame)对应的最后一个配置项key(如logfile)最后不要添加逗号!",
+        "x.1":"由于json格式的限制, 配置项中不支持注释，且key,val信息必须用双引号包含",
         "x.2":"continue"
     },
     "frame":
@@ -40,7 +41,65 @@
         "param1": 1,
         "param2": 2
     },
-    "cta_south_etf":
+
+    "tiny_strate_south_etf":
     {
+      "cta_info": "南方东英杠反ETF策略，回测数据见https://act.futunn.com/south-etf ",
+
+      "symbol_ref__": "看哪个指数参数 HK.800100:国企指数, HK.800000恒生指数",
+      "symbol_ref": "HK.800000",
+
+      "ref_idx__": "看什么指标参数 0:涨跌幅 1:移动平均线",
+      "ref_idx": 0,
+
+      "trade_qty__": "买卖交易的数量(测试股票一手是100)",
+      "trade_qty": 100,
+
+      "trade_price_idx__": "滑点设置，为了尽可能成交，交易下单时，设置在第几个档位买卖 范围:1 - 10",
+      "trade_price_idx": 3,
+
+      "cta_call__": "看多策略配置",
+      "cta_call":
+      {
+        "enable__": "0:不启用 1:启用",
+        "enable": 1,
+
+        "trigger_per__": "当涨 x 的时候买入",
+        "trigger_per": 0.01,
+
+        "trigger_ema_short__": "短的移动平均线",
+        "trigger_ema_short": 5,
+        "trigger_ema_long__": "长的移动平均线",
+        "trigger_ema_long": 10,
+
+        "symbol__": "HK.07200:南方两倍看多, HK.07300:南方一倍看空",
+        "symbol": "HK.07200",
+
+        "days_sell__": "买入后过 x 天卖掉",
+        "days_sell": 5
+      },
+
+      "cta_put__": "看空策略配置",
+      "cta_put":
+      {
+        "enable__": "0:不启用 1:启用",
+        "enable": 1,
+
+        "trigger_per__": "当跌 x 的时候买入",
+        "trigger_per": 0.01,
+
+        "trigger_ema_short__": "短的移动平均线",
+        "trigger_ema_short": 5,
+        "trigger_ema_long__": "长的移动平均线",
+        "trigger_ema_long": 10,
+
+        "symbol__": "HK.07200:南方两倍看多, HK.07300:南方一倍看空",
+        "symbol": "HK.07200",
+
+        "days_sell__": "买入后过 x 天后卖掉",
+        "days_sell": 5
+      },
+
+      "that's all, good luck!": ""
     }
 }

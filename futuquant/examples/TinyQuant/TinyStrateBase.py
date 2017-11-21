@@ -21,6 +21,11 @@ class TinyStrateBase(object):
         self._market_opened= False
 
     @abstractmethod
+    def on_init_strate(self):
+        """策略加载完配置"""
+        pass
+
+    @abstractmethod
     def on_start(self):
         """策略启动入口"""
         pass
@@ -63,6 +68,10 @@ class TinyStrateBase(object):
         str_log = "on_after_trading - %s" % date_time.strftime('%Y-%m-%d %H:%M:%S')
         self.log(str_log)
 
+    def get_rt_tiny_quote(self, symbol):
+        """得到股票的实时行情数据"""
+        return self._quant_frame.get_rt_tiny_quote(symbol)
+
     def get_kl_min1_am(self, symbol):
         """一分钟k线的array manager数据"""
         return self._quant_frame.get_kl_min1_am(symbol)
@@ -94,6 +103,9 @@ class TinyStrateBase(object):
         self._event_engine.register(EVENT_CUR_KLINE_BAR, self.__event_cur_kline_bar)
 
         self.log("init_strate '%s' ret = %s" % (self.name, init_ret))
+
+        # 对外通知初始化事件
+        self.on_init_strate()
 
         return init_ret
 
