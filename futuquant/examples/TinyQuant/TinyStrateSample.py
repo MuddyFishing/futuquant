@@ -101,7 +101,7 @@ class TinyStrateSample(TinyStrateBase):
         return result[-1]
 
     def ema(self, np_array, n, array=False):
-        """简单均线"""
+        """移动均线"""
         result = talib.EMA(np_array, n)
         if array:
             return result

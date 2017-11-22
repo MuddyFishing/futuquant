@@ -110,14 +110,18 @@ class TinyStrateSouthETF(TinyStrateBase):
         if to_buy:
             # TO BUY
             symbol = cta['symbol']
-            self.log("buy symbole=%s " %(symbol))
+            self.log("buy symbol = %s " % symbol)
             cta['done'] = True
             cta['pos'] = self.trade_qty
             cta['days'] = 0
 
     def on_bar_min1(self, tiny_bar):
         """每一分钟触发一次回调"""
-        pass
+        bar = tiny_bar
+        dt = bar.datetime.strftime("%Y%m%d %H:%M:%S")
+        str_log = "on_bar_day symbol=%s open=%s high=%s close=%s low=%s vol=%s dt=%s" % (
+            bar.symbol, bar.open, bar.high, bar.close, bar.low, bar.volume, dt)
+        self.log(str_log)
 
     def on_bar_day(self, tiny_bar):
         """收盘时会触发一次日k回调"""
@@ -140,7 +144,7 @@ class TinyStrateSouthETF(TinyStrateBase):
         pass
 
     def ema(self, np_array, n, array=False):
-        """简单均线"""
+        """移动均线"""
         result = talib.EMA(np_array, n)
         if array:
             return result
