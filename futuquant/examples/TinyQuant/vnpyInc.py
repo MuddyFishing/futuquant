@@ -43,6 +43,9 @@ KTYPE_MIN15 = 'K_15M'
 KTYPE_MIN30 = 'K_30M'
 KTYPE_MIN60 = 'K_60M'
 
+TRADE_DIRECT_BUY = 'buy'
+TRADE_DIRECT_SELL = 'sell'
+
 # 定义array_manager中的kline数据最大个数
 MAP_KLINE_SIZE = {KTYPE_DAY: 200,
                   KTYPE_MIN1: 3000,
@@ -118,4 +121,24 @@ class TinyBarData(object):
         self.close = EMPTY_FLOAT
         self.volume = EMPTY_INT  # 成交量
         self.datetime = None
+
+
+class TinyTradeOrder(object):
+    """订单信息"""
+    def __init__(self):
+        """Constructor"""
+        super(TinyTradeOrder, self).__init__()
+
+        self.symbol = EMPTY_STRING          # 代码
+        self.order_id = EMPTY_STRING        # futu 订单ID
+        self.direction = EMPTY_STRING       # 方向
+        self.price = EMPTY_FLOAT            # 报价
+        self.total_volume = EMPTY_INT       # 总数量
+        self.trade_volume = EMPTY_INT       # 成交数量
+        self.submit_time = EMPTY_STRING     # 提交时间
+        self.updated_time = EMPTY_STRING    # 更新时间
+        self.trade_avg_price = EMPTY_FLOAT  # 成交均价
+        self.order_status = EMPTY_INT       # 订单状态 0=服务器处理中 1=等待成交 2=部分成交 3=全部成交 4=已失效 5=下单失败 6=已撤单 7=已删除 8=等待开盘
+
+
 

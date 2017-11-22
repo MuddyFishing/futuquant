@@ -14,4 +14,5 @@
 + 需要先安装vnpy / ta-lib, 暂时仅能运行在python2.7环境,
 + TinyQuantFrame封装了futu api 的调用，有关futu api的使用请参见 https://futunnopen.github.io/futuquant/intro/intro.html
 + 支持港/美股实盘策略运行，港股可以下模拟单, 不支持数据回测
-+ 策略实现参考 TinyStrateSample.py文件
++ 策略实现参考 TinyStrateSample.py
++ 启动策略运行参见 Run_TinyStrateSample.py

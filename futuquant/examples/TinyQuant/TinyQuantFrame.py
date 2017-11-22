@@ -59,6 +59,81 @@ class TinyQuantFrame(object):
         """日k线的array manager数据"""
         return self._futu_data_event.get_kl_day_am(symbol)
 
+    def buy(self, price, volume, symbol):
+        """买入"""
+        ret = None
+        data = None
+        if self._market == MARKET_HK:
+            ret, data = self._trade_ctx.place_order(price=price, qty=volume, strcode=symbol, orderside=0, ordertype=0,
+                                        envtype=self._env_type)
+        else:
+            ret, data = self._trade_ctx.place_order(price=price, qty=volume, strcode=symbol, orderside=0, ordertype=2,
+                                                     envtype=self._env_type)
+        if ret != 0:
+            return ret, data
+        order_id = 0
+        for ix, row in data.iterrows():
+            order_id = str(row['orderid'])
+
+        return 0, order_id
+
+    def sell(self, price, volume, symbol):
+        """卖出"""
+        ret = -1
+        data = None
+        if self._market == MARKET_HK:
+            ret, data = self._trade_ctx.place_order(price=price, qty=volume, strcode=symbol, orderside=1, ordertype=0,
+                                        envtype=self._env_type)
+        else:
+            ret, data = self._trade_ctx.place_order(price=price, qty=volume, strcode=symbol, orderside=1, ordertype=2,
+                                                     envtype=self._env_type)
+        if ret != 0:
+            return ret, data
+        order_id = 0
+        for ix, row in data.iterrows():
+            order_id = str(row['orderid'])
+
+        return 0, order_id
+
+    def cancel_order(self, order_id):
+        """取消订单"""
+        ret, data = self._trade_ctx.set_order_status(status=0, orderid=order_id, envtype=self._env_type)
+
+        # ret不为0时， data为错误字符串
+        if ret == 0:
+            return 0, ''
+        else:
+            return ret, data
+
+    def get_tiny_trade_order(self, order_id):
+        """得到订单信息"""
+        ret, data = self._trade_ctx.order_list_query(orderid=order_id, statusfilter='', strcode='', start='',
+                                                         end='', envtype=self._env_type)
+        if ret != 0:
+            return ret, data
+
+        order = TinyTradeOrder()
+        for ix, row in data.iterrows():
+            if order_id != str(row['orderid']):
+                continue
+            order.symbol = row['code']
+            order.order_id = order_id
+            if int(row['order_side']) == 0:
+                order.direction = TRADE_DIRECT_BUY
+            elif int(row['order_side']) == 1:
+                order.direction = TRADE_DIRECT_SELL
+            else:
+                raise Exception("get_tiny_trade_order error order_side=%s" % (row['order_side']))
+            order.price = float(row['price'])
+            order.total_volume = int(row['qty'])
+            order.trade_volume = int(row['dealt_qty'])
+            order.submit_time = datetime.fromtimestamp(int(row['submited_time'])).strftime('%Y%m%d %H:%M:%S')
+            order.updated_time = datetime.fromtimestamp(int(row['updated_time'])).strftime('%Y%m%d %H:%M:%S')
+            order.trade_avg_price = float(row['dealt_avg_price']) if row['dealt_avg_price'] else 0
+            order.order_status = int(row['status'])
+            break
+        return 0, order
+
     def writeCtaLog(self, content):
         log = VtLogData()
         log.logContent = content
@@ -153,6 +228,9 @@ class TinyQuantFrame(object):
 
         #定阅行情数据
         self._futu_data_event = FutuDataEvent(self, self._quote_ctx, self._event_engine, self._tiny_strate.symbol_pools)
+
+        # 启动事件
+        self._tiny_strate.on_start()
 
     def run(self):
         # 启动事件引擎

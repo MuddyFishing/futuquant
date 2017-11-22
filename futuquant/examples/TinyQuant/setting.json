@@ -58,14 +58,14 @@
       "trade_qty__": "买卖交易的数量(测试股票一手是100)",
       "trade_qty": 100,
 
-      "trade_price_idx__": "滑点设置，为了尽可能成交，交易下单时，设置在第几个档位买卖 范围:1 - 10",
+      "trade_price_idx__": "类似滑点设置，为了尽可能成交，交易下单时，设置在第几个档位买卖 范围:1 - 5",
       "trade_price_idx": 3,
 
       "cta_call__": "看多策略配置",
       "cta_call":
       {
         "enable__": "0:不启用 1:启用",
-        "enable": 1,
+        "enable": 0,
 
         "trigger_per__": "当涨 x 的时候买入",
         "trigger_per": 0.01,

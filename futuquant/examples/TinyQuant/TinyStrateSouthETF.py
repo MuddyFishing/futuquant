@@ -5,6 +5,7 @@
    https://act.futunn.com/south-etf
 '''
 import talib
+import time
 from TinyStrateBase import *
 
 class TinyStrateSouthETF(TinyStrateBase):
@@ -24,6 +25,7 @@ class TinyStrateSouthETF(TinyStrateBase):
 
         self.trade_qty = None
         self.trade_price_idx = None
+        self._last_dt_process = 0
 
     def on_init_strate(self):
         """策略加载完配置"""
@@ -46,8 +48,12 @@ class TinyStrateSouthETF(TinyStrateBase):
         self.cta_call['done'] = False
         self.cta_put['done'] = False
 
+        # 记录当天操作的订单id
+        self.cta_call['order_id'] = ''
+        self.cta_put['order_id'] = ''
+
         # 检查参数: 下单的滑点 / 下单的数量
-        if self.trade_price_idx < 1 or self.trade_price_idx > 10:
+        if self.trade_price_idx < 1 or self.trade_price_idx > 5:
             raise Exception("conifg trade_price_idx error!")
         if self.trade_qty < 0:
             raise Exception("conifg trade_qty error!")
@@ -58,9 +64,16 @@ class TinyStrateSouthETF(TinyStrateBase):
 
     def on_quote_changed(self, tiny_quote):
         """报价、摆盘实时数据变化时，会触发该回调"""
+
         # TinyQuoteData
         if tiny_quote.symbol != self.symbol_ref:
             return
+
+        # 减少计算频率，每x秒一次
+        dt_now = time.time()
+        if dt_now - self._last_dt_process < 2:
+            return
+        self._last_dt_process = dt_now
 
         # 执行策略
         self._process_cta(self.cta_call)
@@ -70,13 +83,19 @@ class TinyStrateSouthETF(TinyStrateBase):
         if not cta['enable'] or cta['done']:
             return
 
+        cta_symbol = cta['symbol']
+
         # 是否要卖出
         if cta['pos'] > 0 and cta['days'] >= cta['days_sell']:
-            # TO SEND
-            cta['done'] = true
-            cta['pos'] = 0
-            cta['days'] = 0
-            return
+            # TO SELL
+            price = self._get_splip_sell_price(cta_symbol)
+            volume = cta['pos']
+            if price > 0:
+                ret, data = self.sell(price, volume, cta_symbol)
+                if 0 == ret:
+                    cta['done'] = True
+                    cta['order_id'] = data
+                return
 
         # 计算触发值
         is_call = cta is self.cta_call
@@ -91,7 +110,6 @@ class TinyStrateSouthETF(TinyStrateBase):
             else:
                 trigger = (quote.preClosePrice - quote.lastPrice) /float(quote.preClosePrice)
             if trigger >= cta['trigger_per']:
-                # TO BUY
                 to_buy = True
         else:
             # 移动平均线
@@ -109,28 +127,25 @@ class TinyStrateSouthETF(TinyStrateBase):
 
         if to_buy:
             # TO BUY
-            symbol = cta['symbol']
-            self.log("buy symbol = %s " % symbol)
-            cta['done'] = True
-            cta['pos'] = self.trade_qty
-            cta['days'] = 0
+            price = self._get_splip_buy_price(cta_symbol)
+            volume = self.trade_qty
+            if price > 0:
+                ret, data = self.buy(price, volume, cta_symbol)
+                if 0 == ret:
+                    cta['done'] = True
+                    cta['order_id'] = data
 
     def on_bar_min1(self, tiny_bar):
         """每一分钟触发一次回调"""
-        bar = tiny_bar
-        dt = bar.datetime.strftime("%Y%m%d %H:%M:%S")
-        str_log = "on_bar_day symbol=%s open=%s high=%s close=%s low=%s vol=%s dt=%s" % (
-            bar.symbol, bar.open, bar.high, bar.close, bar.low, bar.volume, dt)
-        self.log(str_log)
+        pass
 
     def on_bar_day(self, tiny_bar):
         """收盘时会触发一次日k回调"""
         pass
 
     def on_before_trading(self, date_time):
-        """开盘时触发一次回调, 港股是09:30:00"""
+        """开盘的时候检查，如果有持仓，就把持有天数 + 1"""
 
-        # 开盘的时候检查，如果有持仓，就把持有天数 + 1
         if self.cta_call['pos'] > 0:
             self.cta_call['days'] += 1
         if self.cta_put['pos'] > 0:
@@ -140,8 +155,10 @@ class TinyStrateSouthETF(TinyStrateBase):
         self.cta_put['done'] = False
 
     def on_after_trading(self, date_time):
-        """收盘时触发一次回调, 港股是16:00:00"""
-        pass
+        """收盘的时候更新持仓信息"""
+
+        self._update_cta_pos(self.cta_call)
+        self._update_cta_pos(self.cta_put)
 
     def ema(self, np_array, n, array=False):
         """移动均线"""
@@ -149,5 +166,49 @@ class TinyStrateSouthETF(TinyStrateBase):
         if array:
             return result
         return result[-1]
+
+    def _get_splip_buy_price(self, symbol):
+        quote = self.get_rt_tiny_quote(self.symbol)
+        index = self.trade_price_idx
+        return quote.__dict__['askPrice%s' % index]
+
+    def _get_splip_sell_price(self, symbol):
+        quote = self.get_rt_tiny_quote(self.symbol)
+        index = self.trade_price_idx
+        return quote.__dict__['bidPrice%s' % index]
+
+    def _update_cta_pos(self, cta):
+        order_id = cta['order_id']
+        if not order_id:
+            return
+
+        for x in range(3):
+            ret, data = self.get_tiny_trade_order(order_id)
+            if 0 != ret:
+                continue
+            if data.direction == TRADE_DIRECT_BUY:
+                cta['pos'] = data.trade_volume
+                cta['days'] = 0
+                cta['order_id'] = ''
+            elif data.direction == TRADE_DIRECT_SELL:
+                cta['pos'] -= data.trade_volume
+                # 如果全部卖出, 将days置为0, 否则第二天继续卖
+                if cta['pos'] <= 0:
+                    cta['days'] = 0
+                cta['order_id'] = ''
+            else:
+                raise Exception("_update_cta_pos error!")
+            break
+
+
+
+
+
+
+
+
+
+
+
 
 

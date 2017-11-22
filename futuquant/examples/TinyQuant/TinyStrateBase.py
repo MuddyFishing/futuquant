@@ -80,6 +80,40 @@ class TinyStrateBase(object):
         """日k线的array manager数据"""
         return self._quant_frame.get_kl_day_am(symbol)
 
+    def buy(self, price, volume, symbol):
+        """买入
+        :return: (ret, data)
+        ret == 0 , data = order_id
+        ret != 0 , data = 错误字符串
+        """
+        return self._quant_frame.buy(price, volume, symbol)
+
+    def sell(self, price, volume, symbol):
+        """
+        卖出
+        :return: (ret, data)
+        ret == 0 , data = order_id
+        ret != 0 , data = 错误字符串
+        """
+        return self._quant_frame.sell(price, volume, symbol)
+
+    def cancel_order(self, order_id):
+        """取消订单
+        :return: (ret, data)
+        ret == 0 , data = '' 空串
+        ret != 0 , data = 错误字符串
+        """
+        return self._quant_frame.cancel_order(order_id)
+
+    def get_tiny_trade_order(self, order_id):
+        """
+        :param order_id:
+        :return: (ret, data)
+        ret == 0 , data = TinyTradeOrder 对象
+        ret != 0 , data = 错误字符串
+        """
+        return self._quant_frame.get_tiny_trade_order(order_id)
+
     def log(self, content):
         """写log的接口"""
         content = self.name + ':' + content

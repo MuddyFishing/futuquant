@@ -28,6 +28,23 @@ class TinyStrateSample(TinyStrateBase):
         """策略启动入口"""
         self.log("on_start param1=%s param2=%s" %(self.param1, self.param2))
 
+        """交易接口测试
+        ret, data = self.buy(4.60, 1000, 'HK.03883')
+        if 0 == ret:
+            order_id = data
+            ret, data = self.get_tiny_trade_order(order_id)
+            if 0 == ret:
+                str_info = ''
+                for key in data.__dict__.keys():
+                    str_info += "%s='%s' " % (key, data.__dict__[key])
+                print str_info
+
+        ret, data = self.sell(11.4, 1000, 'HK.01357')
+        if 0 == ret:
+            order_id = data
+            self.cancel_order(order_id)
+        """
+
     def on_quote_changed(self, tiny_quote):
         """报价、摆盘实时数据变化时，会触发该回调"""
         # TinyQuoteData
