@@ -21,6 +21,7 @@ class TinyQuantFrame(object):
         self._api_port = None
         self._market = None
         self._env_type = None
+        self._trade_password = None
 
         self._global_settings = {}
         self._is_init = False
@@ -137,6 +138,11 @@ class TinyQuantFrame(object):
             self._trade_ctx = OpenUSTradeContext(self._api_ip, self._api_port)
         else:
             raise Exception("error param!")
+
+        if self._env_type == 0:
+            ret, _ = self._trade_ctx.unlock_trade(self._trade_password)
+            if 0 != ret:
+                raise Exception("error param!")
 
         # 开始futu api异步数据推送
         self._quote_ctx.start()

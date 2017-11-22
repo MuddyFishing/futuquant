@@ -67,7 +67,7 @@ class TinyStrateSouthETF(TinyStrateBase):
         self._process_cta(self.cta_put)
 
     def _process_cta(self, cta):
-        if not cta['enable'] or self.cta['done']:
+        if not cta['enable'] or cta['done']:
             return
 
         # 是否要卖出
@@ -90,7 +90,7 @@ class TinyStrateSouthETF(TinyStrateBase):
                 trigger = (quote.lastPrice - quote.preClosePrice)/float(quote.preClosePrice)
             else:
                 trigger = (quote.preClosePrice - quote.lastPrice) /float(quote.preClosePrice)
-            if trigger >= cta.trigger_per:
+            if trigger >= cta['trigger_per']:
                 # TO BUY
                 to_buy = True
         else:
@@ -109,7 +109,9 @@ class TinyStrateSouthETF(TinyStrateBase):
 
         if to_buy:
             # TO BUY
-            cta['done'] = true
+            symbol = cta['symbol']
+            self.log("buy symbole=%s " %(symbol))
+            cta['done'] = True
             cta['pos'] = self.trade_qty
             cta['days'] = 0
 

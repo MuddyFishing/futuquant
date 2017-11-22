@@ -182,6 +182,9 @@ class FutuDataEvent(object):
 
     def _notify_quote_change_event(self, tiny_quote):
         """推送"""
+        if not self._market_opened:
+            return
+
         event = Event(type_=EVENT_QUOTE_CHANGE)
         event.dict_['data'] = tiny_quote
         self._rt_tiny_quote[tiny_quote.symbol] = tiny_quote
@@ -288,7 +291,6 @@ class FutuDataEvent(object):
 
     def __event_before_trading(self, event):
         self._rebuild_sym_kline_all()
-        self._rt_tiny_quote = {}
         self._market_opened = True
 
     def __event_after_trading(self, event):
