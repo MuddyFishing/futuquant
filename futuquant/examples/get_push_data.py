@@ -104,7 +104,7 @@ class HeartBeatTest(HeartBeatHandlerBase):
 
     def on_recv_rsp(self, rsp_str):
         """数据响应回调函数"""
-        ret_code, msg, timestamp = super(HeartBeatTest, self).on_recv_rsp(rsp_str)
+        ret_code, timestamp = super(HeartBeatTest, self).on_recv_rsp(rsp_str)
         if ret_code == RET_OK:
             print("heart beat server timestamp = ", timestamp)
         return ret_code, timestamp
