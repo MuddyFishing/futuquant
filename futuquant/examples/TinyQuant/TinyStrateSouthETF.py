@@ -92,9 +92,11 @@ class TinyStrateSouthETF(TinyStrateBase):
             volume = cta['pos']
             if price > 0:
                 ret, data = self.sell(price, volume, cta_symbol)
+                # 安全起见，一天只做一次交易操作, 失败也忽略
+                cta['done'] = True
                 if 0 == ret:
-                    cta['done'] = True
                     cta['order_id'] = data
+                self.log("sell price=%s volume=%s symbol=%s ret=%s , err=%s" % (price, volume, cta_symbol, ret, (data if 0 != ret else "")))
                 return
 
         # 计算触发值
@@ -131,9 +133,11 @@ class TinyStrateSouthETF(TinyStrateBase):
             volume = self.trade_qty
             if price > 0:
                 ret, data = self.buy(price, volume, cta_symbol)
+                # 安全起见，一天只做一次交易操作, 失败也忽略
+                cta['done'] = True
                 if 0 == ret:
-                    cta['done'] = True
                     cta['order_id'] = data
+                self.log("buy price=%s volume=%s symbol=%s ret=%s , err=%s" %(price, volume, cta_symbol, ret, (data if 0!=ret else "")))
 
     def on_bar_min1(self, tiny_bar):
         """每一分钟触发一次回调"""
