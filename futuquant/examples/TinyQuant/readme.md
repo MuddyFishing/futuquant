@@ -15,5 +15,5 @@
 + 该框架二次封装了futu api 常用的行情交易接口，有关futu api的使用请参见 https://futunnopen.github.io/futuquant/intro/intro.html
 + 支持港/美股实盘策略运行，港股可以下模拟单
 + 不支持数据回测
-+ 策略实现请参考 TinyStrateSample.py / TinyStrateSouthETF
-+ 启动策略参考 Run_TinyStrateSample.py / Run_TinyStrateSouthETF
++ 策略实现请参考 TinyStrateSample.py / TinyStrateSouthETF.py
++ 启动策略参考 Run_TinyStrateSample.py / Run_TinyStrateSouthETF.py
