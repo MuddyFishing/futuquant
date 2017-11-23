@@ -4,6 +4,7 @@
 
 '''
 from vnpyInc import *
+from TinyDefine import *
 from abc import ABCMeta, abstractmethod
 from datetime import datetime
 

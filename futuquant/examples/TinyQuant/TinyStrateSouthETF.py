@@ -141,7 +141,11 @@ class TinyStrateSouthETF(TinyStrateBase):
 
     def on_bar_min1(self, tiny_bar):
         """每一分钟触发一次回调"""
-        pass
+        bar = tiny_bar
+        str_dt = bar.datetime.strftime("%Y%m%d %H:%M:%S")
+        str_log = "on_bar_min1 symbol=%s dt=%s open=%s high=%s close=%s low=%s vol=%s" % (
+            bar.symbol, str_dt, bar.open, bar.high, bar.close, bar.low, bar.volume)
+        self.log(str_log)
 
     def on_bar_day(self, tiny_bar):
         """收盘时会触发一次日k回调"""

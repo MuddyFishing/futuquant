@@ -5,140 +5,303 @@
 '''
 
 from __future__ import division
-import json
-import os
-import traceback
-import threading
+
+import logging
+from datetime import datetime
+import time
+import numpy as np
 
 from vnpy.event import *
-from vnpy.event.eventType import *
-from vnpy.trader.vtObject import VtLogData, VtTickData, VtBarData
+from vnpy.event.eventType import EVENT_TIMER
 
-from vnpy.trader.vtEngine import LogEngine
-from vnpy.trader.vtFunction import getJsonPath
+from vnpy.trader.vtObject import VtBaseData
+from vnpy.trader.vtFunction import getJsonPath, getTempPath
+
 from vnpy.trader.vtConstant import (EMPTY_STRING, EMPTY_UNICODE,
                                     EMPTY_FLOAT, EMPTY_INT)
-from vnpy.trader.app.ctaStrategy.ctaTemplate import ArrayManager
 
-EVENT_TINY_LOG = 'tiny_quant_log'
-EVENT_INI_FUTU_API = 'init futu api'
-
-EVENT_BEFORE_TRADING = 'before trading'
-EVENT_AFTER_TRADING = 'after trading'
-
-EVENT_TINY_TICK = 'tiny tick'
-EVENT_QUOTE_CHANGE ='tiny quote data change'
-
-EVENT_CUR_KLINE_PUSH = 'cur kline push'
-EVENT_CUR_KLINE_BAR = 'kline min1 bar'
-
-MARKET_HK = 'HK'
-MARKET_US = 'US'
-
-# futu api k线定阅类型转定义
-KTYPE_DAY = 'K_DAY'
-KTYPE_MIN1 = 'K_1M'
-KTYPE_MIN5 = 'K_5M'
-KTYPE_MIN15 = 'K_15M'
-KTYPE_MIN30 = 'K_30M'
-KTYPE_MIN60 = 'K_60M'
-
-TRADE_DIRECT_BUY = 'buy'
-TRADE_DIRECT_SELL = 'sell'
-
-# 定义array_manager中的kline数据最大个数
-MAP_KLINE_SIZE = {KTYPE_DAY: 200,
-                  KTYPE_MIN1: 3000,
-                  KTYPE_MIN5: 1000,
-                  KTYPE_MIN15: 500,
-                  KTYPE_MIN30: 500,
-                  KTYPE_MIN60: 500,
-                  }
-
-
-class GLOBAL(object):
-    """ datetime.strptime 有线程安全问题"""
-    dt_lock = threading._RLock()
-
-class TinyQuoteData(object):
-    """行情数据类"""
-    def __init__(self):
-        # 代码相关
-        self.symbol = EMPTY_STRING  # 合约代码
-
-        # 成交数据
-        self.lastPrice = EMPTY_FLOAT  # 最新成交价
-        self.volume = EMPTY_INT  # 今天总成交量
-        self.time = EMPTY_STRING  # 时间 11:20:56.0
-        self.date = EMPTY_STRING  # 日期 20151009
-        self.datetime = None
-
-        # 常规行情
-        self.openPrice = EMPTY_FLOAT  # 今日开盘价
-        self.highPrice = EMPTY_FLOAT  # 今日最高价
-        self.lowPrice = EMPTY_FLOAT  # 今日最低价
-        self.preClosePrice = EMPTY_FLOAT
-
-        # 五档行情
-        self.bidPrice1 = EMPTY_FLOAT
-        self.bidPrice2 = EMPTY_FLOAT
-        self.bidPrice3 = EMPTY_FLOAT
-        self.bidPrice4 = EMPTY_FLOAT
-        self.bidPrice5 = EMPTY_FLOAT
-
-        self.askPrice1 = EMPTY_FLOAT
-        self.askPrice2 = EMPTY_FLOAT
-        self.askPrice3 = EMPTY_FLOAT
-        self.askPrice4 = EMPTY_FLOAT
-        self.askPrice5 = EMPTY_FLOAT
-
-        self.bidVolume1 = EMPTY_INT
-        self.bidVolume2 = EMPTY_INT
-        self.bidVolume3 = EMPTY_INT
-        self.bidVolume4 = EMPTY_INT
-        self.bidVolume5 = EMPTY_INT
-
-        self.askVolume1 = EMPTY_INT
-        self.askVolume2 = EMPTY_INT
-        self.askVolume3 = EMPTY_INT
-        self.askVolume4 = EMPTY_INT
-        self.askVolume5 = EMPTY_INT
-
-
-class TinyBarData(object):
-    """K线数据"""
+"""
+    为了兼容python3.6且 且兼容vnpy外发的版本，
+    暂时从vnpy dev分支copy部分实现类,
+    后续直接从vnpy中导入
+"""
+########################################################################
+class VtLogData(VtBaseData):
+    """日志数据类"""
 
     # ----------------------------------------------------------------------
     def __init__(self):
         """Constructor"""
-        super(TinyBarData, self).__init__()
+        super(VtLogData, self).__init__()
 
-        self.symbol = EMPTY_STRING  # 代码
+        self.logTime = time.strftime('%X', time.localtime())  # 日志生成时间
+        self.logContent = EMPTY_UNICODE  # 日志信息
+        self.logLevel = logging.INFO
 
-        self.open = EMPTY_FLOAT
-        self.high = EMPTY_FLOAT
-        self.low = EMPTY_FLOAT
-        self.close = EMPTY_FLOAT
-        self.volume = EMPTY_INT  # 成交量
-        self.datetime = None
+class ArrayManager(object):
+    """
+    K线序列管理工具，负责：
+    1. K线时间序列的维护
+    2. 常用技术指标的计算
+    """
+
+    # ----------------------------------------------------------------------
+    def __init__(self, size=100):
+        """Constructor"""
+        self.count = 0  # 缓存计数
+        self.size = size  # 缓存大小
+        self.inited = False  # True if count>=size
+
+        self.openArray = np.zeros(size)  # OHLC
+        self.highArray = np.zeros(size)
+        self.lowArray = np.zeros(size)
+        self.closeArray = np.zeros(size)
+        self.volumeArray = np.zeros(size)
+
+    # ----------------------------------------------------------------------
+    def updateBar(self, bar):
+        """更新K线"""
+        self.count += 1
+        if not self.inited and self.count >= self.size:
+            self.inited = True
+
+        self.openArray[0:self.size - 1] = self.openArray[1:self.size]
+        self.highArray[0:self.size - 1] = self.highArray[1:self.size]
+        self.lowArray[0:self.size - 1] = self.lowArray[1:self.size]
+        self.closeArray[0:self.size - 1] = self.closeArray[1:self.size]
+        self.volumeArray[0:self.size - 1] = self.volumeArray[1:self.size]
+
+        self.openArray[-1] = bar.open
+        self.highArray[-1] = bar.high
+        self.lowArray[-1] = bar.low
+        self.closeArray[-1] = bar.close
+        self.volumeArray[-1] = bar.volume
+
+    # ----------------------------------------------------------------------
+    @property
+    def open(self):
+        """获取开盘价序列"""
+        return self.openArray
+
+    # ----------------------------------------------------------------------
+    @property
+    def high(self):
+        """获取最高价序列"""
+        return self.highArray
+
+    # ----------------------------------------------------------------------
+    @property
+    def low(self):
+        """获取最低价序列"""
+        return self.lowArray
+
+    # ----------------------------------------------------------------------
+    @property
+    def close(self):
+        """获取收盘价序列"""
+        return self.closeArray
+
+    # ----------------------------------------------------------------------
+    @property
+    def volume(self):
+        """获取成交量序列"""
+        return self.volumeArray
+
+    # ----------------------------------------------------------------------
+    def sma(self, n, array=False):
+        """简单均线"""
+        result = talib.SMA(self.close, n)
+        if array:
+            return result
+        return result[-1]
+
+    # ----------------------------------------------------------------------
+    def std(self, n, array=False):
+        """标准差"""
+        result = talib.STDDEV(self.close, n)
+        if array:
+            return result
+        return result[-1]
+
+    # ----------------------------------------------------------------------
+    def cci(self, n, array=False):
+        """CCI指标"""
+        result = talib.CCI(self.high, self.low, self.close, n)
+        if array:
+            return result
+        return result[-1]
+
+    # ----------------------------------------------------------------------
+    def atr(self, n, array=False):
+        """ATR指标"""
+        result = talib.ATR(self.high, self.low, self.close, n)
+        if array:
+            return result
+        return result[-1]
+
+    # ----------------------------------------------------------------------
+    def rsi(self, n, array=False):
+        """RSI指标"""
+        result = talib.RSI(self.close, n)
+        if array:
+            return result
+        return result[-1]
+
+    # ----------------------------------------------------------------------
+    def macd(self, fastPeriod, slowPeriod, signalPeriod, array=False):
+        """MACD指标"""
+        macd, signal, hist = talib.MACD(self.close, fastPeriod,
+                                        slowPeriod, signalPeriod)
+        if array:
+            return macd, signal, hist
+        return macd[-1], signal[-1], hist[-1]
+
+    # ----------------------------------------------------------------------
+    def adx(self, n, array=False):
+        """ADX指标"""
+        result = talib.ADX(self.high, self.low, self.close, n)
+        if array:
+            return result
+        return result[-1]
+
+    # ----------------------------------------------------------------------
+    def boll(self, n, dev, array=False):
+        """布林通道"""
+        mid = self.sma(n, array)
+        std = self.std(n, array)
+
+        up = mid + std * dev
+        down = mid - std * dev
+
+        return up, down
+
+        # ----------------------------------------------------------------------
+
+    def keltner(self, n, dev, array=False):
+        """肯特纳通道"""
+        mid = self.sma(n, array)
+        atr = self.atr(n, array)
+
+        up = mid + atr * dev
+        down = mid - atr * dev
+
+        return up, down
+
+    # ----------------------------------------------------------------------
+    def donchian(self, n, array=False):
+        """唐奇安通道"""
+        up = talib.MAX(self.high, n)
+        down = talib.MIN(self.low, n)
+
+        if array:
+            return up, down
+        return up[-1], down[-1]
 
 
-class TinyTradeOrder(object):
-    """订单信息"""
+########################################################################
+class LogEngine(object):
+    """日志引擎"""
+
+    # 日志级别
+    LEVEL_DEBUG = logging.DEBUG
+    LEVEL_INFO = logging.INFO
+    LEVEL_WARN = logging.WARN
+    LEVEL_ERROR = logging.ERROR
+    LEVEL_CRITICAL = logging.CRITICAL
+
+    # 单例对象
+    instance = None
+
+    # ----------------------------------------------------------------------
+    def __new__(cls, *args, **kwargs):
+        """创建对象，保证单例"""
+        if not cls.instance:
+            cls.instance = super(LogEngine, cls).__new__(cls, *args, **kwargs)
+        return cls.instance
+
+    # ----------------------------------------------------------------------
     def __init__(self):
         """Constructor"""
-        super(TinyTradeOrder, self).__init__()
+        self.logger = logging.getLogger()
+        self.formatter = logging.Formatter('%(asctime)s  %(levelname)s: %(message)s')
+        self.level = self.LEVEL_CRITICAL
 
-        self.symbol = EMPTY_STRING          # 代码
-        self.order_id = EMPTY_STRING        # futu 订单ID
-        self.direction = EMPTY_STRING       # 方向
-        self.price = EMPTY_FLOAT            # 报价
-        self.total_volume = EMPTY_INT       # 总数量
-        self.trade_volume = EMPTY_INT       # 成交数量
-        self.submit_time = EMPTY_STRING     # 提交时间
-        self.updated_time = EMPTY_STRING    # 更新时间
-        self.trade_avg_price = EMPTY_FLOAT  # 成交均价
-        self.order_status = EMPTY_INT       # 订单状态 0=服务器处理中 1=等待成交 2=部分成交 3=全部成交 4=已失效 5=下单失败 6=已撤单 7=已删除 8=等待开盘
+        self.consoleHandler = None
+        self.fileHandler = None
 
+        # 添加NullHandler防止无handler的错误输出
+        nullHandler = logging.NullHandler()
+        self.logger.addHandler(nullHandler)
 
+        # 日志级别函数映射
+        self.levelFunctionDict = {
+            self.LEVEL_DEBUG: self.debug,
+            self.LEVEL_INFO: self.info,
+            self.LEVEL_WARN: self.warn,
+            self.LEVEL_ERROR: self.error,
+            self.LEVEL_CRITICAL: self.critical,
+        }
 
+    # ----------------------------------------------------------------------
+    def setLogLevel(self, level):
+        """设置日志级别"""
+        self.logger.setLevel(level)
+        self.level = level
+
+    # ----------------------------------------------------------------------
+    def addConsoleHandler(self):
+        """添加终端输出"""
+        if not self.consoleHandler:
+            self.consoleHandler = logging.StreamHandler()
+            self.consoleHandler.setLevel(self.level)
+            self.consoleHandler.setFormatter(self.formatter)
+            self.logger.addHandler(self.consoleHandler)
+
+    # ----------------------------------------------------------------------
+    def addFileHandler(self):
+        """添加文件输出"""
+        if not self.fileHandler:
+            filename = 'vt_' + datetime.now().strftime('%Y%m%d') + '.log'
+            filepath = getTempPath(filename)
+            self.fileHandler = logging.FileHandler(filepath)
+            self.fileHandler.setLevel(self.level)
+            self.fileHandler.setFormatter(self.formatter)
+            self.logger.addHandler(self.fileHandler)
+
+    # ----------------------------------------------------------------------
+    def debug(self, msg):
+        """开发时用"""
+        self.logger.debug(msg)
+
+    # ----------------------------------------------------------------------
+    def info(self, msg):
+        """正常输出"""
+        self.logger.info(msg)
+
+    # ----------------------------------------------------------------------
+    def warn(self, msg):
+        """警告信息"""
+        self.logger.warn(msg)
+
+    # ----------------------------------------------------------------------
+    def error(self, msg):
+        """报错输出"""
+        self.logger.error(msg)
+
+    # ----------------------------------------------------------------------
+    def exception(self, msg):
+        """报错输出+记录异常信息"""
+        self.logger.exception(msg)
+
+    # ----------------------------------------------------------------------
+    def critical(self, msg):
+        """影响程序运行的严重错误"""
+        self.logger.critical(msg)
+
+    # ----------------------------------------------------------------------
+    def processLogEvent(self, event):
+        """处理日志事件"""
+        log = event.dict_['data']
+        function = self.levelFunctionDict[log.logLevel]  # 获取日志级别对应的处理函数
+        msg = '\t'.join([log.gatewayName, log.logContent])
+        function(msg)

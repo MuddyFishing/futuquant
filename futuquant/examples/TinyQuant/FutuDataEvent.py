@@ -4,6 +4,7 @@
 '''
 
 from vnpyInc import *
+from TinyDefine import *
 from futuquant.open_context import *
 import time
 import threading

@@ -3,8 +3,10 @@
 '''
 
 '''
+from __future__ import division
 
 from vnpyInc import *
+from TinyDefine import *
 from TinyStrateBase import TinyStrateBase
 from FutuMarketEvent import *
 from FutuDataEvent import *
@@ -144,8 +146,12 @@ class TinyQuantFrame(object):
 
     def __loadSetting(self):
         """读取策略配置"""
-        with open(self.settingfilePath) as f:
-            self._global_settings = json.load(f)
+        with open(self.settingfilePath, 'rb') as f:
+            df = f.read()
+            f.close()
+            if type(df) is not str:
+                df = str(df, encoding='utf8')
+            self._global_settings = json.loads(df)
             if self._global_settings is None or 'frame' not in self._global_settings:
                 raise Exception("setting.json - no frame config!'")
 

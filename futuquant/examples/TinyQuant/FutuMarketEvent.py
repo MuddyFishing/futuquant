@@ -4,6 +4,7 @@
 '''
 
 from vnpyInc import *
+from TinyDefine import *
 from datetime import datetime
 
 class Futu_Market_State:
