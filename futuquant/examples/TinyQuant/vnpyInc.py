@@ -10,15 +10,16 @@ import logging
 from datetime import datetime
 import time
 import numpy as np
+import talib
 
 from vnpy.event import *
 from vnpy.event.eventType import EVENT_TIMER
 
 from vnpy.trader.vtObject import VtBaseData
 from vnpy.trader.vtFunction import getJsonPath, getTempPath
-
-from vnpy.trader.vtConstant import (EMPTY_STRING, EMPTY_UNICODE,
+from vnpy.trader.language.chinese.constant import (EMPTY_STRING, EMPTY_UNICODE,
                                     EMPTY_FLOAT, EMPTY_INT)
+
 
 """
     为了兼容python3.6且 且兼容vnpy外发的版本，
