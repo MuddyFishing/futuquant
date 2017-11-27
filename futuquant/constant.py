@@ -116,6 +116,44 @@ class QUOTE(object):
     REV_TICKER_DIRECTION = {TICKER_DIRECTION[x]: x for x in TICKER_DIRECTION}
 
 
+class KL_FIELD(object):
+    ALL = '0'
+    DATE_TIME = '1'
+    OPEN = '2'
+    CLOSE = '3'
+    HIGH = '4'
+    LOW = '5'
+    PE_RATIO = '6'
+    TURNOVER_RATE = '7'
+    TRADE_VOL = '8'
+    TRADE_VAL = '9'
+    CHANGE_RATE = '10'
+    ALL_REAL = [DATE_TIME, OPEN, CLOSE, HIGH, LOW, PE_RATIO, TURNOVER_RATE, TRADE_VOL, TRADE_VAL, CHANGE_RATE]
+    DICT_KL_FIELD_STR = {DATE_TIME: 'time_key',
+                         OPEN: 'open',
+                         CLOSE: 'close',
+                         HIGH: 'high',
+                         LOW: 'low',
+                         PE_RATIO: 'pe_ratio',
+                         TURNOVER_RATE: 'turnover_rate',
+                         TRADE_VOL: 'volume',
+                         TRADE_VAL: 'turnover',
+                         CHANGE_RATE: 'change_rate'
+                         }
+    @classmethod
+    def get_field_list(cls, str_filed):
+        ret_list = []
+        data = str(str_filed).split(',')
+        if KL_FIELD.ALL in data:
+            ret_list = KL_FIELD.ALL_REAL.copy()
+        else:
+            for x in data:
+                if x in KL_FIELD.ALL_REAL:
+                    ret_list.append(x)
+        return ret_list
+
+
+
 
 
 

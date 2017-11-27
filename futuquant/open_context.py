@@ -1497,6 +1497,59 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, pd_frame
 
+    def get_multi_points_history_kline(self, codes, dates, fields, ktype='K_DAY', autype='qfq'):
+        '''
+        获取多支股票多个时间点的指定数据列
+        :param codes: 单个或多个股票 'HK.00700'  or  ['HK.00700', 'HK.00001']
+        :param dates: 单个或多个日期 '2017-01-01' or ['2017-01-01', '2017-01-02']
+        :param fields:单个或多个数据列 KL_FIELD.ALL or [KL_FIELD.DATE_TIME, KL_FIELD.OPEN]
+        :param ktype: K线类型
+        :param autype:复权类型
+        :return: 返回以股票code为key的dict, 每个数据项也是dict, 以需要返回的数据列名为key eg:{code: {field:val}}
+        '''
+        if not codes or (not is_str(codes) and not isinstance(codes, list)):
+            error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
+            return RET_ERROR, error_str
+        req_codes = codes if isinstance(codes, list) else [codes]
+
+        if not dates or (not is_str(dates) and not isinstance(dates, list)):
+            error_str = ERROR_STR_PREFIX + "the type of dates param is wrong"
+            return RET_ERROR, error_str
+        req_dates = dates if isinstance(dates, list) else [dates]
+
+        if not fields or (not is_str(fields) and not isinstance(fields, list)):
+            error_str = ERROR_STR_PREFIX + "the type of fields param is wrong"
+            return RET_ERROR, error_str
+        req_fields = fields if isinstance(fields, list) else [fields]
+
+        query_processor = self._get_sync_query_processor(MultiPointsHisKLine.pack_req,
+                                                         MultiPointsHisKLine.unpack_rsp)
+        all_num = max(1, len(req_dates) * len(req_codes))
+        one_num = max(1, len(req_dates))
+        max_data_num = 10000
+        max_kl_num = all_num if all_num <= max_data_num else int(max_data_num / one_num) * one_num
+        if 0 == max_kl_num:
+            error_str = ERROR_STR_PREFIX + "too much data to req"
+            return RET_ERROR, error_str
+
+        data_finish = False
+        dict_ret = {}
+        # 循环请求数据，避免一次性取太多超时
+        while not data_finish:
+            kargs = {"codes": req_codes, "dates": req_dates, "fields": req_fields, "ktype": ktype, "autype": autype, "max_num": max_kl_num}
+            ret_code, msg, (dict_kline, has_next) = query_processor(**kargs)
+            if ret_code == RET_ERROR:
+                return ret_code, msg
+
+            data_finish = (not has_next)
+            if has_next:
+                for code in dict_kline.keys():
+                    req_codes.remove(code)
+            for code, data in dict_kline.items():
+                dict_ret[code] = data
+
+        return RET_OK, dict_ret
+
 class SafeTradeSubscribeList:
     def __init__(self):
         self._list_sub = []
