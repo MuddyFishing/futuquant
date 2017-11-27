@@ -121,10 +121,10 @@ class TinyStrateSouthETF(TinyStrateBase):
             long = self.ema(array_close, cta['trigger_ema_long'], True)
 
             if is_call:
-                if (short[-2] < long[-2]) and (short[-1] > long[-2]):
+                if (short[-2] < long[-2]) and (short[-1] > long[-1]):
                     to_buy = True
             else:
-                if (short[-2] > long[-2]) and (short[-1] < long[-2]):
+                if (short[-2] > long[-2]) and (short[-1] < long[-1]):
                     to_buy = True
 
         if to_buy:
