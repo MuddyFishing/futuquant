@@ -1291,6 +1291,65 @@ class OrderBookQuery:
         return RET_OK, "", order_book
 
 
+class SuspensionQuery:
+    """
+    Query Conversion for getting stock order book data.
+    """
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pack_req(cls, codes, start, end):
+        """Convert from user request for trading days to PLS request"""
+        list_req_stock = []
+        for stock_str in codes:
+            ret, content = split_stock_str(stock_str)
+            if ret == RET_ERROR:
+                return RET_ERROR, content, None
+            else:
+                list_req_stock.append(content)
+
+        if ret == RET_ERROR:
+            error_str = content
+            return RET_ERROR, error_str, None
+
+        req = {"Protocol": "1039",
+               "Version": "1",
+               "ReqParam": {
+                   'Cookie': '10000',
+                   'StockArr': [
+                        {'Market': str(market), 'StockCode': code}
+                        for (market, code) in list_req_stock],
+                   'start_date': start,
+                   'end_date': end}
+               }
+        req_str = json.dumps(req) + '\r\n'
+        return RET_OK, "", req_str
+
+    @classmethod
+    def unpack_rsp(cls, rsp_str):
+        """Convert from PLS response to user response"""
+        ret, msg, rsp = extract_pls_rsp(rsp_str)
+        if ret != RET_OK:
+            return RET_ERROR, msg, None
+
+        rsp_data = rsp['RetData']
+        if "StockSuspendArr" not in rsp_data:
+            error_str = ERROR_STR_PREFIX + "cannot find StockSuspendArr in client rsp. Response: %s" % rsp_str
+            return RET_ERROR, error_str, None
+
+        ret_susp_list = []
+        arr_susp = rsp_data["StockSuspendArr"]
+        for susp in arr_susp:
+            stock_str = merge_stock_str(int(susp['Market']), susp['StockCode'])
+            date_arr = susp['SuspendArr']
+            str_date = ','.join(date_arr) if date_arr and len(date_arr) > 0 else ''
+            ret_susp_list.append({'code': stock_str, 'suspension_dates': str_date})
+
+        return RET_OK, "", ret_susp_list
+
+
 class GlobalStateQuery:
     """
     Query process "FTNN.exe" global state : market state & logined state

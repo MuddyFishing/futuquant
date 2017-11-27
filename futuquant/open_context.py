@@ -1476,6 +1476,27 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, orderbook
 
+    def get_suspension_info(self, codes, start='', end=''):
+        """get stocks supension info"""
+        if not codes or (not is_str(codes) and not isinstance(codes, list)):
+            error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
+            return RET_ERROR, error_str
+
+        req_codes = codes if isinstance(codes, list) else [codes]
+
+        query_processor = self._get_sync_query_processor(SuspensionQuery.pack_req,
+                                                         SuspensionQuery.unpack_rsp,
+                                                         )
+
+        kargs = {"codes": req_codes, "start": str(start), "end": str(end)}
+        ret_code, msg, susp_list = query_processor(**kargs)
+        if ret_code == RET_ERROR:
+            return ret_code, msg
+        col_list = ['code', 'suspension_dates']
+        pd_frame = pd.DataFrame(susp_list, columns=col_list)
+
+        return RET_OK, pd_frame
+
 class SafeTradeSubscribeList:
     def __init__(self):
         self._list_sub = []

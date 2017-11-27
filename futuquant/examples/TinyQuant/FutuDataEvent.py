@@ -67,7 +67,7 @@ class FutuDataEvent(object):
                 return RET_OK, content
 
         class CurKlineHandler(CurKlineHandlerBase):
-            """摆盘处理器"""
+            """实时k线推送处理器"""
             futu_data_event = self
 
             def on_recv_rsp(self, rsp_str):
