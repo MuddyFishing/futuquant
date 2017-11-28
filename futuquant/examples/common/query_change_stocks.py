@@ -37,6 +37,9 @@ def query_change_stocks(quote_context=None, markets=['HK'], start='2017-01-05', 
         for ix, row in data.iterrows():
             list_stocks.append(row['code'])
 
+    #测试
+    # list_stocks = list_stocks[0: 500]
+
     dt_last = datetime.now()
     ret_list = []
     ret, data = quote_context.get_multi_points_history_kline(list_stocks, [start, end], [KL_FIELD.DATE_TIME, KL_FIELD.CLOSE], 'K_DAY', 'hfq')
