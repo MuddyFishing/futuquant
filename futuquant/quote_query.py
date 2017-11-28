@@ -1345,7 +1345,8 @@ class SuspensionQuery:
         for susp in arr_susp:
             stock_str = merge_stock_str(int(susp['Market']), susp['StockCode'])
             date_arr = susp['SuspendArr']
-            str_date = ','.join(date_arr) if date_arr and len(date_arr) > 0 else ''
+            list_date = [x['SuspendTime'] for x in date_arr]
+            str_date = ','.join(list_date) if list_date and len(list_date) > 0 else ''
             ret_susp_list.append({'code': stock_str, 'suspension_dates': str_date})
 
         return RET_OK, "", ret_susp_list

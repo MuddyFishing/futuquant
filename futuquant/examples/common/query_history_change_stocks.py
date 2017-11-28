@@ -1,25 +1,26 @@
 # -*- coding: utf-8 -*-
 """
-    query_change_stocks
-    指定股票、起止日期， 返回以日期为系列的交易状态: '' / 'trading' / 'suspension'
+    query_history_change_stocks
+    指定涨跌幅，查询本地下载的历史日k数据，返回符合条件的股票
 """
 
 from futuquant.open_context import *
 from datetime import datetime, timedelta
 
 
-def query_change_stocks(quote_context=None, markets=['HK'], start='2017-01-05', end='2017-12-30', change_min=5.0,
+def query_history_change_stocks(quote_context=None, markets=['HK'], start='2017-01-05', end='2017-12-30', change_min=5.0,
                             change_max=None, stock_type='STOCK', ascend=True):
     '''
-    :param quote_context: api
-    :param markets:
-    :param start:
-    :param end:
-    :param change_min:
-    :param change_max:
-    :param stock_type:
-    :param ascend:
-    :return:
+    :param quote_context: api 行情对象
+    :param markets: 要查询的市场列表, 可以只传单个市场如'HK'字符串
+    :param start: 开始时间
+    :param end: 截止时间
+    :param change_min: 涨跌幅最小值 eg: 1.0% 传值 1.0, None表示忽略
+    :param change_max: 涨跌幅最大值
+    :param stock_type: 要查询的股票类型, 见 SEC_TYPE_MAP - 'STOCK','IDX','ETF','WARRANT','BOND'
+    :param ascend: 结果是否升序排列
+    :return: (ret, data), ret == 0返回pd dataframe, 表头为 'code'(股票代码), 'change_rate'(涨跌率*100), 'real_times'(起止真实交易时间字符串)
+                          ret != 0 data 为错误字符串
     '''
     if not markets or (not is_str(markets) and not isinstance(markets, list)):
         error_str = "the type of markets param is wrong"
@@ -29,6 +30,7 @@ def query_change_stocks(quote_context=None, markets=['HK'], start='2017-01-05', 
     if not change_min and not change_max:
         return RET_ERROR, "param change is wrong"
 
+    # 汇总得到需要查询的所有股票code
     list_stocks = []
     for mk in req_markets:
         ret, data = quote_context.get_stock_basicinfo(mk, stock_type)
@@ -37,17 +39,17 @@ def query_change_stocks(quote_context=None, markets=['HK'], start='2017-01-05', 
         for ix, row in data.iterrows():
             list_stocks.append(row['code'])
 
-    #测试
-    # list_stocks = list_stocks[0: 500]
-
+    # 多点k线数据查询
     dt_last = datetime.now()
     ret_list = []
     ret, data = quote_context.get_multi_points_history_kline(list_stocks, [start, end], [KL_FIELD.DATE_TIME, KL_FIELD.CLOSE], 'K_DAY', 'hfq')
     if 0 != ret:
         return ret, data
+    # print(data)
     dt = datetime.now() - dt_last
     print('get_multi_points_history_kline - run time = %s秒' % dt.seconds)
 
+    # 返回计算涨跌幅，统计符合条件的股票
     for stock in list_stocks:
         pd_find = data[data.code == stock]
         close_start = 0
@@ -72,8 +74,10 @@ def query_change_stocks(quote_context=None, markets=['HK'], start='2017-01-05', 
             if data_ok:
                 ret_list.append({'code': stock, 'change_rate': change_rate, 'real_times': ','.join(real_times)})
 
+    # 数据排序
     ret_list = sorted(ret_list, key=lambda x: x['change_rate'], reverse=(not ascend))
 
+    # 组装返回pdframe数据
     col_list = ['code', 'change_rate', 'real_times']
     pd_frame = pd.DataFrame(ret_list, columns=col_list)
 
@@ -84,5 +88,5 @@ if __name__ == "__main__":
     api_port = 11111
 
     quote_context = OpenQuoteContext(host=api_ip, port=api_port)
-    print(query_change_stocks(quote_context))
+    print(query_history_change_stocks(quote_context))
     quote_context.close()
