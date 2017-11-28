@@ -1057,7 +1057,19 @@ class OpenQuoteContext(OpenContextBase):
             result.append(data)
         return 0, result
 
-    def get_history_kline(self, code, start=None, end=None, ktype='K_DAY', autype='qfq'):
+    def get_history_kline(self, code, start=None, end=None, ktype='K_DAY', autype='qfq', fields=[KL_FIELD.ALL]):
+        '''
+        得到本地历史k线，需先参照帮助文档下载k线
+        :param code: 股票code
+        :param start: 开始时间 '%Y-%m-%d'
+        :param end:  结束时间 '%Y-%m-%d'
+        :param ktype: k线类型， 参见 KTYPE_MAP 定义 'K_1M' 'K_DAY'...
+        :param autype: 复权类型, 参见 AUTYPE_MAP 定义 'None', 'qfq', 'hfq'
+        :param fields: 需返回的字段列表，参见 KL_FIELD 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
+        :return: (ret, data) ret == 0 返回pd dataframe数据，表头包括'code', 'time_key', 'open', 'close', 'high', 'low',
+                                        'volume', 'turnover', 'pe_ratio', 'turnover_rate' 'change_rate'
+                             ret != 0 返回错误字符串
+        '''
         """get the historic Kline data"""
         if start is not None and is_str(start) is False:
             error_str = ERROR_STR_PREFIX + "the type of start param is wrong"
@@ -1066,6 +1078,12 @@ class OpenQuoteContext(OpenContextBase):
         if end is not None and is_str(end) is False:
             error_str = ERROR_STR_PREFIX + "the type of end param is wrong"
             return RET_ERROR, error_str
+
+        if not fields or (not is_str(fields) and not isinstance(fields, list)):
+            error_str = ERROR_STR_PREFIX + "the type of fields param is wrong"
+            return RET_ERROR, error_str
+        req_fields = fields if isinstance(fields, list) else [fields]
+        req_fields = KL_FIELD.normalize_field_list(req_fields)
 
         if autype is None:
             autype = 'None'
@@ -1077,16 +1095,32 @@ class OpenQuoteContext(OpenContextBase):
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
 
-        query_processor = self._get_sync_query_processor(HistoryKlineQuery.pack_req,
-                                                         HistoryKlineQuery.unpack_rsp)
-        kargs = {"stock_str": code, "start_date": start, "end_date": end, "ktype": ktype, "autype": autype}
+        req_start = start
+        max_kl_num = 1000
+        data_finish = False
+        list_ret = []
+        # 循环请求数据，避免一次性取太多超时
+        while not data_finish:
+            kargs = {"stock_str": code, "start_date": req_start, "end_date": end, "ktype": ktype, "autype": autype, "fields": req_fields, "max_num": max_kl_num}
+            query_processor = self._get_sync_query_processor(HistoryKlineQuery.pack_req,
+                                                             HistoryKlineQuery.unpack_rsp)
+            ret_code, msg, (list_kline, has_next, next_time) = query_processor(**kargs)
+            if ret_code == RET_ERROR:
+                return ret_code, msg
 
-        ret_code, msg, kline_list = query_processor(**kargs)
-        if ret_code == RET_ERROR:
-            return ret_code, msg
+            data_finish = (not has_next) or (not next_time)
+            req_start = next_time
+            for dict_item in list_kline:
+                list_ret.append(dict_item)
 
-        col_list = ['code', 'time_key', 'open', 'close', 'high', 'low', 'volume', 'turnover', 'pe_ratio', 'turnover_rate']
-        kline_frame_table = pd.DataFrame(kline_list, columns=col_list)
+        # 表头列
+        col_list = ['code']
+        for field in req_fields:
+            str_field = KL_FIELD.DICT_KL_FIELD_STR[field]
+            if str_field not in col_list:
+                col_list.append(str_field)
+
+        kline_frame_table = pd.DataFrame(list_ret, columns=col_list)
 
         return RET_OK, kline_frame_table
 
@@ -1521,6 +1555,7 @@ class OpenQuoteContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "the type of fields param is wrong"
             return RET_ERROR, error_str
         req_fields = fields if isinstance(fields, list) else [fields]
+        req_fields = KL_FIELD.normalize_field_list(req_fields)
 
         query_processor = self._get_sync_query_processor(MultiPointsHisKLine.pack_req,
                                                          MultiPointsHisKLine.unpack_rsp)

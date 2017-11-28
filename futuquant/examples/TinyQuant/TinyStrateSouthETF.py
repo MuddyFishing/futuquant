@@ -127,7 +127,7 @@ class TinyStrateSouthETF(TinyStrateBase):
                 if (short[-2] > long[-2]) and (short[-1] < long[-1]):
                     to_buy = True
 
-        if to_buy:
+        if to_buy and 0 == cta['pos']:  # 空仓才买入
             # TO BUY
             price = self._get_splip_buy_price(cta_symbol)
             volume = self.trade_qty
@@ -181,7 +181,7 @@ class TinyStrateSouthETF(TinyStrateBase):
         return quote.__dict__['askPrice%s' % index]
 
     def _get_splip_sell_price(self, symbol):
-        quote = self.get_rt_tiny_quote(self.symbol)
+        quote = self.get_rt_tiny_quote(symbol)
         index = self.trade_price_idx
         return quote.__dict__['bidPrice%s' % index]
 

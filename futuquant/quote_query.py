@@ -670,7 +670,7 @@ class HistoryKlineQuery:
         pass
 
     @classmethod
-    def pack_req(cls, stock_str, start_date=None, end_date=None, ktype='K_DAY', autype='qfq'):
+    def pack_req(cls, stock_str, start_date, end_date, ktype, autype, fields, max_num):
         """Convert from user request for trading days to PLS request"""
         ret, content = split_stock_str(stock_str)
         if ret == RET_ERROR:
@@ -706,9 +706,16 @@ class HistoryKlineQuery:
                                            % (autype, ", ".join([str(x) for x in AUTYPE_MAP]))
             return RET_ERROR, error_str, None
 
+        str_field = ','.join(fields)
+        list_req_field = KL_FIELD.get_field_list(str_field)
+        if not list_req_field:
+            return RET_ERROR, ERROR_STR_PREFIX + "field error", None
+
         req = {"Protocol": "1024",
                "Version": "1",
                "ReqParam": {'Market': str(market_code),
+                            'MaxKLNum': str(max_num),
+                            'NeedKLData': str(','.join(list_req_field)),
                             'StockCode': stock_code,
                             'start_date': start_date,
                             'end_date': end_date,
@@ -725,33 +732,50 @@ class HistoryKlineQuery:
         """Convert from PLS response to user response"""
         ret, msg, rsp = extract_pls_rsp(rsp_str)
         if ret != RET_OK:
-            return RET_ERROR, msg, None
+            return RET_ERROR, msg, (None, None, None)
 
         rsp_data = rsp['RetData']
 
         if "HistoryKLArr" not in rsp_data:
             error_str = ERROR_STR_PREFIX + "cannot find HistoryKLArr in client rsp. Response: %s" % rsp_str
-            return RET_ERROR, error_str, None
+            return RET_ERROR, error_str, (None, None, None)
 
         if rsp_data["HistoryKLArr"] is None or len(rsp_data["HistoryKLArr"]) == 0:
-            return RET_OK, "", []
+            return RET_OK, "", (None, None, None)
 
         raw_kline_list = rsp_data["HistoryKLArr"]
         stock_code = merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
-        kline_list = [{"code": stock_code,
-                       "time_key": record['Time'],
-                       "open": int10_9_price_to_float(record['Open']),
-                       "high": int10_9_price_to_float(record['High']),
-                       "low": int10_9_price_to_float(record['Low']),
-                       "close": int10_9_price_to_float(record['Close']),
-                       "volume": record['Volume'],
-                       "turnover": int1000_price_to_float(record['Turnover']),
-                       "pe_ratio":int1000_price_to_float(record['PERatio']),
-                       "turnover_rate":int1000_price_to_float(record['TurnoverRate'])
-                       }
-                      for record in raw_kline_list]
+        has_next = int(rsp_data['HasNext'])
+        next_time = str(rsp_data['NextKLTime']).split(' ')[0]
 
-        return RET_OK, "", kline_list
+        list_ret = []
+        dict_data = {}
+        for record in raw_kline_list:
+            dict_data['code'] = stock_code
+            if 'Time' in record:
+                dict_data['time_key'] = record['Time']
+            if 'Open' in record:
+                dict_data['open'] = int10_9_price_to_float(record['Open'])
+            if 'High' in record:
+                dict_data['high'] = int10_9_price_to_float(record['High'])
+            if 'Low' in record:
+                dict_data['low'] = int10_9_price_to_float(record['Low'])
+            if 'Close' in record:
+                dict_data['close'] = int10_9_price_to_float(record['Close'])
+            if 'Volume' in record:
+                dict_data['volume'] = record['Volume']
+            if 'Turnover' in record:
+                dict_data['turnover'] = int1000_price_to_float(record['Turnover'])
+            if 'PERatio' in record:
+                dict_data['pe_ratio'] = int1000_price_to_float(record['PERatio'])
+            if 'TurnoverRate' in record:
+                dict_data['turnover_rate'] = int1000_price_to_float(record['TurnoverRate'])
+            if 'ChangeRate' in record:
+                dict_data['change_rate'] = int1000_price_to_float(record['ChangeRate'])
+
+            list_ret.append(dict_data.copy())
+
+        return RET_OK, "", (list_ret, has_next, next_time)
 
 
 class ExrightQuery:

@@ -117,7 +117,7 @@ class QUOTE(object):
 
 
 class KL_FIELD(object):
-    ALL = '0'
+    ALL = ''
     DATE_TIME = '1'
     OPEN = '2'
     CLOSE = '3'
@@ -152,8 +152,13 @@ class KL_FIELD(object):
                     ret_list.append(x)
         return ret_list
 
-
-
-
-
-
+    @classmethod
+    def normalize_field_list(cls, fields):
+        list_ret = []
+        if KL_FIELD.ALL in fields:
+            list_ret = KL_FIELD.ALL_REAL.copy()
+        else:
+            for x in fields:
+                if x in KL_FIELD.ALL_REAL and x not in list_ret:
+                    list_ret.append(x)
+        return list_ret
