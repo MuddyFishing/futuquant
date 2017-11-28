@@ -1505,7 +1505,7 @@ class OpenQuoteContext(OpenContextBase):
         :param fields:单个或多个数据列 KL_FIELD.ALL or [KL_FIELD.DATE_TIME, KL_FIELD.OPEN]
         :param ktype: K线类型
         :param autype:复权类型
-        :return: 返回以股票code为key的dict, 每个数据项也是dict, 以需要返回的数据列名为key eg:{code: {field:val}}
+        :return: pd frame 表头与指定的数据列相关， 固定表头包括'code'(代码) 'time_point'(指定的日期) 'data_valid' (0=无数据 1=请求点有数据 2=请求点无数据，取前一个)
         '''
         if not codes or (not is_str(codes) and not isinstance(codes, list)):
             error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
@@ -1526,29 +1526,40 @@ class OpenQuoteContext(OpenContextBase):
                                                          MultiPointsHisKLine.unpack_rsp)
         all_num = max(1, len(req_dates) * len(req_codes))
         one_num = max(1, len(req_dates))
-        max_data_num = 10000
+        max_data_num = 1000
         max_kl_num = all_num if all_num <= max_data_num else int(max_data_num / one_num) * one_num
         if 0 == max_kl_num:
             error_str = ERROR_STR_PREFIX + "too much data to req"
             return RET_ERROR, error_str
 
         data_finish = False
-        dict_ret = {}
+        list_ret = []
         # 循环请求数据，避免一次性取太多超时
         while not data_finish:
             kargs = {"codes": req_codes, "dates": req_dates, "fields": req_fields, "ktype": ktype, "autype": autype, "max_num": max_kl_num}
-            ret_code, msg, (dict_kline, has_next) = query_processor(**kargs)
+            ret_code, msg, (list_kline, has_next) = query_processor(**kargs)
             if ret_code == RET_ERROR:
                 return ret_code, msg
 
             data_finish = (not has_next)
-            if has_next:
-                for code in dict_kline.keys():
-                    req_codes.remove(code)
-            for code, data in dict_kline.items():
-                dict_ret[code] = data
+            for dict_item in list_kline:
+                item_code = dict_item['code']
+                if has_next and item_code in req_codes:
+                    req_codes.remove(item_code)
+                list_ret.append(dict_item)
+            if 0 == len(req_codes):
+                data_finish = True
 
-        return RET_OK, dict_ret
+        # 表头列
+        col_list = ['code', 'time_point', 'data_valid']
+        for field in req_fields:
+            str_field = KL_FIELD.DICT_KL_FIELD_STR[field]
+            if str_field not in col_list:
+                col_list.append(str_field)
+
+        pd_frame = pd.DataFrame(list_ret, columns=col_list)
+
+        return RET_OK, pd_frame
 
 class SafeTradeSubscribeList:
     def __init__(self):

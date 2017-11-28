@@ -1488,7 +1488,7 @@ class MultiPointsHisKLine:
                    'StockArr': [
                         {'Market': str(market), 'StockCode': code}
                         for (market, code) in list_req_stock],
-                   'TimePoint': str(','.join(dates)),
+                   'TimePoints': str(','.join(dates)),
                    'NeedKLData': str(','.join(list_req_field))
                    }
                }
@@ -1508,16 +1508,15 @@ class MultiPointsHisKLine:
             return RET_ERROR, error_str, (None, None)
         has_next = int(rsp_data['HasNext'])
 
-        dict_kline = {}
+        list_ret = []
+        dict_data = {}
         arr_kline = rsp_data["StockHistoryKLArr"]
         for kline in arr_kline:
             stock_str = merge_stock_str(int(kline['Market']), kline['StockCode'])
             data_arr = kline['HistoryKLArr']
-            arr_dict_data = []
-            dict_data = {}
             for point_data in data_arr:
-                dict_data.clear()
-                # dict_data['time_point'] = point_data['TimePoint']
+                dict_data['code'] = stock_str
+                dict_data['time_point'] = point_data['TimePoint']
                 dict_data['data_valid'] = int(point_data['DataValid'])
                 if 'Time' in point_data:
                     dict_data['time_key'] = point_data['Time']
@@ -1539,8 +1538,7 @@ class MultiPointsHisKLine:
                     dict_data['turnover_rate'] = int1000_price_to_float(point_data['TurnoverRate'])
                 if 'ChangeRate' in point_data:
                     dict_data['change_rate'] = int1000_price_to_float(point_data['ChangeRate'])
-                arr_dict_data.append(dict_data)
 
-            dict_kline[stock_str] = arr_dict_data
+                list_ret.append(dict_data.copy())
 
-        return RET_OK, "", (dict_kline, has_next)
+        return RET_OK, "", (list_ret, has_next)
