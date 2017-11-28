@@ -80,6 +80,9 @@ def get_trade_status(quote_context=None, strcode='HK.00700', start='2016-01-01',
     else:
         raise Exception("get_trade_status - days param error!")
 
+    # 数据排序
+    ret_status = sorted(ret_status, key=lambda x: x['DateTime'], reverse=False)
+
     # 组装返回数据为dataframe数据
     col_list = ['DateTime', 'Trade_status']
     pd_frame = pd.DataFrame(ret_status, columns=col_list)
