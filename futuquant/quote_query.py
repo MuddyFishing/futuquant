@@ -740,15 +740,20 @@ class HistoryKlineQuery:
             error_str = ERROR_STR_PREFIX + "cannot find HistoryKLArr in client rsp. Response: %s" % rsp_str
             return RET_ERROR, error_str, (None, None, None)
 
+        has_next = False
+        next_time = ''
+        list_ret = []
         if rsp_data["HistoryKLArr"] is None or len(rsp_data["HistoryKLArr"]) == 0:
-            return RET_OK, "", (None, None, None)
+            return RET_OK, "", (list_ret, has_next, next_time)
 
         raw_kline_list = rsp_data["HistoryKLArr"]
         stock_code = merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
-        has_next = int(rsp_data['HasNext'])
-        next_time = str(rsp_data['NextKLTime']).split(' ')[0]
 
-        list_ret = []
+        if 'HasNext' in rsp_data:
+            has_next = int(rsp_data['HasNext'])
+        if 'NextKLTime' in rsp_data:
+            next_time = str(rsp_data['NextKLTime']).split(' ')[0]
+
         dict_data = {}
         for record in raw_kline_list:
             dict_data['code'] = stock_code

@@ -86,19 +86,24 @@ class TinyStrateSample(TinyStrateBase):
         array_vol = am.volume
 
         n = 5
-        ma_high = self.sma(array_high, n)
-        ma_low = self.sma(array_low, n)
-        ma_open = self.sma(array_open, n)
-        ma_close = self.sma(array_close, n)
-        ma_vol = self.sma(array_vol, n)
+        ma_high = self.ema(array_high, n)
+        ma_low = self.ema(array_low, n)
+        ma_open = self.ema(array_open, n)
+        ma_close = self.ema(array_close, n)
+        ma_vol = self.ema(array_vol, n)
 
-        str_log = "on_bar_min1 symbol=%s dt=%s sma(%s) open=%s high=%s close=%s low=%s vol=%s" % (
+        str_log = "on_bar_min1 symbol=%s dt=%s ema(%s) open=%s high=%s close=%s low=%s vol=%s" % (
             symbol, str_dt, n, ma_open, ma_high, ma_close, ma_low, ma_vol)
         self.log(str_log)
 
     def on_bar_day(self, tiny_bar):
         """收盘时会触发一次日k回调"""
         bar = tiny_bar
+        symbol = bar.symbol
+        str_dt = bar.datetime.strftime("%Y%m%d %H:%M:%S")
+        str_log = "on_bar_day symbol=%s dt=%s  open=%s high=%s close=%s low=%s vol=%s" % (
+            symbol, str_dt, bar.open, bar.high, bar.close, bar.low, bar.volume)
+        self.log(str_log)
 
     def on_before_trading(self, date_time):
         """开盘时触发一次回调, 港股是09:30:00"""

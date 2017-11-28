@@ -1105,7 +1105,7 @@ class OpenQuoteContext(OpenContextBase):
             query_processor = self._get_sync_query_processor(HistoryKlineQuery.pack_req,
                                                              HistoryKlineQuery.unpack_rsp)
             ret_code, msg, (list_kline, has_next, next_time) = query_processor(**kargs)
-            if ret_code == RET_ERROR:
+            if ret_code != RET_OK:
                 return ret_code, msg
 
             data_finish = (not has_next) or (not next_time)
