@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    1. get_pnl_raw_data
-    2. get_pnl_series_data
+    1. get_change_rate_raw_data
+    2. get_change_rate_series_data
 """
 
 from futuquant.open_context import *
