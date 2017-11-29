@@ -176,7 +176,7 @@ class TinyStrateSouthETF(TinyStrateBase):
         return result[-1]
 
     def _get_splip_buy_price(self, symbol):
-        quote = self.get_rt_tiny_quote(self.symbol)
+        quote = self.get_rt_tiny_quote(symbol)
         index = self.trade_price_idx
         return quote.__dict__['askPrice%s' % index]
 
