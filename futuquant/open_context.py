@@ -907,6 +907,15 @@ class OpenContextBase(object):
         ret_code, state_dict = self.get_global_state()
         if ret_code == 0:
             is_ready = int(state_dict['Quote_Logined']) != 0 and int(state_dict['Trade_Logined']) != 0
+
+        # 检查版本是否匹配
+        if is_ready:
+            cur_ver = state_dict['Version']
+            if cur_ver < NN_VERSION_MIN:
+                str_ver = cur_ver if cur_ver else str('未知')
+                str_error = "API连接的客户端版本过低， 当前版本:\'%s\', 最低要求版本:\'%s\', 请联系管理员重新安装牛牛API客户端！" %(str_ver, NN_VERSION_MIN)
+                raise Exception(str_error)
+
         return is_ready, True
 
     def notify_async_socket_close(self, async_ctx):

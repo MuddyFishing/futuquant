@@ -1442,6 +1442,9 @@ class GlobalStateQuery:
 
         rsp_data = rsp['RetData']
 
+        if 'Version' not in rsp_data:
+            rsp_data['Version'] = ''
+
         return RET_OK, "", rsp_data
 
 
