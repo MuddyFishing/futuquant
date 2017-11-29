@@ -117,14 +117,20 @@ class TinyStrateSample(TinyStrateBase):
 
     def sma(self, np_array, n, array=False):
         """简单均线"""
-        result = talib.SMA(np_array, n)
+        if n < 2:
+            result = np_array
+        else:
+            result = talib.SMA(np_array, n)
         if array:
             return result
         return result[-1]
 
     def ema(self, np_array, n, array=False):
         """移动均线"""
-        result = talib.EMA(np_array, n)
+        if n < 2:
+            result = np_array
+        else:
+            result = talib.EMA(np_array, n)
         if array:
             return result
         return result[-1]
