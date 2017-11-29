@@ -1082,7 +1082,7 @@ class OpenQuoteContext(OpenContextBase):
         if not fields or (not is_str(fields) and not isinstance(fields, list)):
             error_str = ERROR_STR_PREFIX + "the type of fields param is wrong"
             return RET_ERROR, error_str
-        req_fields = fields if isinstance(fields, list) else [fields]
+        req_fields = fields.copy() if isinstance(fields, list) else [fields]
         req_fields = KL_FIELD.normalize_field_list(req_fields)
 
         if autype is None:
@@ -1512,12 +1512,19 @@ class OpenQuoteContext(OpenContextBase):
         return RET_OK, orderbook
 
     def get_suspension_info(self, codes, start='', end=''):
-        """get stocks supension info"""
+        '''
+        指定时间段，获某一支股票的停牌日期
+        :param codes: 股票code
+        :param start: 开始时间 '%Y-%m-%d'
+        :param end: 结束时间 '%Y-%m-%d'
+        :return: (ret, data) ret == 0 data为pd dataframe数据， 表头'code' 'suspension_dates'(逗号分隔的多个日期字符串)
+                         ret != 0 data为错误字符串
+        '''
         if not codes or (not is_str(codes) and not isinstance(codes, list)):
             error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
             return RET_ERROR, error_str
 
-        req_codes = codes if isinstance(codes, list) else [codes]
+        req_codes = codes.copy() if isinstance(codes, list) else [codes]
 
         query_processor = self._get_sync_query_processor(SuspensionQuery.pack_req,
                                                          SuspensionQuery.unpack_rsp,
@@ -1545,24 +1552,24 @@ class OpenQuoteContext(OpenContextBase):
         if not codes or (not is_str(codes) and not isinstance(codes, list)):
             error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
             return RET_ERROR, error_str
-        req_codes = codes if isinstance(codes, list) else [codes]
+        req_codes = codes.copy() if isinstance(codes, list) else [codes]
 
         if not dates or (not is_str(dates) and not isinstance(dates, list)):
             error_str = ERROR_STR_PREFIX + "the type of dates param is wrong"
             return RET_ERROR, error_str
-        req_dates = dates if isinstance(dates, list) else [dates]
+        req_dates = dates.copy() if isinstance(dates, list) else [dates]
 
         if not fields or (not is_str(fields) and not isinstance(fields, list)):
             error_str = ERROR_STR_PREFIX + "the type of fields param is wrong"
             return RET_ERROR, error_str
-        req_fields = fields if isinstance(fields, list) else [fields]
+        req_fields = fields.copy() if isinstance(fields, list) else [fields]
         req_fields = KL_FIELD.normalize_field_list(req_fields)
 
         query_processor = self._get_sync_query_processor(MultiPointsHisKLine.pack_req,
                                                          MultiPointsHisKLine.unpack_rsp)
         all_num = max(1, len(req_dates) * len(req_codes))
         one_num = max(1, len(req_dates))
-        max_data_num = 1000
+        max_data_num = 500
         max_kl_num = all_num if all_num <= max_data_num else int(max_data_num / one_num) * one_num
         if 0 == max_kl_num:
             error_str = ERROR_STR_PREFIX + "too much data to req"
@@ -1572,7 +1579,7 @@ class OpenQuoteContext(OpenContextBase):
         list_ret = []
         # 循环请求数据，避免一次性取太多超时
         while not data_finish:
-            print(datetime.now())
+            print('get_multi_points_history_kline - wait ... %s' % datetime.now())
             kargs = {"codes": req_codes, "dates": req_dates, "fields": req_fields, "ktype": ktype, "autype": autype, "max_num": max_kl_num}
             ret_code, msg, content = query_processor(**kargs)
             if ret_code == RET_ERROR:
@@ -1701,13 +1708,20 @@ class OpenHKTradeContext(OpenContextBase):
 
         return ret_code
 
-    def unlock_trade(self, password):
-        """unlock trade"""
+    def unlock_trade(self, password, password_md5=None):
+        '''
+        交易解锁，安全考虑，所有的交易api,需成功解锁后才可操作
+        :param password: 明文密码字符串 (二选一）
+        :param password_md5: 密码的md5字符串（二选一）
+        :return:(ret, data) ret == 0 时, data为None
+                            ret != 0 时， data为错误字符串
+        '''
         query_processor = self._get_sync_query_processor(UnlockTrade.pack_req,
                                                          UnlockTrade.unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {'cookie': str(self.cookie), 'password': str(password)}
+        kargs = {'cookie': str(self.cookie), 'password': str(password) if password else '',
+                 'password_md5': str(password_md5) if password_md5 else ''}
 
         ret_code, msg, unlock_list = query_processor(**kargs)
         if ret_code != RET_OK:
@@ -2092,13 +2106,19 @@ class OpenUSTradeContext(OpenContextBase):
 
         return ret_code
 
-    def unlock_trade(self, password):
-        """unlock trade"""
+    def unlock_trade(self, password, password_md5=None):
+        '''
+        交易解锁，安全考虑，所有的交易api,需成功解锁后才可操作
+        :param password: 明文密码字符串 (二选一）
+        :param password_md5: 密码的md5字符串（二选一）
+        :return:(ret, data) ret == 0 时, data为None
+                            ret != 0 时， data为错误字符串
+        '''
         query_processor = self._get_sync_query_processor(UnlockTrade.pack_req,
                                                          UnlockTrade.unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {'cookie': str(self.cookie), 'password': str(password)}
+        kargs = {'cookie': str(self.cookie), 'password': str(password), 'password_md5': str(password_md5)}
         ret_code, msg, unlock_list = query_processor(**kargs)
 
         if ret_code != RET_OK:

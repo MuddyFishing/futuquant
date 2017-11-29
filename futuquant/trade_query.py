@@ -126,12 +126,13 @@ class UnlockTrade:
         pass
 
     @classmethod
-    def pack_req(cls, cookie, password):
+    def pack_req(cls, cookie, password, password_md5):
         """Convert from user request for trading days to PLS request"""
         req = {"Protocol": "6006",
                "Version": "1",
                "ReqParam": {"Cookie": cookie,
                             "Password": password,
+                            "PasswordMD5": password_md5,
                             }
                }
         req_str = json.dumps(req) + '\r\n'
