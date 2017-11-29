@@ -1306,3 +1306,35 @@ class HistoryDealListQuery:
                      for deal in raw_deal_list]
         return RET_OK, "", deal_list
 
+
+class LoginNewAccountQuery:
+    """
+    LoginNewAccountQuery 切换牛牛号登陆
+    """
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pack_req(cls, cookie, user_id, password_md5):
+        # pack to json
+        req = {"Protocol": "1037",
+               "Version": "1",
+               "ReqParam": {"Cookie": str(cookie),
+                            "UserID": user_id,
+                            "PasswordMD5": password_md5
+                            }
+               }
+        req_str = json.dumps(req) + '\r\n'
+        return RET_OK, "", req_str
+
+    @classmethod
+    def unpack_rsp(cls, rsp_str):
+        # response check and unpack response json to objects
+        ret, msg, rsp = extract_pls_rsp(rsp_str)
+        if ret != RET_OK:
+            return RET_ERROR, msg, None
+
+        rsp_data = rsp['RetData']
+
+        return RET_OK, "", rsp_data

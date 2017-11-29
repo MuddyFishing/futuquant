@@ -1662,7 +1662,8 @@ class OpenHKTradeContext(OpenContextBase):
         # auto unlock
         if self._ctx_unlock is not None:
             for i in range(3):
-                ret, data = self.unlock_trade(self._ctx_unlock)
+                password, password_md5 = self._ctx_unlock
+                ret, data = self.unlock_trade(password, password_md5)
                 if ret == RET_OK:
                     break
                 sleep(1)
@@ -1729,7 +1730,7 @@ class OpenHKTradeContext(OpenContextBase):
 
         # reconnected to auto unlock
         if RET_OK == ret_code:
-            self._ctx_unlock = password
+            self._ctx_unlock = (password, password_md5)
 
             # unlock push socket
             ret_code, msg, push_req_str = UnlockTrade.pack_req(**kargs)
@@ -2039,6 +2040,43 @@ class OpenHKTradeContext(OpenContextBase):
 
         return RET_OK, deal_list_table
 
+    def login_new_account(self, user_id, login_password_md5, trade_password, trade_password_md5=None):
+        '''
+        自动登陆一个新的牛牛帐号
+        :param user_id: 牛牛号
+        :param login_password_md5: 新帐号的登陆密码的md5值
+        :param trade_password: 新帐号的交易密码
+        :param trade_password_md5: 新帐号的交易密码的md5值 (跟交易密码二选一)
+        :return:
+        '''
+        query_processor = self._get_sync_query_processor(LoginNewAccountQuery.pack_req,
+                                                         LoginNewAccountQuery.unpack_rsp)
+
+        kargs = {'cookie': str(self.cookie),
+                 'user_id': str(user_id),
+                 'password_md5': str(login_password_md5)
+                 }
+
+        # 切换帐号，必然会断线，故判断ret_code 无意义
+        try:
+            query_processor(**kargs)
+        except Exception as e:
+            pass
+
+        # 触发重连等待
+        self.get_global_state()
+
+        # 接下来就是解锁交易密码
+        ret = RET_OK
+        data = ''
+        if trade_password or trade_password_md5:
+            ret, data = self.unlock_trade(trade_password, trade_password_md5)
+        else:
+            self._ctx_unlock = None
+
+        return ret, data
+
+
 class OpenUSTradeContext(OpenContextBase):
     """Class for set context of US stock trade"""
     cookie = 100000
@@ -2061,7 +2099,8 @@ class OpenUSTradeContext(OpenContextBase):
         # auto unlock
         if self._ctx_unlock is not None:
             for i in range(3):
-                ret, data = self.unlock_trade(self._ctx_unlock)
+                password, password_md5 = self._ctx_unlock
+                ret, data = self.unlock_trade(password, password_md5)
                 if ret == RET_OK:
                     break
 
@@ -2126,7 +2165,7 @@ class OpenUSTradeContext(OpenContextBase):
 
         # reconnected to auto unlock
         if RET_OK == ret_code:
-            self._ctx_unlock = password
+            self._ctx_unlock = (password, password_md5)
 
             # unlock push socket
             ret_code, msg, push_req_str = UnlockTrade.pack_req(**kargs)
