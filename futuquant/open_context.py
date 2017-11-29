@@ -1104,10 +1104,11 @@ class OpenQuoteContext(OpenContextBase):
             kargs = {"stock_str": code, "start_date": req_start, "end_date": end, "ktype": ktype, "autype": autype, "fields": req_fields, "max_num": max_kl_num}
             query_processor = self._get_sync_query_processor(HistoryKlineQuery.pack_req,
                                                              HistoryKlineQuery.unpack_rsp)
-            ret_code, msg, (list_kline, has_next, next_time) = query_processor(**kargs)
+            ret_code, msg, content = query_processor(**kargs)
             if ret_code != RET_OK:
                 return ret_code, msg
 
+            list_kline, has_next, next_time = content
             data_finish = (not has_next) or (not next_time)
             req_start = next_time
             for dict_item in list_kline:
@@ -1572,10 +1573,11 @@ class OpenQuoteContext(OpenContextBase):
         # 循环请求数据，避免一次性取太多超时
         while not data_finish:
             kargs = {"codes": req_codes, "dates": req_dates, "fields": req_fields, "ktype": ktype, "autype": autype, "max_num": max_kl_num}
-            ret_code, msg, (list_kline, has_next) = query_processor(**kargs)
+            ret_code, msg, content = query_processor(**kargs)
             if ret_code == RET_ERROR:
                 return ret_code, msg
 
+            list_kline, has_next = content
             data_finish = (not has_next)
             for dict_item in list_kline:
                 item_code = dict_item['code']

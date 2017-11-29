@@ -732,13 +732,13 @@ class HistoryKlineQuery:
         """Convert from PLS response to user response"""
         ret, msg, rsp = extract_pls_rsp(rsp_str)
         if ret != RET_OK:
-            return RET_ERROR, msg, (None, None, None)
+            return RET_ERROR, msg, None
 
         rsp_data = rsp['RetData']
 
         if "HistoryKLArr" not in rsp_data:
             error_str = ERROR_STR_PREFIX + "cannot find HistoryKLArr in client rsp. Response: %s" % rsp_str
-            return RET_ERROR, error_str, (None, None, None)
+            return RET_ERROR, error_str, None
 
         has_next = False
         next_time = ''
@@ -1530,12 +1530,12 @@ class MultiPointsHisKLine:
         """Convert from PLS response to user response"""
         ret, msg, rsp = extract_pls_rsp(rsp_str)
         if ret != RET_OK:
-            return RET_ERROR, msg, (None, None)
+            return RET_ERROR, msg, None
 
         rsp_data = rsp['RetData']
         if "StockHistoryKLArr" not in rsp_data:
             error_str = ERROR_STR_PREFIX + "cannot find StockHistoryKLArr in client rsp. Response: %s" % rsp_str
-            return RET_ERROR, error_str, (None, None)
+            return RET_ERROR, error_str, None
         has_next = int(rsp_data['HasNext'])
 
         list_ret = []
