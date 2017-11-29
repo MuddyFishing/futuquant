@@ -8,14 +8,14 @@ from futuquant.open_context import *
 from get_trade_status import *
 
 
-def get_pnl_raw_data(quote_context, code, start='2017-01-01', end='2017-12-30'):
+def get_change_rate_raw_data(quote_context, code, start='2017-01-01', end='2017-12-30'):
     '''
-    不考虑停牌，从历史数据中获取计算逐日累计收益率
+    不考虑停牌，从历史数据中获取计算逐日涨跌幅
     :param quote_context: api行情对象
     :param code: 股票代码
     :param start: 开始时间 '%Y-%m-%d'
     :param end: 结束时间 '%Y-%m-%d'
-    :return: (ret, data) ret == 0 data为pd dataframe数据， 表头'code' 'datetime' 'pnl'
+    :return: (ret, data) ret == 0 data为pd dataframe数据， 表头'code' 'datetime' 'close' 'change_rate'
                          ret != 0 data为错误字符串
     '''
     ret, data = quote_context.get_history_kline(code, start, end, 'K_DAY', 'hfq')
@@ -24,38 +24,36 @@ def get_pnl_raw_data(quote_context, code, start='2017-01-01', end='2017-12-30'):
     data.sort_values(by='time_key', axis=0, ascending=True)
 
     raw_list = []
-    close_0 = 0
     for ix, row in data.iterrows():
-        close_n = row['close']
-        if 0 == close_0:
-            close_0 = float(close_n)
-        pnl = (close_n - close_0) / close_0 * 100.0 if close_0 != 0 else 0.0
-        raw_list.append({'code': code, 'pnl': pnl, 'datetime': str(row['time_key']).split(' ')[0]})
+        kl_close = row['close']
+        kl_open = row['open']
+        change_rate = (kl_close - kl_open) / kl_open * 100.0 if kl_open != 0 else 0.0
+        raw_list.append({'code': code, 'close': kl_close, 'change_rate': change_rate, 'datetime': str(row['time_key']).split(' ')[0]})
 
-    col_list = ['code', 'datetime', 'pnl']
+    col_list = ['code', 'close', 'datetime', 'change_rate']
     pd_ret = pd.DataFrame(raw_list, columns=col_list)
 
     return RET_OK, pd_ret
 
 
-def get_pnl_series_data(quote_context, code, start='2017-01-01', end='2017-12-30', code_base=None):
+def get_change_rate_series_data(quote_context, code, start='2017-01-01', end='2017-12-30', code_base=None):
     '''
-    以交易日为时间序，从历史数据中计算逐日累计收益率
+    以交易日为时间序，从历史数据中计算逐日涨跌幅
     :param quote_context: api行情对象
     :param code: 股票代码
     :param start: 开始时间 '%Y-%m-%d'
     :param end: 结束时间 '%Y-%m-%d'
-    :param code_base: 计算超额收益率的基准code
-    :return: (ret, data) ret == 0 data为pd dataframe数据， 表头'code' 'datetime' 'pnl' 'excess_pnl'(需指定code_base)
+    :param code_base: 计算超额涨跌幅的基准code
+    :return: (ret, data) ret == 0 data为pd dataframe数据， 表头'code' 'close'  'datetime' 'change_rate' 'excess_change_rate'(需指定code_base)
                          ret != 0 data为错误字符串
     '''
-    # raw pnl
+    # raw change_rate
     raw_dst = None
     raw_base = None
     for x in [code, code_base]:
         if not x:
             continue
-        ret, data = get_pnl_raw_data(quote_context, x, start, end)
+        ret, data = get_change_rate_raw_data(quote_context, x, start, end)
         if 0 != ret:
             return ret, data
         if x == code and not raw_dst:
@@ -72,8 +70,9 @@ def get_pnl_series_data(quote_context, code, start='2017-01-01', end='2017-12-30
         return ret, trade_data
 
     # 计算返回的数据
-    last_pnl = 0
-    last_base_pnl = 0
+    last_close = 0
+    last_val = 0
+    last_base_val = 0
     list_ret = []
     dict_item = {}
     for ix, row in trade_data.iterrows():
@@ -82,24 +81,27 @@ def get_pnl_series_data(quote_context, code, start='2017-01-01', end='2017-12-30
         dt_time = row['datetime']
         dict_item['datetime'] = dt_time
 
-        # 收益率
+        # 涨跌幅
         dst_find = raw_dst[raw_dst.datetime == dt_time]
         if dst_find.iloc[:, 0].size > 0:
-            last_pnl = dst_find.iloc[0]['pnl']
+            last_val = dst_find.iloc[0]['change_rate']
+            last_close = dst_find.iloc[0]['close']
 
-        dict_item['pnl'] = last_pnl
-        # 相对基准的超额收益率
+        dict_item['change_rate'] = last_val
+        dict_item['close'] = last_close
+
+        # 相对基准的超额涨跌幅
         if raw_base is not None:
             base_find = raw_base[raw_base.datetime == dt_time]
             if base_find.iloc[:, 0].size > 0:
-                last_base_pnl = base_find.iloc[0]['pnl']
-            dict_item['excess_pnl'] = last_pnl - last_base_pnl
+                last_base_val = base_find.iloc[0]['change_rate']
+            dict_item['excess_change_rate'] = last_val - last_base_val
 
         list_ret.append(dict_item.copy())
 
-    col_list = ['code', 'datetime', 'pnl']
+    col_list = ['code', 'close', 'datetime', 'change_rate', ]
     if raw_base is not None:
-        col_list.append('excess_pnl')
+        col_list.append('excess_change_rate')
 
     pd_frame = pd.DataFrame(list_ret, columns=col_list)
 
@@ -114,7 +116,7 @@ if __name__ == "__main__":
 
     quote_context = OpenQuoteContext(host=api_ip, port=api_port)
 
-    print(get_pnl_raw_data(quote_context, code, start, end))
-    print(get_pnl_series_data(quote_context, code, start, end, 'HK.800000'))
+    # print(get_change_rate_raw_data(quote_context, code, start, end))
+    print(get_change_rate_series_data(quote_context, code, start, end, 'HK.800000'))
 
     quote_context.close()

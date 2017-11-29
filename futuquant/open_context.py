@@ -1572,6 +1572,7 @@ class OpenQuoteContext(OpenContextBase):
         list_ret = []
         # 循环请求数据，避免一次性取太多超时
         while not data_finish:
+            print(datetime.now())
             kargs = {"codes": req_codes, "dates": req_dates, "fields": req_fields, "ktype": ktype, "autype": autype, "max_num": max_kl_num}
             ret_code, msg, content = query_processor(**kargs)
             if ret_code == RET_ERROR:
@@ -1586,6 +1587,7 @@ class OpenQuoteContext(OpenContextBase):
                 list_ret.append(dict_item)
             if 0 == len(req_codes):
                 data_finish = True
+
 
         # 表头列
         col_list = ['code', 'time_point', 'data_valid']

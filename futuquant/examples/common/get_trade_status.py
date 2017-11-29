@@ -24,7 +24,7 @@ def get_trade_status(quote_context=None, strcode='HK.00700', start='2016-01-01',
     :param start: 开始日期
     :param end: 结束日期
     :param days: 返回的日期类型 见文件头定义 ALL_DAYS （所有的） / TRADE_DAYS (交易日)
-    :return: (ret, data)  ret == 0  data为 pd.dataframe数据 表头为 “DateTime”  “Trade_status”
+    :return: (ret, data)  ret == 0  data为 pd.dataframe数据 表头为 “datetime”  “Trade_status”
                           ret != 0  data为错误字符串
     '''
     if not quote_context:
@@ -60,7 +60,7 @@ def get_trade_status(quote_context=None, strcode='HK.00700', start='2016-01-01',
     ret_status = []
     if days == TRADE_DAYS:
         for x in data_trade:
-            ret_status.append({'DateTime': x, 'Trade_status': STATUS_SUPENSION if (x in dict_sup) else STATUS_TRADEING})
+            ret_status.append({'datetime': x, 'trade_status': STATUS_SUPENSION if (x in dict_sup) else STATUS_TRADEING})
     elif days == ALL_DAYS:
         dt_cur = datetime.strptime(start, '%Y-%m-%d')
         dt_end = datetime.strptime(end, '%Y-%m-%d')
@@ -73,7 +73,7 @@ def get_trade_status(quote_context=None, strcode='HK.00700', start='2016-01-01',
             elif str_dt in dict_trade:
                 str_status = STATUS_TRADEING
 
-            ret_status.append({'DateTime': str_dt, 'Trade_status': str_status})
+            ret_status.append({'datetime': str_dt, 'trade_status': str_status})
             dt_cur = dt_cur + timedelta(days=1)
             str_dt = dt_cur.strftime('%Y-%m-%d')
             dt_finish = dt_cur > dt_end
@@ -81,10 +81,10 @@ def get_trade_status(quote_context=None, strcode='HK.00700', start='2016-01-01',
         raise Exception("get_trade_status - days param error!")
 
     # 数据排序
-    ret_status = sorted(ret_status, key=lambda x: x['DateTime'], reverse=False)
+    ret_status = sorted(ret_status, key=lambda x: x['datetime'], reverse=False)
 
     # 组装返回数据为dataframe数据
-    col_list = ['DateTime', 'Trade_status']
+    col_list = ['datetime', 'trade_status']
     pd_frame = pd.DataFrame(ret_status, columns=col_list)
 
     return RET_OK, pd_frame
