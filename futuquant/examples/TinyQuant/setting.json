@@ -65,7 +65,7 @@
       "cta_call":
       {
         "enable__": "0:不启用 1:启用",
-        "enable": 0,
+        "enable": 1,
 
         "trigger_per__": "当涨 x 的时候买入",
         "trigger_per": 0.01,

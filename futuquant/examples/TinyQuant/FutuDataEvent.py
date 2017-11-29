@@ -82,15 +82,15 @@ class FutuDataEvent(object):
         self._quote_context.set_handler(OrderBookHandler())
         self._quote_context.set_handler(CurKlineHandler())
 
-        # 启动时先构建一次数据
-        self._rebuild_sym_kline_all()
-
         # 定阅数据
         for symbol in symbol_pools:
             for data_type in ['QUOTE', 'ORDER_BOOK', 'K_DAY', 'K_1M']:
                 ret, data = self._quote_context.subscribe(symbol, data_type, True)
                 if ret != 0:
                     self.log(u'订阅行情失败：%s' % data)
+
+        # 启动时先构建一次数据
+        self._rebuild_sym_kline_all()
 
     def get_rt_tiny_quote(self, symbol):
         """得到股票的实时行情数据"""
