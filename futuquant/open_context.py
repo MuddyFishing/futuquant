@@ -1088,11 +1088,13 @@ class OpenQuoteContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "the type of end param is wrong"
             return RET_ERROR, error_str
 
-        if not fields or (not is_str(fields) and not isinstance(fields, list)):
+        req_fields = unique_and_normalize_list(fields)
+        if not fields:
+            req_fields = copy(KL_FIELD.ALL_REAL)
+        req_fields = KL_FIELD.normalize_field_list(req_fields)
+        if not req_fields:
             error_str = ERROR_STR_PREFIX + "the type of fields param is wrong"
             return RET_ERROR, error_str
-        req_fields = copy(fields) if isinstance(fields, list) else [fields]
-        req_fields = KL_FIELD.normalize_field_list(req_fields)
 
         if autype is None:
             autype = 'None'
