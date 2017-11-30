@@ -2,6 +2,7 @@
 """
     Constant collection
 """
+from copy import copy
 
 # 需要安装的最低牛牛客户端版本号
 NN_VERSION_MIN = '3.42.4952'
@@ -148,7 +149,7 @@ class KL_FIELD(object):
         ret_list = []
         data = str(str_filed).split(',')
         if KL_FIELD.ALL in data:
-            ret_list = KL_FIELD.ALL_REAL.copy()
+            ret_list = copy(KL_FIELD.ALL_REAL)
         else:
             for x in data:
                 if x in KL_FIELD.ALL_REAL:
@@ -159,7 +160,7 @@ class KL_FIELD(object):
     def normalize_field_list(cls, fields):
         list_ret = []
         if KL_FIELD.ALL in fields:
-            list_ret = KL_FIELD.ALL_REAL.copy()
+            list_ret = copy(KL_FIELD.ALL_REAL)
         else:
             for x in fields:
                 if x in KL_FIELD.ALL_REAL and x not in list_ret:

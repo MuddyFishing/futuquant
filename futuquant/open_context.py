@@ -1091,7 +1091,7 @@ class OpenQuoteContext(OpenContextBase):
         if not fields or (not is_str(fields) and not isinstance(fields, list)):
             error_str = ERROR_STR_PREFIX + "the type of fields param is wrong"
             return RET_ERROR, error_str
-        req_fields = fields.copy() if isinstance(fields, list) else [fields]
+        req_fields = copy(fields) if isinstance(fields, list) else [fields]
         req_fields = KL_FIELD.normalize_field_list(req_fields)
 
         if autype is None:
@@ -1533,7 +1533,7 @@ class OpenQuoteContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
             return RET_ERROR, error_str
 
-        req_codes = codes.copy() if isinstance(codes, list) else [codes]
+        req_codes = copy(codes) if isinstance(codes, list) else [codes]
 
         query_processor = self._get_sync_query_processor(SuspensionQuery.pack_req,
                                                          SuspensionQuery.unpack_rsp,
@@ -1561,17 +1561,17 @@ class OpenQuoteContext(OpenContextBase):
         if not codes or (not is_str(codes) and not isinstance(codes, list)):
             error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
             return RET_ERROR, error_str
-        req_codes = codes.copy() if isinstance(codes, list) else [codes]
+        req_codes = copy(codes) if isinstance(codes, list) else [codes]
 
         if not dates or (not is_str(dates) and not isinstance(dates, list)):
             error_str = ERROR_STR_PREFIX + "the type of dates param is wrong"
             return RET_ERROR, error_str
-        req_dates = dates.copy() if isinstance(dates, list) else [dates]
+        req_dates = copy(dates) if isinstance(dates, list) else [dates]
 
         if not fields or (not is_str(fields) and not isinstance(fields, list)):
             error_str = ERROR_STR_PREFIX + "the type of fields param is wrong"
             return RET_ERROR, error_str
-        req_fields = fields.copy() if isinstance(fields, list) else [fields]
+        req_fields = copy(fields) if isinstance(fields, list) else [fields]
         req_fields = KL_FIELD.normalize_field_list(req_fields)
 
         query_processor = self._get_sync_query_processor(MultiPointsHisKLine.pack_req,
