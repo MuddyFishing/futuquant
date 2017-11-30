@@ -1529,11 +1529,10 @@ class OpenQuoteContext(OpenContextBase):
         :return: (ret, data) ret == 0 data为pd dataframe数据， 表头'code' 'suspension_dates'(逗号分隔的多个日期字符串)
                          ret != 0 data为错误字符串
         '''
-        if not codes or (not is_str(codes) and not isinstance(codes, list)):
+        req_codes = unique_and_normalize_list(codes)
+        if not codes:
             error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
             return RET_ERROR, error_str
-
-        req_codes = copy(codes) if isinstance(codes, list) else [codes]
 
         query_processor = self._get_sync_query_processor(SuspensionQuery.pack_req,
                                                          SuspensionQuery.unpack_rsp,
@@ -1558,21 +1557,23 @@ class OpenQuoteContext(OpenContextBase):
         :param autype:复权类型
         :return: pd frame 表头与指定的数据列相关， 固定表头包括'code'(代码) 'time_point'(指定的日期) 'data_valid' (0=无数据 1=请求点有数据 2=请求点无数据，取前一个)
         '''
-        if not codes or (not is_str(codes) and not isinstance(codes, list)):
+        req_codes = unique_and_normalize_list(codes)
+        if not codes:
             error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
             return RET_ERROR, error_str
-        req_codes = copy(codes) if isinstance(codes, list) else [codes]
 
-        if not dates or (not is_str(dates) and not isinstance(dates, list)):
+        req_dates = unique_and_normalize_list(dates)
+        if not dates:
             error_str = ERROR_STR_PREFIX + "the type of dates param is wrong"
             return RET_ERROR, error_str
-        req_dates = copy(dates) if isinstance(dates, list) else [dates]
 
-        if not fields or (not is_str(fields) and not isinstance(fields, list)):
+        req_fields = unique_and_normalize_list(fields)
+        if not fields:
+            req_fields = copy(KL_FIELD.ALL_REAL)
+        req_fields = KL_FIELD.normalize_field_list(req_fields)
+        if not req_fields:
             error_str = ERROR_STR_PREFIX + "the type of fields param is wrong"
             return RET_ERROR, error_str
-        req_fields = copy(fields) if isinstance(fields, list) else [fields]
-        req_fields = KL_FIELD.normalize_field_list(req_fields)
 
         query_processor = self._get_sync_query_processor(MultiPointsHisKLine.pack_req,
                                                          MultiPointsHisKLine.unpack_rsp)

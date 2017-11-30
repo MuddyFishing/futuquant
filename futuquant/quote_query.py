@@ -1495,6 +1495,8 @@ class MultiPointsHisKLine:
             if ret != RET_OK:
                 return ret, msg, None
 
+        if len(fields) == 0:
+            fields = copy(KL_FIELD.ALL_REAL)
         str_field = ','.join(fields)
         list_req_field = KL_FIELD.get_field_list(str_field)
         if not list_req_field:

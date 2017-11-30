@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import sys
 
 
@@ -20,5 +22,15 @@ def int1000_price_to_float(price):
 # 10^9 int price to float val
 def int10_9_price_to_float(price):
     return round(float(price) / float(10**9), 3) if str(price) is not '' else float(0)
+
+
+# list 参数除重及规整
+def unique_and_normalize_list(lst):
+    ret = []
+    if not lst:
+        return ret
+    tmp = lst if isinstance(lst, list) else [lst]
+    [ret.append(x) for x in tmp if x not in ret]
+    return ret
 
 
