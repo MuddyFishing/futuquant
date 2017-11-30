@@ -17,13 +17,14 @@ STATUS_TRADEING= 'trading'          # 交易日
 STATUS_SUPENSION = 'suspension'     # 股票停牌
 
 
-def get_trade_status(quote_context=None, strcode='HK.00700', start='2016-01-01', end='2017-12-30', days=ALL_DAYS):
+def get_trade_status(quote_context=None, strcode='HK.00700', start='2016-01-01', end='2017-12-30', days=ALL_DAYS, date_cut=True):
     '''
     :param quote_context: api行情对象
     :param strcode: 股票code
     :param start: 开始日期
     :param end: 结束日期
     :param days: 返回的日期类型 见文件头定义 ALL_DAYS （所有的） / TRADE_DAYS (交易日)
+    :param date_cut: 大于当前日期部分截断
     :return: (ret, data)  ret == 0  data为 pd.dataframe数据 表头为 “datetime”  “Trade_status”
                           ret != 0  data为错误字符串
     '''
@@ -86,6 +87,11 @@ def get_trade_status(quote_context=None, strcode='HK.00700', start='2016-01-01',
     # 组装返回数据为dataframe数据
     col_list = ['datetime', 'trade_status']
     pd_frame = pd.DataFrame(ret_status, columns=col_list)
+
+    # 数据截断
+    if date_cut:
+        str_now = datetime.now().strftime('%Y-%m-%d')
+        pd_frame = pd_frame[pd_frame.datetime <= str_now]
 
     return RET_OK, pd_frame
 

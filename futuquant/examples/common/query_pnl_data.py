@@ -18,7 +18,7 @@ def get_pnl_raw_data(quote_context, code, start='2017-01-01', end='2017-12-30'):
     :return: (ret, data) ret == 0 data为pd dataframe数据， 表头'code' 'datetime' 'pnl'
                          ret != 0 data为错误字符串
     '''
-    ret, data = quote_context.get_history_kline(code, start, end, 'K_DAY', 'hfq')
+    ret, data = quote_context.get_history_kline(code, start, end, 'K_DAY', 'qfq')
     if 0 != ret:
         return ret, data
     data.sort_values(by='time_key', axis=0, ascending=True)
@@ -76,11 +76,16 @@ def get_pnl_series_data(quote_context, code, start='2017-01-01', end='2017-12-30
     last_base_pnl = 0
     list_ret = []
     dict_item = {}
+    max_datetime = raw_dst.iloc[-1]['datetime']
     for ix, row in trade_data.iterrows():
         dict_item['code'] = code
 
         dt_time = row['datetime']
         dict_item['datetime'] = dt_time
+
+        # raw 没有数据就中止
+        if dt_time > max_datetime:
+            break
 
         # 收益率
         dst_find = raw_dst[raw_dst.datetime == dt_time]
