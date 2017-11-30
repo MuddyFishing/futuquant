@@ -63,8 +63,11 @@ def get_pnl_series_data(quote_context, code, start='2017-01-01', end='2017-12-30
         else:
             raw_base = data
 
-    if raw_dst is None:
-        return RET_ERROR, 'no data'
+    if raw_dst is None or 0 == len(raw_dst):
+        return RET_ERROR, ('%s has no history kline data!' % code)
+
+    if raw_base is not None and 0 == len(raw_base):
+        return RET_ERROR, ('%s has no history kline data!' % code_base)
 
     # 获取股票对应的交易日时间序
     ret, trade_data = get_trade_status(quote_context, code, start, end, TRADE_DAYS)
@@ -116,10 +119,11 @@ if __name__ == "__main__":
     code = 'HK.00700'
     start = '2017-01-01'
     end = '2017-12-30'
+    code_base = 'HK.800000' #'HK.02858'
 
     quote_context = OpenQuoteContext(host=api_ip, port=api_port)
 
-    print(get_pnl_raw_data(quote_context, code, start, end))
-    print(get_pnl_series_data(quote_context, code, start, end, 'HK.800000'))
+    # print(get_pnl_raw_data(quote_context, code, start, end))
+    print(get_pnl_series_data(quote_context, code, start, end, code_base))
 
     quote_context.close()
