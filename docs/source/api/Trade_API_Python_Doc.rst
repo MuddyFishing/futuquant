@@ -767,13 +767,15 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 
 .. code:: python
 
-    ret_code, ret_data = tradeus_ctx.unlock_trade(password)
+    ret_code, ret_data = tradeus_ctx.unlock_trade(trade_password, trade_password_md5)
 
 **功能**\ ：交易解锁。
 
 **参数**\ ：
 
-**password**: 用户交易密码。
+**trade_password**:用户交易密码。
+
+**trade_password_md5**:交易密码32位MD5加密16进制表示，trade_password和trade_password_md5同时传入时，只使用trade_password_md5
 
 **返回**\ ： ret\_code失败时，ret\_data返回为错误描述字符串；
 正常情况下，ret\_code为0, ret\_data返回None。

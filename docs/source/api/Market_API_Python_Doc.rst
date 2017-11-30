@@ -241,6 +241,31 @@ K线类型
 | 概念分类   | "CONCEPT"    |
 +------------+--------------+
 
+K线字段类型
++-------------------------+------------+
+| 字段标识                | 说明       |
++=========================+============+
+| KL\_FIELD.ALL           | 所有字段   |
++-------------------------+------------+
+| KL\_FIELD.DATE_TIME     | K线时间    |
++-------------------------+------------+
+| KL\_FIELD.OPEN          | 开盘价     |
++-------------------------+------------+
+| KL\_FIELD.CLOSE         | 收盘价     |
++-------------------------+------------+
+| KL\_FIELD.HIGH          | 最高价     |
++-------------------------+------------+
+| KL\_FIELD.LOW           | 最低价     |
++-------------------------+------------+
+| KL\_FIELD.PE_RATIO      | 市盈率     |
++-------------------------+------------+
+| KL\_FIELD.TRADE_VOL     | 成交量     |
++-------------------------+------------+
+| KL\_FIELD.TRADE_VAL     | 成交额     |
++-------------------------+------------+
+| KL\_FIELD.CHANGE_RATE   | 涨跌幅     |
++-------------------------+------------+
+
 股票代码
 ~~~~~~~~
 模式为：“ 市场+原始代码" 例如，“HK.00700”, “SZ.000001”,
@@ -521,7 +546,7 @@ double，例如，对于5股合1股为1/5，对于1股拆5股为5/1
 
 .. code:: python
 
-    ret_code, ret_data = quote_ctx.get_history_kline(code, start=None, end=None, ktype='K_DAY', autype='qfq')
+    ret_code, ret_data = quote_ctx.get_history_kline(code, start=None, end=None, ktype='K_DAY', autype='qfq', fields=[KL_FIELD.ALL])
 
 **功能**\ ： 获取指定股票K线历史数据
 
@@ -535,8 +560,9 @@ double，例如，对于5股合1股为1/5，对于1股拆5股为5/1
 
 **ktype** ：k线类型，默认为日K
 
-**autype**
-复权类型，string；”qfq”-前复权，”hfq”-后复权，None-不复权，默认为”qfq”
+**autype**:  复权类型，string；”qfq”-前复权，”hfq”-后复权，None-不复权，默认为”qfq”
+
+**fields**: 单个或多个K线字段类型，指定需要返回的数据 KL_FIELD.ALL or [KL_FIELD.DATE_TIME, KL_FIELD.OPEN]，默认为KL_FIELD.ALL
 
 开始结束时间按照闭区间查询，时间查询以k线时间time\_key作为比较标准。即满足
 start<=Time\_key<=end条件的k线作为返回内容，k线时间time\_key的设定标准在返回值中说明
@@ -563,6 +589,12 @@ start<=Time\_key<=end条件的k线作为返回内容，k线时间time\_key的设
 **volume**\ ： 成交量；long
 
 **turnover** ：成交额；double
+
+**pe_ratio**：市盈率 ：double
+
+**turnover_rate**:  换手率：double
+
+**change_rate**:   涨跌幅：double
 
 对于日K线，time\_key为当日时间具体到日，比如说2016-12-23日的日K，K线时间为”
 2016-12-23 00:00:00”
@@ -1459,3 +1491,132 @@ ask\_data是卖盘的数据
                     return RET_ERROR, ask_content, bid_content
                 print("BrokerTest", ask_content, bid_content) 
                 return RET_OK, ask_content, bid_content
+
+								
+切换牛牛号登录 login\_new\_account
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: python
+
+    ret_code, ret_data = user_id, login_password_md5, trade_password, trade_password_md5=None)
+
+**功能**\ ：切换牛牛号登录
+
+**参数**\ ：
+**user_id**: 需要切换的牛牛号
+
+**login_password_md5**: 登录密码32位MD5加密16进制表示
+
+**login_password_md5**: 登录密码32位MD5加密16进制表示
+
+**trade_password**: 交易密码明文
+
+**trade_password_md5**: 交易密码32位MD5加密16进制表示，trade_password和trade_password_md5同时传入时，只使用trade_password_md5
+
+**返回**\ ：ret = RET\_OK表示切换成功。
+
+**注**:切换牛牛号登录会导致API接口断开重连。
+
+				
+获取多支股票多个单点历史K线 get\_multi\_points\_history\_kline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: python
+
+    ret_code, ret_data = quote_ctx.get_multi_points_history_kline(self, codes, dates, fields, ktype='K_DAY', autype='qfq')
+
+**功能**\ ：获取多支股票多个单点历史K线
+
+**参数**\ ：
+
+**codes**: 单个或多个股票 'HK.00700'  or  ['HK.00700', 'HK.00001']
+
+**dates**: 单个或多个日期 '2017-01-01' or ['2017-01-01', '2017-01-02']
+
+**fields**: 单个或多个K线字段类型，指定需要返回的数据 KL_FIELD.ALL or [KL_FIELD.DATE_TIME, KL_FIELD.OPEN]
+
+**ktype**: K线类型
+
+**autype**: 复权类型
+
+**返回**\ ：
+ret\_code失败时，ret\_data为错误描述字符串；
+通常情况下，返回DataFrame，DataFrame每一行是一个逐笔记录，包含：
+**code**\ ： 股票代码；string
+
+**data\_valid**\ ： 数据点是否有效，0=无数据，1=请求点有数据，2=请求点无数据，向前取值
+
+**time\_point**\ ： 请求点时间 string “YYYY-MM-DD HH:mm:ss”，暂时最多5个以内时间点。
+
+**time\_key**\ ： K线时间 string “YYYY-MM-DD HH:mm:ss”
+
+**open**\ ： 开盘价；double
+
+**high**\ ： 最高价；double
+
+**close**\ ： 收盘价；double
+
+**low**\ ： 最低价：double
+
+**volume**\ ： 成交量；long
+
+**turnover** ：成交额；double
+
+**pe_ratio**：市盈率 ：double
+
+**turnover_rate**:  换手率：double
+
+**change_rate**:   涨跌幅：double
+
+**失败情况**\ ：
+
+1. code不合法
+
+2.请求时间点为空
+
+3.请求时间点过多
+
+获取股票停牌信息 get\_suspension\_info
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: python
+
+    ret_code, ret_data = quote_ctx.get_suspension_info(strcode, start, end)
+
+**功能**\ ：获取股票特定时间区间的停牌信息
+
+**参数**\ ：
+
+**codes**: 单个或多个股票 'HK.00700'  or  ['HK.00700', 'HK.00001']
+
+**start**: 开始日期，为空则不限制
+
+**end**: 结束日期，为空则不限制
+
+**返回**\ ：
+ret\_code失败时，ret\_data为错误描述字符串；
+通常情况下，返回DataFrame，DataFrame每一行是一个逐笔记录，包含：
+
+**code**\ ： 股票代码；string
+
+**StockSuspendArr**: 多只股票的停牌数据，其中包括Market，StockCode，SuspendArr字段
+
+**Market**: 股票市场
+
+**StockCode**: 股票代码
+
+**SuspendArr**: 单只股票的停牌数据
+
+**失败情况**\ ：
+
+1. code不合法
+
+
+
+
+
+
+
+
+
+
