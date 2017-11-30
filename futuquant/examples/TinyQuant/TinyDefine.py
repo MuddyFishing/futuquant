@@ -127,3 +127,16 @@ class TinyTradeOrder(object):
         self.updated_time = ''    # 更新时间
         self.trade_avg_price = 0  # 成交均价
         self.order_status = 0     # 订单状态 0=服务器处理中 1=等待成交 2=部分成交 3=全部成交 4=已失效 5=下单失败 6=已撤单 7=已删除 8=等待开盘
+
+
+class TinyPosition(object):
+    """持仓信息"""
+    def __init__(self):
+        super(TinyPosition, self).__init__()
+
+        self.symbol = ''
+        self.position = 0
+        self.frozen = 0
+        self.price = 0
+        self.market_value = 0
+

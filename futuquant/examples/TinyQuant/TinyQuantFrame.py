@@ -136,6 +136,24 @@ class TinyQuantFrame(object):
             break
         return 0, order
 
+    def get_tiny_position(self, symbol):
+        """得到股票持仓"""
+        ret, data = self._trade_ctx.position_list_query(strcode=symbol, envtype=self._env_type)
+        if 0 != ret:
+            return None
+
+        for _, row in data.iterrows():
+            if row['code'] != symbol:
+                continue
+            pos = TinyPosition()
+            pos.symbol = symbol
+            pos.position = int(row['qty'])
+            pos.frozen = pos.position - int(row['can_sell_qty'])
+            pos.price = float(row['cost_price'])
+            pos.market_value = float(row['market_val'])
+            return pos
+        return None
+
     def writeCtaLog(self, content):
         log = VtLogData()
         log.logContent = content

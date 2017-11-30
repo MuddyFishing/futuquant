@@ -60,6 +60,15 @@ class TinyStrateSouthETF(TinyStrateBase):
 
     def on_start(self):
         """策略启动入口"""
+        # 读取用户现有帐户持仓信息， 数量不超过config中指定的交易数量 'trade_qty'
+        for cta in [self.cta_call, self.cta_put]:
+            pos = self.get_tiny_position(cta['symbol'])
+            if pos is not None:
+                valid_pos = pos.position - pos.frozen
+                valid_pos = valid_pos if valid_pos > 0 else 0
+                valid_pos = self.trade_qty if valid_pos > self.trade_qty else valid_pos
+                cta['pos'] = valid_pos
+
         self.log("on_start")
 
     def on_quote_changed(self, tiny_quote):

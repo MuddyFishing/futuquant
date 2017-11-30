@@ -108,12 +108,21 @@ class TinyStrateBase(object):
 
     def get_tiny_trade_order(self, order_id):
         """
+        通过订单id得到详细的订单信息
         :param order_id:
         :return: (ret, data)
         ret == 0 , data = TinyTradeOrder 对象
         ret != 0 , data = 错误字符串
         """
         return self._quant_frame.get_tiny_trade_order(order_id)
+
+    def get_tiny_position(self, symbol):
+        '''
+        得到股票的持仓信息
+        :param symbol: 股票code
+        :return: TinyPosition 对象，找不到就返回None
+        '''
+        return self._quant_frame.get_tiny_position(symbol)
 
     def log(self, content):
         """写log的接口"""
