@@ -1498,7 +1498,7 @@ ask\_data是卖盘的数据
 
 .. code:: python
 
-    ret_code, ret_data = user_id, login_password_md5, trade_password, trade_password_md5=None)
+    ret_code, ret_data = login_new_account(user_id, login_password_md5, trade_password, trade_password_md5=None)
 
 **功能**\ ：切换牛牛号登录
 
