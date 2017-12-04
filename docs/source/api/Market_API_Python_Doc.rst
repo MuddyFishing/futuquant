@@ -1493,33 +1493,7 @@ ask\_data是卖盘的数据
                     return RET_ERROR, ask_content, bid_content
                 print("BrokerTest", ask_content, bid_content) 
                 return RET_OK, ask_content, bid_content
-
-								
-切换牛牛号登录 login\_new\_account
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code:: python
-
-    ret_code, ret_data = login_new_account(user_id, login_password_md5, trade_password, trade_password_md5=None)
-
-**功能**\ ：切换牛牛号登录
-
-**参数**\ ：
-**user_id**: 需要切换的牛牛号
-
-**login_password_md5**: 登录密码32位MD5加密16进制表示
-
-**login_password_md5**: 登录密码32位MD5加密16进制表示
-
-**trade_password**: 交易密码明文
-
-**trade_password_md5**: 交易密码32位MD5加密16进制表示，trade_password和trade_password_md5同时传入时，只使用trade_password_md5
-
-**返回**\ ：ret = RET\_OK表示切换成功。
-
-**注**:切换牛牛号登录会导致API接口断开重连。
-
-				
+			
 获取多支股票多个单点历史K线 get\_multi\_points\_history\_kline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
