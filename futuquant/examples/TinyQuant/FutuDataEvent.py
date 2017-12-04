@@ -298,11 +298,10 @@ class FutuDataEvent(object):
 
     def __event_after_trading_final(self, event):
         self._market_opened = False
-        self.__process_last_kl_push([KTYPE_DAY])
+        self.__process_last_kl_push([KTYPE_DAY, KTYPE_MIN1, KTYPE_MIN5, KTYPE_MIN15, KTYPE_MIN30, KTYPE_MIN60])
 
     def __event_after_trading(self, event):
         self._market_opened = False
-        self.__process_last_kl_push([KTYPE_MIN1, KTYPE_MIN5, KTYPE_MIN15, KTYPE_MIN30, KTYPE_MIN60])
 
     def __process_last_kl_push(self, kl_types):
         # 收盘将没推送的数据点再推一次
