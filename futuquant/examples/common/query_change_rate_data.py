@@ -26,8 +26,7 @@ def get_change_rate_raw_data(quote_context, code, start='2017-01-01', end='2017-
     raw_list = []
     for ix, row in data.iterrows():
         kl_close = row['close']
-        kl_open = row['open']
-        change_rate = (kl_close - kl_open) / kl_open * 100.0 if kl_open != 0 else 0.0
+        change_rate = row['change_rate']
         raw_list.append({'code': code, 'close': kl_close, 'change_rate': change_rate, 'datetime': str(row['time_key']).split(' ')[0]})
 
     col_list = ['code', 'close', 'datetime', 'change_rate']
@@ -104,13 +103,17 @@ def get_change_rate_series_data(quote_context, code, start='2017-01-01', end='20
             base_find = raw_base[raw_base.datetime == dt_time]
             if base_find.iloc[:, 0].size > 0:
                 last_base_val = base_find.iloc[0]['change_rate']
+            else:
+                last_base_val = 0
             dict_item['excess_change_rate'] = last_val - last_base_val
+            dict_item['base_change_rate'] = last_base_val
 
         list_ret.append(dict_item.copy())
 
     col_list = ['code', 'close', 'datetime', 'change_rate', ]
     if raw_base is not None:
         col_list.append('excess_change_rate')
+        col_list.append('base_change_rate')
 
     pd_frame = pd.DataFrame(list_ret, columns=col_list)
 
@@ -120,7 +123,7 @@ if __name__ == "__main__":
     api_ip = '127.0.0.1'  # ''119.29.141.202'
     api_port = 11111
     code = 'HK.00700'
-    start = '2017-01-01'
+    start = '2017-11-10'
     end = '2017-12-30'
     code_base = 'HK.800000'  # 'HK.02858'
 

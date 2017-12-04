@@ -102,12 +102,14 @@ def get_pnl_series_data(quote_context, code, start='2017-01-01', end='2017-12-30
             if base_find.iloc[:, 0].size > 0:
                 last_base_pnl = base_find.iloc[0]['pnl']
             dict_item['excess_pnl'] = last_pnl - last_base_pnl
+            dict_item['base_pnl'] = last_base_pnl
 
         list_ret.append(dict_item.copy())
 
     col_list = ['code', 'datetime', 'pnl']
     if raw_base is not None:
         col_list.append('excess_pnl')
+        col_list.append('base_pnl')
 
     pd_frame = pd.DataFrame(list_ret, columns=col_list)
 
