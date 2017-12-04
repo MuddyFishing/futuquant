@@ -27,6 +27,7 @@ class FutuMarketEvent(object):
         self._check_tick = 0
         self._last_status = None
         self._today_date = datetime.now().strftime('%Y%m%d')
+        self._has_notify_before_trading = False
 
         self._mkt_key = ""
         self._mkt_dic = {
@@ -82,16 +83,29 @@ class FutuMarketEvent(object):
         self._last_status = new_status
         self._today_date = datetime.fromtimestamp(int(state_dict['TimeStamp'])).strftime('%Y%m%d')
 
-        if new_status == Futu_Market_State.MARKET_OPEN:
-            event = Event(type_= EVENT_BEFORE_TRADING)
-            event.dict_['TimeStamp'] = state_dict['TimeStamp']
-            self._event_engine.put(event)
+        if new_status == Futu_Market_State.MARKET_OPEN or new_status == Futu_Market_State.MARKET_MID_OPEN:
+            # before trading 通知
+            if not self._has_notify_before_trading:
+                self._has_notify_before_trading = True
+                event = Event(type_= EVENT_BEFORE_TRADING)
+                event.dict_['TimeStamp'] = state_dict['TimeStamp']
+                self._event_engine.put(event)
         elif new_status == Futu_Market_State.MARKET_CLOSE:
-            event = Event(type_=EVENT_AFTER_TRADING)
-            event.dict_['TimeStamp'] = state_dict['TimeStamp']
-            self._event_engine.put(event)
+            list_event = [EVENT_AFTER_TRADING]
+            # 目前只有港股有盘后交易,其它市场模拟发一个EVENT_AFTER_TRADING_FINAL事件
+            if self._market == MARKET_SH or self._market == MARKET_SZ or self._market == MARKET_US:
+                self._has_notify_before_trading = False
+                list_event.append(EVENT_AFTER_TRADING_FINAL)
+
+            for x in list_event:
+                event = Event(type_=x)
+                event.dict_['TimeStamp'] = state_dict['TimeStamp']
+                self._event_engine.put(event)
+
         elif new_status == Futu_Market_State.MARKET_CLOSE_FINAL:
+            self._has_notify_before_trading = False
             event = Event(type_=EVENT_AFTER_TRADING_FINAL)
             event.dict_['TimeStamp'] = state_dict['TimeStamp']
             self._event_engine.put(event)
+
 

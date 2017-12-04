@@ -23,6 +23,8 @@ EVENT_CUR_KLINE_BAR = 'kline min1 bar'
 
 MARKET_HK = 'HK'
 MARKET_US = 'US'
+MARKET_SH = 'SH'
+MARKET_SZ = 'SZ'
 
 # futu api k线定阅类型转定义
 KTYPE_DAY = 'K_DAY'
