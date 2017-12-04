@@ -13,6 +13,7 @@ EVENT_INI_FUTU_API = 'init futu api'
 
 EVENT_BEFORE_TRADING = 'before trading'
 EVENT_AFTER_TRADING = 'after trading'
+EVENT_AFTER_TRADING_FINAL = 'after trading final'
 
 EVENT_TINY_TICK = 'tiny tick'
 EVENT_QUOTE_CHANGE ='tiny quote data change'

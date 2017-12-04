@@ -12,8 +12,9 @@ class Futu_Market_State:
     MARKET_PRE_OPEN = 'pre_open'
     MARKET_OPEN = 'open'
     MARKET_REST = 'rest'
+    MARKET_MID_OPEN = 'mid open'
     MARKET_CLOSE = 'close'
-
+    MARKET_CLOSE_FINAL = 'close fin'
 
 class FutuMarketEvent(object):
     def __init__(self, market, quote_context, event_engine):
@@ -34,7 +35,7 @@ class FutuMarketEvent(object):
             2: Futu_Market_State.MARKET_PRE_OPEN,  # 早盘前等待开盘(港股)
             3: Futu_Market_State.MARKET_OPEN,  # 早盘(港股)
             4: Futu_Market_State.MARKET_REST,  # 午休(A|港股)
-            5: Futu_Market_State.MARKET_OPEN,  # 午盘(A|港股) &&  盘中(美股)
+            5: Futu_Market_State.MARKET_MID_OPEN,  # 午盘(A|港股) &&  盘中(美股)
             6: Futu_Market_State.MARKET_CLOSE,  # 交易日结束(A|港股) / 已收盘(美股)
             8: Futu_Market_State.MARKET_PRE_OPEN,  # 盘前开始(美股)
             9: Futu_Market_State.MARKET_PRE_OPEN,  # 盘前结束(美股)
@@ -42,13 +43,13 @@ class FutuMarketEvent(object):
             11: Futu_Market_State.MARKET_CLOSE,  # 盘后结束(美股)
             12: Futu_Market_State.MARKET_NONE,  # 盘后结束(美股)
 
-            13: Futu_Market_State.MARKET_OPEN,  # 夜市交易中(港期货)
-            14: Futu_Market_State.MARKET_CLOSE,  # 夜市收盘(港期货)
+            13: Futu_Market_State.MARKET_MID_OPEN,  # 夜市交易中(港期货)
+            14: Futu_Market_State.MARKET_CLOSE_FINAL,  # 夜市收盘(港期货)
             15: Futu_Market_State.MARKET_OPEN,  # 日市交易中(港期货)
             16: Futu_Market_State.MARKET_REST,  # 日市午休(港期货)
             17: Futu_Market_State.MARKET_CLOSE,  # 日市收盘(港期货)
             18: Futu_Market_State.MARKET_PRE_OPEN,  # 日市等待开盘(港期货)
-            19: Futu_Market_State.MARKET_CLOSE,  # 港股盘后竞价
+            19: Futu_Market_State.MARKET_CLOSE_FINAL,  # 港股盘后竞价
         }
 
         if self._market == MARKET_HK:
@@ -87,6 +88,10 @@ class FutuMarketEvent(object):
             self._event_engine.put(event)
         elif new_status == Futu_Market_State.MARKET_CLOSE:
             event = Event(type_=EVENT_AFTER_TRADING)
+            event.dict_['TimeStamp'] = state_dict['TimeStamp']
+            self._event_engine.put(event)
+        elif new_status == Futu_Market_State.MARKET_CLOSE_FINAL:
+            event = Event(type_=EVENT_AFTER_TRADING_FINAL)
             event.dict_['TimeStamp'] = state_dict['TimeStamp']
             self._event_engine.put(event)
 
