@@ -58,7 +58,7 @@ def get_pnl_series_data(quote_context, code, start='2017-01-01', end='2017-12-30
         ret, data = get_pnl_raw_data(quote_context, x, start, end)
         if 0 != ret:
             return ret, data
-        if x == code and not raw_dst:
+        if x == code and raw_dst is None:
             raw_dst = data
         else:
             raw_base = data
@@ -118,7 +118,7 @@ def get_pnl_series_data(quote_context, code, start='2017-01-01', end='2017-12-30
 if __name__ == "__main__":
     api_ip = '127.0.0.1'  # ''119.29.141.202'
     api_port = 11111
-    code = 'HK.00700'
+    code =  'HK.800000' #'HK.00700'
     start = '2017-01-01'
     end = '2017-12-30'
     code_base = 'HK.800000' #'HK.02858'
