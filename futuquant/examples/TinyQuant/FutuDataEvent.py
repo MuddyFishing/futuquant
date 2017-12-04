@@ -43,6 +43,7 @@ class FutuDataEvent(object):
         self._event_engine.register(EVENT_CUR_KLINE_PUSH, self._event_cur_kline_push)
         self._event_engine.register(EVENT_BEFORE_TRADING, self.__event_before_trading)
         self._event_engine.register(EVENT_AFTER_TRADING, self.__event_after_trading)
+        self._event_engine.register(EVENT_AFTER_TRADING_FINAL, self.__event_after_trading_final)
 
         class QuoteHandler(StockQuoteHandlerBase):
             """报价处理器"""
@@ -295,12 +296,19 @@ class FutuDataEvent(object):
         self._rebuild_sym_kline_all()
         self._market_opened = True
 
+    def __event_after_trading_final(self, event):
+        self._market_opened = False
+        self.__process_last_kl_push([KTYPE_DAY, KTYPE_MIN1, KTYPE_MIN5, KTYPE_MIN15, KTYPE_MIN30, KTYPE_MIN60])
+
     def __event_after_trading(self, event):
         self._market_opened = False
 
+    def __process_last_kl_push(self, kl_types):
         # 收盘将没推送的数据点再推一次
         for symbol in self._sym_kline_next_event_bar_dic.keys():
             for ktype in self._sym_kline_next_event_bar_dic[symbol].keys():
+                if ktype not in kl_types:
+                    continue
                 notify_bar = self._sym_kline_next_event_bar_dic[symbol][ktype]
                 if not notify_bar:
                     continue
@@ -311,7 +319,8 @@ class FutuDataEvent(object):
                     continue
 
                 last_am_bar = None
-                if symbol in self._sym_kline_last_am_bar_dic.keys() and ktype in self._sym_kline_last_am_bar_dic[symbol].keys():
+                if symbol in self._sym_kline_last_am_bar_dic.keys() and ktype in self._sym_kline_last_am_bar_dic[
+                    symbol].keys():
                     last_am_bar = self._sym_kline_last_am_bar_dic[symbol][ktype]
 
                 if last_am_bar.datetime != notify_bar.datetime:
