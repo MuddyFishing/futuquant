@@ -1175,14 +1175,10 @@ class OpenQuoteContext(OpenContextBase):
 
     def get_market_snapshot(self, code_list):
         """get teh market snapshot"""
-        if code_list is None or isinstance(code_list, list) is False:
-            error_str = ERROR_STR_PREFIX + "the type of code_list param is wrong"
+        code_list = unique_and_normalize_list(code_list)
+        if not code_list:
+            error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
             return RET_ERROR, error_str
-
-        for code in code_list:
-            if code is None or is_str(code) is False:
-                error_str = ERROR_STR_PREFIX + "the type of param in code_list is wrong"
-                return RET_ERROR, error_str
 
         query_processor = self._get_sync_query_processor(MarketSnapshotQuery.pack_req,
                                                          MarketSnapshotQuery.unpack_rsp)
@@ -1212,7 +1208,7 @@ class OpenQuoteContext(OpenContextBase):
     def get_rt_data(self, code):
         """get real-time data"""
         if code is None or is_str(code) is False:
-            error_str = ERROR_STR_PREFIX + "the type of param in code_list is wrong"
+            error_str = ERROR_STR_PREFIX + "the type of param in code is wrong"
             return RET_ERROR, error_str
 
         query_processor = self._get_sync_query_processor(RtDataQuery.pack_req,
@@ -1284,7 +1280,7 @@ class OpenQuoteContext(OpenContextBase):
     def get_broker_queue(self, code):
         """get teh queue of the broker"""
         if code is None or is_str(code) is False:
-            error_str = ERROR_STR_PREFIX + "the type of param in code_list is wrong"
+            error_str = ERROR_STR_PREFIX + "the type of param in code is wrong"
             return RET_ERROR, error_str
 
         query_processor = self._get_sync_query_processor(BrokerQueueQuery.pack_req,
@@ -1411,14 +1407,10 @@ class OpenQuoteContext(OpenContextBase):
         get_stock_quote to obtain the data
 
         """
-        if code_list is None or isinstance(code_list, list) is False:
+        code_list = unique_and_normalize_list(code_list)
+        if not code_list:
             error_str = ERROR_STR_PREFIX + "the type of code_list param is wrong"
             return RET_ERROR, error_str
-
-        for code in code_list:
-            if code is None or is_str(code) is False:
-                error_str = ERROR_STR_PREFIX + "the type of param in code_list is wrong"
-                return RET_ERROR, error_str
 
         query_processor = self._get_sync_query_processor(StockQuoteQuery.pack_req,
                                                          StockQuoteQuery.unpack_rsp,
