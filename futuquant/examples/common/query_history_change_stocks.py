@@ -27,7 +27,7 @@ def query_history_change_stocks(quote_context=None, markets=['HK'], start='2017-
         return RET_ERROR, error_str
     req_markets = markets if isinstance(markets, list) else [markets]
 
-    if not change_min and not change_max:
+    if change_min is None and change_max is None:
         return RET_ERROR, "param change is wrong"
 
     # 汇总得到需要查询的所有股票code
