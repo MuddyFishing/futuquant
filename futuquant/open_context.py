@@ -1541,7 +1541,7 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, pd_frame
 
-    def get_multi_points_history_kline(self, codes, dates, fields, ktype='K_DAY', autype='qfq'):
+    def get_multi_points_history_kline(self, codes, dates, fields, ktype='K_DAY', autype='qfq', no_data_mode=KL_NO_DATA_MODE_FORWARD):
         '''
         获取多支股票多个时间点的指定数据列
         :param codes: 单个或多个股票 'HK.00700'  or  ['HK.00700', 'HK.00001']
@@ -1549,6 +1549,7 @@ class OpenQuoteContext(OpenContextBase):
         :param fields:单个或多个数据列 KL_FIELD.ALL or [KL_FIELD.DATE_TIME, KL_FIELD.OPEN]
         :param ktype: K线类型
         :param autype:复权类型
+        :param no_data_mode: 指定时间为非交易日时，对应的k线数据取值模式，
         :return: pd frame 表头与指定的数据列相关， 固定表头包括'code'(代码) 'time_point'(指定的日期) 'data_valid' (0=无数据 1=请求点有数据 2=请求点无数据，取前一个)
         '''
         req_codes = unique_and_normalize_list(codes)
@@ -1584,7 +1585,7 @@ class OpenQuoteContext(OpenContextBase):
         # 循环请求数据，避免一次性取太多超时
         while not data_finish:
             print('get_multi_points_history_kline - wait ... %s' % datetime.now())
-            kargs = {"codes": req_codes, "dates": req_dates, "fields": req_fields, "ktype": ktype, "autype": autype, "max_num": max_kl_num}
+            kargs = {"codes": req_codes, "dates": req_dates, "fields": req_fields, "ktype": ktype, "autype": autype, "max_num": max_kl_num, "no_data_mode":no_data_mode}
             ret_code, msg, content = query_processor(**kargs)
             if ret_code == RET_ERROR:
                 return ret_code, msg

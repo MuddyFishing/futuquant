@@ -30,6 +30,12 @@ def query_history_change_stocks(quote_context=None, markets=['HK'], start='2017-
     if change_min is None and change_max is None:
         return RET_ERROR, "param change is wrong"
 
+    # float 比较有偏差 比如 a = 1.0 , b = 1.1, c = (b-a)/a * 100, d = 10 ,  c<=d 结果为False
+    if change_min is not None:
+        change_min = int(float(change_min) * 1000)
+    if change_max is not None:
+        change_max = int(float(change_max) * 1000)
+
     # 汇总得到需要查询的所有股票code
     list_stocks = []
     for mk in req_markets:
@@ -42,10 +48,20 @@ def query_history_change_stocks(quote_context=None, markets=['HK'], start='2017-
     # 多点k线数据查询
     dt_last = datetime.now()
     ret_list = []
-    ret, data = quote_context.get_multi_points_history_kline(list_stocks, [start, end], [KL_FIELD.DATE_TIME, KL_FIELD.CLOSE], 'K_DAY', 'hfq')
-    if 0 != ret:
-        return ret, data
-    # print(data)
+    ret, data_start = quote_context.get_multi_points_history_kline(list_stocks, [start],
+                                                             [KL_FIELD.DATE_TIME, KL_FIELD.CLOSE], 'K_DAY', 'hfq',
+                                                                   KL_NO_DATA_MODE_BACKWARD)
+    if ret != 0:
+        return ret, data_start
+    ret, data_end = quote_context.get_multi_points_history_kline(list_stocks, [end],
+                                                             [KL_FIELD.DATE_TIME, KL_FIELD.CLOSE], 'K_DAY', 'hfq',
+                                                             KL_NO_DATA_MODE_FORWARD)
+    if ret != 0:
+        return ret, data_end
+
+    # 合并数据
+    data = data_start.append(data_end)
+
     dt = datetime.now() - dt_last
     print('get_multi_points_history_kline - run time = %s秒' % dt.seconds)
 
@@ -65,14 +81,14 @@ def query_history_change_stocks(quote_context=None, markets=['HK'], start='2017-
                 close_end = row['close']
                 real_times.append(row['time_key'])
         if close_start and close_end:
-            change_rate = (close_end - close_start) / float(close_start) * 100.0
+            change_rate = (close_end - close_start) / float(close_start) * 100000.0
             data_ok = True
             if change_min is not None:
                 data_ok = change_rate >= change_min
             if data_ok and change_max is not None:
                 data_ok = change_rate <= change_max
             if data_ok:
-                ret_list.append({'code': stock, 'change_rate': change_rate, 'real_times': ','.join(real_times)})
+                ret_list.append({'code': stock, 'change_rate':  float(change_rate / 1000.0), 'real_times': ','.join(real_times)})
 
     # 数据排序
     ret_list = sorted(ret_list, key=lambda x: x['change_rate'], reverse=(not ascend))
@@ -86,7 +102,9 @@ def query_history_change_stocks(quote_context=None, markets=['HK'], start='2017-
 if __name__ == "__main__":
     api_ip = '127.0.0.1'  # ''119.29.141.202'
     api_port = 11111
+    change_min = 10
+    change_max = 20
 
     quote_context = OpenQuoteContext(host=api_ip, port=api_port)
-    print(query_history_change_stocks(quote_context))
+    print(query_history_change_stocks(quote_context, ['HK'], '2017-01-10', '2017-12-06', change_min, change_max,  'STOCK'))
     quote_context.close()

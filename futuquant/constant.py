@@ -85,6 +85,10 @@ RET_ERROR = -1
 ERROR_STR_PREFIX = 'ERROR. '
 EMPTY_STRING = ''
 
+# 指定时间为非交易日时，对应的k线数据取值模式， get_multi_points_history_kline 参数用到
+KL_NO_DATA_MODE_NONE = '0'       # 返回无数据
+KL_NO_DATA_MODE_FORWARD = '1'    # 往前取数据
+KL_NO_DATA_MODE_BACKWARD = '2'   # 往后取数据
 
 # noinspection PyPep8Naming
 class TRADE(object):

@@ -1480,7 +1480,7 @@ class MultiPointsHisKLine:
         pass
 
     @classmethod
-    def pack_req(cls, codes, dates, fields, ktype, autype, max_num):
+    def pack_req(cls, codes, dates, fields, ktype, autype, max_num, no_data_mode):
         """Convert from user request for trading days to PLS request"""
         list_req_stock = []
         for stock_str in codes:
@@ -1516,7 +1516,7 @@ class MultiPointsHisKLine:
                "Version": "1",
                "ReqParam": {
                    'Cookie': '10000',
-                   'NoDataMode': '1',
+                   'NoDataMode': str(no_data_mode),
                    'RehabType': str(AUTYPE_MAP[autype]),
                    'KLType': str(KTYPE_MAP[ktype]),
                    'MaxKLNum': str(max_num),
