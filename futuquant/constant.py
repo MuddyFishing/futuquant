@@ -2,6 +2,10 @@
 """
     Constant collection
 """
+from copy import copy
+
+# 需要安装的最低牛牛客户端版本号
+NN_VERSION_MIN = '3.42.4952'
 
 MKT_MAP = {"HK": 1,
            "US": 2,
@@ -81,6 +85,10 @@ RET_ERROR = -1
 ERROR_STR_PREFIX = 'ERROR. '
 EMPTY_STRING = ''
 
+# 指定时间为非交易日时，对应的k线数据取值模式， get_multi_points_history_kline 参数用到
+KL_NO_DATA_MODE_NONE = '0'       # 返回无数据
+KL_NO_DATA_MODE_FORWARD = '1'    # 往前取数据
+KL_NO_DATA_MODE_BACKWARD = '2'   # 往后取数据
 
 # noinspection PyPep8Naming
 class TRADE(object):
@@ -116,6 +124,49 @@ class QUOTE(object):
     REV_TICKER_DIRECTION = {TICKER_DIRECTION[x]: x for x in TICKER_DIRECTION}
 
 
+class KL_FIELD(object):
+    ALL = ''
+    DATE_TIME = '1'
+    OPEN = '2'
+    CLOSE = '3'
+    HIGH = '4'
+    LOW = '5'
+    PE_RATIO = '6'
+    TURNOVER_RATE = '7'
+    TRADE_VOL = '8'
+    TRADE_VAL = '9'
+    CHANGE_RATE = '10'
+    ALL_REAL = [DATE_TIME, OPEN, CLOSE, HIGH, LOW, PE_RATIO, TURNOVER_RATE, TRADE_VOL, TRADE_VAL, CHANGE_RATE]
+    DICT_KL_FIELD_STR = {DATE_TIME: 'time_key',
+                         OPEN: 'open',
+                         CLOSE: 'close',
+                         HIGH: 'high',
+                         LOW: 'low',
+                         PE_RATIO: 'pe_ratio',
+                         TURNOVER_RATE: 'turnover_rate',
+                         TRADE_VOL: 'volume',
+                         TRADE_VAL: 'turnover',
+                         CHANGE_RATE: 'change_rate'
+                         }
+    @classmethod
+    def get_field_list(cls, str_filed):
+        ret_list = []
+        data = str(str_filed).split(',')
+        if KL_FIELD.ALL in data:
+            ret_list = copy(KL_FIELD.ALL_REAL)
+        else:
+            for x in data:
+                if x in KL_FIELD.ALL_REAL:
+                    ret_list.append(x)
+        return ret_list
 
-
-
+    @classmethod
+    def normalize_field_list(cls, fields):
+        list_ret = []
+        if KL_FIELD.ALL in fields:
+            list_ret = copy(KL_FIELD.ALL_REAL)
+        else:
+            for x in fields:
+                if x in KL_FIELD.ALL_REAL and x not in list_ret:
+                    list_ret.append(x)
+        return list_ret

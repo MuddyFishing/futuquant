@@ -26,23 +26,20 @@
 **sync\_port**\ ：网络连接端口，用于同步通信。
 
 解锁接口 unlock\_trade
-~~~~~~~~~~~~~~~~~~~~~~~
-
+~~~~~~~~~~~~~~~~
 .. code:: python
 
-    ret_code, ret_data = tradehk_ctx.unlock_trade(password)
+    ret_code, ret_data = tradeus_ctx.unlock_trade(trade_password, trade_password_md5)
 
-**功能**\ ：
-
-港股交易解锁。港股模拟交易不需要解锁，真实交易需要解锁
+**功能**\ ：交易解锁。
 
 **参数**\ ：
 
-**password**: 用户交易密码。
+**trade_password**:用户交易密码。
 
-**返回**\ ：
+**trade_password_md5**:交易密码32位MD5加密16进制表示，trade_password和trade_password_md5同时传入时，只使用trade_password_md5
 
-ret\_code失败时，ret\_data返回为错误描述字符串；
+**返回**\ ： ret\_code失败时，ret\_data返回为错误描述字符串；
 正常情况下，ret\_code为0, ret\_data返回None。
 
 **失败情况**\ ：
@@ -50,6 +47,30 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 1. 交易密码错误
 
 2. 客户端内部或网络错误
+								
+切换牛牛号登录 login\_new\_account
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: python
+
+    ret_code, ret_data = login_new_account(user_id, login_password_md5, trade_password, trade_password_md5=None)
+
+**功能**\ ：切换牛牛号登录
+
+**参数**\ ：
+**user_id**: 需要切换的牛牛号
+
+**login_password_md5**: 登录密码32位MD5加密16进制表示
+
+**login_password_md5**: 登录密码32位MD5加密16进制表示
+
+**trade_password**: 交易密码明文
+
+**trade_password_md5**: 交易密码32位MD5加密16进制表示，trade_password和trade_password_md5同时传入时，只使用trade_password_md5
+
+**返回**\ ：ret = RET\_OK表示切换成功。
+
+**注**:切换牛牛号登录会导致API接口断开重连。
 
 下单接口 place\_order
 ~~~~~~~~~~~~~~~~~~~~~
@@ -763,17 +784,19 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 **功能**\ ：创建上下文，建立网络连接。 **参数**:
 **host**\ ：网络连接地址 **sync\_port**\ ：网络连接端口，用于同步通信。
 
-**解锁接口 unlock\_trade**
-
+解锁接口 unlock\_trade
+~~~~~~~~~~~~~~~~
 .. code:: python
 
-    ret_code, ret_data = tradeus_ctx.unlock_trade(password)
+    ret_code, ret_data = tradeus_ctx.unlock_trade(trade_password, trade_password_md5)
 
 **功能**\ ：交易解锁。
 
 **参数**\ ：
 
-**password**: 用户交易密码。
+**trade_password**:用户交易密码。
+
+**trade_password_md5**:交易密码32位MD5加密16进制表示，trade_password和trade_password_md5同时传入时，只使用trade_password_md5
 
 **返回**\ ： ret\_code失败时，ret\_data返回为错误描述字符串；
 正常情况下，ret\_code为0, ret\_data返回None。

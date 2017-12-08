@@ -1,3 +1,4 @@
+vnpy >= 1.7.2
 pandas
 numpy
 matplotlib

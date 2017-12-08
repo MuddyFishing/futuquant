@@ -670,7 +670,7 @@ class HistoryKlineQuery:
         pass
 
     @classmethod
-    def pack_req(cls, stock_str, start_date=None, end_date=None, ktype='K_DAY', autype='qfq'):
+    def pack_req(cls, stock_str, start_date, end_date, ktype, autype, fields, max_num):
         """Convert from user request for trading days to PLS request"""
         ret, content = split_stock_str(stock_str)
         if ret == RET_ERROR:
@@ -706,9 +706,16 @@ class HistoryKlineQuery:
                                            % (autype, ", ".join([str(x) for x in AUTYPE_MAP]))
             return RET_ERROR, error_str, None
 
+        str_field = ','.join(fields)
+        list_req_field = KL_FIELD.get_field_list(str_field)
+        if not list_req_field:
+            return RET_ERROR, ERROR_STR_PREFIX + "field error", None
+
         req = {"Protocol": "1024",
                "Version": "1",
                "ReqParam": {'Market': str(market_code),
+                            'MaxKLNum': str(max_num),
+                            'NeedKLData': str(','.join(list_req_field)),
                             'StockCode': stock_code,
                             'start_date': start_date,
                             'end_date': end_date,
@@ -733,25 +740,47 @@ class HistoryKlineQuery:
             error_str = ERROR_STR_PREFIX + "cannot find HistoryKLArr in client rsp. Response: %s" % rsp_str
             return RET_ERROR, error_str, None
 
+        has_next = False
+        next_time = ''
+        list_ret = []
         if rsp_data["HistoryKLArr"] is None or len(rsp_data["HistoryKLArr"]) == 0:
-            return RET_OK, "", []
+            return RET_OK, "", (list_ret, has_next, next_time)
 
         raw_kline_list = rsp_data["HistoryKLArr"]
         stock_code = merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
-        kline_list = [{"code": stock_code,
-                       "time_key": record['Time'],
-                       "open": int10_9_price_to_float(record['Open']),
-                       "high": int10_9_price_to_float(record['High']),
-                       "low": int10_9_price_to_float(record['Low']),
-                       "close": int10_9_price_to_float(record['Close']),
-                       "volume": record['Volume'],
-                       "turnover": int1000_price_to_float(record['Turnover']),
-                       "pe_ratio":int1000_price_to_float(record['PERatio']),
-                       "turnover_rate":int1000_price_to_float(record['TurnoverRate'])
-                       }
-                      for record in raw_kline_list]
 
-        return RET_OK, "", kline_list
+        if 'HasNext' in rsp_data:
+            has_next = int(rsp_data['HasNext'])
+        if 'NextKLTime' in rsp_data:
+            next_time = str(rsp_data['NextKLTime']).split(' ')[0]
+
+        dict_data = {}
+        for record in raw_kline_list:
+            dict_data['code'] = stock_code
+            if 'Time' in record:
+                dict_data['time_key'] = record['Time']
+            if 'Open' in record:
+                dict_data['open'] = int10_9_price_to_float(record['Open'])
+            if 'High' in record:
+                dict_data['high'] = int10_9_price_to_float(record['High'])
+            if 'Low' in record:
+                dict_data['low'] = int10_9_price_to_float(record['Low'])
+            if 'Close' in record:
+                dict_data['close'] = int10_9_price_to_float(record['Close'])
+            if 'Volume' in record:
+                dict_data['volume'] = record['Volume']
+            if 'Turnover' in record:
+                dict_data['turnover'] = int1000_price_to_float(record['Turnover'])
+            if 'PERatio' in record:
+                dict_data['pe_ratio'] = int1000_price_to_float(record['PERatio'])
+            if 'TurnoverRate' in record:
+                dict_data['turnover_rate'] = int1000_price_to_float(record['TurnoverRate'])
+            if 'ChangeRate' in record:
+                dict_data['change_rate'] = int1000_price_to_float(record['ChangeRate'])
+
+            list_ret.append(dict_data.copy())
+
+        return RET_OK, "", (list_ret, has_next, next_time)
 
 
 class ExrightQuery:
@@ -1291,6 +1320,67 @@ class OrderBookQuery:
         return RET_OK, "", order_book
 
 
+class SuspensionQuery:
+    """
+    Query SuspensionQuery.
+    """
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pack_req(cls, codes, start, end):
+        """Convert from user request for trading days to PLS request"""
+        list_req_stock = []
+        for stock_str in codes:
+            ret, content = split_stock_str(stock_str)
+            if ret == RET_ERROR:
+                return RET_ERROR, content, None
+            else:
+                list_req_stock.append(content)
+
+        for x in [start, end]:
+            ret, msg = check_date_str_format(x)
+            if ret != RET_OK:
+                return ret, msg, None
+
+        req = {"Protocol": "1039",
+               "Version": "1",
+               "ReqParam": {
+                   'Cookie': '10000',
+                   'StockArr': [
+                        {'Market': str(market), 'StockCode': code}
+                        for (market, code) in list_req_stock],
+                   'start_date': start,
+                   'end_date': end}
+               }
+        req_str = json.dumps(req) + '\r\n'
+        return RET_OK, "", req_str
+
+    @classmethod
+    def unpack_rsp(cls, rsp_str):
+        """Convert from PLS response to user response"""
+        ret, msg, rsp = extract_pls_rsp(rsp_str)
+        if ret != RET_OK:
+            return RET_ERROR, msg, None
+
+        rsp_data = rsp['RetData']
+        if "StockSuspendArr" not in rsp_data:
+            error_str = ERROR_STR_PREFIX + "cannot find StockSuspendArr in client rsp. Response: %s" % rsp_str
+            return RET_ERROR, error_str, None
+
+        ret_susp_list = []
+        arr_susp = rsp_data["StockSuspendArr"]
+        for susp in arr_susp:
+            stock_str = merge_stock_str(int(susp['Market']), susp['StockCode'])
+            date_arr = susp['SuspendArr']
+            list_date = [x['SuspendTime'] for x in date_arr] if date_arr else []
+            str_date = ','.join(list_date) if list_date and len(list_date) > 0 else ''
+            ret_susp_list.append({'code': stock_str, 'suspension_dates': str_date})
+
+        return RET_OK, "", ret_susp_list
+
+
 class GlobalStateQuery:
     """
     Query process "FTNN.exe" global state : market state & logined state
@@ -1352,6 +1442,9 @@ class GlobalStateQuery:
 
         rsp_data = rsp['RetData']
 
+        if 'Version' not in rsp_data:
+            rsp_data['Version'] = ''
+
         return RET_OK, "", rsp_data
 
 
@@ -1377,3 +1470,110 @@ class HeartBeatPush:
         rsp_data = rsp['RetData']
 
         return RET_OK, '', int(rsp_data['TimeStamp'])
+
+
+class MultiPointsHisKLine:
+    """
+    Query MultiPointsHisKLine
+    """
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pack_req(cls, codes, dates, fields, ktype, autype, max_num, no_data_mode):
+        """Convert from user request for trading days to PLS request"""
+        list_req_stock = []
+        for stock_str in codes:
+            ret, content = split_stock_str(stock_str)
+            if ret == RET_ERROR:
+                return RET_ERROR, content, None
+            else:
+                list_req_stock.append(content)
+
+        for x in dates:
+            ret, msg = check_date_str_format(x)
+            if ret != RET_OK:
+                return ret, msg, None
+
+        if len(fields) == 0:
+            fields = copy(KL_FIELD.ALL_REAL)
+        str_field = ','.join(fields)
+        list_req_field = KL_FIELD.get_field_list(str_field)
+        if not list_req_field:
+            return RET_ERROR, ERROR_STR_PREFIX + "field error", None
+
+        if ktype not in KTYPE_MAP:
+            error_str = ERROR_STR_PREFIX + "ktype is %s, which is not valid. (%s)" \
+                                           % (ktype, ", ".join([x for x in KTYPE_MAP]))
+            return RET_ERROR, error_str, None
+
+        if autype not in AUTYPE_MAP:
+            error_str = ERROR_STR_PREFIX + "autype is %s, which is not valid. (%s)" \
+                                           % (autype, ", ".join([str(x) for x in AUTYPE_MAP]))
+            return RET_ERROR, error_str, None
+
+        req = {"Protocol": "1038",
+               "Version": "1",
+               "ReqParam": {
+                   'Cookie': '10000',
+                   'NoDataMode': str(no_data_mode),
+                   'RehabType': str(AUTYPE_MAP[autype]),
+                   'KLType': str(KTYPE_MAP[ktype]),
+                   'MaxKLNum': str(max_num),
+                   'StockArr': [
+                        {'Market': str(market), 'StockCode': code}
+                        for (market, code) in list_req_stock],
+                   'TimePoints': str(','.join(dates)),
+                   'NeedKLData': str(','.join(list_req_field))
+                   }
+               }
+        req_str = json.dumps(req) + '\r\n'
+        return RET_OK, "", req_str
+
+    @classmethod
+    def unpack_rsp(cls, rsp_str):
+        """Convert from PLS response to user response"""
+        ret, msg, rsp = extract_pls_rsp(rsp_str)
+        if ret != RET_OK:
+            return RET_ERROR, msg, None
+
+        rsp_data = rsp['RetData']
+        if "StockHistoryKLArr" not in rsp_data:
+            error_str = ERROR_STR_PREFIX + "cannot find StockHistoryKLArr in client rsp. Response: %s" % rsp_str
+            return RET_ERROR, error_str, None
+        has_next = int(rsp_data['HasNext'])
+
+        list_ret = []
+        dict_data = {}
+        arr_kline = rsp_data["StockHistoryKLArr"]
+        for kline in arr_kline:
+            stock_str = merge_stock_str(int(kline['Market']), kline['StockCode'])
+            data_arr = kline['HistoryKLArr']
+            for point_data in data_arr:
+                dict_data['code'] = stock_str
+                dict_data['time_point'] = point_data['TimePoint']
+                dict_data['data_valid'] = int(point_data['DataValid'])
+                if 'Time' in point_data:
+                    dict_data['time_key'] = point_data['Time']
+                if 'Open' in point_data:
+                    dict_data['open'] = int10_9_price_to_float(point_data['Open'])
+                if 'High' in point_data:
+                    dict_data['high'] = int10_9_price_to_float(point_data['High'])
+                if 'Low' in point_data:
+                    dict_data['low'] = int10_9_price_to_float(point_data['Low'])
+                if 'Close' in point_data:
+                    dict_data['close'] = int10_9_price_to_float(point_data['Close'])
+                if 'Volume' in point_data:
+                    dict_data['volume'] = point_data['Volume']
+                if 'Turnover' in point_data:
+                    dict_data['turnover'] = int1000_price_to_float(point_data['Turnover'])
+                if 'PERatio' in point_data:
+                    dict_data['pe_ratio'] = int1000_price_to_float(point_data['PERatio'])
+                if 'TurnoverRate' in point_data:
+                    dict_data['turnover_rate'] = int1000_price_to_float(point_data['TurnoverRate'])
+                if 'ChangeRate' in point_data:
+                    dict_data['change_rate'] = int1000_price_to_float(point_data['ChangeRate'])
+
+                list_ret.append(dict_data.copy())
+
+        return RET_OK, "", (list_ret, has_next)
