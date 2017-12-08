@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PLS API &mdash; futuquant 2.2.3 documentation</title>
+  <title>PLS API &mdash; futuquant 2.3 documentation</title>
   
 
   
@@ -32,7 +32,7 @@
   
 
   
-    <link rel="top" title="futuquant 2.2.3 documentation" href="../index.html"/>
+    <link rel="top" title="futuquant 2.3 documentation" href="../index.html"/>
         <link rel="next" title="Q&amp;A" href="../q&amp;a/Q&amp;A.html"/>
         <link rel="prev" title="交易API" href="Trade_API_Python_Doc.html"/> 
 
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                2.2.3
+                2.3
               </div>
             
           
@@ -135,6 +135,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#protocol-1027">获取板块下的股票列表(Protocol: 1027)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#protocol-1028">获取经纪队列(Protocol:1028)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#protocol-1029">获取牛牛程序全局状态(Protocol:1029)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#protocol-1037">切换牛牛帐号(Protocol:1037)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#k-protocol-1038">请求多只股票的历史K线多个单点(Protocol:1038)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#protocol-6003">港股下单交易(Protocol: 6003)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#protocol-6004">港股设置订单状态(Protocol: 6004)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#protocol-6005">港股修改订单(Protocol: 6005)</a></li>
@@ -331,6 +333,18 @@
 <td>Hugh</td>
 <td>&nbsp;</td>
 </tr>
+<tr class="row-odd"><td>2017.11.~</td>
+<td><ol class="first last arabic simple">
+<li>增加切换帐号接口</li>
+<li>交易解锁支持密码加密传值</li>
+<li>请求历史K线支持指定返回特定字段</li>
+<li>历史K线增加涨跌幅字段</li>
+<li>增加请求多支股票历史K线多个单点接口</li>
+</ol>
+</td>
+<td>Hugh</td>
+<td>&nbsp;</td>
+</tr>
 </tbody>
 </table>
 <p><strong>名词定义</strong></p>
@@ -495,72 +509,77 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td>1035</td>
 <td>经纪队列推送</td>
 </tr>
-<tr class="row-odd"><td>交易相关</td>
+<tr class="row-odd"><td>1038</td>
+<td>多只股票历史K线</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>交易相关</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 </tr>
-<tr class="row-even"><td>6003</td>
+<tr class="row-odd"><td>6003</td>
 <td>港股下单</td>
 <td>7003</td>
 <td>美股下单</td>
 </tr>
-<tr class="row-odd"><td>6004</td>
+<tr class="row-even"><td>6004</td>
 <td>港股订单状态更改</td>
 <td>7004</td>
 <td>美股订单状态修改</td>
 </tr>
-<tr class="row-even"><td>6005</td>
+<tr class="row-odd"><td>6005</td>
 <td>港股改单</td>
 <td>7005</td>
 <td>美股改单</td>
 </tr>
-<tr class="row-odd"><td>6006</td>
+<tr class="row-even"><td>6006</td>
 <td>解锁交易</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 </tr>
-<tr class="row-even"><td>6007</td>
+<tr class="row-odd"><td>6007</td>
 <td>港股查询账户信息</td>
 <td>7007</td>
 <td>美股查询账户信息</td>
 </tr>
-<tr class="row-odd"><td>6008</td>
+<tr class="row-even"><td>6008</td>
 <td>港股查询订单列表</td>
 <td>7008</td>
 <td>美股查询订单列表</td>
 </tr>
-<tr class="row-even"><td>6009</td>
+<tr class="row-odd"><td>6009</td>
 <td>港股查询持仓</td>
 <td>7009</td>
 <td>美股查询持仓</td>
 </tr>
-<tr class="row-odd"><td>6010</td>
+<tr class="row-even"><td>6010</td>
 <td>港股查询成交记录</td>
 <td>7010</td>
 <td>美股查询成交记录</td>
 </tr>
-<tr class="row-even"><td>6011</td>
+<tr class="row-odd"><td>6011</td>
 <td>港股查询历史订单</td>
 <td>7011</td>
 <td>美股查询历史订单</td>
 </tr>
-<tr class="row-odd"><td>6012</td>
+<tr class="row-even"><td>6012</td>
 <td>港股查询历史成交</td>
 <td>7012</td>
 <td>美股查询历史成交</td>
 </tr>
-<tr class="row-even"><td>6100</td>
+<tr class="row-odd"><td>6100</td>
 <td>港股订阅订单成交</td>
 <td>7100</td>
 <td>美股订阅订单成交</td>
 </tr>
-<tr class="row-odd"><td>6200</td>
+<tr class="row-even"><td>6200</td>
 <td>港股订单变化推送</td>
 <td>7200</td>
 <td>美股订单变化推送</td>
 </tr>
-<tr class="row-even"><td>6201</td>
+<tr class="row-odd"><td>6201</td>
 <td>港股成交推送</td>
 <td>7201</td>
 <td>美股成交推送</td>
@@ -1640,15 +1659,15 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <div class="section" id="k-protocol-1024">
 <h4>历史K线(Protocol:1024)<a class="headerlink" href="#k-protocol-1024" title="Permalink to this headline">¶</a></h4>
 <p><strong>C-&gt;S eg:</strong></p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;1024&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;KLType&quot;</span><span class="p">:</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;Market&quot;</span><span class="p">:</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;RehabType&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;CFO&quot;</span><span class="p">,</span><span class="s2">&quot;end_date&quot;</span><span class="p">:</span><span class="s2">&quot;2017-03-01&quot;</span><span class="p">,</span><span class="s2">&quot;start_date&quot;</span><span class="p">:</span><span class="s2">&quot;2017-01-01&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;1024&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;KLType&quot;</span><span class="p">:</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;Market&quot;</span><span class="p">:</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;MaxKLNum&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;NeedKLData&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;RehabType&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;CFO&quot;</span><span class="p">,</span><span class="s2">&quot;end_date&quot;</span><span class="p">:</span><span class="s2">&quot;2017-02-23&quot;</span><span class="p">,</span><span class="s2">&quot;start_date&quot;</span><span class="p">:</span><span class="s2">&quot;2017-02-21&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <p><strong>S-&gt;C eg:</strong></p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;1024&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;HistoryKLArr&quot;</span><span class="p">:[{</span><span class="s2">&quot;Close&quot;</span><span class="p">:</span><span class="s2">&quot;42710000000&quot;</span><span class="p">,</span><span class="s2">&quot;High&quot;</span><span class="p">:</span><span class="s2">&quot;42745000000&quot;</span><span class="p">,</span><span class="s2">&quot;Low&quot;</span><span class="p">:</span><span class="s2">&quot;42360000000&quot;</span><span class="p">,</span><span class="s2">&quot;Open&quot;</span><span class="p">:</span><span class="s2">&quot;42360000000&quot;</span><span class="p">,</span><span class="s2">&quot;PERatio&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Turnover&quot;</span><span class="p">:</span><span class="s2">&quot;1872941000&quot;</span><span class="p">,</span><span class="s2">&quot;Volume&quot;</span><span class="p">:</span><span class="s2">&quot;43904&quot;</span><span class="p">,</span><span class="s2">&quot;Time&quot;</span><span class="p">:</span><span class="s2">&quot;2017-02-21</span>
-<span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="s2">&quot;,&quot;</span><span class="n">TurnoverRate</span><span class="s2">&quot;:&quot;</span><span class="mi">0</span><span class="s2">&quot;},{&quot;</span><span class="n">Close</span><span class="s2">&quot;:&quot;</span><span class="mi">42704000000</span><span class="s2">&quot;,&quot;</span><span class="n">High</span><span class="s2">&quot;:&quot;</span><span class="mi">42718000000</span><span class="s2">&quot;,</span>
-
-<span class="s2">&quot;Low&quot;</span><span class="p">:</span><span class="s2">&quot;42580000000&quot;</span><span class="p">,</span><span class="s2">&quot;Open&quot;</span><span class="p">:</span><span class="s2">&quot;42700000000&quot;</span><span class="p">,</span><span class="s2">&quot;PERatio&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Turnover&quot;</span><span class="p">:</span><span class="s2">&quot;1059874000&quot;</span><span class="p">,</span><span class="s2">&quot;Volume&quot;</span><span class="p">:</span><span class="s2">&quot;24830&quot;</span><span class="p">,</span><span class="s2">&quot;Time&quot;</span><span class="p">:</span><span class="s2">&quot;2017-02-2200:00:00&quot;</span><span class="p">,</span><span class="s2">&quot;TurnoverRate&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">},{</span><span class="s2">&quot;Close&quot;</span><span class="p">:</span><span class="s2">&quot;42620000000&quot;</span><span class="p">,</span><span class="s2">&quot;High&quot;</span><span class="p">:</span><span class="s2">&quot;42900000000&quot;</span><span class="p">,</span><span class="s2">&quot;Low&quot;</span><span class="p">:</span><span class="s2">&quot;42535000000&quot;</span><span class="p">,</span><span class="s2">&quot;Open&quot;</span><span class="p">:</span><span class="s2">&quot;42900000000&quot;</span><span class="p">,</span><span class="s2">&quot;PERatio&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Turnover&quot;</span><span class="p">:</span><span class="s2">&quot;1211681000&quot;</span><span class="p">,</span><span class="s2">&quot;Volume&quot;</span><span class="p">:</span><span class="s2">&quot;28394&quot;</span><span class="p">,</span><span class="s2">&quot;Time&quot;</span><span class="p">:</span><span class="s2">&quot;2017-02-23</span>
-<span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="s2">&quot;,&quot;</span><span class="n">TurnoverRate</span><span class="s2">&quot;:&quot;</span><span class="mi">0</span><span class="s2">&quot;}],&quot;</span><span class="n">KLType</span><span class="s2">&quot;:&quot;</span><span class="mi">2</span><span class="s2">&quot;,&quot;</span><span class="n">Market</span><span class="s2">&quot;:&quot;</span><span class="mi">2</span><span class="s2">&quot;,&quot;</span><span class="n">RehabType</span><span class="s2">&quot;:&quot;</span><span class="mi">1</span><span class="s2">&quot;,&quot;</span><span class="n">StockCode</span><span class="s2">&quot;:&quot;</span><span class="n">CFO</span><span class="s2">&quot;,&quot;</span><span class="n">end_date</span><span class="s2">&quot;:&quot;</span><span class="mi">2017</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">01</span><span class="s2">&quot;,&quot;</span><span class="n">start_date</span><span class="s2">&quot;:&quot;</span><span class="mi">2017</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span><span class="s2">&quot;},&quot;</span><span class="n">Version</span><span class="s2">&quot;:&quot;</span><span class="mi">1</span><span class="s2">&quot;}</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;1024&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;HistoryKLArr&quot;</span><span class="p">:[</span>
+    <span class="p">{</span><span class="s2">&quot;Close&quot;</span><span class="p">:</span><span class="s2">&quot;42710000000&quot;</span><span class="p">,</span><span class="s2">&quot;High&quot;</span><span class="p">:</span><span class="s2">&quot;42745000000&quot;</span><span class="p">,</span><span class="s2">&quot;Low&quot;</span><span class="p">:</span><span class="s2">&quot;42360000000&quot;</span><span class="p">,</span><span class="s2">&quot;Open&quot;</span><span class="p">:</span><span class="s2">&quot;42360000000&quot;</span><span class="p">,</span><span class="s2">&quot;PERatio&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Turnover&quot;</span><span class="p">:</span><span class="s2">&quot;1872941000&quot;</span><span class="p">,</span><span class="s2">&quot;Volume&quot;</span><span class="p">:</span><span class="s2">&quot;43904&quot;</span><span class="p">,</span><span class="s2">&quot;Time&quot;</span><span class="p">:</span><span class="s2">&quot;2017-02-21 00:00:00&quot;</span><span class="p">,</span><span class="s2">&quot;TurnoverRate&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;RaiseRate&quot;</span><span class="p">:</span><span class="s2">&quot;640&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;Close&quot;</span><span class="p">:</span><span class="s2">&quot;42704000000&quot;</span><span class="p">,</span><span class="s2">&quot;High&quot;</span><span class="p">:</span><span class="s2">&quot;42718000000&quot;</span><span class="p">,</span><span class="s2">&quot;Low&quot;</span><span class="p">:</span><span class="s2">&quot;42580000000&quot;</span><span class="p">,</span><span class="s2">&quot;Open&quot;</span><span class="p">:</span><span class="s2">&quot;42700000000&quot;</span><span class="p">,</span><span class="s2">&quot;PERatio&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Turnover&quot;</span><span class="p">:</span><span class="s2">&quot;1059874000&quot;</span><span class="p">,</span><span class="s2">&quot;Volume&quot;</span><span class="p">:</span><span class="s2">&quot;24830&quot;</span><span class="p">,</span><span class="s2">&quot;Time&quot;</span><span class="p">:</span><span class="s2">&quot;2017-02-22 00:00:00&quot;</span><span class="p">,</span><span class="s2">&quot;TurnoverRate&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;RaiseRate&quot;</span><span class="p">:</span><span class="s2">&quot;-10&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;Close&quot;</span><span class="p">:</span><span class="s2">&quot;42620000000&quot;</span><span class="p">,</span><span class="s2">&quot;High&quot;</span><span class="p">:</span><span class="s2">&quot;42900000000&quot;</span><span class="p">,</span><span class="s2">&quot;Low&quot;</span><span class="p">:</span><span class="s2">&quot;42535000000&quot;</span><span class="p">,</span><span class="s2">&quot;Open&quot;</span><span class="p">:</span><span class="s2">&quot;42900000000&quot;</span><span class="p">,</span><span class="s2">&quot;PERatio&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Turnover&quot;</span><span class="p">:</span><span class="s2">&quot;1211681000&quot;</span><span class="p">,</span><span class="s2">&quot;Volume&quot;</span><span class="p">:</span><span class="s2">&quot;28394&quot;</span><span class="p">,</span><span class="s2">&quot;Time&quot;</span><span class="p">:</span><span class="s2">&quot;2017-02-23 00:00:00&quot;</span><span class="p">,</span><span class="s2">&quot;TurnoverRate&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;RaiseRate&quot;</span><span class="p">:</span><span class="s2">&quot;-200&quot;</span><span class="p">}],</span>
+    <span class="s2">&quot;HasNext&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;KLType&quot;</span><span class="p">:</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;Market&quot;</span><span class="p">:</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;MaxKLNum&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;NextKLTime&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;RehabType&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;CFO&quot;</span><span class="p">,</span><span class="s2">&quot;end_date&quot;</span><span class="p">:</span><span class="s2">&quot;2017-02-23&quot;</span><span class="p">,</span><span class="s2">&quot;start_date&quot;</span><span class="p">:</span><span class="s2">&quot;2017-02-21&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <p>放大系数：Close/High/Low/Open为10的9次方。成交额为10的3次方。</p>
@@ -1681,47 +1700,67 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td>Int32</td>
 <td>复权类型 0 = 不复权； 1 = 前复权； 2 = 后复权；</td>
 </tr>
+<tr class="row-even"><td>MaxKLNum</td>
+<td>Int32</td>
+<td>最多返回K线根数的限制，防止超时无响应，为空或0表示不限制</td>
+</tr>
+<tr class="row-odd"><td>HasNext</td>
+<td>Int32</td>
+<td>时间段需要返回的数据是否超过MaxKLNum限制，0=没有超过限制；1=超过限制</td>
+</tr>
+<tr class="row-even"><td>NextKLTime</td>
+<td>String</td>
+<td>超过HasNext为1时有效，指定下根K线时间点，格式YYYY-MM-DD HH:SS:MM</td>
+</tr>
+<tr class="row-odd"><td>NeedKLData</td>
+<td>String</td>
+<td>指定需要返回的K线字段，字符串，英文逗号分割，为空或单独传0表示不限制，&#8221;1,2,3&#8221;</td>
+</tr>
 <tr class="row-even"><td>Time</td>
 <td>String</td>
-<td>时间</td>
+<td>时间，NeedKLData指定值：1</td>
 </tr>
 <tr class="row-odd"><td>Close</td>
 <td>Int64</td>
-<td>收盘价</td>
+<td>收盘价，NeedKLData指定值：2</td>
 </tr>
 <tr class="row-even"><td>High</td>
 <td>Int64</td>
-<td>最高价</td>
+<td>最高价，NeedKLData指定值：3</td>
 </tr>
 <tr class="row-odd"><td>Low</td>
 <td>Int64</td>
-<td>最低价</td>
+<td>最低价，NeedKLData指定值：4</td>
 </tr>
 <tr class="row-even"><td>Open</td>
 <td>Int64</td>
-<td>开盘价</td>
+<td>开盘价，NeedKLData指定值：5</td>
 </tr>
 <tr class="row-odd"><td>Volume</td>
 <td>Int64</td>
-<td>成交量</td>
+<td>成交量，NeedKLData指定值：6</td>
 </tr>
 <tr class="row-even"><td>Turnover</td>
 <td>Int64</td>
-<td>成交额</td>
+<td>成交额，NeedKLData指定值：7</td>
 </tr>
 <tr class="row-odd"><td>PERatio</td>
 <td>Int32</td>
-<td>市盈率</td>
+<td>市盈率，NeedKLData指定值：8</td>
 </tr>
 <tr class="row-even"><td>TurnoverRate</td>
 <td>Int32</td>
-<td>换手率</td>
+<td>换手率，NeedKLData指定值：9</td>
 </tr>
-<tr class="row-odd"><td>end_date</td>
+<tr class="row-odd"><td>RaiseRate</td>
+<td>Int32</td>
+<td>涨跌幅，NeedKLData指定值：10</td>
+</tr>
+<tr class="row-even"><td>end_date</td>
 <td>String</td>
 <td>结束日期</td>
 </tr>
-<tr class="row-even"><td>start_date</td>
+<tr class="row-odd"><td>start_date</td>
 <td>String</td>
 <td>开始日期</td>
 </tr>
@@ -2123,6 +2162,187 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </tbody>
 </table>
 </div>
+<div class="section" id="protocol-1037">
+<h4>切换牛牛帐号(Protocol:1037)<a class="headerlink" href="#protocol-1037" title="Permalink to this headline">¶</a></h4>
+<p><strong>C-&gt;S eg:</strong></p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;1037&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123&quot;</span><span class="p">,</span> <span class="s2">&quot;UserID&quot;</span><span class="p">:</span><span class="s2">&quot;123456&quot;</span><span class="p">,</span> <span class="s2">&quot;PasswordMD5&quot;</span><span class="p">:</span><span class="s2">&quot;E10ADC3949BA59ABBE56E057F20F883E&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>S-&gt;C eg:</strong></p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;1037&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>字段说明:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="12%" />
+<col width="73%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">字段名</th>
+<th class="head">字段值</th>
+<th class="head">备注</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Cookie</td>
+<td>Uint32</td>
+<td>请求操作标识，输入参数,为了区分一个连接中有多个同样的请求</td>
+</tr>
+<tr class="row-odd"><td>UserID</td>
+<td>string</td>
+<td>需要切换的帐号的牛牛号</td>
+</tr>
+<tr class="row-even"><td>PasswordMD5</td>
+<td>string</td>
+<td>登录密码32位MD5密文16进制表示</td>
+</tr>
+</tbody>
+</table>
+<p><strong>注：因为切换帐号，用户信息销毁，插件也随着卸载并登录后重新加载，该牛牛客户端的所有连接也随之断开，所以没有办法返回切换成功或失败信息。</strong></p>
+</div>
+<div class="section" id="k-protocol-1038">
+<h4>请求多只股票的历史K线多个单点(Protocol:1038)<a class="headerlink" href="#k-protocol-1038" title="Permalink to this headline">¶</a></h4>
+<p><strong>C-&gt;S eg:</strong></p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;1038&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;KLType&quot;</span><span class="p">:</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;MaxKLNum&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;NeedKLData&quot;</span><span class="p">:</span><span class="s2">&quot;1,10&quot;</span><span class="p">,</span><span class="s2">&quot;NoDataMode&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;RehabType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;StockArr&quot;</span><span class="p">:[{</span><span class="s2">&quot;Market&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;00700&quot;</span><span class="p">},{</span><span class="s2">&quot;Market&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;00772&quot;</span><span class="p">}],</span><span class="s2">&quot;TimePoints&quot;</span><span class="p">:</span><span class="s2">&quot;2017-11-1,2017-11-2&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>S-&gt;C eg:</strong></p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;1038&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;HasNext&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;KLType&quot;</span><span class="p">:</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;MaxKLNum&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;NeedKLData&quot;</span><span class="p">:</span><span class="s2">&quot;1,10&quot;</span><span class="p">,</span><span class="s2">&quot;NoDataMode&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;RehabType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;StockArr&quot;</span><span class="p">:[{</span><span class="s2">&quot;Market&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;00700&quot;</span><span class="p">},{</span><span class="s2">&quot;Market&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;00772&quot;</span><span class="p">}],</span>
+<span class="s2">&quot;StockHistoryKLArr&quot;</span><span class="p">:[{</span><span class="s2">&quot;HistoryKLArr&quot;</span><span class="p">:[{</span><span class="s2">&quot;DataValid&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;RaiseRate&quot;</span><span class="p">:</span><span class="s2">&quot;2915&quot;</span><span class="p">,</span><span class="s2">&quot;Time&quot;</span><span class="p">:</span><span class="s2">&quot;2017-11-01 00:00:00&quot;</span><span class="p">,</span><span class="n">TimePoint</span><span class="p">:</span><span class="s2">&quot;2017-11-1&quot;</span><span class="p">},{</span><span class="s2">&quot;DataValid&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;RaiseRate&quot;</span><span class="p">:</span><span class="s2">&quot;499&quot;</span><span class="p">,</span><span class="s2">&quot;Time&quot;</span><span class="p">:</span><span class="s2">&quot;2017-11-02 00:00:00&quot;</span><span class="p">,</span><span class="n">TimePoint</span><span class="p">:</span><span class="s2">&quot;2017-11-2&quot;</span><span class="p">},</span>
+<span class="p">{</span><span class="s2">&quot;HistoryKLArr&quot;</span><span class="p">:[{</span><span class="s2">&quot;DataValid&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;RaiseRate&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Time&quot;</span><span class="p">:</span><span class="s2">&quot;2017-11-01 00:00:00&quot;</span><span class="p">,</span><span class="n">TimePoint</span><span class="p">:</span><span class="s2">&quot;2017-11-1&quot;</span><span class="p">},{</span><span class="s2">&quot;DataValid&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;RaiseRate&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;Time&quot;</span><span class="p">:</span><span class="s2">&quot;2017-11-02 00:00:00&quot;</span><span class="p">,</span><span class="n">TimePoint</span><span class="p">:</span><span class="s2">&quot;2017-11-2&quot;</span><span class="p">},],</span>
+<span class="s2">&quot;TimePoints&quot;</span><span class="p">:</span><span class="s2">&quot;2017-11-1 5:00,2017-11-2&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>字段说明:
+放大系数：Close/High/Low/Open为10的9次方。成交额为10的3次方。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="8%" />
+<col width="76%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">字段名</th>
+<th class="head">字段值</th>
+<th class="head">备注</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>StockHistoryKLArr</td>
+<td>&nbsp;</td>
+<td>股票K线数据</td>
+</tr>
+<tr class="row-odd"><td>HistoryKLArr</td>
+<td>&nbsp;</td>
+<td>K线数据</td>
+</tr>
+<tr class="row-even"><td>StockArr</td>
+<td>&nbsp;</td>
+<td>股票数据</td>
+</tr>
+<tr class="row-odd"><td>Market</td>
+<td>Int32</td>
+<td>市场类型 详见市场类型说明</td>
+</tr>
+<tr class="row-even"><td>StockCode</td>
+<td>String</td>
+<td>股票代码</td>
+</tr>
+<tr class="row-odd"><td>TimePoints</td>
+<td>String</td>
+<td>多个时间点字符串，英文逗号分割，格式YYYY-MM-DD HH:MM:SS ，HH:MM:SS部分可省略</td>
+</tr>
+<tr class="row-even"><td>TimePoint</td>
+<td>String</td>
+<td>单个请求的时间点字符串，格式YYYY-MM-DD HH:MM:SS HH:MM:SS部分可不存在</td>
+</tr>
+<tr class="row-odd"><td>NoDataMode</td>
+<td>Int32</td>
+<td>指定点没数据怎么返回,0=返回无效数据，1=返回前一个有效数据  2= 返回后一个有效数据</td>
+</tr>
+<tr class="row-even"><td>KLType</td>
+<td>Int32</td>
+<td>K线类型 1 = 1分K; 2 = 日K; 3 = 周K; 4 = 月K; 6 = 5分K; 7 = 15分K; 8 = 30分K; 9 = 60分K;</td>
+</tr>
+<tr class="row-odd"><td>RehabType</td>
+<td>Int32</td>
+<td>复权类型 0 = 不复权； 1 = 前复权； 2 = 后复权；</td>
+</tr>
+<tr class="row-even"><td>MaxKLNum</td>
+<td>Int32</td>
+<td>最多返回K线根数的限制，防止超时无响应，为空或0表示不限制</td>
+</tr>
+<tr class="row-odd"><td>HasNext</td>
+<td>Int32</td>
+<td>时间段需要返回的数据是否超过MaxKLNum限制，0=没有超过限制；1=超过限制</td>
+</tr>
+<tr class="row-even"><td>NextKLTime</td>
+<td>String</td>
+<td>超过HasNext为1时有效，指定下根K线时间点，格式YYYY-MM-DD HH:SS:MM</td>
+</tr>
+<tr class="row-odd"><td>NeedKLData</td>
+<td>String</td>
+<td>指定需要返回的K线字段，字符串，英文逗号分割，为空或单独传0表示不限制，&#8221;1,2,3&#8221;</td>
+</tr>
+<tr class="row-even"><td>DataValid</td>
+<td>Int32</td>
+<td>数据是否有效，0=无数据，1=请求点有数据，2=请求点无数据,取前一个，3=请求点无数据,取后一个</td>
+</tr>
+<tr class="row-odd"><td>Time</td>
+<td>String</td>
+<td>时间，NeedKLData指定值：1</td>
+</tr>
+<tr class="row-even"><td>Close</td>
+<td>Int64</td>
+<td>收盘价，NeedKLData指定值：2</td>
+</tr>
+<tr class="row-odd"><td>High</td>
+<td>Int64</td>
+<td>最高价，NeedKLData指定值：3</td>
+</tr>
+<tr class="row-even"><td>Low</td>
+<td>Int64</td>
+<td>最低价，NeedKLData指定值：4</td>
+</tr>
+<tr class="row-odd"><td>Open</td>
+<td>Int64</td>
+<td>开盘价，NeedKLData指定值：5</td>
+</tr>
+<tr class="row-even"><td>Volume</td>
+<td>Int64</td>
+<td>成交量，NeedKLData指定值：6</td>
+</tr>
+<tr class="row-odd"><td>Turnover</td>
+<td>Int64</td>
+<td>成交额，NeedKLData指定值：7</td>
+</tr>
+<tr class="row-even"><td>PERatio</td>
+<td>Int32</td>
+<td>市盈率，NeedKLData指定值：8</td>
+</tr>
+<tr class="row-odd"><td>TurnoverRate</td>
+<td>Int32</td>
+<td>换手率，NeedKLData指定值：9</td>
+</tr>
+<tr class="row-even"><td>RaiseRate</td>
+<td>Int32</td>
+<td>涨跌幅，NeedKLData指定值：10</td>
+</tr>
+<tr class="row-odd"><td>end_date</td>
+<td>String</td>
+<td>结束日期</td>
+</tr>
+<tr class="row-even"><td>start_date</td>
+<td>String</td>
+<td>开始日期</td>
+</tr>
+</tbody>
+</table>
+<p><strong>注：请求的时间点暂时限制最多5个，并且最多返回K线数不可少于时间点个数。</strong></p>
+</div>
 <div class="section" id="protocol-6003">
 <h4>港股下单交易(Protocol: 6003)<a class="headerlink" href="#protocol-6003" title="Permalink to this headline">¶</a></h4>
 <p><strong>C-&gt;S eg:</strong></p>
@@ -2368,7 +2588,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <div class="section" id="protocol-6006">
 <h4>解锁交易(Protocol: 6006)<a class="headerlink" href="#protocol-6006" title="Permalink to this headline">¶</a></h4>
 <p><strong>C-&gt;S eg:</strong></p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6006&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123456&quot;</span><span class="p">,</span><span class="s2">&quot;Password&quot;</span><span class="p">:</span><span class="s2">&quot;123456&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6006&quot;</span><span class="p">,</span><span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123456&quot;</span><span class="p">,</span><span class="s2">&quot;Password&quot;</span><span class="p">:</span><span class="s2">&quot;123456&quot;</span><span class="p">,</span> <span class="s2">&quot;PasswordMD5&quot;</span><span class="p">:</span><span class="s2">&quot;E10ADC3949BA59ABBE56E057F20F883E&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <p><strong>S-&gt;C eg:</strong></p>
@@ -2393,16 +2613,22 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td>Uint32</td>
 <td>请求操作标识，输入参数,为了区分一个连接中有多个同样的请求</td>
 </tr>
+<tr class="row-odd"><td>Password</td>
+<td>string</td>
+<td>交易解锁密码明文，旧版参数，建议使用PasswordMD5参数</td>
+</tr>
+<tr class="row-even"><td>PasswordMD5</td>
+<td>string</td>
+<td>交易解锁密码32位MD5密文16进制表示</td>
+</tr>
 <tr class="row-odd"><td>SvrResult</td>
 <td>int32</td>
 <td>Svr的返回结果</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>该接口会同时对美股和港股交易解锁</td>
-</tr>
 </tbody>
 </table>
+<p><strong>注：1.该接口会同时对美股和港股交易解锁
+2.Password、PasswordMD5同时传参情况下,只处理PasswordMD5参数</strong></p>
 </div>
 <div class="section" id="protocol-6007">
 <h4>港股查询帐户信息(Protocol: 6007)<a class="headerlink" href="#protocol-6007" title="Permalink to this headline">¶</a></h4>
@@ -2742,7 +2968,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <p><strong>S-&gt;C eg:</strong></p>
 <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;ErrCode&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;ErrDesc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;6010&quot;</span><span class="p">,</span><span class="s2">&quot;RetData&quot;</span><span class="p">:{</span><span class="s2">&quot;Cookie&quot;</span><span class="p">:</span><span class="s2">&quot;123123&quot;</span><span class="p">,</span><span class="s2">&quot;EnvType&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="s2">&quot;HKDealArr&quot;</span><span class="p">:</span>
 
-<span class="p">[{</span><span class="s2">&quot;DealID&quot;</span><span class="p">:</span><span class="s2">&quot;2827880381052386&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;18680&quot;</span><span class="p">,</span><span class="s2">&quot;Price&quot;</span><span class="p">:</span><span class="s2">&quot;150000&quot;</span><span class="p">,</span><span class="s2">&quot;Qty&quot;</span><span class="p">:</span><span class="s2">&quot;100&quot;</span><span class="p">,</span><span class="s2">&quot;Orderside&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;00700&quot;</span><span class="p">,</span><span class="s2">&quot;StockName&quot;</span><span class="p">:</span><span class="s2">&quot;腾讯控股&quot;</span><span class="p">,</span><span class="s2">&quot;Time&quot;</span><span class="p">:</span><span class="s2">&quot;1454485407&quot;</span><span class="p">,}]},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+<span class="p">[{</span><span class="s2">&quot;DealID&quot;</span><span class="p">:</span><span class="s2">&quot;2827880381052386&quot;</span><span class="p">,</span><span class="s2">&quot;OrderID&quot;</span><span class="p">:</span><span class="s2">&quot;18680&quot;</span><span class="p">,</span><span class="s2">&quot;Price&quot;</span><span class="p">:</span><span class="s2">&quot;150000&quot;</span><span class="p">,</span><span class="s2">&quot;Qty&quot;</span><span class="p">:</span><span class="s2">&quot;100&quot;</span><span class="p">,</span><span class="s2">&quot;OrderSide&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;00700&quot;</span><span class="p">,</span><span class="s2">&quot;StockName&quot;</span><span class="p">:</span><span class="s2">&quot;腾讯控股&quot;</span><span class="p">,</span><span class="s2">&quot;Time&quot;</span><span class="p">:</span><span class="s2">&quot;1454485407&quot;</span><span class="p">,}]},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <p>字段说明:</p>
@@ -4016,7 +4242,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'2.2.3',
+            VERSION:'2.3',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

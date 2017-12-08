@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>行情API &mdash; futuquant 2.2.3 documentation</title>
+  <title>行情API &mdash; futuquant 2.3 documentation</title>
   
 
   
@@ -32,7 +32,7 @@
   
 
   
-    <link rel="top" title="futuquant 2.2.3 documentation" href="../index.html"/>
+    <link rel="top" title="futuquant 2.3 documentation" href="../index.html"/>
         <link rel="next" title="交易API" href="Trade_API_Python_Doc.html"/>
         <link rel="prev" title="下载数据" href="../setup/Hist_KLine_Download_Intro.html"/> 
 
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                2.2.3
+                2.3
               </div>
             
           
@@ -112,15 +112,16 @@
 <li class="toctree-l3"><a class="reference internal" href="#k">K线类型</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id9">订阅数据类型</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id10">板块分类类型</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id11">股票代码</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id12">返回值</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id13">错误码说明</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">K线字段类型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">股票代码</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">返回值</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id14">错误码说明</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id14">详细说明</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id15">实例化上下文对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id15">详细说明</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id16">实例化上下文对象</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#start">启动推送接收 start</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#stop">停止推送接收 stop</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#set-handler">设置异步回调处理对象 set_handler</a></li>
@@ -143,6 +144,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#get-order-book-orderbookhandlerbase">获取摆盘 get_order_book 和 OrderBookHandlerBase</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#get-rt-data-rtdatahandlerbase">获取分时数据 get_rt_data 和 RTDataHandlerBase</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#get-broker-queue-brokerhandlerbase">获取经纪队列 get_broker_queue 和 BrokerHandlerBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#k-get-multi-points-history-kline">获取多支股票多个单点历史K线 get_multi_points_history_kline</a></li>
 </ul>
 </li>
 </ul>
@@ -546,14 +548,60 @@
 </table>
 </div>
 <div class="section" id="id11">
-<h3>股票代码<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<h3>K线字段类型<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="68%" />
+<col width="32%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">字段标识</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>KL_FIELD.ALL</td>
+<td>所有字段</td>
+</tr>
+<tr class="row-odd"><td>KL_FIELD.DATE_TIME</td>
+<td>K线时间</td>
+</tr>
+<tr class="row-even"><td>KL_FIELD.OPEN</td>
+<td>开盘价</td>
+</tr>
+<tr class="row-odd"><td>KL_FIELD.CLOSE</td>
+<td>收盘价</td>
+</tr>
+<tr class="row-even"><td>KL_FIELD.HIGH</td>
+<td>最高价</td>
+</tr>
+<tr class="row-odd"><td>KL_FIELD.LOW</td>
+<td>最低价</td>
+</tr>
+<tr class="row-even"><td>KL_FIELD.PE_RATIO</td>
+<td>市盈率</td>
+</tr>
+<tr class="row-odd"><td>KL_FIELD.TRADE_VOL</td>
+<td>成交量</td>
+</tr>
+<tr class="row-even"><td>KL_FIELD.TRADE_VAL</td>
+<td>成交额</td>
+</tr>
+<tr class="row-odd"><td>KL_FIELD.CHANGE_RATE</td>
+<td>涨跌幅</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id12">
+<h3>股票代码<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p>模式为：“ 市场+原始代码&#8221; 例如，“HK.00700”, “SZ.000001”,
 “US.AAPL”</p>
 <p><strong>注意，原始代码部分的字符串必须和客户端显示的完全匹配</strong>，比如：
 腾讯为“HK.00700”，而不能是“HK.700”</p>
 </div>
-<div class="section" id="id12">
-<h3>返回值<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>返回值<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <p><strong>对于用户来说接口会返回两个值</strong>
 ret_code(调用执行返回状态，0为成功，其它为失败)和ret_data：</p>
 <table border="1" class="docutils">
@@ -575,8 +623,8 @@ ret_code(调用执行返回状态，0为成功，其它为失败)和ret_data：<
 </tr>
 </tbody>
 </table>
-<div class="section" id="id13">
-<h4>错误码说明<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id14">
+<h4>错误码说明<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
 <table border="1" class="docutils">
 <colgroup>
 <col width="29%" />
@@ -638,10 +686,10 @@ ret_code(调用执行返回状态，0为成功，其它为失败)和ret_data：<
 </div>
 </div>
 </div>
-<div class="section" id="id14">
-<h2>详细说明<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id15">
-<h3>实例化上下文对象<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<h2>详细说明<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id16">
+<h3>实例化上下文对象<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -821,7 +869,7 @@ double，例如，对于5股合1股为1/5，对于1股拆5股为5/1</p>
 </div>
 <div class="section" id="k-get-history-kline">
 <h3>获取历史K线 get_history_kline<a class="headerlink" href="#k-get-history-kline" title="Permalink to this headline">¶</a></h3>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_history_kline</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ktype</span><span class="o">=</span><span class="s1">&#39;K_DAY&#39;</span><span class="p">,</span> <span class="n">autype</span><span class="o">=</span><span class="s1">&#39;qfq&#39;</span><span class="p">)</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_history_kline</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ktype</span><span class="o">=</span><span class="s1">&#39;K_DAY&#39;</span><span class="p">,</span> <span class="n">autype</span><span class="o">=</span><span class="s1">&#39;qfq&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="n">KL_FIELD</span><span class="o">.</span><span class="n">ALL</span><span class="p">])</span>
 </pre></div>
 </div>
 <p><strong>功能</strong>： 获取指定股票K线历史数据</p>
@@ -830,8 +878,8 @@ double，例如，对于5股合1股为1/5，对于1股拆5股为5/1</p>
 <p><strong>start</strong> ：开始时间, string; YYYY-MM-DD；为空时取去当前时间;</p>
 <p><strong>end</strong> ： 结束时间, string; YYYY-MM-DD；为空时取当前时间;</p>
 <p><strong>ktype</strong> ：k线类型，默认为日K</p>
-<p><strong>autype</strong>
-复权类型，string；”qfq”-前复权，”hfq”-后复权，None-不复权，默认为”qfq”</p>
+<p><strong>autype</strong>:  复权类型，string；”qfq”-前复权，”hfq”-后复权，None-不复权，默认为”qfq”</p>
+<p><strong>fields</strong>: 单个或多个K线字段类型，指定需要返回的数据 KL_FIELD.ALL or [KL_FIELD.DATE_TIME, KL_FIELD.OPEN]，默认为KL_FIELD.ALL</p>
 <p>开始结束时间按照闭区间查询，时间查询以k线时间time_key作为比较标准。即满足
 start&lt;=Time_key&lt;=end条件的k线作为返回内容，k线时间time_key的设定标准在返回值中说明</p>
 <p><strong>返回</strong>：</p>
@@ -848,25 +896,41 @@ start&lt;=Time_key&lt;=end条件的k线作为返回内容，k线时间time_key�
 <p><strong>low</strong>： 最低价：double</p>
 <p><strong>volume</strong>： 成交量；long</p>
 <p><strong>turnover</strong> ：成交额；double</p>
-<p>对于日K线，time_key为当日时间具体到日，比如说2016-12-23日的日K，K线时间为”
-2016-12-23 00:00:00”</p>
-<p>对于分K线，time_key为当日时间具体到分，例如，
-1分K，覆盖时间为9：35：00到9：35：59的分K，K线时间time_key为”2016-12-23
-09:36:00”
-5分K，覆盖时间为10：05：00到10：09：59的5分K，K线时间time_key为”2016-12-23
-10:10:00”
-15分K，覆盖时间为10：00：00到10：14：59的15分K，K线时间time_key为”2016-12-23
-10:15:00”
-30分K，覆盖时间为10：00：00到10：29：59的30分K，K线时间time_key为”
-2016-12-23 10:30:00”
-60分K，覆盖时间为10：30：00到11：29：59的60分K，K线时间time_key为”
-2016-12-23 11:30:00”</p>
-<div class="line-block">
-<div class="line">对于周K线，12月19日到12月25日的周K线，K线时间time_key为” 2016-12-19
-00:00:00”</div>
-</div>
-<p>对于月K线，12月的月K线时间time_key为” 2016-12-01
-00:00:00”，即为当月1日时间</p>
+<p><strong>pe_ratio</strong>：市盈率 ：double</p>
+<p><strong>turnover_rate</strong>:  换手率：double</p>
+<p><strong>change_rate</strong>:   涨跌幅：double</p>
+<p>对于日K线，time_key为当日时间具体到日，比如说2016-12-23日的日K，K线时间为”2016-12-23 00:00:00”</p>
+<p>对于周K线，12月19日到12月25日的周K线，K线时间time_key为” 2016-12-19 00:00:00”</p>
+<p>对于月K线，12月的月K线时间time_key为” 2016-12-01 00:00:00”，即为当月1日时间</p>
+<p>对于分K线，time_key为当日时间具体到分，例如，</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="84%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">分K类型</th>
+<th class="head">覆盖时间举例</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1分K</td>
+<td>覆盖9:35:00到9:35:59的分K,time_key为&#8221;2016-12-23 09:36:00&#8221;</td>
+</tr>
+<tr class="row-odd"><td>5分K</td>
+<td>覆盖10:05:00到10:09:59的分K,time_key为&#8221;2016-12-23 10:10:00&#8221;</td>
+</tr>
+<tr class="row-even"><td>15分K</td>
+<td>覆盖10:00:00到10:14:59的分K,time_key为&#8221;2016-12-23 10:15:00&#8221;</td>
+</tr>
+<tr class="row-odd"><td>30分K</td>
+<td>覆盖10:00:00到10:29:59的分K,time_key为&#8221;2016-12-23 10:30:00&#8221;</td>
+</tr>
+<tr class="row-even"><td>60分K</td>
+<td>覆盖10:00:00到10:59:59的分K,time_key为&#8221;2016-12-23 11:00:00&#8221;</td>
+</tr>
+</tbody>
+</table>
 <p><strong>失败情况</strong>:</p>
 <ol class="arabic">
 <li><p class="first">股票代码不合法</p>
@@ -1587,6 +1651,64 @@ bid_data是买盘的数据，包括：</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="k-get-multi-points-history-kline">
+<h3>获取多支股票多个单点历史K线 get_multi_points_history_kline<a class="headerlink" href="#k-get-multi-points-history-kline" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_multi_points_history_kline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">codes</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">ktype</span><span class="o">=</span><span class="s1">&#39;K_DAY&#39;</span><span class="p">,</span> <span class="n">autype</span><span class="o">=</span><span class="s1">&#39;qfq&#39;</span><span class="p">,</span> <span class="n">no_data_mode</span><span class="o">=</span><span class="n">KL_NO_DATA_MODE_FORWARD</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：获取多支股票多个单点历史K线</p>
+<p><strong>参数</strong>：</p>
+<p><strong>codes</strong>: 单个或多个股票 &#8216;HK.00700&#8217;  or  [&#8216;HK.00700&#8217;, &#8216;HK.00001&#8217;]</p>
+<p><strong>dates</strong>: 单个或多个日期 &#8216;2017-01-01&#8217; or [&#8216;2017-01-01&#8217;, &#8216;2017-01-02&#8217;]</p>
+<p><strong>fields</strong>: 单个或多个K线字段类型，指定需要返回的数据 KL_FIELD.ALL or [KL_FIELD.DATE_TIME, KL_FIELD.OPEN]</p>
+<p><strong>ktype</strong>: K线类型</p>
+<p><strong>autype</strong>: 复权类型</p>
+<p><strong>param no_data_mode</strong>: 请求点无数据时，对应的k线数据取值模式</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="52%" />
+<col width="48%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">取值模式</th>
+<th class="head">标识</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>KL_NO_DATA_MODE_NONE</td>
+<td>请求点无数据时返回空</td>
+</tr>
+<tr class="row-odd"><td>KL_NO_DATA_MODE_FORWARD</td>
+<td>请求点无数据时向前返回</td>
+</tr>
+<tr class="row-even"><td>KL_NO_DATA_MODE_BACKWARD</td>
+<td>请求点无数据时向后返回</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回</strong>：
+ret_code失败时，ret_data为错误描述字符串；
+通常情况下，返回DataFrame，DataFrame每一行是一个逐笔记录，包含：
+<strong>code</strong>： 股票代码；string</p>
+<p><strong>data_valid</strong>： 数据点是否有效，0=无数据，1=请求点有数据，2=请求点无数据，向前取值，3=请求点无数据，向后取值</p>
+<p><strong>time_point</strong>： 请求点时间 string “YYYY-MM-DD HH:mm:ss”，暂时最多5个以内时间点。</p>
+<p><strong>time_key</strong>： K线时间 string “YYYY-MM-DD HH:mm:ss”</p>
+<p><strong>open</strong>： 开盘价；double</p>
+<p><strong>high</strong>： 最高价；double</p>
+<p><strong>close</strong>： 收盘价；double</p>
+<p><strong>low</strong>： 最低价：double</p>
+<p><strong>volume</strong>： 成交量；long</p>
+<p><strong>turnover</strong> ：成交额；double</p>
+<p><strong>pe_ratio</strong>：市盈率 ：double</p>
+<p><strong>turnover_rate</strong>:  换手率：double</p>
+<p><strong>change_rate</strong>:   涨跌幅：double</p>
+<p><strong>失败情况</strong>：</p>
+<ol class="arabic simple">
+<li>code不合法</li>
+</ol>
+<p>2.请求时间点为空</p>
+<p>3.请求时间点过多</p>
+</div>
 </div>
 </div>
 
@@ -1634,7 +1756,7 @@ bid_data是买盘的数据，包括：</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'2.2.3',
+            VERSION:'2.3',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>交易API &mdash; futuquant 2.2.3 documentation</title>
+  <title>交易API &mdash; futuquant 2.3 documentation</title>
   
 
   
@@ -32,7 +32,7 @@
   
 
   
-    <link rel="top" title="futuquant 2.2.3 documentation" href="../index.html"/>
+    <link rel="top" title="futuquant 2.3 documentation" href="../index.html"/>
         <link rel="next" title="PLS API" href="PLS_API_Intro.html"/>
         <link rel="prev" title="行情API" href="Market_API_Python_Doc.html"/> 
 
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                2.2.3
+                2.3
               </div>
             
           
@@ -101,6 +101,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#id2">港股交易接口</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id3">实例化上下文对象</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#unlock-trade">解锁接口 unlock_trade</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#login-new-account">切换牛牛号登录 login_new_account</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#place-order">下单接口 place_order</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#set-order-status">设置订单状态 set_order_status</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#change-order">修改订单 change_order</a></li>
@@ -115,16 +116,17 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#id4">美股交易接口</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id5">实例化上下文对象</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">下单接口 place_order</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">设置订单状态 set_order_status</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">修改订单 change_order</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">查询账户信息 accinfo_query</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">查询订单列表 order_list_query</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id11">查询持仓列表 position_list_query</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id12">查询成交列表 deal_list_query</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id13">查询历史订单列表 history_order_list_query</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id14">查询历史成交列表 history_deal_list_query</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id15">订阅订单成交推送 subscribe_order_deal_push</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">解锁接口 unlock_trade</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">下单接口 place_order</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">设置订单状态 set_order_status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">修改订单 change_order</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">查询账户信息 accinfo_query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">查询订单列表 order_list_query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">查询持仓列表 position_list_query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">查询成交列表 deal_list_query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">查询历史订单列表 history_order_list_query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">查询历史成交列表 history_deal_list_query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">订阅订单成交推送 subscribe_order_deal_push</a></li>
 </ul>
 </li>
 </ul>
@@ -217,21 +219,35 @@
 </div>
 <div class="section" id="unlock-trade">
 <h3>解锁接口 unlock_trade<a class="headerlink" href="#unlock-trade" title="Permalink to this headline">¶</a></h3>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradehk_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">trade_password</span><span class="p">,</span> <span class="n">trade_password_md5</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>功能</strong>：</p>
-<p>港股交易解锁。港股模拟交易不需要解锁，真实交易需要解锁</p>
+<p><strong>功能</strong>：交易解锁。</p>
 <p><strong>参数</strong>：</p>
-<p><strong>password</strong>: 用户交易密码。</p>
-<p><strong>返回</strong>：</p>
-<p>ret_code失败时，ret_data返回为错误描述字符串；
+<p><strong>trade_password</strong>:用户交易密码。</p>
+<p><strong>trade_password_md5</strong>:交易密码32位MD5加密16进制表示，trade_password和trade_password_md5同时传入时，只使用trade_password_md5</p>
+<p><strong>返回</strong>： ret_code失败时，ret_data返回为错误描述字符串；
 正常情况下，ret_code为0, ret_data返回None。</p>
 <p><strong>失败情况</strong>：</p>
 <ol class="arabic simple">
 <li>交易密码错误</li>
 <li>客户端内部或网络错误</li>
 </ol>
+</div>
+<div class="section" id="login-new-account">
+<h3>切换牛牛号登录 login_new_account<a class="headerlink" href="#login-new-account" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">login_new_account</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">login_password_md5</span><span class="p">,</span> <span class="n">trade_password</span><span class="p">,</span> <span class="n">trade_password_md5</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>功能</strong>：切换牛牛号登录</p>
+<p><strong>参数</strong>：
+<strong>user_id</strong>: 需要切换的牛牛号</p>
+<p><strong>login_password_md5</strong>: 登录密码32位MD5加密16进制表示</p>
+<p><strong>login_password_md5</strong>: 登录密码32位MD5加密16进制表示</p>
+<p><strong>trade_password</strong>: 交易密码明文</p>
+<p><strong>trade_password_md5</strong>: 交易密码32位MD5加密16进制表示，trade_password和trade_password_md5同时传入时，只使用trade_password_md5</p>
+<p><strong>返回</strong>：ret = RET_OK表示切换成功。</p>
+<p><strong>注</strong>:切换牛牛号登录会导致API接口断开重连。</p>
 </div>
 <div class="section" id="place-order">
 <h3>下单接口 place_order<a class="headerlink" href="#place-order" title="Permalink to this headline">¶</a></h3>
@@ -1381,13 +1397,16 @@
 </div>
 <p><strong>功能</strong>：创建上下文，建立网络连接。 <strong>参数</strong>:
 <strong>host</strong>：网络连接地址 <strong>sync_port</strong>：网络连接端口，用于同步通信。</p>
-<p><strong>解锁接口 unlock_trade</strong></p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+</div>
+<div class="section" id="id6">
+<h3>解锁接口 unlock_trade<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">trade_password</span><span class="p">,</span> <span class="n">trade_password_md5</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>功能</strong>：交易解锁。</p>
 <p><strong>参数</strong>：</p>
-<p><strong>password</strong>: 用户交易密码。</p>
+<p><strong>trade_password</strong>:用户交易密码。</p>
+<p><strong>trade_password_md5</strong>:交易密码32位MD5加密16进制表示，trade_password和trade_password_md5同时传入时，只使用trade_password_md5</p>
 <p><strong>返回</strong>： ret_code失败时，ret_data返回为错误描述字符串；
 正常情况下，ret_code为0, ret_data返回None。</p>
 <p><strong>失败情况</strong>：</p>
@@ -1396,8 +1415,8 @@
 <li>客户端内部或网络错误</li>
 </ol>
 </div>
-<div class="section" id="id6">
-<h3>下单接口 place_order<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3>下单接口 place_order<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">qty</span><span class="p">,</span> <span class="n">strcode</span><span class="p">,</span> <span class="n">orderside</span><span class="p">,</span> <span class="n">ordertype</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">order_deal_push</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1465,8 +1484,8 @@
 <li>不满足下单条件</li>
 </ol>
 </div>
-<div class="section" id="id7">
-<h3>设置订单状态 set_order_status<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>设置订单状态 set_order_status<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">set_order_status</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">orderid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1628,8 +1647,8 @@
 <li>订单不存在</li>
 </ol>
 </div>
-<div class="section" id="id8">
-<h3>修改订单 change_order<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>修改订单 change_order<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">change_order</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">qty</span><span class="p">,</span> <span class="n">orderid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1651,8 +1670,8 @@
 <li>订单不存在</li>
 </ol>
 </div>
-<div class="section" id="id9">
-<h3>查询账户信息 accinfo_query<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3>查询账户信息 accinfo_query<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">accinfo_query</span><span class="p">(</span><span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1710,8 +1729,8 @@
 <li>客户端内部或网络错误</li>
 </ol>
 </div>
-<div class="section" id="id10">
-<h3>查询订单列表 order_list_query<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3>查询订单列表 order_list_query<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">order_list_query</span><span class="p">(</span><span class="n">orderid</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">statusfilter</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="n">strcode</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1928,8 +1947,8 @@
 <li>客户端内部或网络错误</li>
 </ol>
 </div>
-<div class="section" id="id11">
-<h3>查询持仓列表 position_list_query<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>查询持仓列表 position_list_query<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">position_list_query</span><span class="p">(</span><span class="n">strcode</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">stocktype</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">pl_ratio_min</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">pl_ratio_max</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -2058,8 +2077,8 @@
 <li>客户端内部或网络错误</li>
 </ol>
 </div>
-<div class="section" id="id12">
-<h3>查询成交列表 deal_list_query<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>查询成交列表 deal_list_query<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">deal_list_query</span><span class="p">(</span><span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -2083,8 +2102,8 @@
 <li>客户端内部或网络错误</li>
 </ol>
 </div>
-<div class="section" id="id13">
-<h3>查询历史订单列表 history_order_list_query<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3>查询历史订单列表 history_order_list_query<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">history_order_list_query</span><span class="p">(</span><span class="n">statusfilter</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">strcode</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -2318,8 +2337,8 @@
 <li>客户端内部或网络错误</li>
 </ol>
 </div>
-<div class="section" id="id14">
-<h3>查询历史成交列表 history_deal_list_query<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h3>查询历史成交列表 history_deal_list_query<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">history_deal_list_query</span><span class="p">(</span><span class="n">strcode</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -2365,8 +2384,8 @@
 <li>客户端内部或网络错误</li>
 </ol>
 </div>
-<div class="section" id="id15">
-<h3>订阅订单成交推送 subscribe_order_deal_push<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id16">
+<h3>订阅订单成交推送 subscribe_order_deal_push<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">subscribe_order_deal_push</span><span class="p">(</span><span class="n">order_list</span><span class="p">,</span> <span class="n">order_deal_push</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -2450,7 +2469,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'2.2.3',
+            VERSION:'2.3',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
