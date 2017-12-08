@@ -1499,7 +1499,7 @@ ask\_data是卖盘的数据
 
 .. code:: python
 
-    ret_code, ret_data = quote_ctx.get_multi_points_history_kline(self, codes, dates, fields, ktype='K_DAY', autype='qfq')
+    ret_code, ret_data = quote_ctx.get_multi_points_history_kline(self, codes, dates, fields, ktype='K_DAY', autype='qfq', no_data_mode=KL_NO_DATA_MODE_FORWARD)
 
 **功能**\ ：获取多支股票多个单点历史K线
 
@@ -1515,12 +1515,24 @@ ask\_data是卖盘的数据
 
 **autype**: 复权类型
 
+**param no_data_mode**: 请求点无数据时，对应的k线数据取值模式
+
++----------------------------+--------------------------+
+| 取值模式                   | 标识                     |
++============================+==========================+
+| KL_NO_DATA_MODE_NONE       | 请求点无数据时返回空     |
++----------------------------+--------------------------+
+| KL_NO_DATA_MODE_FORWARD    | 请求点无数据时向前返回   |
++----------------------------+--------------------------+
+| KL_NO_DATA_MODE_BACKWARD   | 请求点无数据时向后返回   |
++----------------------------+--------------------------+
+
 **返回**\ ：
 ret\_code失败时，ret\_data为错误描述字符串；
 通常情况下，返回DataFrame，DataFrame每一行是一个逐笔记录，包含：
 **code**\ ： 股票代码；string
 
-**data\_valid**\ ： 数据点是否有效，0=无数据，1=请求点有数据，2=请求点无数据，向前取值
+**data\_valid**\ ： 数据点是否有效，0=无数据，1=请求点有数据，2=请求点无数据，向前取值，3=请求点无数据，向后取值
 
 **time\_point**\ ： 请求点时间 string “YYYY-MM-DD HH:mm:ss”，暂时最多5个以内时间点。
 
