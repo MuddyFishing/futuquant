@@ -646,17 +646,22 @@ class BrokerQueueQuery:
             return RET_ERROR, error_str, None
 
         raw_broker_bid = rsp_data["BrokerBidArr"]
-        bid_list = [{"bid_broker_id": record['BrokerID'],
-                     "bid_broker_name": record['BrokerName'],
-                     "bid_broker_pos": record['BrokerPos'],
-                     "code": merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
-                     } for record in raw_broker_bid]
+        bid_list = []
+        if raw_broker_bid is not None:
+            bid_list = [{"bid_broker_id": record['BrokerID'],
+                         "bid_broker_name": record['BrokerName'],
+                         "bid_broker_pos": record['BrokerPos'],
+                         "code": merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
+                         } for record in raw_broker_bid]
+
         raw_broker_ask = rsp_data["BrokerAskArr"]
-        ask_list = [{"ask_broker_id": record['BrokerID'],
-                     "ask_broker_name": record['BrokerName'],
-                     "ask_broker_pos": record['BrokerPos'],
-                     "code": merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
-                     } for record in raw_broker_ask]
+        ask_list = []
+        if raw_broker_bid is not None:
+            ask_list = [{"ask_broker_id": record['BrokerID'],
+                         "ask_broker_name": record['BrokerName'],
+                         "ask_broker_pos": record['BrokerPos'],
+                         "code": merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
+                         } for record in raw_broker_ask]
 
         return RET_OK, bid_list, ask_list
 
