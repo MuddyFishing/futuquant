@@ -513,6 +513,10 @@ class _SyncNetworkQueryCtx:
                 err = sys.exc_info()[1]
                 err_msg = ERROR_STR_PREFIX + str(err)
                 print("socket connect err:{}".format(err_msg))
+                self.s = None
+                if s:
+                    s.close()
+                    del s
                 sleep(1.5)
                 continue
 
