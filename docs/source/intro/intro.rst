@@ -11,12 +11,20 @@
 
 --------------
 
-简易安装
+简易安装与更新
 --------
+
+安装
 
 .. code:: 
 
     pip install futuquant
+
+更新
+
+.. code:: 
+
+    pip install futuquant --upgrade
 
 **注: 本API支持python>=3.5, 推荐安装anaconda环境，方便快捷。**
 
