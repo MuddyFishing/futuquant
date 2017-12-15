@@ -513,7 +513,11 @@ class _SyncNetworkQueryCtx:
                 err = sys.exc_info()[1]
                 err_msg = ERROR_STR_PREFIX + str(err)
                 print("socket connect err:{}".format(err_msg))
-                sleep(1)
+                self.s = None
+                if s:
+                    s.close()
+                    del s
+                sleep(1.5)
                 continue
 
             if self._connected_handler is not None:
@@ -525,7 +529,7 @@ class _SyncNetworkQueryCtx:
                     self._force_close_session()
                     if is_retry:
                         print("wait to connect futunn plugin server")
-                        sleep(1)
+                        sleep(1.5)
                         continue
                     else:
                         return RET_ERROR, "obj is closed"
@@ -660,6 +664,8 @@ class OpenContextBase(object):
         self._proc_run = False
         self._net_proc = None
         self._sync_query_lock = RLock()
+
+        self._count_reconnect = 0
 
         if not self.__sync_socket_enable and not self.__async_socket_enable:
             raise Exception('you should specify at least one socket type to create !')
@@ -854,6 +860,8 @@ class OpenContextBase(object):
         if self._is_socket_reconnecting or self._is_obj_closed or self._sync_query_lock is None:
             return
 
+        self._count_reconnect += 1
+        print("_socket_reconnect_and_wait_ready - count = %s" % self._count_reconnect)
         try:
             self._is_socket_reconnecting = True
             self._sync_query_lock.acquire()
@@ -933,7 +941,12 @@ class OpenContextBase(object):
         """
         thread_handle = self._thread_check_sync_sock
         while True:
-            if self._is_obj_closed or self._thread_check_sync_sock is not thread_handle:
+            if self._thread_check_sync_sock is not thread_handle:
+                if self._thread_check_sync_sock is None:
+                    self._thread_is_exit = True
+                print ('check_sync_sock thread : exit by obj changed...')
+                return
+            if self._is_obj_closed:
                 self._thread_is_exit = True
                 return
             sync_net_ctx = self._sync_net_ctx
@@ -942,10 +955,10 @@ class OpenContextBase(object):
                 return
             # select sock to get err state
             if not sync_net_ctx.is_sock_ok(0.01):
-                if self._thread_check_sync_sock is thread_handle and not self._is_obj_closed:
-                    print("thread check socket error")
-                    self._socket_reconnect_and_wait_ready()
                 self._thread_is_exit = True
+                if self._thread_check_sync_sock is thread_handle and not self._is_obj_closed:
+                    print("check_sync_sock thread : reconnect !")
+                    self._socket_reconnect_and_wait_ready()
                 return
             else:
                 sleep(0.1)
