@@ -513,6 +513,10 @@ class _SyncNetworkQueryCtx:
                 err = sys.exc_info()[1]
                 err_msg = ERROR_STR_PREFIX + str(err)
                 print("socket connect err:{}".format(err_msg))
+                self.s = None
+                if s:
+                    s.close()
+                    del s
                 sleep(1.5)
                 continue
 
@@ -683,7 +687,7 @@ class OpenContextBase(object):
         """
         callback after reconnect ok
         """
-        print("on_api_socket_reconnected obj ID={}".format(id(self)))
+        # print("on_api_socket_reconnected obj ID={}".format(id(self)))
         pass
 
     def _close(self):
@@ -857,7 +861,7 @@ class OpenContextBase(object):
             return
 
         self._count_reconnect += 1
-        print("_socket_reconnect_and_wait_ready - count = %s" % self._count_reconnect)
+        # print("_socket_reconnect_and_wait_ready - count = %s" % self._count_reconnect)
         try:
             self._is_socket_reconnecting = True
             self._sync_query_lock.acquire()
@@ -1331,7 +1335,8 @@ class OpenQuoteContext(OpenContextBase):
         ret_code, msg, _ = query_processor(**kargs)
 
         # update subscribe context info
-        self._ctx_subscribe.add((stock_code, data_type, push))
+        sub_obj = (str(stock_code), str(data_type), bool(push))
+        self._ctx_subscribe.add(sub_obj)
 
         if ret_code != RET_OK:
             return RET_ERROR, msg
@@ -1370,7 +1375,12 @@ class OpenQuoteContext(OpenContextBase):
         kargs = {'stock_str': stock_code, 'data_type': data_type}
 
         # update subscribe context info
-        self._ctx_subscribe.remove((stock_code, data_type, unpush))
+        unsub_obj1 = (str(stock_code), str(data_type), True)
+        unsub_obj2 = (str(stock_code), str(data_type), False)
+        if unsub_obj1 in self._ctx_subscribe:
+            self._ctx_subscribe.remove(unsub_obj1)
+        if unsub_obj2 in self._ctx_subscribe:
+            self._ctx_subscribe.remove(unsub_obj2)
 
         ret_code, msg, _ = query_processor(**kargs)
 
