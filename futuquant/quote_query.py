@@ -656,7 +656,7 @@ class BrokerQueueQuery:
 
         raw_broker_ask = rsp_data["BrokerAskArr"]
         ask_list = []
-        if raw_broker_bid is not None:
+        if raw_broker_ask is not None:
             ask_list = [{"ask_broker_id": record['BrokerID'],
                          "ask_broker_name": record['BrokerName'],
                          "ask_broker_pos": record['BrokerPos'],
