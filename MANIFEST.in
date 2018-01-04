@@ -1,4 +1,8 @@
 include README.md
+recursive-include futuquant *.md
+recursive-include futuquant *.url
+recursive-include futuquant *.json
+recursive-include futuquant *.bat
 include requirements.txt
 include futuquant/VERSION.txt
 recursive-include docs/document *
