@@ -11,7 +11,7 @@
 + 有基础的python开发能力, 能够读懂范例代码逻辑
 
 #### 运行须知:
-+ 需要先安装vnpy / ta-lib, 暂时仅能运行在python2.7环境,
++ 需要先安装vnpy / ta-lib
 + 该框架二次封装了futu api 常用的行情交易接口，有关futu api的使用请参见 https://futunnopen.github.io/futuquant/intro/intro.html
 + 支持港/美股实盘策略运行，港股可以下模拟单
 + 不支持数据回测
