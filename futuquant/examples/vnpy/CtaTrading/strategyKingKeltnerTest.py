@@ -29,8 +29,8 @@ class KkStrategyTest(CtaTemplate):
     kkLength = 11           # 计算通道中值的窗口数
     kkDev = 1.6             # 计算通道宽度的偏差
     trailingPrcnt = 0.8     # 移动止损
-    initDays = 10           # 初始化数据所用的天数
-    fixedSize = 1           # 每次交易的数量
+    initDays = 30           # 初始化数据所用的天数
+    fixedSize = 100         # 每次交易的数量
 
     # 策略变量
     kkUp = 0                            # KK通道上轨
