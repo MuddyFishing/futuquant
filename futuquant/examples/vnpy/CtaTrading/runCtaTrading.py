@@ -1,5 +1,10 @@
 # encoding: UTF-8
 
+# 重载sys模块，设置默认字符串编码方式为utf8
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 import multiprocessing
 from time import sleep
 from datetime import datetime, time
