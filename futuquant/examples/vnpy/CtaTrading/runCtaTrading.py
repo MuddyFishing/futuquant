@@ -10,7 +10,7 @@ from time import sleep
 from datetime import datetime, time
 
 from vnpy.event import EventEngine2
-from vnpy.trader.vtEvent import EVENT_LOG
+from vnpy.trader.vtEvent import EVENT_LOG, EVENT_ERROR
 from vnpy.trader.vtEngine import MainEngine, LogEngine
 from vnpy.trader.gateway import futuGateway
 from vnpy.trader.app import ctaStrategy
@@ -37,8 +37,13 @@ def runChildProcess():
     me.addGateway(futuGateway)
     me.addApp(ctaStrategy)
     le.info(u'主引擎创建成功')
-    
+
+    def process_error(event):
+        error = event.dict_['data']
+        le.error(error.errorMsg)
+
     ee.register(EVENT_LOG, le.processLogEvent)
+    ee.register(EVENT_ERROR, process_error)
     ee.register(EVENT_CTA_LOG, le.processLogEvent)
     le.info(u'注册日志事件监听')
     
