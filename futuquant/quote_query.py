@@ -308,7 +308,7 @@ class MarketSnapshotQuery:
                           'wrt_strike_price': int1000_price_to_float(record['Wrt_StrikePrice']),
                           'wrt_maturity_date': str(record['Wrt_MaturityDateStr']),
                           'wrt_end_trade': str(record['Wrt_EndTradeDateStr']),
-                          'wrt_code': merge_stock_str(int(record['Wrt_OwnerMarketType']), record['Wrt_OwnerStockCode']),
+                          'wrt_code': merge_stock_str(int(record['Wrt_OwnerMarketType']), record['Wrt_OwnerStockCode']) if int(record['Wrt_OwnerMarketType']) != 0 else '' ,
                           'wrt_recovery_price': int1000_price_to_float(record['Wrt_RecoveryPrice']),
                           'wrt_street_vol': int(record['Wrt_StreetVol']),
                           'wrt_issue_vol': int(record['Wrt_IssueVol']),
