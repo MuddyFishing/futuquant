@@ -46,7 +46,7 @@ class StockQuoteHandlerBase(RspHandlerBase):
         else:
             col_list = ['code', 'data_date', 'data_time', 'last_price', 'open_price',
                         'high_price', 'low_price', 'prev_close_price',
-                        'volume', 'turnover', 'turnover_rate', 'amplitude', 'suspension', 'listing_date'
+                        'volume', 'turnover', 'turnover_rate', 'amplitude', 'suspension', 'listing_date', 'price_spread'
                         ]
 
             quote_frame_table = pd.DataFrame(quote_list, columns=col_list)
@@ -1195,6 +1195,8 @@ class OpenQuoteContext(OpenContextBase):
                     # 2017.11.6 add
                     'issued_shares', 'net_asset', 'net_profit', 'earning_per_share',
                     'outstanding_shares', 'net_asset_per_share', 'ey_ratio', 'pe_ratio', 'pb_ratio',
+                    # 2017.1.25 add
+                    'price_spread',
                     ]
 
         snapshot_frame_table = pd.DataFrame(snapshot_list, columns=col_list)
@@ -1425,7 +1427,7 @@ class OpenQuoteContext(OpenContextBase):
 
         col_list = ['code', 'data_date', 'data_time', 'last_price', 'open_price',
                     'high_price', 'low_price', 'prev_close_price',
-                    'volume', 'turnover', 'turnover_rate', 'amplitude', 'suspension', 'listing_date'
+                    'volume', 'turnover', 'turnover_rate', 'amplitude', 'suspension', 'listing_date', 'price_spread'
                     ]
 
         quote_frame_table = pd.DataFrame(quote_list, columns=col_list)

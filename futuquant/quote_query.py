@@ -327,6 +327,8 @@ class MarketSnapshotQuery:
                           'ey_ratio': int1000_price_to_float(record['Eqt_EYRatio']) if 'Eqt_EYRatio' in record else 0,
                           'pe_ratio': int1000_price_to_float(record['Eqt_PERatio']) if 'Eqt_PERatio' in record else 0,
                           'pb_ratio': int1000_price_to_float(record['Eqt_PBRatio']) if 'Eqt_PBRatio' in record else 0,
+                          # 2018.1.25 add
+                          'price_spread': int1000_price_to_float(record['PriceSpread']) if 'PriceSpread' in record else 0,
                           } for record in raw_snapshot_list]
 
         return RET_OK, "", snapshot_list
@@ -1000,7 +1002,8 @@ class StockQuoteQuery:
                        'turnover_rate': int1000_price_to_float(record['TurnoverRate']),
                        'amplitude': int1000_price_to_float(record['Amplitude']),
                        'suspension': True if int(record['Suspension']) == 1 else False,
-                       'listing_date': record['ListTime']
+                       'listing_date': record['ListTime'],
+                       'price_spread': int1000_price_to_float(record['PriceSpread']) if 'PriceSpread' in record else 0,
                        }
                       for record in raw_quote_list]
 
