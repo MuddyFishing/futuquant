@@ -221,7 +221,7 @@ class StockBasicInfoQuery:
                                                  int(record["StockType"]) == 5 else 0),
                             "owner_stock_code": (merge_stock_str(int(record["OwnerMarketType"]),
                                                                  record["OwnerStockCode"])
-                                                 if int(record["StockType"]) == 5 else 0),
+                                                 if int(record['OwnerMarketType']) != 0 and int(record["StockType"]) == 5 else ""),
                             "listing_date": record["ListTime"]
                             }
                            for record in raw_basic_info_list]
@@ -494,7 +494,8 @@ class PlateStockQuery:
         stock_list = [{"lot_size": int(record['LotSize']),
                        "code": merge_stock_str(int(record['Market']), record['StockCode']),
                        "stock_name": record['StockName'],
-                       "owner_market": merge_stock_str(int(record['OwnerMarketType']), record['OwnerStockCode']),
+                       "owner_market": merge_stock_str(int(record['OwnerMarketType']), record['OwnerStockCode']) if int(
+                           record['OwnerMarketType']) != 0 else '',
                        "stock_child_type": (str(QUOTE.REV_WRT_TYPE_MAP['StockChildType'])
                                             if int(record['StockType']) == 5 else 0),
                        "stock_type": QUOTE.REV_SEC_TYPE_MAP[int(record['StockType'])]
