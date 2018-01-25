@@ -1,5 +1,5 @@
 future
-vnpy >= 1.7.2
+vnpy >= 1.7.3
 pandas
 numpy
 matplotlib
