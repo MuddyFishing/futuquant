@@ -94,6 +94,7 @@ class TinyQuoteData(object):
         self.askVolume3 = 0
         self.askVolume4 = 0
         self.askVolume5 = 0
+        self.priceSpread = 0  #摆盘的价差
 
 
 class TinyBarData(object):

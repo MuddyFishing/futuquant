@@ -87,6 +87,9 @@ class TinyStrateBase(object):
         ret == 0 , data = order_id
         ret != 0 , data = 错误字符串
         """
+        ret, data = self.regular_trade_price(symbol, price, True)
+        if 0 == ret:
+            price = data
         return self._quant_frame.buy(price, volume, symbol)
 
     def sell(self, price, volume, symbol):
@@ -96,7 +99,37 @@ class TinyStrateBase(object):
         ret == 0 , data = order_id
         ret != 0 , data = 错误字符串
         """
+        ret, data = self.regular_trade_price(symbol, price, False)
+        if 0 == ret:
+            price = data
         return self._quant_frame.sell(price, volume, symbol)
+
+    def regular_trade_price(self, symbol, input_price, to_upper):
+        """
+        规整化输入的价格
+        :param symbol: 股票
+        :param input_price: 用户填入的价格
+        :param to_upper: 是否向上取值 True 或False
+        :return: ret == 0, data = 规整后的价格
+        ret != 0, data = 错误字符串
+        """
+        tiny_quote = self.get_rt_tiny_quote(symbol)
+        if tiny_quote is None:
+            return -1, "regular_trade_price error, no quote data!"
+
+        factor = 1000
+        spread = int(tiny_quote.priceSpread * factor)
+        if spread == 0:
+            return -1, "regular_trade_price error, no price spread!"
+
+        scale_price = int(input_price * factor)
+        data_ret = int((scale_price + spread - 1) / spread) * spread
+
+        if data_ret != scale_price and not to_upper:
+            data_ret -= spread
+
+        data_ret = float(data_ret) / factor
+        return 0, data_ret
 
     def cancel_order(self, order_id):
         """取消订单

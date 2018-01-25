@@ -2,111 +2,9 @@
 """
     Quote query
 """
-import sys
-import json
-from datetime import datetime
+
 from datetime import timedelta
 from .utils import *
-from .constant import *
-import traceback
-
-
-def check_date_str_format(s):
-    """Check the format of date string"""
-    try:
-        _ = datetime.strptime(s, "%Y-%m-%d")
-        return RET_OK, None
-    except ValueError:
-        traceback.print_exc()
-        err = sys.exc_info()[1]
-        error_str = ERROR_STR_PREFIX + str(err)
-        return RET_ERROR, error_str
-
-
-def extract_pls_rsp(rsp_str):
-    """extract the response of PLS"""
-    try:
-        rsp = json.loads(rsp_str)
-    except ValueError:
-        traceback.print_exc()
-        err = sys.exc_info()[1]
-        err_str = ERROR_STR_PREFIX + str(err)
-        return RET_ERROR, err_str, None
-
-    error_code = int(rsp['ErrCode'])
-
-    if error_code != 0:
-        error_str = ERROR_STR_PREFIX + str(error_code) + ' ' + rsp['ErrDesc']
-        return RET_ERROR, error_str, None
-
-    if 'RetData' not in rsp:
-        error_str = ERROR_STR_PREFIX + 'No ret data found in client rsp. Response: %s' % rsp
-        return RET_ERROR, error_str, None
-
-    return RET_OK, "", rsp
-
-
-def normalize_date_format(date_str):
-    """normalize the format of data"""
-    date_obj = datetime.strptime(date_str, "%Y-%m-%d")
-    ret = date_obj.strftime("%Y-%m-%d")
-    return ret
-
-
-def split_stock_str(stock_str):
-    """split the stock string"""
-    if is_str(stock_str) is False:
-        error_str = ERROR_STR_PREFIX + "value of stock_str is %s of type %s, and type %s is expected" \
-                                       % (stock_str, type(stock_str), str(str))
-        return RET_ERROR, error_str
-
-    split_loc = stock_str.find(".")
-    '''do not use the built-in split function in python.
-    The built-in function cannot handle some stock strings correctly.
-    for instance, US..DJI, where the dot . itself is a part of original code'''
-    if 0 <= split_loc < len(stock_str) - 1 and stock_str[0:split_loc] in MKT_MAP:
-        market_str = stock_str[0:split_loc]
-        market_code = MKT_MAP[market_str]
-        partial_stock_str = stock_str[split_loc + 1:]
-        return RET_OK, (market_code, partial_stock_str)
-
-    else:
-
-        error_str = ERROR_STR_PREFIX + "format of %s is wrong. (US.AAPL, HK.00700, SZ.000001)" % stock_str
-        return RET_ERROR, error_str
-
-
-def merge_stock_str(market, partial_stock_str):
-    """
-    Merge the string of stocks
-    :param market: market code
-    :param partial_stock_str: original stock code string. i.e. "AAPL","00700", "000001"
-    :return: unified representation of a stock code. i.e. "US.AAPL", "HK.00700", "SZ.000001"
-
-    """
-    if (market not in MKT_MAP) and (market not in QUOTE.REV_MKT_MAP):
-        return ""
-    market_str = QUOTE.REV_MKT_MAP[market]
-    stock_str = '.'.join([market_str, partial_stock_str])
-    return stock_str
-
-
-def str2binary(s):
-    """
-    Transfer string to binary
-    :param s: string content to be transformed to binary
-    :return: binary
-    """
-    return s.encode('utf-8')
-
-
-def binary2str(b):
-    """
-    Transfer binary to string
-    :param b: binary content to be transformed to string
-    :return: string
-    """
-    return b.decode('utf-8')
 
 
 class TradeDayQuery:
@@ -410,7 +308,7 @@ class MarketSnapshotQuery:
                           'wrt_strike_price': int1000_price_to_float(record['Wrt_StrikePrice']),
                           'wrt_maturity_date': str(record['Wrt_MaturityDateStr']),
                           'wrt_end_trade': str(record['Wrt_EndTradeDateStr']),
-                          'wrt_code': merge_stock_str(int(record['Wrt_OwnerMarketType']), record['Wrt_OwnerStockCode']),
+                          'wrt_code': merge_stock_str(int(record['Wrt_OwnerMarketType']), record['Wrt_OwnerStockCode']) if int(record['Wrt_OwnerMarketType']) != 0 else '' ,
                           'wrt_recovery_price': int1000_price_to_float(record['Wrt_RecoveryPrice']),
                           'wrt_street_vol': int(record['Wrt_StreetVol']),
                           'wrt_issue_vol': int(record['Wrt_IssueVol']),
@@ -429,6 +327,8 @@ class MarketSnapshotQuery:
                           'ey_ratio': int1000_price_to_float(record['Eqt_EYRatio']) if 'Eqt_EYRatio' in record else 0,
                           'pe_ratio': int1000_price_to_float(record['Eqt_PERatio']) if 'Eqt_PERatio' in record else 0,
                           'pb_ratio': int1000_price_to_float(record['Eqt_PBRatio']) if 'Eqt_PBRatio' in record else 0,
+                          # 2018.1.25 add
+                          'price_spread': int1000_price_to_float(record['PriceSpread']) if 'PriceSpread' in record else 0,
                           } for record in raw_snapshot_list]
 
         return RET_OK, "", snapshot_list
@@ -1102,7 +1002,8 @@ class StockQuoteQuery:
                        'turnover_rate': int1000_price_to_float(record['TurnoverRate']),
                        'amplitude': int1000_price_to_float(record['Amplitude']),
                        'suspension': True if int(record['Suspension']) == 1 else False,
-                       'listing_date': record['ListTime']
+                       'listing_date': record['ListTime'],
+                       'price_spread': int1000_price_to_float(record['PriceSpread']) if 'PriceSpread' in record else 0,
                        }
                       for record in raw_quote_list]
 

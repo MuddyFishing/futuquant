@@ -46,7 +46,7 @@ class StockQuoteHandlerBase(RspHandlerBase):
         else:
             col_list = ['code', 'data_date', 'data_time', 'last_price', 'open_price',
                         'high_price', 'low_price', 'prev_close_price',
-                        'volume', 'turnover', 'turnover_rate', 'amplitude', 'suspension', 'listing_date'
+                        'volume', 'turnover', 'turnover_rate', 'amplitude', 'suspension', 'listing_date', 'price_spread'
                         ]
 
             quote_frame_table = pd.DataFrame(quote_list, columns=col_list)
@@ -309,7 +309,8 @@ class USTradeDealHandlerBase(RspHandlerBase):
 class HandlerContext:
     """Handle Context"""
 
-    def __init__(self):
+    def __init__(self, cb_check_recv):
+        self.cb_check_recv = cb_check_recv
         self._default_handler = RspHandlerBase()
         self._handler_table = {"1030": {"type": StockQuoteHandlerBase, "obj": StockQuoteHandlerBase()},
                                "1031": {"type": OrderBookHandlerBase, "obj": OrderBookHandlerBase()},
@@ -361,6 +362,9 @@ class HandlerContext:
 
     def recv_func(self, rsp_str):
         """receive response callback function"""
+        if self.cb_check_recv is not None and not self.cb_check_recv():
+            return
+
         ret, msg, rsp = extract_pls_rsp(rsp_str)
         if ret != RET_OK:
             error_str = msg + rsp_str
@@ -569,7 +573,38 @@ class _SyncNetworkQueryCtx:
             self.s = None
 
 
+class _AsyncThreadCtrl(object):
+    def __init__(self):
+        self.__list_aync = []
+        self.__net_proc = None
+        self.__stop = False
+
+    def add_async(self, async_obj):
+        if async_obj in self.__list_aync:
+            return
+        self.__list_aync.append(async_obj)
+        if self.__net_proc is None:
+            self.__stop = False
+            self.__net_proc = Thread(target=self._thread_aysnc_net_proc, args=())
+            self.__net_proc.start()
+
+    def remove_async(self, async_obj):
+        if async_obj not in self.__list_aync:
+            return
+        self.__list_aync.remove(async_obj)
+        if len(self.__list_aync) == 0:
+            self.__stop = True
+            self.__net_proc.join(timeout=5)
+            self.__net_proc = None
+
+    def _thread_aysnc_net_proc(self):
+        while not self.__stop:
+            asyncore.loop(timeout=0.001, count=5)
+
+
 class _AsyncNetworkManager(asyncore.dispatcher_with_send):
+    async_thread_ctrl = _AsyncThreadCtrl()
+
     def __init__(self, host, port, handler_ctx, close_handler=None):
         self.__host = host
         self.__port = port
@@ -582,12 +617,18 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         self.rsp_buf = b''
         self.handler_ctx = handler_ctx
 
+        self.async_thread_ctrl.add_async(self)
+
+    def __del__(self):
+        self.async_thread_ctrl.remove_async(self)
+
     def reconnect(self):
         """reconnect"""
         self._socket_create_and_connect()
 
     def close_socket(self):
         """close socket"""
+        self.async_thread_ctrl.remove_async(self)
         self.close()
 
     def handle_read(self):
@@ -659,10 +700,9 @@ class OpenContextBase(object):
         self._is_socket_reconnecting = False
         self._is_obj_closed = False
 
-        self._req_queue = None
         self._handlers_ctx = None
         self._proc_run = False
-        self._net_proc = None
+
         self._sync_query_lock = RLock()
 
         self._count_reconnect = 0
@@ -711,28 +751,19 @@ class OpenContextBase(object):
         if self._sync_query_lock is not None:
             self._sync_query_lock = None
 
-        self._req_queue = None
         self._handlers_ctx = None
 
     def start(self):
         """
         start the receiving thread,asynchronously receive the data pushed by the client
         """
-        if self._proc_run is True or self._net_proc is None:
-            return
-
-        self._net_proc.start()
         self._proc_run = True
 
     def stop(self):
         """
         stop the receiving thread, no longer receive the data pushed by the client
         """
-        if self._proc_run:
-            self._stop_net_proc()
-            self._net_proc.join(timeout=5)
-            self._net_proc = None
-            self._proc_run = False
+        self._proc_run = False
 
     def set_handler(self, handler):
         """
@@ -763,6 +794,9 @@ class OpenContextBase(object):
             return ret_code, msg
         return RET_OK, state_dict
 
+    def _is_proc_run(self):
+        return self._proc_run
+
     def _send_sync_req(self, req_str):
         """
         send a synchronous request
@@ -776,19 +810,10 @@ class OpenContextBase(object):
         """
         send a asynchronous request
         """
-        if self._req_queue.full() is False:
-            try:
-                self._req_queue.put((True, req_str), timeout=1)
-                return RET_OK, ''
-            except Exception as e:
-                traceback.print_exc()
-                _ = e
-                err = sys.exc_info()[1]
-                error_str = ERROR_STR_PREFIX + str(err)
-                return RET_ERROR, error_str
-        else:
-            error_str = ERROR_STR_PREFIX + "Request queue is full. The size: %s" % self._req_queue.qsize()
-            return RET_ERROR, error_str
+        if self._async_ctx:
+            self._async_ctx.send(req_str)
+            return RET_OK, ''
+        return RET_ERROR, 'async_ctx is None!'
 
     def _get_sync_query_processor(self, pack_func, unpack_func):
         """
@@ -832,26 +857,6 @@ class OpenContextBase(object):
 
         return sync_query_processor
 
-    def _stop_net_proc(self):
-        """
-        stop the request of network
-        :return: (ret_error,error_str)
-        """
-        if self._req_queue.full() is False:
-            try:
-                self._req_queue.put((False, None), timeout=1)
-                return RET_OK, ''
-            except Exception as e:
-                traceback.print_exc()
-                _ = e
-                err = sys.exc_info()[1]
-                error_str = ERROR_STR_PREFIX + str(err)
-                return RET_ERROR, error_str
-        else:
-            error_str = ERROR_STR_PREFIX + "Cannot send stop request. queue is full. The size: %s" \
-                                           % self._req_queue.qsize()
-            return RET_ERROR, error_str
-
     def _socket_reconnect_and_wait_ready(self):
         """
         sync_socket & async_socket recreate
@@ -869,11 +874,8 @@ class OpenContextBase(object):
             # create async socket (for push data)
             if self.__async_socket_enable:
                 if self._async_ctx is None:
-                    self._handlers_ctx = HandlerContext()
-                    self._req_queue = Queue()
+                    self._handlers_ctx = HandlerContext(self._is_proc_run)
                     self._async_ctx = _AsyncNetworkManager(self.__host, self.__port, self._handlers_ctx, self)
-                    if self._net_proc is None:
-                        self._net_proc = Thread(target=self._fun_net_proc, args=(self._async_ctx, self._req_queue,))
                 else:
                     self._async_ctx.reconnect()
 
@@ -968,25 +970,6 @@ class OpenContextBase(object):
                 self._check_last_req_time = cur_time
                 if self._thread_check_sync_sock is thread_handle:
                     self.get_global_state()
-
-    def _fun_net_proc(self, async_ctx, req_queue):
-        """
-        processing request queue
-        :param async_ctx:
-        :param req_queue: request queue
-        :return:
-        """
-        while True:
-            if req_queue.empty() is False:
-                try:
-                    ctl_flag, req_str = req_queue.get(timeout=0.001)
-                    if ctl_flag is False:
-                        break
-                    async_ctx.network_query(req_str)
-                except Exception as e:
-                    traceback.print_exc()
-
-            asyncore.loop(timeout=0.001, count=5)
 
 
 class OpenQuoteContext(OpenContextBase):
@@ -1212,6 +1195,8 @@ class OpenQuoteContext(OpenContextBase):
                     # 2017.11.6 add
                     'issued_shares', 'net_asset', 'net_profit', 'earning_per_share',
                     'outstanding_shares', 'net_asset_per_share', 'ey_ratio', 'pe_ratio', 'pb_ratio',
+                    # 2017.1.25 add
+                    'price_spread',
                     ]
 
         snapshot_frame_table = pd.DataFrame(snapshot_list, columns=col_list)
@@ -1442,7 +1427,7 @@ class OpenQuoteContext(OpenContextBase):
 
         col_list = ['code', 'data_date', 'data_time', 'last_price', 'open_price',
                     'high_price', 'low_price', 'prev_close_price',
-                    'volume', 'turnover', 'turnover_rate', 'amplitude', 'suspension', 'listing_date'
+                    'volume', 'turnover', 'turnover_rate', 'amplitude', 'suspension', 'listing_date', 'price_spread'
                     ]
 
         quote_frame_table = pd.DataFrame(quote_list, columns=col_list)

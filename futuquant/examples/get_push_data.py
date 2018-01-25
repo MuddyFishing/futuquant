@@ -116,21 +116,15 @@ if __name__ == "__main__":
     quote_context.set_handler(HeartBeatTest())
 
     # 获取推送数据
-    quote_context.subscribe('HK.00700', "QUOTE", push=True)
+    code = 'US.AAPL'
+    quote_context.subscribe(code, "QUOTE", push=True)
     quote_context.set_handler(StockQuoteTest())
-
-    quote_context.subscribe('HK.00700', "K_DAY", push=True)
-    quote_context.set_handler(CurKlineTest())
-
-    quote_context.subscribe('HK.00700', "ORDER_BOOK", push=True)
-    quote_context.set_handler(OrderBookTest())
-
-    quote_context.subscribe('HK.00700', "TICKER", push=True)
-    quote_context.set_handler(TickerTest())
-
-    quote_context.subscribe('HK.00700', "RT_DATA", push=True)
-    quote_context.set_handler(RTDataTest())
-
-    quote_context.subscribe('HK.00700', "BROKER", push=True)
-    quote_context.set_handler(BrokerTest())
     quote_context.start()
+
+    ret, data = quote_context.get_stock_quote(code)
+    print (data)
+    ret, data = quote_context.get_market_snapshot(code)
+    print (data)
+
+    sleep(10)
+    quote_context.close()
