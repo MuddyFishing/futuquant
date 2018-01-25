@@ -356,6 +356,9 @@ class FutuDataEvent(object):
             tick.highPrice = row['high_price']
             tick.lowPrice = row['low_price']
             tick.preClosePrice = row['prev_close_price']
+            # 1.25 新增摆盘价差，方便计算正确的订单提交价格 要求牛牛最低版本 v3.42.4961.125
+            if 'price_spread' in row:
+                tick.priceSpread = row['price_spread']
 
             tick.lastPrice = row['last_price']
             tick.volume = row['volume']
