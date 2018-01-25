@@ -721,7 +721,9 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 **pe_ratio**：市盈率  float     
                                            
 **pb_ratio**：市净率  float     
-                                           
+                                       
+**price\_spread** ： 当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差；float    
+
 返回DataFrame，包含上述字段
 
 **窝轮类型** wrt\_type，（字符串类型）：
@@ -1183,6 +1185,8 @@ ret\_code为成功，ret\_data返回None 如果指定内容已退订，则直接
 **suspension**\ ： 是否停牌(True表示停牌)；bool
 
 **listing\_date** ： 上市日期 (yyyy-MM-dd)；string
+
+**price\_spread** ： 当前价差亦即摆盘数据的买档或卖档的相邻档位的报价差；float
 
 **失败情况**:
 
