@@ -234,119 +234,6 @@
   <div class="section" id="pls-api">
 <h1>PLS API<a class="headerlink" href="#pls-api" title="Permalink to this headline">¶</a></h1>
 <p><strong>修改历史</strong></p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="9%" />
-<col width="52%" />
-<col width="9%" />
-<col width="30%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">修改日期</th>
-<th class="head">修改内容</th>
-<th class="head">修改人</th>
-<th class="head">备注</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td><ol class="first last arabic simple" start="2015">
-<li>9.15</li>
-</ol>
-</td>
-<td>初稿</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-<tr class="row-odd"><td>2015.11.5</td>
-<td><ol class="first last arabic simple">
-<li>增加行情现价接口</li>
-<li>增加仿真交易参数</li>
-<li>新增条件交易demo</li>
-</ol>
-</td>
-<td>Ysq/Hugh</td>
-<td>牛牛版本需要最低307版本才可以正常运行</td>
-</tr>
-<tr class="row-even"><td>2015.12.18</td>
-<td>1.报价增加时间字段
-2.股票个数上限由100上调至300</td>
-<td>Ysq</td>
-<td>&nbsp;</td>
-</tr>
-<tr class="row-odd"><td>2015.1.21</td>
-<td><ol class="first last arabic simple">
-<li>更新港股交易接口文档，修改部分参数 <strong>&#8216;OrderTypeHK’</strong> 改为 <strong>&#8216;OrderType&#8217;</strong>
-“ <strong>SetOrderStatusHK</strong> ”改为” <strong>SetOrderStatus</strong> ”</li>
-<li>增加美股交易接口(下单，撤单，改单)</li>
-<li>增加解锁接口</li>
-</ol>
-</td>
-<td>YSQ</td>
-<td><strong>!! 新接口需要3.14及以上客户端版本支持</strong></td>
-</tr>
-<tr class="row-even"><td>2015.2.22</td>
-<td>6007协议文档错误纠正</td>
-<td>Ysq</td>
-<td>&nbsp;</td>
-</tr>
-<tr class="row-odd"><td>2016.11.23</td>
-<td>1001协议增加每手数量字段</td>
-<td>zeno</td>
-<td>&nbsp;</td>
-</tr>
-<tr class="row-even"><td>2016.12.12</td>
-<td>1010协议 拉取当天分时数据 6010 协议 港股成交记录 7010 协议 美股成交记录</td>
-<td>zeno</td>
-<td>&nbsp;</td>
-</tr>
-<tr class="row-odd"><td>2016.12.26</td>
-<td>1011协议 拉取最近1000根K线</td>
-<td>zeno</td>
-<td>&nbsp;</td>
-</tr>
-<tr class="row-even"><td>2017.1.10</td>
-<td>API一期</td>
-<td>Zeno;Tajod</td>
-<td>&nbsp;</td>
-</tr>
-<tr class="row-odd"><td>2017.4.~</td>
-<td><ol class="first last arabic simple">
-<li>快照1015增加总市值及流通市值/窝轮信息/字符串返回的更新时间</li>
-<li>1014取股票列表增加owner股票信息及子类型(窝轮用到）</li>
-<li>增加1026获取板块集合的子板块列表</li>
-<li>港、美股查订单列表增加过滤选项</li>
-</ol>
-</td>
-<td>Ysq</td>
-<td>&nbsp;</td>
-</tr>
-<tr class="row-even"><td>2017.10.~</td>
-<td><ol class="first last arabic simple">
-<li>增加订阅订单成交推送接口</li>
-<li>港、美股查订单列表增加过滤选项</li>
-<li>港、美股查持仓列表增加过滤选项</li>
-<li>增加港、美股查历史订单和历史成交接口</li>
-<li>下单返回带上订单数据</li>
-<li>股票快照增加正股市盈率等字段</li>
-</ol>
-</td>
-<td>Hugh</td>
-<td>&nbsp;</td>
-</tr>
-<tr class="row-odd"><td>2017.11.~</td>
-<td><ol class="first last arabic simple">
-<li>增加切换帐号接口</li>
-<li>交易解锁支持密码加密传值</li>
-<li>请求历史K线支持指定返回特定字段</li>
-<li>历史K线增加涨跌幅字段</li>
-<li>增加请求多支股票历史K线多个单点接口</li>
-</ol>
-</td>
-<td>Hugh</td>
-<td>&nbsp;</td>
-</tr>
-</tbody>
-</table>
 <p><strong>名词定义</strong></p>
 <p>FTNN : 特指富途牛牛For Windows</p>
 <p>PLS : Plugin Local Server 的简称, 该模块是FTNN的一个标准插件</p>
@@ -836,6 +723,10 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <tr class="row-odd"><td><strong>Time</strong></td>
 <td><strong>Int32</strong></td>
 <td><strong>报价最后更新时间</strong></td>
+</tr>
+<tr class="row-even"><td><strong>PriceSpread</strong></td>
+<td><strong>Int32</strong></td>
+<td><strong>摆盘价差</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1585,6 +1476,10 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <td>Int32</td>
 <td>市净率</td>
 </tr>
+<tr class="row-odd"><td><strong>PriceSpread</strong></td>
+<td><strong>Int32</strong></td>
+<td><strong>摆盘价差</strong></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1650,6 +1545,10 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <tr class="row-even"><td>Time</td>
 <td>String</td>
 <td>报价时间</td>
+</tr>
+<tr class="row-odd"><td><strong>PriceSpread</strong></td>
+<td><strong>Int32</strong></td>
+<td><strong>摆盘价差</strong></td>
 </tr>
 </tbody>
 </table>

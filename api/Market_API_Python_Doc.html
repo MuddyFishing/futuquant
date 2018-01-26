@@ -768,8 +768,8 @@ ret_code(调用执行返回状态，0为成功，其它为失败)和ret_data：<
 string类型，格式YYYY-MM-DD，仅指定到日级别即可，取默认值None表示取当前日期</p>
 <p><strong>返回</strong>：</p>
 <p>ret_code失败时，ret_data返回为错误描述字符串；
-客户端无数据时，ret_code为成功，ret_data返回None；</p>
-<p>正常情况下，ret_data为日期列表（每个日期是string类型），如果指定时间段中无交易日，则ret_data为空列表。</p>
+客户端无数据时，ret_code为成功，ret_data返回None
+正常情况下，ret_data为日期列表（每个日期是string类型），如果指定时间段中无交易日，则ret_data为空列表。</p>
 <p><strong>失败情况</strong>：</p>
 <ol class="arabic simple">
 <li>市场标识不合法</li>
@@ -817,8 +817,8 @@ string类型，格式YYYY-MM-DD，仅指定到日级别即可，取默认值None
 </tbody>
 </table>
 <p><strong>返回</strong>： ret_code失败时，ret_data返回为错误描述字符串；
-客户端无符合条件数据时，ret_code为成功，ret_data返回None；</p>
-<p>正常情况下，ret_data为一个dataframe，其中包括：</p>
+客户端无符合条件数据时，ret_code为成功，ret_data返回None
+正常情况下，ret_data为一个dataframe，其中包括：</p>
 <p><strong>code</strong>：股票代码；string，例如： ”HK.00700”，“US.AAPL”</p>
 <p><strong>name</strong>：股票名称；string</p>
 <p><strong>lot_size</strong>：每手股数；int</p>
@@ -844,8 +844,8 @@ string类型，格式YYYY-MM-DD，仅指定到日级别即可，取默认值None
 <p><strong>code_list</strong>: 股票代码列表，例如，HK.00700，US.AAPL</p>
 <p><strong>返回</strong>：</p>
 <p>ret_code失败时，ret_data返回为错误描述字符串；
-客户端无符合条件数据时，ret_code为成功，ret_data返回None；</p>
-<p>正常情况下，ret_data为一个dataframe，其中包括：</p>
+客户端无符合条件数据时，ret_code为成功，ret_data返回None
+正常情况下，ret_data为一个dataframe，其中包括：</p>
 <p><strong>code</strong>：股票代码，string，例如： ”HK.00700”，“US.AAPL”</p>
 <p><strong>ex_div_date</strong>：除权除息日，string类型，格式YYYY-MM-DD</p>
 <p><strong>split_ratio</strong>：拆合股比例
@@ -883,8 +883,10 @@ double，例如，对于5股合1股为1/5，对于1股拆5股为5/1</p>
 <p>开始结束时间按照闭区间查询，时间查询以k线时间time_key作为比较标准。即满足
 start&lt;=Time_key&lt;=end条件的k线作为返回内容，k线时间time_key的设定标准在返回值中说明</p>
 <p><strong>返回</strong>：</p>
-<p>ret_code失败时，ret_data返回为错误描述字符串；
-客户端无符合条件数据时，ret_code为成功，返回None；</p>
+<div class="line-block">
+<div class="line">ret_code失败时，ret_data返回为错误描述字符串；
+客户端无符合条件数据时，ret_code为成功，返回None</div>
+</div>
 <p>正常情况下返回K线数据为一个DataFrame包含:</p>
 <p><strong>code</strong>： 股票代码；string</p>
 <p><strong>time_key</strong>： K线时间 string “YYYY-MM-DD HH:mm:ss”</p>
@@ -950,8 +952,8 @@ start&lt;=Time_key&lt;=end条件的k线作为返回内容，k线时间time_key�
 传入的codelist只允许包含1种股票类型。</p>
 <p><strong>返回</strong>：</p>
 <p>ret_code失败时，ret_data返回为错误描述字符串；
-客户端无符合条件数据时，ret_code为成功，ret_data返回None；</p>
-<p>正常情况下，ret_data为一个dataframe，其中包括：</p>
+客户端无符合条件数据时，ret_code为成功，ret_data返回None
+正常情况下，ret_data为一个dataframe，其中包括：</p>
 <p><strong>code</strong> ：股票代码；string</p>
 <p><strong>update_time</strong>： 更新时间(yyyy-MM-dd HH:mm:ss)；string</p>
 <p><strong>last_price</strong> ： 最新价格；float</p>
@@ -990,6 +992,7 @@ start&lt;=Time_key&lt;=end条件的k线作为返回内容，k线时间time_key�
 <p><strong>ey_ratio</strong>：收益率  float</p>
 <p><strong>pe_ratio</strong>：市盈率  float</p>
 <p><strong>pb_ratio</strong>：市净率  float</p>
+<p><strong>price_spread</strong> ： 当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差；float</p>
 <p>返回DataFrame，包含上述字段</p>
 <p><strong>窝轮类型</strong> wrt_type，（字符串类型）：</p>
 <table border="1" class="docutils">
@@ -1040,8 +1043,8 @@ start&lt;=Time_key&lt;=end条件的k线作为返回内容，k线时间time_key�
 <p><strong>code</strong>: 股票代码，例如，HK.00700，US.APPL</p>
 <p><strong>返回</strong>：</p>
 <p>ret_code失败时，ret_data返回为错误描述字符串；
-客户端无符合条件数据时，ret_code为成功，ret_data返回None；</p>
-<p>正常情况下，ret_data为一个dataframe，其中包括：</p>
+客户端无符合条件数据时，ret_code为成功，ret_data返回None
+正常情况下，ret_data为一个dataframe，其中包括：</p>
 <p><strong>code</strong>: 股票代码： string</p>
 <p><strong>time</strong>：时间；string</p>
 <p><strong>data_status</strong>：数据状态；bool，正确为True，伪造为False</p>
@@ -1099,8 +1102,10 @@ start&lt;=Time_key&lt;=end条件的k线作为返回内容，k线时间time_key�
 </tbody>
 </table>
 <p><strong>返回</strong>：</p>
-<p>ret_code失败时，ret_data返回为错误描述字符串；
-客户端无符合条件数据时，ret_code为成功，返回None；</p>
+<div class="line-block">
+<div class="line">ret_code失败时，ret_data返回为错误描述字符串；
+客户端无符合条件数据时，ret_code为成功，返回None</div>
+</div>
 <p>正常情况下返回K线数据为一个DataFrame包含:</p>
 <p><strong>code</strong>： 板块代码；string</p>
 <p><strong>plate_name</strong>： 板块名称；string</p>
@@ -1124,7 +1129,7 @@ start&lt;=Time_key&lt;=end条件的k线作为返回内容，k线时间time_key�
 例如，”SH.BK0001”，”SH.BK0002”，先利用获取子版块列表函数获取子版块代码</p>
 <p><strong>返回</strong>：</p>
 <p>ret_code失败时，ret_data返回为错误描述字符串；
-客户端无符合条件数据时，ret_code为成功，ret_data返回None；</p>
+客户端无符合条件数据时，ret_code为成功，ret_data返回None</p>
 <p>正常情况下，ret_data为一个dataframe，其中包括：</p>
 <p><strong>code</strong>：；股票代码：string，例如： ”SZ.000158”，“SZ.000401”</p>
 <p><strong>lot_size</strong>：每手股数；int</p>
@@ -1210,8 +1215,8 @@ start&lt;=Time_key&lt;=end条件的k线作为返回内容，k线时间time_key�
 <p><strong>code</strong>: 股票代码, string, 例如，”HK.00700”</p>
 <p><strong>返回</strong>：</p>
 <p>ret_code失败时，bid_data返回为错误描述字符串；
-客户端无符合条件数据时，ret_code为成功，ask_data, bid_data返回None；</p>
-<p>正常情况下，ask_data, bid_data均为dataframe，
+客户端无符合条件数据时，ret_code为成功，ask_data, bid_data返回None
+正常情况下，ask_data, bid_data均为dataframe，
 其中bid_data是买盘的数据，包括：</p>
 <p><strong>bid_broker_id</strong>: 经纪买盘id；int</p>
 <p><strong>bid_broker_name</strong>：经纪买盘名称；string，例如： ”高盛”，”法巴”</p>
@@ -1233,14 +1238,15 @@ start&lt;=Time_key&lt;=end条件的k线作为返回内容，k线时间time_key�
 </div>
 <p><strong>功能</strong>：获取牛牛程序全局状态</p>
 <p><strong>参数</strong>：无</p>
-<p><strong>返回</strong>：</p>
-<p>ret_code失败时，ret_data返回为错误描述字符串；
-客户端无符合条件数据时，ret_code为成功，ret_data返回None；</p>
+<div class="line-block">
+<div class="line"><strong>返回</strong>： ret_code失败时，ret_data返回为错误描述字符串；
+客户端无符合条件数据时，ret_code为成功，ret_data返回None</div>
+</div>
 <p>正常情况下，ret_data为dict，包括：</p>
-<dl class="docutils">
-<dt><strong>Trade_Logined</strong>: 是否登陆交易服务器,int(0|1), 1</dt>
-<dd>表示登陆，0表示未登陆</dd>
-</dl>
+<div class="line-block">
+<div class="line"><strong>Trade_Logined</strong>: 是否登陆交易服务器,int(0|1), 1
+表示登陆，0表示未登陆</div>
+</div>
 <p><strong>Quote_Logined</strong>：是否登陆行情服务器,int(0|1), 1
 表示登陆，0表示未登陆</p>
 <p><strong>Market_HK</strong>: 港股主板市场状态,int,字段定义详见下表</p>
@@ -1336,7 +1342,7 @@ start&lt;=Time_key&lt;=end条件的k线作为返回内容，k线时间time_key�
 <p><strong>push</strong>: 推送选项，默认不推送</p>
 <p><strong>返回</strong>：</p>
 <p>ret_code失败时，ret_data返回为错误描述字符串；
-ret_code为成功，ret_data返回None; 如果指定内容已订阅，则直接返回成功</p>
+ret_code为成功，ret_data返回None 如果指定内容已订阅，则直接返回成功</p>
 <p><strong>失败情况</strong>:</p>
 <ol class="arabic simple">
 <li>股票代码不合法，不存在</li>
@@ -1357,7 +1363,7 @@ ret_code为成功，ret_data返回None; 如果指定内容已订阅，则直接�
 <p><strong>data_type</strong>: 需要退订的数据类型</p>
 <p><strong>返回</strong>：</p>
 <p>ret_code失败时，ret_data返回为错误描述字符串；
-ret_code为成功，ret_data返回None; 如果指定内容已退订，则直接返回成功</p>
+ret_code为成功，ret_data返回None 如果指定内容已退订，则直接返回成功</p>
 <p><strong>失败情况</strong>:</p>
 <ol class="arabic simple">
 <li>股票代码不合法，不存在</li>
@@ -1398,9 +1404,8 @@ ret_code为成功，ret_data返回None; 如果指定内容已退订，则直接�
 <p><strong>code_list</strong>: 股票代码列表，例如，HK.00700，US.AAPL
 传入的codelist只允许包含1种股票类型的股票。
 必须确保code_list中的股票均订阅成功后才能够执行</p>
-<p><strong>返回</strong>：</p>
-<p>ret_code失败时，ret_data返回为错误描述字符串；
-客户端无符合条件数据时，ret_code为成功，返回None；
+<p><strong>返回</strong>： ret_code失败时，ret_data返回为错误描述字符串；
+客户端无符合条件数据时，ret_code为成功，返回None
 正常情况下，ret_data为一个dataframe，其中包括：</p>
 <p><strong>code</strong> ：股票代码；string</p>
 <p><strong>data_date</strong>: 日期： str</p>
@@ -1416,6 +1421,7 @@ ret_code为成功，ret_data返回None; 如果指定内容已退订，则直接�
 <p><strong>amplitude</strong> : 振幅：int</p>
 <p><strong>suspension</strong>： 是否停牌(True表示停牌)；bool</p>
 <p><strong>listing_date</strong> ： 上市日期 (yyyy-MM-dd)；string</p>
+<p><strong>price_spread</strong> ： 当前价差亦即摆盘数据的买档或卖档的相邻档位的报价差；float</p>
 <p><strong>失败情况</strong>:</p>
 <ol class="arabic simple">
 <li>codelist中股票代码不合法</li>
@@ -1449,8 +1455,8 @@ ret_code为成功，ret_data返回None; 如果指定内容已退订，则直接�
 <p><strong>num</strong>: 最近ticker个数(有最大个数限制，最近500个）</p>
 <p><strong>返回</strong>：</p>
 <p>ret_code失败时，ret_data为错误描述字符串；
-客户端无符合条件数据时，ret为成功，ret_data返回None；</p>
-<p>通常情况下，返回DataFrame，DataFrame每一行是一个逐笔记录，包含：</p>
+客户端无符合条件数据时，ret为成功，ret_data返回None
+通常情况下，返回DataFrame，DataFrame每一行是一个逐笔记录，包含：</p>
 <p><strong>stock_code</strong> 股票代码</p>
 <p><strong>sequence</strong> 逐笔序号</p>
 <p><strong>time</strong> 成交时间；string</p>
@@ -1515,8 +1521,8 @@ ret_code为成功，ret_data返回None; 如果指定内容已退订，则直接�
 <p>对于实时K线数据最多取最近1000根</p>
 <p><strong>返回</strong>：</p>
 <p>ret_code失败时，ret_data为错误描述字符串；
-客户端无符合条件数据时，ret为成功，ret_data返回None；</p>
-<p>通常情况下，返回DataFrame，DataFrame内容和get_history_kline一样</p>
+客户端无符合条件数据时，ret为成功，ret_data返回None
+通常情况下，返回DataFrame，DataFrame内容和get_history_kline一样</p>
 <p><strong>失败情况</strong>：</p>
 <ol class="arabic simple">
 <li>code不合法</li>
@@ -1544,10 +1550,9 @@ ret_code为成功，ret_data返回None; 如果指定内容已退订，则直接�
 <p><strong>功能</strong>：获取实时摆盘数据</p>
 <p><strong>参数</strong>：</p>
 <p><strong>code</strong>: 股票代码，例如，HK.00700，US.AAPL</p>
-<p><strong>返回</strong>：</p>
-<p>ret_code失败时，ret_data为错误描述字符串；
-客户端无符合条件数据时，ret为成功，ret_data返回None；</p>
-<p>通常情况下，返回字典</p>
+<p><strong>返回</strong>： ret_code失败时，ret_data为错误描述字符串；
+客户端无符合条件数据时，ret为成功，ret_data返回None
+通常情况下，返回字典</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span>{‘stock_code’: stock_code
  ‘Ask’:[ (ask_price1, ask_volume1，order_num), (ask_price2, ask_volume2, order_num),…]
 ‘Bid’: [ (bid_price1, bid_volume1, order_num), (bid_price2, bid_volume2, order_num),…]
@@ -1583,8 +1588,7 @@ ret_code为成功，ret_data返回None; 如果指定内容已退订，则直接�
 <p><strong>code</strong>: 股票代码，例如，HK.00700，US.AAPL</p>
 <p><strong>返回</strong>：</p>
 <p>ret_code失败时，ret_data为错误描述字符串；
-客户端无符合条件数据时，ret为成功，ret_data返回None；</p>
-<p>通常情况下，返回</p>
+客户端无符合条件数据时，ret为成功，ret_data返回None 通常情况下，返回</p>
 <p><strong>time</strong> 时间</p>
 <p><strong>data_status</strong> 数据状态</p>
 <p><strong>opened_mins</strong> 开盘多少分钟</p>
@@ -1622,8 +1626,7 @@ ret_code为成功，ret_data返回None; 如果指定内容已退订，则直接�
 <p><strong>code</strong>: 股票代码，例如，HK.00700，US.AAPL</p>
 <p><strong>返回</strong>：</p>
 <p>ret_code失败时，ret_data为错误描述字符串；
-客户端无符合条件数据时，ret为成功，ret_data返回None；</p>
-<p>通常情况下，返回
+客户端无符合条件数据时，ret为成功，ret_data返回None 通常情况下，返回
 bid_data是买盘的数据，包括：</p>
 <p><strong>bid_broker_id</strong> 经纪卖盘id</p>
 <p><strong>bid_broker_name</strong> 经纪卖盘名称</p>
