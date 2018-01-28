@@ -5,7 +5,7 @@
 from copy import copy
 
 # 需要安装的最低牛牛客户端版本号
-NN_VERSION_MIN = '3.42.4952'
+NN_VERSION_MIN = '3.42.4962'
 
 MKT_MAP = {"HK": 1,
            "US": 2,
