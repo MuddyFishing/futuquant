@@ -170,3 +170,11 @@ class KL_FIELD(object):
                 if x in KL_FIELD.ALL_REAL and x not in list_ret:
                     list_ret.append(x)
         return list_ret
+
+
+class PriceRegularMode(object):
+    IGNORE = '0'
+    UPPER = '1'
+    LOWER = '2'
+
+
