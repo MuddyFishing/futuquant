@@ -65,7 +65,7 @@ class PlaceOrder:
         pass
 
     @classmethod
-    def hk_pack_req(cls, cookie, envtype, orderside, ordertype, price, qty, strcode):
+    def hk_pack_req(cls, cookie, envtype, orderside, ordertype, price, qty, strcode, price_mode):
         """Convert from user request for trading days to PLS request"""
         if int(orderside) < 0 or int(orderside) > 1:
             error_str = ERROR_STR_PREFIX + "parameter orderside is wrong"
@@ -87,7 +87,8 @@ class PlaceOrder:
                             "OrderType": ordertype,
                             "Price": price_to_str_int1000(price),
                             "Qty": qty,
-                            "StockCode": strcode
+                            "StockCode": strcode,
+                            "PriceMode": price_mode
                             }
                }
         req_str = json.dumps(req) + '\r\n'
@@ -131,7 +132,7 @@ class PlaceOrder:
         return RET_OK, "", place_order_list
 
     @classmethod
-    def us_pack_req(cls, cookie, envtype, orderside, ordertype, price, qty, strcode):
+    def us_pack_req(cls, cookie, envtype, orderside, ordertype, price, qty, strcode, price_mode):
         """Convert from user request for trading days to PLS request"""
         if int(orderside) < 0 or int(orderside) > 1:
             error_str = ERROR_STR_PREFIX + "parameter orderside is wrong"
@@ -150,7 +151,8 @@ class PlaceOrder:
                             "OrderType": ordertype,
                             "Price": price_to_str_int1000(price),
                             "Qty": qty,
-                            "StockCode": strcode
+                            "StockCode": strcode,
+                            "PriceMode": price_mode
                             }
                }
         req_str = json.dumps(req) + '\r\n'

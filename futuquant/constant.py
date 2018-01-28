@@ -5,7 +5,7 @@
 from copy import copy
 
 # 需要安装的最低牛牛客户端版本号
-NN_VERSION_MIN = '3.42.4952'
+NN_VERSION_MIN = '3.42.4962'
 
 MKT_MAP = {"HK": 1,
            "US": 2,
@@ -170,3 +170,16 @@ class KL_FIELD(object):
                 if x in KL_FIELD.ALL_REAL and x not in list_ret:
                     list_ret.append(x)
         return list_ret
+
+
+class PriceRegularMode(object):
+    """
+    港股报价需符合价位表的要求， 详见https://www.futu5.com/faq/topic1683
+    价格依据价位表规整模式,如腾讯当前的价位差是0.2, price = 471.1, UPPER price = 471.2 LOWER price = 471.0
+        price_mode参数会调整price至符合价位的正确报价
+    """
+    IGNORE = '0'  # 不调整
+    UPPER = '1'   # 向上调整
+    LOWER = '2'   # 向下调整
+
+
