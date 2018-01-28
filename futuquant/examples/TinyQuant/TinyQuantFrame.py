@@ -61,16 +61,16 @@ class TinyQuantFrame(object):
         """日k线的array manager数据"""
         return self._futu_data_event.get_kl_day_am(symbol)
 
-    def buy(self, price, volume, symbol):
+    def buy(self, price, volume, symbol, price_mode=PriceRegularMode.UPPER):
         """买入"""
         ret = None
         data = None
         if self._market == MARKET_HK:
             ret, data = self._trade_ctx.place_order(price=price, qty=volume, strcode=symbol, orderside=0, ordertype=0,
-                                        envtype=self._env_type)
+                                envtype=self._env_type, order_deal_push=False, price_mode=price_mode)
         else:
             ret, data = self._trade_ctx.place_order(price=price, qty=volume, strcode=symbol, orderside=0, ordertype=2,
-                                                     envtype=self._env_type)
+                                envtype=self._env_type, order_deal_push=False, price_mode=price_mode)
         if ret != 0:
             return ret, data
         order_id = 0
@@ -79,16 +79,16 @@ class TinyQuantFrame(object):
 
         return 0, order_id
 
-    def sell(self, price, volume, symbol):
+    def sell(self, price, volume, symbol, price_mode=PriceRegularMode.LOWER):
         """卖出"""
         ret = -1
         data = None
         if self._market == MARKET_HK:
             ret, data = self._trade_ctx.place_order(price=price, qty=volume, strcode=symbol, orderside=1, ordertype=0,
-                                        envtype=self._env_type)
+                                envtype=self._env_type, order_deal_push=False, price_mode=price_mode)
         else:
             ret, data = self._trade_ctx.place_order(price=price, qty=volume, strcode=symbol, orderside=1, ordertype=2,
-                                                     envtype=self._env_type)
+                                envtype=self._env_type, order_deal_push=False, price_mode=price_mode)
         if ret != 0:
             return ret, data
         order_id = 0
