@@ -811,7 +811,7 @@ class OpenContextBase(object):
         send a asynchronous request
         """
         if self._async_ctx:
-            self._async_ctx.send(req_str)
+            self._async_ctx.send(str2binary(req_str))
             return RET_OK, ''
         return RET_ERROR, 'async_ctx is None!'
 
