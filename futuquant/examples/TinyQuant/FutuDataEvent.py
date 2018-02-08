@@ -297,8 +297,7 @@ class FutuDataEvent(object):
         self._market_opened = True
 
     def __event_after_trading_wait(self, event):
-        pass
-        # self._market_opened = False
+        self._market_opened = False
 
     def __event_after_trading(self, event):
         self._market_opened = False
