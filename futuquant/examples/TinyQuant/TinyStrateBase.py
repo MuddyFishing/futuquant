@@ -66,7 +66,7 @@ class TinyStrateBase(object):
 
     @abstractmethod
     def on_after_trading(self, date_time):
-        """收盘时触发一次回调, 港股是16:00:00"""
+        """收盘时触发一次回调, 港股是16:10:00左右（16:00:00港股进入收盘竟价时段)"""
         str_log = "on_after_trading - %s" % date_time.strftime('%Y-%m-%d %H:%M:%S')
         self.log(str_log)
 

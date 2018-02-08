@@ -14,7 +14,7 @@ class Futu_Market_State:
     MARKET_REST = 'rest'
     MARKET_MID_OPEN = 'mid open'
     MARKET_CLOSE = 'close'
-    MARKET_CLOSE_FINAL = 'close fin'
+    MARKET_CLOSE_WAIT = 'close wait'  # 港股收盘前会先经历一个收盘竞价阶段
 
 class FutuMarketEvent(object):
     def __init__(self, market, quote_context, event_engine):
@@ -45,12 +45,12 @@ class FutuMarketEvent(object):
             12: Futu_Market_State.MARKET_NONE,  # 盘后结束(美股)
 
             13: Futu_Market_State.MARKET_MID_OPEN,  # 夜市交易中(港期货)
-            14: Futu_Market_State.MARKET_CLOSE_FINAL,  # 夜市收盘(港期货)
+            14: Futu_Market_State.MARKET_REST,  # 夜市收盘(港期货)
             15: Futu_Market_State.MARKET_OPEN,  # 日市交易中(港期货)
             16: Futu_Market_State.MARKET_REST,  # 日市午休(港期货)
             17: Futu_Market_State.MARKET_CLOSE,  # 日市收盘(港期货)
             18: Futu_Market_State.MARKET_PRE_OPEN,  # 日市等待开盘(港期货)
-            19: Futu_Market_State.MARKET_CLOSE_FINAL,  # 港股盘后竞价
+            19: Futu_Market_State.MARKET_CLOSE_WAIT,  # 港股盘后竞价
         }
 
         if self._market == MARKET_HK:
@@ -92,19 +92,19 @@ class FutuMarketEvent(object):
                 self._event_engine.put(event)
         elif new_status == Futu_Market_State.MARKET_CLOSE:
             list_event = [EVENT_AFTER_TRADING]
-            # 目前只有港股有盘后交易,其它市场模拟发一个EVENT_AFTER_TRADING_FINAL事件
+            # 目前只有港股有盘后交易,其它市场模拟发一个EVENT_AFTER_TRADING_WAIT事件
             if self._market == MARKET_SH or self._market == MARKET_SZ or self._market == MARKET_US:
                 self._has_notify_before_trading = False
-                list_event.append(EVENT_AFTER_TRADING_FINAL)
+                list_event.append(EVENT_AFTER_TRADING_WAIT)
 
             for x in list_event:
                 event = Event(type_=x)
                 event.dict_['TimeStamp'] = state_dict['TimeStamp']
                 self._event_engine.put(event)
 
-        elif new_status == Futu_Market_State.MARKET_CLOSE_FINAL:
+        elif new_status == Futu_Market_State.MARKET_CLOSE_WAIT:
             self._has_notify_before_trading = False
-            event = Event(type_=EVENT_AFTER_TRADING_FINAL)
+            event = Event(type_=EVENT_AFTER_TRADING_WAIT)
             event.dict_['TimeStamp'] = state_dict['TimeStamp']
             self._event_engine.put(event)
 

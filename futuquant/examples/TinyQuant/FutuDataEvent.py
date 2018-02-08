@@ -43,7 +43,7 @@ class FutuDataEvent(object):
         self._event_engine.register(EVENT_CUR_KLINE_PUSH, self._event_cur_kline_push)
         self._event_engine.register(EVENT_BEFORE_TRADING, self.__event_before_trading)
         self._event_engine.register(EVENT_AFTER_TRADING, self.__event_after_trading)
-        self._event_engine.register(EVENT_AFTER_TRADING_FINAL, self.__event_after_trading_final)
+        self._event_engine.register(EVENT_AFTER_TRADING_WAIT, self.__event_after_trading_wait)
 
         class QuoteHandler(StockQuoteHandlerBase):
             """报价处理器"""
@@ -296,12 +296,13 @@ class FutuDataEvent(object):
         self._rebuild_sym_kline_all()
         self._market_opened = True
 
-    def __event_after_trading_final(self, event):
-        self._market_opened = False
-        self.__process_last_kl_push([KTYPE_DAY, KTYPE_MIN1, KTYPE_MIN5, KTYPE_MIN15, KTYPE_MIN30, KTYPE_MIN60])
+    def __event_after_trading_wait(self, event):
+        pass
+        # self._market_opened = False
 
     def __event_after_trading(self, event):
         self._market_opened = False
+        self.__process_last_kl_push([KTYPE_DAY, KTYPE_MIN1, KTYPE_MIN5, KTYPE_MIN15, KTYPE_MIN30, KTYPE_MIN60])
 
     def __process_last_kl_push(self, kl_types):
         # 收盘将没推送的数据点再推一次
