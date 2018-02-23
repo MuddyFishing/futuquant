@@ -501,7 +501,7 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 **返回**\ ：
 
 ret\_code失败时，ret\_data返回为错误描述字符串；
-客户端无符合条件数据时，ret\_code为成功，ret\_data返回None
+客户端无符合条件数据时，ret\_code为成功，ret\_data返回None；
 正常情况下，ret\_data为一个dataframe，其中包括：
 
 **code**\ ：股票代码，string，例如： ”HK.00700”，“US.AAPL”
@@ -874,18 +874,17 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 
 正常情况下，ret\_data为一个dataframe，其中包括：
 
-**code**\ ：；股票代码：string，例如： ”SZ.000158”，“SZ.000401”
+**code**\ ：股票代码；string，例如： ”SZ.000158”，“SZ.000401”
 
 **lot\_size**\ ：每手股数；int
 
 **stock\_name**\ ：股票名称；string，例如： ”天然乳品”，”大庆乳业”
 
-**owner\_market**: 所属股票的市场，仅支持窝轮，其他为空，string
+**owner\_market**: 所属股票的市场，仅支持窝轮，其他为空；string
 
-**stock\_child\_type**:
-股票子类型；仅支持窝轮，其他为0，string，例如："BEAR"，"BULL"
+**stock\_child\_type**: 股票子类型；仅支持窝轮，其他为0；string，例如："BEAR"，"BULL"
 
-**stock\_type**\ ：股票类型：string, 例如，"BOND", "STOCK"
+**stock\_type**\ ：股票类型；string, 例如，"BOND", "STOCK"
 
 +-------------+------------+
 | 股票类型    | 标识       |
@@ -1091,6 +1090,8 @@ ret\_code,ret\_data = unsubscribe(stock\_code, data\_type, unpush=True)
 **stock\_code**: 需要退订的股票代码
 
 **data\_type**: 需要退订的数据类型
+
+**unpush**: 无用参数，忽略即可
 
 **返回**\ ：
 
