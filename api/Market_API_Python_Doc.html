@@ -844,7 +844,7 @@ string类型，格式YYYY-MM-DD，仅指定到日级别即可，取默认值None
 <p><strong>code_list</strong>: 股票代码列表，例如，HK.00700，US.AAPL</p>
 <p><strong>返回</strong>：</p>
 <p>ret_code失败时，ret_data返回为错误描述字符串；
-客户端无符合条件数据时，ret_code为成功，ret_data返回None
+客户端无符合条件数据时，ret_code为成功，ret_data返回None；
 正常情况下，ret_data为一个dataframe，其中包括：</p>
 <p><strong>code</strong>：股票代码，string，例如： ”HK.00700”，“US.AAPL”</p>
 <p><strong>ex_div_date</strong>：除权除息日，string类型，格式YYYY-MM-DD</p>
@@ -1131,13 +1131,12 @@ start&lt;=Time_key&lt;=end条件的k线作为返回内容，k线时间time_key�
 <p>ret_code失败时，ret_data返回为错误描述字符串；
 客户端无符合条件数据时，ret_code为成功，ret_data返回None</p>
 <p>正常情况下，ret_data为一个dataframe，其中包括：</p>
-<p><strong>code</strong>：；股票代码：string，例如： ”SZ.000158”，“SZ.000401”</p>
+<p><strong>code</strong>：股票代码；string，例如： ”SZ.000158”，“SZ.000401”</p>
 <p><strong>lot_size</strong>：每手股数；int</p>
 <p><strong>stock_name</strong>：股票名称；string，例如： ”天然乳品”，”大庆乳业”</p>
-<p><strong>owner_market</strong>: 所属股票的市场，仅支持窝轮，其他为空，string</p>
-<p><strong>stock_child_type</strong>:
-股票子类型；仅支持窝轮，其他为0，string，例如：&#8221;BEAR&#8221;，&#8221;BULL&#8221;</p>
-<p><strong>stock_type</strong>：股票类型：string, 例如，&#8221;BOND&#8221;, &#8220;STOCK&#8221;</p>
+<p><strong>owner_market</strong>: 所属股票的市场，仅支持窝轮，其他为空；string</p>
+<p><strong>stock_child_type</strong>: 股票子类型；仅支持窝轮，其他为0；string，例如：&#8221;BEAR&#8221;，&#8221;BULL&#8221;</p>
+<p><strong>stock_type</strong>：股票类型；string, 例如，&#8221;BOND&#8221;, &#8220;STOCK&#8221;</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="52%" />
@@ -1361,6 +1360,7 @@ ret_code为成功，ret_data返回None 如果指定内容已订阅，则直接�
 <p><strong>参数</strong>：</p>
 <p><strong>stock_code</strong>: 需要退订的股票代码</p>
 <p><strong>data_type</strong>: 需要退订的数据类型</p>
+<p><strong>unpush</strong>: 无用参数，忽略即可</p>
 <p><strong>返回</strong>：</p>
 <p>ret_code失败时，ret_data返回为错误描述字符串；
 ret_code为成功，ret_data返回None 如果指定内容已退订，则直接返回成功</p>
