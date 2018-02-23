@@ -64,7 +64,7 @@ if __name__ == "__main__":
     api_port = 11111
     unlock_pwd = '979899'
 
-    # '''
+    '''
     # 港股模拟环境下单及推送
     trade_context = OpenHKTradeContext(host=api_ip, port=api_port)
     trade_context.unlock_trade(unlock_pwd)
@@ -98,11 +98,11 @@ if __name__ == "__main__":
     trade_context.subscribe_order_deal_push(orderid_list, True, envtype=1)
     # print(trade_context.place_order(price=4.50, qty=1000, strcode='HK.03883', orderside=0, ordertype=0, envtype=1,
     #                              order_deal_push=False))
-    # print(trade_context.place_order(price=11.500, qty=1000, strcode='HK.01357', orderside=0, ordertype=0, envtype=1,
-    #                               order_deal_push=True))
-    # '''
-
+    print(trade_context.place_order(price=11.31, qty=1000, strcode='HK.01357', orderside=0, ordertype=0, envtype=1,
+                                   order_deal_push=True, price_mode=PriceRegularMode.UPPER))
     '''
+
+    #'''
     #美股正式环境下单及推送
     trade_context = OpenUSTradeContext(host=api_ip, port=api_port)
     print(trade_context.unlock_trade(unlock_pwd))
@@ -127,5 +127,5 @@ if __name__ == "__main__":
 
     # trade_context.subscribe_order_deal_push('', True, 0)
     # print('\nUS place_order:')
-    # print(trade_context.place_order(price="4.1", qty=1, strcode='US.MIN', orderside=0, ordertype=2, envtype=0, order_deal_push=True))
-    '''
+    print(trade_context.place_order(price="3.55", qty=1, strcode='US.MIN', orderside=0, ordertype=2, envtype=0, order_deal_push=True, price_mode=PriceRegularMode.LOWER))
+    # '''

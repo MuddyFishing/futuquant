@@ -811,7 +811,7 @@ class OpenContextBase(object):
         send a asynchronous request
         """
         if self._async_ctx:
-            self._async_ctx.send(req_str)
+            self._async_ctx.send(str2binary(req_str))
             return RET_OK, ''
         return RET_ERROR, 'async_ctx is None!'
 
@@ -1765,7 +1765,7 @@ class OpenHKTradeContext(OpenContextBase):
 
         return self._subscribe_order_deal_push(list_sub, order_deal_push, True, envtype)
 
-    def place_order(self, price, qty, strcode, orderside, ordertype=0, envtype=0, order_deal_push=False):
+    def place_order(self, price, qty, strcode, orderside, ordertype=0, envtype=0, order_deal_push=False, price_mode=PriceRegularMode.IGNORE):
         """
         place order
         use  set_handle(HKTradeOrderHandlerBase) to recv order push !
@@ -1789,7 +1789,7 @@ class OpenHKTradeContext(OpenContextBase):
 
         # the keys of kargs should be corresponding to the actual function arguments
         kargs = {'cookie': str(self.cookie), 'envtype': str(envtype), 'orderside': str(orderside),
-                 'ordertype': str(ordertype), 'price': str(price), 'qty': str(qty), 'strcode': str(stock_code)}
+                 'ordertype': str(ordertype), 'price': str(price), 'qty': str(qty), 'strcode': str(stock_code), 'price_mode': str(price_mode)}
 
         ret_code, msg, place_order_list = query_processor(**kargs)
         if ret_code != RET_OK:
@@ -2166,7 +2166,7 @@ class OpenUSTradeContext(OpenContextBase):
                                                          UnlockTrade.unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {'cookie': str(self.cookie), 'password': str(password), 'password_md5': str(password_md5)}
+        kargs = {'cookie': str(self.cookie), 'password': str(password), 'password_md5': str(password_md5) if password_md5 else "" }
         ret_code, msg, unlock_list = query_processor(**kargs)
 
         if ret_code != RET_OK:
@@ -2200,7 +2200,7 @@ class OpenUSTradeContext(OpenContextBase):
 
         return self._subscribe_order_deal_push(list_sub, order_deal_push, True, envtype)
 
-    def place_order(self, price, qty, strcode, orderside, ordertype=2, envtype=0, order_deal_push=False):
+    def place_order(self, price, qty, strcode, orderside, ordertype=2, envtype=0, order_deal_push=False, price_mode=PriceRegularMode.IGNORE):
         """
         place order
         use  set_handle(USTradeOrderHandlerBase) to recv order push !
@@ -2224,7 +2224,8 @@ class OpenUSTradeContext(OpenContextBase):
 
         # the keys of kargs should be corresponding to the actual function arguments
         kargs = {'cookie': str(self.cookie), 'envtype': str(envtype), 'orderside': str(orderside),
-                 'ordertype': str(ordertype), 'price': str(price), 'qty': str(qty), 'strcode': str(stock_code)}
+                 'ordertype': str(ordertype), 'price': str(price), 'qty': str(qty), 'strcode': str(stock_code),
+                 'price_mode': str(price_mode)}
 
         ret_code, msg, place_order_list = query_processor(**kargs)
         if ret_code != RET_OK:
