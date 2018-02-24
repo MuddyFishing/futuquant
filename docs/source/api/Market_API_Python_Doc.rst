@@ -637,8 +637,7 @@ start<=Time\_key<=end条件的k线作为返回内容，k线时间time\_key的设
 
 **参数**\ ：
 
-**code\_list**: 股票代码列表，例如，HK.00700，US.AAPL
-传入的codelist只允许包含1种股票类型。
+**code\_list**: 股票代码列表，例如，HK.00700，US.AAPL。
 
 **返回**\ ：
 
