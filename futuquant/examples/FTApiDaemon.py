@@ -87,7 +87,7 @@ class FTApiDaemon:
 
         if self._thread_daemon is not None:
             self._close = True
-            self._thread_daemon.join(tiimeout=10)
+            self._thread_daemon.join(timeout=10)
             self._thread_daemon = None
 
     def _loop_kill_futunn(self, loop_timer=1):
@@ -107,6 +107,7 @@ class FTApiDaemon:
             time.sleep(loop_timer)
 
     def _fun_thread_daemon_restart(self):
+        time_sleep_before_start = 5
         if self._close:
             return
 
@@ -120,6 +121,7 @@ class FTApiDaemon:
 
             time.sleep(self._time_restart)
             self._loop_kill_futunn()
+            time.sleep(time_sleep_before_start)
 
     def _fun_thread_daemon_watch(self):
         time_sleep = 5

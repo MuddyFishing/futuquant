@@ -10,7 +10,10 @@ from .constant import *
 def check_date_str_format(s):
     """Check the format of date string"""
     try:
-        _ = datetime.strptime(s, "%Y-%m-%d")
+        if ":" not in s:
+            _ = datetime.strptime(s, "%Y-%m-%d")
+        else:
+            _ = datetime.strptime(s, "%Y-%m-%d %H:%M:%S")
         return RET_OK, None
     except ValueError:
         traceback.print_exc()

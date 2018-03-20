@@ -12,7 +12,7 @@ class MACD(object):
     A simple MACD strategy
     """
     # API parameter setting
-    api_svr_ip = '119.29.141.202'   # 账户登录的牛牛客户端PC的IP, 本机默认为127.0.0.1
+    api_svr_ip = '127.0.0.1'   # 账户登录的牛牛客户端PC的IP, 本机默认为127.0.0.1
     api_svr_port = 11111            # 富途牛牛端口，默认为11111
     unlock_password = "123456"      # 美股和港股交易解锁密码
     trade_env = 1                   # 0: 真实交易 1: 仿真交易（仿真交易无密码验证，美股暂不支持仿真）
@@ -22,8 +22,8 @@ class MACD(object):
         Constructor
         """
         self.stock = stock
-        self.short_period = long_period
-        self.long_period = short_period
+        self.short_period = short_period
+        self.long_period = long_period
         self.smooth_period = smooth_period
         self.observation = observation
         self.quote_ctx, self.trade_ctx = self.context_setting()
@@ -45,7 +45,7 @@ class MACD(object):
                 if ret_code == 0:
                     print('解锁交易成功!')
                 else:
-                    print("请求交易解锁失败, 请确认解锁密码! password: {}".format(self.unlock_password))
+                    raise Exception("请求交易解锁失败, 请确认解锁密码! password: {}".format(self.unlock_password))
         elif 'US.' in self.stock:
             if self.trade_env != 0:
                 raise Exception("美股交易接口不支持仿真环境 trade_env: {}".format(self.trade_env))
@@ -103,7 +103,7 @@ class MACD(object):
             if ret_code != 0:
                 raise Exception('市场快照数据获取异常 {}'.format(snapshot))
             cur_price = snapshot['last_price'][0]
-            cash = acc_info['KQXJ'][0]  # 可花费的现金
+            cash = acc_info[''][0]  # 可花费的现金
             qty = math.floor(cash / cur_price)
 
             ret_code, ret_data = self.trade_ctx.place_order(price=cur_price, qty=qty,
