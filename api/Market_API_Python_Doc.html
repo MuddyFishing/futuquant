@@ -1047,7 +1047,7 @@ start&lt;=Time_key&lt;=end条件的k线作为返回内容，k线时间time_key�
 <p><strong>code</strong>: 股票代码： string</p>
 <p><strong>time</strong>：时间；string</p>
 <p><strong>data_status</strong>：数据状态；bool，正确为True，伪造为False</p>
-<p><strong>opened_mins</strong>: 从零点到当前多少分钟：int</p>
+<p><strong>opened_mins</strong>: 零点到当前多少分钟：int</p>
 <p><strong>cur_price</strong>：当前价格：float</p>
 <p><strong>last_close</strong>: 昨天收盘的价格，float</p>
 <p><strong>avg_price</strong>: 平均价格，float</p>
@@ -1590,7 +1590,7 @@ ret_code为成功，ret_data返回None 如果指定内容已退订，则直接�
 客户端无符合条件数据时，ret为成功，ret_data返回None 通常情况下，返回</p>
 <p><strong>time</strong> 时间</p>
 <p><strong>data_status</strong> 数据状态</p>
-<p><strong>opened_mins</strong> 从零点到当前多少分钟</p>
+<p><strong>opened_mins</strong> 零点到当前多少分钟</p>
 <p><strong>cur_price</strong> 当前价格</p>
 <p><strong>last_close</strong> 昨天收盘的价格</p>
 <p><strong>avg_price</strong> 平均价格</p>
@@ -1643,7 +1643,7 @@ bid_data是买盘的数据，包括：</p>
 <p>对于异步推送数据需要使用<strong>BrokerHandlerBase</strong>以及继承它的子类处理。例如：</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BrokerTest</span><span class="p">(</span><span class="n">BrokerHandlerBase</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">on_recv_rsp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rsp_str</span><span class="p">):</span>
-        <span class="n">ret_code</span><span class="p">,</span> <span class="n">ask_content</span><span class="p">,</span> <span class="n">bid_content</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">BrokerTest</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">on_recv_rsp</span><span class="p">(</span><span class="n">rsp_str</span><span class="p">)</span> <span class="c1"># 基类的on_recv_rsp方法解包返回经纪队列，格式与get_broker_queue一样</span>
+        <span class="n">ret_code</span><span class="p">,</span> <span class="p">[</span><span class="n">ask_content</span><span class="p">,</span> <span class="n">bid_content</span><span class="p">]</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">BrokerTest</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">on_recv_rsp</span><span class="p">(</span><span class="n">rsp_str</span><span class="p">)</span> <span class="c1"># 基类的on_recv_rsp方法解包返回经纪队列，格式与get_broker_queue一样</span>
         <span class="k">if</span> <span class="n">ret_code</span> <span class="o">!=</span> <span class="n">RET_OK</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;BrokerTest: error, msg: </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> &quot;</span> <span class="o">%</span> <span class="n">ask_content</span> <span class="o">%</span> <span class="n">bid_content</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">RET_ERROR</span><span class="p">,</span> <span class="n">ask_content</span><span class="p">,</span> <span class="n">bid_content</span>
