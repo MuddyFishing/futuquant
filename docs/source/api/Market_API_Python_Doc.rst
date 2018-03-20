@@ -780,7 +780,7 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 
 **data\_status**\ ：数据状态；bool，正确为True，伪造为False
 
-**opened\_mins**: 开盘多少分钟：int
+**opened\_mins**: 零点到当前多少分钟：int
 
 **cur\_price**\ ：当前价格：float
 
@@ -1407,7 +1407,7 @@ ret\_code失败时，ret\_data为错误描述字符串；
 
 **data\_status** 数据状态
 
-**opened\_mins** 开盘多少分钟
+**opened\_mins** 零点到当前多少分钟
 
 **cur\_price** 当前价格
 
