@@ -948,8 +948,7 @@ start&lt;=Time_key&lt;=end条件的k线作为返回内容，k线时间time_key�
 </div>
 <p><strong>功能</strong>：一次性获取最近当前股票列表的快照数据（每日变化的信息），该接口对股票个数有限制，一次最多传入200只股票，频率限制每5秒一次</p>
 <p><strong>参数</strong>：</p>
-<p><strong>code_list</strong>: 股票代码列表，例如，HK.00700，US.AAPL
-传入的codelist只允许包含1种股票类型。</p>
+<p><strong>code_list</strong>: 股票代码列表，例如，HK.00700，US.AAPL。</p>
 <p><strong>返回</strong>：</p>
 <p>ret_code失败时，ret_data返回为错误描述字符串；
 客户端无符合条件数据时，ret_code为成功，ret_data返回None
@@ -1048,7 +1047,7 @@ start&lt;=Time_key&lt;=end条件的k线作为返回内容，k线时间time_key�
 <p><strong>code</strong>: 股票代码： string</p>
 <p><strong>time</strong>：时间；string</p>
 <p><strong>data_status</strong>：数据状态；bool，正确为True，伪造为False</p>
-<p><strong>opened_mins</strong>: 开盘多少分钟：int</p>
+<p><strong>opened_mins</strong>: 从零点到当前多少分钟：int</p>
 <p><strong>cur_price</strong>：当前价格：float</p>
 <p><strong>last_close</strong>: 昨天收盘的价格，float</p>
 <p><strong>avg_price</strong>: 平均价格，float</p>
@@ -1591,7 +1590,7 @@ ret_code为成功，ret_data返回None 如果指定内容已退订，则直接�
 客户端无符合条件数据时，ret为成功，ret_data返回None 通常情况下，返回</p>
 <p><strong>time</strong> 时间</p>
 <p><strong>data_status</strong> 数据状态</p>
-<p><strong>opened_mins</strong> 开盘多少分钟</p>
+<p><strong>opened_mins</strong> 从零点到当前多少分钟</p>
 <p><strong>cur_price</strong> 当前价格</p>
 <p><strong>last_close</strong> 昨天收盘的价格</p>
 <p><strong>avg_price</strong> 平均价格</p>
