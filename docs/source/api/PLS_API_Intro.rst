@@ -310,7 +310,7 @@ Json基础字段
 
 .. code:: 
 
-    {'Protocol':'1001', 'ReqParam':{'Market':'1','StockCode':'00700'},'Version':'1'}
+    {"Protocol":"1001", "ReqParam":{"Market":"1","StockCode":"00700"},"Version":"1"}
 
 **S->C eg:**
 
