@@ -219,7 +219,7 @@
 </div>
 <div class="section" id="unlock-trade">
 <h3>解锁接口 unlock_trade<a class="headerlink" href="#unlock-trade" title="Permalink to this headline">¶</a></h3>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradeus_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">trade_password</span><span class="p">,</span> <span class="n">trade_password_md5</span><span class="p">)</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradehk_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">trade_password</span><span class="p">,</span> <span class="n">trade_password_md5</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>功能</strong>：交易解锁。</p>
@@ -250,7 +250,7 @@
 </div>
 <div class="section" id="place-order">
 <h3>下单接口 place_order<a class="headerlink" href="#place-order" title="Permalink to this headline">¶</a></h3>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradehk_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">qty</span><span class="p">,</span> <span class="n">strcode</span><span class="p">,</span> <span class="n">orderside</span><span class="p">,</span> <span class="n">ordertype</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">order_deal_push</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradehk_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">qty</span><span class="p">,</span> <span class="n">strcode</span><span class="p">,</span> <span class="n">orderside</span><span class="p">,</span> <span class="n">ordertype</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">order_deal_push</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">price_mode</span><span class="o">=</span><span class="n">PriceRegularMode</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>功能</strong>：港股下单接口，自动订阅订单推送。</p>
@@ -261,7 +261,8 @@
 <p><strong>orderside</strong>: 交易方向。如下表所示。</p>
 <p><strong>ordertype</strong>: 交易类型。<strong>与美股不同！</strong>如下表所示。</p>
 <p><strong>envtype</strong>: 交易环境参数。如下表所示。</p>
-<p><strong>order_deal_push</strong>: 是否订阅成交推送。</p>
+<p><strong>order_deal_push</strong>: 是否订阅成交推送。
+<strong>price_mode</strong>: 报价调整模式，在提交订单前，将price调整至符合价位表要求的数值</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="52%" />
@@ -319,6 +320,28 @@
 </tr>
 <tr class="row-odd"><td>1</td>
 <td>仿真交易</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">price_mode</th>
+<th class="head">报价调整模式</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>不调整</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>向上调整</td>
+</tr>
+<tr class="row-even"><td>2</td>
+<td>向下调整</td>
 </tr>
 </tbody>
 </table>
@@ -1072,15 +1095,43 @@
 </div>
 <div class="section" id="history-order-list-query">
 <h3>查询历史订单列表 history_order_list_query<a class="headerlink" href="#history-order-list-query" title="Permalink to this headline">¶</a></h3>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span> <span class="o">=</span> <span class="n">tradehk_ctx</span><span class="o">.</span><span class="n">history_order_list_query</span><span class="p">(</span><span class="n">statusfilter</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">strcode</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">tradehk_ctx</span><span class="o">.</span><span class="n">history_order_list_query</span><span class="p">(</span><span class="n">statusfilter</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">strcode</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>功能</strong>：查询历史订单列表, 30秒内不能超过5次请求, 时间段最多90自然日。</p>
 <p><strong>参数</strong>：</p>
 <p><strong>statusfilter</strong>:状态过滤字符串，为空返回全部订单，&#8221;,&#8221;分隔需要返回的状态，如&#8221;1,2,3&#8221;返回的是等待成交，部分成交以及全部成交的订单，状态如下表所示</p>
 <p><strong>strcode</strong>:股票代码过滤，例如&#8221;hk.00700&#8221;，为空为不限制。</p>
-<p><strong>start</strong>:历史订单查询其实时间，格式&#8221;yy-mm-dd&#8221;, 为空则为end字段前90天。</p>
-<p><strong>end</strong>:历史订单查询其实时间，格式&#8221;yy-mm-dd&#8221;, 为空则为start字段后90天，若start为空，则end为当天。</p>
+<p><strong>start</strong>:历史订单查询起始时间，格式&#8221;yy-mm-dd&#8221;。</p>
+<p><strong>end</strong>:历史订单查询截止时间，格式&#8221;yy-mm-dd&#8221;。
+起止时间参数组合如下表所示：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="37%" />
+<col width="37%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">start</th>
+<th class="head">end</th>
+<th class="head">查询时间段</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>空</td>
+<td>非空</td>
+<td>end前90天</td>
+</tr>
+<tr class="row-odd"><td>非空</td>
+<td>空</td>
+<td>start后90天</td>
+</tr>
+<tr class="row-even"><td>空</td>
+<td>空</td>
+<td>90天前至当天</td>
+</tr>
+</tbody>
+</table>
 <p><strong>envtype</strong>: 交易环境参数。如下表所示。</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -1427,7 +1478,8 @@
 <p><strong>orderside</strong>: 交易方向。如下表所示。</p>
 <p><strong>ordertype</strong>: 交易类型。<strong>与港股不同！</strong>如下表所示。</p>
 <p><strong>envtype</strong>: 环境参数，0是真实环境，1是仿真环境。</p>
-<p><strong>order_deal_push</strong>: 是否订阅成交推送。</p>
+<p><strong>order_deal_push</strong>: 是否订阅成交推送。
+<strong>price_mode</strong>: 报价调整模式，在提交订单前，将price调整至符合价位表要求的数值(该参数对于美股暂时无意义）</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="52%" />
@@ -1469,6 +1521,28 @@
 </tr>
 <tr class="row-odd"><td>52</td>
 <td>盘后交易、限价</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">price_mode</th>
+<th class="head">报价调整模式</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>不调整</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>向上调整</td>
+</tr>
+<tr class="row-even"><td>2</td>
+<td>向下调整</td>
 </tr>
 </tbody>
 </table>
