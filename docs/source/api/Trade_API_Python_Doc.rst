@@ -29,7 +29,7 @@
 ~~~~~~~~~~~~~~~~
 .. code:: python
 
-    ret_code, ret_data = tradeus_ctx.unlock_trade(trade_password, trade_password_md5)
+    ret_code, ret_data = tradehk_ctx.unlock_trade(trade_password, trade_password_md5)
 
 **功能**\ ：交易解锁。
 
@@ -75,7 +75,7 @@
 
 .. code:: python
 
-    ret_code, ret_data = tradehk_ctx.place_order(price, qty, strcode, orderside, ordertype=0, envtype=0, order_deal_push = False)
+    ret_code, ret_data = tradehk_ctx.place_order(price, qty, strcode, orderside, ordertype=0, envtype=0, order_deal_push = False, price_mode=PriceRegularMode.IGNORE)
 
 **功能**\ ：港股下单接口，自动订阅订单推送。
 
@@ -585,7 +585,7 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 
 .. code:: python
 
-    ret_code = tradehk_ctx.history_order_list_query(statusfilter='', strcode='', start='', end='', envtype=0)
+    ret_code, ret_data = tradehk_ctx.history_order_list_query(statusfilter='', strcode='', start='', end='', envtype=0)
 
 **功能**\ ：查询历史订单列表, 30秒内不能超过5次请求, 时间段最多90自然日。
 
@@ -595,9 +595,20 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 
 **strcode**:股票代码过滤，例如"hk.00700"，为空为不限制。
 
-**start**:历史订单查询其实时间，格式"yy-mm-dd", 为空则为end字段前90天。
+**start**:历史订单查询起始时间，格式"yy-mm-dd"。
 
-**end**:历史订单查询其实时间，格式"yy-mm-dd", 为空则为start字段后90天，若start为空，则end为当天。
+**end**:历史订单查询截止时间，格式"yy-mm-dd"。
+起止时间参数组合如下表所示：
+
++-----------+----------------+----------------+
+| start     | end            | 查询时间段     |
++===========+================+================+
+| 空        | 非空           | end前90天      |
++-----------+----------------+----------------+
+| 非空      | 空             | start后90天    |
++-----------+----------------+----------------+
+| 空        | 空             | 90天前至当天   |
++-----------+----------------+----------------+
 
 **envtype**: 交易环境参数。如下表所示。
 

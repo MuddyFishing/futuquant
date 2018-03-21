@@ -17,8 +17,8 @@
 
 *订阅*\ ：在使用高频接口前， 需要订阅想要的数据。订阅成功后，则可以使用高频接口获取；订阅各类数据有额度限制：
 
-**用户额度 >= K线订阅数 \* K线权重 + 逐笔订阅数 \* 逐笔权重 + 报价订阅数
-\* 报价权重 + 摆盘订阅数 \* 摆盘权重**
+**用户额度 >= 订阅K线股票数 \* K线权重 + 订阅逐笔股票数 \* 逐笔权重 + 订阅报价股票数
+\* 报价权重 + 订阅摆盘股票数 \* 摆盘权重**
 
 **订阅使用的额度不能超过用户额度，用户额度也就是订阅的上限为500个订阅单位**
 
@@ -415,7 +415,7 @@ string类型，格式YYYY-MM-DD，仅指定到日级别即可，取默认值None
 **返回**\ ：
 
 ret\_code失败时，ret\_data返回为错误描述字符串；
-客户端无数据时，ret\_code为成功，ret\_data返回None
+客户端无数据时，ret\_code为成功，ret\_data返回None；
 正常情况下，ret\_data为日期列表（每个日期是string类型），如果指定时间段中无交易日，则ret\_data为空列表。
 
 **失败情况**\ ：
@@ -459,7 +459,7 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 +------------+-------------+
 
 **返回**\ ： ret\_code失败时，ret\_data返回为错误描述字符串；
-客户端无符合条件数据时，ret\_code为成功，ret\_data返回None
+客户端无符合条件数据时，ret\_code为成功，ret\_data返回None；
 正常情况下，ret\_data为一个dataframe，其中包括：
 
 **code**\ ：股票代码；string，例如： ”HK.00700”，“US.AAPL”
@@ -477,7 +477,7 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 
 **listing\_date**: 上市日期： str
 
-**stockid**: 股票ID： str
+**stockid**: 股票ID；str
 
 **失败情况**\ ：
 
@@ -504,11 +504,11 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 客户端无符合条件数据时，ret\_code为成功，ret\_data返回None；
 正常情况下，ret\_data为一个dataframe，其中包括：
 
-**code**\ ：股票代码，string，例如： ”HK.00700”，“US.AAPL”
+**code**\ ：股票代码；string，例如： ”HK.00700”，“US.AAPL”
 
-**ex\_div\_date**\ ：除权除息日，string类型，格式YYYY-MM-DD
+**ex\_div\_date**\ ：除权除息日；string，格式YYYY-MM-DD
 
-**split\_ratio**\ ：拆合股比例
+**split\_ratio**\ ：拆合股比例；
 double，例如，对于5股合1股为1/5，对于1股拆5股为5/1
 
 **per\_cash\_div**\ ：每股派现；double
@@ -517,13 +517,13 @@ double，例如，对于5股合1股为1/5，对于1股拆5股为5/1
 
 **per\_share\_trans\_ratio**\ ：每股转增股比例； double
 
-**allotment\_ratio**\ ： 每股配股比例；double
+**allotment\_ratio**\ ：每股配股比例；double
 
 **allotment\_price**\ ：配股价；double
 
-**stk\_spo\_ratio**\ ： 增发比例：double
+**stk\_spo\_ratio**\ ：增发比例；double
 
-**stk\_spo\_price** 增发价格：double
+**stk\_spo\_price** ：增发价格；double
 
 **forward\_adj\_factorA**\ ：前复权因子A；double
 
@@ -556,9 +556,9 @@ double，例如，对于5股合1股为1/5，对于1股拆5股为5/1
 
 **code**\ ：股票代码
 
-**start** ：开始时间, string; YYYY-MM-DD；为空时取去当前时间;
+**start** ：开始时间，string; YYYY-MM-DD；为空时取去当前时间;
 
-**end** ： 结束时间, string; YYYY-MM-DD；为空时取当前时间;
+**end** ： 结束时间，string; YYYY-MM-DD；为空时取当前时间;
 
 **ktype** ：k线类型，默认为日K
 
@@ -572,7 +572,7 @@ start<=Time\_key<=end条件的k线作为返回内容，k线时间time\_key的设
 **返回**\ ：
 
 | ret\_code失败时，ret\_data返回为错误描述字符串；
-  客户端无符合条件数据时，ret\_code为成功，返回None
+  客户端无符合条件数据时，ret\_code为成功，返回None；
 
 正常情况下返回K线数据为一个DataFrame包含:
 
@@ -586,17 +586,17 @@ start<=Time\_key<=end条件的k线作为返回内容，k线时间time\_key的设
 
 **close**\ ： 收盘价；double
 
-**low**\ ： 最低价：double
+**low**\ ： 最低价；double
 
 **volume**\ ： 成交量；long
 
-**turnover** ：成交额；double
+**turnover** ： 成交额；double
 
-**pe_ratio**：市盈率 ：double
+**pe_ratio**： 市盈率；double
 
-**turnover_rate**:  换手率：double
+**turnover_rate**: 换手率；double
 
-**change_rate**:   涨跌幅：double
+**change_rate**:  涨跌幅；double
 
 对于日K线，time\_key为当日时间具体到日，比如说2016-12-23日的日K，K线时间为”2016-12-23 00:00:00”
 
@@ -631,7 +631,7 @@ start<=Time\_key<=end条件的k线作为返回内容，k线时间time\_key的设
 
 .. code:: python
 
-    ret_code, ret_data = quote_ctx.get_market_snapshot(code_list):
+    ret_code, ret_data = quote_ctx.get_market_snapshot(code_list)
 
 **功能**\ ：一次性获取最近当前股票列表的快照数据（每日变化的信息），该接口对股票个数有限制，一次最多传入200只股票，频率限制每5秒一次
 
@@ -642,7 +642,7 @@ start<=Time\_key<=end条件的k线作为返回内容，k线时间time\_key的设
 **返回**\ ：
 
 ret\_code失败时，ret\_data返回为错误描述字符串；
-客户端无符合条件数据时，ret\_code为成功，ret\_data返回None
+客户端无符合条件数据时，ret\_code为成功，ret\_data返回None；
 正常情况下，ret\_data为一个dataframe，其中包括：
 
 **code** ：股票代码；string
@@ -703,23 +703,23 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 
 **lot\_size**\ ：每手股数；int
                                         
-**issued_Shares**：发行股本	int    
+**issued_Shares**：发行股本；int    
                                  
-**net_asset**：资产净值  int       
+**net_asset**：资产净值；int       
                                        
-**net_profit**：盈利（亏损 	int       
+**net_profit**：净利润；int       
                                    
-**earning_per_share**：	每股盈利 float  
+**earning_per_share**：	每股盈利；float  
                                           
-**outstanding_shares**：流通股本  int   
+**outstanding_shares**：流通股本；int   
                                            
-**net_asset_per_share**：每股净资产 float   
+**net_asset_per_share**：每股净资产；float   
                                          
-**ey_ratio**：收益率  float      
+**ey_ratio**：收益率；float      
                                           
-**pe_ratio**：市盈率  float     
+**pe_ratio**：市盈率；float     
                                            
-**pb_ratio**：市净率  float     
+**pb_ratio**：市净率；float     
                                        
 **price\_spread** ： 当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差；float    
 
@@ -753,7 +753,6 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 
 3. 客户端内部或网络错误
 
-4. 传入的codelist包含多种股票类型
 
 获取分时数据 get\_rt\_data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -771,26 +770,26 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 **返回**\ ：
 
 ret\_code失败时，ret\_data返回为错误描述字符串；
-客户端无符合条件数据时，ret\_code为成功，ret\_data返回None
+客户端无符合条件数据时，ret\_code为成功，ret\_data返回None；
 正常情况下，ret\_data为一个dataframe，其中包括：
 
-**code**: 股票代码： string
+**code**: 股票代码；string
 
 **time**\ ：时间；string
 
 **data\_status**\ ：数据状态；bool，正确为True，伪造为False
 
-**opened\_mins**: 零点到当前多少分钟：int
+**opened\_mins**: 零点到当前多少分钟；int
 
-**cur\_price**\ ：当前价格：float
+**cur\_price**\ ：当前价格；float
 
-**last\_close**: 昨天收盘的价格，float
+**last\_close**: 昨天收盘的价格；float
 
-**avg\_price**: 平均价格，float
+**avg\_price**: 平均价格；float
 
-**volume**: 成交量，float
+**volume**: 成交量；float
 
-**turnover**: 成交额，float
+**turnover**: 成交额；float
 
 **失败情况**\ ：
 
@@ -832,7 +831,7 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 **返回**\ ：
 
 | ret\_code失败时，ret\_data返回为错误描述字符串；
-  客户端无符合条件数据时，ret\_code为成功，返回None
+  客户端无符合条件数据时，ret\_code为成功，返回None；
 
 正常情况下返回K线数据为一个DataFrame包含:
 
@@ -840,7 +839,7 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 
 **plate\_name**\ ： 板块名称；string
 
-**plate\_id**: 板块ID：string
+**plate\_id**: 板块ID；string
 
 港股美股市场的地域分类数据暂时为空
 
@@ -869,7 +868,7 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 **返回**\ ：
 
 ret\_code失败时，ret\_data返回为错误描述字符串；
-客户端无符合条件数据时，ret\_code为成功，ret\_data返回None
+客户端无符合条件数据时，ret\_code为成功，ret\_data返回None；
 
 正常情况下，ret\_data为一个dataframe，其中包括：
 
@@ -879,7 +878,7 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 
 **stock\_name**\ ：股票名称；string，例如： ”天然乳品”，”大庆乳业”
 
-**owner\_market**: 所属股票的市场，仅支持窝轮，其他为空；string
+**owner\_market**: 所属股票的市场；仅支持窝轮，其他为空；string
 
 **stock\_child\_type**: 股票子类型；仅支持窝轮，其他为0；string，例如："BEAR"，"BULL"
 
@@ -917,7 +916,7 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 
 **失败情况**\ ：
 
-1. | 市场或板块代码不合法，或者该板块不存在
+1. 板块代码不合法，或者该板块不存在
 
 2. 客户端内部或网络错误
 
@@ -937,7 +936,7 @@ ret\_code失败时，ret\_data返回为错误描述字符串；
 **返回**\ ：
 
 ret\_code失败时，bid\_data返回为错误描述字符串；
-客户端无符合条件数据时，ret\_code为成功，ask\_data, bid\_data返回None
+客户端无符合条件数据时，ret\_code为成功，ask\_data, bid\_data返回None；
 正常情况下，ask\_data, bid\_data均为dataframe，
 其中bid\_data是买盘的数据，包括：
 
@@ -953,7 +952,7 @@ ret\_code失败时，bid\_data返回为错误描述字符串；
 
 **ask\_broker\_name**\ ：经纪卖盘名称；string，例如： ”高盛”，”法巴”
 
-**ask\_broker\_pos**: 经纪档位：int, 例如：0，1
+**ask\_broker\_pos**: 经纪档位；int, 例如：0，1
 
 **失败情况**\ ：
 
@@ -973,7 +972,7 @@ ret\_code失败时，bid\_data返回为错误描述字符串；
 **参数**\ ：无
 
 | **返回**\ ： ret\_code失败时，ret\_data返回为错误描述字符串；
-  客户端无符合条件数据时，ret\_code为成功，ret\_data返回None
+  客户端无符合条件数据时，ret\_code为成功，ret\_data返回None；
 
 正常情况下，ret\_data为dict，包括：
 
@@ -1061,7 +1060,7 @@ ret\_code失败时，bid\_data返回为错误描述字符串；
 **返回**\ ：
 
 ret\_code失败时，ret\_data返回为错误描述字符串；
-ret\_code为成功，ret\_data返回None 如果指定内容已订阅，则直接返回成功
+ret\_code为成功，ret\_data返回None；如果指定内容已订阅，则直接返回成功
 
 **失败情况**:
 
@@ -1095,7 +1094,7 @@ ret\_code,ret\_data = unsubscribe(stock\_code, data\_type, unpush=True)
 **返回**\ ：
 
 ret\_code失败时，ret\_data返回为错误描述字符串；
-ret\_code为成功，ret\_data返回None 如果指定内容已退订，则直接返回成功
+ret\_code为成功，ret\_data返回None；如果指定内容已退订，则直接返回成功
 
 **失败情况**:
 
@@ -1112,7 +1111,7 @@ ret\_code为成功，ret\_data返回None 如果指定内容已退订，则直接
 
 .. code:: python
 
-    ret_data = quote_ctx.query_subscription(query=0) 
+    ret_code, ret_data = quote_ctx.query_subscription(query=0) 
 
 **功能**\ ：查询已订阅的实时信息
 
@@ -1122,8 +1121,9 @@ ret\_code为成功，ret\_data返回None 如果指定内容已退订，则直接
 0表示当前查询的socket,非0表示查询所有socket的订阅状态
 
 **返回**\ ：
+ret\_code失败时，ret\_data返回为错误描述字符串；
 
-字典类型，已订阅类型为主键，值为订阅该类型的股票，例如
+ret\_code为成功，ret\_data返回字典类型，已订阅类型为主键，值为订阅该类型的股票，例如
 
 .. code:: python
 
@@ -1151,18 +1151,17 @@ ret\_code为成功，ret\_data返回None 如果指定内容已退订，则直接
 **参数**\ ：
 
 **code\_list**: 股票代码列表，例如，HK.00700，US.AAPL
-传入的codelist只允许包含1种股票类型的股票。
 必须确保code\_list中的股票均订阅成功后才能够执行
 
 **返回**\ ： ret\_code失败时，ret\_data返回为错误描述字符串；
-客户端无符合条件数据时，ret\_code为成功，返回None
+客户端无符合条件数据时，ret\_code为成功，返回None；
 正常情况下，ret\_data为一个dataframe，其中包括：
 
 **code** ：股票代码；string
 
-**data\_date**: 日期： str
+**data\_date**: 日期； str
 
-**data\_time**: 时间：str
+**data\_time**: 时间；str
 
 **last\_price** ： 最新价格；float
 
@@ -1180,7 +1179,7 @@ ret\_code为成功，ret\_data返回None 如果指定内容已退订，则直接
 
 **turnover\_rate**\ ： 换手率；float
 
-**amplitude** : 振幅：int
+**amplitude** : 振幅；int
 
 **suspension**\ ： 是否停牌(True表示停牌)；bool
 
@@ -1196,7 +1195,6 @@ ret\_code为成功，ret\_data返回None 如果指定内容已退订，则直接
 
 3. 客户端内部或网络错误
 
-4. 传入的codelist包含多种股票类型
 
 对于异步推送数据需要使用\ **StockQuoteHandlerBase**\ 以及继承它的子类处理。例如：
 
@@ -1233,7 +1231,7 @@ ret\_code为成功，ret\_data返回None 如果指定内容已退订，则直接
 **返回**\ ：
 
 ret\_code失败时，ret\_data为错误描述字符串；
-客户端无符合条件数据时，ret为成功，ret\_data返回None
+客户端无符合条件数据时，ret为成功，ret\_data返回None；
 通常情况下，返回DataFrame，DataFrame每一行是一个逐笔记录，包含：
 
 **stock\_code** 股票代码
@@ -1310,8 +1308,8 @@ ticker\_direction:
 **返回**\ ：
 
 ret\_code失败时，ret\_data为错误描述字符串；
-客户端无符合条件数据时，ret为成功，ret\_data返回None
-通常情况下，返回DataFrame，DataFrame内容和get\_history\_kline一样
+客户端无符合条件数据时，ret为成功，ret\_data返回None；
+通常情况下，返回DataFrame。
 
 **失败情况**\ ：
 
@@ -1350,7 +1348,7 @@ ret\_code失败时，ret\_data为错误描述字符串；
 **code**: 股票代码，例如，HK.00700，US.AAPL
 
 **返回**\ ： ret\_code失败时，ret\_data为错误描述字符串；
-客户端无符合条件数据时，ret为成功，ret\_data返回None
+客户端无符合条件数据时，ret为成功，ret\_data返回None；
 通常情况下，返回字典
 
 .. code:: python
@@ -1401,7 +1399,7 @@ ret\_code失败时，ret\_data为错误描述字符串；
 **返回**\ ：
 
 ret\_code失败时，ret\_data为错误描述字符串；
-客户端无符合条件数据时，ret为成功，ret\_data返回None 通常情况下，返回
+客户端无符合条件数据时，ret为成功，ret\_data返回None；通常情况下，返回
 
 **time** 时间
 
@@ -1460,7 +1458,7 @@ ret\_code失败时，ret\_data为错误描述字符串；
 **返回**\ ：
 
 ret\_code失败时，ret\_data为错误描述字符串；
-客户端无符合条件数据时，ret为成功，ret\_data返回None 通常情况下，返回
+客户端无符合条件数据时，ret为成功，ret\_data返回None；通常情况下，返回
 bid\_data是买盘的数据，包括：
 
 **bid\_broker\_id** 经纪卖盘id
@@ -1537,11 +1535,11 @@ ret\_code失败时，ret\_data为错误描述字符串；
 通常情况下，返回DataFrame，DataFrame每一行是一个逐笔记录，包含：
 **code**\ ： 股票代码；string
 
-**data\_valid**\ ： 数据点是否有效，0=无数据，1=请求点有数据，2=请求点无数据，向前取值，3=请求点无数据，向后取值
+**data\_valid**\ ： 数据点是否有效；0=无数据，1=请求点有数据，2=请求点无数据，向前取值，3=请求点无数据，向后取值
 
-**time\_point**\ ： 请求点时间 string “YYYY-MM-DD HH:mm:ss”，暂时最多5个以内时间点。
+**time\_point**\ ： 请求点时间； string “YYYY-MM-DD HH:mm:ss”，暂时最多5个以内时间点。
 
-**time\_key**\ ： K线时间 string “YYYY-MM-DD HH:mm:ss”
+**time\_key**\ ： K线时间； string “YYYY-MM-DD HH:mm:ss”
 
 **open**\ ： 开盘价；double
 
@@ -1549,17 +1547,17 @@ ret\_code失败时，ret\_data为错误描述字符串；
 
 **close**\ ： 收盘价；double
 
-**low**\ ： 最低价：double
+**low**\ ： 最低价；double
 
 **volume**\ ： 成交量；long
 
 **turnover** ：成交额；double
 
-**pe_ratio**：市盈率 ：double
+**pe_ratio**：市盈率；double
 
-**turnover_rate**:  换手率：double
+**turnover_rate**:  换手率；double
 
-**change_rate**:   涨跌幅：double
+**change_rate**:   涨跌幅；double
 
 **失败情况**\ ：
 
