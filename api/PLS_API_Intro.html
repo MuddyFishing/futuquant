@@ -663,7 +663,7 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <div class="section" id="protocol-1001">
 <h4>获取基础报价(Protocol: 1001)<a class="headerlink" href="#protocol-1001" title="Permalink to this headline">¶</a></h4>
 <p><strong>C-&gt;S eg:</strong></p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;Protocol&#39;</span><span class="p">:</span><span class="s1">&#39;1001&#39;</span><span class="p">,</span> <span class="s1">&#39;ReqParam&#39;</span><span class="p">:{</span><span class="s1">&#39;Market&#39;</span><span class="p">:</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="s1">&#39;StockCode&#39;</span><span class="p">:</span><span class="s1">&#39;00700&#39;</span><span class="p">},</span><span class="s1">&#39;Version&#39;</span><span class="p">:</span><span class="s1">&#39;1&#39;</span><span class="p">}</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Protocol&quot;</span><span class="p">:</span><span class="s2">&quot;1001&quot;</span><span class="p">,</span> <span class="s2">&quot;ReqParam&quot;</span><span class="p">:{</span><span class="s2">&quot;Market&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;StockCode&quot;</span><span class="p">:</span><span class="s2">&quot;00700&quot;</span><span class="p">},</span><span class="s2">&quot;Version&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <p><strong>S-&gt;C eg:</strong></p>
@@ -2255,57 +2255,6 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 </pre></div>
 </div>
 <p>字段说明:</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="12%" />
-<col width="74%" />
-<col width="14%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">字段名</th>
-<th class="head">字段值</th>
-<th class="head">备注</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>Cookie</td>
-<td>Uint32</td>
-<td>操作标识</td>
-</tr>
-<tr class="row-odd"><td>OrderSide</td>
-<td>0: 买入 1: 卖出</td>
-<td>交易方向</td>
-</tr>
-<tr class="row-even"><td><strong>OrderType</strong></td>
-<td><strong>0： 增强限价单(普通交易) 1： 竞价单(竞价交易) 2：限价单 （暂不支持)</strong> <strong>3： 竞价限价单(竞价限价)</strong></td>
-<td><strong>交易类型</strong></td>
-</tr>
-<tr class="row-odd"><td>Price</td>
-<td>Int32</td>
-<td>交易价格</td>
-</tr>
-<tr class="row-even"><td>Qty</td>
-<td>Int64</td>
-<td>交易数量</td>
-</tr>
-<tr class="row-odd"><td>LocalID</td>
-<td>Int64</td>
-<td>订单的本地标识</td>
-</tr>
-<tr class="row-even"><td>OrderID</td>
-<td>Int64</td>
-<td>订单ID</td>
-</tr>
-<tr class="row-odd"><td>SvrResult</td>
-<td>int32</td>
-<td>Svr的返回结果</td>
-</tr>
-<tr class="row-even"><td><strong>EnvType</strong></td>
-<td><strong>0=真实交易</strong> <strong>1=仿真交易</strong></td>
-<td><strong>交易环境参数</strong></td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="section" id="protocol-6004">
 <h4>港股设置订单状态(Protocol: 6004)<a class="headerlink" href="#protocol-6004" title="Permalink to this headline">¶</a></h4>
@@ -3254,6 +3203,10 @@ PluginServer”目录 , 该工程在vc2005下编译通过</p>
 <tr class="row-even"><td><strong>EnvType</strong></td>
 <td><strong>0=真实交易</strong> <strong>美股暂不支持仿真交易！！</strong></td>
 <td><strong>交易环境参数</strong></td>
+</tr>
+<tr class="row-odd"><td>PriceMode</td>
+<td>0=不调整  1=向上调整  2=向下调整</td>
+<td>调整输入报价参数</td>
 </tr>
 </tbody>
 </table>
