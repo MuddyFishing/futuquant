@@ -2,9 +2,9 @@
 """
 验证接口：获取某个市场的全部快照数据
 """
-from futuquant.open_context import *
-
 import time
+
+import futuquant as ft
 
 
 def loop_get_mkt_snapshot(api_svr_ip, api_svr_port, market):
@@ -16,7 +16,7 @@ def loop_get_mkt_snapshot(api_svr_ip, api_svr_port, market):
     :return:
     """
     # 创建行情api
-    quote_ctx = OpenQuoteContext(host=api_svr_ip, port=api_svr_port)
+    quote_ctx = ft.OpenQuoteContext(host=api_svr_ip, port=api_svr_port)
     stock_type = ['STOCK', 'IDX', 'ETF', 'WARRANT', 'BOND']
 
     while True:
@@ -44,7 +44,7 @@ def loop_get_mkt_snapshot(api_svr_ip, api_svr_port, market):
 
 
 if __name__ == "__main__":
-    API_SVR_IP = '119.29.141.202' #''127.0.0.1'
+    API_SVR_IP = '127.0.0.1' #''127.0.0.1'
     API_SVR_PORT = 11111
 
     MARKET = 'US'  # 'US'/'SH'/'SZ'

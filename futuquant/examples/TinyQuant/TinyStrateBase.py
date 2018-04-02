@@ -3,11 +3,14 @@
 '''
 
 '''
-from vnpyInc import *
-from TinyDefine import *
-from abc import ABCMeta, abstractmethod
+from abc import abstractmethod
 from datetime import datetime
-from futuquant.constant import PriceRegularMode
+
+from TinyDefine import *
+from vnpyInc import *
+
+from futuquant.common.constant import PriceRegularMode
+
 
 class TinyStrateBase(object):
     """策略名称, setting.json中作为该策略配置的key"""

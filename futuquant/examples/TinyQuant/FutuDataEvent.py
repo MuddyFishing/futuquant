@@ -3,15 +3,14 @@
 
 '''
 
-from vnpyInc import *
-from TinyDefine import *
-from futuquant.open_context import *
 import time
-import threading
 from copy import copy
+from datetime import datetime, timedelta
 
-import _strptime
-from datetime import  datetime, timedelta
+from TinyDefine import *
+from vnpyInc import *
+
+from futuquant.quote.response_handler import *
 
 
 class FutuDataEvent(object):

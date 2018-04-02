@@ -2,7 +2,7 @@
 """
 得到一个指数下面所有的股票信息
 """
-from futuquant.open_context import *
+import futuquant as ft
 
 # 如下数据源由 enum_all_index_stocks 接口生成, 后续请自行手动运行更新
 '''SH INDEX
@@ -1004,7 +1004,7 @@ from futuquant.open_context import *
 
 
 def enum_all_index(ip, port):
-    quote_ctx = OpenQuoteContext(ip, port)
+    quote_ctx = ft.OpenQuoteContext(ip, port)
 
     ret, data_frame = quote_ctx.get_stock_basicinfo(market='SH', stock_type='IDX')
     data_frame.to_csv("index_sh.txt", index=True, sep=' ', columns=['code', 'name'])
@@ -1026,7 +1026,7 @@ def enum_all_index(ip, port):
 
 
 def get_index_stocks(ip, port, strcode):
-    quote_ctx = OpenQuoteContext(ip, port)
+    quote_ctx = ft.OpenQuoteContext(ip, port)
     ret, data_frame = quote_ctx.get_plate_stock(strcode)
     quote_ctx.close()
     return ret, data_frame

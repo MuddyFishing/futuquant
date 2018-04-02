@@ -2,7 +2,10 @@
 """
 Examples for use the python functions: get push data
 """
-from futuquant.open_context import *
+from time import sleep
+
+from futuquant import *
+
 
 
 class StockQuoteTest(StockQuoteHandlerBase):
@@ -109,6 +112,7 @@ class HeartBeatTest(HeartBeatHandlerBase):
             print("heart beat server timestamp = ", timestamp)
         return ret_code, timestamp
 
+
 if __name__ == "__main__":
     quote_context = OpenQuoteContext(host='127.0.0.1', port=11111)
 
@@ -116,15 +120,15 @@ if __name__ == "__main__":
     quote_context.set_handler(HeartBeatTest())
 
     # 获取推送数据
-    code = 'US.AAPL'
-    quote_context.subscribe(code, "QUOTE", push=True)
-    quote_context.set_handler(StockQuoteTest())
-    quote_context.start()
+    code = ['HK.00700', 'US.AAPL']
+    quote_context.subscribe('HK.00700', SubscribeType.QUOTE, push=True)
+    quote_context.subscribe('US.AAPL', SubscribeType.QUOTE, push=True)
+    #quote_context.set_handler(StockQuoteTest())
+    #quote_context.start()
 
-    ret, data = quote_context.get_stock_quote(code)
-    print (data)
+    #ret, data = quote_context.get_stock_quote(code)
+    #print (data)
     ret, data = quote_context.get_market_snapshot(code)
     print (data)
-
     sleep(10)
     quote_context.close()

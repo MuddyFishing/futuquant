@@ -2,13 +2,11 @@
 """
     实例: 股票卖出函数
 """
-import sys
 import os
+import sys
 from math import floor
-
+import futuquant as ft
 sys.path.append(os.path.split(os.path.abspath(os.path.pardir))[0])
-
-from futuquant.open_context import *
 
 
 def simple_sell(quote_ctx, trade_ctx, stock_code, trade_price, volume, trade_env):
@@ -18,7 +16,7 @@ def simple_sell(quote_ctx, trade_ctx, stock_code, trade_price, volume, trade_env
         if lot_size == 0:
             ret, data = quote_ctx.get_market_snapshot([stock_code])
             lot_size = data.iloc[0]['lot_size'] if ret == 0 else 0
-            if ret != RET_OK:
+            if ret != ft.RET_OK:
                 print("can't get lot size, retrying")
                 continue
             elif lot_size <= 0:
@@ -26,7 +24,7 @@ def simple_sell(quote_ctx, trade_ctx, stock_code, trade_price, volume, trade_env
         qty = floor(volume / lot_size) * lot_size
         ret, data = trade_ctx.place_order(price=trade_price, qty=qty, strcode=stock_code,
                                           orderside=1, envtype=trade_env)
-        if ret != RET_OK:
+        if ret != ft.RET_OK:
             print('下单失败{}'.format(data))
             return None
         else:

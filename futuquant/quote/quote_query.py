@@ -3,8 +3,10 @@
     Quote query
 """
 
+import json
 from datetime import timedelta
-from .utils import *
+from futuquant.common.constant import *
+from futuquant.common.utils import *
 
 
 class TradeDayQuery:

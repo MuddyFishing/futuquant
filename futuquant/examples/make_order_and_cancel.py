@@ -2,13 +2,13 @@
 """
 验证接口：下单然后立即撤单, 为避免成交损失，买单价格港股放在十档，美股为一档下降10%, 买单数量为1手（美股为1股）
 """
-from time import sleep
-import sys
 import os
+import sys
+from time import sleep
 
 sys.path.append(os.path.split(os.path.abspath(os.path.pardir))[0])
 
-from futuquant.open_context import *
+import futuquant as ft
 
 
 '''
@@ -34,17 +34,17 @@ def make_order_and_cancel(api_svr_ip, api_svr_port, unlock_password, test_code, 
     if unlock_password == "":
         raise Exception("请先配置交易解锁密码!")
 
-    quote_ctx = OpenQuoteContext(host=api_svr_ip, port=api_svr_port)  # 创建行情api
+    quote_ctx = ft.OpenQuoteContext(host=api_svr_ip, port=api_svr_port)  # 创建行情api
     quote_ctx.subscribe(test_code, "ORDER_BOOK", push=False)  # 定阅摆盘
 
     # 创建交易api
     is_hk_trade = 'HK.' in test_code
     if is_hk_trade:
-        trade_ctx = OpenHKTradeContext(host=api_svr_ip, port=api_svr_port)
+        trade_ctx = ft.OpenHKTradeContext(host=api_svr_ip, port=api_svr_port)
     else:
         if trade_env != 0:
             raise Exception("美股交易接口不支持仿真环境")
-        trade_ctx = OpenUSTradeContext(host=api_svr_ip, port=api_svr_port)
+        trade_ctx = ft.OpenUSTradeContext(host=api_svr_ip, port=api_svr_port)
 
     # 每手股数
     lot_size = 0

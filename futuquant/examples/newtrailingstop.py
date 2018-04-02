@@ -4,27 +4,23 @@
     跟踪止损的详细介绍：https://www.futu5.com/faq/topic214
 """
 
-from math import floor
-import numpy as np
-import matplotlib.pyplot as plt
-import sys
 import os
+import sys
+from math import floor
+
+import matplotlib.pyplot as plt
+import numpy as np
 
 sys.path.append(os.path.split(os.path.abspath(os.path.pardir))[0])
 
-from futuquant.open_context import *
-from futuquant.examples.emailplugin import EmailNotification
-from futuquant.examples.stocksell import simple_sell, smart_sell
-
-RET_OK = 0
-RET_ERROR = -1
+import futuquant as ft
 
 
-class TrailingStopHandler(StockQuoteHandlerBase):
+class TrailingStopHandler(ft.StockQuoteHandlerBase):
     """"跟踪止损数据回调类"""
 
     def __init__(self, quote_ctx, is_hk_trade, method, drop):
-        super(StockQuoteHandlerBase, self).__init__()
+        super(ft.StockQuoteHandlerBase, self).__init__()
         self.quote_ctx = quote_ctx
         self.is_hk_trade = is_hk_trade
         self.method = method
@@ -38,13 +34,13 @@ class TrailingStopHandler(StockQuoteHandlerBase):
     def on_recv_rsp(self, rsp_str):
         """数据接收回调函数"""
         ret, content = super(TrailingStopHandler, self).on_recv_rsp(rsp_str)
-        if ret != RET_OK:
+        if ret != ft.RET_OK:
             print('StockQuote error {}'.format(content))
             return ret, content
         if self.finished:
             return ret, content
         ret, data = self.quote_ctx.get_global_state()
-        if ret != RET_OK:
+        if ret != ft.RET_OK:
             print('获取全局状态失败')
             trading = False
         else:
@@ -54,7 +50,7 @@ class TrailingStopHandler(StockQuoteHandlerBase):
 
         if not trading:
             print('不处在交易时间段')
-            return RET_OK, content
+            return ft.RET_OK, content
         last_price = content.iloc[0]['last_price']
 
         if self.stop is None:
@@ -70,7 +66,7 @@ class TrailingStopHandler(StockQuoteHandlerBase):
         self.stop_lst.append(self.stop)
         print('last_price is {}, stop is {}'.format(last_price, self.stop))
 
-        return RET_OK, content
+        return ft.RET_OK, content
 
 
 def trailing_stop(api_svr_ip='127.0.0.1', api_svr_port=11111, unlock_password="", code='HK.00700',
@@ -92,7 +88,7 @@ def trailing_stop(api_svr_ip='127.0.0.1', api_svr_port=11111, unlock_password=""
     :param enable_email_notification: 激活email功能
     :param receiver: 邮件接收者
     """
-    EmailNotification.set_enable(enable_email_notification)
+    ft.EmailNotification.set_enable(enable_email_notification)
     if how_to_sell != 0 and how_to_sell != 1:
         print('how_to_sell must be 0 or 1')
         raise Exception('how_to_sell value error')
@@ -103,23 +99,23 @@ def trailing_stop(api_svr_ip='127.0.0.1', api_svr_port=11111, unlock_password=""
         print('method must be 0 or 1')
         raise Exception('method value error')
 
-    quote_ctx = OpenQuoteContext(host=api_svr_ip, port=api_svr_port)
+    quote_ctx = ft.OpenQuoteContext(host=api_svr_ip, port=api_svr_port)
     is_hk_trade = 'HK.' in code
     if is_hk_trade:
-        trade_ctx = OpenHKTradeContext(host=api_svr_ip, port=api_svr_port)
+        trade_ctx = ft.OpenHKTradeContext(host=api_svr_ip, port=api_svr_port)
     else:
         if trade_env != 0:
             raise Exception('美股不支持仿真环境')
-        trade_ctx = OpenUSTradeContext(host=api_svr_ip, port=api_svr_port)
+        trade_ctx = ft.OpenUSTradeContext(host=api_svr_ip, port=api_svr_port)
 
     if unlock_password == "":
         raise Exception('请先配置交易密码')
     if trade_env == 0:
         ret, data = trade_ctx.unlock_trade(unlock_password)
-        if ret != RET_OK:
+        if ret != ft.RET_OK:
             raise Exception('解锁交易失败')
     ret, data = trade_ctx.position_list_query(envtype=trade_env)
-    if ret != RET_OK:
+    if ret != ft.RET_OK:
         raise Exception("无法获取持仓列表")
 
     try:
@@ -137,23 +133,23 @@ def trailing_stop(api_svr_ip='127.0.0.1', api_svr_port=11111, unlock_password=""
     if volume <= 0:
         raise Exception('没有持仓')
     ret, data = quote_ctx.get_market_snapshot([code])
-    if ret != RET_OK:
+    if ret != ft.RET_OK:
         raise Exception('获取lot size失败')
     lot_size = data.iloc[0]['lot_size']
     if volume % lot_size != 0:
         raise Exception('volume 必须是{}的整数倍'.format(lot_size))
     ret, data = quote_ctx.subscribe(code, 'QUOTE', push=True)
-    if ret != RET_OK:
+    if ret != ft.RET_OK:
         raise Exception('订阅QUOTE错误: error {}:{}'.format(ret, data))
     ret, data = quote_ctx.subscribe(code, 'ORDER_BOOK')
-    if ret != RET_OK:
+    if ret != ft.RET_OK:
         print('error {}:{}'.format(ret, data))
         raise Exception('订阅order book失败: error {}:{}'.format(ret, data))
 
     if diff:
         if is_hk_trade:
             ret, data = quote_ctx.get_order_book(code)
-            if ret != RET_OK:
+            if ret != ft.RET_OK:
                 raise Exception('获取order book失败: cannot get order book'.format(data))
             min_diff = round(abs(data['Bid'][0][0] - data['Bid'][1][0]), 3)
             if floor(diff / min_diff) * min_diff != diff:
@@ -192,7 +188,7 @@ def trailing_stop(api_svr_ip='127.0.0.1', api_svr_port=11111, unlock_password=""
                 envtype = data.iloc[0]['envtype']
                 time.sleep(rest_time)
                 ret, data = trade_ctx.order_list_query(envtype=envtype)
-                if ret != RET_OK:
+                if ret != ft.RET_OK:
                     raise Exception('获取订单状态失败')
                 status = data[data['orderid'] == orderid].iloc[0]['status']
                 dealt_qty = data[data['orderid'] == orderid].iloc[0]['dealt_qty']
@@ -211,7 +207,7 @@ def trailing_stop(api_svr_ip='127.0.0.1', api_svr_port=11111, unlock_password=""
                                                  .format(code, dealt_qty, order_price))
                     while True:
                         ret, data = trade_ctx.set_order_status(0, orderid=orderid, envtype=trade_env)
-                        if ret != RET_OK:
+                        if ret != ft.RET_OK:
                             time.sleep(rest_time)
                             continue
                         else:
@@ -219,14 +215,14 @@ def trailing_stop(api_svr_ip='127.0.0.1', api_svr_port=11111, unlock_password=""
                 else:
                     while True:
                         ret, data = trade_ctx.set_order_status(0, orderid=orderid, envtype=trade_env)
-                        if ret != RET_OK:
+                        if ret != ft.RET_OK:
                             time.sleep(rest_time)
                             continue
                         else:
                             break
                 if how_to_sell == 0:
                     ret, data = quote_ctx.get_order_book(code)
-                    if ret != RET_OK:
+                    if ret != ft.RET_OK:
                         raise Exception('获取order_book失败')
                     sell_price = data['Bid'][0][0]
 

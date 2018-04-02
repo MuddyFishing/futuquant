@@ -8,14 +8,16 @@
     TRADE_ENV: (int) 0：真实交易 1：仿真交易（美股暂不支持仿真）
 """
 
-from futuquant.open_context import *
-
-from time import sleep
-import pickle
-import talib as ta  # 请自行安装
-import numpy as np
 import datetime
 import os
+import pickle
+from time import sleep
+
+import numpy as np
+import talib as ta  # 请自行安装
+
+import futuquant as ft
+
 
 class SouthETF(object):
     """
@@ -115,15 +117,15 @@ class SouthETF(object):
         if self.unlock_password == "":
             raise Exception("请先配置交易解锁密码! password: {}".format(self.unlock_password))
 
-        quote_ctx = OpenQuoteContext(host=self.api_svr_ip, port=self.api_svr_port)
+        quote_ctx = ft.OpenQuoteContext(host=self.api_svr_ip, port=self.api_svr_port)
         is_hk_trade = 'HK.' in (self.HSI_CALL_CODE + self.HSCEI_PUT_CODE + self.HSCEI_CALL_CODE + self.HSCEI_PUT_CODE)
         if is_hk_trade:
-            trade_ctx = OpenHKTradeContext(host=self.api_svr_ip, port=self.api_svr_port)
+            trade_ctx = ft.OpenHKTradeContext(host=self.api_svr_ip, port=self.api_svr_port)
         else:
             if self.trade_env != 0:
                 raise "美股交易接口不支持仿真环境 trade_env: {}".format(self.trade_env)
             self.order_type = 2  # 美股限价单
-            trade_ctx = OpenUSTradeContext(host=self.api_svr_ip, port=self.api_svr_port)
+            trade_ctx = ft.OpenUSTradeContext(host=self.api_svr_ip, port=self.api_svr_port)
 
         return quote_ctx, trade_ctx
 

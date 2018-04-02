@@ -2,51 +2,52 @@
 """
 Examples for use the python functions: get push data
 """
-from futuquant.open_context import *
 
-class USOrderPushHandler(USTradeOrderHandlerBase):
+import futuquant as ft
+
+class USOrderPushHandler(ft.USTradeOrderHandlerBase):
     """
     美股定单
     """
     def on_recv_rsp(self, rsp_str):
         """数据响应回调函数"""
         ret_code, content = super(USOrderPushHandler, self).on_recv_rsp(rsp_str)
-        if ret_code != RET_OK:
+        if ret_code != ft.RET_OK:
             print("USOrderPushHandler: error, msg: %s " % content)
-            return RET_ERROR, content
+            return ft.RET_ERROR, content
         print("USOrderPushHandler\n", content)
-        return RET_OK, content
+        return ft.RET_OK, content
 
 
-class USDealPushHandler(USTradeDealHandlerBase):
+class USDealPushHandler(ft.USTradeDealHandlerBase):
     """
     美股成交推送
     """
     def on_recv_rsp(self, rsp_str):
         """数据响应回调函数"""
         ret_code, content = super(USDealPushHandler, self).on_recv_rsp(rsp_str)
-        if ret_code != RET_OK:
+        if ret_code != ft.RET_OK:
             print("USDealPushHandler: error, msg: %s " % content)
-            return RET_ERROR, content
+            return ft.RET_ERROR, content
         print("USDealPushHandler\n", content)
-        return RET_OK, content
+        return ft.RET_OK, content
 
 
-class HKOrderPushHandler(HKTradeOrderHandlerBase):
+class HKOrderPushHandler(ft.HKTradeOrderHandlerBase):
     """
     港股定单状态推送
     """
     def on_recv_rsp(self, rsp_str):
         """数据响应回调函数"""
         ret_code, content = super(HKOrderPushHandler, self).on_recv_rsp(rsp_str)
-        if ret_code != RET_OK:
+        if ret_code != ft.RET_OK:
             print("HKOrderPushHandler: error, msg: %s " % content)
-            return RET_ERROR, content
+            return ft.RET_ERROR, content
         print("HKOrderPushHandler\n", content)
-        return RET_OK, content
+        return ft.RET_OK, content
 
 
-class HKDealPushHandler(HKTradeDealHandlerBase):
+class HKDealPushHandler(ft.HKTradeDealHandlerBase):
     """
     港股成交推送
     """
@@ -104,7 +105,7 @@ if __name__ == "__main__":
 
     #'''
     #美股正式环境下单及推送
-    trade_context = OpenUSTradeContext(host=api_ip, port=api_port)
+    trade_context = ft.OpenUSTradeContext(host=api_ip, port=api_port)
     print(trade_context.unlock_trade(unlock_pwd))
     trade_context.set_handler(USOrderPushHandler())
     trade_context.set_handler(USDealPushHandler())
@@ -127,5 +128,5 @@ if __name__ == "__main__":
 
     # trade_context.subscribe_order_deal_push('', True, 0)
     # print('\nUS place_order:')
-    print(trade_context.place_order(price="3.55", qty=1, strcode='US.MIN', orderside=0, ordertype=2, envtype=0, order_deal_push=True, price_mode=PriceRegularMode.LOWER))
+    print(trade_context.place_order(price="3.55", qty=1, strcode='US.MIN', orderside=0, ordertype=2, envtype=0, order_deal_push=True, price_mode=ft.PriceRegularMode.LOWER))
     # '''

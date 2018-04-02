@@ -7,78 +7,55 @@ from copy import copy
 # 需要安装的最低牛牛客户端版本号
 NN_VERSION_MIN = '3.42.4962'
 
-MKT_MAP = {"HK": 1,
-           "US": 2,
-           "SH": 3,
-           "SZ": 4,
-           "HK_FUTURE": 6
-           }
+MKT_MAP = {"HK": 1, "US": 2, "SH": 3, "SZ": 4, "HK_FUTURE": 6}
 
-WRT_TYPE_MAP = {"CALL": 1,
-                "PUT": 2,
-                "BULL": 3,
-                "BEAR": 4,
-                "N/A": 0
-                }
+WRT_TYPE_MAP = {"CALL": 1, "PUT": 2, "BULL": 3, "BEAR": 4, "N/A": 0}
 
-PLATE_CLASS_MAP = {"ALL": 0,
-                   "INDUSTRY": 1,
-                   "REGION": 2,
-                   "CONCEPT": 3
-                   }
+PLATE_CLASS_MAP = {"ALL": 0, "INDUSTRY": 1, "REGION": 2, "CONCEPT": 3}
 
-SEC_TYPE_MAP = {"STOCK": 3,
-                "IDX": 6,
-                "ETF": 4,
-                "WARRANT": 5,
-                "BOND": 1,
-                "N/A": 0
-                }
+SEC_TYPE_MAP = {
+    "STOCK": 3,
+    "IDX": 6,
+    "ETF": 4,
+    "WARRANT": 5,
+    "BOND": 1,
+    "N/A": 0
+}
 
-SUBTYPE_MAP = {"TICKER": 4,
-               "QUOTE": 1,
-               "ORDER_BOOK": 2,
-               "K_1M": 11,
-               "K_5M": 7,
-               "K_15M": 8,
-               "K_30M": 9,
-               "K_60M": 10,
-               "K_DAY": 6,
-               "K_WEEK": 12,
-               "K_MON": 13,
-               "RT_DATA": 5,
-               "BROKER": 14
-               }
+SUBTYPE_MAP = {
+    "TICKER": 4,
+    "QUOTE": 1,
+    "ORDER_BOOK": 2,
+    "K_1M": 11,
+    "K_5M": 7,
+    "K_15M": 8,
+    "K_30M": 9,
+    "K_60M": 10,
+    "K_DAY": 6,
+    "K_WEEK": 12,
+    "K_MON": 13,
+    "RT_DATA": 5,
+    "BROKER": 14
+}
 
-KTYPE_MAP = {"K_1M": 1,
-             "K_5M": 6,
-             "K_15M": 7,
-             "K_30M": 8,
-             "K_60M": 9,
-             "K_DAY": 2,
-             "K_WEEK": 3,
-             "K_MON": 4
-             }
+KTYPE_MAP = {
+    "K_1M": 1,
+    "K_5M": 6,
+    "K_15M": 7,
+    "K_30M": 8,
+    "K_60M": 9,
+    "K_DAY": 2,
+    "K_WEEK": 3,
+    "K_MON": 4
+}
 
-AUTYPE_MAP = {'None': 0,
-              "qfq": 1,
-              "hfq": 2
-              }
+AUTYPE_MAP = {'None': 0, "qfq": 1, "hfq": 2}
 
-TICKER_DIRECTION = {"TT_BUY": 1,
-                    "TT_SELL": 2,
-                    "TT_NEUTRAL": 3
-                    }
+TICKER_DIRECTION = {"TT_BUY": 1, "TT_SELL": 2, "TT_NEUTRAL": 3}
 
-ORDER_STATUS = {"CANCEL": 0,
-                "INVALID": 1,
-                "VALID": 2,
-                "DELETE": 3
-                }
+ORDER_STATUS = {"CANCEL": 0, "INVALID": 1, "VALID": 2, "DELETE": 3}
 
-ENVTYPE_MAP = {"TRUE": 0,
-               "SIMULATE": 1
-               }
+ENVTYPE_MAP = {"TRUE": 0, "SIMULATE": 1}
 
 RET_OK = 0
 RET_ERROR = -1
@@ -86,9 +63,10 @@ ERROR_STR_PREFIX = 'ERROR. '
 EMPTY_STRING = ''
 
 # 指定时间为非交易日时，对应的k线数据取值模式， get_multi_points_history_kline 参数用到
-KL_NO_DATA_MODE_NONE = '0'       # 返回无数据
-KL_NO_DATA_MODE_FORWARD = '1'    # 往前取数据
-KL_NO_DATA_MODE_BACKWARD = '2'   # 往后取数据
+KL_NO_DATA_MODE_NONE = '0'  # 返回无数据
+KL_NO_DATA_MODE_FORWARD = '1'  # 往前取数据
+KL_NO_DATA_MODE_BACKWARD = '2'  # 往后取数据
+
 
 # noinspection PyPep8Naming
 class TRADE(object):
@@ -111,6 +89,7 @@ class TRADE(object):
     @staticmethod
     def check_envtype_us(envtype):
         return str(envtype) == u'0'
+
 
 # noinspection PyPep8Naming
 class QUOTE(object):
@@ -136,18 +115,23 @@ class KL_FIELD(object):
     TRADE_VOL = '8'
     TRADE_VAL = '9'
     CHANGE_RATE = '10'
-    ALL_REAL = [DATE_TIME, OPEN, CLOSE, HIGH, LOW, PE_RATIO, TURNOVER_RATE, TRADE_VOL, TRADE_VAL, CHANGE_RATE]
-    DICT_KL_FIELD_STR = {DATE_TIME: 'time_key',
-                         OPEN: 'open',
-                         CLOSE: 'close',
-                         HIGH: 'high',
-                         LOW: 'low',
-                         PE_RATIO: 'pe_ratio',
-                         TURNOVER_RATE: 'turnover_rate',
-                         TRADE_VOL: 'volume',
-                         TRADE_VAL: 'turnover',
-                         CHANGE_RATE: 'change_rate'
-                         }
+    ALL_REAL = [
+        DATE_TIME, OPEN, CLOSE, HIGH, LOW, PE_RATIO, TURNOVER_RATE, TRADE_VOL,
+        TRADE_VAL, CHANGE_RATE
+    ]
+    DICT_KL_FIELD_STR = {
+        DATE_TIME: 'time_key',
+        OPEN: 'open',
+        CLOSE: 'close',
+        HIGH: 'high',
+        LOW: 'low',
+        PE_RATIO: 'pe_ratio',
+        TURNOVER_RATE: 'turnover_rate',
+        TRADE_VOL: 'volume',
+        TRADE_VAL: 'turnover',
+        CHANGE_RATE: 'change_rate'
+    }
+
     @classmethod
     def get_field_list(cls, str_filed):
         ret_list = []
@@ -179,7 +163,61 @@ class PriceRegularMode(object):
         price_mode参数会调整price至符合价位的正确报价
     """
     IGNORE = '0'  # 不调整
-    UPPER = '1'   # 向上调整
-    LOWER = '2'   # 向下调整
+    UPPER = '1'  # 向上调整
+
+    LOWER = '2'  # 向下调整
 
 
+class Plate(object):
+    ALL = "ALL"
+    INDUSTRY = "INDUSTRY"
+    REGION = "REGION"
+    CONCEPT = "CONCEPT"
+
+
+class Market(object):
+    HK = "HK"
+    US = "US"
+    SH = "SH"
+    SZ = "SZ"
+    HK_FUTURE = "HK_FUTURE"
+
+
+class SecurityType(object):
+    STOCK = "STOCK"
+    IDX = "IDX"
+    ETF = "ETF"
+    WARRANT = "WARRANT"
+    BOND = "BOND"
+
+
+class Autype(object):
+    qfq = "qft"
+    hfq = "hfq"
+
+
+class KLine(object):
+    K_1M = "K_1M"
+    K_5M = "K_5M"
+    K_15M = "K_15M"
+    K_30M = "K_30M"
+    K_60M = "K_60M"
+    K_DAY = "K_DAY"
+    K_WEEK = "K_WEEK"
+    K_MON = "K_MON"
+
+
+class SubscribeType(object):
+    TICKER = "TICKER"
+    QUOTE = "QUOTE"
+    ORDER_BOOK = "ORDER_BOOK"
+    K_1M = "K_1M"
+    K_5M = "K_5M"
+    K_15M = "K_15M"
+    K_30M = "K_30M"
+    K_60M = "K_60M"
+    K_DAY = "K_DAY"
+    K_WEEK = "K_WEEK"
+    K_MON = "K_MON"
+    RT_DATA = "RT_DATA"
+    BROKER = "BROKER"

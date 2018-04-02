@@ -2,8 +2,9 @@
 """
     Trade query
 """
-
-from .utils import *
+import json
+from futuquant.common.constant import *
+from futuquant.common.utils import *
 
 
 def is_HKTrade_order_status_finish(status):

@@ -4,8 +4,9 @@
     指定涨跌幅，查询本地下载的历史日k数据，返回符合条件的股票
 """
 
-from futuquant.open_context import *
-from datetime import datetime, timedelta
+from datetime import datetime
+
+from futuquant.quote.response_handler import *
 
 
 def query_history_change_stocks(quote_context=None, markets=['HK'], start='2017-01-05', end='2017-12-30', change_min=5.0,

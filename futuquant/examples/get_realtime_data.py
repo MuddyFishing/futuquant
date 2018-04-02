@@ -2,7 +2,7 @@
 """
 Examples for use the python functions: real-time data
 """
-from futuquant.open_context import *
+import futuquant as ft
 
 
 def _example_stock_quote(quote_ctx):
@@ -14,20 +14,20 @@ def _example_stock_quote(quote_ctx):
     # subscribe "QUOTE"
     for stk_code in stock_code_list:
         ret_status, ret_data = quote_ctx.subscribe(stk_code, "QUOTE")
-        if ret_status != RET_OK:
+        if ret_status != ft.RET_OK:
             print("%s %s: %s" % (stk_code, "QUOTE", ret_data))
             exit()
 
     ret_status, ret_data = quote_ctx.query_subscription()
 
-    if ret_status == RET_ERROR:
+    if ret_status == ft.RET_ERROR:
         print(ret_status)
         exit()
 
     print(ret_data)
 
     ret_status, ret_data = quote_ctx.get_stock_quote(stock_code_list)
-    if ret_status == RET_ERROR:
+    if ret_status == ft.RET_ERROR:
         print(ret_data)
         exit()
     quote_table = ret_data
@@ -47,13 +47,13 @@ def _example_cur_kline(quote_ctx):
     for code in stock_code_list:
         for sub_type in sub_type_list:
             ret_status, ret_data = quote_ctx.subscribe(code, sub_type)
-            if ret_status != RET_OK:
+            if ret_status != ft.RET_OK:
                 print("%s %s: %s" % (code, sub_type, ret_data))
                 exit()
 
     ret_status, ret_data = quote_ctx.query_subscription()
 
-    if ret_status == RET_ERROR:
+    if ret_status == ft.RET_ERROR:
         print(ret_data)
         exit()
 
@@ -62,7 +62,7 @@ def _example_cur_kline(quote_ctx):
     for code in stock_code_list:
         for ktype in ["K_DAY", "K_1M", "K_5M"]:
             ret_code, ret_data = quote_ctx.get_cur_kline(code, 5, ktype)
-            if ret_code == RET_ERROR:
+            if ret_code == ft.RET_ERROR:
                 print(code, ktype, ret_data)
                 exit()
             kline_table = ret_data
@@ -150,7 +150,7 @@ def _example_get_market_snapshot(quote_ctx):
     窝轮溢价
     """
     ret_status, ret_data = quote_ctx.get_market_snapshot(["US.AAPL", "HK.00700"])
-    if ret_status == RET_ERROR:
+    if ret_status == ft.RET_ERROR:
         print(ret_data)
         exit()
     print("market_snapshot")
@@ -165,13 +165,13 @@ def _example_rt_data(quote_ctx):
 
     for stk_code in stock_code_list:
         ret_status, ret_data = quote_ctx.subscribe(stk_code, "RT_DATA")
-        if ret_status != RET_OK:
+        if ret_status != ft.RET_OK:
             print("%s %s: %s" % (stk_code, "RT_DATA", ret_data))
             exit()
 
     for stk_code in stock_code_list:
         ret_status, ret_data = quote_ctx.get_rt_data(stk_code)
-        if ret_status == RET_ERROR:
+        if ret_status == ft.RET_ERROR:
             print(stk_code, ret_data)
             exit()
         print("%s RT_DATA" % stk_code)
@@ -184,7 +184,7 @@ def _example_plate_subplate(quote_ctx):
     获取板块集合下的子板块列表，输出 市场，板块分类,板块代码，名称，ID
     """
     ret_status, ret_data = quote_ctx.get_plate_list("SZ", "ALL")
-    if ret_status == RET_ERROR:
+    if ret_status == ft.RET_ERROR:
         print(ret_data)
         exit()
     print("plate_subplate")
@@ -196,7 +196,7 @@ def _example_plate_stock(quote_ctx):
     获取板块下的股票列表，输出 市场，股票每手，股票名称，所属市场，子类型，股票类型
     """
     ret_status, ret_data = quote_ctx.get_plate_stock("SH.BK0531")
-    if ret_status == RET_ERROR:
+    if ret_status == ft.RET_ERROR:
         print(ret_data)
         exit()
     print("plate_stock")
@@ -211,13 +211,13 @@ def _example_broker_queue(quote_ctx):
 
     for stk_code in stock_code_list:
         ret_status, ret_data = quote_ctx.subscribe(stk_code, "BROKER")
-        if ret_status != RET_OK:
+        if ret_status != ft.RET_OK:
             print("%s %s: %s" % (stk_code, "BROKER", ret_data))
             exit()
 
     for stk_code in stock_code_list:
         ret_status, bid_data, ask_data = quote_ctx.get_broker_queue(stk_code)
-        if ret_status == RET_ERROR:
+        if ret_status == ft.RET_ERROR:
             print(bid_data)
             exit()
         print("%s BROKER" % stk_code)
@@ -229,7 +229,7 @@ def _example_broker_queue(quote_ctx):
 
 def _example_global_state(quote_ctx):
     ret_status, ret_data = quote_ctx.get_global_state()
-    if ret_status != RET_OK:
+    if ret_status != ft.RET_OK:
         print("get global state: error, msg: %s" % ret_data)
         exit()
     print("get global state")
@@ -237,7 +237,7 @@ def _example_global_state(quote_ctx):
 
 
 if __name__ == "__main__":
-    quote_context = OpenQuoteContext(host='127.0.0.1', port=11111)
+    quote_context = ft.OpenQuoteContext(host='127.0.0.1', port=11111)
 
     # 获取实时数据
     _example_stock_quote(quote_context)

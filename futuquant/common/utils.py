@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import sys
 import json
+import sys
 import traceback
 from datetime import datetime
-from .constant import *
+
+from futuquant.common.constant import *
 
 
 def check_date_str_format(s):

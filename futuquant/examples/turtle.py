@@ -5,8 +5,7 @@ import numpy as np
 import datetime
 import time
 
-from futuquant import *
-
+import futuquant as ft
 
 class Turtle(object):
     """
@@ -55,9 +54,9 @@ class Turtle(object):
         if self.unlock_password == "":
             raise Exception("请先配置交易解锁密码! password: {}".format(self.unlock_password))
 
-        quote_ctx = OpenQuoteContext(host=self.api_svr_ip, port=self.api_svr_port)
+        quote_ctx = ft.OpenQuoteContext(host=self.api_svr_ip, port=self.api_svr_port)
         if 'HK.' in self.stock:
-            trade_ctx = OpenHKTradeContext(host=self.api_svr_ip, port=self.api_svr_port)
+            trade_ctx = ft.OpenHKTradeContext(host=self.api_svr_ip, port=self.api_svr_port)
             if self.trade_env == 0:
                 ret_code, ret_data = trade_ctx.unlock_trade(self.unlock_password)
                 if ret_code == 0:
