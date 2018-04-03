@@ -80,13 +80,13 @@ def _example_rt_ticker(quote_ctx):
     # subscribe "TICKER"
     for stk_code in stock_code_list:
         ret_status, ret_data = quote_ctx.subscribe(stk_code, "TICKER")
-        if ret_status != RET_OK:
+        if ret_status != ft.RET_OK:
             print("%s %s: %s" % (stk_code, "TICKER", ret_data))
             exit()
 
     for stk_code in stock_code_list:
         ret_status, ret_data = quote_ctx.get_rt_ticker(stk_code, 3)
-        if ret_status == RET_ERROR:
+        if ret_status == ft.RET_ERROR:
             print(stk_code, ret_data)
             exit()
         print("%s TICKER" % stk_code)
@@ -103,13 +103,13 @@ def _example_order_book(quote_ctx):
     # subscribe "ORDER_BOOK"
     for stk_code in stock_code_list:
         ret_status, ret_data = quote_ctx.subscribe(stk_code, "ORDER_BOOK")
-        if ret_status != RET_OK:
+        if ret_status != ft.RET_OK:
             print("%s %s: %s" % (stk_code, "ORDER_BOOK", ret_data))
             exit()
 
     for stk_code in stock_code_list:
         ret_status, ret_data = quote_ctx.get_order_book(stk_code)
-        if ret_status == RET_ERROR:
+        if ret_status == ft.RET_ERROR:
             print(stk_code, ret_data)
             exit()
         print("%s ORDER_BOOK" % stk_code)
@@ -122,7 +122,7 @@ def _example_get_trade_days(quote_ctx):
     获取交易日列表，输出 交易日列表
     """
     ret_status, ret_data = quote_ctx.get_trading_days("US", "2017-06-19", "2017-07-20")
-    if ret_status == RET_ERROR:
+    if ret_status == ft.RET_ERROR:
         print(ret_data)
         exit()
     print("TRADING DAYS")
@@ -135,7 +135,7 @@ def _example_stock_basic(quote_ctx):
     获取股票信息，输出 股票代码，股票名，每手数量，股票类型，子类型所属正股
     """
     ret_status, ret_data = quote_ctx.get_stock_basicinfo("HK", "STOCK")
-    if ret_status == RET_ERROR:
+    if ret_status == ft.RET_ERROR:
         print(ret_data)
         exit()
     print("stock_basic")
@@ -183,7 +183,7 @@ def _example_plate_subplate(quote_ctx):
     """
     获取板块集合下的子板块列表，输出 市场，板块分类,板块代码，名称，ID
     """
-    ret_status, ret_data = quote_ctx.get_plate_list("SZ", "ALL")
+    ret_status, ret_data = quote_ctx.get_plate_list(ft.Market.SZ, ft.Plate.ALL)
     if ret_status == ft.RET_ERROR:
         print(ret_data)
         exit()

@@ -6,7 +6,8 @@
 
 from datetime import datetime
 
-from futuquant.quote.response_handler import *
+from futuquant import *
+
 
 
 def query_history_change_stocks(quote_context=None, markets=['HK'], start='2017-01-05', end='2017-12-30', change_min=5.0,
