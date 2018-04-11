@@ -352,12 +352,13 @@ class OpenQuoteContext(OpenContextBase):
             if param is None or is_str(param) is False:
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
-
+        print("1")
         query_processor = self._get_sync_query_processor(SubscriptionQuery.pack_subscribe_req,
                                                          SubscriptionQuery.unpack_subscribe_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
         kargs = {'stock_str': stock_code, 'data_type': data_type}
+        print(kargs)
         ret_code, msg, _ = query_processor(**kargs)
 
         # update subscribe context info

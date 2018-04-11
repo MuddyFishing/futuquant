@@ -37,7 +37,8 @@ class OpenContextBase(object):
         self._count_reconnect = 0
 
         if not self.__sync_socket_enable and not self.__async_socket_enable:
-            raise Exception('you should specify at least one socket type to create !')
+            raise Exception(
+                'you should specify at least one socket type to create !')
 
         self._socket_reconnect_and_wait_ready()
 
@@ -115,12 +116,25 @@ class OpenContextBase(object):
         get api server(exe) global state
         :return: RET_OK, state_dict | err_code, msg
         """
-        query_processor = self._get_sync_query_processor(GlobalStateQuery.pack_req,
-                                                         GlobalStateQuery.unpack_rsp)
+        '''
+        query_processor = self._get_sync_query_processor(
+            GlobalStateQuery.pack_req, GlobalStateQuery.unpack_rsp)
         kargs = {"state_type": 0}
         ret_code, msg, state_dict = query_processor(**kargs)
         if ret_code != RET_OK:
             return ret_code, msg
+        '''
+        state_dict = {
+            'Market_SZ': '6',
+            'Version': '3.42.4965',
+            'Trade_Logined': '1',
+            'TimeStamp': '1523177365',
+            'Market_US': '11',
+            'Quote_Logined': '1',
+            'Market_SH': '6',
+            'Market_HK': '6',
+            'Market_HKFuture': '14'
+        }
         return RET_OK, state_dict
 
     def _is_proc_run(self):
@@ -163,7 +177,9 @@ class OpenContextBase(object):
                 if self._is_obj_closed:
                     return RET_ERROR, msg_obj_del, None
 
+                print("2")
                 ret_code, msg, req_str = pack_func(**kargs)
+                print(ret_code)
                 if ret_code == RET_ERROR:
                     return ret_code, msg, None
 
@@ -204,7 +220,8 @@ class OpenContextBase(object):
             if self.__async_socket_enable:
                 if self._async_ctx is None:
                     self._handlers_ctx = HandlerContext(self._is_proc_run)
-                    self._async_ctx = _AsyncNetworkManager(self.__host, self.__port, self._handlers_ctx, self)
+                    self._async_ctx = _AsyncNetworkManager(
+                        self.__host, self.__port, self._handlers_ctx, self)
                 else:
                     self._async_ctx.reconnect()
 
@@ -212,8 +229,11 @@ class OpenContextBase(object):
             if self.__sync_socket_enable:
                 self._thread_check_sync_sock = None
                 if self._sync_net_ctx is None:
-                    self._sync_net_ctx = _SyncNetworkQueryCtx(self.__host, self.__port,
-                                                              long_conn=True, connected_handler=self)
+                    self._sync_net_ctx = _SyncNetworkQueryCtx(
+                        self.__host,
+                        self.__port,
+                        long_conn=True,
+                        connected_handler=self)
                 self._sync_net_ctx.reconnect()
 
             # notify reconnected
@@ -221,7 +241,8 @@ class OpenContextBase(object):
 
             # run thread to check sync socket state
             if self.__sync_socket_enable:
-                self._thread_check_sync_sock = Thread(target=self._thread_check_sync_sock_fun)
+                self._thread_check_sync_sock = Thread(
+                    target=self._thread_check_sync_sock_fun)
                 self._thread_check_sync_sock.setDaemon(True)
                 self._thread_check_sync_sock.start()
         finally:
@@ -244,15 +265,19 @@ class OpenContextBase(object):
 
         is_ready = False
         ret_code, state_dict = self.get_global_state()
+        print(ret_code)
+        print(state_dict)
         if ret_code == 0:
-            is_ready = int(state_dict['Quote_Logined']) != 0 and int(state_dict['Trade_Logined']) != 0
+            is_ready = int(state_dict['Quote_Logined']) != 0 and int(
+                state_dict['Trade_Logined']) != 0
 
         # 检查版本是否匹配
         if is_ready:
             cur_ver = state_dict['Version']
             if cur_ver < NN_VERSION_MIN:
                 str_ver = cur_ver if cur_ver else str('未知')
-                str_error = "API连接的客户端版本过低， 当前版本:\'%s\', 最低要求版本:\'%s\', 请联系管理员重新安装牛牛API客户端！" %(str_ver, NN_VERSION_MIN)
+                str_error = "API连接的客户端版本过低， 当前版本:\'%s\', 最低要求版本:\'%s\', 请联系管理员重新安装牛牛API客户端！" % (
+                    str_ver, NN_VERSION_MIN)
                 raise Exception(str_error)
 
         return is_ready, True
@@ -275,7 +300,7 @@ class OpenContextBase(object):
             if self._thread_check_sync_sock is not thread_handle:
                 if self._thread_check_sync_sock is None:
                     self._thread_is_exit = True
-                print ('check_sync_sock thread : exit by obj changed...')
+                print('check_sync_sock thread : exit by obj changed...')
                 return
             if self._is_obj_closed:
                 self._thread_is_exit = True
@@ -295,7 +320,8 @@ class OpenContextBase(object):
                 sleep(0.1)
             # send req loop per 10 seconds
             cur_time = time.time()
-            if (self._check_last_req_time is None) or (cur_time - self._check_last_req_time > 10):
+            if (self._check_last_req_time is
+                    None) or (cur_time - self._check_last_req_time > 10):
                 self._check_last_req_time = cur_time
                 if self._thread_check_sync_sock is thread_handle:
                     self.get_global_state()

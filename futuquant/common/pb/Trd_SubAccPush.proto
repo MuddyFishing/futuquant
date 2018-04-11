@@ -1,0 +1,28 @@
+syntax = "proto2";
+package Trd_SubAccPush;
+
+import "Common.proto";
+
+message C2S
+{
+	repeated uint64 accID = 1;						//要接受推送的业务账号, 支持多个，新请求全量覆盖老的
+}
+
+message S2C
+{
+	
+}
+
+message Request
+{
+	required C2S c2s = 1;
+}
+
+message Response
+{
+	required Common.RetType retType = 1;
+	optional string retMsg = 2;
+	optional int32 errCode = 3;
+	
+	optional S2C s2c = 4;
+}

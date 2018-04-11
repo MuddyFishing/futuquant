@@ -1,0 +1,30 @@
+syntax = "proto2";
+package InitConnect;
+
+import "Common.proto";
+
+message C2S
+{
+	required int32 clientVer = 1;					//客户端版本号，举例：1.1版本为101，2.21版本为221
+	required string clientID = 2;					//客户端标识
+	optional bool recvNotify = 3;					//是否接收事件通知，比如市场状态、交易需要重新解锁等
+}
+
+message S2C
+{
+	optional int32 serverVer = 1; 					//gateway网关的版本号
+}
+
+message Request
+{
+	required C2S c2s = 1;
+}
+
+message Response
+{
+	required Common.RetType retType = 1;
+	optional string retMsg = 2;
+	optional int32 errCode = 3;
+	
+	optional S2C s2c = 4;
+}

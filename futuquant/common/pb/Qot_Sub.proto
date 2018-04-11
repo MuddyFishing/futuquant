@@ -1,0 +1,26 @@
+syntax = "proto2";
+package Qot_Sub;
+
+import "Common.proto";
+import "Qot_Common.proto";
+
+message C2S
+{
+	required Qot_Common.Stock stock			= 1;	//股票
+	required Qot_Common.SubType subType		= 2;	//订阅数据类型
+	required bool isSubOrUnSub				= 3;	//ture表示订阅,false表示反订阅
+	optional bool isRegPush					= 4;	//是否注册该连接上面行情的推送,反订阅不处理该字段
+	optional bool isUnRegPush				= 5;	//是否反注册该连接上面行情的推送,订阅不处理该字段
+}
+
+message Request
+{
+	required C2S c2s = 1;
+}
+
+message Response
+{
+	required Common.RetType retType = 1;
+	optional string retMsg = 2;
+	optional int32 errCode = 3;
+}

@@ -4,9 +4,31 @@
 """
 
 import json
+import struct
 from datetime import timedelta
+from google.protobuf.json_format import MessageToJson
 from futuquant.common.constant import *
 from futuquant.common.utils import *
+from futuquant.common.pb import *
+
+
+def joint_head(proto_id, proto_fmt_type, body_len, str_body, proto_ver=0):
+    if proto_fmt_type == 1:
+        fmt = "<1s1sI2B2I8B%ds" % body_len
+    elif proto_fmt_type == 0:
+        str_body = str_body.SerializeToString()
+        body_len = len(str_body)
+        fmt = "<1s1sI2B2I8B%ds" % body_len
+        print(fmt)
+        print(type(str_body))
+    else:
+        print("Error: invalid proto format type %d" % proto_fmt_type)
+
+    serial_no = 1
+    bin_head = struct.pack(fmt, b'F', b'T', proto_id, proto_fmt_type,
+                           proto_ver, serial_no, body_len, 0, 0, 0, 0, 0, 0, 0,
+                           0, str_body)
+    return bin_head
 
 
 class TradeDayQuery:
@@ -66,13 +88,15 @@ class TradeDayQuery:
 
         # pack to json
         mkt_str = str(MKT_MAP[market])
-        req = {"Protocol": "1013",
-               "Version": "1",
-               "ReqParam": {"Market": mkt_str,
-                            "start_date": start_date,
-                            "end_date": end_date
-                            }
-               }
+        req = {
+            "Protocol": "1013",
+            "Version": "1",
+            "ReqParam": {
+                "Market": mkt_str,
+                "start_date": start_date,
+                "end_date": end_date
+            }
+        }
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
 
@@ -122,7 +146,9 @@ class TradeDayQuery:
             return RET_OK, "", []
 
         # convert to list format that we use
-        trading_day_list = [normalize_date_format(x) for x in raw_trading_day_list]
+        trading_day_list = [
+            normalize_date_format(x) for x in raw_trading_day_list
+        ]
 
         return RET_OK, "", trading_day_list
 
@@ -160,12 +186,14 @@ class StockBasicInfoQuery:
                                            % (stock_type, ",".join([x for x in SEC_TYPE_MAP]))
             return RET_ERROR, error_str, None
 
-        req = {"Protocol": "1014",
-               "Version": "1",
-               "ReqParam": {"Market": str(MKT_MAP[market]),
-                            "StockType": str(SEC_TYPE_MAP[stock_type]),
-                            }
-               }
+        req = {
+            "Protocol": "1014",
+            "Version": "1",
+            "ReqParam": {
+                "Market": str(MKT_MAP[market]),
+                "StockType": str(SEC_TYPE_MAP[stock_type]),
+            }
+        }
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
 
@@ -214,19 +242,27 @@ class StockBasicInfoQuery:
         if raw_basic_info_list is None or len(raw_basic_info_list) == 0:
             return RET_OK, "", []
 
-        basic_info_list = [{"code": merge_stock_str(int(market), record['StockCode']),
-                            "stockid": record['StockID'],
-                            "name": record["StockName"],
-                            "lot_size": int(record["LotSize"]),
-                            "stock_type": QUOTE.REV_SEC_TYPE_MAP[int(record["StockType"])],
-                            "stock_child_type": (QUOTE.REV_WRT_TYPE_MAP[int(record["StockChildType"])] if
-                                                 int(record["StockType"]) == 5 else 0),
-                            "owner_stock_code": (merge_stock_str(int(record["OwnerMarketType"]),
-                                                                 record["OwnerStockCode"])
-                                                 if int(record['OwnerMarketType']) != 0 and int(record["StockType"]) == 5 else ""),
-                            "listing_date": record["ListTime"]
-                            }
-                           for record in raw_basic_info_list]
+        basic_info_list = [{
+            "code":
+            merge_stock_str(int(market), record['StockCode']),
+            "stockid":
+            record['StockID'],
+            "name":
+            record["StockName"],
+            "lot_size":
+            int(record["LotSize"]),
+            "stock_type":
+            QUOTE.REV_SEC_TYPE_MAP[int(record["StockType"])],
+            "stock_child_type": (QUOTE.REV_WRT_TYPE_MAP[int(
+                record["StockChildType"])]
+                                 if int(record["StockType"]) == 5 else 0),
+            "owner_stock_code": (merge_stock_str(
+                int(record["OwnerMarketType"]), record["OwnerStockCode"])
+                                 if int(record['OwnerMarketType']) != 0
+                                 and int(record["StockType"]) == 5 else ""),
+            "listing_date":
+            record["ListTime"]
+        } for record in raw_basic_info_list]
         return RET_OK, "", basic_info_list
 
 
@@ -258,10 +294,16 @@ class MarketSnapshotQuery:
             error_str = '\n'.join([x[1] for x in failure_tuple_list])
             return RET_ERROR, error_str, None
 
-        req = {"Protocol": "1015",
-               "Version": "1",
-               "ReqParam": {"StockArr": [{'Market': stock[0], 'StockCode': stock[1]} for stock in stock_tuple_list]}
-               }
+        req = {
+            "Protocol": "1015",
+            "Version": "1",
+            "ReqParam": {
+                "StockArr": [{
+                    'Market': stock[0],
+                    'StockCode': stock[1]
+                } for stock in stock_tuple_list]
+            }
+        }
 
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
@@ -286,52 +328,108 @@ class MarketSnapshotQuery:
         def futu_timestamp_to_str(int_value):
             if int_value == 0:
                 return '1970-01-01'
-            else: # for py3.6, fromtimestamp(value), value >= 86400
+            else:  # for py3.6, fromtimestamp(value), value >= 86400
                 return datetime.fromtimestamp(int_value).strftime("%Y-%m-%d")
 
-        snapshot_list = [{'code': merge_stock_str(int(record['MarketType']), record['StockCode']),
-                          'update_time': str(record['UpdateTimeStr']),
-                          'last_price': int1000_price_to_float(record['NominalPrice']),
-                          'open_price': int1000_price_to_float(record['OpenPrice']),
-                          'high_price': int1000_price_to_float(record['HighestPrice']),
-                          'low_price': int1000_price_to_float(record['LowestPrice']),
-                          'prev_close_price': int1000_price_to_float(record['LastClose']),
-                          'volume': record['Volume'],
-                          'turnover': int1000_price_to_float(record['Turnover']),
-                          'turnover_rate': int1000_price_to_float(record['TurnoverRate']),
-                          'suspension': True if int(record['SuspendFlag']) == 1 else False,
-                          'listing_date': futu_timestamp_to_str(int(record['ListingDate'])),
-                          'circular_market_val': int1000_price_to_float(record['CircularMarketVal']),
-                          'total_market_val': int1000_price_to_float(record['TotalMarketVal']),
-                          'wrt_valid': True if int(record['Wrt_Valid']) == 1 else False,
-                          'wrt_conversion_ratio': int1000_price_to_float(record['Wrt_ConversionRatio']),
-                          'wrt_type': QUOTE.REV_WRT_TYPE_MAP[int(record['Wrt_Type'])]
-                          if int(record['Wrt_Valid']) == 1 else 0,
-                          'wrt_strike_price': int1000_price_to_float(record['Wrt_StrikePrice']),
-                          'wrt_maturity_date': str(record['Wrt_MaturityDateStr']),
-                          'wrt_end_trade': str(record['Wrt_EndTradeDateStr']),
-                          'wrt_code': merge_stock_str(int(record['Wrt_OwnerMarketType']), record['Wrt_OwnerStockCode']) if int(record['Wrt_OwnerMarketType']) != 0 else '' ,
-                          'wrt_recovery_price': int1000_price_to_float(record['Wrt_RecoveryPrice']),
-                          'wrt_street_vol': int(record['Wrt_StreetVol']),
-                          'wrt_issue_vol': int(record['Wrt_IssueVol']),
-                          'wrt_street_ratio': int1000_price_to_float(record['Wrt_StreetRatio']),
-                          'wrt_delta': int1000_price_to_float(record['Wrt_Delta']),
-                          'wrt_implied_volatility': int1000_price_to_float(record['Wrt_ImpliedVolatility']),
-                          'wrt_premium': int1000_price_to_float(record['Wrt_Premium']),
-                          'lot_size': int(record['LotSize']),
-                          # 2017.11.6 add
-                          'issued_shares': int(record['Eqt_IssuedShares']) if 'Eqt_IssuedShares' in record else 0,
-                          'net_asset': int1000_price_to_float(record['Eqt_NetAssetValue']) if 'Eqt_NetAssetValue' in record else 0,
-                          'net_profit': int1000_price_to_float(record['Eqt_NetProfit']) if 'Eqt_NetProfit' in record else 0,
-                          'earning_per_share': int1000_price_to_float(record['Eqt_EarningPerShare']) if 'Eqt_EarningPerShare' in record else 0,
-                          'outstanding_shares': int(record['Eqt_OutStandingShares']) if 'Eqt_OutStandingShares' in record else 0,
-                          'net_asset_per_share': int1000_price_to_float(record['Eqt_NetAssetPerShare']) if 'Eqt_NetAssetPerShare' in record else 0,
-                          'ey_ratio': int1000_price_to_float(record['Eqt_EYRatio']) if 'Eqt_EYRatio' in record else 0,
-                          'pe_ratio': int1000_price_to_float(record['Eqt_PERatio']) if 'Eqt_PERatio' in record else 0,
-                          'pb_ratio': int1000_price_to_float(record['Eqt_PBRatio']) if 'Eqt_PBRatio' in record else 0,
-                          # 2018.1.25 add
-                          'price_spread': int1000_price_to_float(record['PriceSpread']) if 'PriceSpread' in record else 0,
-                          } for record in raw_snapshot_list]
+        snapshot_list = [
+            {
+                'code':
+                merge_stock_str(
+                    int(record['MarketType']), record['StockCode']),
+                'update_time':
+                str(record['UpdateTimeStr']),
+                'last_price':
+                int1000_price_to_float(record['NominalPrice']),
+                'open_price':
+                int1000_price_to_float(record['OpenPrice']),
+                'high_price':
+                int1000_price_to_float(record['HighestPrice']),
+                'low_price':
+                int1000_price_to_float(record['LowestPrice']),
+                'prev_close_price':
+                int1000_price_to_float(record['LastClose']),
+                'volume':
+                record['Volume'],
+                'turnover':
+                int1000_price_to_float(record['Turnover']),
+                'turnover_rate':
+                int1000_price_to_float(record['TurnoverRate']),
+                'suspension':
+                True if int(record['SuspendFlag']) == 1 else False,
+                'listing_date':
+                futu_timestamp_to_str(int(record['ListingDate'])),
+                'circular_market_val':
+                int1000_price_to_float(record['CircularMarketVal']),
+                'total_market_val':
+                int1000_price_to_float(record['TotalMarketVal']),
+                'wrt_valid':
+                True if int(record['Wrt_Valid']) == 1 else False,
+                'wrt_conversion_ratio':
+                int1000_price_to_float(record['Wrt_ConversionRatio']),
+                'wrt_type':
+                QUOTE.REV_WRT_TYPE_MAP[int(record['Wrt_Type'])]
+                if int(record['Wrt_Valid']) == 1 else 0,
+                'wrt_strike_price':
+                int1000_price_to_float(record['Wrt_StrikePrice']),
+                'wrt_maturity_date':
+                str(record['Wrt_MaturityDateStr']),
+                'wrt_end_trade':
+                str(record['Wrt_EndTradeDateStr']),
+                'wrt_code':
+                merge_stock_str(
+                    int(record['Wrt_OwnerMarketType']),
+                    record['Wrt_OwnerStockCode'])
+                if int(record['Wrt_OwnerMarketType']) != 0 else '',
+                'wrt_recovery_price':
+                int1000_price_to_float(record['Wrt_RecoveryPrice']),
+                'wrt_street_vol':
+                int(record['Wrt_StreetVol']),
+                'wrt_issue_vol':
+                int(record['Wrt_IssueVol']),
+                'wrt_street_ratio':
+                int1000_price_to_float(record['Wrt_StreetRatio']),
+                'wrt_delta':
+                int1000_price_to_float(record['Wrt_Delta']),
+                'wrt_implied_volatility':
+                int1000_price_to_float(record['Wrt_ImpliedVolatility']),
+                'wrt_premium':
+                int1000_price_to_float(record['Wrt_Premium']),
+                'lot_size':
+                int(record['LotSize']),
+                # 2017.11.6 add
+                'issued_shares':
+                int(record['Eqt_IssuedShares'])
+                if 'Eqt_IssuedShares' in record else 0,
+                'net_asset':
+                int1000_price_to_float(record['Eqt_NetAssetValue'])
+                if 'Eqt_NetAssetValue' in record else 0,
+                'net_profit':
+                int1000_price_to_float(record['Eqt_NetProfit'])
+                if 'Eqt_NetProfit' in record else 0,
+                'earning_per_share':
+                int1000_price_to_float(record['Eqt_EarningPerShare'])
+                if 'Eqt_EarningPerShare' in record else 0,
+                'outstanding_shares':
+                int(record['Eqt_OutStandingShares'])
+                if 'Eqt_OutStandingShares' in record else 0,
+                'net_asset_per_share':
+                int1000_price_to_float(record['Eqt_NetAssetPerShare'])
+                if 'Eqt_NetAssetPerShare' in record else 0,
+                'ey_ratio':
+                int1000_price_to_float(record['Eqt_EYRatio'])
+                if 'Eqt_EYRatio' in record else 0,
+                'pe_ratio':
+                int1000_price_to_float(record['Eqt_PERatio'])
+                if 'Eqt_PERatio' in record else 0,
+                'pb_ratio':
+                int1000_price_to_float(record['Eqt_PBRatio'])
+                if 'Eqt_PBRatio' in record else 0,
+                # 2018.1.25 add
+                'price_spread':
+                int1000_price_to_float(record['PriceSpread'])
+                if 'PriceSpread' in record else 0,
+            } for record in raw_snapshot_list
+        ]
 
         return RET_OK, "", snapshot_list
 
@@ -353,10 +451,14 @@ class RtDataQuery:
             return RET_ERROR, error_str, None
 
         market_code, stock_code = content
-        req = {"Protocol": "1010",
-               "Version": "1",
-               "ReqParam": {'Market': str(market_code), 'StockCode': stock_code}
-               }
+        req = {
+            "Protocol": "1010",
+            "Version": "1",
+            "ReqParam": {
+                'Market': str(market_code),
+                'StockCode': stock_code
+            }
+        }
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
 
@@ -376,17 +478,28 @@ class RtDataQuery:
         if rt_data_list is None or len(rt_data_list) == 0:
             return RET_OK, "", []
 
-        stock_code = merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
-        rt_list = [{"time": record['Time'],
-                    "code": stock_code,
-                    "data_status": True if int(record['DataStatus']) == 1 else False,
-                    "opened_mins": record['OpenedMins'],
-                    "cur_price": int1000_price_to_float(record['CurPrice']),
-                    "last_close": int1000_price_to_float(record['LastClose']),
-                    "avg_price": int1000_price_to_float(record['AvgPrice']),
-                    "turnover": int1000_price_to_float(record['Turnover']),
-                    "volume": record['Volume']
-                    } for record in rt_data_list]
+        stock_code = merge_stock_str(
+            int(rsp_data['Market']), rsp_data['StockCode'])
+        rt_list = [{
+            "time":
+            record['Time'],
+            "code":
+            stock_code,
+            "data_status":
+            True if int(record['DataStatus']) == 1 else False,
+            "opened_mins":
+            record['OpenedMins'],
+            "cur_price":
+            int1000_price_to_float(record['CurPrice']),
+            "last_close":
+            int1000_price_to_float(record['LastClose']),
+            "avg_price":
+            int1000_price_to_float(record['AvgPrice']),
+            "turnover":
+            int1000_price_to_float(record['Turnover']),
+            "volume":
+            record['Volume']
+        } for record in rt_data_list]
 
         return RET_OK, "", rt_list
 
@@ -412,11 +525,14 @@ class SubplateQuery:
                                            % (plate_class, ",".join([x for x in MKT_MAP]))
             return RET_ERROR, error_str, None
 
-        req = {"Protocol": "1026",
-               "Version": "1",
-               "ReqParam": {"Market": str(MKT_MAP[market]),
-                            "PlateClass": str(PLATE_CLASS_MAP[plate_class])}
-               }
+        req = {
+            "Protocol": "1026",
+            "Version": "1",
+            "ReqParam": {
+                "Market": str(MKT_MAP[market]),
+                "PlateClass": str(PLATE_CLASS_MAP[plate_class])
+            }
+        }
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
 
@@ -437,10 +553,14 @@ class SubplateQuery:
         if raw_plate_list is None or len(raw_plate_list) == 0:
             return RET_OK, "", []
 
-        plate_list = [{"code": merge_stock_str(int(record['Market']), record['StockCode']),
-                       "plate_name": record['StockName'],
-                       "plate_id": record['StockID']
-                       } for record in raw_plate_list]
+        plate_list = [{
+            "code":
+            merge_stock_str(int(record['Market']), record['StockCode']),
+            "plate_name":
+            record['StockName'],
+            "plate_id":
+            record['StockID']
+        } for record in raw_plate_list]
 
         return RET_OK, "", plate_list
 
@@ -468,11 +588,14 @@ class PlateStockQuery:
                                            % (market, ",".join([x for x in MKT_MAP]))
             return RET_ERROR, error_str, None
 
-        req = {"Protocol": "1027",
-               "Version": "1",
-               "ReqParam": {"Market": str(market),
-                            "StockCode": str(stock_code)}
-               }
+        req = {
+            "Protocol": "1027",
+            "Version": "1",
+            "ReqParam": {
+                "Market": str(market),
+                "StockCode": str(stock_code)
+            }
+        }
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
 
@@ -489,19 +612,27 @@ class PlateStockQuery:
             error_str = ERROR_STR_PREFIX + "cannot find PlateSubIDsArr in client rsp. Response: %s" % rsp_str
             return RET_ERROR, error_str, None
 
-        if rsp_data["PlateSubIDsArr"] is None or len(rsp_data["PlateSubIDsArr"]) == 0:
+        if rsp_data["PlateSubIDsArr"] is None or len(
+                rsp_data["PlateSubIDsArr"]) == 0:
             return RET_OK, "", []
 
         raw_stock_list = rsp_data["PlateSubIDsArr"]
-        stock_list = [{"lot_size": int(record['LotSize']),
-                       "code": merge_stock_str(int(record['Market']), record['StockCode']),
-                       "stock_name": record['StockName'],
-                       "owner_market": merge_stock_str(int(record['OwnerMarketType']), record['OwnerStockCode']) if int(
-                           record['OwnerMarketType']) != 0 else '',
-                       "stock_child_type": (str(QUOTE.REV_WRT_TYPE_MAP['StockChildType'])
-                                            if int(record['StockType']) == 5 else 0),
-                       "stock_type": QUOTE.REV_SEC_TYPE_MAP[int(record['StockType'])]
-                       } for record in raw_stock_list]
+        stock_list = [{
+            "lot_size":
+            int(record['LotSize']),
+            "code":
+            merge_stock_str(int(record['Market']), record['StockCode']),
+            "stock_name":
+            record['StockName'],
+            "owner_market":
+            merge_stock_str(
+                int(record['OwnerMarketType']), record['OwnerStockCode'])
+            if int(record['OwnerMarketType']) != 0 else '',
+            "stock_child_type": (str(QUOTE.REV_WRT_TYPE_MAP['StockChildType'])
+                                 if int(record['StockType']) == 5 else 0),
+            "stock_type":
+            QUOTE.REV_SEC_TYPE_MAP[int(record['StockType'])]
+        } for record in raw_stock_list]
 
         return RET_OK, "", stock_list
 
@@ -524,11 +655,14 @@ class BrokerQueueQuery:
 
         market_code, stock_code = content
 
-        req = {"Protocol": "1028",
-               "Version": "1",
-               "ReqParam": {"Market": str(market_code),
-                            "StockCode": stock_code}
-               }
+        req = {
+            "Protocol": "1028",
+            "Version": "1",
+            "ReqParam": {
+                "Market": str(market_code),
+                "StockCode": stock_code
+            }
+        }
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
 
@@ -551,20 +685,32 @@ class BrokerQueueQuery:
         raw_broker_bid = rsp_data["BrokerBidArr"]
         bid_list = []
         if raw_broker_bid is not None:
-            bid_list = [{"bid_broker_id": record['BrokerID'],
-                         "bid_broker_name": record['BrokerName'],
-                         "bid_broker_pos": record['BrokerPos'],
-                         "code": merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
-                         } for record in raw_broker_bid]
+            bid_list = [{
+                "bid_broker_id":
+                record['BrokerID'],
+                "bid_broker_name":
+                record['BrokerName'],
+                "bid_broker_pos":
+                record['BrokerPos'],
+                "code":
+                merge_stock_str(
+                    int(rsp_data['Market']), rsp_data['StockCode'])
+            } for record in raw_broker_bid]
 
         raw_broker_ask = rsp_data["BrokerAskArr"]
         ask_list = []
         if raw_broker_ask is not None:
-            ask_list = [{"ask_broker_id": record['BrokerID'],
-                         "ask_broker_name": record['BrokerName'],
-                         "ask_broker_pos": record['BrokerPos'],
-                         "code": merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
-                         } for record in raw_broker_ask]
+            ask_list = [{
+                "ask_broker_id":
+                record['BrokerID'],
+                "ask_broker_name":
+                record['BrokerName'],
+                "ask_broker_pos":
+                record['BrokerPos'],
+                "code":
+                merge_stock_str(
+                    int(rsp_data['Market']), rsp_data['StockCode'])
+            } for record in raw_broker_ask]
 
         return RET_OK, bid_list, ask_list
 
@@ -578,7 +724,8 @@ class HistoryKlineQuery:
         pass
 
     @classmethod
-    def pack_req(cls, stock_str, start_date, end_date, ktype, autype, fields, max_num):
+    def pack_req(cls, stock_str, start_date, end_date, ktype, autype, fields,
+                 max_num):
         """Convert from user request for trading days to PLS request"""
         ret, content = split_stock_str(stock_str)
         if ret == RET_ERROR:
@@ -619,21 +766,25 @@ class HistoryKlineQuery:
         if not list_req_field:
             return RET_ERROR, ERROR_STR_PREFIX + "field error", None
 
-        req = {"Protocol": "1024",
-               "Version": "1",
-               "ReqParam": {'Market': str(market_code),
-                            'MaxKLNum': str(max_num),
-                            'NeedKLData': str(','.join(list_req_field)),
-                            'StockCode': stock_code,
-                            'start_date': start_date,
-                            'end_date': end_date,
-                            'KLType': str(KTYPE_MAP[ktype]),
-                            'RehabType': str(AUTYPE_MAP[autype])
-                            }
-               }
+        req = {
+            "Protocol": "1024",
+            "Version": "1",
+            "ReqParam": {
+                'Market': str(market_code),
+                'MaxKLNum': str(max_num),
+                'NeedKLData': str(','.join(list_req_field)),
+                'StockCode': stock_code,
+                'start_date': start_date,
+                'end_date': end_date,
+                'KLType': str(KTYPE_MAP[ktype]),
+                'RehabType': str(AUTYPE_MAP[autype])
+            }
+        }
 
         req_str = json.dumps(req) + '\r\n'
-        return RET_OK, "", req_str
+        head_info = joint_head(3000, 1, len(req_str), req_str.encode())
+        print(head_info)
+        return RET_OK, "", head_info
 
     @classmethod
     def unpack_rsp(cls, rsp_str):
@@ -651,11 +802,13 @@ class HistoryKlineQuery:
         has_next = False
         next_time = ''
         list_ret = []
-        if rsp_data["HistoryKLArr"] is None or len(rsp_data["HistoryKLArr"]) == 0:
+        if rsp_data["HistoryKLArr"] is None or len(
+                rsp_data["HistoryKLArr"]) == 0:
             return RET_OK, "", (list_ret, has_next, next_time)
 
         raw_kline_list = rsp_data["HistoryKLArr"]
-        stock_code = merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
+        stock_code = merge_stock_str(
+            int(rsp_data['Market']), rsp_data['StockCode'])
 
         if 'HasNext' in rsp_data:
             has_next = int(rsp_data['HasNext'])
@@ -678,13 +831,17 @@ class HistoryKlineQuery:
             if 'Volume' in record:
                 dict_data['volume'] = record['Volume']
             if 'Turnover' in record:
-                dict_data['turnover'] = int1000_price_to_float(record['Turnover'])
+                dict_data['turnover'] = int1000_price_to_float(
+                    record['Turnover'])
             if 'PERatio' in record:
-                dict_data['pe_ratio'] = int1000_price_to_float(record['PERatio'])
+                dict_data['pe_ratio'] = int1000_price_to_float(
+                    record['PERatio'])
             if 'TurnoverRate' in record:
-                dict_data['turnover_rate'] = int1000_price_to_float(record['TurnoverRate'])
+                dict_data['turnover_rate'] = int1000_price_to_float(
+                    record['TurnoverRate'])
             if 'ChangeRate' in record:
-                dict_data['change_rate'] = int1000_price_to_float(record['ChangeRate'])
+                dict_data['change_rate'] = int1000_price_to_float(
+                    record['ChangeRate'])
 
             list_ret.append(dict_data.copy())
 
@@ -719,10 +876,16 @@ class ExrightQuery:
             error_str = '\n'.join([x[1] for x in failure_tuple_list])
             return RET_ERROR, error_str, None
 
-        req = {"Protocol": "1025",
-               "Version": "1",
-               "ReqParam": {'StockArr': [{'Market': stock[0], 'StockCode': stock[1]} for stock in stock_tuple_list]}
-               }
+        req = {
+            "Protocol": "1025",
+            "Version": "1",
+            "ReqParam": {
+                'StockArr': [{
+                    'Market': stock[0],
+                    'StockCode': stock[1]
+                } for stock in stock_tuple_list]
+            }
+        }
 
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
@@ -739,27 +902,42 @@ class ExrightQuery:
             error_str = ERROR_STR_PREFIX + "cannot find ExRightInfoArr in client rsp. Response: %s" % rsp_str
             return RET_ERROR, error_str, None
 
-        if rsp_data["ExRightInfoArr"] is None or len(rsp_data["ExRightInfoArr"]) == 0:
+        if rsp_data["ExRightInfoArr"] is None or len(
+                rsp_data["ExRightInfoArr"]) == 0:
             return RET_OK, "", []
 
         get_val = (lambda x, y: float(y[x]) / 100000 if x in y else 0)
         raw_exr_list = rsp_data["ExRightInfoArr"]
-        exr_list = [{'code': merge_stock_str(int(record['Market']), record['StockCode']),
-                     'ex_div_date': record['ExDivDate'],
-                     'split_ratio': get_val('SplitRatio', record),
-                     'per_cash_div': get_val('PerCashDiv', record),
-                     'per_share_div_ratio': get_val('PerShareDivRatio', record),
-                     'per_share_trans_ratio': get_val('PerShareTransRatio', record),
-                     'allotment_ratio': get_val(r'AllotmentRatio', record),
-                     'allotment_price': get_val('AllotmentPrice', record),
-                     'stk_spo_ratio': get_val('StkSpoRatio', record),
-                     'stk_spo_price': get_val('StkSpoPrice', record),
-                     'forward_adj_factorA': get_val('ForwardAdjFactorA', record),
-                     'forward_adj_factorB': get_val('ForwardAdjFactorB', record),
-                     'backward_adj_factorA': get_val('BackwardAdjFactorA', record),
-                     'backward_adj_factorB': get_val('BackwarAdjFactorB', record)
-                     }
-                    for record in raw_exr_list]
+        exr_list = [{
+            'code':
+            merge_stock_str(int(record['Market']), record['StockCode']),
+            'ex_div_date':
+            record['ExDivDate'],
+            'split_ratio':
+            get_val('SplitRatio', record),
+            'per_cash_div':
+            get_val('PerCashDiv', record),
+            'per_share_div_ratio':
+            get_val('PerShareDivRatio', record),
+            'per_share_trans_ratio':
+            get_val('PerShareTransRatio', record),
+            'allotment_ratio':
+            get_val(r'AllotmentRatio', record),
+            'allotment_price':
+            get_val('AllotmentPrice', record),
+            'stk_spo_ratio':
+            get_val('StkSpoRatio', record),
+            'stk_spo_price':
+            get_val('StkSpoPrice', record),
+            'forward_adj_factorA':
+            get_val('ForwardAdjFactorA', record),
+            'forward_adj_factorB':
+            get_val('ForwardAdjFactorB', record),
+            'backward_adj_factorA':
+            get_val('BackwardAdjFactorA', record),
+            'backward_adj_factorB':
+            get_val('BackwarAdjFactorB', record)
+        } for record in raw_exr_list]
 
         return RET_OK, "", exr_list
 
@@ -789,19 +967,30 @@ class SubscriptionQuery:
 
         if data_type not in SUBTYPE_MAP:
             subtype_str = ','.join([x for x in SUBTYPE_MAP])
-            error_str = ERROR_STR_PREFIX + 'data_type is %s , which is wrong. (%s)' % (data_type, subtype_str)
+            error_str = ERROR_STR_PREFIX + 'data_type is %s , which is wrong. (%s)' % (
+                data_type, subtype_str)
             return RET_ERROR, error_str, None
 
         subtype = SUBTYPE_MAP[data_type]
-        req = {"Protocol": "1005",
-               "Version": "1",
-               "ReqParam": {"Market": str(market_code),
-                            "StockCode": stock_code,
-                            "StockSubType": str(subtype)
-                            }
-               }
-        req_str = json.dumps(req) + '\r\n'
-        return RET_OK, "", req_str
+        from futuquant.common.pb.Qot_Sub_pb2 import Request
+        req = Request()
+        req.c2s.stock.code = stock_code
+        req.c2s.stock.market = market_code
+        req.c2s.subType = subtype
+        req.c2s.isSubOrUnSub = True
+        proto_fmt = get_proto_fmt()
+        if proto_fmt == PROTO_FMT_MAP['Json']:
+            req_json = MessageToJson(req)
+            #req_str = json.dumps(req) + '\r\n'
+            req = joint_head(3001, proto_fmt, len(req_json), req_json.encode())
+            print(req)
+            return RET_OK, "", req
+        elif proto_fmt == PROTO_FMT_MAP['Protobuf']:
+            req = joint_head(3001, proto_fmt, req.ByteSize(), req)
+            return RET_OK, "", req
+        else:
+            error_str = ERROR_STR_PREFIX + 'unknown protocol format, %d' % proto_fmt
+            return RET_ERROR, error_str, None
 
     @classmethod
     def unpack_subscribe_rsp(cls, rsp_str):
@@ -824,18 +1013,21 @@ class SubscriptionQuery:
 
         if data_type not in SUBTYPE_MAP:
             subtype_str = ','.join([x for x in SUBTYPE_MAP])
-            error_str = ERROR_STR_PREFIX + 'data_type is %s, which is wrong. (%s)' % (data_type, subtype_str)
+            error_str = ERROR_STR_PREFIX + 'data_type is %s, which is wrong. (%s)' % (
+                data_type, subtype_str)
             return RET_ERROR, error_str, None
 
         subtype = SUBTYPE_MAP[data_type]
 
-        req = {"Protocol": "1006",
-               "Version": "1",
-               "ReqParam": {"Market": str(market_code),
-                            "StockCode": stock_code,
-                            "StockSubType": str(subtype)
-                            }
-               }
+        req = {
+            "Protocol": "1006",
+            "Version": "1",
+            "ReqParam": {
+                "Market": str(market_code),
+                "StockCode": stock_code,
+                "StockSubType": str(subtype)
+            }
+        }
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
 
@@ -851,12 +1043,16 @@ class SubscriptionQuery:
     @classmethod
     def pack_subscription_query_req(cls, query):
         """Pack the subscribed query request"""
-        req = {"Protocol": "1007",
-               "Version": "1",
-               "ReqParam": {"QueryAllSocket": str(query)}
-               }
+        req = {
+            "Protocol": "1007",
+            "Version": "1",
+            "ReqParam": {
+                "QueryAllSocket": str(query)
+            }
+        }
         req_str = json.dumps(req) + '\r\n'
-        return RET_OK, "", req_str
+        head_info = joint_head(3003, 1, len(req_str), req_str.encode())
+        return RET_OK, "", head_info
 
     @classmethod
     def unpack_subscription_query_rsp(cls, rsp_str):
@@ -877,9 +1073,9 @@ class SubscriptionQuery:
         if raw_subscription_list is None or len(raw_subscription_list) == 0:
             return RET_OK, "", subscription_table
 
-        subscription_list = [(merge_stock_str(int(x['Market']), x['StockCode']),
-                              QUOTE.REV_SUBTYPE_MAP[int(x['StockSubType'])])
-                             for x in raw_subscription_list]
+        subscription_list = [(merge_stock_str(
+            int(x['Market']), x['StockCode']), QUOTE.REV_SUBTYPE_MAP[int(
+                x['StockSubType'])]) for x in raw_subscription_list]
 
         for stock_code_str, sub_type in subscription_list:
             if sub_type not in subscription_table:
@@ -900,17 +1096,20 @@ class SubscriptionQuery:
 
         if data_type not in SUBTYPE_MAP:
             subtype_str = ','.join([x for x in SUBTYPE_MAP])
-            error_str = ERROR_STR_PREFIX + 'data_type is %s , which is wrong. (%s)' % (data_type, subtype_str)
+            error_str = ERROR_STR_PREFIX + 'data_type is %s , which is wrong. (%s)' % (
+                data_type, subtype_str)
             return RET_ERROR, error_str, None
 
         subtype = SUBTYPE_MAP[data_type]
-        req = {"Protocol": "1008",
-               "Version": "1",
-               "ReqParam": {"Market": str(market_code),
-                            "StockCode": stock_code,
-                            "StockPushType": str(subtype)
-                            }
-               }
+        req = {
+            "Protocol": "1008",
+            "Version": "1",
+            "ReqParam": {
+                "Market": str(market_code),
+                "StockCode": stock_code,
+                "StockPushType": str(subtype)
+            }
+        }
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
 
@@ -926,18 +1125,21 @@ class SubscriptionQuery:
 
         if data_type not in SUBTYPE_MAP:
             subtype_str = ','.join([x for x in SUBTYPE_MAP])
-            error_str = ERROR_STR_PREFIX + 'data_type is %s , which is wrong. (%s)' % (data_type, subtype_str)
+            error_str = ERROR_STR_PREFIX + 'data_type is %s , which is wrong. (%s)' % (
+                data_type, subtype_str)
             return RET_ERROR, error_str, None
 
         subtype = SUBTYPE_MAP[data_type]
-        req = {"Protocol": "1008",
-               "Version": "1",
-               "ReqParam": {"Market": str(market_code),
-                            "StockCode": stock_code,
-                            "StockPushType": str(subtype),
-                            "UnPush": str(int(True))
-                            }
-               }
+        req = {
+            "Protocol": "1008",
+            "Version": "1",
+            "ReqParam": {
+                "Market": str(market_code),
+                "StockCode": stock_code,
+                "StockPushType": str(subtype),
+                "UnPush": str(int(True))
+            }
+        }
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
 
@@ -970,10 +1172,16 @@ class StockQuoteQuery:
             error_str = '\n'.join([x[1] for x in failure_tuple_list])
             return RET_ERROR, error_str, None
 
-        req = {"Protocol": "1023",
-               "Version": "1",
-               "ReqParam": {'ReqArr': [{'Market': stock[0], 'StockCode': stock[1]} for stock in stock_tuple_list]}
-               }
+        req = {
+            "Protocol": "1023",
+            "Version": "1",
+            "ReqParam": {
+                'ReqArr': [{
+                    'Market': stock[0],
+                    'StockCode': stock[1]
+                } for stock in stock_tuple_list]
+            }
+        }
 
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
@@ -992,23 +1200,39 @@ class StockQuoteQuery:
 
         raw_quote_list = rsp_data["SubSnapshotArr"]
 
-        quote_list = [{'code': merge_stock_str(int(record['Market']), record['StockCode']),
-                       'data_date': record['Date'],
-                       'data_time': record['Time'],
-                       'last_price': int1000_price_to_float(record['CurPrice']),
-                       'open_price': int1000_price_to_float(record['Open']),
-                       'high_price': int1000_price_to_float(record['High']),
-                       'low_price': int1000_price_to_float(record['Low']),
-                       'prev_close_price': int1000_price_to_float(record['LastClose']),
-                       'volume': int(record['Volume']),
-                       'turnover': int1000_price_to_float(record['Turnover']),
-                       'turnover_rate': int1000_price_to_float(record['TurnoverRate']),
-                       'amplitude': int1000_price_to_float(record['Amplitude']),
-                       'suspension': True if int(record['Suspension']) == 1 else False,
-                       'listing_date': record['ListTime'],
-                       'price_spread': int1000_price_to_float(record['PriceSpread']) if 'PriceSpread' in record else 0,
-                       }
-                      for record in raw_quote_list]
+        quote_list = [{
+            'code':
+            merge_stock_str(int(record['Market']), record['StockCode']),
+            'data_date':
+            record['Date'],
+            'data_time':
+            record['Time'],
+            'last_price':
+            int1000_price_to_float(record['CurPrice']),
+            'open_price':
+            int1000_price_to_float(record['Open']),
+            'high_price':
+            int1000_price_to_float(record['High']),
+            'low_price':
+            int1000_price_to_float(record['Low']),
+            'prev_close_price':
+            int1000_price_to_float(record['LastClose']),
+            'volume':
+            int(record['Volume']),
+            'turnover':
+            int1000_price_to_float(record['Turnover']),
+            'turnover_rate':
+            int1000_price_to_float(record['TurnoverRate']),
+            'amplitude':
+            int1000_price_to_float(record['Amplitude']),
+            'suspension':
+            True if int(record['Suspension']) == 1 else False,
+            'listing_date':
+            record['ListTime'],
+            'price_spread':
+            int1000_price_to_float(record['PriceSpread'])
+            if 'PriceSpread' in record else 0,
+        } for record in raw_quote_list]
 
         return RET_OK, "", quote_list
 
@@ -1038,14 +1262,16 @@ class TickerQuery:
 
         market_code, stock_code = content
 
-        req = {"Protocol": "1012",
-               "Version": "1",
-               "ReqParam": {'Market': str(market_code),
-                            'StockCode': stock_code,
-                            "Sequence": str(-1),
-                            'Num': str(num)
-                            }
-               }
+        req = {
+            "Protocol": "1012",
+            "Version": "1",
+            "ReqParam": {
+                'Market': str(market_code),
+                'StockCode': stock_code,
+                "Sequence": str(-1),
+                'Num': str(num)
+            }
+        }
 
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
@@ -1066,16 +1292,24 @@ class TickerQuery:
         if raw_ticker_list is None or len(raw_ticker_list) == 0:
             return RET_OK, "", []
 
-        stock_code = merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
-        ticker_list = [{"code": stock_code,
-                        "time": record['Time'],
-                        "price": int1000_price_to_float(record['Price']),
-                        "volume": record['Volume'],
-                        "turnover": int1000_price_to_float(record['Turnover']),
-                        "ticker_direction": QUOTE.REV_TICKER_DIRECTION[int(record['Direction'])],
-                        "sequence": int(record["Sequence"])
-                        }
-                       for record in raw_ticker_list]
+        stock_code = merge_stock_str(
+            int(rsp_data['Market']), rsp_data['StockCode'])
+        ticker_list = [{
+            "code":
+            stock_code,
+            "time":
+            record['Time'],
+            "price":
+            int1000_price_to_float(record['Price']),
+            "volume":
+            record['Volume'],
+            "turnover":
+            int1000_price_to_float(record['Turnover']),
+            "ticker_direction":
+            QUOTE.REV_TICKER_DIRECTION[int(record['Direction'])],
+            "sequence":
+            int(record["Sequence"])
+        } for record in raw_ticker_list]
         return RET_OK, "", ticker_list
 
 
@@ -1114,15 +1348,17 @@ class CurKlineQuery:
             error_str = ERROR_STR_PREFIX + "num is %s, which is less than 0" % num
             return RET_ERROR, error_str, None
 
-        req = {"Protocol": "1011",
-               "Version": "1",
-               "ReqParam": {'Market': str(market_code),
-                            'StockCode': stock_code,
-                            'Num': str(num),
-                            'KLType': str(KTYPE_MAP[ktype]),
-                            'RehabType': str(AUTYPE_MAP[autype])
-                            }
-               }
+        req = {
+            "Protocol": "1011",
+            "Version": "1",
+            "ReqParam": {
+                'Market': str(market_code),
+                'StockCode': stock_code,
+                'Num': str(num),
+                'KLType': str(KTYPE_MAP[ktype]),
+                'RehabType': str(AUTYPE_MAP[autype])
+            }
+        }
 
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
@@ -1158,20 +1394,32 @@ class CurKlineQuery:
             return RET_ERROR, error_str, None
 
         raw_kline_list = rsp_data["KLDataArr"]
-        stock_code = merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
-        kline_list = [{"code": stock_code,
-                       "time_key": record['Time'],
-                       "open": int1000_price_to_float(record['Open']),
-                       "high": int1000_price_to_float(record['High']),
-                       "low": int1000_price_to_float(record['Low']),
-                       "close": int1000_price_to_float(record['Close']),
-                       "volume": record['Volume'],
-                       "turnover": int1000_price_to_float(record['Turnover']),
-                       "k_type": k_type,
-                       "pe_ratio": int1000_price_to_float(record['PERatio']),
-                       "turnover_rate": int1000_price_to_float(record['TurnoverRate'])
-                       }
-                      for record in raw_kline_list]
+        stock_code = merge_stock_str(
+            int(rsp_data['Market']), rsp_data['StockCode'])
+        kline_list = [{
+            "code":
+            stock_code,
+            "time_key":
+            record['Time'],
+            "open":
+            int1000_price_to_float(record['Open']),
+            "high":
+            int1000_price_to_float(record['High']),
+            "low":
+            int1000_price_to_float(record['Low']),
+            "close":
+            int1000_price_to_float(record['Close']),
+            "volume":
+            record['Volume'],
+            "turnover":
+            int1000_price_to_float(record['Turnover']),
+            "k_type":
+            k_type,
+            "pe_ratio":
+            int1000_price_to_float(record['PERatio']),
+            "turnover_rate":
+            int1000_price_to_float(record['TurnoverRate'])
+        } for record in raw_kline_list]
 
         return RET_OK, "", kline_list
 
@@ -1193,10 +1441,15 @@ class OrderBookQuery:
             return RET_ERROR, error_str, None
 
         market_code, stock_code = content
-        req = {"Protocol": "1002",
-               "Version": "1",
-               "ReqParam": {'Market': str(market_code), 'StockCode': stock_code, 'Num': str(10)}
-               }
+        req = {
+            "Protocol": "1002",
+            "Version": "1",
+            "ReqParam": {
+                'Market': str(market_code),
+                'StockCode': stock_code,
+                'Num': str(10)
+            }
+        }
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
 
@@ -1213,15 +1466,18 @@ class OrderBookQuery:
             return RET_ERROR, error_str, None
 
         raw_order_book = rsp_data["GearArr"]
-        stock_str = merge_stock_str(int(rsp_data['Market']), rsp_data['StockCode'])
+        stock_str = merge_stock_str(
+            int(rsp_data['Market']), rsp_data['StockCode'])
 
         order_book = {'stock_code': stock_str, 'Ask': [], 'Bid': []}
         if raw_order_book is None:
             return RET_OK, "", order_book
 
         for record in raw_order_book:
-            bid_record = (int1000_price_to_float(record['BuyPrice']), int(record['BuyVol']), int(record['BuyOrder']))
-            ask_record = (int1000_price_to_float(record['SellPrice']), int(record['SellVol']), int(record['SellOrder']))
+            bid_record = (int1000_price_to_float(record['BuyPrice']),
+                          int(record['BuyVol']), int(record['BuyOrder']))
+            ask_record = (int1000_price_to_float(record['SellPrice']),
+                          int(record['SellVol']), int(record['SellOrder']))
 
             order_book['Bid'].append(bid_record)
             order_book['Ask'].append(ask_record)
@@ -1253,16 +1509,22 @@ class SuspensionQuery:
             if ret != RET_OK:
                 return ret, msg, None
 
-        req = {"Protocol": "1039",
-               "Version": "1",
-               "ReqParam": {
-                   'Cookie': '10000',
-                   'StockArr': [
-                        {'Market': str(market), 'StockCode': code}
-                        for (market, code) in list_req_stock],
-                   'start_date': start,
-                   'end_date': end}
-               }
+        req = {
+            "Protocol": "1039",
+            "Version": "1",
+            "ReqParam": {
+                'Cookie':
+                '10000',
+                'StockArr': [{
+                    'Market': str(market),
+                    'StockCode': code
+                } for (market, code) in list_req_stock],
+                'start_date':
+                start,
+                'end_date':
+                end
+            }
+        }
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
 
@@ -1283,9 +1545,14 @@ class SuspensionQuery:
         for susp in arr_susp:
             stock_str = merge_stock_str(int(susp['Market']), susp['StockCode'])
             date_arr = susp['SuspendArr']
-            list_date = [x['SuspendTime'] for x in date_arr] if date_arr else []
-            str_date = ','.join(list_date) if list_date and len(list_date) > 0 else ''
-            ret_susp_list.append({'code': stock_str, 'suspension_dates': str_date})
+            list_date = [x['SuspendTime']
+                         for x in date_arr] if date_arr else []
+            str_date = ','.join(
+                list_date) if list_date and len(list_date) > 0 else ''
+            ret_susp_list.append({
+                'code': stock_str,
+                'suspension_dates': str_date
+            })
 
         return RET_OK, "", ret_susp_list
 
@@ -1310,11 +1577,13 @@ class GlobalStateQuery:
         '''Parameter check'''
 
         # pack to json
-        req = {"Protocol": "1029",
-               "Version": "1",
-               "ReqParam": {"StateType": state_type,
-                            }
-               }
+        req = {
+            "Protocol": "1029",
+            "Version": "1",
+            "ReqParam": {
+                "StateType": state_type,
+            }
+        }
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
 
@@ -1385,11 +1654,13 @@ class MultiPointsHisKLine:
     """
     Query MultiPointsHisKLine
     """
+
     def __init__(self):
         pass
 
     @classmethod
-    def pack_req(cls, codes, dates, fields, ktype, autype, max_num, no_data_mode):
+    def pack_req(cls, codes, dates, fields, ktype, autype, max_num,
+                 no_data_mode):
         """Convert from user request for trading days to PLS request"""
         list_req_stock = []
         for stock_str in codes:
@@ -1421,21 +1692,30 @@ class MultiPointsHisKLine:
                                            % (autype, ", ".join([str(x) for x in AUTYPE_MAP]))
             return RET_ERROR, error_str, None
 
-        req = {"Protocol": "1038",
-               "Version": "1",
-               "ReqParam": {
-                   'Cookie': '10000',
-                   'NoDataMode': str(no_data_mode),
-                   'RehabType': str(AUTYPE_MAP[autype]),
-                   'KLType': str(KTYPE_MAP[ktype]),
-                   'MaxKLNum': str(max_num),
-                   'StockArr': [
-                        {'Market': str(market), 'StockCode': code}
-                        for (market, code) in list_req_stock],
-                   'TimePoints': str(','.join(dates)),
-                   'NeedKLData': str(','.join(list_req_field))
-                   }
-               }
+        req = {
+            "Protocol": "1038",
+            "Version": "1",
+            "ReqParam": {
+                'Cookie':
+                '10000',
+                'NoDataMode':
+                str(no_data_mode),
+                'RehabType':
+                str(AUTYPE_MAP[autype]),
+                'KLType':
+                str(KTYPE_MAP[ktype]),
+                'MaxKLNum':
+                str(max_num),
+                'StockArr': [{
+                    'Market': str(market),
+                    'StockCode': code
+                } for (market, code) in list_req_stock],
+                'TimePoints':
+                str(','.join(dates)),
+                'NeedKLData':
+                str(','.join(list_req_field))
+            }
+        }
         req_str = json.dumps(req) + '\r\n'
         return RET_OK, "", req_str
 
@@ -1456,7 +1736,8 @@ class MultiPointsHisKLine:
         dict_data = {}
         arr_kline = rsp_data["StockHistoryKLArr"]
         for kline in arr_kline:
-            stock_str = merge_stock_str(int(kline['Market']), kline['StockCode'])
+            stock_str = merge_stock_str(
+                int(kline['Market']), kline['StockCode'])
             data_arr = kline['HistoryKLArr']
             for point_data in data_arr:
                 dict_data['code'] = stock_str
@@ -1465,23 +1746,31 @@ class MultiPointsHisKLine:
                 if 'Time' in point_data:
                     dict_data['time_key'] = point_data['Time']
                 if 'Open' in point_data:
-                    dict_data['open'] = int10_9_price_to_float(point_data['Open'])
+                    dict_data['open'] = int10_9_price_to_float(
+                        point_data['Open'])
                 if 'High' in point_data:
-                    dict_data['high'] = int10_9_price_to_float(point_data['High'])
+                    dict_data['high'] = int10_9_price_to_float(
+                        point_data['High'])
                 if 'Low' in point_data:
-                    dict_data['low'] = int10_9_price_to_float(point_data['Low'])
+                    dict_data['low'] = int10_9_price_to_float(
+                        point_data['Low'])
                 if 'Close' in point_data:
-                    dict_data['close'] = int10_9_price_to_float(point_data['Close'])
+                    dict_data['close'] = int10_9_price_to_float(
+                        point_data['Close'])
                 if 'Volume' in point_data:
                     dict_data['volume'] = point_data['Volume']
                 if 'Turnover' in point_data:
-                    dict_data['turnover'] = int1000_price_to_float(point_data['Turnover'])
+                    dict_data['turnover'] = int1000_price_to_float(
+                        point_data['Turnover'])
                 if 'PERatio' in point_data:
-                    dict_data['pe_ratio'] = int1000_price_to_float(point_data['PERatio'])
+                    dict_data['pe_ratio'] = int1000_price_to_float(
+                        point_data['PERatio'])
                 if 'TurnoverRate' in point_data:
-                    dict_data['turnover_rate'] = int1000_price_to_float(point_data['TurnoverRate'])
+                    dict_data['turnover_rate'] = int1000_price_to_float(
+                        point_data['TurnoverRate'])
                 if 'ChangeRate' in point_data:
-                    dict_data['change_rate'] = int1000_price_to_float(point_data['ChangeRate'])
+                    dict_data['change_rate'] = int1000_price_to_float(
+                        point_data['ChangeRate'])
 
                 list_ret.append(dict_data.copy())
 

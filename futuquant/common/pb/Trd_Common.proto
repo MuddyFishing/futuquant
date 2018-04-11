@@ -1,0 +1,60 @@
+syntax = "proto2";
+package Trd_Common;
+
+import "Common.proto";
+
+//交易环境
+enum TrdEnv
+{
+	TrdEnv_Simulate = 0; 		//仿真环境(模拟环境)
+	TrdEnv_Real = 1; 			//真实环境
+}
+
+//交易市场
+enum TrdMarket
+{
+	TrdMarket_Unknown = 0; 		//未知市场
+	TrdMarket_HK_Stock = 1; 	//港股
+	TrdMarket_US_Stock = 21; 	//美股
+	TrdMarket_US_Option = 22; 	//美期权
+	TrdMarket_CNSH_Stock = 31; 	//沪股
+	TrdMarket_CNSZ_Stock = 32; 	//深股
+	TrdMarket_HKCC_Stock = 41; 	//香港A股通股票
+}
+
+//交易方向
+enum TrdSide
+{
+	TrdSide_Unknown = 0; 		//未知方向
+	TrdSide_Buy = 1; 			//买入
+	TrdSide_Sell = 2; 			//卖出
+}
+
+//订单类型
+enum OrderType
+{
+	//公共
+	OrderType_Unknown = 0;		//未知类型
+	OrderType_Normal = 1;		//普通订单(港股的增强限价单、A股限价委托、美股的限价单)
+	
+	//港股
+	OrderType_Limit = 3; 		//限价(只有价格完全匹配才成交)
+	OrderType_Auction = 6; 		//竞价
+	OrderType_AuctionLimit = 7; //竞价限价
+	OrderType_SpecialLimit = 8; //特别限价
+	
+	//美股
+	OrderType_Market = 2; 		//市价
+}
+
+//订单结构
+message Order
+{
+	required TrdSide trdSide = 1;			//交易方向
+	required OrderType orderType = 2;		//订单类型
+	required uint64 orderID = 3;			//订单号
+	required string orderIDEx = 4;			//扩展订单号
+	required string code = 5;				//代码
+	required double qty = 6;				//数量
+	optional double price = 7;				//价格，3位小数精度
+}

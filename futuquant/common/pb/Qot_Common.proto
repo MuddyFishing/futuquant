@@ -1,0 +1,128 @@
+syntax = "proto2";
+package Qot_Common;
+
+import "Common.proto";
+
+enum QotMarket
+{
+    QotMarket_Unknown 		= 0;        //未知市场
+    QotMarket_HK_Stock 		= 1;     	//港股
+    QotMarket_HK_Future 	= 2;     	//港期货(目前是恒指的当月、下月期货行情)
+    QotMarket_US_Stock 		= 21;     	//美股
+    QotMarket_US_Option 	= 22;     	//美期权,暂时不支持期权
+    QotMarket_CNSH_Stock 	= 31;     	//沪股
+    QotMarket_CNSZ_Stock 	= 32;     	//深股
+}
+
+enum RehabType
+{
+	RehabType_None			= 0;	//不复权
+	RehabType_Forward		= 1;	//前复权
+	RehabType_Backward		= 2;	//后复权
+}
+
+//枚举值兼容旧协议定义
+//新类型季K,年K,3分K暂时没有支持历史K线
+enum KLType
+{
+	KLType_1Min				= 1;	//1分K
+	KLType_Day				= 2;	//日K
+	KLType_Week				= 3;	//周K
+	KLType_Month			= 4;	//月K	
+	KLType_Year				= 5;	//年K
+	KLType_5Min				= 6;	//5分K
+	KLType_15Min			= 7;	//15分K
+	KLType_30Min			= 8;	//30分K
+	KLType_60Min			= 9;	//60分K		
+	KLType_3Min				= 10;	//3分K
+	KLType_Quarter			= 11;	//季K
+}
+
+enum KLFields
+{
+	KLFields_High			= 1;	//最高价
+	KLFields_Open			= 2;	//开盘价
+	KLFields_Low			= 4;	//最低价
+	KLFields_Close			= 8;	//收盘价
+	KLFields_LastClose		= 16;	//昨收价
+	KLFields_Volume			= 32;	//成交量
+	KLFields_Turnover		= 64;	//成交额
+	KLFields_TurnoverRate	= 128;	//换手率
+	KLFields_PE				= 256;	//市盈率
+	KLFields_ChangeRate		= 512;	//涨跌幅
+}
+
+//订阅类型
+//枚举值兼容旧协议定义
+enum SubType
+{
+	SubType_None			= 0;
+	SubType_Basic			= 1;	//基础报价
+	SubType_OrderBook		= 2;	//摆盘
+	SubType_Ticker			= 4;	//逐笔
+	SubType_RT				= 5;	//分时
+	SubType_KL_Day			= 6;	//日K
+	SubType_KL_5Min			= 7;	//5分K
+	SubType_KL_15Min		= 8;	//15分K
+	SubType_KL_30Min		= 9;	//30分K
+	SubType_KL_60Min		= 10;	//60分K
+	SubType_KL_1Min			= 11;	//1分K
+	SubType_KL_Week			= 12;	//周K
+	SubType_KL_Month		= 13;	//月K
+	SubType_Broker			= 14;	//经纪队列
+	SubType_KL_Qurater		= 15;	//季K
+	SubType_KL_Year			= 16;	//年K
+	SubType_KL_3Min			= 17;	//3分K
+}
+
+//两个字段确定一支股票
+message Stock
+{
+	required QotMarket market		= 1;	//股票市场
+	required string code			= 2;	//股票代码
+}
+
+message KLine
+{
+	required int64 time				= 1;	//时间戳
+	required string timeStr			= 2;	//时间字符串,根据市场和时间戳转换所得
+	required bool isBlank			= 3;	//是否是空内容的点，若为ture则只有时间信息
+	optional double highPrice		= 4;	//最高价,9位小数精度
+	optional double openPrice		= 5;	//开盘价,9位小数精度
+	optional double lowPrice		= 6;	//最低价,9位小数精度
+	optional double closePrice		= 7;	//收盘价,9位小数精度
+	optional double lastClosePrice	= 8;	//昨收价,9位小数精度
+	optional int64 volume			= 9;	//成交量
+	optional double turnover		= 10;	//成交额,3位小数精度
+	optional double turnoverRate	= 11;	//换手率,5位小数精度
+	optional double pe				= 12;	//市盈率,3位小数精度
+	optional double changeRate		= 13;	//涨跌幅,3位小数精度
+}
+
+message StockBasic
+{
+	required Stock stock			= 1;	//股票
+	required bool isSuspended		= 2;	//是否停牌
+	required int64 listTime			= 3;	//上市日期
+	required string listTimeStr		= 4;	//上市日期字符串
+	required double priceSpread 	= 5;	//价差
+	required int64 time				= 6;	//时间戳
+	required string timeStr			= 7;	//时间字符串,根据市场和时间戳转换所得
+	required double highPrice		= 8;	//最高价,9位小数精度
+	required double openPrice		= 9;	//开盘价,9位小数精度
+	required double lowPrice		= 10;	//最低价,9位小数精度
+	required double curPrice		= 11;	//最新价,9位小数精度
+	required double lastClosePrice	= 12;	//昨收价,9位小数精度
+	required int64 volume			= 13;	//成交量
+	required double turnover		= 14;	//成交额,3位小数精度
+	required double turnoverRate	= 15;	//换手率,5位小数精度
+	required double amplitude		= 16;	//振幅,3位小数精度
+}
+
+
+
+
+
+
+
+

@@ -1,12 +1,27 @@
 # -*- coding: utf-8 -*-
 
 import json
+import os
 import sys
 import traceback
 from datetime import datetime
 
 from futuquant.common.constant import *
 
+def set_proto_fmt(proto_fmt = "Json"):
+    """Set communication protocol format, json ans protobuf supported"""
+    if proto_fmt.upper() == "JSON":
+        os.environ['FT_PROTO_FMT'] = "Json"
+    elif proto_fmt.upper() == "PROTOBUF":
+        os.environ['FT_PROTO_FMT'] = "Protobuf"
+    else:
+        error_str = ERROR_STR_PREFIX + "Unknown protocol format, %s" %proto_fmt
+        print(error_str)
+        #set json as default
+        os.environ['FT_PROTO_FMT'] = "Json"
+
+def get_proto_fmt():
+    return PROTO_FMT_MAP[os.environ['FT_PROTO_FMT']]
 
 def check_date_str_format(s):
     """Check the format of date string"""
@@ -61,9 +76,9 @@ def split_stock_str(stock_str_param):
     '''do not use the built-in split function in python.
     The built-in function cannot handle some stock strings correctly.
     for instance, US..DJI, where the dot . itself is a part of original code'''
-    if 0 <= split_loc < len(stock_str) - 1 and stock_str[0:split_loc] in MKT_MAP:
+    if 0 <= split_loc < len(stock_str) - 1 and stock_str[0:split_loc] in MKT_MAP_NEW:
         market_str = stock_str[0:split_loc]
-        market_code = MKT_MAP[market_str]
+        market_code = MKT_MAP_NEW[market_str]
         partial_stock_str = stock_str[split_loc + 1:]
         return RET_OK, (market_code, partial_stock_str)
 

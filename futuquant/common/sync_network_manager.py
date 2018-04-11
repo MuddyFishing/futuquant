@@ -71,8 +71,10 @@ class _SyncNetworkQueryCtx:
                 return ret, msg, None
 
             # rsp_str = ''
-            s_buf = str2binary(req_str)
-            s_cnt = self.s.send(s_buf)
+            #s_buf = str2binary(req_str)
+            #s_cnt = self.s.send(s_buf)
+            #print(req_str)
+            s_cnt = self.s.send(req_str)
 
             rsp_buf = b''
             while rsp_buf.find(b'\r\n\r\n') < 0:
@@ -80,13 +82,15 @@ class _SyncNetworkQueryCtx:
                 try:
                     recv_buf = self.s.recv(5 * 1024 * 1024)
                     rsp_buf += recv_buf
+                    print("receive:*********")
+                    print(rsp_buf)
                     if recv_buf == b'':
                         raise Exception("_SyncNetworkQueryCtx : remote server close")
                 except Exception as e:
                     traceback.print_exc()
                     err = sys.exc_info()[1]
                     error_str = ERROR_STR_PREFIX + str(
-                        err) + ' when receiving after sending %s bytes. For req: ' % s_cnt + req_str
+                        err) + ' when receiving after sending %s bytes. For req: ' % s_cnt + ""
                     self._force_close_session()
                     return RET_ERROR, error_str, None
 
@@ -95,7 +99,7 @@ class _SyncNetworkQueryCtx:
         except Exception as e:
             traceback.print_exc()
             err = sys.exc_info()[1]
-            error_str = ERROR_STR_PREFIX + str(err) + ' when sending. For req: ' + req_str
+            error_str = ERROR_STR_PREFIX + str(err) + ' when sending. For req: ' + req_str.decode()
 
             self._force_close_session()
             return RET_ERROR, error_str, None

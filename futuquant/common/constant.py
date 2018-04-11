@@ -8,6 +8,15 @@ from copy import copy
 NN_VERSION_MIN = '3.42.4962'
 
 MKT_MAP = {"HK": 1, "US": 2, "SH": 3, "SZ": 4, "HK_FUTURE": 6}
+MKT_MAP_NEW = {
+    "QotMarket_Unknown": 0,
+    "HK": 1,    #QotMarket_HK_Stock
+    "QotMarket_HK_Future": 2,
+    "US": 21,    #QotMarket_US_Stock
+    "QotMarket_US_Option": 22,
+    "SH": 31,   #QotMarket_CNSH_Stock
+    "SZ": 32    #QotMarket_CNSZ_Stock
+}
 
 WRT_TYPE_MAP = {"CALL": 1, "PUT": 2, "BULL": 3, "BEAR": 4, "N/A": 0}
 
@@ -57,6 +66,7 @@ ORDER_STATUS = {"CANCEL": 0, "INVALID": 1, "VALID": 2, "DELETE": 3}
 
 ENVTYPE_MAP = {"TRUE": 0, "SIMULATE": 1}
 
+PROTO_FMT_MAP = {"Protobuf": 0, "Json": 1}
 RET_OK = 0
 RET_ERROR = -1
 ERROR_STR_PREFIX = 'ERROR. '

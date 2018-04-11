@@ -1,0 +1,36 @@
+syntax = "proto2";
+package Trd_PlaceOrder;
+
+import "Common.proto";
+import "Trd_Common.proto";
+
+message C2S
+{
+	optional uint64 accID = 1;						//业务账号, 如果未指定默认使用本市场第一个业务账号
+	required Trd_Common.TrdEnv trdEnv = 2;			//交易环境, 参加TrdEnv的枚举定义, 虽然通过accID能够判断出来环境属性，但让用户特别指定更加保险，内部会检查trdEnv和accID是否匹配
+	required Trd_Common.TrdMarket trdMarket = 3;	//交易市场, 参见TrdMarket的枚举定义
+	required Trd_Common.TrdSide trdSide = 4;		//交易方向, 参见TrdSide的枚举定义
+	required Trd_Common.OrderType orderType = 5;	//订单类型, 参见OrderType的枚举定义
+	required string code = 6;						//代码
+	required double qty = 7;						//数量，2位小数精度
+	optional double price = 8;						//价格，3位小数精度
+}
+
+message S2C
+{
+	optional uint64 orderID = 1; 					//订单号
+}
+
+message Request
+{
+	required C2S c2s = 1;
+}
+
+message Response
+{
+	required Common.RetType retType = 1;
+	optional string retMsg = 2;
+	optional int32 errCode = 3;
+	
+	optional S2C s2c = 4;
+}
