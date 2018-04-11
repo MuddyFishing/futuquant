@@ -5,6 +5,7 @@ import os
 import sys
 import traceback
 from datetime import datetime
+from struct import calcsize
 
 from futuquant.common.constant import *
 
@@ -22,6 +23,9 @@ def set_proto_fmt(proto_fmt = "Json"):
 
 def get_proto_fmt():
     return PROTO_FMT_MAP[os.environ['FT_PROTO_FMT']]
+
+def get_message_head_len():
+    return calcsize(MESSAGE_HEAD_FMT)
 
 def check_date_str_format(s):
     """Check the format of date string"""
@@ -41,7 +45,12 @@ def check_date_str_format(s):
 def extract_pls_rsp(rsp_str):
     """Extract the response of PLS"""
     try:
-        rsp = json.loads(rsp_str)
+        proto_fmt = get_proto_fmt()
+        if proto_fmt == PROTO_FMT_MAP['Json']:
+            rsp = json.loads(rsp_str)
+        elif proto_fmt == PROTO_FMT_MAP['Json']:
+            from futuquant.common.pb.Qot_Sub_pb2 import Response
+
     except ValueError:
         traceback.print_exc()
         err = sys.exc_info()[1]

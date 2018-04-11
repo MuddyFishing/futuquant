@@ -13,17 +13,14 @@ from futuquant.common.pb import *
 
 
 def joint_head(proto_id, proto_fmt_type, body_len, str_body, proto_ver=0):
-    if proto_fmt_type == 1:
-        fmt = "<1s1sI2B2I8B%ds" % body_len
-    elif proto_fmt_type == 0:
+    if proto_fmt_type == PROTO_FMT_MAP['Json']:
+        fmt = "<%s%ds" % (MESSAGE_HEAD_FMT, body_len)
+    elif proto_fmt_type == PROTO_FMT_MAP['Protobuf']:
         str_body = str_body.SerializeToString()
-        body_len = len(str_body)
-        fmt = "<1s1sI2B2I8B%ds" % body_len
-        print(fmt)
-        print(type(str_body))
+        fmt = "<%s%ds" %(MESSAGE_HEAD_FMT, body_len)
     else:
         print("Error: invalid proto format type %d" % proto_fmt_type)
-
+    #serial_no is useless for now, set to 1
     serial_no = 1
     bin_head = struct.pack(fmt, b'F', b'T', proto_id, proto_fmt_type,
                            proto_ver, serial_no, body_len, 0, 0, 0, 0, 0, 0, 0,
@@ -983,7 +980,6 @@ class SubscriptionQuery:
             req_json = MessageToJson(req)
             #req_str = json.dumps(req) + '\r\n'
             req = joint_head(3001, proto_fmt, len(req_json), req_json.encode())
-            print(req)
             return RET_OK, "", req
         elif proto_fmt == PROTO_FMT_MAP['Protobuf']:
             req = joint_head(3001, proto_fmt, req.ByteSize(), req)
