@@ -22,8 +22,8 @@ class MACD(object):
         Constructor
         """
         self.stock = stock
-        self.short_period = long_period
-        self.long_period = short_period
+        self.short_period = short_period
+        self.long_period = long_period
         self.smooth_period = smooth_period
         self.observation = observation
         self.quote_ctx, self.trade_ctx = self.context_setting()
