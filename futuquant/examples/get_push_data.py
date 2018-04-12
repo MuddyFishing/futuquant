@@ -123,7 +123,7 @@ if __name__ == "__main__":
     code = ['HK.00700', 'US.AAPL']
     quote_context.subscribe('HK.00700', SubscribeType.QUOTE, push=True)
     quote_context.subscribe('US.AAPL', SubscribeType.QUOTE, push=True)
-    #quote_context.set_handler(StockQuoteTest())
+    quote_context.set_handler(StockQuoteTest())
     #quote_context.start()
 
     #ret, data = quote_context.get_stock_quote(code)

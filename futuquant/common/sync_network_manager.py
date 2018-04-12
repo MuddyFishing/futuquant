@@ -9,6 +9,7 @@ import traceback
 from threading import RLock
 from futuquant.common.constant import *
 from futuquant.common.utils import *
+from futuquant.quote.quote_query import parse_head
 
 class _SyncNetworkQueryCtx:
     """
@@ -70,20 +71,17 @@ class _SyncNetworkQueryCtx:
             if ret != RET_OK:
                 return ret, msg, None
 
-            # rsp_str = ''
-            #s_buf = str2binary(req_str)
-            #s_cnt = self.s.send(s_buf)
-            #print(req_str)
             s_cnt = self.s.send(req_str)
 
             rsp_buf = b''
-            while rsp_buf.find(b'\r\n\r\n') < 0:
+            recv_buf = self.s.recv(5 * 1024 * 1024)
+            head_dict = parse_head(recv_buf[:get_message_head_len()])
+            rsp_body = recv_buf[get_message_head_len():]
 
+            while head_dict['body_len'] > len(rsp_body):
                 try:
                     recv_buf = self.s.recv(5 * 1024 * 1024)
-                    rsp_buf += recv_buf
-                    print("receive:*********")
-                    print(rsp_buf)
+                    rsp_body += recv_buf
                     if recv_buf == b'':
                         raise Exception("_SyncNetworkQueryCtx : remote server close")
                 except Exception as e:
@@ -93,8 +91,10 @@ class _SyncNetworkQueryCtx:
                         err) + ' when receiving after sending %s bytes. For req: ' % s_cnt + ""
                     self._force_close_session()
                     return RET_ERROR, error_str, None
-
-            rsp_str = binary2str(rsp_buf)
+            rsp_str = binary2str(rsp_body, head_dict['proto_id'])
+            print("******")
+            print(type(rsp_str))
+            print(rsp_str)
             self._close_session()
         except Exception as e:
             traceback.print_exc()

@@ -6,26 +6,31 @@ import sys
 import traceback
 from datetime import datetime
 from struct import calcsize
+from google.protobuf.json_format import MessageToJson
 
 from futuquant.common.constant import *
 
-def set_proto_fmt(proto_fmt = "Json"):
+
+def set_proto_fmt(proto_fmt="Json"):
     """Set communication protocol format, json ans protobuf supported"""
     if proto_fmt.upper() == "JSON":
         os.environ['FT_PROTO_FMT'] = "Json"
     elif proto_fmt.upper() == "PROTOBUF":
         os.environ['FT_PROTO_FMT'] = "Protobuf"
     else:
-        error_str = ERROR_STR_PREFIX + "Unknown protocol format, %s" %proto_fmt
+        error_str = ERROR_STR_PREFIX + "Unknown protocol format, %s" % proto_fmt
         print(error_str)
         #set json as default
         os.environ['FT_PROTO_FMT'] = "Json"
 
+
 def get_proto_fmt():
     return PROTO_FMT_MAP[os.environ['FT_PROTO_FMT']]
 
+
 def get_message_head_len():
     return calcsize(MESSAGE_HEAD_FMT)
+
 
 def check_date_str_format(s):
     """Check the format of date string"""
@@ -45,26 +50,17 @@ def check_date_str_format(s):
 def extract_pls_rsp(rsp_str):
     """Extract the response of PLS"""
     try:
-        proto_fmt = get_proto_fmt()
-        if proto_fmt == PROTO_FMT_MAP['Json']:
-            rsp = json.loads(rsp_str)
-        elif proto_fmt == PROTO_FMT_MAP['Json']:
-            from futuquant.common.pb.Qot_Sub_pb2 import Response
-
+        rsp = json.loads(rsp_str)
     except ValueError:
         traceback.print_exc()
         err = sys.exc_info()[1]
         err_str = ERROR_STR_PREFIX + str(err)
         return RET_ERROR, err_str, None
 
-    error_code = int(rsp['ErrCode'])
+    error_code = int(rsp['errCode'])
 
     if error_code != 0:
-        error_str = ERROR_STR_PREFIX + rsp['ErrDesc']
-        return RET_ERROR, error_str, None
-
-    if 'RetData' not in rsp:
-        error_str = ERROR_STR_PREFIX + 'No ret data found in client rsp. Response: %s' % rsp
+        error_str = ERROR_STR_PREFIX + rsp['retMsg']
         return RET_ERROR, error_str, None
 
     return RET_OK, "", rsp
@@ -85,7 +81,8 @@ def split_stock_str(stock_str_param):
     '''do not use the built-in split function in python.
     The built-in function cannot handle some stock strings correctly.
     for instance, US..DJI, where the dot . itself is a part of original code'''
-    if 0 <= split_loc < len(stock_str) - 1 and stock_str[0:split_loc] in MKT_MAP_NEW:
+    if 0 <= split_loc < len(
+            stock_str) - 1 and stock_str[0:split_loc] in MKT_MAP_NEW:
         market_str = stock_str[0:split_loc]
         market_code = MKT_MAP_NEW[market_str]
         partial_stock_str = stock_str[split_loc + 1:]
@@ -120,13 +117,37 @@ def str2binary(s):
     return s.encode('utf-8')
 
 
-def binary2str(b):
+class ProtobufMap(dict):
+    created_protobuf_map = {}
+
+    def __init__(self):
+        from futuquant.common.pb.Qot_Sub_pb2 import Response
+        ProtobufMap.created_protobuf_map[3001] = Response()
+
+        from futuquant.common.pb.Qot_ReqSubInfo_pb2 import Response
+        ProtobufMap.created_protobuf_map[3003] = Response()
+
+        from futuquant.common.pb.Qot_ReqStockBasic_pb2 import Response
+        ProtobufMap.created_protobuf_map[3004] = Response()
+
+
+    def __getitem__(self, key):
+        return ProtobufMap.created_protobuf_map[key]
+pb_map = ProtobufMap()
+
+
+def binary2str(b, proto_id=0):
     """
     Transfer binary to string
     :param b: binary content to be transformed to string
     :return: string
     """
-    return b.decode('utf-8')
+    if get_proto_fmt() == PROTO_FMT_MAP['Json']:
+        return b.decode('utf-8')
+    else:
+        rsp = pb_map[proto_id]
+        rsp.ParseFromString(b)
+        return MessageToJson(rsp)
 
 
 def is_str(obj):
@@ -137,17 +158,20 @@ def is_str(obj):
 
 
 def price_to_str_int1000(price):
-    return str(int(round(float(price) * 1000, 0))) if str(price) is not '' else ''
+    return str(int(round(float(price) * 1000,
+                         0))) if str(price) is not '' else ''
 
 
 # 1000*int price to float val
 def int1000_price_to_float(price):
-    return round(float(price) / 1000.0, 3) if str(price) is not '' else float(0)
+    return round(float(price) / 1000.0,
+                 3) if str(price) is not '' else float(0)
 
 
 # 10^9 int price to float val
 def int10_9_price_to_float(price):
-    return round(float(price) / float(10**9), 3) if str(price) is not '' else float(0)
+    return round(float(price) / float(10**9),
+                 3) if str(price) is not '' else float(0)
 
 
 # list 参数除重及规整
@@ -158,5 +182,3 @@ def unique_and_normalize_list(lst):
     tmp = lst if isinstance(lst, list) else [lst]
     [ret.append(x) for x in tmp if x not in ret]
     return ret
-
-

@@ -12,16 +12,41 @@ from futuquant.common.utils import *
 from futuquant.common.pb import *
 
 
-def joint_head(proto_id, proto_fmt_type, body_len, str_body, proto_ver=0):
+def pack_pb_req(pb_req, proto_id):
+    proto_fmt = get_proto_fmt()
+    if proto_fmt == PROTO_FMT_MAP['Json']:
+        req_json = MessageToJson(pb_req)
+        req = _joint_head(proto_id, proto_fmt, len(req_json), req_json.encode())
+        return RET_OK, "", req
+    elif proto_fmt == PROTO_FMT_MAP['Protobuf']:
+        req = _joint_head(proto_id, proto_fmt, pb_req.ByteSize(), pb_req)
+        return RET_OK, "", req
+    else:
+        error_str = ERROR_STR_PREFIX + 'unknown protocol format, %d' % proto_fmt
+        return RET_ERROR, error_str, None 
+    
+def _joint_head(proto_id, proto_fmt_type, body_len, str_body, proto_ver=0):
     if proto_fmt_type == PROTO_FMT_MAP['Protobuf']:
         str_body = str_body.SerializeToString()
-    fmt = "<%s%ds" %(MESSAGE_HEAD_FMT, body_len)
+    fmt = "%s%ds" % (MESSAGE_HEAD_FMT, body_len)
     #serial_no is useless for now, set to 1
     serial_no = 1
     bin_head = struct.pack(fmt, b'F', b'T', proto_id, proto_fmt_type,
                            proto_ver, serial_no, body_len, 0, 0, 0, 0, 0, 0, 0,
                            0, str_body)
     return bin_head
+
+
+def parse_head(head_bytes):
+    head_dict = {}
+    head_dict['head_1'], head_dict['head_2'], head_dict['proto_id'], \
+    head_dict['proto_fmt_type'], head_dict['proto_ver'], \
+    head_dict['serial_no'], head_dict['body_len'], head_dict['reserved_1'], \
+    head_dict['reserved_2'], head_dict['reserved_3'], head_dict['reserved_4'], \
+    head_dict['reserved_5'], head_dict['reserved_6'], head_dict['reserved_7'], \
+    head_dict['reserved_8'] = struct.unpack(MESSAGE_HEAD_FMT, head_bytes)
+    print(head_dict)
+    return head_dict
 
 
 class TradeDayQuery:
@@ -775,7 +800,7 @@ class HistoryKlineQuery:
         }
 
         req_str = json.dumps(req) + '\r\n'
-        head_info = joint_head(3000, 1, len(req_str), req_str.encode())
+        head_info = _joint_head(3000, 1, len(req_str), req_str.encode())
         print(head_info)
         return RET_OK, "", head_info
 
@@ -971,18 +996,8 @@ class SubscriptionQuery:
         req.c2s.stock.market = market_code
         req.c2s.subType = subtype
         req.c2s.isSubOrUnSub = True
-        proto_fmt = get_proto_fmt()
-        if proto_fmt == PROTO_FMT_MAP['Json']:
-            req_json = MessageToJson(req)
-            #req_str = json.dumps(req) + '\r\n'
-            req = joint_head(3001, proto_fmt, len(req_json), req_json.encode())
-            return RET_OK, "", req
-        elif proto_fmt == PROTO_FMT_MAP['Protobuf']:
-            req = joint_head(3001, proto_fmt, req.ByteSize(), req)
-            return RET_OK, "", req
-        else:
-            error_str = ERROR_STR_PREFIX + 'unknown protocol format, %d' % proto_fmt
-            return RET_ERROR, error_str, None
+
+        return pack_pb_req(req, ProtoId.Qot_Sub)
 
     @classmethod
     def unpack_subscribe_rsp(cls, rsp_str):
@@ -1035,16 +1050,13 @@ class SubscriptionQuery:
     @classmethod
     def pack_subscription_query_req(cls, query):
         """Pack the subscribed query request"""
-        req = {
-            "Protocol": "1007",
-            "Version": "1",
-            "ReqParam": {
-                "QueryAllSocket": str(query)
-            }
-        }
-        req_str = json.dumps(req) + '\r\n'
-        head_info = joint_head(3003, 1, len(req_str), req_str.encode())
-        return RET_OK, "", head_info
+        from futuquant.common.pb.Qot_ReqSubInfo_pb2 import Request
+        req = Request()
+        param_map = {0: True, 1:False}
+        req.c2s.isReqAllConn = param_map[query]
+
+        return pack_pb_req(req, ProtoId.Qot_ReqSubInfo)
+
 
     @classmethod
     def unpack_subscription_query_rsp(cls, rsp_str):
@@ -1052,29 +1064,8 @@ class SubscriptionQuery:
         ret, msg, rsp = extract_pls_rsp(rsp_str)
         if ret != RET_OK:
             return RET_ERROR, msg, None
-
-        rsp_data = rsp['RetData']
-
-        if 'SubInfoArr' not in rsp_data:
-            error_str = ERROR_STR_PREFIX + "cannot find TradeDateArr in client rsp. Response: %s" % rsp_str
-            return RET_ERROR, error_str, None
-
-        subscription_table = {}
-
-        raw_subscription_list = rsp_data['SubInfoArr']
-        if raw_subscription_list is None or len(raw_subscription_list) == 0:
-            return RET_OK, "", subscription_table
-
-        subscription_list = [(merge_stock_str(
-            int(x['Market']), x['StockCode']), QUOTE.REV_SUBTYPE_MAP[int(
-                x['StockSubType'])]) for x in raw_subscription_list]
-
-        for stock_code_str, sub_type in subscription_list:
-            if sub_type not in subscription_table:
-                subscription_table[sub_type] = []
-            subscription_table[sub_type].append(stock_code_str)
-
-        return RET_OK, "", subscription_table
+        print(rsp)
+        return RET_OK, "", rsp
 
     @classmethod
     def pack_push_req(cls, stock_str, data_type):
@@ -1093,17 +1084,15 @@ class SubscriptionQuery:
             return RET_ERROR, error_str, None
 
         subtype = SUBTYPE_MAP[data_type]
-        req = {
-            "Protocol": "1008",
-            "Version": "1",
-            "ReqParam": {
-                "Market": str(market_code),
-                "StockCode": stock_code,
-                "StockPushType": str(subtype)
-            }
-        }
-        req_str = json.dumps(req) + '\r\n'
-        return RET_OK, "", req_str
+        from futuquant.common.pb.Qot_RegQotPush_pb2 import Request
+        req = Request()
+        req.c2s.stock.code = stock_code
+        req.c2s.stock.market = market_code
+        req.c2s.subType = subtype
+        req.c2s.isRegOrUnReg = True
+
+        return pack_pb_req(req, ProtoId.Qot_RegQotPush)
+
 
     @classmethod
     def pack_unpush_req(cls, stock_str, data_type):
@@ -1156,27 +1145,22 @@ class StockQuoteQuery:
                 error_str = ERROR_STR_PREFIX + msg
                 failure_tuple_list.append((ret_code, error_str))
                 continue
-
             market_code, stock_code = content
-            stock_tuple_list.append((str(market_code), stock_code))
+            stock_tuple_list.append((market_code, stock_code))
 
         if len(failure_tuple_list) > 0:
             error_str = '\n'.join([x[1] for x in failure_tuple_list])
             return RET_ERROR, error_str, None
 
-        req = {
-            "Protocol": "1023",
-            "Version": "1",
-            "ReqParam": {
-                'ReqArr': [{
-                    'Market': stock[0],
-                    'StockCode': stock[1]
-                } for stock in stock_tuple_list]
-            }
-        }
+        from futuquant.common.pb.Qot_ReqStockBasic_pb2 import Request
+        req = Request()
+        for market_code, stock_code in stock_tuple_list:
+            stock_inst = req.c2s.stock.add()
+            stock_inst.market = market_code
+            stock_inst.code = stock_code
 
-        req_str = json.dumps(req) + '\r\n'
-        return RET_OK, "", req_str
+        return pack_pb_req(req, ProtoId.Qot_ReqStockBasic)
+
 
     @classmethod
     def unpack_rsp(cls, rsp_str):
@@ -1184,46 +1168,41 @@ class StockQuoteQuery:
         ret, msg, rsp = extract_pls_rsp(rsp_str)
         if ret != RET_OK:
             return RET_ERROR, msg, None
-
-        rsp_data = rsp['RetData']
-        if "SubSnapshotArr" not in rsp_data:
-            error_str = ERROR_STR_PREFIX + "cannot find SubSnapshotArr in client rsp. Response: %s" % rsp_str
-            return RET_ERROR, error_str, None
-
-        raw_quote_list = rsp_data["SubSnapshotArr"]
+        print(rsp)
+        raw_quote_list = rsp['s2c']['stockBasic']
 
         quote_list = [{
             'code':
-            merge_stock_str(int(record['Market']), record['StockCode']),
+            merge_stock_str(int(record['stock']['market']), record['stock']['code']),
             'data_date':
-            record['Date'],
+            record['timeStr'].split()[0],
             'data_time':
-            record['Time'],
+            record['timeStr'].split()[1],
             'last_price':
-            int1000_price_to_float(record['CurPrice']),
+            int1000_price_to_float(record['curPrice']),
             'open_price':
-            int1000_price_to_float(record['Open']),
+            int1000_price_to_float(record['openPrice']),
             'high_price':
-            int1000_price_to_float(record['High']),
+            int1000_price_to_float(record['highPrice']),
             'low_price':
-            int1000_price_to_float(record['Low']),
+            int1000_price_to_float(record['lowPrice']),
             'prev_close_price':
-            int1000_price_to_float(record['LastClose']),
+            int1000_price_to_float(record['lastClosePrice']),
             'volume':
-            int(record['Volume']),
+            int(record['volume']),
             'turnover':
-            int1000_price_to_float(record['Turnover']),
+            int1000_price_to_float(record['turnover']),
             'turnover_rate':
-            int1000_price_to_float(record['TurnoverRate']),
+            int1000_price_to_float(record['turnoverRate']),
             'amplitude':
-            int1000_price_to_float(record['Amplitude']),
+            int1000_price_to_float(record['amplitude']),
             'suspension':
-            True if int(record['Suspension']) == 1 else False,
+            record['isSuspended'],
             'listing_date':
-            record['ListTime'],
+            record['listTimeStr'].split()[0],
             'price_spread':
-            int1000_price_to_float(record['PriceSpread'])
-            if 'PriceSpread' in record else 0,
+            int1000_price_to_float(record['priceSpread'])
+            if 'priceSpread' in record else 0,
         } for record in raw_quote_list]
 
         return RET_OK, "", quote_list

@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_ReqSubInfo.proto',
   package='Qot_ReqSubInfo',
   syntax='proto2',
-  serialized_pb=_b('\n\x14Qot_ReqSubInfo.proto\x12\x0eQot_ReqSubInfo\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"\x1b\n\x03\x43\x32S\x12\x14\n\x0cisReqAllConn\x18\x01 \x01(\x08\"Q\n\x07SubInfo\x12$\n\x07subType\x18\x01 \x02(\x0e\x32\x13.Qot_Common.SubType\x12 \n\x05stock\x18\x02 \x03(\x0b\x32\x11.Qot_Common.Stock\"a\n\x0b\x43onnSubInfo\x12(\n\x07subInfo\x18\x01 \x03(\x0b\x32\x17.Qot_ReqSubInfo.SubInfo\x12\x11\n\tusedQuota\x18\x02 \x02(\x05\x12\x15\n\risOwnConnData\x18\x03 \x02(\x08\"d\n\x03S2C\x12\x30\n\x0b\x63onnSubInfo\x18\x01 \x03(\x0b\x32\x1b.Qot_ReqSubInfo.ConnSubInfo\x12\x16\n\x0etotalUsedQuota\x18\x02 \x02(\x05\x12\x13\n\x0bremainQuota\x18\x03 \x02(\x05\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Qot_ReqSubInfo.C2S\"o\n\x08Response\x12 \n\x07retType\x18\x01 \x02(\x0e\x32\x0f.Common.RetType\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12 \n\x03s2c\x18\x04 \x01(\x0b\x32\x13.Qot_ReqSubInfo.S2C')
+  serialized_pb=_b('\n\x14Qot_ReqSubInfo.proto\x12\x0eQot_ReqSubInfo\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"\x1b\n\x03\x43\x32S\x12\x14\n\x0cisReqAllConn\x18\x01 \x01(\x08\"<\n\x07SubInfo\x12\x0f\n\x07subType\x18\x01 \x02(\x05\x12 \n\x05stock\x18\x02 \x03(\x0b\x32\x11.Qot_Common.Stock\"a\n\x0b\x43onnSubInfo\x12(\n\x07subInfo\x18\x01 \x03(\x0b\x32\x17.Qot_ReqSubInfo.SubInfo\x12\x11\n\tusedQuota\x18\x02 \x02(\x05\x12\x15\n\risOwnConnData\x18\x03 \x02(\x08\"d\n\x03S2C\x12\x30\n\x0b\x63onnSubInfo\x18\x01 \x03(\x0b\x32\x1b.Qot_ReqSubInfo.ConnSubInfo\x12\x16\n\x0etotalUsedQuota\x18\x02 \x02(\x05\x12\x13\n\x0bremainQuota\x18\x03 \x02(\x05\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Qot_ReqSubInfo.C2S\"^\n\x08Response\x12\x0f\n\x07retType\x18\x01 \x02(\x05\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12 \n\x03s2c\x18\x04 \x01(\x0b\x32\x13.Qot_ReqSubInfo.S2C')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
 
@@ -68,7 +68,7 @@ _SUBINFO = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='subType', full_name='Qot_ReqSubInfo.SubInfo.subType', index=0,
-      number=1, type=14, cpp_type=8, label=2,
+      number=1, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -93,7 +93,7 @@ _SUBINFO = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=101,
-  serialized_end=182,
+  serialized_end=161,
 )
 
 
@@ -137,8 +137,8 @@ _CONNSUBINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=184,
-  serialized_end=281,
+  serialized_start=163,
+  serialized_end=260,
 )
 
 
@@ -182,8 +182,8 @@ _S2C = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=283,
-  serialized_end=383,
+  serialized_start=262,
+  serialized_end=362,
 )
 
 
@@ -213,8 +213,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=385,
-  serialized_end=428,
+  serialized_start=364,
+  serialized_end=407,
 )
 
 
@@ -227,7 +227,7 @@ _RESPONSE = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='retType', full_name='Qot_ReqSubInfo.Response.retType', index=0,
-      number=1, type=14, cpp_type=8, label=2,
+      number=1, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -265,16 +265,14 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=430,
-  serialized_end=541,
+  serialized_start=409,
+  serialized_end=503,
 )
 
-_SUBINFO.fields_by_name['subType'].enum_type = Qot__Common__pb2._SUBTYPE
 _SUBINFO.fields_by_name['stock'].message_type = Qot__Common__pb2._STOCK
 _CONNSUBINFO.fields_by_name['subInfo'].message_type = _SUBINFO
 _S2C.fields_by_name['connSubInfo'].message_type = _CONNSUBINFO
 _REQUEST.fields_by_name['c2s'].message_type = _C2S
-_RESPONSE.fields_by_name['retType'].enum_type = Common__pb2._RETTYPE
 _RESPONSE.fields_by_name['s2c'].message_type = _S2C
 DESCRIPTOR.message_types_by_name['C2S'] = _C2S
 DESCRIPTOR.message_types_by_name['SubInfo'] = _SUBINFO

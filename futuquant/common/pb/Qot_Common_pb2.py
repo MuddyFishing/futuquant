@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_Common.proto',
   package='Qot_Common',
   syntax='proto2',
-  serialized_pb=_b('\n\x10Qot_Common.proto\x12\nQot_Common\x1a\x0c\x43ommon.proto\"<\n\x05Stock\x12%\n\x06market\x18\x01 \x02(\x0e\x32\x15.Qot_Common.QotMarket\x12\x0c\n\x04\x63ode\x18\x02 \x02(\t\"\xf3\x01\n\x05KLine\x12\x0c\n\x04time\x18\x01 \x02(\x03\x12\x0f\n\x07timeStr\x18\x02 \x02(\t\x12\x0f\n\x07isBlank\x18\x03 \x02(\x08\x12\x11\n\thighPrice\x18\x04 \x01(\x01\x12\x11\n\topenPrice\x18\x05 \x01(\x01\x12\x10\n\x08lowPrice\x18\x06 \x01(\x01\x12\x12\n\nclosePrice\x18\x07 \x01(\x01\x12\x16\n\x0elastClosePrice\x18\x08 \x01(\x01\x12\x0e\n\x06volume\x18\t \x01(\x03\x12\x10\n\x08turnover\x18\n \x01(\x01\x12\x14\n\x0cturnoverRate\x18\x0b \x01(\x01\x12\n\n\x02pe\x18\x0c \x01(\x01\x12\x12\n\nchangeRate\x18\r \x01(\x01\"\xcb\x02\n\nStockBasic\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\x12\x13\n\x0bisSuspended\x18\x02 \x02(\x08\x12\x10\n\x08listTime\x18\x03 \x02(\x03\x12\x13\n\x0blistTimeStr\x18\x04 \x02(\t\x12\x13\n\x0bpriceSpread\x18\x05 \x02(\x01\x12\x0c\n\x04time\x18\x06 \x02(\x03\x12\x0f\n\x07timeStr\x18\x07 \x02(\t\x12\x11\n\thighPrice\x18\x08 \x02(\x01\x12\x11\n\topenPrice\x18\t \x02(\x01\x12\x10\n\x08lowPrice\x18\n \x02(\x01\x12\x10\n\x08\x63urPrice\x18\x0b \x02(\x01\x12\x16\n\x0elastClosePrice\x18\x0c \x02(\x01\x12\x0e\n\x06volume\x18\r \x02(\x03\x12\x10\n\x08turnover\x18\x0e \x02(\x01\x12\x14\n\x0cturnoverRate\x18\x0f \x02(\x01\x12\x11\n\tamplitude\x18\x10 \x02(\x01*\xb8\x01\n\tQotMarket\x12\x15\n\x11QotMarket_Unknown\x10\x00\x12\x16\n\x12QotMarket_HK_Stock\x10\x01\x12\x17\n\x13QotMarket_HK_Future\x10\x02\x12\x16\n\x12QotMarket_US_Stock\x10\x15\x12\x17\n\x13QotMarket_US_Option\x10\x16\x12\x18\n\x14QotMarket_CNSH_Stock\x10\x1f\x12\x18\n\x14QotMarket_CNSZ_Stock\x10 *N\n\tRehabType\x12\x12\n\x0eRehabType_None\x10\x00\x12\x15\n\x11RehabType_Forward\x10\x01\x12\x16\n\x12RehabType_Backward\x10\x02*\xc9\x01\n\x06KLType\x12\x0f\n\x0bKLType_1Min\x10\x01\x12\x0e\n\nKLType_Day\x10\x02\x12\x0f\n\x0bKLType_Week\x10\x03\x12\x10\n\x0cKLType_Month\x10\x04\x12\x0f\n\x0bKLType_Year\x10\x05\x12\x0f\n\x0bKLType_5Min\x10\x06\x12\x10\n\x0cKLType_15Min\x10\x07\x12\x10\n\x0cKLType_30Min\x10\x08\x12\x10\n\x0cKLType_60Min\x10\t\x12\x0f\n\x0bKLType_3Min\x10\n\x12\x12\n\x0eKLType_Quarter\x10\x0b*\xe2\x01\n\x08KLFields\x12\x11\n\rKLFields_High\x10\x01\x12\x11\n\rKLFields_Open\x10\x02\x12\x10\n\x0cKLFields_Low\x10\x04\x12\x12\n\x0eKLFields_Close\x10\x08\x12\x16\n\x12KLFields_LastClose\x10\x10\x12\x13\n\x0fKLFields_Volume\x10 \x12\x15\n\x11KLFields_Turnover\x10@\x12\x1a\n\x15KLFields_TurnoverRate\x10\x80\x01\x12\x10\n\x0bKLFields_PE\x10\x80\x02\x12\x18\n\x13KLFields_ChangeRate\x10\x80\x04*\xea\x02\n\x07SubType\x12\x10\n\x0cSubType_None\x10\x00\x12\x11\n\rSubType_Basic\x10\x01\x12\x15\n\x11SubType_OrderBook\x10\x02\x12\x12\n\x0eSubType_Ticker\x10\x04\x12\x0e\n\nSubType_RT\x10\x05\x12\x12\n\x0eSubType_KL_Day\x10\x06\x12\x13\n\x0fSubType_KL_5Min\x10\x07\x12\x14\n\x10SubType_KL_15Min\x10\x08\x12\x14\n\x10SubType_KL_30Min\x10\t\x12\x14\n\x10SubType_KL_60Min\x10\n\x12\x13\n\x0fSubType_KL_1Min\x10\x0b\x12\x13\n\x0fSubType_KL_Week\x10\x0c\x12\x14\n\x10SubType_KL_Month\x10\r\x12\x12\n\x0eSubType_Broker\x10\x0e\x12\x16\n\x12SubType_KL_Qurater\x10\x0f\x12\x13\n\x0fSubType_KL_Year\x10\x10\x12\x13\n\x0fSubType_KL_3Min\x10\x11')
+  serialized_pb=_b('\n\x10Qot_Common.proto\x12\nQot_Common\x1a\x0c\x43ommon.proto\"%\n\x05Stock\x12\x0e\n\x06market\x18\x01 \x02(\x05\x12\x0c\n\x04\x63ode\x18\x02 \x02(\t\"\xf3\x01\n\x05KLine\x12\x0c\n\x04time\x18\x01 \x02(\x03\x12\x0f\n\x07timeStr\x18\x02 \x02(\t\x12\x0f\n\x07isBlank\x18\x03 \x02(\x08\x12\x11\n\thighPrice\x18\x04 \x01(\x01\x12\x11\n\topenPrice\x18\x05 \x01(\x01\x12\x10\n\x08lowPrice\x18\x06 \x01(\x01\x12\x12\n\nclosePrice\x18\x07 \x01(\x01\x12\x16\n\x0elastClosePrice\x18\x08 \x01(\x01\x12\x0e\n\x06volume\x18\t \x01(\x03\x12\x10\n\x08turnover\x18\n \x01(\x01\x12\x14\n\x0cturnoverRate\x18\x0b \x01(\x01\x12\n\n\x02pe\x18\x0c \x01(\x01\x12\x12\n\nchangeRate\x18\r \x01(\x01\"\xcb\x02\n\nStockBasic\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\x12\x13\n\x0bisSuspended\x18\x02 \x02(\x08\x12\x10\n\x08listTime\x18\x03 \x02(\x03\x12\x13\n\x0blistTimeStr\x18\x04 \x02(\t\x12\x13\n\x0bpriceSpread\x18\x05 \x02(\x01\x12\x0c\n\x04time\x18\x06 \x02(\x03\x12\x0f\n\x07timeStr\x18\x07 \x02(\t\x12\x11\n\thighPrice\x18\x08 \x02(\x01\x12\x11\n\topenPrice\x18\t \x02(\x01\x12\x10\n\x08lowPrice\x18\n \x02(\x01\x12\x10\n\x08\x63urPrice\x18\x0b \x02(\x01\x12\x16\n\x0elastClosePrice\x18\x0c \x02(\x01\x12\x0e\n\x06volume\x18\r \x02(\x03\x12\x10\n\x08turnover\x18\x0e \x02(\x01\x12\x14\n\x0cturnoverRate\x18\x0f \x02(\x01\x12\x11\n\tamplitude\x18\x10 \x02(\x01\"\x96\x01\n\tTimeShare\x12\x0c\n\x04time\x18\x01 \x02(\x03\x12\x0f\n\x07timeStr\x18\x02 \x02(\t\x12\x0f\n\x07isBlank\x18\x03 \x02(\x08\x12\r\n\x05price\x18\x04 \x01(\x01\x12\x16\n\x0elastClosePrice\x18\x05 \x01(\x01\x12\x10\n\x08\x61vgPrice\x18\x06 \x01(\x01\x12\x0e\n\x06volume\x18\x07 \x01(\x03\x12\x10\n\x08turnover\x18\x08 \x01(\x01*\xb8\x01\n\tQotMarket\x12\x15\n\x11QotMarket_Unknown\x10\x00\x12\x16\n\x12QotMarket_HK_Stock\x10\x01\x12\x17\n\x13QotMarket_HK_Future\x10\x02\x12\x16\n\x12QotMarket_US_Stock\x10\x15\x12\x17\n\x13QotMarket_US_Option\x10\x16\x12\x18\n\x14QotMarket_CNSH_Stock\x10\x1f\x12\x18\n\x14QotMarket_CNSZ_Stock\x10 *\xc3\x04\n\x0eQotMarketState\x12\x17\n\x13QotMarketState_None\x10\x00\x12\x1a\n\x16QotMarketState_Auction\x10\x01\x12\x1e\n\x1aQotMarketState_WaitingOpen\x10\x02\x12\x1a\n\x16QotMarketState_Morning\x10\x03\x12\x17\n\x13QotMarketState_Rest\x10\x04\x12\x1c\n\x18QotMarketState_Afternoon\x10\x05\x12\x19\n\x15QotMarketState_Closed\x10\x06\x12!\n\x1dQotMarketState_PreMarketBegin\x10\x08\x12\x1f\n\x1bQotMarketState_PreMarketEnd\x10\t\x12\"\n\x1eQotMarketState_AfterHoursBegin\x10\n\x12 \n\x1cQotMarketState_AfterHoursEnd\x10\x0b\x12\x1c\n\x18QotMarketState_NightOpen\x10\r\x12\x1b\n\x17QotMarketState_NightEnd\x10\x0e\x12 \n\x1cQotMarketState_FutureDayOpen\x10\x0f\x12!\n\x1dQotMarketState_FutureDayBreak\x10\x10\x12!\n\x1dQotMarketState_FutureDayClose\x10\x11\x12\'\n#QotMarketState_FutureDayWaitForOpen\x10\x12\x12\x18\n\x14QotMarketState_HkCas\x10\x13*N\n\tRehabType\x12\x12\n\x0eRehabType_None\x10\x00\x12\x15\n\x11RehabType_Forward\x10\x01\x12\x16\n\x12RehabType_Backward\x10\x02*\xc9\x01\n\x06KLType\x12\x0f\n\x0bKLType_1Min\x10\x01\x12\x0e\n\nKLType_Day\x10\x02\x12\x0f\n\x0bKLType_Week\x10\x03\x12\x10\n\x0cKLType_Month\x10\x04\x12\x0f\n\x0bKLType_Year\x10\x05\x12\x0f\n\x0bKLType_5Min\x10\x06\x12\x10\n\x0cKLType_15Min\x10\x07\x12\x10\n\x0cKLType_30Min\x10\x08\x12\x10\n\x0cKLType_60Min\x10\t\x12\x0f\n\x0bKLType_3Min\x10\n\x12\x12\n\x0eKLType_Quarter\x10\x0b*\xe2\x01\n\x08KLFields\x12\x11\n\rKLFields_High\x10\x01\x12\x11\n\rKLFields_Open\x10\x02\x12\x10\n\x0cKLFields_Low\x10\x04\x12\x12\n\x0eKLFields_Close\x10\x08\x12\x16\n\x12KLFields_LastClose\x10\x10\x12\x13\n\x0fKLFields_Volume\x10 \x12\x15\n\x11KLFields_Turnover\x10@\x12\x1a\n\x15KLFields_TurnoverRate\x10\x80\x01\x12\x10\n\x0bKLFields_PE\x10\x80\x02\x12\x18\n\x13KLFields_ChangeRate\x10\x80\x04*\xea\x02\n\x07SubType\x12\x10\n\x0cSubType_None\x10\x00\x12\x11\n\rSubType_Basic\x10\x01\x12\x15\n\x11SubType_OrderBook\x10\x02\x12\x12\n\x0eSubType_Ticker\x10\x04\x12\x0e\n\nSubType_RT\x10\x05\x12\x12\n\x0eSubType_KL_Day\x10\x06\x12\x13\n\x0fSubType_KL_5Min\x10\x07\x12\x14\n\x10SubType_KL_15Min\x10\x08\x12\x14\n\x10SubType_KL_30Min\x10\t\x12\x14\n\x10SubType_KL_60Min\x10\n\x12\x13\n\x0fSubType_KL_1Min\x10\x0b\x12\x13\n\x0fSubType_KL_Week\x10\x0c\x12\x14\n\x10SubType_KL_Month\x10\r\x12\x12\n\x0eSubType_Broker\x10\x0e\x12\x16\n\x12SubType_KL_Qurater\x10\x0f\x12\x13\n\x0fSubType_KL_Year\x10\x10\x12\x13\n\x0fSubType_KL_3Min\x10\x11')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,])
 
@@ -62,12 +62,99 @@ _QOTMARKET = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=689,
-  serialized_end=873,
+  serialized_start=819,
+  serialized_end=1003,
 )
 _sym_db.RegisterEnumDescriptor(_QOTMARKET)
 
 QotMarket = enum_type_wrapper.EnumTypeWrapper(_QOTMARKET)
+_QOTMARKETSTATE = _descriptor.EnumDescriptor(
+  name='QotMarketState',
+  full_name='Qot_Common.QotMarketState',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='QotMarketState_None', index=0, number=0,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QotMarketState_Auction', index=1, number=1,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QotMarketState_WaitingOpen', index=2, number=2,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QotMarketState_Morning', index=3, number=3,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QotMarketState_Rest', index=4, number=4,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QotMarketState_Afternoon', index=5, number=5,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QotMarketState_Closed', index=6, number=6,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QotMarketState_PreMarketBegin', index=7, number=8,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QotMarketState_PreMarketEnd', index=8, number=9,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QotMarketState_AfterHoursBegin', index=9, number=10,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QotMarketState_AfterHoursEnd', index=10, number=11,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QotMarketState_NightOpen', index=11, number=13,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QotMarketState_NightEnd', index=12, number=14,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QotMarketState_FutureDayOpen', index=13, number=15,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QotMarketState_FutureDayBreak', index=14, number=16,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QotMarketState_FutureDayClose', index=15, number=17,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QotMarketState_FutureDayWaitForOpen', index=16, number=18,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QotMarketState_HkCas', index=17, number=19,
+      options=None,
+      type=None),
+  ],
+  containing_type=None,
+  options=None,
+  serialized_start=1006,
+  serialized_end=1585,
+)
+_sym_db.RegisterEnumDescriptor(_QOTMARKETSTATE)
+
+QotMarketState = enum_type_wrapper.EnumTypeWrapper(_QOTMARKETSTATE)
 _REHABTYPE = _descriptor.EnumDescriptor(
   name='RehabType',
   full_name='Qot_Common.RehabType',
@@ -89,8 +176,8 @@ _REHABTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=875,
-  serialized_end=953,
+  serialized_start=1587,
+  serialized_end=1665,
 )
 _sym_db.RegisterEnumDescriptor(_REHABTYPE)
 
@@ -148,8 +235,8 @@ _KLTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=956,
-  serialized_end=1157,
+  serialized_start=1668,
+  serialized_end=1869,
 )
 _sym_db.RegisterEnumDescriptor(_KLTYPE)
 
@@ -203,8 +290,8 @@ _KLFIELDS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=1160,
-  serialized_end=1386,
+  serialized_start=1872,
+  serialized_end=2098,
 )
 _sym_db.RegisterEnumDescriptor(_KLFIELDS)
 
@@ -286,8 +373,8 @@ _SUBTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=1389,
-  serialized_end=1751,
+  serialized_start=2101,
+  serialized_end=2463,
 )
 _sym_db.RegisterEnumDescriptor(_SUBTYPE)
 
@@ -299,6 +386,24 @@ QotMarket_US_Stock = 21
 QotMarket_US_Option = 22
 QotMarket_CNSH_Stock = 31
 QotMarket_CNSZ_Stock = 32
+QotMarketState_None = 0
+QotMarketState_Auction = 1
+QotMarketState_WaitingOpen = 2
+QotMarketState_Morning = 3
+QotMarketState_Rest = 4
+QotMarketState_Afternoon = 5
+QotMarketState_Closed = 6
+QotMarketState_PreMarketBegin = 8
+QotMarketState_PreMarketEnd = 9
+QotMarketState_AfterHoursBegin = 10
+QotMarketState_AfterHoursEnd = 11
+QotMarketState_NightOpen = 13
+QotMarketState_NightEnd = 14
+QotMarketState_FutureDayOpen = 15
+QotMarketState_FutureDayBreak = 16
+QotMarketState_FutureDayClose = 17
+QotMarketState_FutureDayWaitForOpen = 18
+QotMarketState_HkCas = 19
 RehabType_None = 0
 RehabType_Forward = 1
 RehabType_Backward = 2
@@ -352,7 +457,7 @@ _STOCK = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='market', full_name='Qot_Common.Stock.market', index=0,
-      number=1, type=14, cpp_type=8, label=2,
+      number=1, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -377,7 +482,7 @@ _STOCK = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=46,
-  serialized_end=106,
+  serialized_end=83,
 )
 
 
@@ -491,8 +596,8 @@ _KLINE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=109,
-  serialized_end=352,
+  serialized_start=86,
+  serialized_end=329,
 )
 
 
@@ -627,16 +732,97 @@ _STOCKBASIC = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=355,
-  serialized_end=686,
+  serialized_start=332,
+  serialized_end=663,
 )
 
-_STOCK.fields_by_name['market'].enum_type = _QOTMARKET
+
+_TIMESHARE = _descriptor.Descriptor(
+  name='TimeShare',
+  full_name='Qot_Common.TimeShare',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='time', full_name='Qot_Common.TimeShare.time', index=0,
+      number=1, type=3, cpp_type=2, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='timeStr', full_name='Qot_Common.TimeShare.timeStr', index=1,
+      number=2, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='isBlank', full_name='Qot_Common.TimeShare.isBlank', index=2,
+      number=3, type=8, cpp_type=7, label=2,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='price', full_name='Qot_Common.TimeShare.price', index=3,
+      number=4, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='lastClosePrice', full_name='Qot_Common.TimeShare.lastClosePrice', index=4,
+      number=5, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='avgPrice', full_name='Qot_Common.TimeShare.avgPrice', index=5,
+      number=6, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='volume', full_name='Qot_Common.TimeShare.volume', index=6,
+      number=7, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='turnover', full_name='Qot_Common.TimeShare.turnover', index=7,
+      number=8, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=666,
+  serialized_end=816,
+)
+
 _STOCKBASIC.fields_by_name['stock'].message_type = _STOCK
 DESCRIPTOR.message_types_by_name['Stock'] = _STOCK
 DESCRIPTOR.message_types_by_name['KLine'] = _KLINE
 DESCRIPTOR.message_types_by_name['StockBasic'] = _STOCKBASIC
+DESCRIPTOR.message_types_by_name['TimeShare'] = _TIMESHARE
 DESCRIPTOR.enum_types_by_name['QotMarket'] = _QOTMARKET
+DESCRIPTOR.enum_types_by_name['QotMarketState'] = _QOTMARKETSTATE
 DESCRIPTOR.enum_types_by_name['RehabType'] = _REHABTYPE
 DESCRIPTOR.enum_types_by_name['KLType'] = _KLTYPE
 DESCRIPTOR.enum_types_by_name['KLFields'] = _KLFIELDS
@@ -663,6 +849,13 @@ StockBasic = _reflection.GeneratedProtocolMessageType('StockBasic', (_message.Me
   # @@protoc_insertion_point(class_scope:Qot_Common.StockBasic)
   ))
 _sym_db.RegisterMessage(StockBasic)
+
+TimeShare = _reflection.GeneratedProtocolMessageType('TimeShare', (_message.Message,), dict(
+  DESCRIPTOR = _TIMESHARE,
+  __module__ = 'Qot_Common_pb2'
+  # @@protoc_insertion_point(class_scope:Qot_Common.TimeShare)
+  ))
+_sym_db.RegisterMessage(TimeShare)
 
 
 # @@protoc_insertion_point(module_scope)

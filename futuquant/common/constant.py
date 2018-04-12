@@ -7,7 +7,7 @@ from copy import copy
 # 需要安装的最低牛牛客户端版本号
 NN_VERSION_MIN = '3.42.4962'
 
-MKT_MAP = {"HK": 1, "US": 2, "SH": 3, "SZ": 4, "HK_FUTURE": 6}
+MKT_MAP = {"HK": 1, "US": 21, "SH": 3, "SZ": 4, "HK_FUTURE": 6}
 MKT_MAP_NEW = {
     "QotMarket_Unknown": 0,
     "HK": 1,    #QotMarket_HK_Stock
@@ -68,7 +68,7 @@ ENVTYPE_MAP = {"TRUE": 0, "SIMULATE": 1}
 
 PROTO_FMT_MAP = {"Protobuf": 0, "Json": 1}
 
-MESSAGE_HEAD_FMT = "1s1sI2B2I8B"
+MESSAGE_HEAD_FMT = "<1s1sI2B2I8B"
 RET_OK = 0
 RET_ERROR = -1
 ERROR_STR_PREFIX = 'ERROR. '
@@ -233,3 +233,17 @@ class SubscribeType(object):
     K_MON = "K_MON"
     RT_DATA = "RT_DATA"
     BROKER = "BROKER"
+
+class ProtoId(object):
+    InitConnect = 1001
+    Trd_SubAccPush = 2001
+    Trd_Order_GetOrderList = 2201
+    Trd_Order_PlaceOrder = 2211
+    Trd_Order_ChangeOrder = 2212
+    Trd_Order_UpdateOrder = 2202
+    Qot_Req_ReqHistoryKL = 3000
+    Qot_Sub = 3001
+    Qot_RegQotPush = 3002
+    Qot_ReqSubInfo = 3003
+    Qot_ReqStockBasic = 3004
+    Qot_PushStockBasic = 3005
