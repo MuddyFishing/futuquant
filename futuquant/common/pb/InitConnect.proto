@@ -1,18 +1,17 @@
 syntax = "proto2";
 package InitConnect;
 
-import "Common.proto";
 
 message C2S
 {
-	required int32 clientVer = 1;					//客户端版本号，举例：1.1版本为101，2.21版本为221
-	required string clientID = 2;					//客户端标识
-	optional bool recvNotify = 3;					//是否接收事件通知，比如市场状态、交易需要重新解锁等
+	required int32 clientVer = 1;				//客户端版本号，举例：1.1版本为101，2.21版本为221
+	required string clientID = 2;				//客户端唯一标识
+	optional bool recvNotify = 3;				//是否接收事件通知，比如市场状态、交易需要重新解锁等
 }
 
 message S2C
 {
-	optional int32 serverVer = 1; 					//gateway网关的版本号
+	required int32 serverVer = 1; 				//Gateway网关的版本号
 }
 
 message Request
@@ -22,9 +21,9 @@ message Request
 
 message Response
 {
-	required Common.RetType retType = 1;
-	optional string retMsg = 2;
-	optional int32 errCode = 3;
+	required int32 retType = 1;					//返回结果类型，参见Common.RetType的枚举定义
+	optional string retMsg = 2;					//返回结果描述
+	optional int32 errCode = 3;					//错误码，用户一般通过retType和retMsg了解详情，errCode只做日志记
 	
 	optional S2C s2c = 4;
 }

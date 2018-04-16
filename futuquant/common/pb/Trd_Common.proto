@@ -1,7 +1,6 @@
 syntax = "proto2";
 package Trd_Common;
 
-import "Common.proto";
 
 //交易环境
 enum TrdEnv

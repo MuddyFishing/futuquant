@@ -3,6 +3,7 @@
 import json
 import os
 import sys
+import socket
 import traceback
 from datetime import datetime
 from struct import calcsize
@@ -27,6 +28,11 @@ def set_proto_fmt(proto_fmt="Json"):
 def get_proto_fmt():
     return PROTO_FMT_MAP[os.environ['FT_PROTO_FMT']]
 
+def get_client_ver():
+    return 300
+
+def get_client_id():
+    return socket.gethostname()
 
 def get_message_head_len():
     return calcsize(MESSAGE_HEAD_FMT)
@@ -121,14 +127,20 @@ class ProtobufMap(dict):
     created_protobuf_map = {}
 
     def __init__(self):
+        from futuquant.common.pb.InitConnect_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.InitConnect] = Response()
+
         from futuquant.common.pb.Qot_Sub_pb2 import Response
-        ProtobufMap.created_protobuf_map[3001] = Response()
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_Sub] = Response()
 
         from futuquant.common.pb.Qot_ReqSubInfo_pb2 import Response
-        ProtobufMap.created_protobuf_map[3003] = Response()
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqSubInfo] = Response()
 
         from futuquant.common.pb.Qot_ReqStockBasic_pb2 import Response
-        ProtobufMap.created_protobuf_map[3004] = Response()
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqStockBasic] = Response()
+
+        from futuquant.common.pb.Qot_PushStockBasic_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_PushStockBasic] = Response()
 
 
     def __getitem__(self, key):
@@ -144,10 +156,12 @@ def binary2str(b, proto_id=0):
     """
     if get_proto_fmt() == PROTO_FMT_MAP['Json']:
         return b.decode('utf-8')
-    else:
+    elif get_proto_fmt() == PROTO_FMT_MAP['Protobuf']:
         rsp = pb_map[proto_id]
         rsp.ParseFromString(b)
         return MessageToJson(rsp)
+    else:
+        raise Exception("binary2str: unknown proto format.")
 
 
 def is_str(obj):

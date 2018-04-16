@@ -5,6 +5,7 @@ import time
 from threading import Thread
 import traceback
 from futuquant.common.utils import *
+from futuquant.quote.quote_query import parse_head
 
 class _AsyncThreadCtrl(object):
     def __init__(self):
@@ -67,26 +68,35 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
 
     def handle_read(self):
         """
-                    deal with Json package
+                    deal with package
                     :return: err
                     """
-        delimiter = b'\r\n\r\n'
         rsp_str = u''
         try:
             recv_buf = self.recv(5 * 1024 * 1024)
+
             if recv_buf == b'':
                 raise Exception("_AsyncNetworkManager : remote server close")
-            self.rsp_buf += recv_buf
-            loc = self.rsp_buf.find(delimiter)
-            while loc >= 0:
-                rsp_binary = self.rsp_buf[0:loc]
-                loc += len(delimiter)
-                self.rsp_buf = self.rsp_buf[loc:]
 
-                rsp_str = binary2str(rsp_binary)
+            head_dict = parse_head(recv_buf[:get_message_head_len()])
+            rsp_body = recv_buf[get_message_head_len():]
 
-                self.handler_ctx.recv_func(rsp_str)
-                loc = self.rsp_buf.find(delimiter)
+            while head_dict['body_len'] > len(rsp_body):
+                try:
+                    recv_buf = self.s.recv(5 * 1024 * 1024)
+                    rsp_body += recv_buf
+                    if recv_buf == b'':
+                        raise Exception("_SyncNetworkQueryCtx : remote server close")
+                except Exception as e:
+                    traceback.print_exc()
+                    err = sys.exc_info()[1]
+                    error_str = ERROR_STR_PREFIX + str(
+                        err) + ' when receiving after sending %s bytes. For req: ' % s_cnt + ""
+                    self._force_close_session()
+                    return RET_ERROR, error_str, None
+            rsp_str = binary2str(rsp_body, head_dict['proto_id'])
+            self.handler_ctx.recv_func(rsp_str, head_dict['proto_id'])
+
         except Exception as e:
             if isinstance(e, IOError) and e.errno == 10035:
                 return

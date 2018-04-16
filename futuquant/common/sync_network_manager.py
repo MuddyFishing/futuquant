@@ -92,9 +92,6 @@ class _SyncNetworkQueryCtx:
                     self._force_close_session()
                     return RET_ERROR, error_str, None
             rsp_str = binary2str(rsp_body, head_dict['proto_id'])
-            print("******")
-            print(type(rsp_str))
-            print(rsp_str)
             self._close_session()
         except Exception as e:
             traceback.print_exc()

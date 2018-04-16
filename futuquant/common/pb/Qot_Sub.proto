@@ -1,7 +1,6 @@
 syntax = "proto2";
 package Qot_Sub;
 
-import "Common.proto";
 import "Qot_Common.proto";
 
 message C2S

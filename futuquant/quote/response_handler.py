@@ -1,7 +1,9 @@
 ﻿# -*- coding: utf-8 -*-
+import pandas as pd
 
 from futuquant.common.constant import *
 from futuquant.common.utils import *
+from futuquant.quote.quote_query import StockQuoteQuery
 
 
 class RspHandlerBase(object):
@@ -334,27 +336,27 @@ class HandlerContext:
         self.cb_check_recv = cb_check_recv
         self._default_handler = RspHandlerBase()
         self._handler_table = {
-            "1030": {
+            3005: {
                 "type": StockQuoteHandlerBase,
                 "obj": StockQuoteHandlerBase()
             },
-            "1031": {
+            2208: {
                 "type": OrderBookHandlerBase,
                 "obj": OrderBookHandlerBase()
             },
-            "1032": {
+            3007: {
                 "type": CurKlineHandlerBase,
                 "obj": CurKlineHandlerBase()
             },
-            "1033": {
+            3011: {
                 "type": TickerHandlerBase,
                 "obj": TickerHandlerBase()
             },
-            "1034": {
+            3009: {
                 "type": RTDataHandlerBase,
                 "obj": RTDataHandlerBase()
             },
-            "1035": {
+            3015: {
                 "type": BrokerHandlerBase,
                 "obj": BrokerHandlerBase()
             },
@@ -421,7 +423,7 @@ class HandlerContext:
         if set_flag is False:
             return RET_ERROR
 
-    def recv_func(self, rsp_str):
+    def recv_func(self, rsp_str, proto_id):
         """receive response callback function"""
         if self.cb_check_recv is not None and not self.cb_check_recv():
             return
@@ -431,16 +433,17 @@ class HandlerContext:
             error_str = msg + rsp_str
             print(error_str)
             return
-
-        protoc_num = rsp["Protocol"]
+        print("recv push data and  proto_id")
+        print(rsp, proto_id)
+        print("################")
         handler = self._default_handler
         pre_handler = None
 
-        if protoc_num in self._handler_table:
-            handler = self._handler_table[protoc_num]['obj']
+        if proto_id in self._handler_table:
+            handler = self._handler_table[proto_id]['obj']
 
-        if protoc_num in self._pre_handler_table:
-            pre_handler = self._pre_handler_table[protoc_num]['obj']
+        if proto_id in self._pre_handler_table:
+            pre_handler = self._pre_handler_table[proto_id]['obj']
 
         if pre_handler is not None:
             pre_handler.on_recv_rsp(rsp_str)

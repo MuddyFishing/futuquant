@@ -14,16 +14,14 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
-import Common_pb2 as Common__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='Trd_Common.proto',
   package='Trd_Common',
   syntax='proto2',
-  serialized_pb=_b('\n\x10Trd_Common.proto\x12\nTrd_Common\x1a\x0c\x43ommon.proto\"\xa5\x01\n\x05Order\x12$\n\x07trdSide\x18\x01 \x02(\x0e\x32\x13.Trd_Common.TrdSide\x12(\n\torderType\x18\x02 \x02(\x0e\x32\x15.Trd_Common.OrderType\x12\x0f\n\x07orderID\x18\x03 \x02(\x04\x12\x11\n\torderIDEx\x18\x04 \x02(\t\x12\x0c\n\x04\x63ode\x18\x05 \x02(\t\x12\x0b\n\x03qty\x18\x06 \x02(\x01\x12\r\n\x05price\x18\x07 \x01(\x01*.\n\x06TrdEnv\x12\x13\n\x0fTrdEnv_Simulate\x10\x00\x12\x0f\n\x0bTrdEnv_Real\x10\x01*\xb9\x01\n\tTrdMarket\x12\x15\n\x11TrdMarket_Unknown\x10\x00\x12\x16\n\x12TrdMarket_HK_Stock\x10\x01\x12\x16\n\x12TrdMarket_US_Stock\x10\x15\x12\x17\n\x13TrdMarket_US_Option\x10\x16\x12\x18\n\x14TrdMarket_CNSH_Stock\x10\x1f\x12\x18\n\x14TrdMarket_CNSZ_Stock\x10 \x12\x18\n\x14TrdMarket_HKCC_Stock\x10)*A\n\x07TrdSide\x12\x13\n\x0fTrdSide_Unknown\x10\x00\x12\x0f\n\x0bTrdSide_Buy\x10\x01\x12\x10\n\x0cTrdSide_Sell\x10\x02*\xb2\x01\n\tOrderType\x12\x15\n\x11OrderType_Unknown\x10\x00\x12\x14\n\x10OrderType_Normal\x10\x01\x12\x13\n\x0fOrderType_Limit\x10\x03\x12\x15\n\x11OrderType_Auction\x10\x06\x12\x1a\n\x16OrderType_AuctionLimit\x10\x07\x12\x1a\n\x16OrderType_SpecialLimit\x10\x08\x12\x14\n\x10OrderType_Market\x10\x02')
-  ,
-  dependencies=[Common__pb2.DESCRIPTOR,])
+  serialized_pb=_b('\n\x10Trd_Common.proto\x12\nTrd_Common\"\xa5\x01\n\x05Order\x12$\n\x07trdSide\x18\x01 \x02(\x0e\x32\x13.Trd_Common.TrdSide\x12(\n\torderType\x18\x02 \x02(\x0e\x32\x15.Trd_Common.OrderType\x12\x0f\n\x07orderID\x18\x03 \x02(\x04\x12\x11\n\torderIDEx\x18\x04 \x02(\t\x12\x0c\n\x04\x63ode\x18\x05 \x02(\t\x12\x0b\n\x03qty\x18\x06 \x02(\x01\x12\r\n\x05price\x18\x07 \x01(\x01*.\n\x06TrdEnv\x12\x13\n\x0fTrdEnv_Simulate\x10\x00\x12\x0f\n\x0bTrdEnv_Real\x10\x01*\xb9\x01\n\tTrdMarket\x12\x15\n\x11TrdMarket_Unknown\x10\x00\x12\x16\n\x12TrdMarket_HK_Stock\x10\x01\x12\x16\n\x12TrdMarket_US_Stock\x10\x15\x12\x17\n\x13TrdMarket_US_Option\x10\x16\x12\x18\n\x14TrdMarket_CNSH_Stock\x10\x1f\x12\x18\n\x14TrdMarket_CNSZ_Stock\x10 \x12\x18\n\x14TrdMarket_HKCC_Stock\x10)*A\n\x07TrdSide\x12\x13\n\x0fTrdSide_Unknown\x10\x00\x12\x0f\n\x0bTrdSide_Buy\x10\x01\x12\x10\n\x0cTrdSide_Sell\x10\x02*\xb2\x01\n\tOrderType\x12\x15\n\x11OrderType_Unknown\x10\x00\x12\x14\n\x10OrderType_Normal\x10\x01\x12\x13\n\x0fOrderType_Limit\x10\x03\x12\x15\n\x11OrderType_Auction\x10\x06\x12\x1a\n\x16OrderType_AuctionLimit\x10\x07\x12\x1a\n\x16OrderType_SpecialLimit\x10\x08\x12\x14\n\x10OrderType_Market\x10\x02')
+)
 
 _TRDENV = _descriptor.EnumDescriptor(
   name='TrdEnv',
@@ -42,8 +40,8 @@ _TRDENV = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=214,
-  serialized_end=260,
+  serialized_start=200,
+  serialized_end=246,
 )
 _sym_db.RegisterEnumDescriptor(_TRDENV)
 
@@ -85,8 +83,8 @@ _TRDMARKET = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=263,
-  serialized_end=448,
+  serialized_start=249,
+  serialized_end=434,
 )
 _sym_db.RegisterEnumDescriptor(_TRDMARKET)
 
@@ -112,8 +110,8 @@ _TRDSIDE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=450,
-  serialized_end=515,
+  serialized_start=436,
+  serialized_end=501,
 )
 _sym_db.RegisterEnumDescriptor(_TRDSIDE)
 
@@ -155,8 +153,8 @@ _ORDERTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=518,
-  serialized_end=696,
+  serialized_start=504,
+  serialized_end=682,
 )
 _sym_db.RegisterEnumDescriptor(_ORDERTYPE)
 
@@ -251,8 +249,8 @@ _ORDER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=47,
-  serialized_end=212,
+  serialized_start=33,
+  serialized_end=198,
 )
 
 _ORDER.fields_by_name['trdSide'].enum_type = _TRDSIDE

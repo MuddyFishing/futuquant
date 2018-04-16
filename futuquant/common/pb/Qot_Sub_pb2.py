@@ -13,7 +13,6 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
-import Common_pb2 as Common__pb2
 import Qot_Common_pb2 as Qot__Common__pb2
 
 
@@ -21,9 +20,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_Sub.proto',
   package='Qot_Sub',
   syntax='proto2',
-  serialized_pb=_b('\n\rQot_Sub.proto\x12\x07Qot_Sub\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"v\n\x03\x43\x32S\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\x12\x0f\n\x07subType\x18\x02 \x02(\x05\x12\x14\n\x0cisSubOrUnSub\x18\x03 \x02(\x08\x12\x11\n\tisRegPush\x18\x04 \x01(\x08\x12\x13\n\x0bisUnRegPush\x18\x05 \x01(\x08\"$\n\x07Request\x12\x19\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x0c.Qot_Sub.C2S\"<\n\x08Response\x12\x0f\n\x07retType\x18\x01 \x02(\x05\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05')
+  serialized_pb=_b('\n\rQot_Sub.proto\x12\x07Qot_Sub\x1a\x10Qot_Common.proto\"v\n\x03\x43\x32S\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\x12\x0f\n\x07subType\x18\x02 \x02(\x05\x12\x14\n\x0cisSubOrUnSub\x18\x03 \x02(\x08\x12\x11\n\tisRegPush\x18\x04 \x01(\x08\x12\x13\n\x0bisUnRegPush\x18\x05 \x01(\x08\"$\n\x07Request\x12\x19\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x0c.Qot_Sub.C2S\"<\n\x08Response\x12\x0f\n\x07retType\x18\x01 \x02(\x05\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05')
   ,
-  dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
+  dependencies=[Qot__Common__pb2.DESCRIPTOR,])
 
 
 
@@ -82,8 +81,8 @@ _C2S = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=58,
-  serialized_end=176,
+  serialized_start=44,
+  serialized_end=162,
 )
 
 
@@ -113,8 +112,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=178,
-  serialized_end=214,
+  serialized_start=164,
+  serialized_end=200,
 )
 
 
@@ -158,8 +157,8 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=216,
-  serialized_end=276,
+  serialized_start=202,
+  serialized_end=262,
 )
 
 _C2S.fields_by_name['stock'].message_type = Qot__Common__pb2._STOCK

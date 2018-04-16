@@ -13,7 +13,6 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
-import Common_pb2 as Common__pb2
 import Qot_Common_pb2 as Qot__Common__pb2
 
 
@@ -21,9 +20,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_ReqSubInfo.proto',
   package='Qot_ReqSubInfo',
   syntax='proto2',
-  serialized_pb=_b('\n\x14Qot_ReqSubInfo.proto\x12\x0eQot_ReqSubInfo\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"\x1b\n\x03\x43\x32S\x12\x14\n\x0cisReqAllConn\x18\x01 \x01(\x08\"<\n\x07SubInfo\x12\x0f\n\x07subType\x18\x01 \x02(\x05\x12 \n\x05stock\x18\x02 \x03(\x0b\x32\x11.Qot_Common.Stock\"a\n\x0b\x43onnSubInfo\x12(\n\x07subInfo\x18\x01 \x03(\x0b\x32\x17.Qot_ReqSubInfo.SubInfo\x12\x11\n\tusedQuota\x18\x02 \x02(\x05\x12\x15\n\risOwnConnData\x18\x03 \x02(\x08\"d\n\x03S2C\x12\x30\n\x0b\x63onnSubInfo\x18\x01 \x03(\x0b\x32\x1b.Qot_ReqSubInfo.ConnSubInfo\x12\x16\n\x0etotalUsedQuota\x18\x02 \x02(\x05\x12\x13\n\x0bremainQuota\x18\x03 \x02(\x05\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Qot_ReqSubInfo.C2S\"^\n\x08Response\x12\x0f\n\x07retType\x18\x01 \x02(\x05\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12 \n\x03s2c\x18\x04 \x01(\x0b\x32\x13.Qot_ReqSubInfo.S2C')
+  serialized_pb=_b('\n\x14Qot_ReqSubInfo.proto\x12\x0eQot_ReqSubInfo\x1a\x10Qot_Common.proto\"\x1b\n\x03\x43\x32S\x12\x14\n\x0cisReqAllConn\x18\x01 \x01(\x08\"<\n\x07SubInfo\x12\x0f\n\x07subType\x18\x01 \x02(\x05\x12 \n\x05stock\x18\x02 \x03(\x0b\x32\x11.Qot_Common.Stock\"a\n\x0b\x43onnSubInfo\x12(\n\x07subInfo\x18\x01 \x03(\x0b\x32\x17.Qot_ReqSubInfo.SubInfo\x12\x11\n\tusedQuota\x18\x02 \x02(\x05\x12\x15\n\risOwnConnData\x18\x03 \x02(\x08\"d\n\x03S2C\x12\x30\n\x0b\x63onnSubInfo\x18\x01 \x03(\x0b\x32\x1b.Qot_ReqSubInfo.ConnSubInfo\x12\x16\n\x0etotalUsedQuota\x18\x02 \x02(\x05\x12\x13\n\x0bremainQuota\x18\x03 \x02(\x05\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Qot_ReqSubInfo.C2S\"^\n\x08Response\x12\x0f\n\x07retType\x18\x01 \x02(\x05\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12 \n\x03s2c\x18\x04 \x01(\x0b\x32\x13.Qot_ReqSubInfo.S2C')
   ,
-  dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
+  dependencies=[Qot__Common__pb2.DESCRIPTOR,])
 
 
 
@@ -54,8 +53,8 @@ _C2S = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=72,
-  serialized_end=99,
+  serialized_start=58,
+  serialized_end=85,
 )
 
 
@@ -92,8 +91,8 @@ _SUBINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=101,
-  serialized_end=161,
+  serialized_start=87,
+  serialized_end=147,
 )
 
 
@@ -137,8 +136,8 @@ _CONNSUBINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=163,
-  serialized_end=260,
+  serialized_start=149,
+  serialized_end=246,
 )
 
 
@@ -182,8 +181,8 @@ _S2C = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=262,
-  serialized_end=362,
+  serialized_start=248,
+  serialized_end=348,
 )
 
 
@@ -213,8 +212,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=364,
-  serialized_end=407,
+  serialized_start=350,
+  serialized_end=393,
 )
 
 
@@ -265,8 +264,8 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=409,
-  serialized_end=503,
+  serialized_start=395,
+  serialized_end=489,
 )
 
 _SUBINFO.fields_by_name['stock'].message_type = Qot__Common__pb2._STOCK

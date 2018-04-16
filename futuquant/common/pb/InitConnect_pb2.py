@@ -13,16 +13,14 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
-import Common_pb2 as Common__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='InitConnect.proto',
   package='InitConnect',
   syntax='proto2',
-  serialized_pb=_b('\n\x11InitConnect.proto\x12\x0bInitConnect\x1a\x0c\x43ommon.proto\">\n\x03\x43\x32S\x12\x11\n\tclientVer\x18\x01 \x02(\x05\x12\x10\n\x08\x63lientID\x18\x02 \x02(\t\x12\x12\n\nrecvNotify\x18\x03 \x01(\x08\"\x18\n\x03S2C\x12\x11\n\tserverVer\x18\x01 \x01(\x05\"(\n\x07Request\x12\x1d\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x10.InitConnect.C2S\"l\n\x08Response\x12 \n\x07retType\x18\x01 \x02(\x0e\x32\x0f.Common.RetType\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\x1d\n\x03s2c\x18\x04 \x01(\x0b\x32\x10.InitConnect.S2C')
-  ,
-  dependencies=[Common__pb2.DESCRIPTOR,])
+  serialized_pb=_b('\n\x11InitConnect.proto\x12\x0bInitConnect\">\n\x03\x43\x32S\x12\x11\n\tclientVer\x18\x01 \x02(\x05\x12\x10\n\x08\x63lientID\x18\x02 \x02(\t\x12\x12\n\nrecvNotify\x18\x03 \x01(\x08\"\x18\n\x03S2C\x12\x11\n\tserverVer\x18\x01 \x02(\x05\"(\n\x07Request\x12\x1d\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x10.InitConnect.C2S\"[\n\x08Response\x12\x0f\n\x07retType\x18\x01 \x02(\x05\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\x1d\n\x03s2c\x18\x04 \x01(\x0b\x32\x10.InitConnect.S2C')
+)
 
 
 
@@ -67,8 +65,8 @@ _C2S = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=48,
-  serialized_end=110,
+  serialized_start=34,
+  serialized_end=96,
 )
 
 
@@ -81,7 +79,7 @@ _S2C = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='serverVer', full_name='InitConnect.S2C.serverVer', index=0,
-      number=1, type=5, cpp_type=1, label=1,
+      number=1, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -98,8 +96,8 @@ _S2C = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=112,
-  serialized_end=136,
+  serialized_start=98,
+  serialized_end=122,
 )
 
 
@@ -129,8 +127,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=138,
-  serialized_end=178,
+  serialized_start=124,
+  serialized_end=164,
 )
 
 
@@ -143,7 +141,7 @@ _RESPONSE = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='retType', full_name='InitConnect.Response.retType', index=0,
-      number=1, type=14, cpp_type=8, label=2,
+      number=1, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -181,12 +179,11 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=180,
-  serialized_end=288,
+  serialized_start=166,
+  serialized_end=257,
 )
 
 _REQUEST.fields_by_name['c2s'].message_type = _C2S
-_RESPONSE.fields_by_name['retType'].enum_type = Common__pb2._RETTYPE
 _RESPONSE.fields_by_name['s2c'].message_type = _S2C
 DESCRIPTOR.message_types_by_name['C2S'] = _C2S
 DESCRIPTOR.message_types_by_name['S2C'] = _S2C

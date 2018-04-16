@@ -16,15 +16,17 @@ def pack_pb_req(pb_req, proto_id):
     proto_fmt = get_proto_fmt()
     if proto_fmt == PROTO_FMT_MAP['Json']:
         req_json = MessageToJson(pb_req)
-        req = _joint_head(proto_id, proto_fmt, len(req_json), req_json.encode())
+        req = _joint_head(proto_id, proto_fmt, len(req_json),
+                          req_json.encode())
         return RET_OK, "", req
     elif proto_fmt == PROTO_FMT_MAP['Protobuf']:
         req = _joint_head(proto_id, proto_fmt, pb_req.ByteSize(), pb_req)
         return RET_OK, "", req
     else:
         error_str = ERROR_STR_PREFIX + 'unknown protocol format, %d' % proto_fmt
-        return RET_ERROR, error_str, None 
-    
+        return RET_ERROR, error_str, None
+
+
 def _joint_head(proto_id, proto_fmt_type, body_len, str_body, proto_ver=0):
     if proto_fmt_type == PROTO_FMT_MAP['Protobuf']:
         str_body = str_body.SerializeToString()
@@ -45,9 +47,41 @@ def parse_head(head_bytes):
     head_dict['reserved_2'], head_dict['reserved_3'], head_dict['reserved_4'], \
     head_dict['reserved_5'], head_dict['reserved_6'], head_dict['reserved_7'], \
     head_dict['reserved_8'] = struct.unpack(MESSAGE_HEAD_FMT, head_bytes)
-    print(head_dict)
     return head_dict
 
+
+class InitConnect:
+    """
+    A InitConnect request must be sent first
+    """
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pack_req(cls, client_ver, client_id, recv_notify=False):
+        """
+        Send a init connection request to establish the connection btw gateway and client
+        :param client_ver:
+        :param client_id:
+        :param recv_notify:
+         :return:  json string for request
+        """
+        from futuquant.common.pb.InitConnect_pb2 import Request
+        req = Request()
+        req.c2s.clientVer = client_ver
+        req.c2s.clientID = client_id
+        req.c2s.recvNotify = recv_notify
+        return pack_pb_req(req, ProtoId.InitConnect)
+
+    @classmethod
+    def unpack_rsp(cls, rsp_str):
+        """Unpack the init connect response"""
+        ret, msg, content = extract_pls_rsp(rsp_str)
+        if ret != RET_OK:
+            return RET_ERROR, msg, None
+
+        return RET_OK, "", content
 
 class TradeDayQuery:
     """
@@ -469,16 +503,12 @@ class RtDataQuery:
             return RET_ERROR, error_str, None
 
         market_code, stock_code = content
-        req = {
-            "Protocol": "1010",
-            "Version": "1",
-            "ReqParam": {
-                'Market': str(market_code),
-                'StockCode': stock_code
-            }
-        }
-        req_str = json.dumps(req) + '\r\n'
-        return RET_OK, "", req_str
+        from futuquant.common.pb.Qot_ReqRT_pb2 import Request
+        req = Request()
+        req.c2s.stock.market = market_code
+        req.c2s.stock.code = stock_code
+
+        return pack_pb_req(req, ProtoId.Qot_ReqRT)
 
     @classmethod
     def unpack_rsp(cls, rsp_str):
@@ -486,11 +516,6 @@ class RtDataQuery:
         ret, msg, rsp = extract_pls_rsp(rsp_str)
         if ret != RET_OK:
             return RET_ERROR, msg, None
-
-        rsp_data = rsp['RetData']
-        if "RTDataArr" not in rsp_data:
-            error_str = ERROR_STR_PREFIX + "cannot find RTDataArr in client rsp. Response: %s" % rsp_str
-            return RET_ERROR, error_str, None
 
         rt_data_list = rsp_data["RTDataArr"]
         if rt_data_list is None or len(rt_data_list) == 0:
@@ -1020,23 +1045,19 @@ class SubscriptionQuery:
 
         if data_type not in SUBTYPE_MAP:
             subtype_str = ','.join([x for x in SUBTYPE_MAP])
-            error_str = ERROR_STR_PREFIX + 'data_type is %s, which is wrong. (%s)' % (
+            error_str = ERROR_STR_PREFIX + 'data_type is %s , which is wrong. (%s)' % (
                 data_type, subtype_str)
             return RET_ERROR, error_str, None
 
         subtype = SUBTYPE_MAP[data_type]
+        from futuquant.common.pb.Qot_Sub_pb2 import Request
+        req = Request()
+        req.c2s.stock.code = stock_code
+        req.c2s.stock.market = market_code
+        req.c2s.subType = subtype
+        req.c2s.isSubOrUnSub = False
 
-        req = {
-            "Protocol": "1006",
-            "Version": "1",
-            "ReqParam": {
-                "Market": str(market_code),
-                "StockCode": stock_code,
-                "StockSubType": str(subtype)
-            }
-        }
-        req_str = json.dumps(req) + '\r\n'
-        return RET_OK, "", req_str
+        return pack_pb_req(req, ProtoId.Qot_Sub)
 
     @classmethod
     def unpack_unsubscribe_rsp(cls, rsp_str):
@@ -1052,11 +1073,10 @@ class SubscriptionQuery:
         """Pack the subscribed query request"""
         from futuquant.common.pb.Qot_ReqSubInfo_pb2 import Request
         req = Request()
-        param_map = {0: True, 1:False}
+        param_map = {0: True, 1: False}
         req.c2s.isReqAllConn = param_map[query]
 
         return pack_pb_req(req, ProtoId.Qot_ReqSubInfo)
-
 
     @classmethod
     def unpack_subscription_query_rsp(cls, rsp_str):
@@ -1064,12 +1084,11 @@ class SubscriptionQuery:
         ret, msg, rsp = extract_pls_rsp(rsp_str)
         if ret != RET_OK:
             return RET_ERROR, msg, None
-        print(rsp)
         return RET_OK, "", rsp
 
     @classmethod
     def pack_push_req(cls, stock_str, data_type):
-        """Pack the pushed response"""
+        """Pack the push request"""
         ret, content = split_stock_str(stock_str)
         if ret == RET_ERROR:
             error_str = content
@@ -1093,7 +1112,6 @@ class SubscriptionQuery:
 
         return pack_pb_req(req, ProtoId.Qot_RegQotPush)
 
-
     @classmethod
     def pack_unpush_req(cls, stock_str, data_type):
         """Pack the un-pushed request"""
@@ -1111,18 +1129,14 @@ class SubscriptionQuery:
             return RET_ERROR, error_str, None
 
         subtype = SUBTYPE_MAP[data_type]
-        req = {
-            "Protocol": "1008",
-            "Version": "1",
-            "ReqParam": {
-                "Market": str(market_code),
-                "StockCode": stock_code,
-                "StockPushType": str(subtype),
-                "UnPush": str(int(True))
-            }
-        }
-        req_str = json.dumps(req) + '\r\n'
-        return RET_OK, "", req_str
+        from futuquant.common.pb.Qot_RegQotPush_pb2 import Request
+        req = Request()
+        req.c2s.stock.code = stock_code
+        req.c2s.stock.market = market_code
+        req.c2s.subType = subtype
+        req.c2s.isRegOrUnReg = False
+
+        return pack_pb_req(req, ProtoId.Qot_RegQotPush)
 
 
 class StockQuoteQuery:
@@ -1161,7 +1175,6 @@ class StockQuoteQuery:
 
         return pack_pb_req(req, ProtoId.Qot_ReqStockBasic)
 
-
     @classmethod
     def unpack_rsp(cls, rsp_str):
         """Convert from PLS response to user response"""
@@ -1170,10 +1183,14 @@ class StockQuoteQuery:
             return RET_ERROR, msg, None
         print(rsp)
         raw_quote_list = rsp['s2c']['stockBasic']
+        '''for push message, quote format is dict'''
+        if not isinstance(raw_quote_list, list):
+            raw_quote_list = [raw_quote_list]
 
         quote_list = [{
             'code':
-            merge_stock_str(int(record['stock']['market']), record['stock']['code']),
+            merge_stock_str(
+                int(record['stock']['market']), record['stock']['code']),
             'data_date':
             record['timeStr'].split()[0],
             'data_time':
@@ -1548,15 +1565,9 @@ class GlobalStateQuery:
         '''Parameter check'''
 
         # pack to json
-        req = {
-            "Protocol": "1029",
-            "Version": "1",
-            "ReqParam": {
-                "StateType": state_type,
-            }
-        }
-        req_str = json.dumps(req) + '\r\n'
-        return RET_OK, "", req_str
+        from futuquant.common.pb.GlobalState_pb2 import Request
+        req = Request()
+        return pack_pb_req(req, ProtoId.GlobalState)
 
     @classmethod
     def unpack_rsp(cls, rsp_str):
@@ -1588,7 +1599,7 @@ class GlobalStateQuery:
         ret, msg, rsp = extract_pls_rsp(rsp_str)
         if ret != RET_OK:
             return RET_ERROR, msg, None
-
+        print(rsp)
         rsp_data = rsp['RetData']
 
         if 'Version' not in rsp_data:

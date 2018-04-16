@@ -13,7 +13,6 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
-import Common_pb2 as Common__pb2
 import Qot_Common_pb2 as Qot__Common__pb2
 
 
@@ -21,9 +20,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_RegQotPush.proto',
   package='Qot_RegQotPush',
   syntax='proto2',
-  serialized_pb=_b('\n\x14Qot_RegQotPush.proto\x12\x0eQot_RegQotPush\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"c\n\x03\x43\x32S\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\x12$\n\x07subType\x18\x02 \x02(\x0e\x32\x13.Qot_Common.SubType\x12\x14\n\x0cisRegOrUnReg\x18\x03 \x02(\x08\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Qot_RegQotPush.C2S\"M\n\x08Response\x12 \n\x07retType\x18\x01 \x02(\x0e\x32\x0f.Common.RetType\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05')
+  serialized_pb=_b('\n\x14Qot_RegQotPush.proto\x12\x0eQot_RegQotPush\x1a\x10Qot_Common.proto\"N\n\x03\x43\x32S\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\x12\x0f\n\x07subType\x18\x02 \x02(\x05\x12\x14\n\x0cisRegOrUnReg\x18\x03 \x02(\x08\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Qot_RegQotPush.C2S\"<\n\x08Response\x12\x0f\n\x07retType\x18\x01 \x02(\x05\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05')
   ,
-  dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
+  dependencies=[Qot__Common__pb2.DESCRIPTOR,])
 
 
 
@@ -44,7 +43,7 @@ _C2S = _descriptor.Descriptor(
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='subType', full_name='Qot_RegQotPush.C2S.subType', index=1,
-      number=2, type=14, cpp_type=8, label=2,
+      number=2, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -68,8 +67,8 @@ _C2S = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=72,
-  serialized_end=171,
+  serialized_start=58,
+  serialized_end=136,
 )
 
 
@@ -99,8 +98,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=173,
-  serialized_end=216,
+  serialized_start=138,
+  serialized_end=181,
 )
 
 
@@ -113,7 +112,7 @@ _RESPONSE = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='retType', full_name='Qot_RegQotPush.Response.retType', index=0,
-      number=1, type=14, cpp_type=8, label=2,
+      number=1, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -144,14 +143,12 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=218,
-  serialized_end=295,
+  serialized_start=183,
+  serialized_end=243,
 )
 
 _C2S.fields_by_name['stock'].message_type = Qot__Common__pb2._STOCK
-_C2S.fields_by_name['subType'].enum_type = Qot__Common__pb2._SUBTYPE
 _REQUEST.fields_by_name['c2s'].message_type = _C2S
-_RESPONSE.fields_by_name['retType'].enum_type = Common__pb2._RETTYPE
 DESCRIPTOR.message_types_by_name['C2S'] = _C2S
 DESCRIPTOR.message_types_by_name['Request'] = _REQUEST
 DESCRIPTOR.message_types_by_name['Response'] = _RESPONSE

@@ -1,7 +1,6 @@
 syntax = "proto2";
 package Qot_PushStockBasic;
 
-import "Common.proto";
 import "Qot_Common.proto";
 
 message S2C
@@ -11,7 +10,7 @@ message S2C
 
 message Response
 {
-	required Common.RetType retType = 1;
+	required int32 retType = 1;		//RetType,返回结果
 	optional string retMsg = 2;
 	optional int32 errCode = 3;
 	

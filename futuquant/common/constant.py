@@ -235,15 +235,50 @@ class SubscribeType(object):
     BROKER = "BROKER"
 
 class ProtoId(object):
-    InitConnect = 1001
-    Trd_SubAccPush = 2001
-    Trd_Order_GetOrderList = 2201
-    Trd_Order_PlaceOrder = 2211
-    Trd_Order_ChangeOrder = 2212
-    Trd_Order_UpdateOrder = 2202
-    Qot_Req_ReqHistoryKL = 3000
-    Qot_Sub = 3001
-    Qot_RegQotPush = 3002
-    Qot_ReqSubInfo = 3003
-    Qot_ReqStockBasic = 3004
-    Qot_PushStockBasic = 3005
+    InitConnect = 1001  # 初始化连接
+    GlobalState = 1002  # 获取全局状态
+
+    Trd_UnlockTrade = 2001  # 解锁或锁定交易
+    Trd_SubAccPush = 2002  # 订阅业务账户的交易推送数据
+
+    Trd_GetFunds = 2101  # 获取账户资金
+    Trd_GetPositionList = 2102  # 获取账户持仓
+
+    Trd_GetOrderList = 2201  # 获取订单列表
+    Trd_PlaceOrder = 2202  # 下单
+    Trd_ChangeOrder = 2205  # 改单
+    Trd_UpdateOrder = 2208  # 订单状态变动通知(推送)
+
+    Trd_GetOrderFillList = 2211  # 获取成交列表
+
+    Qot_Sub = 3001  # 订阅或者反订阅
+    Qot_RegQotPush = 3002  # 注册推送
+    Qot_ReqSubInfo = 3003  # 获取订阅信息
+
+    Qot_ReqStockBasic = 3004  # 获取股票基本行情
+    Qot_PushStockBasic = 3005  # 推送股票基本行情
+
+    Qot_ReqKL = 3006  # 获取K线
+    Qot_PushKL = 3007  # 推送K线
+
+    Qot_ReqRT = 3008  # 获取分时
+    Qot_PushRT = 3009  # 推送分时
+
+    Qot_ReqTicker = 3010  # 获取逐笔
+    Qot_PushTicker = 3011  # 推送逐笔
+
+    Qot_ReqOrderBook = 3012  # 获取买卖盘
+    Qot_PushOrderBook = 3013  # 推送买卖盘
+
+    Qot_ReqBroker = 3014  # 获取经纪队列
+    Qot_PushBroker = 3015  # 推送经纪队列
+
+    Qot_ReqHistoryKL = 3100  # 获取历史K线
+
+    Qot_ReqTradeDate = 3200  # 获取市场交易日
+    Qot_ReqSuspend = 3201  # 获取股票停牌信息
+    Qot_ReqStockList = 3202  # 获取股票列表
+    Qot_ReqStockSnapshot = 3203  # 获取股票快照
+    Qot_ReqPlateSet = 3204  # 获取板块集合下的板块
+    Qot_ReqPlateStock = 3205  # 获取板块下的股票
+
