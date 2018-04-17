@@ -2,8 +2,8 @@
 """
     Quote query
 """
-
 import json
+import sys
 import struct
 from datetime import timedelta
 from google.protobuf.json_format import MessageToJson
@@ -113,7 +113,7 @@ class TradeDayQuery:
         """
 
         # '''Parameter check'''
-        if market not in MKT_MAP:
+        if market not in MKT_MAP_NEW:
             error_str = ERROR_STR_PREFIX + " market is %s, which is not valid. (%s)" \
                                            % (market, ",".join([x for x in MKT_MAP]))
             return RET_ERROR, error_str, None
@@ -139,18 +139,14 @@ class TradeDayQuery:
             end_date = normalize_date_format(end_date)
 
         # pack to json
-        mkt_str = str(MKT_MAP[market])
-        req = {
-            "Protocol": "1013",
-            "Version": "1",
-            "ReqParam": {
-                "Market": mkt_str,
-                "start_date": start_date,
-                "end_date": end_date
-            }
-        }
-        req_str = json.dumps(req) + '\r\n'
-        return RET_OK, "", req_str
+        mkt = MKT_MAP_NEW[market]
+        from futuquant.common.pb.Qot_ReqTradeDate_pb2 import Request
+        req = Request()
+        req.c2s.market =mkt
+        req.c2s.beginTime = start_date
+        req.c2s.endTime = end_date
+
+        return pack_pb_req(req, ProtoId.Qot_ReqTradeDate)
 
     @classmethod
     def unpack_rsp(cls, rsp_str):
@@ -186,20 +182,16 @@ class TradeDayQuery:
         if ret != RET_OK:
             return RET_ERROR, msg, None
 
-        rsp_data = rsp['RetData']
-
-        if 'TradeDateArr' not in rsp_data:
-            error_str = ERROR_STR_PREFIX + "cannot find TradeDateArr in client rsp. Response: %s" % rsp_str
+        rsp_data = rsp['s2c']
+        if 'tradeDate' not in rsp_data:
+            error_str = ERROR_STR_PREFIX + "cannot find tradeDate in client rsp. Response: %s" % rsp_str
             return RET_ERROR, error_str, None
-
-        raw_trading_day_list = rsp_data['TradeDateArr']
-
+        raw_trading_day_list = rsp_data['tradeDate']
         if raw_trading_day_list is None or len(raw_trading_day_list) == 0:
             return RET_OK, "", []
-
         # convert to list format that we use
         trading_day_list = [
-            normalize_date_format(x) for x in raw_trading_day_list
+            x['timeStr'].split()[0] for x in raw_trading_day_list
         ]
 
         return RET_OK, "", trading_day_list

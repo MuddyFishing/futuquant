@@ -177,9 +177,8 @@ class OpenContextBase(object):
                 if self._is_obj_closed:
                     return RET_ERROR, msg_obj_del, None
 
-                print("2")
                 ret_code, msg, req_str = pack_func(**kargs)
-                print(ret_code)
+
                 if ret_code == RET_ERROR:
                     return ret_code, msg, None
 

@@ -282,3 +282,6 @@ class ProtoId(object):
     Qot_ReqPlateSet = 3204  # 获取板块集合下的板块
     Qot_ReqPlateStock = 3205  # 获取板块下的股票
 
+class ProtoFMT(object):
+    Protobuf = 0
+    Json = 1

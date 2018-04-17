@@ -91,7 +91,7 @@ class _SyncNetworkQueryCtx:
                         err) + ' when receiving after sending %s bytes. For req: ' % s_cnt + ""
                     self._force_close_session()
                     return RET_ERROR, error_str, None
-            rsp_str = binary2str(rsp_body, head_dict['proto_id'])
+            rsp_str = binary2str(rsp_body, head_dict['proto_id'], head_dict['proto_fmt_type'])
             self._close_session()
         except Exception as e:
             traceback.print_exc()

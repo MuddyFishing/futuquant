@@ -16,9 +16,10 @@ from futuquant.quote.quote_query import *
 class OpenQuoteContext(OpenContextBase):
     """Class for set context of stock quote"""
 
-    def __init__(self, host='127.0.0.1', port=11111):
+    def __init__(self, host='127.0.0.1', port=11111, proto_fmt = ProtoFMT.Json):
         self._ctx_subscribe = set()
         super(OpenQuoteContext, self).__init__(host, port, True, True)
+        set_proto_fmt(proto_fmt)
 
     def init_connect(self,
                      client_ver=get_client_ver(),

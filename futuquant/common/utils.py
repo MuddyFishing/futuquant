@@ -12,21 +12,12 @@ from google.protobuf.json_format import MessageToJson
 from futuquant.common.constant import *
 
 
-def set_proto_fmt(proto_fmt="Json"):
+def set_proto_fmt(proto_fmt):
     """Set communication protocol format, json ans protobuf supported"""
-    if proto_fmt.upper() == "JSON":
-        os.environ['FT_PROTO_FMT'] = "Json"
-    elif proto_fmt.upper() == "PROTOBUF":
-        os.environ['FT_PROTO_FMT'] = "Protobuf"
-    else:
-        error_str = ERROR_STR_PREFIX + "Unknown protocol format, %s" % proto_fmt
-        print(error_str)
-        #set json as default
-        os.environ['FT_PROTO_FMT'] = "Json"
-
+    os.environ['FT_PROTO_FMT'] = str(proto_fmt)
 
 def get_proto_fmt():
-    return PROTO_FMT_MAP[os.environ['FT_PROTO_FMT']]
+    return int(os.environ['FT_PROTO_FMT'])
 
 def get_client_ver():
     return 300
@@ -142,21 +133,27 @@ class ProtobufMap(dict):
         from futuquant.common.pb.Qot_PushStockBasic_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_PushStockBasic] = Response()
 
+        from futuquant.common.pb.Qot_ReqTradeDate_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqTradeDate] = Response()
+
+        from futuquant.common.pb.Qot_RegQotPush_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_RegQotPush] = Response()
 
     def __getitem__(self, key):
         return ProtobufMap.created_protobuf_map[key]
+
 pb_map = ProtobufMap()
 
 
-def binary2str(b, proto_id=0):
+def binary2str(b, proto_id, proto_fmt_type):
     """
     Transfer binary to string
     :param b: binary content to be transformed to string
     :return: string
     """
-    if get_proto_fmt() == PROTO_FMT_MAP['Json']:
+    if proto_fmt_type == ProtoFMT.Json:
         return b.decode('utf-8')
-    elif get_proto_fmt() == PROTO_FMT_MAP['Protobuf']:
+    elif proto_fmt_type == ProtoFMT.Protobuf:
         rsp = pb_map[proto_id]
         rsp.ParseFromString(b)
         return MessageToJson(rsp)
