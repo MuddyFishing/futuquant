@@ -14,14 +14,16 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
+import Common_pb2 as Common__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='Trd_Common.proto',
   package='Trd_Common',
   syntax='proto2',
-  serialized_pb=_b('\n\x10Trd_Common.proto\x12\nTrd_Common\"\xa5\x01\n\x05Order\x12$\n\x07trdSide\x18\x01 \x02(\x0e\x32\x13.Trd_Common.TrdSide\x12(\n\torderType\x18\x02 \x02(\x0e\x32\x15.Trd_Common.OrderType\x12\x0f\n\x07orderID\x18\x03 \x02(\x04\x12\x11\n\torderIDEx\x18\x04 \x02(\t\x12\x0c\n\x04\x63ode\x18\x05 \x02(\t\x12\x0b\n\x03qty\x18\x06 \x02(\x01\x12\r\n\x05price\x18\x07 \x01(\x01*.\n\x06TrdEnv\x12\x13\n\x0fTrdEnv_Simulate\x10\x00\x12\x0f\n\x0bTrdEnv_Real\x10\x01*\xb9\x01\n\tTrdMarket\x12\x15\n\x11TrdMarket_Unknown\x10\x00\x12\x16\n\x12TrdMarket_HK_Stock\x10\x01\x12\x16\n\x12TrdMarket_US_Stock\x10\x15\x12\x17\n\x13TrdMarket_US_Option\x10\x16\x12\x18\n\x14TrdMarket_CNSH_Stock\x10\x1f\x12\x18\n\x14TrdMarket_CNSZ_Stock\x10 \x12\x18\n\x14TrdMarket_HKCC_Stock\x10)*A\n\x07TrdSide\x12\x13\n\x0fTrdSide_Unknown\x10\x00\x12\x0f\n\x0bTrdSide_Buy\x10\x01\x12\x10\n\x0cTrdSide_Sell\x10\x02*\xb2\x01\n\tOrderType\x12\x15\n\x11OrderType_Unknown\x10\x00\x12\x14\n\x10OrderType_Normal\x10\x01\x12\x13\n\x0fOrderType_Limit\x10\x03\x12\x15\n\x11OrderType_Auction\x10\x06\x12\x1a\n\x16OrderType_AuctionLimit\x10\x07\x12\x1a\n\x16OrderType_SpecialLimit\x10\x08\x12\x14\n\x10OrderType_Market\x10\x02')
-)
+  serialized_pb=_b('\n\x10Trd_Common.proto\x12\nTrd_Common\x1a\x0c\x43ommon.proto\"=\n\tTrdHeader\x12\r\n\x05\x61\x63\x63ID\x18\x01 \x02(\x04\x12\x0e\n\x06trdEnv\x18\x02 \x02(\x05\x12\x11\n\taccMarket\x18\x03 \x02(\x05\":\n\x06TrdAcc\x12\r\n\x05\x61\x63\x63ID\x18\x01 \x02(\x04\x12\x0e\n\x06trdEnv\x18\x02 \x02(\x05\x12\x11\n\taccMarket\x18\x03 \x02(\x05\"f\n\x05\x46unds\x12\x0b\n\x03gml\x18\x01 \x02(\x01\x12\x0c\n\x04zcjz\x18\x02 \x02(\x01\x12\n\n\x02xj\x18\x03 \x02(\x01\x12\x0c\n\x04zqsz\x18\x04 \x02(\x01\x12\x0c\n\x04\x64jje\x18\x05 \x02(\x01\x12\x0c\n\x04qkje\x18\x06 \x02(\x01\x12\x0c\n\x04ktje\x18\x07 \x02(\x01\"\xb3\x02\n\x08Position\x12\x12\n\npositionID\x18\x01 \x02(\x04\x12\x14\n\x0cpositionSide\x18\x02 \x02(\x05\x12\x0c\n\x04\x63ode\x18\x03 \x02(\t\x12\x0c\n\x04name\x18\x04 \x02(\t\x12\x0b\n\x03qty\x18\x05 \x02(\x01\x12\x12\n\ncanSellQty\x18\x06 \x02(\x01\x12\r\n\x05price\x18\x07 \x02(\x01\x12\x11\n\tcostPrice\x18\x08 \x01(\x01\x12\x0b\n\x03val\x18\t \x02(\x01\x12\r\n\x05plVal\x18\n \x02(\x01\x12\x0f\n\x07plRatio\x18\x0b \x01(\x01\x12\x10\n\x08td_plVal\x18\x15 \x01(\x01\x12\x11\n\ttd_trdVal\x18\x16 \x01(\x01\x12\x11\n\ttd_buyVal\x18\x17 \x01(\x01\x12\x11\n\ttd_buyQty\x18\x18 \x01(\x01\x12\x12\n\ntd_sellVal\x18\x19 \x01(\x01\x12\x12\n\ntd_sellQty\x18\x1a \x01(\x01\"\xff\x01\n\x05Order\x12\x0f\n\x07trdSide\x18\x01 \x02(\x05\x12\x11\n\torderType\x18\x02 \x02(\x05\x12\x13\n\x0borderStatus\x18\x03 \x02(\x05\x12\x0f\n\x07orderID\x18\x04 \x02(\x04\x12\x11\n\torderIDEx\x18\x05 \x02(\t\x12\x0c\n\x04\x63ode\x18\x06 \x02(\t\x12\x0c\n\x04name\x18\x07 \x02(\t\x12\x0b\n\x03qty\x18\x08 \x02(\x01\x12\r\n\x05price\x18\t \x01(\x01\x12\x12\n\ncreateTime\x18\n \x02(\t\x12\x12\n\nupdateTime\x18\x0b \x02(\t\x12\x0f\n\x07\x66illQty\x18\x0c \x01(\x01\x12\x14\n\x0c\x66illAvgPrice\x18\r \x01(\x01\x12\x12\n\nlastErrMsg\x18\x0e \x01(\t\"\xc7\x01\n\tOrderFill\x12\x0f\n\x07trdSide\x18\x01 \x02(\x05\x12\x0e\n\x06\x66illID\x18\x02 \x02(\x04\x12\x10\n\x08\x66illIDEx\x18\x03 \x02(\t\x12\x0f\n\x07orderID\x18\x04 \x01(\x04\x12\x11\n\torderIDEx\x18\x05 \x01(\t\x12\x0c\n\x04\x63ode\x18\x06 \x02(\t\x12\x0c\n\x04name\x18\x07 \x02(\t\x12\x0b\n\x03qty\x18\x08 \x02(\x01\x12\r\n\x05price\x18\t \x02(\x01\x12\x12\n\ncreateTime\x18\n \x02(\t\x12\x17\n\x0f\x63ounterBrokerID\x18\x0b \x01(\x05\"S\n\x13TrdFilterConditions\x12\x0c\n\x04\x63ode\x18\x01 \x03(\t\x12\n\n\x02id\x18\x02 \x03(\x04\x12\x11\n\tbeginTime\x18\x03 \x01(\t\x12\x0f\n\x07\x65ndTime\x18\x04 \x01(\t*.\n\x06TrdEnv\x12\x13\n\x0fTrdEnv_Simulate\x10\x00\x12\x0f\n\x0bTrdEnv_Real\x10\x01*l\n\tAccMarket\x12\x15\n\x11\x41\x63\x63Market_Unknown\x10\x00\x12\x10\n\x0c\x41\x63\x63Market_HK\x10\x01\x12\x10\n\x0c\x41\x63\x63Market_US\x10\x02\x12\x10\n\x0c\x41\x63\x63Market_CN\x10\x03\x12\x12\n\x0e\x41\x63\x63Market_HKCC\x10\x04*\xb9\x01\n\tTrdMarket\x12\x15\n\x11TrdMarket_Unknown\x10\x00\x12\x16\n\x12TrdMarket_HK_Stock\x10\x01\x12\x16\n\x12TrdMarket_US_Stock\x10\x0b\x12\x17\n\x13TrdMarket_US_Option\x10\x0c\x12\x18\n\x14TrdMarket_CNSH_Stock\x10\x15\x12\x18\n\x14TrdMarket_CNSZ_Stock\x10\x16\x12\x18\n\x14TrdMarket_HKCC_Stock\x10\x1f*m\n\x07TrdSide\x12\x13\n\x0fTrdSide_Unknown\x10\x00\x12\x0f\n\x0bTrdSide_Buy\x10\x01\x12\x10\n\x0cTrdSide_Sell\x10\x02\x12\x15\n\x11TrdSide_SellShort\x10\x03\x12\x13\n\x0fTrdSide_BuyBack\x10\x04*\x96\x01\n\tOrderType\x12\x15\n\x11OrderType_Unknown\x10\x00\x12\x14\n\x10OrderType_Normal\x10\x01\x12\x14\n\x10OrderType_Market\x10\x02\x12\x13\n\x0fOrderType_Limit\x10\x05\x12\x15\n\x11OrderType_Auction\x10\x06\x12\x1a\n\x16OrderType_AuctionLimit\x10\x07*\xdd\x03\n\x0bOrderStatus\x12 \n\x13OrderStatus_Unknown\x10\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\x1b\n\x17OrderStatus_Unsubmitted\x10\x00\x12\x1d\n\x19OrderStatus_WaitingSubmit\x10\x01\x12\x1a\n\x16OrderStatus_Submitting\x10\x02\x12\x1c\n\x18OrderStatus_SubmitFailed\x10\x03\x12\x17\n\x13OrderStatus_TimeOut\x10\x04\x12\x19\n\x15OrderStatus_Submitted\x10\x05\x12\x1b\n\x17OrderStatus_Filled_Part\x10\n\x12\x1a\n\x16OrderStatus_Filled_All\x10\x0b\x12\x1f\n\x1bOrderStatus_Cancelling_Part\x10\x0c\x12\x1e\n\x1aOrderStatus_Cancelling_All\x10\r\x12\x1e\n\x1aOrderStatus_Cancelled_Part\x10\x0e\x12\x1d\n\x19OrderStatus_Cancelled_All\x10\x0f\x12\x16\n\x12OrderStatus_Failed\x10\x15\x12\x18\n\x14OrderStatus_Disabled\x10\x16\x12\x17\n\x13OrderStatus_Deleted\x10\x17*`\n\x0cPositionSide\x12!\n\x14PositionSide_Unknown\x10\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\x15\n\x11PositionSide_Long\x10\x00\x12\x16\n\x12PositionSide_Short\x10\x01*\xad\x01\n\rModifyOrderOp\x12\x19\n\x15ModifyOrderOp_Unknown\x10\x00\x12\x18\n\x14ModifyOrderOp_Normal\x10\x01\x12\x18\n\x14ModifyOrderOp_Cancel\x10\x02\x12\x19\n\x15ModifyOrderOp_Disable\x10\x03\x12\x18\n\x14ModifyOrderOp_Enable\x10\x04\x12\x18\n\x14ModifyOrderOp_Delete\x10\x05*\x86\x01\n\x14ReconfirmOrderReason\x12 \n\x1cReconfirmOrderReason_Unknown\x10\x00\x12$\n ReconfirmOrderReason_QtyTooLarge\x10\x01\x12&\n\"ReconfirmOrderReason_PriceAbnormal\x10\x02')
+  ,
+  dependencies=[Common__pb2.DESCRIPTOR,])
 
 _TRDENV = _descriptor.EnumDescriptor(
   name='TrdEnv',
@@ -40,12 +42,47 @@ _TRDENV = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=200,
-  serialized_end=246,
+  serialized_start=1128,
+  serialized_end=1174,
 )
 _sym_db.RegisterEnumDescriptor(_TRDENV)
 
 TrdEnv = enum_type_wrapper.EnumTypeWrapper(_TRDENV)
+_ACCMARKET = _descriptor.EnumDescriptor(
+  name='AccMarket',
+  full_name='Trd_Common.AccMarket',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='AccMarket_Unknown', index=0, number=0,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='AccMarket_HK', index=1, number=1,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='AccMarket_US', index=2, number=2,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='AccMarket_CN', index=3, number=3,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='AccMarket_HKCC', index=4, number=4,
+      options=None,
+      type=None),
+  ],
+  containing_type=None,
+  options=None,
+  serialized_start=1176,
+  serialized_end=1284,
+)
+_sym_db.RegisterEnumDescriptor(_ACCMARKET)
+
+AccMarket = enum_type_wrapper.EnumTypeWrapper(_ACCMARKET)
 _TRDMARKET = _descriptor.EnumDescriptor(
   name='TrdMarket',
   full_name='Trd_Common.TrdMarket',
@@ -61,30 +98,30 @@ _TRDMARKET = _descriptor.EnumDescriptor(
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='TrdMarket_US_Stock', index=2, number=21,
+      name='TrdMarket_US_Stock', index=2, number=11,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='TrdMarket_US_Option', index=3, number=22,
+      name='TrdMarket_US_Option', index=3, number=12,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='TrdMarket_CNSH_Stock', index=4, number=31,
+      name='TrdMarket_CNSH_Stock', index=4, number=21,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='TrdMarket_CNSZ_Stock', index=5, number=32,
+      name='TrdMarket_CNSZ_Stock', index=5, number=22,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='TrdMarket_HKCC_Stock', index=6, number=41,
+      name='TrdMarket_HKCC_Stock', index=6, number=31,
       options=None,
       type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=249,
-  serialized_end=434,
+  serialized_start=1287,
+  serialized_end=1472,
 )
 _sym_db.RegisterEnumDescriptor(_TRDMARKET)
 
@@ -107,11 +144,19 @@ _TRDSIDE = _descriptor.EnumDescriptor(
       name='TrdSide_Sell', index=2, number=2,
       options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='TrdSide_SellShort', index=3, number=3,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='TrdSide_BuyBack', index=4, number=4,
+      options=None,
+      type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=436,
-  serialized_end=501,
+  serialized_start=1474,
+  serialized_end=1583,
 )
 _sym_db.RegisterEnumDescriptor(_TRDSIDE)
 
@@ -131,108 +176,400 @@ _ORDERTYPE = _descriptor.EnumDescriptor(
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='OrderType_Limit', index=2, number=3,
+      name='OrderType_Market', index=2, number=2,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='OrderType_Auction', index=3, number=6,
+      name='OrderType_Limit', index=3, number=5,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='OrderType_AuctionLimit', index=4, number=7,
+      name='OrderType_Auction', index=4, number=6,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='OrderType_SpecialLimit', index=5, number=8,
-      options=None,
-      type=None),
-    _descriptor.EnumValueDescriptor(
-      name='OrderType_Market', index=6, number=2,
+      name='OrderType_AuctionLimit', index=5, number=7,
       options=None,
       type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=504,
-  serialized_end=682,
+  serialized_start=1586,
+  serialized_end=1736,
 )
 _sym_db.RegisterEnumDescriptor(_ORDERTYPE)
 
 OrderType = enum_type_wrapper.EnumTypeWrapper(_ORDERTYPE)
+_ORDERSTATUS = _descriptor.EnumDescriptor(
+  name='OrderStatus',
+  full_name='Trd_Common.OrderStatus',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='OrderStatus_Unknown', index=0, number=-1,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='OrderStatus_Unsubmitted', index=1, number=0,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='OrderStatus_WaitingSubmit', index=2, number=1,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='OrderStatus_Submitting', index=3, number=2,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='OrderStatus_SubmitFailed', index=4, number=3,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='OrderStatus_TimeOut', index=5, number=4,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='OrderStatus_Submitted', index=6, number=5,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='OrderStatus_Filled_Part', index=7, number=10,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='OrderStatus_Filled_All', index=8, number=11,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='OrderStatus_Cancelling_Part', index=9, number=12,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='OrderStatus_Cancelling_All', index=10, number=13,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='OrderStatus_Cancelled_Part', index=11, number=14,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='OrderStatus_Cancelled_All', index=12, number=15,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='OrderStatus_Failed', index=13, number=21,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='OrderStatus_Disabled', index=14, number=22,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='OrderStatus_Deleted', index=15, number=23,
+      options=None,
+      type=None),
+  ],
+  containing_type=None,
+  options=None,
+  serialized_start=1739,
+  serialized_end=2216,
+)
+_sym_db.RegisterEnumDescriptor(_ORDERSTATUS)
+
+OrderStatus = enum_type_wrapper.EnumTypeWrapper(_ORDERSTATUS)
+_POSITIONSIDE = _descriptor.EnumDescriptor(
+  name='PositionSide',
+  full_name='Trd_Common.PositionSide',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='PositionSide_Unknown', index=0, number=-1,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='PositionSide_Long', index=1, number=0,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='PositionSide_Short', index=2, number=1,
+      options=None,
+      type=None),
+  ],
+  containing_type=None,
+  options=None,
+  serialized_start=2218,
+  serialized_end=2314,
+)
+_sym_db.RegisterEnumDescriptor(_POSITIONSIDE)
+
+PositionSide = enum_type_wrapper.EnumTypeWrapper(_POSITIONSIDE)
+_MODIFYORDEROP = _descriptor.EnumDescriptor(
+  name='ModifyOrderOp',
+  full_name='Trd_Common.ModifyOrderOp',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='ModifyOrderOp_Unknown', index=0, number=0,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='ModifyOrderOp_Normal', index=1, number=1,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='ModifyOrderOp_Cancel', index=2, number=2,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='ModifyOrderOp_Disable', index=3, number=3,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='ModifyOrderOp_Enable', index=4, number=4,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='ModifyOrderOp_Delete', index=5, number=5,
+      options=None,
+      type=None),
+  ],
+  containing_type=None,
+  options=None,
+  serialized_start=2317,
+  serialized_end=2490,
+)
+_sym_db.RegisterEnumDescriptor(_MODIFYORDEROP)
+
+ModifyOrderOp = enum_type_wrapper.EnumTypeWrapper(_MODIFYORDEROP)
+_RECONFIRMORDERREASON = _descriptor.EnumDescriptor(
+  name='ReconfirmOrderReason',
+  full_name='Trd_Common.ReconfirmOrderReason',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='ReconfirmOrderReason_Unknown', index=0, number=0,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='ReconfirmOrderReason_QtyTooLarge', index=1, number=1,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='ReconfirmOrderReason_PriceAbnormal', index=2, number=2,
+      options=None,
+      type=None),
+  ],
+  containing_type=None,
+  options=None,
+  serialized_start=2493,
+  serialized_end=2627,
+)
+_sym_db.RegisterEnumDescriptor(_RECONFIRMORDERREASON)
+
+ReconfirmOrderReason = enum_type_wrapper.EnumTypeWrapper(_RECONFIRMORDERREASON)
 TrdEnv_Simulate = 0
 TrdEnv_Real = 1
+AccMarket_Unknown = 0
+AccMarket_HK = 1
+AccMarket_US = 2
+AccMarket_CN = 3
+AccMarket_HKCC = 4
 TrdMarket_Unknown = 0
 TrdMarket_HK_Stock = 1
-TrdMarket_US_Stock = 21
-TrdMarket_US_Option = 22
-TrdMarket_CNSH_Stock = 31
-TrdMarket_CNSZ_Stock = 32
-TrdMarket_HKCC_Stock = 41
+TrdMarket_US_Stock = 11
+TrdMarket_US_Option = 12
+TrdMarket_CNSH_Stock = 21
+TrdMarket_CNSZ_Stock = 22
+TrdMarket_HKCC_Stock = 31
 TrdSide_Unknown = 0
 TrdSide_Buy = 1
 TrdSide_Sell = 2
+TrdSide_SellShort = 3
+TrdSide_BuyBack = 4
 OrderType_Unknown = 0
 OrderType_Normal = 1
-OrderType_Limit = 3
+OrderType_Market = 2
+OrderType_Limit = 5
 OrderType_Auction = 6
 OrderType_AuctionLimit = 7
-OrderType_SpecialLimit = 8
-OrderType_Market = 2
+OrderStatus_Unknown = -1
+OrderStatus_Unsubmitted = 0
+OrderStatus_WaitingSubmit = 1
+OrderStatus_Submitting = 2
+OrderStatus_SubmitFailed = 3
+OrderStatus_TimeOut = 4
+OrderStatus_Submitted = 5
+OrderStatus_Filled_Part = 10
+OrderStatus_Filled_All = 11
+OrderStatus_Cancelling_Part = 12
+OrderStatus_Cancelling_All = 13
+OrderStatus_Cancelled_Part = 14
+OrderStatus_Cancelled_All = 15
+OrderStatus_Failed = 21
+OrderStatus_Disabled = 22
+OrderStatus_Deleted = 23
+PositionSide_Unknown = -1
+PositionSide_Long = 0
+PositionSide_Short = 1
+ModifyOrderOp_Unknown = 0
+ModifyOrderOp_Normal = 1
+ModifyOrderOp_Cancel = 2
+ModifyOrderOp_Disable = 3
+ModifyOrderOp_Enable = 4
+ModifyOrderOp_Delete = 5
+ReconfirmOrderReason_Unknown = 0
+ReconfirmOrderReason_QtyTooLarge = 1
+ReconfirmOrderReason_PriceAbnormal = 2
 
 
 
-_ORDER = _descriptor.Descriptor(
-  name='Order',
-  full_name='Trd_Common.Order',
+_TRDHEADER = _descriptor.Descriptor(
+  name='TrdHeader',
+  full_name='Trd_Common.TrdHeader',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='trdSide', full_name='Trd_Common.Order.trdSide', index=0,
-      number=1, type=14, cpp_type=8, label=2,
+      name='accID', full_name='Trd_Common.TrdHeader.accID', index=0,
+      number=1, type=4, cpp_type=4, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='orderType', full_name='Trd_Common.Order.orderType', index=1,
-      number=2, type=14, cpp_type=8, label=2,
+      name='trdEnv', full_name='Trd_Common.TrdHeader.trdEnv', index=1,
+      number=2, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='orderID', full_name='Trd_Common.Order.orderID', index=2,
-      number=3, type=4, cpp_type=4, label=2,
+      name='accMarket', full_name='Trd_Common.TrdHeader.accMarket', index=2,
+      number=3, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=46,
+  serialized_end=107,
+)
+
+
+_TRDACC = _descriptor.Descriptor(
+  name='TrdAcc',
+  full_name='Trd_Common.TrdAcc',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='accID', full_name='Trd_Common.TrdAcc.accID', index=0,
+      number=1, type=4, cpp_type=4, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='orderIDEx', full_name='Trd_Common.Order.orderIDEx', index=3,
-      number=4, type=9, cpp_type=9, label=2,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
+      name='trdEnv', full_name='Trd_Common.TrdAcc.trdEnv', index=1,
+      number=2, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='code', full_name='Trd_Common.Order.code', index=4,
-      number=5, type=9, cpp_type=9, label=2,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
+      name='accMarket', full_name='Trd_Common.TrdAcc.accMarket', index=2,
+      number=3, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=109,
+  serialized_end=167,
+)
+
+
+_FUNDS = _descriptor.Descriptor(
+  name='Funds',
+  full_name='Trd_Common.Funds',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='gml', full_name='Trd_Common.Funds.gml', index=0,
+      number=1, type=1, cpp_type=5, label=2,
+      has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='qty', full_name='Trd_Common.Order.qty', index=5,
+      name='zcjz', full_name='Trd_Common.Funds.zcjz', index=1,
+      number=2, type=1, cpp_type=5, label=2,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='xj', full_name='Trd_Common.Funds.xj', index=2,
+      number=3, type=1, cpp_type=5, label=2,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='zqsz', full_name='Trd_Common.Funds.zqsz', index=3,
+      number=4, type=1, cpp_type=5, label=2,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='djje', full_name='Trd_Common.Funds.djje', index=4,
+      number=5, type=1, cpp_type=5, label=2,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='qkje', full_name='Trd_Common.Funds.qkje', index=5,
       number=6, type=1, cpp_type=5, label=2,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='price', full_name='Trd_Common.Order.price', index=6,
-      number=7, type=1, cpp_type=5, label=1,
+      name='ktje', full_name='Trd_Common.Funds.ktje', index=6,
+      number=7, type=1, cpp_type=5, label=2,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -249,18 +586,473 @@ _ORDER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=33,
-  serialized_end=198,
+  serialized_start=169,
+  serialized_end=271,
 )
 
-_ORDER.fields_by_name['trdSide'].enum_type = _TRDSIDE
-_ORDER.fields_by_name['orderType'].enum_type = _ORDERTYPE
+
+_POSITION = _descriptor.Descriptor(
+  name='Position',
+  full_name='Trd_Common.Position',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='positionID', full_name='Trd_Common.Position.positionID', index=0,
+      number=1, type=4, cpp_type=4, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='positionSide', full_name='Trd_Common.Position.positionSide', index=1,
+      number=2, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='code', full_name='Trd_Common.Position.code', index=2,
+      number=3, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='name', full_name='Trd_Common.Position.name', index=3,
+      number=4, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='qty', full_name='Trd_Common.Position.qty', index=4,
+      number=5, type=1, cpp_type=5, label=2,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='canSellQty', full_name='Trd_Common.Position.canSellQty', index=5,
+      number=6, type=1, cpp_type=5, label=2,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='price', full_name='Trd_Common.Position.price', index=6,
+      number=7, type=1, cpp_type=5, label=2,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='costPrice', full_name='Trd_Common.Position.costPrice', index=7,
+      number=8, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='val', full_name='Trd_Common.Position.val', index=8,
+      number=9, type=1, cpp_type=5, label=2,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='plVal', full_name='Trd_Common.Position.plVal', index=9,
+      number=10, type=1, cpp_type=5, label=2,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='plRatio', full_name='Trd_Common.Position.plRatio', index=10,
+      number=11, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='td_plVal', full_name='Trd_Common.Position.td_plVal', index=11,
+      number=21, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='td_trdVal', full_name='Trd_Common.Position.td_trdVal', index=12,
+      number=22, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='td_buyVal', full_name='Trd_Common.Position.td_buyVal', index=13,
+      number=23, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='td_buyQty', full_name='Trd_Common.Position.td_buyQty', index=14,
+      number=24, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='td_sellVal', full_name='Trd_Common.Position.td_sellVal', index=15,
+      number=25, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='td_sellQty', full_name='Trd_Common.Position.td_sellQty', index=16,
+      number=26, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=274,
+  serialized_end=581,
+)
+
+
+_ORDER = _descriptor.Descriptor(
+  name='Order',
+  full_name='Trd_Common.Order',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='trdSide', full_name='Trd_Common.Order.trdSide', index=0,
+      number=1, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='orderType', full_name='Trd_Common.Order.orderType', index=1,
+      number=2, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='orderStatus', full_name='Trd_Common.Order.orderStatus', index=2,
+      number=3, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='orderID', full_name='Trd_Common.Order.orderID', index=3,
+      number=4, type=4, cpp_type=4, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='orderIDEx', full_name='Trd_Common.Order.orderIDEx', index=4,
+      number=5, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='code', full_name='Trd_Common.Order.code', index=5,
+      number=6, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='name', full_name='Trd_Common.Order.name', index=6,
+      number=7, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='qty', full_name='Trd_Common.Order.qty', index=7,
+      number=8, type=1, cpp_type=5, label=2,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='price', full_name='Trd_Common.Order.price', index=8,
+      number=9, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='createTime', full_name='Trd_Common.Order.createTime', index=9,
+      number=10, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='updateTime', full_name='Trd_Common.Order.updateTime', index=10,
+      number=11, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='fillQty', full_name='Trd_Common.Order.fillQty', index=11,
+      number=12, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='fillAvgPrice', full_name='Trd_Common.Order.fillAvgPrice', index=12,
+      number=13, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='lastErrMsg', full_name='Trd_Common.Order.lastErrMsg', index=13,
+      number=14, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=584,
+  serialized_end=839,
+)
+
+
+_ORDERFILL = _descriptor.Descriptor(
+  name='OrderFill',
+  full_name='Trd_Common.OrderFill',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='trdSide', full_name='Trd_Common.OrderFill.trdSide', index=0,
+      number=1, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='fillID', full_name='Trd_Common.OrderFill.fillID', index=1,
+      number=2, type=4, cpp_type=4, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='fillIDEx', full_name='Trd_Common.OrderFill.fillIDEx', index=2,
+      number=3, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='orderID', full_name='Trd_Common.OrderFill.orderID', index=3,
+      number=4, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='orderIDEx', full_name='Trd_Common.OrderFill.orderIDEx', index=4,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='code', full_name='Trd_Common.OrderFill.code', index=5,
+      number=6, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='name', full_name='Trd_Common.OrderFill.name', index=6,
+      number=7, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='qty', full_name='Trd_Common.OrderFill.qty', index=7,
+      number=8, type=1, cpp_type=5, label=2,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='price', full_name='Trd_Common.OrderFill.price', index=8,
+      number=9, type=1, cpp_type=5, label=2,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='createTime', full_name='Trd_Common.OrderFill.createTime', index=9,
+      number=10, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='counterBrokerID', full_name='Trd_Common.OrderFill.counterBrokerID', index=10,
+      number=11, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=842,
+  serialized_end=1041,
+)
+
+
+_TRDFILTERCONDITIONS = _descriptor.Descriptor(
+  name='TrdFilterConditions',
+  full_name='Trd_Common.TrdFilterConditions',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='code', full_name='Trd_Common.TrdFilterConditions.code', index=0,
+      number=1, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='id', full_name='Trd_Common.TrdFilterConditions.id', index=1,
+      number=2, type=4, cpp_type=4, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='beginTime', full_name='Trd_Common.TrdFilterConditions.beginTime', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='endTime', full_name='Trd_Common.TrdFilterConditions.endTime', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1043,
+  serialized_end=1126,
+)
+
+DESCRIPTOR.message_types_by_name['TrdHeader'] = _TRDHEADER
+DESCRIPTOR.message_types_by_name['TrdAcc'] = _TRDACC
+DESCRIPTOR.message_types_by_name['Funds'] = _FUNDS
+DESCRIPTOR.message_types_by_name['Position'] = _POSITION
 DESCRIPTOR.message_types_by_name['Order'] = _ORDER
+DESCRIPTOR.message_types_by_name['OrderFill'] = _ORDERFILL
+DESCRIPTOR.message_types_by_name['TrdFilterConditions'] = _TRDFILTERCONDITIONS
 DESCRIPTOR.enum_types_by_name['TrdEnv'] = _TRDENV
+DESCRIPTOR.enum_types_by_name['AccMarket'] = _ACCMARKET
 DESCRIPTOR.enum_types_by_name['TrdMarket'] = _TRDMARKET
 DESCRIPTOR.enum_types_by_name['TrdSide'] = _TRDSIDE
 DESCRIPTOR.enum_types_by_name['OrderType'] = _ORDERTYPE
+DESCRIPTOR.enum_types_by_name['OrderStatus'] = _ORDERSTATUS
+DESCRIPTOR.enum_types_by_name['PositionSide'] = _POSITIONSIDE
+DESCRIPTOR.enum_types_by_name['ModifyOrderOp'] = _MODIFYORDEROP
+DESCRIPTOR.enum_types_by_name['ReconfirmOrderReason'] = _RECONFIRMORDERREASON
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
+TrdHeader = _reflection.GeneratedProtocolMessageType('TrdHeader', (_message.Message,), dict(
+  DESCRIPTOR = _TRDHEADER,
+  __module__ = 'Trd_Common_pb2'
+  # @@protoc_insertion_point(class_scope:Trd_Common.TrdHeader)
+  ))
+_sym_db.RegisterMessage(TrdHeader)
+
+TrdAcc = _reflection.GeneratedProtocolMessageType('TrdAcc', (_message.Message,), dict(
+  DESCRIPTOR = _TRDACC,
+  __module__ = 'Trd_Common_pb2'
+  # @@protoc_insertion_point(class_scope:Trd_Common.TrdAcc)
+  ))
+_sym_db.RegisterMessage(TrdAcc)
+
+Funds = _reflection.GeneratedProtocolMessageType('Funds', (_message.Message,), dict(
+  DESCRIPTOR = _FUNDS,
+  __module__ = 'Trd_Common_pb2'
+  # @@protoc_insertion_point(class_scope:Trd_Common.Funds)
+  ))
+_sym_db.RegisterMessage(Funds)
+
+Position = _reflection.GeneratedProtocolMessageType('Position', (_message.Message,), dict(
+  DESCRIPTOR = _POSITION,
+  __module__ = 'Trd_Common_pb2'
+  # @@protoc_insertion_point(class_scope:Trd_Common.Position)
+  ))
+_sym_db.RegisterMessage(Position)
 
 Order = _reflection.GeneratedProtocolMessageType('Order', (_message.Message,), dict(
   DESCRIPTOR = _ORDER,
@@ -268,6 +1060,20 @@ Order = _reflection.GeneratedProtocolMessageType('Order', (_message.Message,), d
   # @@protoc_insertion_point(class_scope:Trd_Common.Order)
   ))
 _sym_db.RegisterMessage(Order)
+
+OrderFill = _reflection.GeneratedProtocolMessageType('OrderFill', (_message.Message,), dict(
+  DESCRIPTOR = _ORDERFILL,
+  __module__ = 'Trd_Common_pb2'
+  # @@protoc_insertion_point(class_scope:Trd_Common.OrderFill)
+  ))
+_sym_db.RegisterMessage(OrderFill)
+
+TrdFilterConditions = _reflection.GeneratedProtocolMessageType('TrdFilterConditions', (_message.Message,), dict(
+  DESCRIPTOR = _TRDFILTERCONDITIONS,
+  __module__ = 'Trd_Common_pb2'
+  # @@protoc_insertion_point(class_scope:Trd_Common.TrdFilterConditions)
+  ))
+_sym_db.RegisterMessage(TrdFilterConditions)
 
 
 # @@protoc_insertion_point(module_scope)

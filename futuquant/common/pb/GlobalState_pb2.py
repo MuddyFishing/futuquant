@@ -13,14 +13,17 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
+import Common_pb2 as Common__pb2
+import Qot_Common_pb2 as Qot__Common__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='GlobalState.proto',
   package='GlobalState',
   syntax='proto2',
-  serialized_pb=_b('\n\x11GlobalState.proto\x12\x0bGlobalState\"\x05\n\x03\x43\x32S\"\xc5\x01\n\x03S2C\x12\x10\n\x08marketHK\x18\x01 \x02(\x05\x12\x10\n\x08marketUS\x18\x02 \x02(\x05\x12\x10\n\x08marketSH\x18\x03 \x02(\x05\x12\x10\n\x08marketSZ\x18\x04 \x02(\x05\x12\x16\n\x0emarketHKFuture\x18\x05 \x02(\x05\x12\x12\n\nqotLogined\x18\x06 \x02(\x08\x12\x12\n\ntrdLogined\x18\x07 \x02(\x08\x12\x11\n\tserverVer\x18\x08 \x02(\x05\x12\x15\n\rserverBuildNo\x18\t \x02(\x05\x12\x0c\n\x04time\x18\n \x02(\x03\"(\n\x07Request\x12\x1d\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x10.GlobalState.C2S\"[\n\x08Response\x12\x0f\n\x07retType\x18\x01 \x02(\x05\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\x1d\n\x03s2c\x18\x04 \x01(\x0b\x32\x10.GlobalState.S2C')
-)
+  serialized_pb=_b('\n\x11GlobalState.proto\x12\x0bGlobalState\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"\x05\n\x03\x43\x32S\"\xc5\x01\n\x03S2C\x12\x10\n\x08marketHK\x18\x01 \x02(\x05\x12\x10\n\x08marketUS\x18\x02 \x02(\x05\x12\x10\n\x08marketSH\x18\x03 \x02(\x05\x12\x10\n\x08marketSZ\x18\x04 \x02(\x05\x12\x16\n\x0emarketHKFuture\x18\x05 \x02(\x05\x12\x12\n\nqotLogined\x18\x06 \x02(\x08\x12\x12\n\ntrdLogined\x18\x07 \x02(\x08\x12\x11\n\tserverVer\x18\x08 \x02(\x05\x12\x15\n\rserverBuildNo\x18\t \x02(\x05\x12\x0c\n\x04time\x18\n \x02(\x03\"(\n\x07Request\x12\x1d\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x10.GlobalState.C2S\"a\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\x1d\n\x03s2c\x18\x04 \x01(\x0b\x32\x10.GlobalState.S2C')
+  ,
+  dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
 
 
 
@@ -44,8 +47,8 @@ _C2S = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=34,
-  serialized_end=39,
+  serialized_start=66,
+  serialized_end=71,
 )
 
 
@@ -138,8 +141,8 @@ _S2C = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=42,
-  serialized_end=239,
+  serialized_start=74,
+  serialized_end=271,
 )
 
 
@@ -169,8 +172,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=241,
-  serialized_end=281,
+  serialized_start=273,
+  serialized_end=313,
 )
 
 
@@ -184,7 +187,7 @@ _RESPONSE = _descriptor.Descriptor(
     _descriptor.FieldDescriptor(
       name='retType', full_name='GlobalState.Response.retType', index=0,
       number=1, type=5, cpp_type=1, label=2,
-      has_default_value=False, default_value=0,
+      has_default_value=True, default_value=-400,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
@@ -221,8 +224,8 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=283,
-  serialized_end=374,
+  serialized_start=315,
+  serialized_end=412,
 )
 
 _REQUEST.fields_by_name['c2s'].message_type = _C2S

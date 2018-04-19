@@ -6,21 +6,20 @@ import "Qot_Common.proto";
 
 message C2S
 {
-	required Qot_Common.RehabType rehabType		= 1;	//复权类型
-	required Qot_Common.KLType klType			= 2;	//K线类型
-	required Qot_Common.Stock stock				= 3;	//股票市场以及股票代码
-	required string start						= 4;	//开始时间字符串，格式YYYY-MM-DD HH:SS:MM
-	required string end							= 5;	//结束时间字符串，格式YYYY-MM-DD HH:SS:MM
-	optional int32 maxAckKLNum					= 6;	//最多返回多少根K线，如果未指定表示不限制
-	optional int64 needKLFieldsFlag				= 7;	//指定返回K线结构体特定某几项数据，KLFields枚举值或组合，如果未指定返回全部字段
+	required int32 rehabType = 1; //Qot_Common.RehabType,复权类型
+	required int32 klType = 2; //Qot_Common.KLType,K线类型
+	required Qot_Common.Stock stock = 3; //股票市场以及股票代码
+	required string beginTime = 4; //开始时间字符串
+	required string endTime = 5; //结束时间字符串
+	optional int32 maxAckKLNum = 6; //最多返回多少根K线，如果未指定表示不限制
+	optional int64 needKLFieldsFlag = 7; //指定返回K线结构体特定某几项数据，KLFields枚举值或组合，如果未指定返回全部字段
 }
 
 message S2C
 {
-	repeated Qot_Common.KLine kl				= 1;	//K线数据
-	optional int32 hasNext						= 2;	//如请求不指定maxAckKLNum值，则不会返回该字段，该字段表示请求是否还有超过指定限制的数据
-	optional int64 nextKLTime					= 3;	//如请求不指定maxAckKLNum值，则不会返回该字段，该字段表示超过指定限制的下一K线时间戳
-	optional string nextKLTimeStr				= 4;	//如请求不指定maxAckKLNum值，则不会返回该字段，该字段表示超过指定限制的下一K线时间字符串
+	repeated Qot_Common.KLine kl = 1; //K线数据
+	optional int32 hasNext = 2; //如请求不指定maxAckKLNum值，则不会返回该字段，该字段表示请求是否还有超过指定限制的数据
+	optional string nextKLTime = 3; //如请求不指定maxAckKLNum值，则不会返回该字段，该字段表示超过指定限制的下一K线时间字符串
 }
 
 message Request
@@ -30,7 +29,7 @@ message Request
 
 message Response
 {
-	required Common.RetType retType = 1;
+	required int32 retType = 1 [default = -400]; //RetType,返回结果
 	optional string retMsg = 2;
 	optional int32 errCode = 3;
 	

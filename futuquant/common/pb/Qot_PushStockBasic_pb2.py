@@ -13,6 +13,7 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
+import Common_pb2 as Common__pb2
 import Qot_Common_pb2 as Qot__Common__pb2
 
 
@@ -20,9 +21,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_PushStockBasic.proto',
   package='Qot_PushStockBasic',
   syntax='proto2',
-  serialized_pb=_b('\n\x18Qot_PushStockBasic.proto\x12\x12Qot_PushStockBasic\x1a\x10Qot_Common.proto\"1\n\x03S2C\x12*\n\nstockBasic\x18\x01 \x02(\x0b\x32\x16.Qot_Common.StockBasic\"b\n\x08Response\x12\x0f\n\x07retType\x18\x01 \x02(\x05\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12$\n\x03s2c\x18\x04 \x01(\x0b\x32\x17.Qot_PushStockBasic.S2C')
+  serialized_pb=_b('\n\x18Qot_PushStockBasic.proto\x12\x12Qot_PushStockBasic\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"1\n\x03S2C\x12*\n\nstockBasic\x18\x01 \x02(\x0b\x32\x16.Qot_Common.StockBasic\"h\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12$\n\x03s2c\x18\x04 \x01(\x0b\x32\x17.Qot_PushStockBasic.S2C')
   ,
-  dependencies=[Qot__Common__pb2.DESCRIPTOR,])
+  dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
 
 
 
@@ -53,8 +54,8 @@ _S2C = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=66,
-  serialized_end=115,
+  serialized_start=80,
+  serialized_end=129,
 )
 
 
@@ -68,7 +69,7 @@ _RESPONSE = _descriptor.Descriptor(
     _descriptor.FieldDescriptor(
       name='retType', full_name='Qot_PushStockBasic.Response.retType', index=0,
       number=1, type=5, cpp_type=1, label=2,
-      has_default_value=False, default_value=0,
+      has_default_value=True, default_value=-400,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
@@ -105,8 +106,8 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=117,
-  serialized_end=215,
+  serialized_start=131,
+  serialized_end=235,
 )
 
 _S2C.fields_by_name['stockBasic'].message_type = Qot__Common__pb2._STOCKBASIC

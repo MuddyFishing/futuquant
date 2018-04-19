@@ -1,16 +1,17 @@
 syntax = "proto2";
 package Qot_ReqRT;
 
+import "Common.proto";
 import "Qot_Common.proto";
 
 message C2S
 {
-	required Qot_Common.Stock stock			= 1;	//股票
+	required Qot_Common.Stock stock = 1; //股票
 }
 
 message S2C
 {
-	repeated Qot_Common.TimeShare rt		= 1;	//分时点
+	repeated Qot_Common.TimeShare rt = 1; //分时点
 }
 
 message Request
@@ -20,8 +21,9 @@ message Request
 
 message Response
 {
-	required int32 retType = 1;		//RetType,返回结果
+	required int32 retType = 1 [default = -400]; //RetType,返回结果
 	optional string retMsg = 2;
 	optional int32 errCode = 3;
+	
 	optional S2C s2c = 4;
 }

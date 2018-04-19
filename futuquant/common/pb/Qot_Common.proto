@@ -1,153 +1,232 @@
-syntax = "proto2";
+ï»¿syntax = "proto2";
 package Qot_Common;
 
+import "Common.proto";
 
 enum QotMarket
 {
-    QotMarket_Unknown 		= 0;        //Î´ÖªÊĞ³¡
-    QotMarket_HK_Stock 		= 1;     	//¸Û¹É
-    QotMarket_HK_Future 	= 2;     	//¸ÛÆÚ»õ(Ä¿Ç°ÊÇºãÖ¸µÄµ±ÔÂ¡¢ÏÂÔÂÆÚ»õĞĞÇé)
-    QotMarket_US_Stock 		= 21;     	//ÃÀ¹É
-    QotMarket_US_Option 	= 22;     	//ÃÀÆÚÈ¨,ÔİÊ±²»Ö§³ÖÆÚÈ¨
-    QotMarket_CNSH_Stock 	= 31;     	//»¦¹É
-    QotMarket_CNSZ_Stock 	= 32;     	//Éî¹É
+    QotMarket_Unknown = 0; //æœªçŸ¥å¸‚åœº
+    QotMarket_HK_Stock = 1; //æ¸¯è‚¡
+    QotMarket_HK_Future = 2; //æ¸¯æœŸè´§(ç›®å‰æ˜¯æ’æŒ‡çš„å½“æœˆã€ä¸‹æœˆæœŸè´§è¡Œæƒ…)
+    QotMarket_US_Stock = 11; //ç¾è‚¡
+    QotMarket_US_Option = 12; //ç¾æœŸæƒ,æš‚æ—¶ä¸æ”¯æŒæœŸæƒ
+    QotMarket_CNSH_Stock = 21; //æ²ªè‚¡
+    QotMarket_CNSZ_Stock = 22; //æ·±è‚¡
 }
+
+enum SecurityType
+{
+	SecurityType_Unknown = 0; //æœªçŸ¥
+    SecurityType_Bond = 1; //å€ºåˆ¸
+    SecurityType_Bwrt = 2; //ä¸€æ½å­æƒè¯
+    SecurityType_Eqty = 3; //æ­£è‚¡
+    SecurityType_Trust = 4; //ä¿¡æ‰˜,åŸºé‡‘
+    SecurityType_Warrant = 5; //æ¶¡è½®
+    SecurityType_Index = 6; //æŒ‡æ•°
+    SecurityType_Plate = 7; //æ¿å—
+    SecurityType_Drvt = 8; //æœŸæƒ
+    SecurityType_PlateSet = 9; //æ¿å—é›†
+}
+
+enum PlateSetType
+{
+	PlateSetType_All = 0; //æ‰€æœ‰æ¿å—
+	PlateSetType_Industry = 1; //è¡Œä¸šæ¿å—
+	PlateSetType_Region = 2; //åœ°åŸŸæ¿å—,æ¸¯ç¾è‚¡å¸‚åœºçš„åœ°åŸŸåˆ†ç±»æ•°æ®æš‚ä¸ºç©º
+	PlateSetType_Concept = 3; //æ¦‚å¿µæ¿å—
+}
+
+enum WarrantType
+{
+	WarrantType_Unknown = 0; //æœªçŸ¥
+	WarrantType_Buy = 1; //è®¤è´­
+	WarrantType_Sell = 2; //è®¤æ²½
+	WarrantType_Bull = 3; //ç‰›
+	WarrantType_Bear = 4; //ç†Š
+};
 
 enum QotMarketState
 {
-	QotMarketState_None = 0;                      // ÎŞ½»Ò×£¬ÃÀ¹ÉÎ´¿ªÅÌ
-	QotMarketState_Auction = 1;                   // ¾º¼Û 
-	QotMarketState_WaitingOpen = 2;               // ÔçÅÌÇ°µÈ´ı¿ªÅÌ
-	QotMarketState_Morning = 3;		              // ÔçÅÌ 
-	QotMarketState_Rest = 4;                      // Îç¼äĞİÊĞ 
-	QotMarketState_Afternoon = 5;                 // ÎçÅÌ 
-	QotMarketState_Closed = 6;                    // ÊÕÅÌ
-	QotMarketState_PreMarketBegin = 8;            // ÅÌÇ°
-	QotMarketState_PreMarketEnd = 9;              // ÅÌÇ°½áÊø 
-	QotMarketState_AfterHoursBegin = 10;          // ÅÌºó
-	QotMarketState_AfterHoursEnd = 11;            // ÅÌºó½áÊø 
-	QotMarketState_NightOpen = 13;                // Ò¹ÊĞ¿ªÅÌ 
-	QotMarketState_NightEnd = 14;                 // Ò¹ÊĞÊÕÅÌ 
-	QotMarketState_FutureDayOpen = 15;            // ÆÚÖ¸ÈÕÊĞ¿ªÅÌ 
-	QotMarketState_FutureDayBreak = 16;           // ÆÚÖ¸ÈÕÊĞĞİÊĞ 
-	QotMarketState_FutureDayClose = 17;           // ÆÚÖ¸ÈÕÊĞÊÕÅÌ 
-	QotMarketState_FutureDayWaitForOpen = 18;     // ÆÚÖ¸ÈÕÊĞµÈ´ı¿ªÅÌ 
-	QotMarketState_HkCas = 19;                    // ÅÌºó¾º¼Û£¬¸Û¹ÉÊĞ³¡Ôö¼ÓCAS»úÖÆ¶ÔÓ¦µÄÊĞ³¡×´Ì¬
+	QotMarketState_None = 0; // æ— äº¤æ˜“,ç¾è‚¡æœªå¼€ç›˜
+	QotMarketState_Auction = 1; // ç«ä»· 
+	QotMarketState_WaitingOpen = 2; // æ—©ç›˜å‰ç­‰å¾…å¼€ç›˜
+	QotMarketState_Morning = 3; // æ—©ç›˜ 
+	QotMarketState_Rest = 4; // åˆé—´ä¼‘å¸‚ 
+	QotMarketState_Afternoon = 5; // åˆç›˜ 
+	QotMarketState_Closed = 6; // æ”¶ç›˜
+	QotMarketState_PreMarketBegin = 8; // ç›˜å‰
+	QotMarketState_PreMarketEnd = 9; // ç›˜å‰ç»“æŸ 
+	QotMarketState_AfterHoursBegin = 10; // ç›˜å
+	QotMarketState_AfterHoursEnd = 11; // ç›˜åç»“æŸ 
+	QotMarketState_NightOpen = 13; // å¤œå¸‚å¼€ç›˜ 
+	QotMarketState_NightEnd = 14; // å¤œå¸‚æ”¶ç›˜ 
+	QotMarketState_FutureDayOpen = 15; // æœŸæŒ‡æ—¥å¸‚å¼€ç›˜ 
+	QotMarketState_FutureDayBreak = 16; // æœŸæŒ‡æ—¥å¸‚ä¼‘å¸‚ 
+	QotMarketState_FutureDayClose = 17; // æœŸæŒ‡æ—¥å¸‚æ”¶ç›˜ 
+	QotMarketState_FutureDayWaitForOpen = 18; // æœŸæŒ‡æ—¥å¸‚ç­‰å¾…å¼€ç›˜ 
+	QotMarketState_HkCas = 19; // ç›˜åç«ä»·,æ¸¯è‚¡å¸‚åœºå¢åŠ CASæœºåˆ¶å¯¹åº”çš„å¸‚åœºçŠ¶æ€
 }
 
 enum RehabType
 {
-	RehabType_None			= 0;	//²»¸´È¨
-	RehabType_Forward		= 1;	//Ç°¸´È¨
-	RehabType_Backward		= 2;	//ºó¸´È¨
+	RehabType_None = 0; //ä¸å¤æƒ
+	RehabType_Forward = 1; //å‰å¤æƒ
+	RehabType_Backward = 2; //åå¤æƒ
 }
 
-//Ã¶¾ÙÖµ¼æÈİ¾ÉĞ­Òé¶¨Òå
-//ĞÂÀàĞÍ¼¾K,ÄêK,3·ÖKÔİÊ±Ã»ÓĞÖ§³ÖÀúÊ·KÏß
+ //æšä¸¾å€¼å…¼å®¹æ—§åè®®å®šä¹‰
+ //æ–°ç±»å‹å­£K,å¹´K,3åˆ†Kæš‚æ—¶æ²¡æœ‰æ”¯æŒå†å²Kçº¿
 enum KLType
 {
-	KLType_1Min				= 1;	//1·ÖK
-	KLType_Day				= 2;	//ÈÕK
-	KLType_Week				= 3;	//ÖÜK
-	KLType_Month			= 4;	//ÔÂK	
-	KLType_Year				= 5;	//ÄêK
-	KLType_5Min				= 6;	//5·ÖK
-	KLType_15Min			= 7;	//15·ÖK
-	KLType_30Min			= 8;	//30·ÖK
-	KLType_60Min			= 9;	//60·ÖK		
-	KLType_3Min				= 10;	//3·ÖK
-	KLType_Quarter			= 11;	//¼¾K
+	KLType_1Min = 1; //1åˆ†K
+	KLType_Day = 2; //æ—¥K
+	KLType_Week = 3; //å‘¨K
+	KLType_Month = 4; //æœˆK	
+	KLType_Year = 5; //å¹´K
+	KLType_5Min = 6; //5åˆ†K
+	KLType_15Min = 7; //15åˆ†K
+	KLType_30Min = 8; //30åˆ†K
+	KLType_60Min = 9; //60åˆ†K		
+	KLType_3Min = 10; //3åˆ†K
+	KLType_Quarter = 11; //å­£K
 }
 
 enum KLFields
 {
-	KLFields_High			= 1;	//×î¸ß¼Û
-	KLFields_Open			= 2;	//¿ªÅÌ¼Û
-	KLFields_Low			= 4;	//×îµÍ¼Û
-	KLFields_Close			= 8;	//ÊÕÅÌ¼Û
-	KLFields_LastClose		= 16;	//×òÊÕ¼Û
-	KLFields_Volume			= 32;	//³É½»Á¿
-	KLFields_Turnover		= 64;	//³É½»¶î
-	KLFields_TurnoverRate	= 128;	//»»ÊÖÂÊ
-	KLFields_PE				= 256;	//ÊĞÓ¯ÂÊ
-	KLFields_ChangeRate		= 512;	//ÕÇµø·ù
+	KLFields_High = 1; //æœ€é«˜ä»·
+	KLFields_Open = 2; //å¼€ç›˜ä»·
+	KLFields_Low = 4; //æœ€ä½ä»·
+	KLFields_Close = 8; //æ”¶ç›˜ä»·
+	KLFields_LastClose = 16; //æ˜¨æ”¶ä»·
+	KLFields_Volume = 32; //æˆäº¤é‡
+	KLFields_Turnover = 64; //æˆäº¤é¢
+	KLFields_TurnoverRate = 128; //æ¢æ‰‹ç‡
+	KLFields_PE = 256; //å¸‚ç›ˆç‡
+	KLFields_ChangeRate = 512; //æ¶¨è·Œå¹…
 }
 
-//¶©ÔÄÀàĞÍ
-//Ã¶¾ÙÖµ¼æÈİ¾ÉĞ­Òé¶¨Òå
+ //è®¢é˜…ç±»å‹
+ //æšä¸¾å€¼å…¼å®¹æ—§åè®®å®šä¹‰
 enum SubType
 {
-	SubType_None			= 0;
-	SubType_Basic			= 1;	//»ù´¡±¨¼Û
-	SubType_OrderBook		= 2;	//°ÚÅÌ
-	SubType_Ticker			= 4;	//Öğ±Ê
-	SubType_RT				= 5;	//·ÖÊ±
-	SubType_KL_Day			= 6;	//ÈÕK
-	SubType_KL_5Min			= 7;	//5·ÖK
-	SubType_KL_15Min		= 8;	//15·ÖK
-	SubType_KL_30Min		= 9;	//30·ÖK
-	SubType_KL_60Min		= 10;	//60·ÖK
-	SubType_KL_1Min			= 11;	//1·ÖK
-	SubType_KL_Week			= 12;	//ÖÜK
-	SubType_KL_Month		= 13;	//ÔÂK
-	SubType_Broker			= 14;	//¾­¼Í¶ÓÁĞ
-	SubType_KL_Qurater		= 15;	//¼¾K
-	SubType_KL_Year			= 16;	//ÄêK
-	SubType_KL_3Min			= 17;	//3·ÖK
+	SubType_None = 0;
+	SubType_Basic = 1; //åŸºç¡€æŠ¥ä»·
+	SubType_OrderBook = 2; //æ‘†ç›˜
+	SubType_Ticker = 4; //é€ç¬”
+	SubType_RT = 5; //åˆ†æ—¶
+	SubType_KL_Day = 6; //æ—¥K
+	SubType_KL_5Min = 7; //5åˆ†K
+	SubType_KL_15Min = 8; //15åˆ†K
+	SubType_KL_30Min = 9; //30åˆ†K
+	SubType_KL_60Min = 10; //60åˆ†K
+	SubType_KL_1Min = 11; //1åˆ†K
+	SubType_KL_Week = 12; //å‘¨K
+	SubType_KL_Month = 13; //æœˆK
+	SubType_Broker = 14; //ç»çºªé˜Ÿåˆ—
+	SubType_KL_Qurater = 15; //å­£K
+	SubType_KL_Year = 16; //å¹´K
+	SubType_KL_3Min = 17; //3åˆ†K
 }
 
-//Á½¸ö×Ö¶ÎÈ·¶¨Ò»Ö§¹ÉÆ±
+enum TickerDirection
+{
+	TickerDirection_Buy = 1; //å¤–ç›˜
+	TickerDirection_Ask = 2; //å†…ç›˜
+	TickerDirection_Neutral = 3; //ä¸­æ€§ç›˜
+}
+
+ //ä¸¤ä¸ªå­—æ®µç¡®å®šä¸€æ”¯è‚¡ç¥¨
 message Stock
 {
-	required int32 market			= 1;	//QotMarket,¹ÉÆ±ÊĞ³¡
-	required string code			= 2;	//¹ÉÆ±´úÂë
+	required int32 market = 1; //QotMarket,è‚¡ç¥¨å¸‚åœº
+	required string code = 2; //è‚¡ç¥¨ä»£ç 
 }
 
 message KLine
 {
-	required int64 time				= 1;	//Ê±¼ä´Á
-	required string timeStr			= 2;	//Ê±¼ä×Ö·û´®,¸ù¾İÊĞ³¡ºÍÊ±¼ä´Á×ª»»ËùµÃ
-	required bool isBlank			= 3;	//ÊÇ·ñÊÇ¿ÕÄÚÈİµÄµã£¬ÈôÎªtureÔòÖ»ÓĞÊ±¼äĞÅÏ¢
-	optional double highPrice		= 4;	//×î¸ß¼Û,9Î»Ğ¡Êı¾«¶È
-	optional double openPrice		= 5;	//¿ªÅÌ¼Û,9Î»Ğ¡Êı¾«¶È
-	optional double lowPrice		= 6;	//×îµÍ¼Û,9Î»Ğ¡Êı¾«¶È
-	optional double closePrice		= 7;	//ÊÕÅÌ¼Û,9Î»Ğ¡Êı¾«¶È
-	optional double lastClosePrice	= 8;	//×òÊÕ¼Û,9Î»Ğ¡Êı¾«¶È
-	optional int64 volume			= 9;	//³É½»Á¿
-	optional double turnover		= 10;	//³É½»¶î,3Î»Ğ¡Êı¾«¶È
-	optional double turnoverRate	= 11;	//»»ÊÖÂÊ,5Î»Ğ¡Êı¾«¶È
-	optional double pe				= 12;	//ÊĞÓ¯ÂÊ,3Î»Ğ¡Êı¾«¶È
-	optional double changeRate		= 13;	//ÕÇµø·ù,3Î»Ğ¡Êı¾«¶È
+	required string time = 1; //æ—¶é—´æˆ³å­—ç¬¦ä¸²
+	required bool isBlank = 2; //æ˜¯å¦æ˜¯ç©ºå†…å®¹çš„ç‚¹,è‹¥ä¸ºtureåˆ™åªæœ‰æ—¶é—´ä¿¡æ¯
+	optional double highPrice = 3; //æœ€é«˜ä»·,9ä½å°æ•°ç²¾åº¦
+	optional double openPrice = 4; //å¼€ç›˜ä»·,9ä½å°æ•°ç²¾åº¦
+	optional double lowPrice = 5; //æœ€ä½ä»·,9ä½å°æ•°ç²¾åº¦
+	optional double closePrice = 6; //æ”¶ç›˜ä»·,9ä½å°æ•°ç²¾åº¦
+	optional double lastClosePrice = 7; //æ˜¨æ”¶ä»·,9ä½å°æ•°ç²¾åº¦
+	optional int64 volume = 8; //æˆäº¤é‡
+	optional double turnover = 9; //æˆäº¤é¢,3ä½å°æ•°ç²¾åº¦
+	optional double turnoverRate = 10; //æ¢æ‰‹ç‡,3ä½å°æ•°ç²¾åº¦
+	optional double pe = 11; //å¸‚ç›ˆç‡,3ä½å°æ•°ç²¾åº¦
+	optional double changeRate = 12; //æ¶¨è·Œå¹…,3ä½å°æ•°ç²¾åº¦
 }
 
 message StockBasic
 {
-	required Stock stock			= 1;	//¹ÉÆ±
-	required bool isSuspended		= 2;	//ÊÇ·ñÍ£ÅÆ
-	required int64 listTime			= 3;	//ÉÏÊĞÈÕÆÚ
-	required string listTimeStr		= 4;	//ÉÏÊĞÈÕÆÚ×Ö·û´®
-	required double priceSpread 	= 5;	//¼Û²î
-	required int64 time				= 6;	//Ê±¼ä´Á
-	required string timeStr			= 7;	//Ê±¼ä×Ö·û´®,¸ù¾İÊĞ³¡ºÍÊ±¼ä´Á×ª»»ËùµÃ
-	required double highPrice		= 8;	//×î¸ß¼Û,9Î»Ğ¡Êı¾«¶È
-	required double openPrice		= 9;	//¿ªÅÌ¼Û,9Î»Ğ¡Êı¾«¶È
-	required double lowPrice		= 10;	//×îµÍ¼Û,9Î»Ğ¡Êı¾«¶È
-	required double curPrice		= 11;	//×îĞÂ¼Û,9Î»Ğ¡Êı¾«¶È
-	required double lastClosePrice	= 12;	//×òÊÕ¼Û,9Î»Ğ¡Êı¾«¶È
-	required int64 volume			= 13;	//³É½»Á¿
-	required double turnover		= 14;	//³É½»¶î,3Î»Ğ¡Êı¾«¶È
-	required double turnoverRate	= 15;	//»»ÊÖÂÊ,5Î»Ğ¡Êı¾«¶È
-	required double amplitude		= 16;	//Õñ·ù,3Î»Ğ¡Êı¾«¶È
+	required Stock stock = 1; //è‚¡ç¥¨
+	required bool isSuspended = 2; //æ˜¯å¦åœç‰Œ
+	required string listTime = 3; //ä¸Šå¸‚æ—¥æœŸå­—ç¬¦ä¸²
+	required double priceSpread = 4; //ä»·å·®
+	required string updateTime = 5; //æ›´æ–°æ—¶é—´å­—ç¬¦ä¸²
+	required double highPrice = 6; //æœ€é«˜ä»·,9ä½å°æ•°ç²¾åº¦
+	required double openPrice = 7; //å¼€ç›˜ä»·,9ä½å°æ•°ç²¾åº¦
+	required double lowPrice = 8; //æœ€ä½ä»·,9ä½å°æ•°ç²¾åº¦
+	required double curPrice = 9; //æœ€æ–°ä»·,9ä½å°æ•°ç²¾åº¦
+	required double lastClosePrice = 10; //æ˜¨æ”¶ä»·,9ä½å°æ•°ç²¾åº¦
+	required int64 volume = 11; //æˆäº¤é‡
+	required double turnover = 12; //æˆäº¤é¢,3ä½å°æ•°ç²¾åº¦
+	required double turnoverRate = 13; //æ¢æ‰‹ç‡,3ä½å°æ•°ç²¾åº¦
+	required double amplitude = 14; //æŒ¯å¹…,3ä½å°æ•°ç²¾åº¦
 }
 
 message TimeShare
 {
-	required int64 time				= 1;	//Ê±¼ä´Á
-	required string timeStr			= 2;	//Ê±¼ä×Ö·û´®,¸ù¾İÊĞ³¡ºÍÊ±¼ä´Á×ª»»ËùµÃ
-	required bool isBlank			= 3;	//ÊÇ·ñÊÇ¿ÕÄÚÈİµÄµã£¬ÈôÎªtureÔòÖ»ÓĞÊ±¼äĞÅÏ¢
-	optional double price			= 4;	//µ±Ç°¼Û,9Î»Ğ¡Êı¾«¶È
-	optional double lastClosePrice	= 5;	//×òÊÕ¼Û,9Î»Ğ¡Êı¾«¶È
-	optional double avgPrice		= 6;	//¾ù¼Û,9Î»Ğ¡Êı¾«¶È
-	optional int64 volume			= 7;	//³É½»Á¿
-	optional double turnover		= 8;	//³É½»¶î,3Î»Ğ¡Êı¾«¶È
+	required string time = 1; //æ—¶é—´å­—ç¬¦ä¸²
+	required bool isBlank = 2; //æ˜¯å¦æ˜¯ç©ºå†…å®¹çš„ç‚¹,è‹¥ä¸ºtureåˆ™åªæœ‰æ—¶é—´ä¿¡æ¯
+	optional double price = 3; //å½“å‰ä»·,9ä½å°æ•°ç²¾åº¦
+	optional double lastClosePrice = 4; //æ˜¨æ”¶ä»·,9ä½å°æ•°ç²¾åº¦
+	optional double avgPrice = 5; //å‡ä»·,9ä½å°æ•°ç²¾åº¦
+	optional int64 volume = 6; //æˆäº¤é‡
+	optional double turnover = 7; //æˆäº¤é¢,3ä½å°æ•°ç²¾åº¦
+}
+
+message StockStaticBasic
+{
+	required Qot_Common.Stock stock = 1; //è‚¡ç¥¨
+	required int32 lotSize = 2; //æ¯æ‰‹æ•°é‡
+	required int32 secType = 3; //Qot_Common.SecurityType,è‚¡ç¥¨ç±»å‹
+	required string name = 4; //è‚¡ç¥¨åå­—
+	required string listTime = 5; //ä¸Šå¸‚æ—¶é—´å­—ç¬¦ä¸²
+}
+
+message WarrantStaticExData
+{
+	required int32 type = 1; //Qot_Common.WarrantType,æ¶¡è½®ç±»å‹
+	required Qot_Common.Stock ownerStock = 2; //æ‰€å±æ­£è‚¡
+}
+
+message StockStaticInfo
+{
+	required StockStaticBasic basic = 1; //åŸºæœ¬è‚¡ç¥¨é™æ€ä¿¡æ¯
+	optional WarrantStaticExData warrantExData = 2; //çªè½®é¢å¤–è‚¡ç¥¨é™æ€ä¿¡æ¯
+}
+
+message Broker
+{
+	required int32 id = 1; //ç»çºªID
+	required string name = 2; //ç»çºªåç§°
+	required int32 pos = 3; //ç»çºªæ¡£ä½
+}
+
+message Ticker
+{
+	required string time = 1; //æ—¶é—´å­—ç¬¦ä¸²
+	required TickerDirection dir = 3; //ä¹°å–æ–¹å‘
+	required double price = 4; //ä»·æ ¼
+	required int64 volume = 5; //æˆäº¤é‡
+	required double turnover = 6; //æˆäº¤é¢
+}
+
+message OrderBook
+{
+	required double price = 1; //å§”æ‰˜ä»·æ ¼
+	required int64 volume = 2; //å§”æ‰˜æ•°é‡
+	required int32 orederCount = 3; //å§”æ‰˜è®¢å•ä¸ªæ•°
 }

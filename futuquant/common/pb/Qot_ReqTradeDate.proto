@@ -13,8 +13,7 @@ message C2S
 
 message TradeDate
 {
-	required int64 time = 1; //时间戳
-	required string timeStr = 2; //时间字符串,根据市场和时间戳转换所得
+	required string time = 1; //时间字符串
 }
 
 message S2C
@@ -29,7 +28,7 @@ message Request
 
 message Response
 {
-	required int32 retType = 1; //RetType,返回结果
+	required int32 retType = 1 [default = -400]; //RetType,返回结果
 	optional string retMsg = 2;
 	optional int32 errCode = 3;
 	

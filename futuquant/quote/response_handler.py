@@ -423,19 +423,11 @@ class HandlerContext:
         if set_flag is False:
             return RET_ERROR
 
-    def recv_func(self, rsp_str, proto_id):
+    def recv_func(self, rsp_pb, proto_id):
         """receive response callback function"""
         if self.cb_check_recv is not None and not self.cb_check_recv():
             return
 
-        ret, msg, rsp = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            error_str = msg + rsp_str
-            print(error_str)
-            return
-        print("recv push data and  proto_id")
-        print(rsp, proto_id)
-        print("################")
         handler = self._default_handler
         pre_handler = None
 
@@ -446,9 +438,9 @@ class HandlerContext:
             pre_handler = self._pre_handler_table[proto_id]['obj']
 
         if pre_handler is not None:
-            pre_handler.on_recv_rsp(rsp_str)
+            pre_handler.on_recv_rsp(rsp_pb)
 
-        ret, result = handler.on_recv_rsp(rsp_str)
+        ret, result = handler.on_recv_rsp(rsp_pb)
         if ret != RET_OK:
             error_str = result
             handler.on_error(error_str)

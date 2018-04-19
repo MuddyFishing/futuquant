@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_HistoryKL.proto',
   package='Qot_HistoryKL',
   syntax='proto2',
-  serialized_pb=_b('\n\x13Qot_HistoryKL.proto\x12\rQot_HistoryKL\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"\xc0\x01\n\x03\x43\x32S\x12(\n\trehabType\x18\x01 \x02(\x0e\x32\x15.Qot_Common.RehabType\x12\"\n\x06klType\x18\x02 \x02(\x0e\x32\x12.Qot_Common.KLType\x12 \n\x05stock\x18\x03 \x02(\x0b\x32\x11.Qot_Common.Stock\x12\r\n\x05start\x18\x04 \x02(\t\x12\x0b\n\x03\x65nd\x18\x05 \x02(\t\x12\x13\n\x0bmaxAckKLNum\x18\x06 \x01(\x05\x12\x18\n\x10needKLFieldsFlag\x18\x07 \x01(\x03\"`\n\x03S2C\x12\x1d\n\x02kl\x18\x01 \x03(\x0b\x32\x11.Qot_Common.KLine\x12\x0f\n\x07hasNext\x18\x02 \x01(\x05\x12\x12\n\nnextKLTime\x18\x03 \x01(\x03\x12\x15\n\rnextKLTimeStr\x18\x04 \x01(\t\"*\n\x07Request\x12\x1f\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x12.Qot_HistoryKL.C2S\"n\n\x08Response\x12 \n\x07retType\x18\x01 \x02(\x0e\x32\x0f.Common.RetType\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\x1f\n\x03s2c\x18\x04 \x01(\x0b\x32\x12.Qot_HistoryKL.S2C')
+  serialized_pb=_b('\n\x13Qot_HistoryKL.proto\x12\rQot_HistoryKL\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"\x9d\x01\n\x03\x43\x32S\x12\x11\n\trehabType\x18\x01 \x02(\x05\x12\x0e\n\x06klType\x18\x02 \x02(\x05\x12 \n\x05stock\x18\x03 \x02(\x0b\x32\x11.Qot_Common.Stock\x12\x11\n\tbeginTime\x18\x04 \x02(\t\x12\x0f\n\x07\x65ndTime\x18\x05 \x02(\t\x12\x13\n\x0bmaxAckKLNum\x18\x06 \x01(\x05\x12\x18\n\x10needKLFieldsFlag\x18\x07 \x01(\x03\"I\n\x03S2C\x12\x1d\n\x02kl\x18\x01 \x03(\x0b\x32\x11.Qot_Common.KLine\x12\x0f\n\x07hasNext\x18\x02 \x01(\x05\x12\x12\n\nnextKLTime\x18\x03 \x01(\t\"*\n\x07Request\x12\x1f\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x12.Qot_HistoryKL.C2S\"c\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\x1f\n\x03s2c\x18\x04 \x01(\x0b\x32\x12.Qot_HistoryKL.S2C')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
 
@@ -37,15 +37,15 @@ _C2S = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='rehabType', full_name='Qot_HistoryKL.C2S.rehabType', index=0,
-      number=1, type=14, cpp_type=8, label=2,
+      number=1, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='klType', full_name='Qot_HistoryKL.C2S.klType', index=1,
-      number=2, type=14, cpp_type=8, label=2,
-      has_default_value=False, default_value=1,
+      number=2, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
@@ -57,14 +57,14 @@ _C2S = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='start', full_name='Qot_HistoryKL.C2S.start', index=3,
+      name='beginTime', full_name='Qot_HistoryKL.C2S.beginTime', index=3,
       number=4, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='end', full_name='Qot_HistoryKL.C2S.end', index=4,
+      name='endTime', full_name='Qot_HistoryKL.C2S.endTime', index=4,
       number=5, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -97,7 +97,7 @@ _C2S = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=71,
-  serialized_end=263,
+  serialized_end=228,
 )
 
 
@@ -124,14 +124,7 @@ _S2C = _descriptor.Descriptor(
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='nextKLTime', full_name='Qot_HistoryKL.S2C.nextKLTime', index=2,
-      number=3, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='nextKLTimeStr', full_name='Qot_HistoryKL.S2C.nextKLTimeStr', index=3,
-      number=4, type=9, cpp_type=9, label=1,
+      number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -148,8 +141,8 @@ _S2C = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=265,
-  serialized_end=361,
+  serialized_start=230,
+  serialized_end=303,
 )
 
 
@@ -179,8 +172,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=363,
-  serialized_end=405,
+  serialized_start=305,
+  serialized_end=347,
 )
 
 
@@ -193,8 +186,8 @@ _RESPONSE = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='retType', full_name='Qot_HistoryKL.Response.retType', index=0,
-      number=1, type=14, cpp_type=8, label=2,
-      has_default_value=False, default_value=0,
+      number=1, type=5, cpp_type=1, label=2,
+      has_default_value=True, default_value=-400,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
@@ -231,16 +224,13 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=407,
-  serialized_end=517,
+  serialized_start=349,
+  serialized_end=448,
 )
 
-_C2S.fields_by_name['rehabType'].enum_type = Qot__Common__pb2._REHABTYPE
-_C2S.fields_by_name['klType'].enum_type = Qot__Common__pb2._KLTYPE
 _C2S.fields_by_name['stock'].message_type = Qot__Common__pb2._STOCK
 _S2C.fields_by_name['kl'].message_type = Qot__Common__pb2._KLINE
 _REQUEST.fields_by_name['c2s'].message_type = _C2S
-_RESPONSE.fields_by_name['retType'].enum_type = Common__pb2._RETTYPE
 _RESPONSE.fields_by_name['s2c'].message_type = _S2C
 DESCRIPTOR.message_types_by_name['C2S'] = _C2S
 DESCRIPTOR.message_types_by_name['S2C'] = _S2C

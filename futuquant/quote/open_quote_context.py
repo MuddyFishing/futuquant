@@ -47,6 +47,10 @@ class OpenQuoteContext(OpenContextBase):
         if ret_code != RET_OK:
             return RET_ERROR, msg
 
+        ret_code, msg = self._send_async_req(InitConnect.pack_req(client_ver, client_id, recv_notify)[2])
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
+
         return RET_OK, content
 
     def close(self):

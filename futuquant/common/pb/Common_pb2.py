@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Common.proto',
   package='Common',
   syntax='proto2',
-  serialized_pb=_b('\n\x0c\x43ommon.proto\x12\x06\x43ommon*n\n\x07RetType\x12\x13\n\x0fRetType_Unknown\x10\x00\x12\x13\n\x0fRetType_Succeed\x10\x01\x12\x1b\n\x0eRetType_Failed\x10\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\x1c\n\x0fRetType_TimeOut\x10\x9c\xff\xff\xff\xff\xff\xff\xff\xff\x01')
+  serialized_pb=_b('\n\x0c\x43ommon.proto\x12\x06\x43ommon*w\n\x07RetType\x12\x13\n\x0fRetType_Succeed\x10\x00\x12\x1b\n\x0eRetType_Failed\x10\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\x1c\n\x0fRetType_TimeOut\x10\x9c\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\x1c\n\x0fRetType_Unknown\x10\xf0\xfc\xff\xff\xff\xff\xff\xff\xff\x01')
 )
 
 _RETTYPE = _descriptor.EnumDescriptor(
@@ -30,34 +30,34 @@ _RETTYPE = _descriptor.EnumDescriptor(
   file=DESCRIPTOR,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='RetType_Unknown', index=0, number=0,
+      name='RetType_Succeed', index=0, number=0,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='RetType_Succeed', index=1, number=1,
+      name='RetType_Failed', index=1, number=-1,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='RetType_Failed', index=2, number=-1,
+      name='RetType_TimeOut', index=2, number=-100,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='RetType_TimeOut', index=3, number=-100,
+      name='RetType_Unknown', index=3, number=-400,
       options=None,
       type=None),
   ],
   containing_type=None,
   options=None,
   serialized_start=24,
-  serialized_end=134,
+  serialized_end=143,
 )
 _sym_db.RegisterEnumDescriptor(_RETTYPE)
 
 RetType = enum_type_wrapper.EnumTypeWrapper(_RETTYPE)
-RetType_Unknown = 0
-RetType_Succeed = 1
+RetType_Succeed = 0
 RetType_Failed = -1
 RetType_TimeOut = -100
+RetType_Unknown = -400
 
 
 DESCRIPTOR.enum_types_by_name['RetType'] = _RETTYPE

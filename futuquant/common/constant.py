@@ -12,10 +12,10 @@ MKT_MAP_NEW = {
     "QotMarket_Unknown": 0,
     "HK": 1,    #QotMarket_HK_Stock
     "QotMarket_HK_Future": 2,
-    "US": 21,    #QotMarket_US_Stock
-    "QotMarket_US_Option": 22,
-    "SH": 31,   #QotMarket_CNSH_Stock
-    "SZ": 32    #QotMarket_CNSZ_Stock
+    "US": 11,    #QotMarket_US_Stock
+    "QotMarket_US_Option": 12,
+    "SH": 21,   #QotMarket_CNSH_Stock
+    "SZ": 22    #QotMarket_CNSZ_Stock
 }
 
 WRT_TYPE_MAP = {"CALL": 1, "PUT": 2, "BULL": 3, "BEAR": 4, "N/A": 0}

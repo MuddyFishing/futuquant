@@ -13,6 +13,7 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
+import Common_pb2 as Common__pb2
 import Qot_Common_pb2 as Qot__Common__pb2
 
 
@@ -20,9 +21,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_RegQotPush.proto',
   package='Qot_RegQotPush',
   syntax='proto2',
-  serialized_pb=_b('\n\x14Qot_RegQotPush.proto\x12\x0eQot_RegQotPush\x1a\x10Qot_Common.proto\"N\n\x03\x43\x32S\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\x12\x0f\n\x07subType\x18\x02 \x02(\x05\x12\x14\n\x0cisRegOrUnReg\x18\x03 \x02(\x08\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Qot_RegQotPush.C2S\"<\n\x08Response\x12\x0f\n\x07retType\x18\x01 \x02(\x05\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05')
+  serialized_pb=_b('\n\x14Qot_RegQotPush.proto\x12\x0eQot_RegQotPush\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"N\n\x03\x43\x32S\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\x12\x0f\n\x07subType\x18\x02 \x02(\x05\x12\x14\n\x0cisRegOrUnReg\x18\x03 \x02(\x08\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Qot_RegQotPush.C2S\"B\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05')
   ,
-  dependencies=[Qot__Common__pb2.DESCRIPTOR,])
+  dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
 
 
 
@@ -67,8 +68,8 @@ _C2S = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=58,
-  serialized_end=136,
+  serialized_start=72,
+  serialized_end=150,
 )
 
 
@@ -98,8 +99,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=138,
-  serialized_end=181,
+  serialized_start=152,
+  serialized_end=195,
 )
 
 
@@ -113,7 +114,7 @@ _RESPONSE = _descriptor.Descriptor(
     _descriptor.FieldDescriptor(
       name='retType', full_name='Qot_RegQotPush.Response.retType', index=0,
       number=1, type=5, cpp_type=1, label=2,
-      has_default_value=False, default_value=0,
+      has_default_value=True, default_value=-400,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
@@ -143,8 +144,8 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=183,
-  serialized_end=243,
+  serialized_start=197,
+  serialized_end=263,
 )
 
 _C2S.fields_by_name['stock'].message_type = Qot__Common__pb2._STOCK

@@ -10,6 +10,7 @@ from struct import calcsize
 from google.protobuf.json_format import MessageToJson
 
 from futuquant.common.constant import *
+from futuquant.common.pbjson import json2pb
 
 
 def set_proto_fmt(proto_fmt):
@@ -54,9 +55,9 @@ def extract_pls_rsp(rsp_str):
         err_str = ERROR_STR_PREFIX + str(err)
         return RET_ERROR, err_str, None
 
-    error_code = int(rsp['errCode'])
+    error_code = int(rsp['retType'])
 
-    if error_code != 0:
+    if error_code != 1:
         error_str = ERROR_STR_PREFIX + rsp['retMsg']
         return RET_ERROR, error_str, None
 
@@ -139,6 +140,12 @@ class ProtobufMap(dict):
         from futuquant.common.pb.Qot_RegQotPush_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_RegQotPush] = Response()
 
+        from futuquant.common.pb.Qot_ReqStockList_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqStockList] = Response()
+
+        from futuquant.common.pb.Qot_ReqStockSnapshot_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqStockSnapshot] = Response
+
     def __getitem__(self, key):
         return ProtobufMap.created_protobuf_map[key]
 
@@ -160,6 +167,21 @@ def binary2str(b, proto_id, proto_fmt_type):
     else:
         raise Exception("binary2str: unknown proto format.")
 
+def binary2pb(b, proto_id, proto_fmt_type):
+    """
+    Transfer binary to pb message
+    :param b: binary content to be transformed to pb message
+    :return: pb message
+    """
+    if proto_fmt_type == ProtoFMT.Json:
+        return json2pb(pb_map[proto_id], b.decode('utf-8'))
+    elif proto_fmt_type == ProtoFMT.Protobuf:
+        print(proto_id,b)
+        rsp = pb_map[proto_id]
+        rsp.ParseFromString(b)
+        return rsp
+    else:
+        raise Exception("binary2str: unknown proto format.")
 
 def is_str(obj):
     if sys.version_info.major == 3:

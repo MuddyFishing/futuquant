@@ -71,7 +71,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                     deal with package
                     :return: err
                     """
-        rsp_str = u''
+        rsp_pb = u''
         try:
             recv_buf = self.recv(5 * 1024 * 1024)
 
@@ -94,8 +94,8 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                         err) + ' when receiving after sending %s bytes. For req: ' % s_cnt + ""
                     self._force_close_session()
                     return RET_ERROR, error_str, None
-            rsp_str = binary2str(rsp_body, head_dict['proto_id'], head_dict['proto_fmt_type'])
-            self.handler_ctx.recv_func(rsp_str, head_dict['proto_id'])
+            rsp_pb = binary2pb(rsp_body, head_dict['proto_id'], head_dict['proto_fmt_type'])
+            self.handler_ctx.recv_func(rsp_pb, head_dict['proto_id'])
 
         except Exception as e:
             if isinstance(e, IOError) and e.errno == 10035:
@@ -103,7 +103,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
             traceback.print_exc()
             err = sys.exc_info()[1]
             self.handler_ctx.error_func(str(err))
-            print(rsp_str)
+            print(rsp_pb)
             return
 
     def network_query(self, req_str):

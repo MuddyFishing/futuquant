@@ -9,17 +9,17 @@ from datetime import timedelta
 from google.protobuf.json_format import MessageToJson
 from futuquant.common.constant import *
 from futuquant.common.utils import *
-from futuquant.common.pb import *
+from futuquant.common.pb.Common_pb2 import RetType
 
 
 def pack_pb_req(pb_req, proto_id):
     proto_fmt = get_proto_fmt()
-    if proto_fmt == PROTO_FMT_MAP['Json']:
+    if proto_fmt == ProtoFMT.Json:
         req_json = MessageToJson(pb_req)
         req = _joint_head(proto_id, proto_fmt, len(req_json),
                           req_json.encode())
         return RET_OK, "", req
-    elif proto_fmt == PROTO_FMT_MAP['Protobuf']:
+    elif proto_fmt == ProtoFMT.Protobuf:
         req = _joint_head(proto_id, proto_fmt, pb_req.ByteSize(), pb_req)
         return RET_OK, "", req
     else:
@@ -28,7 +28,7 @@ def pack_pb_req(pb_req, proto_id):
 
 
 def _joint_head(proto_id, proto_fmt_type, body_len, str_body, proto_ver=0):
-    if proto_fmt_type == PROTO_FMT_MAP['Protobuf']:
+    if proto_fmt_type == ProtoFMT.Protobuf:
         str_body = str_body.SerializeToString()
     fmt = "%s%ds" % (MESSAGE_HEAD_FMT, body_len)
     #serial_no is useless for now, set to 1
@@ -75,13 +75,16 @@ class InitConnect:
         return pack_pb_req(req, ProtoId.InitConnect)
 
     @classmethod
-    def unpack_rsp(cls, rsp_str):
+    def unpack_rsp(cls, rsp_pb):
         """Unpack the init connect response"""
-        ret, msg, content = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
+        ret_type = rsp_pb.retType
+        ret_msg = rsp_pb.retMsg
 
-        return RET_OK, "", content
+        if ret_type != RET_OK:
+            return RET_ERROR, ret_msg, None
+
+        return RET_OK, "", rsp_pb.s2c.serverVer
+
 
 class TradeDayQuery:
     """
@@ -142,14 +145,14 @@ class TradeDayQuery:
         mkt = MKT_MAP_NEW[market]
         from futuquant.common.pb.Qot_ReqTradeDate_pb2 import Request
         req = Request()
-        req.c2s.market =mkt
+        req.c2s.market = mkt
         req.c2s.beginTime = start_date
         req.c2s.endTime = end_date
 
         return pack_pb_req(req, ProtoId.Qot_ReqTradeDate)
 
     @classmethod
-    def unpack_rsp(cls, rsp_str):
+    def unpack_rsp(cls, rsp_pb):
         """
         Convert from PLS response to user response
         :return: trading day list
@@ -178,21 +181,15 @@ class TradeDayQuery:
 
         """
         # response check and unpack response json to objects
-        ret, msg, rsp = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
+        ret_type = rsp_pb.retType
+        ret_msg = rsp_pb.retMsg
 
-        rsp_data = rsp['s2c']
-        if 'tradeDate' not in rsp_data:
-            error_str = ERROR_STR_PREFIX + "cannot find tradeDate in client rsp. Response: %s" % rsp_str
-            return RET_ERROR, error_str, None
-        raw_trading_day_list = rsp_data['tradeDate']
-        if raw_trading_day_list is None or len(raw_trading_day_list) == 0:
-            return RET_OK, "", []
+        if ret_type != RET_OK:
+            return RET_ERROR, ret_msg, None
+
+        raw_trading_day_list = rsp_pb.s2c.tradeDate
         # convert to list format that we use
-        trading_day_list = [
-            x['timeStr'].split()[0] for x in raw_trading_day_list
-        ]
+        trading_day_list = [x.time.split()[0] for x in raw_trading_day_list]
 
         return RET_OK, "", trading_day_list
 
@@ -220,7 +217,7 @@ class StockBasicInfoQuery:
          msg : ""
          content : '{"Protocol": "1014", "Version": "1", "ReqParam": {"Market": "6", "StockType": "6"}}\r\n'
         """
-        if market not in MKT_MAP:
+        if market not in MKT_MAP_NEW:
             error_str = ERROR_STR_PREFIX + " market is %s, which is not valid. (%s)" \
                                            % (market, ",".join([x for x in MKT_MAP]))
             return RET_ERROR, error_str, None
@@ -230,19 +227,15 @@ class StockBasicInfoQuery:
                                            % (stock_type, ",".join([x for x in SEC_TYPE_MAP]))
             return RET_ERROR, error_str, None
 
-        req = {
-            "Protocol": "1014",
-            "Version": "1",
-            "ReqParam": {
-                "Market": str(MKT_MAP[market]),
-                "StockType": str(SEC_TYPE_MAP[stock_type]),
-            }
-        }
-        req_str = json.dumps(req) + '\r\n'
-        return RET_OK, "", req_str
+        from futuquant.common.pb.Qot_ReqStockList_pb2 import Request
+        req = Request()
+        req.c2s.market = MKT_MAP_NEW[market]
+        req.c2s.secType = SEC_TYPE_MAP[stock_type]
+
+        return pack_pb_req(req, ProtoId.Qot_ReqStockList)
 
     @classmethod
-    def unpack_rsp(cls, rsp_str):
+    def unpack_rsp(cls, rsp_pb):
         """
         Convert from PLS response to user response
         :return: json string for request
@@ -270,42 +263,33 @@ class StockBasicInfoQuery:
                     'stock_type': 'IDX'}]
 
         """
-        ret, msg, rsp = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
+        ret_type = rsp_pb.retType
+        ret_msg = rsp_pb.retMsg
 
-        rsp_data = rsp['RetData']
+        if ret_type != RET_OK:
+            return RET_ERROR, ret_msg, None
 
-        if 'BasicInfoArr' not in rsp_data:
-            error_str = ERROR_STR_PREFIX + "cannot find BasicInfoArr in client rsp. Response: %s" % rsp_str
-            return RET_ERROR, error_str, None
-
-        raw_basic_info_list = rsp_data["BasicInfoArr"]
-        market = rsp_data["Market"]
-
-        if raw_basic_info_list is None or len(raw_basic_info_list) == 0:
-            return RET_OK, "", []
+        raw_basic_info_list = rsp_pb.s2c.staticInfo
 
         basic_info_list = [{
             "code":
-            merge_stock_str(int(market), record['StockCode']),
+            merge_stock_str(record.basic.stock.market,
+                            record.basic.stock.code),
             "stockid":
-            record['StockID'],
+            merge_stock_str(record.basic.stock.market,
+                            record.basic.stock.code),
             "name":
-            record["StockName"],
+            record.basic.name,
             "lot_size":
-            int(record["LotSize"]),
+            record.basic.lotSize,
             "stock_type":
-            QUOTE.REV_SEC_TYPE_MAP[int(record["StockType"])],
-            "stock_child_type": (QUOTE.REV_WRT_TYPE_MAP[int(
-                record["StockChildType"])]
-                                 if int(record["StockType"]) == 5 else 0),
-            "owner_stock_code": (merge_stock_str(
-                int(record["OwnerMarketType"]), record["OwnerStockCode"])
-                                 if int(record['OwnerMarketType']) != 0
-                                 and int(record["StockType"]) == 5 else ""),
+            record.basic.secType,
+            "stock_child_type":
+            record.warrantExData.type,
+            "owner_stock_code":
+            record.warrantExData.ownerStock,
             "listing_date":
-            record["ListTime"]
+            record.basic.listTime
         } for record in raw_basic_info_list]
         return RET_OK, "", basic_info_list
 
@@ -332,148 +316,96 @@ class MarketSnapshotQuery:
                 continue
 
             market_code, stock_code = content
-            stock_tuple_list.append((str(market_code), stock_code))
+            stock_tuple_list.append((market_code, stock_code))
 
         if len(failure_tuple_list) > 0:
             error_str = '\n'.join([x[1] for x in failure_tuple_list])
             return RET_ERROR, error_str, None
 
-        req = {
-            "Protocol": "1015",
-            "Version": "1",
-            "ReqParam": {
-                "StockArr": [{
-                    'Market': stock[0],
-                    'StockCode': stock[1]
-                } for stock in stock_tuple_list]
-            }
-        }
+        from futuquant.common.pb.Qot_ReqStockSnapshot_pb2 import Request
+        req = Request()
+        for market, code in stock_tuple_list:
+            stock_inst = req.c2s.stock.add()
+            stock_inst.market = market
+            stock_inst.code = code
 
-        req_str = json.dumps(req) + '\r\n'
-        return RET_OK, "", req_str
+        return pack_pb_req(req, ProtoId.Qot_ReqStockSnapshot)
 
     @classmethod
-    def unpack_rsp(cls, rsp_str):
+    def unpack_rsp(cls, rsp_pb):
         """Convert from PLS response to user response"""
-        ret, msg, rsp = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
+        ret_type = rsp_pb.retType
+        ret_msg = rsp_pb.retMsg
 
-        rsp_data = rsp['RetData']
-        if "SnapshotArr" not in rsp_data:
-            error_str = ERROR_STR_PREFIX + "cannot find SnapshotArr in client rsp. Response: %s" % rsp_str
-            return RET_ERROR, error_str, None
+        if ret_type != RET_OK:
+            return RET_ERROR, ret_msg, None
 
-        raw_snapshot_list = rsp_data["SnapshotArr"]
-
-        if raw_snapshot_list is None or len(raw_snapshot_list) == 0:
-            return RET_OK, "", []
-
-        def futu_timestamp_to_str(int_value):
-            if int_value == 0:
-                return '1970-01-01'
-            else:  # for py3.6, fromtimestamp(value), value >= 86400
-                return datetime.fromtimestamp(int_value).strftime("%Y-%m-%d")
-
-        snapshot_list = [
-            {
-                'code':
-                merge_stock_str(
-                    int(record['MarketType']), record['StockCode']),
-                'update_time':
-                str(record['UpdateTimeStr']),
-                'last_price':
-                int1000_price_to_float(record['NominalPrice']),
-                'open_price':
-                int1000_price_to_float(record['OpenPrice']),
-                'high_price':
-                int1000_price_to_float(record['HighestPrice']),
-                'low_price':
-                int1000_price_to_float(record['LowestPrice']),
-                'prev_close_price':
-                int1000_price_to_float(record['LastClose']),
-                'volume':
-                record['Volume'],
-                'turnover':
-                int1000_price_to_float(record['Turnover']),
-                'turnover_rate':
-                int1000_price_to_float(record['TurnoverRate']),
-                'suspension':
-                True if int(record['SuspendFlag']) == 1 else False,
-                'listing_date':
-                futu_timestamp_to_str(int(record['ListingDate'])),
-                'circular_market_val':
-                int1000_price_to_float(record['CircularMarketVal']),
-                'total_market_val':
-                int1000_price_to_float(record['TotalMarketVal']),
-                'wrt_valid':
-                True if int(record['Wrt_Valid']) == 1 else False,
-                'wrt_conversion_ratio':
-                int1000_price_to_float(record['Wrt_ConversionRatio']),
-                'wrt_type':
-                QUOTE.REV_WRT_TYPE_MAP[int(record['Wrt_Type'])]
-                if int(record['Wrt_Valid']) == 1 else 0,
-                'wrt_strike_price':
-                int1000_price_to_float(record['Wrt_StrikePrice']),
-                'wrt_maturity_date':
-                str(record['Wrt_MaturityDateStr']),
-                'wrt_end_trade':
-                str(record['Wrt_EndTradeDateStr']),
-                'wrt_code':
-                merge_stock_str(
-                    int(record['Wrt_OwnerMarketType']),
-                    record['Wrt_OwnerStockCode'])
-                if int(record['Wrt_OwnerMarketType']) != 0 else '',
-                'wrt_recovery_price':
-                int1000_price_to_float(record['Wrt_RecoveryPrice']),
-                'wrt_street_vol':
-                int(record['Wrt_StreetVol']),
-                'wrt_issue_vol':
-                int(record['Wrt_IssueVol']),
-                'wrt_street_ratio':
-                int1000_price_to_float(record['Wrt_StreetRatio']),
-                'wrt_delta':
-                int1000_price_to_float(record['Wrt_Delta']),
-                'wrt_implied_volatility':
-                int1000_price_to_float(record['Wrt_ImpliedVolatility']),
-                'wrt_premium':
-                int1000_price_to_float(record['Wrt_Premium']),
-                'lot_size':
-                int(record['LotSize']),
-                # 2017.11.6 add
-                'issued_shares':
-                int(record['Eqt_IssuedShares'])
-                if 'Eqt_IssuedShares' in record else 0,
-                'net_asset':
-                int1000_price_to_float(record['Eqt_NetAssetValue'])
-                if 'Eqt_NetAssetValue' in record else 0,
-                'net_profit':
-                int1000_price_to_float(record['Eqt_NetProfit'])
-                if 'Eqt_NetProfit' in record else 0,
-                'earning_per_share':
-                int1000_price_to_float(record['Eqt_EarningPerShare'])
-                if 'Eqt_EarningPerShare' in record else 0,
-                'outstanding_shares':
-                int(record['Eqt_OutStandingShares'])
-                if 'Eqt_OutStandingShares' in record else 0,
-                'net_asset_per_share':
-                int1000_price_to_float(record['Eqt_NetAssetPerShare'])
-                if 'Eqt_NetAssetPerShare' in record else 0,
-                'ey_ratio':
-                int1000_price_to_float(record['Eqt_EYRatio'])
-                if 'Eqt_EYRatio' in record else 0,
-                'pe_ratio':
-                int1000_price_to_float(record['Eqt_PERatio'])
-                if 'Eqt_PERatio' in record else 0,
-                'pb_ratio':
-                int1000_price_to_float(record['Eqt_PBRatio'])
-                if 'Eqt_PBRatio' in record else 0,
-                # 2018.1.25 add
-                'price_spread':
-                int1000_price_to_float(record['PriceSpread'])
-                if 'PriceSpread' in record else 0,
-            } for record in raw_snapshot_list
-        ]
+        raw_snapshot_list = rsp_pb.s2c.snapshot
+        snapshot_list = []
+        for record in raw_snapshot_list:
+            snapshot_tmp = {}
+            snapshot_tmp['code'] = merge_stock_str(
+                int(record.basic.stock.market), record.basic.stock.code)
+            snapshot_tmp['update_time'] = record.basic.updateTime
+            snapshot_tmp['last_price'] = record.basic.curPrice
+            snapshot_tmp['open_price'] = record.basic.openPrice
+            snapshot_tmp['high_price'] = record.basic.highPrice
+            snapshot_tmp['low_price'] = record.basic.lowPrice
+            snapshot_tmp['prev_close_price'] = record.basic.lastClosePrice
+            snapshot_tmp['volume'] = record.basic.volume
+            snapshot_tmp['turnover'] = record.basic.turnover
+            snapshot_tmp['turnover_rate'] = record.basic.turnoverRate
+            snapshot_tmp['suspension'] = record.basic.isSuspend
+            snapshot_tmp['listing_date'] = record.basic.listTime
+            snapshot_tmp['price_spread'] = record.basic.priceSpread
+            if record.basic.type == 5:
+                snapshot_tmp['wrt_valid'] = True
+                snapshot_tmp[
+                    'wrt_conversion_ratio'] = record.warrantExData.conversionRate
+                snapshot_tmp['wrt_type'] = QUOTE.REV_WRT_TYPE_MAP[
+                    record.warrantExData.warrantType]
+                snapshot_tmp[
+                    'wrt_strike_price'] = record.warrantExData.strikePrice
+                snapshot_tmp[
+                    'wrt_maturity_date'] = record.warrantExData.maturityTime
+                snapshot_tmp[
+                    'wrt_end_trade'] = record.warrantExData.endTradeTime
+                snapshot_tmp['wrt_code'] = merge_stock_str(
+                    record.warrantExData.ownerStock.market,
+                    record.warrantExData.ownerStock.code)
+                snapshot_tmp[
+                    'wrt_recovery_price'] = record.warrantExData.recoveryPrice
+                snapshot_tmp[
+                    'wrt_street_vol'] = record.warrantExData.streetVolumn
+                snapshot_tmp[
+                    'wrt_issue_vol'] = record.warrantExData.issueVolumn
+                snapshot_tmp[
+                    'wrt_street_ratio'] = record.warrantExData.streetRate
+                snapshot_tmp['wrt_delta'] = record.warrantExData.delta
+                snapshot_tmp[
+                    'wrt_implied_volatility'] = record.warrantExData.impliedVolatility
+                snapshot_tmp['wrt_premium'] = record.warrantExData.premium
+            else:
+                snapshot_tmp[
+                    'circular_market_val'] = record.equityExData.outstandingMktVal
+                snapshot_tmp[
+                    'total_market_val'] = record.equityExData.issuedMktVal
+                #'lot_size':
+                #int(record.LotSize),
+                snapshot_tmp[
+                    'issued_shares'] = record.equityExData.issuedShares
+                snapshot_tmp['net_asset'] = record.equityExData.netAsset
+                snapshot_tmp['net_profit'] = record.equityExData.netProfit
+                snapshot_tmp[
+                    'earning_per_share'] = record.equityExData.earningsPershare
+                snapshot_tmp[
+                    'outstanding_shares'] = record.equityExData.outstandingShares
+                snapshot_tmp[
+                    'net_asset_per_share'] = record.equityExData.netAssetPershare
+                snapshot_tmp['ey_ratio'] = record.equityExData.eyRate
+                snapshot_tmp['pe_ratio'] = record.equityExData.peRate
+                snapshot_tmp['pb_ratio'] = record.equityExData.pbRate
+            snapshot_list.append(snapshot_tmp)
 
         return RET_OK, "", snapshot_list
 
@@ -503,38 +435,32 @@ class RtDataQuery:
         return pack_pb_req(req, ProtoId.Qot_ReqRT)
 
     @classmethod
-    def unpack_rsp(cls, rsp_str):
+    def unpack_rsp(cls, rsp_pb):
         """Convert from PLS response to user response"""
-        ret, msg, rsp = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
+        ret_type = rsp_pb.retType
+        ret_msg = rsp_pb.retMsg
 
-        rt_data_list = rsp_data["RTDataArr"]
-        if rt_data_list is None or len(rt_data_list) == 0:
-            return RET_OK, "", []
+        if ret_type != RET_OK:
+            return RET_ERROR, ret_msg, None
 
-        stock_code = merge_stock_str(
-            int(rsp_data['Market']), rsp_data['StockCode'])
-        rt_list = [{
-            "time":
-            record['Time'],
-            "code":
-            stock_code,
-            "data_status":
-            True if int(record['DataStatus']) == 1 else False,
-            "opened_mins":
-            record['OpenedMins'],
-            "cur_price":
-            int1000_price_to_float(record['CurPrice']),
-            "last_close":
-            int1000_price_to_float(record['LastClose']),
-            "avg_price":
-            int1000_price_to_float(record['AvgPrice']),
-            "turnover":
-            int1000_price_to_float(record['Turnover']),
-            "volume":
-            record['Volume']
-        } for record in rt_data_list]
+        raw_rt_data_list = rsp_pb.s2c.rt
+        stock_code = "test"
+        #stock_code = merge_stock_str(
+        #int(rsp_data.Market']), rsp_data['StockCode'])
+        rt_list = [
+            {
+                "time": record.time,
+                "code": stock_code,
+                "data_status": record.isBlank,
+                #"opened_mins":
+                #record.OpenedMins,
+                "cur_price": record.price,
+                "last_close": record.lastClosePrice,
+                "avg_price": record.avgPrice,
+                "turnover": record.turnover,
+                "volume": record.volume
+            } for record in raw_rt_data_list
+        ]
 
         return RET_OK, "", rt_list
 
@@ -1017,11 +943,10 @@ class SubscriptionQuery:
         return pack_pb_req(req, ProtoId.Qot_Sub)
 
     @classmethod
-    def unpack_subscribe_rsp(cls, rsp_str):
+    def unpack_subscribe_rsp(cls, rsp_pb):
         """Unpack the subscribed response"""
-        ret, msg, content = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
 
         return RET_OK, "", None
 
@@ -1052,11 +977,10 @@ class SubscriptionQuery:
         return pack_pb_req(req, ProtoId.Qot_Sub)
 
     @classmethod
-    def unpack_unsubscribe_rsp(cls, rsp_str):
+    def unpack_unsubscribe_rsp(cls, rsp_pb):
         """Unpack the un-subscribed response"""
-        ret, msg, content = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
 
         return RET_OK, "", None
 
@@ -1071,12 +995,33 @@ class SubscriptionQuery:
         return pack_pb_req(req, ProtoId.Qot_ReqSubInfo)
 
     @classmethod
-    def unpack_subscription_query_rsp(cls, rsp_str):
+    def unpack_subscription_query_rsp(cls, rsp_pb):
         """Unpack the subscribed query response"""
-        ret, msg, rsp = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
-        return RET_OK, "", rsp
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
+        raw_sub_info = rsp_pb.s2c
+        result = {}
+        result['total_used_quota'] = raw_sub_info.totalUsedQuota
+        result['remain_quota'] = raw_sub_info.remainQuota
+        result['conn_sub_info'] = []
+        for conn_sub_info in raw_sub_info.connSubInfo:
+            conn_sub_info_tmp = {}
+            conn_sub_info_tmp['used_quota'] = conn_sub_info.usedQuota
+            conn_sub_info_tmp['is_own_conn_data'] = conn_sub_info.isOwnConnData
+            conn_sub_info_tmp['sub_info'] = []
+            for sub_info in conn_sub_info.subInfo:
+                sub_info_tmp = {}
+                sub_info_tmp['sub_type'] = sub_info.subType
+                sub_info_tmp['stock'] = []
+                for stock in sub_info.stock:
+                    stock_tmp = {}
+                    stock_tmp['market'] = stock.market
+                    stock_tmp['code'] = stock.code
+                    sub_info_tmp['stock'].append(stock_tmp)
+                conn_sub_info_tmp['sub_info'].append(sub_info_tmp)
+            result['conn_sub_info'].append(conn_sub_info_tmp)
+
+        return RET_OK, "", result
 
     @classmethod
     def pack_push_req(cls, stock_str, data_type):
@@ -1168,50 +1113,43 @@ class StockQuoteQuery:
         return pack_pb_req(req, ProtoId.Qot_ReqStockBasic)
 
     @classmethod
-    def unpack_rsp(cls, rsp_str):
+    def unpack_rsp(cls, rsp_pb):
         """Convert from PLS response to user response"""
-        ret, msg, rsp = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
-        print(rsp)
-        raw_quote_list = rsp['s2c']['stockBasic']
-        '''for push message, quote format is dict'''
-        if not isinstance(raw_quote_list, list):
-            raw_quote_list = [raw_quote_list]
-
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, []
+        raw_quote_list = rsp_pb.s2c.stockBasic
         quote_list = [{
             'code':
-            merge_stock_str(
-                int(record['stock']['market']), record['stock']['code']),
+            merge_stock_str(int(record.stock.market), record.stock.code),
             'data_date':
-            record['timeStr'].split()[0],
+            record.updateTime.split()[0],
             'data_time':
-            record['timeStr'].split()[1],
+            record.updateTime.split()[1],
             'last_price':
-            int1000_price_to_float(record['curPrice']),
+            int1000_price_to_float(record.curPrice),
             'open_price':
-            int1000_price_to_float(record['openPrice']),
+            int1000_price_to_float(record.openPrice),
             'high_price':
-            int1000_price_to_float(record['highPrice']),
+            int1000_price_to_float(record.highPrice),
             'low_price':
-            int1000_price_to_float(record['lowPrice']),
+            int1000_price_to_float(record.lowPrice),
             'prev_close_price':
-            int1000_price_to_float(record['lastClosePrice']),
+            int1000_price_to_float(record.lastClosePrice),
             'volume':
-            int(record['volume']),
+            int(record.volume),
             'turnover':
-            int1000_price_to_float(record['turnover']),
+            int1000_price_to_float(record.turnover),
             'turnover_rate':
-            int1000_price_to_float(record['turnoverRate']),
+            int1000_price_to_float(record.turnoverRate),
             'amplitude':
-            int1000_price_to_float(record['amplitude']),
+            int1000_price_to_float(record.amplitude),
             'suspension':
-            record['isSuspended'],
+            record.isSuspended,
             'listing_date':
-            record['listTimeStr'].split()[0],
+            record.listTime.split()[0],
             'price_spread':
-            int1000_price_to_float(record['priceSpread'])
-            if 'priceSpread' in record else 0,
+            int1000_price_to_float(record.priceSpread)
+            if record.HasField('priceSpread') else 0,
         } for record in raw_quote_list]
 
         return RET_OK, "", quote_list

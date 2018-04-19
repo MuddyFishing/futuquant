@@ -6,19 +6,21 @@ import "Trd_Common.proto";
 
 message C2S
 {
-	optional uint64 accID = 1;						//业务账号, 如果未指定默认使用本市场第一个业务账号
-	required Trd_Common.TrdEnv trdEnv = 2;			//交易环境, 参加TrdEnv的枚举定义, 虽然通过accID能够判断出来环境属性，但让用户特别指定更加保险，内部会检查trdEnv和accID是否匹配
-	required Trd_Common.TrdMarket trdMarket = 3;	//交易市场, 参见TrdMarket的枚举定义
-	required Trd_Common.TrdSide trdSide = 4;		//交易方向, 参见TrdSide的枚举定义
-	required Trd_Common.OrderType orderType = 5;	//订单类型, 参见OrderType的枚举定义
-	required string code = 6;						//代码
-	required double qty = 7;						//数量，2位小数精度
-	optional double price = 8;						//价格，3位小数精度
+	required Trd_Common.TrdHeader header = 1; //交易公共参数头
+	required int32 trdMarket = 2; //交易市场, 参见TrdMarket的枚举定义
+	required int32 trdSide = 3; //交易方向, 参见Trd_Common.TrdSide的枚举定义
+	required int32 orderType = 4; //订单类型, 参见Trd_Common.OrderType的枚举定义
+	required string code = 5; //代码
+	required double qty = 6; //数量，港股2位小数精度
+	optional double price = 7; //价格，港股3位小数精度
+	optional bool adjustPrice = 8; //调整价格，如果价格不合法，调整到合法价位，true调整，false不调整
+	optional double adjustSideAndLimit = 9; //调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，取值代表幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
 }
 
 message S2C
 {
-	optional uint64 orderID = 1; 					//订单号
+	required Trd_Common.TrdHeader header = 1; //交易公共参数头
+	optional uint64 orderID = 2; //订单号
 }
 
 message Request
@@ -28,7 +30,8 @@ message Request
 
 message Response
 {
-	required Common.RetType retType = 1;
+	//以下3个字段每条协议都有，注释说明在InitConnect.proto中
+	required int32 retType = 1 [default = -400];
 	optional string retMsg = 2;
 	optional int32 errCode = 3;
 	

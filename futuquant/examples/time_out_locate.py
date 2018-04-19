@@ -208,17 +208,19 @@ if __name__ =="__main__":
     # 实例化行情上下文对象
     quote_ctx = ft.OpenQuoteContext(host='127.0.0.1', port=11111, proto_fmt=ProtoFMT.Protobuf)
 
-    print(quote_ctx.init_connect())
+    quote_ctx.init_connect()
+
     #print(quote_ctx.get_global_state())
     #print(quote_ctx.get_trading_days("HK", "2018-01-01", "2018-11-18"))
-
-    print(quote_ctx.subscribe("HK.00700", ft.SubscribeType.QUOTE, push=True))
-    print(quote_ctx.subscribe("SZ.600137", ft.SubscribeType.QUOTE, push=True))
-    quote_ctx.subscribe("US.AAPL", ft.SubscribeType.QUOTE)
-    print(quote_ctx.query_subscription())
-    quote_ctx.set_handler(StockQuoteTest())
-    quote_ctx.start()
-    #stock_code_list = ["US.AAPL","HK.00700"]
+    print(quote_ctx.subscribe("HK.00700", ft.SubscribeType.QUOTE))
+    #print(quote_ctx.query_subscription())
+    #quote_ctx.set_handler(StockQuoteTest())
+    #quote_ctx.start()
+    #stock_code_list = ["HK.00700"]
     #print(quote_ctx.get_stock_quote(stock_code_list))
+
+    #print(quote_ctx.get_rt_data("HK.00700"))
     #print(quote_ctx.get_history_kline('SZ.002739',start='2017-06-20', end='2017-06-22'))
+    #print(quote_ctx.get_stock_basicinfo("HK","STOCK"))
+    print(quote_ctx.get_market_snapshot(['HK.00700']))
 

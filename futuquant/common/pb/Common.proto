@@ -4,8 +4,8 @@ package Common;
 //返回结果类型
 enum RetType
 {
-	RetType_Unknown = 0; 		//未知结果
-	RetType_Succeed = 1; 		//成功
-	RetType_Failed = -1; 		//失败
-	RetType_TimeOut = -100; 		//超时
+	RetType_Succeed = 0; //成功
+	RetType_Failed = -1; //失败
+	RetType_TimeOut = -100; //超时
+	RetType_Unknown = -400; //未知结果
 }
