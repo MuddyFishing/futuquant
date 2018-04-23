@@ -6,11 +6,14 @@ import "Qot_Common.proto";
 
 message C2S
 {
-	required Qot_Common.Stock stock = 1; //股票
-	required int32 subType = 2; //Qot_Common.SubType,订阅数据类型
+	repeated Qot_Common.Stock stock = 1; //股票
+	repeated int32 subType = 2; //Qot_Common.SubType,订阅数据类型
 	required bool isSubOrUnSub = 3; //ture表示订阅,false表示反订阅
-	optional bool isRegPush = 4; //是否注册该连接上面行情的推送,反订阅不处理该字段
-	optional bool isUnRegPush = 5; //是否反注册该连接上面行情的推送,订阅不处理该字段
+	optional bool isRegOrUnRegPush = 4; //是否注册或反注册该连接上面行情的推送
+}
+
+message S2C
+{
 }
 
 message Request
@@ -23,4 +26,6 @@ message Response
 	required int32 retType = 1 [default = -400]; //RetType,返回结果
 	optional string retMsg = 2;
 	optional int32 errCode = 3;
+			
+	optional S2C s2c = 4;
 }

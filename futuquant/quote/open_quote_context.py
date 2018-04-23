@@ -10,7 +10,9 @@ import pandas as pd
 from futuquant.common.open_context_base import OpenContextBase
 from futuquant.common.constant import *
 from futuquant.common.utils import *
+from futuquant.common.ft_logger import logger
 from futuquant.quote.quote_query import *
+
 
 
 class OpenQuoteContext(OpenContextBase):
@@ -20,38 +22,6 @@ class OpenQuoteContext(OpenContextBase):
         self._ctx_subscribe = set()
         super(OpenQuoteContext, self).__init__(host, port, True, True)
         set_proto_fmt(proto_fmt)
-
-    def init_connect(self,
-                     client_ver=get_client_ver(),
-                     client_id=get_client_id(),
-                     recv_notify=False):
-        if client_ver is None or not isinstance(client_ver, int):
-            error_str = ERROR_STR_PREFIX + "the type of client_ver param is wrong"
-            return RET_ERROR, error_str
-
-        if client_id is None or not isinstance(client_id, str):
-            error_str = ERROR_STR_PREFIX + "the type of client_id param is wrong"
-            return RET_ERROR, error_str
-
-        query_processor = self._get_sync_query_processor(
-            InitConnect.pack_req, InitConnect.unpack_rsp)
-
-        # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {
-            'client_ver': client_ver,
-            'client_id': client_id,
-            "recv_notify": recv_notify
-        }
-        ret_code, msg, content = query_processor(**kargs)
-
-        if ret_code != RET_OK:
-            return RET_ERROR, msg
-
-        ret_code, msg = self._send_async_req(InitConnect.pack_req(client_ver, client_id, recv_notify)[2])
-        if ret_code != RET_OK:
-            return RET_ERROR, msg
-
-        return RET_OK, content
 
     def close(self):
         """
@@ -359,7 +329,7 @@ class OpenQuoteContext(OpenContextBase):
                 error_str = ERROR_STR_PREFIX + "the type of market param is wrong"
                 return RET_ERROR, error_str
 
-        if market not in MKT_MAP:
+        if market not in MKT_MAP_NEW:
             error_str = ERROR_STR_PREFIX + "the value of market param is wrong "
             return RET_ERROR, error_str
 
@@ -397,9 +367,8 @@ class OpenQuoteContext(OpenContextBase):
 
         col_list = [
             'code', 'lot_size', 'stock_name', 'owner_market',
-            'stock_child_type', 'stock_type'
+            'stock_child_type', 'stock_type', 'list_time'
         ]
-
         plate_stock_table = pd.DataFrame(plate_stock_list, columns=col_list)
 
         return RET_OK, plate_stock_table
@@ -415,7 +384,7 @@ class OpenQuoteContext(OpenContextBase):
         kargs = {"stock_str": code}
 
         ret_code, bid_list, ask_list = query_processor(**kargs)
-
+        logger.debug(bid_list)
         if ret_code == RET_ERROR:
             return ret_code, ERROR_STR_PREFIX, EMPTY_STRING
 
@@ -427,8 +396,8 @@ class OpenQuoteContext(OpenContextBase):
         ]
 
         bid_frame_table = pd.DataFrame(bid_list, columns=col_bid_list)
-        sak_frame_table = pd.DataFrame(ask_list, columns=col_ask_list)
-        return RET_OK, bid_frame_table, sak_frame_table
+        ask_frame_table = pd.DataFrame(ask_list, columns=col_ask_list)
+        return RET_OK, bid_frame_table, ask_frame_table
 
     def subscribe(self, stock_code, data_type, push=False):
         """
@@ -438,10 +407,15 @@ class OpenQuoteContext(OpenContextBase):
         :param push: push option
         :return: (ret_code, ret_data). ret_code: RET_OK or RET_ERROR.
         """
+        if not isinstance(stock_code, list):
+            stock_code = [stock_code]
+        if not isinstance(data_type, list):
+            data_type = [data_type]
+
         param_table = {'stock_code': stock_code, 'data_type': data_type}
         for x in param_table:
             param = param_table[x]
-            if param is None or is_str(param) is False:
+            if param is None or isinstance(param, list) is False:
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
         query_processor = self._get_sync_query_processor(
@@ -750,7 +724,7 @@ class OpenQuoteContext(OpenContextBase):
         list_ret = []
         # 循环请求数据，避免一次性取太多超时
         while not data_finish:
-            print('get_multi_points_history_kline - wait ... %s' %
+            logger.debug('get_multi_points_history_kline - wait ... %s' %
                   datetime.now())
             kargs = {
                 "codes": req_codes,

@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_PushRT.proto',
   package='Qot_PushRT',
   syntax='proto2',
-  serialized_pb=_b('\n\x10Qot_PushRT.proto\x12\nQot_PushRT\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"J\n\x03S2C\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\x12!\n\x02rt\x18\x02 \x02(\x0b\x32\x15.Qot_Common.TimeShare\"`\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\x1c\n\x03s2c\x18\x04 \x01(\x0b\x32\x0f.Qot_PushRT.S2C')
+  serialized_pb=_b('\n\x10Qot_PushRT.proto\x12\nQot_PushRT\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"J\n\x03S2C\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\x12!\n\x02rt\x18\x02 \x03(\x0b\x32\x15.Qot_Common.TimeShare\"`\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\x1c\n\x03s2c\x18\x04 \x01(\x0b\x32\x0f.Qot_PushRT.S2C')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
 
@@ -44,8 +44,8 @@ _S2C = _descriptor.Descriptor(
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='rt', full_name='Qot_PushRT.S2C.rt', index=1,
-      number=2, type=11, cpp_type=10, label=2,
-      has_default_value=False, default_value=None,
+      number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),

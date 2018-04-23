@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import hashlib
 import json
 import os
 import sys
@@ -11,6 +12,7 @@ from google.protobuf.json_format import MessageToJson
 
 from futuquant.common.constant import *
 from futuquant.common.pbjson import json2pb
+from futuquant.common.ft_logger import logger
 
 
 def set_proto_fmt(proto_fmt):
@@ -144,12 +146,44 @@ class ProtobufMap(dict):
         ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqStockList] = Response()
 
         from futuquant.common.pb.Qot_ReqStockSnapshot_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqStockSnapshot] = Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqStockSnapshot] = Response()
+
+        from futuquant.common.pb.Qot_ReqPlateSet_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqPlateSet] = Response()
+
+        from futuquant.common.pb.Qot_ReqPlateStock_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqPlateStock] = Response()
+
+        from futuquant.common.pb.Qot_ReqBroker_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqBroker] = Response()
+
+        from futuquant.common.pb.Qot_ReqOrderBook_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqOrderBook] = Response()
+
+        from futuquant.common.pb.Qot_ReqKL_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqKL] = Response()
+
+        from futuquant.common.pb.Trd_UnlockTrade_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_UnlockTrade] = Response()
+
+        from futuquant.common.pb.Qot_ReqRT_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqRT] = Response()
+
+        from futuquant.common.pb.PushHeartBeat_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.PushHeartBeat] = Response()
+
+        from futuquant.common.pb.Trd_UnlockTrade_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_UnlockTrade] = Response()
 
     def __getitem__(self, key):
         return ProtobufMap.created_protobuf_map[key]
 
 pb_map = ProtobufMap()
+
+def md5_transform(raw_str):
+    h1 = hashlib.md5()
+    h1.update(raw_str.encode(encoding='utf-8'))
+    return h1.hexdigest()
 
 
 def binary2str(b, proto_id, proto_fmt_type):
@@ -176,8 +210,8 @@ def binary2pb(b, proto_id, proto_fmt_type):
     if proto_fmt_type == ProtoFMT.Json:
         return json2pb(pb_map[proto_id], b.decode('utf-8'))
     elif proto_fmt_type == ProtoFMT.Protobuf:
-        print(proto_id,b)
         rsp = pb_map[proto_id]
+        logger.debug((proto_id))
         rsp.ParseFromString(b)
         return rsp
     else:

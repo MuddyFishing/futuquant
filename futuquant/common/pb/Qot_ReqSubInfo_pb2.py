@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_ReqSubInfo.proto',
   package='Qot_ReqSubInfo',
   syntax='proto2',
-  serialized_pb=_b('\n\x14Qot_ReqSubInfo.proto\x12\x0eQot_ReqSubInfo\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"\x1b\n\x03\x43\x32S\x12\x14\n\x0cisReqAllConn\x18\x01 \x01(\x08\"<\n\x07SubInfo\x12\x0f\n\x07subType\x18\x01 \x02(\x05\x12 \n\x05stock\x18\x02 \x03(\x0b\x32\x11.Qot_Common.Stock\"a\n\x0b\x43onnSubInfo\x12(\n\x07subInfo\x18\x01 \x03(\x0b\x32\x17.Qot_ReqSubInfo.SubInfo\x12\x11\n\tusedQuota\x18\x02 \x02(\x05\x12\x15\n\risOwnConnData\x18\x03 \x02(\x08\"d\n\x03S2C\x12\x30\n\x0b\x63onnSubInfo\x18\x01 \x03(\x0b\x32\x1b.Qot_ReqSubInfo.ConnSubInfo\x12\x16\n\x0etotalUsedQuota\x18\x02 \x02(\x05\x12\x13\n\x0bremainQuota\x18\x03 \x02(\x05\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Qot_ReqSubInfo.C2S\"d\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12 \n\x03s2c\x18\x04 \x01(\x0b\x32\x13.Qot_ReqSubInfo.S2C')
+  serialized_pb=_b('\n\x14Qot_ReqSubInfo.proto\x12\x0eQot_ReqSubInfo\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"\x1b\n\x03\x43\x32S\x12\x14\n\x0cisReqAllConn\x18\x01 \x01(\x08\"`\n\x03S2C\x12,\n\x0b\x63onnSubInfo\x18\x01 \x03(\x0b\x32\x17.Qot_Common.ConnSubInfo\x12\x16\n\x0etotalUsedQuota\x18\x02 \x02(\x05\x12\x13\n\x0bremainQuota\x18\x03 \x02(\x05\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Qot_ReqSubInfo.C2S\"d\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12 \n\x03s2c\x18\x04 \x01(\x0b\x32\x13.Qot_ReqSubInfo.S2C')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
 
@@ -56,89 +56,6 @@ _C2S = _descriptor.Descriptor(
   ],
   serialized_start=72,
   serialized_end=99,
-)
-
-
-_SUBINFO = _descriptor.Descriptor(
-  name='SubInfo',
-  full_name='Qot_ReqSubInfo.SubInfo',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='subType', full_name='Qot_ReqSubInfo.SubInfo.subType', index=0,
-      number=1, type=5, cpp_type=1, label=2,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='stock', full_name='Qot_ReqSubInfo.SubInfo.stock', index=1,
-      number=2, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto2',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=101,
-  serialized_end=161,
-)
-
-
-_CONNSUBINFO = _descriptor.Descriptor(
-  name='ConnSubInfo',
-  full_name='Qot_ReqSubInfo.ConnSubInfo',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='subInfo', full_name='Qot_ReqSubInfo.ConnSubInfo.subInfo', index=0,
-      number=1, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='usedQuota', full_name='Qot_ReqSubInfo.ConnSubInfo.usedQuota', index=1,
-      number=2, type=5, cpp_type=1, label=2,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='isOwnConnData', full_name='Qot_ReqSubInfo.ConnSubInfo.isOwnConnData', index=2,
-      number=3, type=8, cpp_type=7, label=2,
-      has_default_value=False, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto2',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=163,
-  serialized_end=260,
 )
 
 
@@ -182,8 +99,8 @@ _S2C = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=262,
-  serialized_end=362,
+  serialized_start=101,
+  serialized_end=197,
 )
 
 
@@ -213,8 +130,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=364,
-  serialized_end=407,
+  serialized_start=199,
+  serialized_end=242,
 )
 
 
@@ -265,18 +182,14 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=409,
-  serialized_end=509,
+  serialized_start=244,
+  serialized_end=344,
 )
 
-_SUBINFO.fields_by_name['stock'].message_type = Qot__Common__pb2._STOCK
-_CONNSUBINFO.fields_by_name['subInfo'].message_type = _SUBINFO
-_S2C.fields_by_name['connSubInfo'].message_type = _CONNSUBINFO
+_S2C.fields_by_name['connSubInfo'].message_type = Qot__Common__pb2._CONNSUBINFO
 _REQUEST.fields_by_name['c2s'].message_type = _C2S
 _RESPONSE.fields_by_name['s2c'].message_type = _S2C
 DESCRIPTOR.message_types_by_name['C2S'] = _C2S
-DESCRIPTOR.message_types_by_name['SubInfo'] = _SUBINFO
-DESCRIPTOR.message_types_by_name['ConnSubInfo'] = _CONNSUBINFO
 DESCRIPTOR.message_types_by_name['S2C'] = _S2C
 DESCRIPTOR.message_types_by_name['Request'] = _REQUEST
 DESCRIPTOR.message_types_by_name['Response'] = _RESPONSE
@@ -288,20 +201,6 @@ C2S = _reflection.GeneratedProtocolMessageType('C2S', (_message.Message,), dict(
   # @@protoc_insertion_point(class_scope:Qot_ReqSubInfo.C2S)
   ))
 _sym_db.RegisterMessage(C2S)
-
-SubInfo = _reflection.GeneratedProtocolMessageType('SubInfo', (_message.Message,), dict(
-  DESCRIPTOR = _SUBINFO,
-  __module__ = 'Qot_ReqSubInfo_pb2'
-  # @@protoc_insertion_point(class_scope:Qot_ReqSubInfo.SubInfo)
-  ))
-_sym_db.RegisterMessage(SubInfo)
-
-ConnSubInfo = _reflection.GeneratedProtocolMessageType('ConnSubInfo', (_message.Message,), dict(
-  DESCRIPTOR = _CONNSUBINFO,
-  __module__ = 'Qot_ReqSubInfo_pb2'
-  # @@protoc_insertion_point(class_scope:Qot_ReqSubInfo.ConnSubInfo)
-  ))
-_sym_db.RegisterMessage(ConnSubInfo)
 
 S2C = _reflection.GeneratedProtocolMessageType('S2C', (_message.Message,), dict(
   DESCRIPTOR = _S2C,

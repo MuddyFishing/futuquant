@@ -10,6 +10,7 @@ from futuquant.common.constant import *
 from futuquant.common.utils import *
 from futuquant.quote.response_handler import HandlerContext
 from futuquant.quote.quote_query import GlobalStateQuery
+from futuquant.quote.quote_query import InitConnect
 
 
 class OpenContextBase(object):
@@ -42,6 +43,38 @@ class OpenContextBase(object):
 
         self._socket_reconnect_and_wait_ready()
 
+    def init_connect(self,
+                     client_ver=get_client_ver(),
+                     client_id=get_client_id(),
+                     recv_notify=False):
+        if client_ver is None or not isinstance(client_ver, int):
+            error_str = ERROR_STR_PREFIX + "the type of client_ver param is wrong"
+            return RET_ERROR, error_str
+
+        if client_id is None or not isinstance(client_id, str):
+            error_str = ERROR_STR_PREFIX + "the type of client_id param is wrong"
+            return RET_ERROR, error_str
+
+        query_processor = self._get_sync_query_processor(
+            InitConnect.pack_req, InitConnect.unpack_rsp)
+
+        # the keys of kargs should be corresponding to the actual function arguments
+        kargs = {
+            'client_ver': client_ver,
+            'client_id': client_id,
+            "recv_notify": recv_notify
+        }
+        ret_code, msg, content = query_processor(**kargs)
+
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
+
+        ret_code, msg = self._send_async_req(InitConnect.pack_req(client_ver, client_id, recv_notify)[2])
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
+
+        return RET_OK, content
+
     def __del__(self):
         self._close()
 
@@ -57,7 +90,7 @@ class OpenContextBase(object):
         """
         callback after reconnect ok
         """
-        # print("on_api_socket_reconnected obj ID={}".format(id(self)))
+        # logger.debug("on_api_socket_reconnected obj ID={}".format(id(self)))
         pass
 
     def _close(self):
@@ -197,7 +230,7 @@ class OpenContextBase(object):
                 except Exception as e:
                     traceback.print_exc()
                     err = sys.exc_info()[1]
-                    print(err)
+                    logger.debug(err)
 
         return sync_query_processor
 
@@ -210,7 +243,7 @@ class OpenContextBase(object):
             return
 
         self._count_reconnect += 1
-        # print("_socket_reconnect_and_wait_ready - count = %s" % self._count_reconnect)
+        # logger.debug("_socket_reconnect_and_wait_ready - count = %s" % self._count_reconnect)
         try:
             self._is_socket_reconnecting = True
             self._sync_query_lock.acquire()
@@ -252,7 +285,7 @@ class OpenContextBase(object):
             except Exception as e:
                 traceback.print_exc()
                 err = sys.exc_info()[1]
-                print(err)
+                logger.debug(err)
 
     def notify_sync_socket_connected(self, sync_ctxt):
         """
@@ -264,8 +297,8 @@ class OpenContextBase(object):
 
         is_ready = False
         ret_code, state_dict = self.get_global_state()
-        print(ret_code)
-        print(state_dict)
+        logger.debug(ret_code)
+        logger.debug(state_dict)
         if ret_code == 0:
             is_ready = int(state_dict['Quote_Logined']) != 0 and int(
                 state_dict['Trade_Logined']) != 0
@@ -299,7 +332,7 @@ class OpenContextBase(object):
             if self._thread_check_sync_sock is not thread_handle:
                 if self._thread_check_sync_sock is None:
                     self._thread_is_exit = True
-                print('check_sync_sock thread : exit by obj changed...')
+                logger.debug('check_sync_sock thread : exit by obj changed...')
                 return
             if self._is_obj_closed:
                 self._thread_is_exit = True
@@ -312,7 +345,7 @@ class OpenContextBase(object):
             if not sync_net_ctx.is_sock_ok(0.01):
                 self._thread_is_exit = True
                 if self._thread_check_sync_sock is thread_handle and not self._is_obj_closed:
-                    print("check_sync_sock thread : reconnect !")
+                    logger.debug("check_sync_sock thread : reconnect !")
                     self._socket_reconnect_and_wait_ready()
                 return
             else:

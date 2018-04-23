@@ -7,7 +7,7 @@ from copy import copy
 # 需要安装的最低牛牛客户端版本号
 NN_VERSION_MIN = '3.42.4962'
 
-MKT_MAP = {"HK": 1, "US": 21, "SH": 3, "SZ": 4, "HK_FUTURE": 6}
+MKT_MAP = {"HK": 1, "US": 11, "SH": 21, "SZ": 22, "HK_FUTURE": 6}
 MKT_MAP_NEW = {
     "QotMarket_Unknown": 0,
     "HK": 1,    #QotMarket_HK_Stock
@@ -83,6 +83,7 @@ KL_NO_DATA_MODE_BACKWARD = '2'  # 往后取数据
 # noinspection PyPep8Naming
 class TRADE(object):
     REV_MKT_MAP = {MKT_MAP[x]: x for x in MKT_MAP}
+    REV_MKT_MAP_NEW = {MKT_MAP_NEW[x]: x for x in MKT_MAP_NEW}
     REV_SEC_TYPE_MAP = {SEC_TYPE_MAP[x]: x for x in SEC_TYPE_MAP}
     REV_SUBTYPE_MAP = {SUBTYPE_MAP[x]: x for x in SUBTYPE_MAP}
     REV_KTYPE_MAP = {KTYPE_MAP[x]: x for x in KTYPE_MAP}
@@ -237,50 +238,57 @@ class SubscribeType(object):
 class ProtoId(object):
     InitConnect = 1001  # 初始化连接
     GlobalState = 1002  # 获取全局状态
+    PushNotify = 1003  # 通知推送
+    PushHeartBeat = 1004  # 通知推送
 
-    Trd_UnlockTrade = 2001  # 解锁或锁定交易
-    Trd_SubAccPush = 2002  # 订阅业务账户的交易推送数据
+    Trd_GetAccList = 2001  # 获取业务账户列表
+    Trd_UnlockTrade = 2005  # 解锁或锁定交易
+    Trd_SubAccPush = 2008  # 订阅业务账户的交易推送数据
 
     Trd_GetFunds = 2101  # 获取账户资金
     Trd_GetPositionList = 2102  # 获取账户持仓
 
     Trd_GetOrderList = 2201  # 获取订单列表
     Trd_PlaceOrder = 2202  # 下单
-    Trd_ChangeOrder = 2205  # 改单
+    Trd_ModifyOrder = 2205  # 修改订单
     Trd_UpdateOrder = 2208  # 订单状态变动通知(推送)
 
     Trd_GetOrderFillList = 2211  # 获取成交列表
+    Trd_UpdateOrderFill = 2218  # 成交通知(推送)
 
+    Trd_GetHistoryOrderList = 2221  # 获取历史订单列表
+    Trd_GetHistoryOrderFillList = 2222  # 获取历史成交列表
+
+    # 订阅数据
     Qot_Sub = 3001  # 订阅或者反订阅
     Qot_RegQotPush = 3002  # 注册推送
     Qot_ReqSubInfo = 3003  # 获取订阅信息
-
     Qot_ReqStockBasic = 3004  # 获取股票基本行情
     Qot_PushStockBasic = 3005  # 推送股票基本行情
-
     Qot_ReqKL = 3006  # 获取K线
     Qot_PushKL = 3007  # 推送K线
-
     Qot_ReqRT = 3008  # 获取分时
     Qot_PushRT = 3009  # 推送分时
-
     Qot_ReqTicker = 3010  # 获取逐笔
     Qot_PushTicker = 3011  # 推送逐笔
-
     Qot_ReqOrderBook = 3012  # 获取买卖盘
     Qot_PushOrderBook = 3013  # 推送买卖盘
-
     Qot_ReqBroker = 3014  # 获取经纪队列
     Qot_PushBroker = 3015  # 推送经纪队列
 
+    # 历史数据
     Qot_ReqHistoryKL = 3100  # 获取历史K线
+    Qot_ReqHistoryKLPoints = 3101  # 获取多只股票历史单点K线
+    Qot_ReqRehab = 3102  # 获取复权信息
 
+    # 其他行情数据
     Qot_ReqTradeDate = 3200  # 获取市场交易日
     Qot_ReqSuspend = 3201  # 获取股票停牌信息
     Qot_ReqStockList = 3202  # 获取股票列表
     Qot_ReqStockSnapshot = 3203  # 获取股票快照
     Qot_ReqPlateSet = 3204  # 获取板块集合下的板块
     Qot_ReqPlateStock = 3205  # 获取板块下的股票
+
 
 class ProtoFMT(object):
     Protobuf = 0

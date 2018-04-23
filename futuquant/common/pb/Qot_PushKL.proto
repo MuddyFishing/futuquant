@@ -9,7 +9,7 @@ message S2C
 	required int32 rehabType = 1; //Qot_Common.RehabType,复权类型
 	required int32 klType = 2; //Qot_Common.KLType,K线类型
 	required Qot_Common.Stock stock = 3; //股票
-	required Qot_Common.KLine kl = 4; //推送的k线点
+	repeated Qot_Common.KLine kl = 4; //推送的k线点
 }
 
 message Response

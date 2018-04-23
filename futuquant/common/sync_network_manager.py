@@ -133,7 +133,7 @@ class _SyncNetworkQueryCtx:
                 traceback.print_exc()
                 err = sys.exc_info()[1]
                 err_msg = ERROR_STR_PREFIX + str(err)
-                print("socket connect err:{}".format(err_msg))
+                logger.debug("socket connect err:{}".format(err_msg))
                 self.s = None
                 if s:
                     s.close()
@@ -149,7 +149,7 @@ class _SyncNetworkQueryCtx:
                 if not sock_ok:
                     self._force_close_session()
                     if is_retry:
-                        print("wait to connect futunn plugin server")
+                        logger.debug("wait to connect futunn plugin server")
                         sleep(1.5)
                         continue
                     else:

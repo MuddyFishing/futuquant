@@ -5,6 +5,7 @@
 import json
 from futuquant.common.constant import *
 from futuquant.common.utils import *
+from futuquant.quote.quote_query import pack_pb_req
 
 
 def is_HKTrade_order_status_finish(status):
@@ -28,35 +29,20 @@ class UnlockTrade:
     @classmethod
     def pack_req(cls, cookie, password, password_md5):
         """Convert from user request for trading days to PLS request"""
-        req = {"Protocol": "6006",
-               "Version": "1",
-               "ReqParam": {"Cookie": cookie,
-                            "Password": password,
-                            "PasswordMD5": password_md5,
-                            }
-               }
-        req_str = json.dumps(req) + '\r\n'
-        return RET_OK, "", req_str
+        from futuquant.common.pb.Trd_UnlockTrade_pb2 import Request
+        req = Request()
+        req.c2s.unlock = True
+        req.c2s.pwdMD5 = password_md5 if password_md5 != '' else md5_transform(password)
+
+        return pack_pb_req(req, ProtoId.Trd_UnlockTrade)
 
     @classmethod
-    def unpack_rsp(cls, rsp_str):
+    def unpack_rsp(cls, rsp_pb):
         """Convert from PLS response to user response"""
-        ret, msg, rsp = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
 
-        rsp_data = rsp['RetData']
-
-        if 'SvrResult' not in rsp_data:
-            error_str = ERROR_STR_PREFIX + "cannot find SvrResult in client rsp: %s" % rsp_str
-            return RET_ERROR, error_str, None
-        elif int(rsp_data['SvrResult']) != 0:
-            error_str = ERROR_STR_PREFIX + rsp['ErrDesc']
-            return RET_ERROR, error_str, None
-
-        unlock_list = [{"svr_result": rsp_data["SvrResult"]}]
-
-        return RET_OK, "", unlock_list
+        return RET_OK, "", None
 
 
 class PlaceOrder:

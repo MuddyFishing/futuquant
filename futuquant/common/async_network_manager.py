@@ -94,6 +94,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                         err) + ' when receiving after sending %s bytes. For req: ' % s_cnt + ""
                     self._force_close_session()
                     return RET_ERROR, error_str, None
+                logger.debug(head_dict['proto_id'])
             rsp_pb = binary2pb(rsp_body, head_dict['proto_id'], head_dict['proto_fmt_type'])
             self.handler_ctx.recv_func(rsp_pb, head_dict['proto_id'])
 
@@ -103,7 +104,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
             traceback.print_exc()
             err = sys.exc_info()[1]
             self.handler_ctx.error_func(str(err))
-            print(rsp_pb)
+            logger.debug(rsp_pb)
             return
 
     def network_query(self, req_str):

@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_Sub.proto',
   package='Qot_Sub',
   syntax='proto2',
-  serialized_pb=_b('\n\rQot_Sub.proto\x12\x07Qot_Sub\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"v\n\x03\x43\x32S\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\x12\x0f\n\x07subType\x18\x02 \x02(\x05\x12\x14\n\x0cisSubOrUnSub\x18\x03 \x02(\x08\x12\x11\n\tisRegPush\x18\x04 \x01(\x08\x12\x13\n\x0bisUnRegPush\x18\x05 \x01(\x08\"$\n\x07Request\x12\x19\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x0c.Qot_Sub.C2S\"B\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05')
+  serialized_pb=_b('\n\rQot_Sub.proto\x12\x07Qot_Sub\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"h\n\x03\x43\x32S\x12 \n\x05stock\x18\x01 \x03(\x0b\x32\x11.Qot_Common.Stock\x12\x0f\n\x07subType\x18\x02 \x03(\x05\x12\x14\n\x0cisSubOrUnSub\x18\x03 \x02(\x08\x12\x18\n\x10isRegOrUnRegPush\x18\x04 \x01(\x08\"\x05\n\x03S2C\"$\n\x07Request\x12\x19\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x0c.Qot_Sub.C2S\"]\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\x19\n\x03s2c\x18\x04 \x01(\x0b\x32\x0c.Qot_Sub.S2C')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
 
@@ -37,15 +37,15 @@ _C2S = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='stock', full_name='Qot_Sub.C2S.stock', index=0,
-      number=1, type=11, cpp_type=10, label=2,
-      has_default_value=False, default_value=None,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='subType', full_name='Qot_Sub.C2S.subType', index=1,
-      number=2, type=5, cpp_type=1, label=2,
-      has_default_value=False, default_value=0,
+      number=2, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
@@ -57,15 +57,8 @@ _C2S = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='isRegPush', full_name='Qot_Sub.C2S.isRegPush', index=3,
+      name='isRegOrUnRegPush', full_name='Qot_Sub.C2S.isRegOrUnRegPush', index=3,
       number=4, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='isUnRegPush', full_name='Qot_Sub.C2S.isUnRegPush', index=4,
-      number=5, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -83,7 +76,31 @@ _C2S = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=58,
-  serialized_end=176,
+  serialized_end=162,
+)
+
+
+_S2C = _descriptor.Descriptor(
+  name='S2C',
+  full_name='Qot_Sub.S2C',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=164,
+  serialized_end=169,
 )
 
 
@@ -113,8 +130,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=178,
-  serialized_end=214,
+  serialized_start=171,
+  serialized_end=207,
 )
 
 
@@ -146,6 +163,13 @@ _RESPONSE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='s2c', full_name='Qot_Sub.Response.s2c', index=3,
+      number=4, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -158,13 +182,15 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=216,
-  serialized_end=282,
+  serialized_start=209,
+  serialized_end=302,
 )
 
 _C2S.fields_by_name['stock'].message_type = Qot__Common__pb2._STOCK
 _REQUEST.fields_by_name['c2s'].message_type = _C2S
+_RESPONSE.fields_by_name['s2c'].message_type = _S2C
 DESCRIPTOR.message_types_by_name['C2S'] = _C2S
+DESCRIPTOR.message_types_by_name['S2C'] = _S2C
 DESCRIPTOR.message_types_by_name['Request'] = _REQUEST
 DESCRIPTOR.message_types_by_name['Response'] = _RESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -175,6 +201,13 @@ C2S = _reflection.GeneratedProtocolMessageType('C2S', (_message.Message,), dict(
   # @@protoc_insertion_point(class_scope:Qot_Sub.C2S)
   ))
 _sym_db.RegisterMessage(C2S)
+
+S2C = _reflection.GeneratedProtocolMessageType('S2C', (_message.Message,), dict(
+  DESCRIPTOR = _S2C,
+  __module__ = 'Qot_Sub_pb2'
+  # @@protoc_insertion_point(class_scope:Qot_Sub.S2C)
+  ))
+_sym_db.RegisterMessage(S2C)
 
 Request = _reflection.GeneratedProtocolMessageType('Request', (_message.Message,), dict(
   DESCRIPTOR = _REQUEST,

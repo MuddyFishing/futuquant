@@ -11,7 +11,8 @@ message C2S
 
 message S2C
 {
-	repeated Qot_Common.TimeShare rt = 1; //分时点
+	required Qot_Common.Stock stock = 1; //股票
+	repeated Qot_Common.TimeShare rt = 2; //分时点
 }
 
 message Request

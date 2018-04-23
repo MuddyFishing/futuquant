@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_ReqRT.proto',
   package='Qot_ReqRT',
   syntax='proto2',
-  serialized_pb=_b('\n\x0fQot_ReqRT.proto\x12\tQot_ReqRT\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"\'\n\x03\x43\x32S\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\"(\n\x03S2C\x12!\n\x02rt\x18\x01 \x03(\x0b\x32\x15.Qot_Common.TimeShare\"&\n\x07Request\x12\x1b\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x0e.Qot_ReqRT.C2S\"_\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\x1b\n\x03s2c\x18\x04 \x01(\x0b\x32\x0e.Qot_ReqRT.S2C')
+  serialized_pb=_b('\n\x0fQot_ReqRT.proto\x12\tQot_ReqRT\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"\'\n\x03\x43\x32S\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\"J\n\x03S2C\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\x12!\n\x02rt\x18\x02 \x03(\x0b\x32\x15.Qot_Common.TimeShare\"&\n\x07Request\x12\x1b\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x0e.Qot_ReqRT.C2S\"_\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\x1b\n\x03s2c\x18\x04 \x01(\x0b\x32\x0e.Qot_ReqRT.S2C')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
 
@@ -67,8 +67,15 @@ _S2C = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='rt', full_name='Qot_ReqRT.S2C.rt', index=0,
-      number=1, type=11, cpp_type=10, label=3,
+      name='stock', full_name='Qot_ReqRT.S2C.stock', index=0,
+      number=1, type=11, cpp_type=10, label=2,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='rt', full_name='Qot_ReqRT.S2C.rt', index=1,
+      number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -86,7 +93,7 @@ _S2C = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=103,
-  serialized_end=143,
+  serialized_end=177,
 )
 
 
@@ -116,8 +123,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=145,
-  serialized_end=183,
+  serialized_start=179,
+  serialized_end=217,
 )
 
 
@@ -168,11 +175,12 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=185,
-  serialized_end=280,
+  serialized_start=219,
+  serialized_end=314,
 )
 
 _C2S.fields_by_name['stock'].message_type = Qot__Common__pb2._STOCK
+_S2C.fields_by_name['stock'].message_type = Qot__Common__pb2._STOCK
 _S2C.fields_by_name['rt'].message_type = Qot__Common__pb2._TIMESHARE
 _REQUEST.fields_by_name['c2s'].message_type = _C2S
 _RESPONSE.fields_by_name['s2c'].message_type = _S2C

@@ -17,9 +17,10 @@ message C2S
 
 message S2C
 {
-	repeated Qot_Common.KLine kl = 1; //K线数据
-	optional int32 hasNext = 2; //如请求不指定maxAckKLNum值，则不会返回该字段，该字段表示请求是否还有超过指定限制的数据
-	optional string nextKLTime = 3; //如请求不指定maxAckKLNum值，则不会返回该字段，该字段表示超过指定限制的下一K线时间字符串
+	required Qot_Common.Stock stock = 1;
+	repeated Qot_Common.KLine kl = 2; //K线数据
+	optional int32 hasNext = 3; //如请求不指定maxAckKLNum值，则不会返回该字段，该字段表示请求是否还有超过指定限制的数据
+	optional string nextKLTime = 4; //如请求不指定maxAckKLNum值，则不会返回该字段，该字段表示超过指定限制的下一K线时间字符串
 }
 
 message Request

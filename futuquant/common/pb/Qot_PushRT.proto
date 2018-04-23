@@ -7,7 +7,7 @@ import "Qot_Common.proto";
 message S2C
 {
 	required Qot_Common.Stock stock = 1;
-	required Qot_Common.TimeShare rt = 2; //推送的分时点
+	repeated Qot_Common.TimeShare rt = 2; //推送的分时点
 }
 
 message Response

@@ -130,7 +130,7 @@ enum SubType
 
 enum TickerDirection
 {
-	TickerDirection_Buy = 1; //外盘
+	TickerDirection_Bid = 1; //外盘
 	TickerDirection_Ask = 2; //内盘
 	TickerDirection_Neutral = 3; //中性盘
 }
@@ -179,12 +179,13 @@ message StockBasic
 message TimeShare
 {
 	required string time = 1; //时间字符串
-	required bool isBlank = 2; //是否是空内容的点,若为ture则只有时间信息
-	optional double price = 3; //当前价,9位小数精度
-	optional double lastClosePrice = 4; //昨收价,9位小数精度
-	optional double avgPrice = 5; //均价,9位小数精度
-	optional int64 volume = 6; //成交量
-	optional double turnover = 7; //成交额,3位小数精度
+	required int32 minute = 2; //距离0点过了多少分钟
+	required bool isBlank = 3; //是否是空内容的点,若为ture则只有时间信息
+	optional double price = 4; //当前价,9位小数精度
+	optional double lastClosePrice = 5; //昨收价,9位小数精度
+	optional double avgPrice = 6; //均价,9位小数精度
+	optional int64 volume = 7; //成交量
+	optional double turnover = 8; //成交额,3位小数精度
 }
 
 message StockStaticBasic
@@ -210,7 +211,7 @@ message StockStaticInfo
 
 message Broker
 {
-	required int32 id = 1; //经纪ID
+	required int64 id = 1; //经纪ID
 	required string name = 2; //经纪名称
 	required int32 pos = 3; //经纪档位
 }
@@ -229,4 +230,17 @@ message OrderBook
 	required double price = 1; //委托价格
 	required int64 volume = 2; //委托数量
 	required int32 orederCount = 3; //委托订单个数
+}
+
+message SubInfo
+{
+	required int32 subType = 1; //Qot_Common.SubType,订阅类型
+	repeated Qot_Common.Stock stock = 2; //订阅该类型行情的股票
+}
+
+message ConnSubInfo
+{
+	repeated SubInfo subInfo = 1; //该连接订阅信息
+	required int32 usedQuota = 2; //该连接已经使用的订阅额度
+	required bool isOwnConnData = 3; //用于区分是否是自己连接的数据
 }

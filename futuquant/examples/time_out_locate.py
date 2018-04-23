@@ -26,10 +26,10 @@ def _example_plate_list(quote_ctx):
     plate_class = 'ALL'
     ret_code,ret_data=quote_ctx.get_plate_list(market,plate_class)
     if ret_code == RET_ERROR:
-        print(ret_code)
-        print(ret_data)
+        logger.debug(ret_code)
+        logger.debug(ret_data)
         exit()
-    #print(ret_code)
+    #logger.debug(ret_code)
     return ret_data
 
 #获取版块下的股票列表
@@ -38,28 +38,28 @@ def _example_plate_stock(quote_ctx,plate_list):
     str=[]
     str.append(plate_list.code.values)
     tmp=0;
-    print(str)
+    logger.debug(str)
     #建立空的python结构
     #df = pd.DataFrame(columns=['code', 'lot_size', 'stock_name','stock_child_type','stock_ype'])#合并dataframe结构
     df=pd.DataFrame(columns=[])
     for x in str[0]:
-        #print(x)
+        #logger.debug(x)
         tmp=tmp+1
-        #print(tmp)
+        #logger.debug(tmp)
         ret_code,ret_data=quote_ctx.get_plate_stock(x)
         if ret_code == RET_ERROR:
-            print(ret_code)
-            print(ret_data)
+            logger.debug(ret_code)
+            logger.debug(ret_data)
             exit()
         df=df.append(ret_data,ignore_index=True)
     #删除dataframe结构中重复的行，该过程遇到重复的行置为true，凡是为true的删除
     #IsDuplicated = df.duplicated()
-    #print(IsDuplicated)
-    #print(type(IsDuplicated))
+    #logger.debug(IsDuplicated)
+    #logger.debug(type(IsDuplicated))
     df = df.drop_duplicates()
     #删掉重复的股票后，索引不连续，重置索引
     df=df.reset_index(drop=True)
-    #print(df)
+    #logger.debug(df)
     return df
 
 #获取股票的实时K线
@@ -72,8 +72,8 @@ def _example_stock_cur_kline(quote_ctx,plate_stock):
     # fields = None
     code_list=[]
     code_list.append(plate_stock.code.values)
-    #print('code_list')
-    #print(code_list)
+    #logger.debug('code_list')
+    #logger.debug(code_list)
     code=code_list[0]
     num=2
     #market = _example_plate_list.market 本来想获取市场和K线名称直接给txt文件起名，但是测试环境和现网环境下文件名没什么分别，没法起名
@@ -82,9 +82,9 @@ def _example_stock_cur_kline(quote_ctx,plate_stock):
     count=0
     get_kl=0
     sum=0
-    print(len(code))
+    logger.debug(len(code))
     code=code.tolist()#将numpy.ndarray类型妆化为list类型
-    print(code)
+    logger.debug(code)
     #合并dataframe结构
     #建立空的dataframe结构
     #df2 = pd.DataFrame(columns=['code','time_key','open','close','high','low','volume','turnover','pe_ratio','turnover_rate'])
@@ -96,30 +96,30 @@ def _example_stock_cur_kline(quote_ctx,plate_stock):
                 ret_status, ret_data = quote_ctx.subscribe(code[count], ktype)  #
                 count = count + 1
                 if ret_status != RET_OK:
-                    print("%s %s : %s" % (code[count], ktype, ret_data))
+                    logger.debug("%s %s : %s" % (code[count], ktype, ret_data))
                     exit()
                 # 2、查询订阅接口，判断是否订阅成功
                 ret_status, ret_data = quote_ctx.query_subscription()  # 查询订阅接口,判断是否退订成功
                 if ret_status == RET_ERROR:
-                    print(ret_status)
+                    logger.debug(ret_status)
                     exit()
                 #sub_data = ret_data
-                #print("订阅的股票有：")
-                #print(sub_data)
+                #logger.debug("订阅的股票有：")
+                #logger.debug(sub_data)
             # 3、订阅一支股票，获取一支股票的K线
             while get_kl < 250:
                 ret_code, ret_data = quote_ctx.get_cur_kline(code[get_kl], num, ktype, autype)  # 订阅一支股票，获取一支股票的K线
                 sum = sum + 1
                 if ret_code == RET_ERROR:
-                    print(ret_code)
-                    print(ret_data)
+                    logger.debug(ret_code)
+                    logger.debug(ret_data)
                     exit()
                 cur_kline_table = ret_data
-                print(sum)
-                print(cur_kline_table)
+                logger.debug(sum)
+                logger.debug(cur_kline_table)
                 df2=df2.append(cur_kline_table,ignore_index=True)
                 get_kl = get_kl + 1
-            print(df2)
+            logger.debug(df2)
             # 跳出循环后
             # 1、退订股票
             time.sleep(60)
@@ -130,61 +130,61 @@ def _example_stock_cur_kline(quote_ctx,plate_stock):
             while tmp < 250:
                 ret_status, ret_data = quote_ctx.unsubscribe(code[tmp], ktype)  # 订阅一定的股票，再退订股票，防止达到订阅上限
                 if ret_status == RET_ERROR:
-                    print(ret_status)
-                    print(ret_data)
+                    logger.debug(ret_status)
+                    logger.debug(ret_data)
                     exit()
                 tmp = tmp + 1  # 控制循环
             # 2、查询订阅接口,判断是否退订成功
             ret_status, ret_data = quote_ctx.query_subscription()
             if ret_status == RET_ERROR:
-                print(ret_status)
+                logger.debug(ret_status)
                 exit()
             unsub_code = ret_data
-            print('退订的股票有：')
-            print(unsub_code)
+            logger.debug('退订的股票有：')
+            logger.debug(unsub_code)
             # 3、删除列表中的股票
             while delete < 250:
                 code.pop(0)
                 delete = delete + 1
-            print('删除一些股票后，还剩余哪些股票：')
-            print(code)
+            logger.debug('删除一些股票后，还剩余哪些股票：')
+            logger.debug(code)
         elif (len(code) < 250):
             while (count < len(code)):
                 # 1、订阅股票
                 ret_status, ret_data = quote_ctx.subscribe(code[count], ktype)  #
                 count = count + 1
                 if ret_status != RET_OK:
-                    print("%s %s : %s" % (code[count], ktype, ret_data))
+                    logger.debug("%s %s : %s" % (code[count], ktype, ret_data))
                     exit()
                 # 2、查询订阅接口，判断是否订阅成功
                 ret_status, ret_data = quote_ctx.query_subscription()  # 查询订阅接口,判断是否退订成功
                 if ret_status == RET_ERROR:
-                    print(ret_status)
+                    logger.debug(ret_status)
                     exit()
                 # sub_data = ret_data
-                # print("订阅的股票有：")
-                # print(sub_data)
+                # logger.debug("订阅的股票有：")
+                # logger.debug(sub_data)
                 # 3、订阅一支股票，获取一支股票的K线
             while get_kl < len(code):
                 ret_code, ret_data = quote_ctx.get_cur_kline(code[get_kl], num, ktype, autype)  # 订阅一支股票，获取一支股票的K线
                 sum = sum + 1
                 if ret_code == RET_ERROR:
-                    print(ret_code)
-                    print(ret_data)
+                    logger.debug(ret_code)
+                    logger.debug(ret_data)
                     exit()
                 cur_kline_table = ret_data
-                print(sum)
-                print(cur_kline_table)
-                #print(type(cur_kline_table))
+                logger.debug(sum)
+                logger.debug(cur_kline_table)
+                #logger.debug(type(cur_kline_table))
                 df2=df2.append(cur_kline_table,ignore_index=True)
                 get_kl = get_kl + 1
-            print(df2)
+            logger.debug(df2)
             # 将输出的股票信息应用print函数导入txt文件
             f = open("ALL_stock_Kline/US_K_DAY_test.txt", 'w')  # out.txt文件和test.py在同一目录
-            print(df2, file=f)  # 输出结果在f文件中打印出来
+            logger.debug(df2, file=f)  # 输出结果在f文件中打印出来
             f.close()  # 关闭文件并且保存
 
-            print("完成所有股票的处理")
+            logger.debug("完成所有股票的处理")
             break
 
     #将股票信息存储到txt文件
@@ -198,29 +198,37 @@ class StockQuoteTest(StockQuoteHandlerBase):
         """数据响应回调函数"""
         ret_code, content = super(StockQuoteTest, self).on_recv_rsp(rsp_str)
         if ret_code != RET_OK:
-            print("StockQuoteTest: error, msg: %s" % content)
+            logger.debug("StockQuoteTest: error, msg: %s" % content)
             return RET_ERROR, content
-        print("StockQuoteTest\n ", content)
+        logger.debug("StockQuoteTest\n ", content)
         return RET_OK, content
 
 
 if __name__ =="__main__":
     # 实例化行情上下文对象
+    from futuquant.common.ft_logger import logger
     quote_ctx = ft.OpenQuoteContext(host='127.0.0.1', port=11111, proto_fmt=ProtoFMT.Protobuf)
-
+    hk_trd = ft.OpenHKTradeContext()
     quote_ctx.init_connect()
-
-    #print(quote_ctx.get_global_state())
-    #print(quote_ctx.get_trading_days("HK", "2018-01-01", "2018-11-18"))
-    print(quote_ctx.subscribe("HK.00700", ft.SubscribeType.QUOTE))
-    #print(quote_ctx.query_subscription())
+    hk_trd.init_connect()
+    logger.debug(hk_trd.unlock_trade(321321))
+    #logger.debug(quote_ctx.get_global_state())
+    #logger.debug(quote_ctx.get_trading_days("HK", "2018-01-01", "2018-11-18"))
+    logger.debug(quote_ctx.subscribe("HK.00700", [ft.SubscribeType.K_1M, ft.SubscribeType.RT_DATA, ft.SubscribeType.QUOTE]))
+    #logger.debug(quote_ctx.query_subscription())
     #quote_ctx.set_handler(StockQuoteTest())
     #quote_ctx.start()
     #stock_code_list = ["HK.00700"]
-    #print(quote_ctx.get_stock_quote(stock_code_list))
+    #logger.debug(quote_ctx.get_stock_quote(stock_code_list))
 
-    #print(quote_ctx.get_rt_data("HK.00700"))
-    #print(quote_ctx.get_history_kline('SZ.002739',start='2017-06-20', end='2017-06-22'))
-    #print(quote_ctx.get_stock_basicinfo("HK","STOCK"))
-    print(quote_ctx.get_market_snapshot(['HK.00700']))
+    #logger.debug(quote_ctx.get_rt_data("HK.00700"))
+    #logger.debug(quote_ctx.get_history_kline('SZ.002739',start='2017-06-20', end='2017-06-22'))
+    #logger.debug(quote_ctx.get_stock_basicinfo("HK","STOCK"))
+    #logger.debug(quote_ctx.get_market_snapshot(['HK.00700']))
+    #logger.debug(quote_ctx.get_plate_list("HK", "ALL"))
+    #logger.debug(quote_ctx.get_plate_stock("SH.BK0531"))
+    #logger.debug(quote_ctx.get_broker_queue("HK.00700"))
+    #logger.debug(quote_ctx.get_order_book("HK.00700"))
+#
+    #logger.debug(quote_ctx.get_cur_kline("HK.00700",5,'K_1M'))
 
