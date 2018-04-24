@@ -219,7 +219,8 @@ message Broker
 message Ticker
 {
 	required string time = 1; //时间字符串
-	required TickerDirection dir = 3; //买卖方向
+	required int64 sequence = 2; // 唯一标识
+	required int32 dir = 3; //TickerDirection, 买卖方向
 	required double price = 4; //价格
 	required int64 volume = 5; //成交量
 	required double turnover = 6; //成交额

@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import time
 #防止输出过程中由于数据太多出现省略号,忽略数据
-from futuquant.quote.response_handler import StockQuoteHandlerBase
+from futuquant.quote.response_handler import *
 from futuquant.common.constant import *
 #设置dataframe结构的显示------pandas display设置
 pd.set_option('display.height',1000)
@@ -203,6 +203,16 @@ class StockQuoteTest(StockQuoteHandlerBase):
         logger.debug("StockQuoteTest\n ", content)
         return RET_OK, content
 
+class HeartBeatTest(HeartBeatHandlerBase):
+    """
+    心跳的推送
+    """
+    def on_recv_rsp(self, rsp_str):
+        """数据响应回调函数"""
+        ret_code, timestamp = super(HeartBeatTest, self).on_recv_rsp(rsp_str)
+        if ret_code == RET_OK:
+            print("heart beat server timestamp = ", timestamp)
+        return ret_code, timestamp
 
 if __name__ =="__main__":
     # 实例化行情上下文对象
@@ -211,16 +221,18 @@ if __name__ =="__main__":
     hk_trd = ft.OpenHKTradeContext()
     quote_ctx.init_connect()
     hk_trd.init_connect()
-    logger.debug(hk_trd.unlock_trade(321321))
+    #logger.debug(hk_trd.unlock_trade(321321))
     #logger.debug(quote_ctx.get_global_state())
     #logger.debug(quote_ctx.get_trading_days("HK", "2018-01-01", "2018-11-18"))
-    logger.debug(quote_ctx.subscribe("HK.00700", [ft.SubscribeType.K_1M, ft.SubscribeType.RT_DATA, ft.SubscribeType.QUOTE]))
+    logger.debug(quote_ctx.subscribe("HK.00700", [ft.SubscribeType.K_1M, ft.SubscribeType.TICKER, ft.SubscribeType.RT_DATA, ft.SubscribeType.QUOTE], push=True))
     #logger.debug(quote_ctx.query_subscription())
-    #quote_ctx.set_handler(StockQuoteTest())
-    #quote_ctx.start()
+    quote_ctx.set_handler(StockQuoteTest())
+    quote_ctx.set_handler(HeartBeatTest())
+    quote_ctx.start()
     #stock_code_list = ["HK.00700"]
     #logger.debug(quote_ctx.get_stock_quote(stock_code_list))
-
+    #logger.debug(quote_ctx.get_autype_list(['HK.00700']))
+    #logger.debug(quote_ctx.get_suspension_info(['SZ.300384']))
     #logger.debug(quote_ctx.get_rt_data("HK.00700"))
     #logger.debug(quote_ctx.get_history_kline('SZ.002739',start='2017-06-20', end='2017-06-22'))
     #logger.debug(quote_ctx.get_stock_basicinfo("HK","STOCK"))
@@ -229,6 +241,7 @@ if __name__ =="__main__":
     #logger.debug(quote_ctx.get_plate_stock("SH.BK0531"))
     #logger.debug(quote_ctx.get_broker_queue("HK.00700"))
     #logger.debug(quote_ctx.get_order_book("HK.00700"))
-#
     #logger.debug(quote_ctx.get_cur_kline("HK.00700",5,'K_1M'))
+    #logger.debug(quote_ctx.get_rt_ticker('HK.00700'))
+
 

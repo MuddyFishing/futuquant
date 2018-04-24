@@ -543,12 +543,16 @@ class PlateStockQuery:
         for record in raw_stock_list:
             stock_tmp = {}
             stock_tmp['lot_size'] = record.basic.lotSize
-            stock_tmp['code'] = merge_stock_str(record.basic.stock.market, record.basic.stock.code)
+            stock_tmp['code'] = merge_stock_str(record.basic.stock.market,
+                                                record.basic.stock.code)
             stock_tmp['stock_name'] = record.basic.name
-            stock_tmp['owner_market'] = merge_stock_str(record.basic.stock.market, record.basic.stock.code)
+            stock_tmp['owner_market'] = merge_stock_str(
+                record.basic.stock.market, record.basic.stock.code)
             stock_tmp['list_time'] = record.basic.listTime
-            stock_tmp['stock_child_type'] = QUOTE.REV_WRT_TYPE_MAP[record.basic.secType]
-            stock_tmp['stock_tmpe'] = QUOTE.REV_SEC_TYPE_MAP[record.basic.secType]
+            stock_tmp['stock_child_type'] = QUOTE.REV_WRT_TYPE_MAP[
+                record.basic.secType]
+            stock_tmp['stock_tmpe'] = QUOTE.REV_SEC_TYPE_MAP[
+                record.basic.secType]
             stock_list.append(stock_tmp)
 
         return RET_OK, "", stock_list
@@ -578,7 +582,6 @@ class BrokerQueueQuery:
 
         return pack_pb_req(req, ProtoId.Qot_ReqBroker)
 
-
     @classmethod
     def unpack_rsp(cls, rsp_pb):
         """Convert from PLS response to user response"""
@@ -597,8 +600,7 @@ class BrokerQueueQuery:
                 "bid_broker_pos":
                 record.pos,
                 "code":
-                merge_stock_str(
-                    rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code)
+                merge_stock_str(rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code)
             } for record in raw_broker_bid]
 
         raw_broker_ask = rsp_pb.s2c.brokerAsk
@@ -612,8 +614,7 @@ class BrokerQueueQuery:
                 "ask_broker_pos":
                 record.pos,
                 "code":
-                merge_stock_str(
-                    rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code)
+                merge_stock_str(rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code)
             } for record in raw_broker_ask]
 
         return RET_OK, bid_list, ask_list
@@ -774,74 +775,73 @@ class ExrightQuery:
                 continue
 
             market_code, stock_code = content
-            stock_tuple_list.append((str(market_code), stock_code))
+            stock_tuple_list.append((market_code, stock_code))
 
         if len(failure_tuple_list) > 0:
             error_str = '\n'.join([x[1] for x in failure_tuple_list])
             return RET_ERROR, error_str, None
+        from futuquant.common.pb.Qot_ReqRehab_pb2 import Request
+        req = Request()
+        for market_code, stock_code in stock_tuple_list:
+            stock_inst = req.c2s.stock.add()
+            stock_inst.market = market_code
+            stock_inst.code = stock_code
 
-        req = {
-            "Protocol": "1025",
-            "Version": "1",
-            "ReqParam": {
-                'StockArr': [{
-                    'Market': stock[0],
-                    'StockCode': stock[1]
-                } for stock in stock_tuple_list]
-            }
-        }
-
-        req_str = json.dumps(req) + '\r\n'
-        return RET_OK, "", req_str
+        return pack_pb_req(req, ProtoId.Qot_ReqRehab)
 
     @classmethod
-    def unpack_rsp(cls, rsp_str):
+    def unpack_rsp(cls, rsp_pb):
         """Convert from PLS response to user response"""
-        ret, msg, rsp = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
 
-        rsp_data = rsp['RetData']
-        if "ExRightInfoArr" not in rsp_data:
-            error_str = ERROR_STR_PREFIX + "cannot find ExRightInfoArr in client rsp. Response: %s" % rsp_str
-            return RET_ERROR, error_str, None
+        raw_exr_list = rsp_pb.s2c.stockRehab
+        exr_list = []
+        for stock_rehab in raw_exr_list:
+            stock_rehab_tmp = {}
+            stock_str = merge_stock_str(stock_rehab.stock.market,
+                                        stock_rehab.stock.code)
+            for rehab in stock_rehab.rehab:
+                stock_rehab_tmp['code'] = stock_str
+                stock_rehab_tmp['ex_div_date'] = rehab.time.split()[0]
+                stock_rehab_tmp['forward_adj_factorA'] = rehab.fwdFactorA
+                stock_rehab_tmp['forward_adj_factorB'] = rehab.fwdFactorB
+                stock_rehab_tmp['backward_adj_factorA'] = rehab.bwdFactorA
+                stock_rehab_tmp['backward_adj_factorB'] = rehab.bwdFactorB
 
-        if rsp_data["ExRightInfoArr"] is None or len(
-                rsp_data["ExRightInfoArr"]) == 0:
-            return RET_OK, "", []
+                company_act_flag = rehab.companyActFlag
+                if company_act_flag == 0:
+                    break
 
-        get_val = (lambda x, y: float(y[x]) / 100000 if x in y else 0)
-        raw_exr_list = rsp_data["ExRightInfoArr"]
-        exr_list = [{
-            'code':
-            merge_stock_str(int(record['Market']), record['StockCode']),
-            'ex_div_date':
-            record['ExDivDate'],
-            'split_ratio':
-            get_val('SplitRatio', record),
-            'per_cash_div':
-            get_val('PerCashDiv', record),
-            'per_share_div_ratio':
-            get_val('PerShareDivRatio', record),
-            'per_share_trans_ratio':
-            get_val('PerShareTransRatio', record),
-            'allotment_ratio':
-            get_val(r'AllotmentRatio', record),
-            'allotment_price':
-            get_val('AllotmentPrice', record),
-            'stk_spo_ratio':
-            get_val('StkSpoRatio', record),
-            'stk_spo_price':
-            get_val('StkSpoPrice', record),
-            'forward_adj_factorA':
-            get_val('ForwardAdjFactorA', record),
-            'forward_adj_factorB':
-            get_val('ForwardAdjFactorB', record),
-            'backward_adj_factorA':
-            get_val('BackwardAdjFactorA', record),
-            'backward_adj_factorB':
-            get_val('BackwarAdjFactorB', record)
-        } for record in raw_exr_list]
+                company_act_flag_bin_str = bin(company_act_flag)
+                company_act_flag_bin_str = company_act_flag_bin_str.replace(
+                    '0b', (10 - len(company_act_flag_bin_str)) * '0')
+
+                if company_act_flag_bin_str[0] == '1':
+                    stock_rehab_tmp['special_dividend'] = rehab.spDivident
+                if company_act_flag_bin_str[1] == '1':
+                    stock_rehab_tmp['per_cash_div'] = dividend
+                if company_act_flag_bin_str[2] == '1':
+                    stock_rehab_tmp[
+                        'stk_spo_ratio'] = rehab.addBase / rehab.addErt
+                    stock_rehab_tmp['stk_spo_price'] = rehab.addPrice
+                if company_act_flag_bin_str[3] == '1':
+                    stock_rehab_tmp[
+                        'allotment_ratio'] = rehab.allotBase / rehab.allotErt
+                    stock_rehab_tmp['allotment_price'] = rehab.allotPrice
+                if company_act_flag_bin_str[4] == '1':
+                    stock_rehab_tmp[
+                        'per_share_trans_ratio'] = rehab.transferBase / rehab.transferErt
+                if company_act_flag_bin_str[5] == '1':
+                    stock_rehab_tmp[
+                        'per_share_div_ratio'] = rehab.bonusBase / rehab.bonusErt
+                if company_act_flag_bin_str[6] == '1':
+                    stock_rehab_tmp[
+                        'join_ratio'] = rehab.joinBase / rehab.joinErt
+                if company_act_flag_bin_str[7] == '1':
+                    stock_rehab_tmp[
+                        'split_ratio'] = rehab.splitBase / rehab.splitErt
+            exr_list.append(stock_rehab_tmp)
 
         return RET_OK, "", exr_list
 
@@ -1043,7 +1043,7 @@ class SubscriptionQuery:
         for sub_ in data_type:
             req.c2s.subType.append(SUBTYPE_MAP[sub_])
         req.c2s.isRegOrUnReg = True
-
+        logger.debug(ProtoId.Qot_RegQotPush)
         return pack_pb_req(req, ProtoId.Qot_RegQotPush)
 
     @classmethod
@@ -1133,6 +1133,7 @@ class StockQuoteQuery:
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, []
         raw_quote_list = rsp_pb.s2c.stockBasic
+
         quote_list = [{
             'code':
             merge_stock_str(int(record.stock.market), record.stock.code),
@@ -1194,54 +1195,31 @@ class TickerQuery:
             return RET_ERROR, error_str, None
 
         market_code, stock_code = content
+        from futuquant.common.pb.Qot_ReqTicker_pb2 import Request
+        req = Request()
+        req.c2s.stock.market = market_code
+        req.c2s.stock.code = stock_code
+        req.c2s.maxRetNum = num
 
-        req = {
-            "Protocol": "1012",
-            "Version": "1",
-            "ReqParam": {
-                'Market': str(market_code),
-                'StockCode': stock_code,
-                "Sequence": str(-1),
-                'Num': str(num)
-            }
-        }
-
-        req_str = json.dumps(req) + '\r\n'
-        return RET_OK, "", req_str
+        return pack_pb_req(req, ProtoId.Qot_ReqTicker)
 
     @classmethod
-    def unpack_rsp(cls, rsp_str):
+    def unpack_rsp(cls, rsp_pb):
         """Convert from PLS response to user response"""
-        ret, msg, rsp = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
 
-        rsp_data = rsp['RetData']
-        if "TickerArr" not in rsp_data:
-            error_str = ERROR_STR_PREFIX + "cannot find TickerArr in client rsp. Response: %s" % rsp_str
-            return RET_ERROR, error_str, None
-
-        raw_ticker_list = rsp_data["TickerArr"]
-        if raw_ticker_list is None or len(raw_ticker_list) == 0:
-            return RET_OK, "", []
-
-        stock_code = merge_stock_str(
-            int(rsp_data['Market']), rsp_data['StockCode'])
+        stock_code = merge_stock_str(rsp_pb.s2c.stock.market,
+                                     rsp_pb.s2c.stock.code)
+        raw_ticker_list = rsp_pb.s2c.ticker
         ticker_list = [{
-            "code":
-            stock_code,
-            "time":
-            record['Time'],
-            "price":
-            int1000_price_to_float(record['Price']),
-            "volume":
-            record['Volume'],
-            "turnover":
-            int1000_price_to_float(record['Turnover']),
-            "ticker_direction":
-            QUOTE.REV_TICKER_DIRECTION[int(record['Direction'])],
-            "sequence":
-            int(record["Sequence"])
+            "code": stock_code,
+            "time": record.time,
+            "price": record.price,
+            "volume": record.volume,
+            "turnover": record.turnover,
+            "ticker_direction": QUOTE.REV_TICKER_DIRECTION[record.dir],
+            "sequence": 999
         } for record in raw_ticker_list]
         return RET_OK, "", ticker_list
 
@@ -1296,31 +1274,20 @@ class CurKlineQuery:
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, []
 
-
-        stock_code = merge_stock_str(
-            rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code)
+        stock_code = merge_stock_str(rsp_pb.s2c.stock.market,
+                                     rsp_pb.s2c.stock.code)
         raw_kline_list = rsp_pb.s2c.rt
         kline_list = [{
-            "code":
-            stock_code,
-            "time_key":
-            record.time,
-            "open":
-            record.openPrice,
-            "high":
-            record.highPrice,
-            "low":
-            record.lowPrice,
-            "close":
-            record.closePrice,
-            "volume":
-            record.volume,
-            "turnover":
-            record.turnover,
-            "pe_ratio":
-            record.pe,
-            "turnover_rate":
-            record.turnoverRate
+            "code": stock_code,
+            "time_key": record.time,
+            "open": record.openPrice,
+            "high": record.highPrice,
+            "low": record.lowPrice,
+            "close": record.closePrice,
+            "volume": record.volume,
+            "turnover": record.turnover,
+            "pe_ratio": record.pe,
+            "turnover_rate": record.turnoverRate
         } for record in raw_kline_list]
 
         return RET_OK, "", kline_list
@@ -1351,7 +1318,6 @@ class OrderBookQuery:
 
         return pack_pb_req(req, ProtoId.Qot_ReqOrderBook)
 
-
     @classmethod
     def unpack_rsp(cls, rsp_pb):
         """Convert from PLS response to user response"""
@@ -1366,9 +1332,11 @@ class OrderBookQuery:
         order_book['Ask'] = []
 
         for record in raw_order_book_bid:
-            order_book['Bid'].append((record.price, record.volume, record.orederCount))
+            order_book['Bid'].append((record.price, record.volume,
+                                      record.orederCount))
         for record in raw_order_book_ask:
-            order_book['Ask'].append((record.price, record.volume, record.orederCount))
+            order_book['Ask'].append((record.price, record.volume,
+                                      record.orederCount))
 
         return RET_OK, "", order_book
 
@@ -1391,58 +1359,39 @@ class SuspensionQuery:
                 return RET_ERROR, content, None
             else:
                 list_req_stock.append(content)
-
+        '''
         for x in [start, end]:
             ret, msg = check_date_str_format(x)
             if ret != RET_OK:
                 return ret, msg, None
+        '''
         from futuquant.common.pb.Qot_ReqSuspend_pb2 import Request
         req = Request()
+        if start:
+            req.c2s.beginTime = start
+        if end:
+            req.c2s.endTime = end
+        for market, code in list_req_stock:
+            stock_inst = req.c2s.stock.add()
+            stock_inst.market = market
+            stock_inst.code = code
 
-        req = {
-            "Protocol": "1039",
-            "Version": "1",
-            "ReqParam": {
-                'Cookie':
-                '10000',
-                'StockArr': [{
-                    'Market': str(market),
-                    'StockCode': code
-                } for (market, code) in list_req_stock],
-                'start_date':
-                start,
-                'end_date':
-                end
-            }
-        }
-        req_str = json.dumps(req) + '\r\n'
-        return RET_OK, "", req_str
+        return pack_pb_req(req, ProtoId.Qot_ReqSuspend)
 
     @classmethod
-    def unpack_rsp(cls, rsp_str):
+    def unpack_rsp(cls, rsp_pb):
         """Convert from PLS response to user response"""
-        ret, msg, rsp = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
-
-        rsp_data = rsp['RetData']
-        if "StockSuspendArr" not in rsp_data:
-            error_str = ERROR_STR_PREFIX + "cannot find StockSuspendArr in client rsp. Response: %s" % rsp_str
-            return RET_ERROR, error_str, None
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
 
         ret_susp_list = []
-        arr_susp = rsp_data["StockSuspendArr"]
-        for susp in arr_susp:
-            stock_str = merge_stock_str(int(susp['Market']), susp['StockCode'])
-            date_arr = susp['SuspendArr']
-            list_date = [x['SuspendTime']
-                         for x in date_arr] if date_arr else []
-            str_date = ','.join(
-                list_date) if list_date and len(list_date) > 0 else ''
-            ret_susp_list.append({
-                'code': stock_str,
-                'suspension_dates': str_date
-            })
+        for record in rsp_pb.s2c.stockSuspendList:
+            suspend_info_tmp = {}
+            stock_str = merge_stock_str(record.stock.market, record.stock.code)
+            for suspend_info in record.suspendList:
+                suspend_info_tmp['code'] = stock_str
+                suspend_info_tmp['suspension_dates'] = suspend_info.time
+            ret_susp_list.append(suspend_info_tmp)
 
         return RET_OK, "", ret_susp_list
 
@@ -1519,19 +1468,16 @@ class HeartBeatPush:
         pass
 
     @classmethod
-    def unpack_rsp(cls, rsp_str):
+    def unpack_rsp(cls, rsp_pb):
         """
         Convert from PLS response to user response
 
         """
-        # response check and unpack response json to objects
-        ret, msg, rsp = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
+        # response check and unpack response pb to objects
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
 
-        rsp_data = rsp['RetData']
-
-        return RET_OK, '', int(rsp_data['TimeStamp'])
+        return RET_OK, '', rsp_pb.s2c.time
 
 
 class MultiPointsHisKLine:

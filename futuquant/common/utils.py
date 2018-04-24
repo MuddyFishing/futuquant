@@ -175,6 +175,15 @@ class ProtobufMap(dict):
         from futuquant.common.pb.Trd_UnlockTrade_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Trd_UnlockTrade] = Response()
 
+        from futuquant.common.pb.Qot_ReqRehab_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqRehab] = Response()
+
+        from futuquant.common.pb.Qot_ReqSuspend_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqSuspend] = Response()
+
+        from futuquant.common.pb.Qot_ReqTicker_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqTicker] = Response()
+
     def __getitem__(self, key):
         return ProtobufMap.created_protobuf_map[key]
 
@@ -208,7 +217,7 @@ def binary2pb(b, proto_id, proto_fmt_type):
     :return: pb message
     """
     if proto_fmt_type == ProtoFMT.Json:
-        return json2pb(pb_map[proto_id], b.decode('utf-8'))
+        return json2pb(type(pb_map[proto_id]), b.decode('utf-8'))
     elif proto_fmt_type == ProtoFMT.Protobuf:
         rsp = pb_map[proto_id]
         logger.debug((proto_id))
