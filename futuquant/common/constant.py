@@ -7,7 +7,7 @@ from copy import copy
 # 需要安装的最低牛牛客户端版本号
 NN_VERSION_MIN = '3.42.4962'
 
-MKT_MAP = {"HK": 1, "US": 11, "SH": 21, "SZ": 22, "HK_FUTURE": 6}
+MKT_MAP = {"HK": 1, "QotMarket_HK_Future": 2,"US": 11, "QotMarket_US_Option": 12,"SH": 21, "SZ": 22, "HK_FUTURE": 6}
 MKT_MAP_NEW = {
     "QotMarket_Unknown": 0,
     "HK": 1,    #QotMarket_HK_Stock

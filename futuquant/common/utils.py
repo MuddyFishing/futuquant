@@ -19,8 +19,22 @@ def set_proto_fmt(proto_fmt):
     """Set communication protocol format, json ans protobuf supported"""
     os.environ['FT_PROTO_FMT'] = str(proto_fmt)
 
+def set_trd_accID(accID):
+    """set the trade account ID"""
+    os.environ['FT_TRD_ACCID'] = str(accID)
+
+def set_trd_market(market_code):
+    """set the trade account ID"""
+    os.environ['FT_TRD_MARKET'] = str(market_code)
+
 def get_proto_fmt():
     return int(os.environ['FT_PROTO_FMT'])
+
+def get_trd_accID():
+    return int(os.environ['FT_TRD_ACCID'])
+
+def get_trd_market():
+    return int(os.environ['FT_TRD_MARKET'])
 
 def get_client_ver():
     return 300
@@ -183,6 +197,12 @@ class ProtobufMap(dict):
 
         from futuquant.common.pb.Qot_ReqTicker_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqTicker] = Response()
+
+        from futuquant.common.pb.Trd_GetAccList_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetAccList] = Response()
+
+        from futuquant.common.pb.Trd_GetFunds_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetFunds] = Response()
 
     def __getitem__(self, key):
         return ProtobufMap.created_protobuf_map[key]

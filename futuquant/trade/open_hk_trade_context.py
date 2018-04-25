@@ -120,6 +120,39 @@ class OpenHKTradeContext(OpenContextBase):
 
         return RET_OK, None
 
+    def lock_trade(self, password, password_md5=None):
+        '''
+        交易锁定
+        :param password: 明文密码字符串 (二选一）
+        :param password_md5: 密码的md5字符串（二选一）
+        :return:(ret, data) ret == 0 时, data为None
+                            ret != 0 时， data为错误字符串
+        '''
+        query_processor = self._get_sync_query_processor(
+            UnlockTrade.pack_lock_req, UnlockTrade.unpack_rsp)
+
+        # the keys of kargs should be corresponding to the actual function arguments
+        kargs = {
+            'cookie': str(self.cookie),
+            'password': str(password) if password else '',
+            'password_md5': str(password_md5) if password_md5 else ''
+        }
+
+        ret_code, msg, unlock_list = query_processor(**kargs)
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
+
+        # reconnected to auto unlock
+        if RET_OK == ret_code:
+            self._ctx_unlock = (password, password_md5)
+
+            # unlock push socket
+            ret_code, msg, push_req_str = UnlockTrade.pack_req(**kargs)
+            if ret_code == RET_OK:
+                self._send_async_req(push_req_str)
+
+        return RET_OK, None
+
     def subscribe_order_deal_push(self,
                                   orderid_list,
                                   order_deal_push=True,
@@ -262,6 +295,26 @@ class OpenHKTradeContext(OpenContextBase):
 
         return RET_OK, change_order_table
 
+    def get_accinfo(self):
+        """
+        query account information
+        :param envtype: trading environment parameters,0 means real transaction and 1 means simulation trading
+        :return:error return RET_ERROR,msg and ok return RET_OK,ret
+        """
+        query_processor = self._get_sync_query_processor(
+            GetAccountList.hk_pack_req, GetAccountList.hk_unpack_rsp)
+
+        ret_code, msg, acc_list = query_processor()
+        logger.debug(acc_list)
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
+
+        col_list = ["acc_id", "trd_env", "acc_market"]
+
+        acc_table = pd.DataFrame(acc_list, columns=col_list)
+
+        return RET_OK, acc_table
+
     def accinfo_query(self, envtype=0):
         """
         query account information
@@ -276,7 +329,7 @@ class OpenHKTradeContext(OpenContextBase):
             AccInfoQuery.hk_pack_req, AccInfoQuery.hk_unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {'cookie': str(self.cookie), 'envtype': str(envtype)}
+        kargs = {'cookie': str(self.cookie), 'envtype': envtype}
 
         ret_code, msg, accinfo_list = query_processor(**kargs)
         if ret_code != RET_OK:

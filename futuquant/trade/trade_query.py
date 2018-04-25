@@ -37,6 +37,16 @@ class UnlockTrade:
         return pack_pb_req(req, ProtoId.Trd_UnlockTrade)
 
     @classmethod
+    def pack_lock_req(cls, cookie, password, password_md5):
+        """Convert from user request for trading days to PLS request"""
+        from futuquant.common.pb.Trd_UnlockTrade_pb2 import Request
+        req = Request()
+        req.c2s.unlock = False
+        req.c2s.pwdMD5 = password_md5 if password_md5 != '' else md5_transform(password)
+
+        return pack_pb_req(req, ProtoId.Trd_UnlockTrade)
+
+    @classmethod
     def unpack_rsp(cls, rsp_pb):
         """Convert from PLS response to user response"""
         if rsp_pb.retType != RET_OK:
@@ -181,6 +191,37 @@ class PlaceOrder:
                              }]
 
         return RET_OK, "", place_order_list
+
+class GetAccountList:
+    """Get the trade account list"""
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def hk_pack_req(cls):
+        from futuquant.common.pb.Trd_GetAccList_pb2 import Request
+
+        req = Request()
+        req.c2s.n = 0
+        return pack_pb_req(req, ProtoId.Trd_GetAccList)
+
+    @classmethod
+    def hk_unpack_rsp(cls, rsp_pb):
+        """Convert from PLS response to user response"""
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
+
+        raw_acc_list = rsp_pb.s2c.accList
+        acc_list = [{'acc_id':
+                     record.accID,
+                     'trd_env':
+                     record.trdEnv,
+                     'acc_market':
+                     QUOTE.REV_MKT_MAP[record.accMarket]}
+                    for record in raw_acc_list]
+
+        return RET_OK, "", acc_list
 
 
 class SetOrderStatus:
@@ -404,41 +445,26 @@ class AccInfoQuery:
             error_str = ERROR_STR_PREFIX + "parameter envtype is wrong"
             return RET_ERROR, error_str, None
 
-        req = {"Protocol": "6007",
-               "Version": "1",
-               "ReqParam": {"Cookie": cookie,
-                            "EnvType": envtype,
-                            }
-               }
-        req_str = json.dumps(req) + '\r\n'
-        return RET_OK, "", req_str
+        from futuquant.common.pb.Trd_GetFunds_pb2 import Request
+        req = Request()
+        req.c2s.header.accID = get_trd_accID()
+        req.c2s.header.trdEnv = envtype
+        req.c2s.header.accMarket = get_trd_market()
+
+        return pack_pb_req(req, ProtoId.Trd_GetFunds)
 
     @classmethod
-    def hk_unpack_rsp(cls, rsp_str):
+    def hk_unpack_rsp(cls, rsp_pb):
         """Convert from PLS response to user response"""
-        ret, msg, rsp = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
 
-        rsp_data = rsp['RetData']
-
-        if 'Cookie' not in rsp_data or 'EnvType' not in rsp_data:
-            return RET_ERROR, msg, None
-
-        if 'Power' not in rsp_data or 'ZCJZ' not in rsp_data or 'ZQSZ' not in rsp_data or 'XJJY' not in rsp_data:
-            return RET_ERROR, msg, None
-
-        if 'KQXJ' not in rsp_data or 'DJZJ' not in rsp_data or 'ZSJE' not in rsp_data or 'ZGJDE' not in rsp_data:
-            return RET_ERROR, msg, None
-
-        if 'YYJDE' not in rsp_data or 'GPBZJ' not in rsp_data:
-            return RET_ERROR, msg, None
-
-        accinfo_list = [{'Power': int1000_price_to_float(rsp_data['Power']), 'ZCJZ': int1000_price_to_float(rsp_data['ZCJZ']),
-                         'ZQSZ': int1000_price_to_float(rsp_data['ZQSZ']), 'XJJY': int1000_price_to_float(rsp_data['XJJY']),
-                         'KQXJ': int1000_price_to_float(rsp_data['KQXJ']), 'DJZJ': int1000_price_to_float(rsp_data['DJZJ']),
-                         'ZSJE': int1000_price_to_float(rsp_data['ZSJE']), 'ZGJDE': int1000_price_to_float(rsp_data['ZGJDE']),
-                         'YYJDE': int1000_price_to_float(rsp_data['YYJDE']), 'GPBZJ': int1000_price_to_float(rsp_data['GPBZJ'])
+        raw_funds = rsp_pb.s2c.funds
+        accinfo_list = [{'Power': raw_funds.gml, 'ZCJZ': raw_funds.zcjz,
+                         'ZQSZ': raw_funds.zqsz, 'XJJY': raw_funds.xj,
+                         'KQXJ': raw_funds.ktje, 'DJZJ': raw_funds.djje,
+                         'ZSJE': 0, 'ZGJDE': 9999,
+                         'YYJDE': 0,'GPBZJ': 0
                          }]
 
         return RET_OK, "", accinfo_list
