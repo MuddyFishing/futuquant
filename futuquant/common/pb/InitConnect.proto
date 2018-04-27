@@ -12,7 +12,9 @@ message C2S
 
 message S2C
 {
-	required int32 serverVer = 1; //Gateway网关的版本号
+	required uint64 loginUserID = 1; //FutuOpenD登陆的牛牛用户ID
+	required uint64 connID = 2; //此连接的ID，连接唯一标识
+	required int32 serverVer = 3; //FutuOpenD的版本号
 }
 
 message Request

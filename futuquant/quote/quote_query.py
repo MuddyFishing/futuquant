@@ -670,84 +670,67 @@ class HistoryKlineQuery:
         list_req_field = KL_FIELD.get_field_list(str_field)
         if not list_req_field:
             return RET_ERROR, ERROR_STR_PREFIX + "field error", None
+        from futuquant.common.pb.Qot_HistoryKL_pb2 import Request
 
-        req = {
-            "Protocol": "1024",
-            "Version": "1",
-            "ReqParam": {
-                'Market': str(market_code),
-                'MaxKLNum': str(max_num),
-                'NeedKLData': str(','.join(list_req_field)),
-                'StockCode': stock_code,
-                'start_date': start_date,
-                'end_date': end_date,
-                'KLType': str(KTYPE_MAP[ktype]),
-                'RehabType': str(AUTYPE_MAP[autype])
-            }
-        }
+        req = Request()
+        req.c2s.rehabType = AUTYPE_MAP[autype]
+        req.c2s.klType = KTYPE_MAP[ktype]
+        req.c2s.stock.market = market_code
+        req.c2s.stock.code = stock_code
+        req.c2s.beginTime = start_date
+        req.c2s.endTime = end_date
+        req.c2s.maxAckKLNum = max_num
+        kl_field_str = "0000000000"
+        fields.remove('1') #remove DATE_TIME
+        kl_field_list = list(kl_field_str)
+        for field in fields:
+            kl_field_list[10 - KL_FIELD.FIELD_BINARY_MAP[str(field)]] = '1'
+        kl_field_str = ('').join(kl_field_list)
+        req.c2s.needKLFieldsFlag = int(kl_field_str, 2)
 
-        req_str = json.dumps(req) + '\r\n'
-        head_info = _joint_head(3000, 1, len(req_str), req_str.encode())
-        logger.debug(head_info)
-        return RET_OK, "", head_info
+        return pack_pb_req(req, ProtoId.Qot_ReqHistoryKL)
 
     @classmethod
-    def unpack_rsp(cls, rsp_str):
+    def unpack_rsp(cls, rsp_pb):
         """Convert from PLS response to user response"""
-        ret, msg, rsp = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
-
-        rsp_data = rsp['RetData']
-
-        if "HistoryKLArr" not in rsp_data:
-            error_str = ERROR_STR_PREFIX + "cannot find HistoryKLArr in client rsp. Response: %s" % rsp_str
-            return RET_ERROR, error_str, None
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
 
         has_next = False
-        next_time = ''
+        next_time = ""
+        if rsp_pb.s2c.HasField('nextKLTime'):
+            has_next = True
+            next_time = rsp_pb.s2c.nextKLTime
+
+        stock_code = merge_stock_str(rsp_pb.s2c.stock.market,
+                                     rsp_pb.s2c.stock.code)
+
         list_ret = []
-        if rsp_data["HistoryKLArr"] is None or len(
-                rsp_data["HistoryKLArr"]) == 0:
-            return RET_OK, "", (list_ret, has_next, next_time)
-
-        raw_kline_list = rsp_data["HistoryKLArr"]
-        stock_code = merge_stock_str(
-            int(rsp_data['Market']), rsp_data['StockCode'])
-
-        if 'HasNext' in rsp_data:
-            has_next = int(rsp_data['HasNext'])
-        if 'NextKLTime' in rsp_data:
-            next_time = str(rsp_data['NextKLTime']).split(' ')[0]
-
         dict_data = {}
+        raw_kline_list = rsp_pb.s2c.kl
         for record in raw_kline_list:
             dict_data['code'] = stock_code
-            if 'Time' in record:
-                dict_data['time_key'] = record['Time']
-            if 'Open' in record:
-                dict_data['open'] = int10_9_price_to_float(record['Open'])
-            if 'High' in record:
-                dict_data['high'] = int10_9_price_to_float(record['High'])
-            if 'Low' in record:
-                dict_data['low'] = int10_9_price_to_float(record['Low'])
-            if 'Close' in record:
-                dict_data['close'] = int10_9_price_to_float(record['Close'])
-            if 'Volume' in record:
-                dict_data['volume'] = record['Volume']
-            if 'Turnover' in record:
-                dict_data['turnover'] = int1000_price_to_float(
-                    record['Turnover'])
-            if 'PERatio' in record:
-                dict_data['pe_ratio'] = int1000_price_to_float(
-                    record['PERatio'])
-            if 'TurnoverRate' in record:
-                dict_data['turnover_rate'] = int1000_price_to_float(
-                    record['TurnoverRate'])
-            if 'ChangeRate' in record:
-                dict_data['change_rate'] = int1000_price_to_float(
-                    record['ChangeRate'])
-
+            dict_data['time_key'] = record.time
+            if record.isBlank:
+                continue
+            if record.HasField('openPrice'):
+                dict_data['open'] = record.openPrice
+            if record.HasField('highPrice'):
+                dict_data['high'] = record.highPrice
+            if record.HasField('lowPrice'):
+                dict_data['low'] = record.lowPrice
+            if record.HasField('closePrice'):
+                dict_data['close'] = record.closePrice
+            if record.HasField('volume'):
+                dict_data['volume'] = record.volume
+            if record.HasField('turnover'):
+                dict_data['turnover'] = record.turnover
+            if record.HasField('pe'):
+                dict_data['pe_ratio'] = record.pe
+            if record.HasField('turnoverRate'):
+                dict_data['turnover_rate'] = record.turnoverRate
+            if record.HasField('changeRate'):
+                dict_data['change_rate'] = record.changeRate
             list_ret.append(dict_data.copy())
 
         return RET_OK, "", (list_ret, has_next, next_time)
@@ -1213,13 +1196,20 @@ class TickerQuery:
                                      rsp_pb.s2c.stock.code)
         raw_ticker_list = rsp_pb.s2c.ticker
         ticker_list = [{
-            "code": stock_code,
-            "time": record.time,
-            "price": record.price,
-            "volume": record.volume,
-            "turnover": record.turnover,
-            "ticker_direction": QUOTE.REV_TICKER_DIRECTION[record.dir],
-            "sequence": 999
+            "code":
+            stock_code,
+            "time":
+            record.time,
+            "price":
+            record.price,
+            "volume":
+            record.volume,
+            "turnover":
+            record.turnover,
+            "ticker_direction":
+            QUOTE.REV_TICKER_DIRECTION[record.dir],
+            "sequence":
+            999
         } for record in raw_ticker_list]
         return RET_OK, "", ticker_list
 

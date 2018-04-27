@@ -87,6 +87,7 @@ enum PositionSide
 //修改订单的操作类型
 enum ModifyOrderOp
 {
+	//港股支持全部操作，美股目前仅支持ModifyOrderOp_Normal和ModifyOrderOp_Cancel
 	ModifyOrderOp_Unknown = 0; //未知操作
 	ModifyOrderOp_Normal = 1; //修改订单的价格、数量等，即以前的改单
 	ModifyOrderOp_Cancel = 2; //撤单

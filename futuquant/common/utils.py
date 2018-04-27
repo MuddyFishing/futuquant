@@ -204,6 +204,36 @@ class ProtobufMap(dict):
         from futuquant.common.pb.Trd_GetFunds_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Trd_GetFunds] = Response()
 
+        from futuquant.common.pb.Trd_GetPositionList_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetPositionList] = Response()
+
+        from futuquant.common.pb.Trd_GetOrderList_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetOrderList] = Response()
+
+        from futuquant.common.pb.Trd_PlaceOrder_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_PlaceOrder] = Response()
+
+        from futuquant.common.pb.Trd_UpdateOrder_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_UpdateOrder] = Response()
+
+        from  futuquant.common.pb.Trd_UpdateOrderFill_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_UpdateOrderFill] = Response()
+
+        from futuquant.common.pb.Trd_GetOrderFillList_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetOrderFillList] = Response()
+
+        from futuquant.common.pb.Trd_GetHistoryOrderList_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetHistoryOrderList] = Response()
+
+        from futuquant.common.pb.Trd_GetHistoryOrderFillList_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetHistoryOrderFillList] = Response()
+
+        from futuquant.common.pb.Qot_HistoryKL_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqHistoryKL] = Response()
+
+        from futuquant.common.pb.Qot_HistoryKLPoints_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqHistoryKLPoints] = Response()
+
     def __getitem__(self, key):
         return ProtobufMap.created_protobuf_map[key]
 
@@ -240,6 +270,7 @@ def binary2pb(b, proto_id, proto_fmt_type):
         return json2pb(type(pb_map[proto_id]), b.decode('utf-8'))
     elif proto_fmt_type == ProtoFMT.Protobuf:
         rsp = pb_map[proto_id]
+        rsp.Clear()
         logger.debug((proto_id))
         rsp.ParseFromString(b)
         return rsp

@@ -8,7 +8,6 @@ from futuquant.trade.trade_query import *
 from futuquant.quote.response_handler import HKTradeOrderPreHandler
 
 
-
 class OpenHKTradeContext(OpenContextBase):
     """Class for set context of HK stock trade"""
     cookie = 100000
@@ -182,7 +181,8 @@ class OpenHKTradeContext(OpenContextBase):
                     ordertype=0,
                     envtype=0,
                     order_deal_push=False,
-                    price_mode=PriceRegularMode.IGNORE):
+                    price_mode=PriceRegularMode.IGNORE,
+                    adjust_limit=0):
         """
         place order
         use  set_handle(HKTradeOrderHandlerBase) to recv order push !
@@ -213,16 +213,17 @@ class OpenHKTradeContext(OpenContextBase):
             'price': str(price),
             'qty': str(qty),
             'strcode': str(stock_code),
-            'price_mode': str(price_mode)
+            'price_mode': str(price_mode),
+            'adjust_limit': adjust_limit
         }
 
-        ret_code, msg, place_order_list = query_processor(**kargs)
+        ret_code, msg, order_id = query_processor(**kargs)
         if ret_code != RET_OK:
             return RET_ERROR, msg
 
         # handle order push
         self._subscribe_order_deal_push(
-            orderid_list=[place_order_list[0]['orderid']],
+            orderid_list=[order_id],
             order_deal_push=order_deal_push,
             envtype=envtype)
 
@@ -231,6 +232,35 @@ class OpenHKTradeContext(OpenContextBase):
             "dealt_qty", "qty", "order_type", "order_side", "price", "status",
             "submited_time", "updated_time"
         ]
+        order_pd = self.order_list_query(orderid=order_id, envtype=envtype)
+        place_order_list = [{
+            'envtype':
+            envtype,
+            'orderid':
+            order_id,
+            'code':
+            strcode,
+            'stock_name':
+            order_pd.at[0, 'stock_name'],
+            'dealt_avg_price':
+            order_pd.at[0, 'dealt_avg_price'],
+            'dealt_qty':
+            order_pd.at[0, 'dealt_qty'],
+            'qty':
+            qty,
+            'order_type':
+            ordertype,
+            'order_side':
+            orderside,
+            'price':
+            price,
+            'status':
+            order_pd.at[0, 'status'],
+            'submited_time':
+            order_pd.at[0, 'submited_time'],
+            'updated_time':
+            order_pd.at[0, 'updated_time']
+        }]
 
         place_order_table = pd.DataFrame(place_order_list, columns=col_list)
 
@@ -383,7 +413,7 @@ class OpenHKTradeContext(OpenContextBase):
         col_list = [
             "code", "stock_name", "dealt_avg_price", "dealt_qty", "qty",
             "orderid", "order_type", "order_side", "price", "status",
-            "submited_time", "updated_time"
+            "submited_time", "updated_time", "last_err_msg"
         ]
 
         order_list_table = pd.DataFrame(order_list, columns=col_list)

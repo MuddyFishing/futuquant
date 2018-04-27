@@ -7,15 +7,23 @@ from copy import copy
 # 需要安装的最低牛牛客户端版本号
 NN_VERSION_MIN = '3.42.4962'
 
-MKT_MAP = {"HK": 1, "QotMarket_HK_Future": 2,"US": 11, "QotMarket_US_Option": 12,"SH": 21, "SZ": 22, "HK_FUTURE": 6}
+MKT_MAP = {
+    "HK": 1,
+    "QotMarket_HK_Future": 2,
+    "US": 11,
+    "QotMarket_US_Option": 12,
+    "SH": 21,
+    "SZ": 22,
+    "HK_FUTURE": 6
+}
 MKT_MAP_NEW = {
     "QotMarket_Unknown": 0,
-    "HK": 1,    #QotMarket_HK_Stock
+    "HK": 1,  #QotMarket_HK_Stock
     "QotMarket_HK_Future": 2,
-    "US": 11,    #QotMarket_US_Stock
+    "US": 11,  #QotMarket_US_Stock
     "QotMarket_US_Option": 12,
-    "SH": 21,   #QotMarket_CNSH_Stock
-    "SZ": 22    #QotMarket_CNSZ_Stock
+    "SH": 21,  #QotMarket_CNSH_Stock
+    "SZ": 22  #QotMarket_CNSZ_Stock
 }
 
 WRT_TYPE_MAP = {"CALL": 1, "PUT": 2, "BULL": 3, "BEAR": 4, "N/A": 0}
@@ -128,10 +136,24 @@ class KL_FIELD(object):
     TRADE_VOL = '8'
     TRADE_VAL = '9'
     CHANGE_RATE = '10'
+    LAST_CLOSE = '11'
     ALL_REAL = [
         DATE_TIME, OPEN, CLOSE, HIGH, LOW, PE_RATIO, TURNOVER_RATE, TRADE_VOL,
-        TRADE_VAL, CHANGE_RATE
+        TRADE_VAL, CHANGE_RATE, LAST_CLOSE
     ]
+    #use binary represent field, here's the filed&position map
+    FIELD_BINARY_MAP = {
+        HIGH: 1,
+        OPEN: 2,
+        LOW: 3,
+        CLOSE: 4,
+        LAST_CLOSE: 5,
+        TRADE_VOL: 6,
+        TRADE_VAL: 7,
+        TURNOVER_RATE: 8,
+        PE_RATIO: 9,
+        CHANGE_RATE: 10
+    }
     DICT_KL_FIELD_STR = {
         DATE_TIME: 'time_key',
         OPEN: 'open',
@@ -142,7 +164,8 @@ class KL_FIELD(object):
         TURNOVER_RATE: 'turnover_rate',
         TRADE_VOL: 'volume',
         TRADE_VAL: 'turnover',
-        CHANGE_RATE: 'change_rate'
+        CHANGE_RATE: 'change_rate',
+        LAST_CLOSE: 'last_close'
     }
 
     @classmethod
@@ -234,6 +257,7 @@ class SubscribeType(object):
     K_MON = "K_MON"
     RT_DATA = "RT_DATA"
     BROKER = "BROKER"
+
 
 class ProtoId(object):
     InitConnect = 1001  # 初始化连接

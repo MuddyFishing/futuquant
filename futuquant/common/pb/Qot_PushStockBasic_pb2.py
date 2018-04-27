@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_PushStockBasic.proto',
   package='Qot_PushStockBasic',
   syntax='proto2',
-  serialized_pb=_b('\n\x18Qot_PushStockBasic.proto\x12\x12Qot_PushStockBasic\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"1\n\x03S2C\x12*\n\nstockBasic\x18\x01 \x02(\x0b\x32\x16.Qot_Common.StockBasic\"h\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12$\n\x03s2c\x18\x04 \x01(\x0b\x32\x17.Qot_PushStockBasic.S2C')
+  serialized_pb=_b('\n\x18Qot_PushStockBasic.proto\x12\x12Qot_PushStockBasic\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"1\n\x03S2C\x12*\n\nstockBasic\x18\x01 \x03(\x0b\x32\x16.Qot_Common.StockBasic\"h\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12$\n\x03s2c\x18\x04 \x01(\x0b\x32\x17.Qot_PushStockBasic.S2C')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
 
@@ -37,8 +37,8 @@ _S2C = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='stockBasic', full_name='Qot_PushStockBasic.S2C.stockBasic', index=0,
-      number=1, type=11, cpp_type=10, label=2,
-      has_default_value=False, default_value=None,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),

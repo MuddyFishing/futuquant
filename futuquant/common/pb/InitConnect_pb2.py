@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='InitConnect.proto',
   package='InitConnect',
   syntax='proto2',
-  serialized_pb=_b('\n\x11InitConnect.proto\x12\x0bInitConnect\x1a\x0c\x43ommon.proto\">\n\x03\x43\x32S\x12\x11\n\tclientVer\x18\x01 \x02(\x05\x12\x10\n\x08\x63lientID\x18\x02 \x02(\t\x12\x12\n\nrecvNotify\x18\x03 \x01(\x08\"\x18\n\x03S2C\x12\x11\n\tserverVer\x18\x01 \x02(\x05\"(\n\x07Request\x12\x1d\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x10.InitConnect.C2S\"a\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\x1d\n\x03s2c\x18\x04 \x01(\x0b\x32\x10.InitConnect.S2C')
+  serialized_pb=_b('\n\x11InitConnect.proto\x12\x0bInitConnect\x1a\x0c\x43ommon.proto\">\n\x03\x43\x32S\x12\x11\n\tclientVer\x18\x01 \x02(\x05\x12\x10\n\x08\x63lientID\x18\x02 \x02(\t\x12\x12\n\nrecvNotify\x18\x03 \x01(\x08\"=\n\x03S2C\x12\x13\n\x0bloginUserID\x18\x01 \x02(\x04\x12\x0e\n\x06\x63onnID\x18\x02 \x02(\x04\x12\x11\n\tserverVer\x18\x03 \x02(\x05\"(\n\x07Request\x12\x1d\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x10.InitConnect.C2S\"a\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\x1d\n\x03s2c\x18\x04 \x01(\x0b\x32\x10.InitConnect.S2C')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,])
 
@@ -80,8 +80,22 @@ _S2C = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='serverVer', full_name='InitConnect.S2C.serverVer', index=0,
-      number=1, type=5, cpp_type=1, label=2,
+      name='loginUserID', full_name='InitConnect.S2C.loginUserID', index=0,
+      number=1, type=4, cpp_type=4, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='connID', full_name='InitConnect.S2C.connID', index=1,
+      number=2, type=4, cpp_type=4, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='serverVer', full_name='InitConnect.S2C.serverVer', index=2,
+      number=3, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -99,7 +113,7 @@ _S2C = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=112,
-  serialized_end=136,
+  serialized_end=173,
 )
 
 
@@ -129,8 +143,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=138,
-  serialized_end=178,
+  serialized_start=175,
+  serialized_end=215,
 )
 
 
@@ -181,8 +195,8 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=180,
-  serialized_end=277,
+  serialized_start=217,
+  serialized_end=314,
 )
 
 _REQUEST.fields_by_name['c2s'].message_type = _C2S

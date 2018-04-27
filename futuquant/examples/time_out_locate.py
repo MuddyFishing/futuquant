@@ -216,17 +216,18 @@ class HeartBeatTest(HeartBeatHandlerBase):
 
 if __name__ =="__main__":
     # 实例化行情上下文对象
+    code = "HK.00700"
     from futuquant.common.ft_logger import logger
     quote_ctx = ft.OpenQuoteContext(host='127.0.0.1', port=11111, proto_fmt=ProtoFMT.Protobuf)
     hk_trd = ft.OpenHKTradeContext()
     quote_ctx.init_connect()
     hk_trd.init_connect()
-    logger.debug(hk_trd.unlock_trade(321321))
+    #logger.debug(hk_trd.unlock_trade(321321))
     #logger.debug(hk_trd.lock_trade(559844))
     #logger.debug(hk_trd.get_accinfo()[1].at[0,'acc_id'])
-    set_trd_accID(hk_trd.get_accinfo()[1].at[0,'acc_id'])
-    set_trd_market(MKT_MAP_NEW[hk_trd.get_accinfo()[1].at[0, 'acc_market']])
-    logger.debug(hk_trd.accinfo_query(1))
+    #set_trd_accID(hk_trd.get_accinfo()[1].at[0,'acc_id'])
+    #set_trd_market(MKT_MAP_NEW[hk_trd.get_accinfo()[1].at[0, 'acc_market']])
+    #logger.debug(hk_trd.accinfo_query(1))
     #logger.debug(quote_ctx.get_global_state())
     #logger.debug(quote_ctx.get_trading_days("HK", "2018-01-01", "2018-11-18"))
     #logger.debug(quote_ctx.subscribe("HK.00700", [ft.SubscribeType.K_1M, ft.SubscribeType.TICKER, ft.SubscribeType.RT_DATA, ft.SubscribeType.QUOTE], push=True))
@@ -248,5 +249,6 @@ if __name__ =="__main__":
     #logger.debug(quote_ctx.get_order_book("HK.00700"))
     #logger.debug(quote_ctx.get_cur_kline("HK.00700",5,'K_1M'))
     #logger.debug(quote_ctx.get_rt_ticker('HK.00700'))
+    logger.debug(quote_ctx.get_history_kline(code, ktype='K_DAY',start='2018-01-01', end='2018-11-20'))
 
 
