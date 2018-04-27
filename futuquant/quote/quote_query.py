@@ -681,7 +681,7 @@ class HistoryKlineQuery:
         req.c2s.endTime = end_date
         req.c2s.maxAckKLNum = max_num
         kl_field_str = "0000000000"
-        fields.remove('1') #remove DATE_TIME
+        fields.remove(KL_FIELD.DATE_TIME)
         kl_field_list = list(kl_field_str)
         for field in fields:
             kl_field_list[10 - KL_FIELD.FIELD_BINARY_MAP[str(field)]] = '1'
@@ -731,6 +731,8 @@ class HistoryKlineQuery:
                 dict_data['turnover_rate'] = record.turnoverRate
             if record.HasField('changeRate'):
                 dict_data['change_rate'] = record.changeRate
+            if record.HasField('lastClosePrice'):
+                dict_data['last_close'] = record.lastClosePrice
             list_ret.append(dict_data.copy())
 
         return RET_OK, "", (list_ret, has_next, next_time)
@@ -1125,30 +1127,29 @@ class StockQuoteQuery:
             'data_time':
             record.updateTime.split()[1],
             'last_price':
-            int1000_price_to_float(record.curPrice),
+            record.curPrice,
             'open_price':
-            int1000_price_to_float(record.openPrice),
+            record.openPrice,
             'high_price':
-            int1000_price_to_float(record.highPrice),
+            record.highPrice,
             'low_price':
-            int1000_price_to_float(record.lowPrice),
+            record.lowPrice,
             'prev_close_price':
-            int1000_price_to_float(record.lastClosePrice),
+            record.lastClosePrice,
             'volume':
             int(record.volume),
             'turnover':
-            int1000_price_to_float(record.turnover),
+            record.turnover,
             'turnover_rate':
-            int1000_price_to_float(record.turnoverRate),
+            record.turnoverRate,
             'amplitude':
-            int1000_price_to_float(record.amplitude),
+            record.amplitude,
             'suspension':
             record.isSuspended,
             'listing_date':
             record.listTime.split()[0],
             'price_spread':
-            int1000_price_to_float(record.priceSpread)
-            if record.HasField('priceSpread') else 0,
+            record.priceSpread if record.HasField('priceSpread') else 0,
         } for record in raw_quote_list]
 
         return RET_OK, "", quote_list
@@ -1408,10 +1409,11 @@ class GlobalStateQuery:
         # pack to json
         from futuquant.common.pb.GlobalState_pb2 import Request
         req = Request()
+
         return pack_pb_req(req, ProtoId.GlobalState)
 
     @classmethod
-    def unpack_rsp(cls, rsp_str):
+    def unpack_rsp(cls, rsp_pb):
         """
         Convert from PLS response to user response
 
@@ -1437,15 +1439,21 @@ class GlobalStateQuery:
 
         """
         # response check and unpack response json to objects
-        ret, msg, rsp = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
-        logger.debug(rsp)
-        rsp_data = rsp['RetData']
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
 
-        if 'Version' not in rsp_data:
-            rsp_data['Version'] = ''
-
+        raw_state = rsp_pb.s2c
+        state_dict = {
+            'Market_SZ': str(raw_state.marketSZ),
+            'Version': str(raw_state.serverVer),
+            'Trade_Logined': "1" if raw_state.trdLogined else "0",
+            'TimeStamp': str(raw_state.time),
+            'Market_US': str(raw_state.marketUS),
+            'Quote_Logined': "1" if raw_state.qotLogined else "0",
+            'Market_SH': str(raw_state.marketSH),
+            'Market_HK': str(raw_state.marketHK),
+            'Market_HKFuture': str(raw_state.marketHKFuture)
+        }
         return RET_OK, "", rsp_data
 
 
@@ -1481,7 +1489,7 @@ class MultiPointsHisKLine:
     @classmethod
     def pack_req(cls, codes, dates, fields, ktype, autype, max_num,
                  no_data_mode):
-        """Convert from user request for trading days to PLS request"""
+        """Convert from user request for multiple history kline points to PLS request"""
         list_req_stock = []
         for stock_str in codes:
             ret, content = split_stock_str(stock_str)
@@ -1495,13 +1503,6 @@ class MultiPointsHisKLine:
             if ret != RET_OK:
                 return ret, msg, None
 
-        if len(fields) == 0:
-            fields = copy(KL_FIELD.ALL_REAL)
-        str_field = ','.join(fields)
-        list_req_field = KL_FIELD.get_field_list(str_field)
-        if not list_req_field:
-            return RET_ERROR, ERROR_STR_PREFIX + "field error", None
-
         if ktype not in KTYPE_MAP:
             error_str = ERROR_STR_PREFIX + "ktype is %s, which is not valid. (%s)" \
                                            % (ktype, ", ".join([x for x in KTYPE_MAP]))
@@ -1512,85 +1513,76 @@ class MultiPointsHisKLine:
                                            % (autype, ", ".join([str(x) for x in AUTYPE_MAP]))
             return RET_ERROR, error_str, None
 
-        req = {
-            "Protocol": "1038",
-            "Version": "1",
-            "ReqParam": {
-                'Cookie':
-                '10000',
-                'NoDataMode':
-                str(no_data_mode),
-                'RehabType':
-                str(AUTYPE_MAP[autype]),
-                'KLType':
-                str(KTYPE_MAP[ktype]),
-                'MaxKLNum':
-                str(max_num),
-                'StockArr': [{
-                    'Market': str(market),
-                    'StockCode': code
-                } for (market, code) in list_req_stock],
-                'TimePoints':
-                str(','.join(dates)),
-                'NeedKLData':
-                str(','.join(list_req_field))
-            }
-        }
-        req_str = json.dumps(req) + '\r\n'
-        return RET_OK, "", req_str
+        if len(fields) == 0:
+            fields = copy(KL_FIELD.ALL_REAL)
+        kl_field_str = "0000000000"
+        fields.remove(KL_FIELD.DATE_TIME)
+        kl_field_list = list(kl_field_str)
+        for field in fields:
+            kl_field_list[10 - KL_FIELD.FIELD_BINARY_MAP[str(field)]] = '1'
+        kl_field_str = ('').join(kl_field_list)
+
+        from futuquant.common.pb.Qot_HistoryKLPoints_pb2 import Request
+        req = Request()
+        req.c2s.needKLFieldsFlag = int(kl_field_str, 2)
+        req.c2s.rehabType = AUTYPE_MAP[autype]
+        req.c2s.klType = KTYPE_MAP[ktype]
+        req.c2s.noDataMode = no_data_mode
+        req.c2s.maxAckKLNum = max_num
+        for market_code, stock_code in list_req_stock:
+            stock_inst = req.c2s.stock.add()
+            stock_inst.market = market_code
+            stock_inst.code = stock_code
+        for date_ in dates:
+            req.c2s.time.append(date_)
+
+        return pack_pb_req(req, ProtoId.Qot_ReqHistoryKLPoints)
 
     @classmethod
-    def unpack_rsp(cls, rsp_str):
+    def unpack_rsp(cls, rsp_pb):
         """Convert from PLS response to user response"""
-        ret, msg, rsp = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
 
-        rsp_data = rsp['RetData']
-        if "StockHistoryKLArr" not in rsp_data:
-            error_str = ERROR_STR_PREFIX + "cannot find StockHistoryKLArr in client rsp. Response: %s" % rsp_str
-            return RET_ERROR, error_str, None
-        has_next = int(rsp_data['HasNext'])
+        has_next = False
+        has_next = rsp_pb.s2c.hasNext if rsp_pb.s2c.HasField(
+            'hasNext') else False
 
         list_ret = []
         dict_data = {}
-        arr_kline = rsp_data["StockHistoryKLArr"]
-        for kline in arr_kline:
-            stock_str = merge_stock_str(
-                int(kline['Market']), kline['StockCode'])
-            data_arr = kline['HistoryKLArr']
-            for point_data in data_arr:
-                dict_data['code'] = stock_str
-                dict_data['time_point'] = point_data['TimePoint']
-                dict_data['data_valid'] = int(point_data['DataValid'])
-                if 'Time' in point_data:
-                    dict_data['time_key'] = point_data['Time']
-                if 'Open' in point_data:
-                    dict_data['open'] = int10_9_price_to_float(
-                        point_data['Open'])
-                if 'High' in point_data:
-                    dict_data['high'] = int10_9_price_to_float(
-                        point_data['High'])
-                if 'Low' in point_data:
-                    dict_data['low'] = int10_9_price_to_float(
-                        point_data['Low'])
-                if 'Close' in point_data:
-                    dict_data['close'] = int10_9_price_to_float(
-                        point_data['Close'])
-                if 'Volume' in point_data:
-                    dict_data['volume'] = point_data['Volume']
-                if 'Turnover' in point_data:
-                    dict_data['turnover'] = int1000_price_to_float(
-                        point_data['Turnover'])
-                if 'PERatio' in point_data:
-                    dict_data['pe_ratio'] = int1000_price_to_float(
-                        point_data['PERatio'])
-                if 'TurnoverRate' in point_data:
-                    dict_data['turnover_rate'] = int1000_price_to_float(
-                        point_data['TurnoverRate'])
-                if 'ChangeRate' in point_data:
-                    dict_data['change_rate'] = int1000_price_to_float(
-                        point_data['ChangeRate'])
+        raw_kline_points = rsp_pb.s2c.klPoints
+        for raw_kline in raw_kline_points:
+            stock_code = merge_stock_str(raw_kline.stock.market,
+                                         raw_kline.stock.code)
+            for raw_kl in raw_kline.kl:
+                dict_data['code'] = stock_code
+                dict_data['time_point'] = raw_kl.reqTime
+                dict_data['data_valid'] = raw_kl.status
+                dict_data['time_key'] = raw_kl.kl.time
+                if raw_kl.kl.isBlank:
+                    continue
+                dict_data['open'] = raw_kl.kl.openPrice if raw_kl.kl.HasField(
+                    'openPrice') else 0
+                dict_data['high'] = raw_kl.kl.highPrice if raw_kl.kl.HasField(
+                    'highPrice') else 0
+                dict_data['low'] = raw_kl.kl.lowPrice if raw_kl.kl.HasField(
+                    'lowPrice') else 0
+                dict_data[
+                    'close'] = raw_kl.kl.closePrice if raw_kl.kl.HasField(
+                        'closePrice') else 0
+                dict_data['volume'] = raw_kl.kl.volume if raw_kl.kl.HasField(
+                    'volume') else 0
+                dict_data[
+                    'turnover'] = raw_kl.kl.turnover if raw_kl.kl.HasField(
+                        'turnover') else 0
+                dict_data['pe_ratio'] = raw_kl.kl.pe if raw_kl.kl.HasField(
+                    'pe') else 0
+                dict_data[
+                    'turnover_rate'] = raw_kl.kl.turnoverRate if raw_kl.kl.HasField(
+                        'turnoverRate') else 0
+                dict_data[
+                    'change_rate'] = raw_kl.kl.changeRate if raw_kl.kl.HasField(
+                        'changeRate') else 0
 
                 list_ret.append(dict_data.copy())
 

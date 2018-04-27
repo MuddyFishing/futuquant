@@ -149,7 +149,7 @@ class OpenContextBase(object):
         get api server(exe) global state
         :return: RET_OK, state_dict | err_code, msg
         """
-        '''
+
         query_processor = self._get_sync_query_processor(
             GlobalStateQuery.pack_req, GlobalStateQuery.unpack_rsp)
         kargs = {"state_type": 0}
@@ -168,6 +168,7 @@ class OpenContextBase(object):
             'Market_HK': '6',
             'Market_HKFuture': '14'
         }
+        '''
         return RET_OK, state_dict
 
     def _is_proc_run(self):

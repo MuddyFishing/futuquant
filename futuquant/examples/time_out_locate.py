@@ -222,6 +222,7 @@ if __name__ =="__main__":
     hk_trd = ft.OpenHKTradeContext()
     quote_ctx.init_connect()
     hk_trd.init_connect()
+    #logger.debug(quote_ctx.get_global_state())
     #logger.debug(hk_trd.unlock_trade(321321))
     #logger.debug(hk_trd.lock_trade(559844))
     #logger.debug(hk_trd.get_accinfo()[1].at[0,'acc_id'])

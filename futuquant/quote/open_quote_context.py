@@ -20,8 +20,8 @@ class OpenQuoteContext(OpenContextBase):
 
     def __init__(self, host='127.0.0.1', port=11111, proto_fmt = ProtoFMT.Json):
         self._ctx_subscribe = set()
-        super(OpenQuoteContext, self).__init__(host, port, True, True)
         set_proto_fmt(proto_fmt)
+        super(OpenQuoteContext, self).__init__(host, port, True, True)
 
     def close(self):
         """

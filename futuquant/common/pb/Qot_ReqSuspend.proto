@@ -1,0 +1,42 @@
+syntax = "proto2";
+package Qot_ReqSuspend;
+
+import "Common.proto";
+import "Qot_Common.proto";
+
+message C2S
+{
+	repeated Qot_Common.Stock stock = 1; //股票
+	optional string beginTime = 2; //开始时间字符串,若不指定,则默认返回一年数据
+	optional string endTime = 3; //结束时间字符串,若不指定,则为当前时间
+}
+
+message Suspend
+{
+	required string time = 1; //时间字符串
+}
+
+message StockSuspend
+{
+    required Qot_Common.Stock stock = 1; //股票
+	repeated Suspend suspendList = 2; //交易日
+}
+
+message S2C
+{
+	repeated StockSuspend stockSuspendList = 1; //多支股票的交易日
+}
+
+message Request
+{
+	required C2S c2s = 1;
+}
+
+message Response
+{
+	required int32 retType = 1 [default = -400]; //RetType,返回结果
+	optional string retMsg = 2;
+	optional int32 errCode = 3;
+	
+	optional S2C s2c = 4;
+}
