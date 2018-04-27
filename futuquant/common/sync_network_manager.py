@@ -145,7 +145,8 @@ class _SyncNetworkQueryCtx:
                 is_socket_lock = False
                 self._socket_lock.release()
 
-                sock_ok, is_retry = self._connected_handler.notify_sync_socket_connected(self)
+                #sock_ok, is_retry = self._connected_handler.notify_sync_socket_connected(self)
+                sock_ok = True
                 if not sock_ok:
                     self._force_close_session()
                     if is_retry:

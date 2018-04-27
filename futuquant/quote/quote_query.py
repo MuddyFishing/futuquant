@@ -82,8 +82,12 @@ class InitConnect:
 
         if ret_type != RET_OK:
             return RET_ERROR, ret_msg, None
+        res = {}
+        res['server_version'] = rsp_pb.s2c.serverVer
+        res['login_user_id'] = rsp_pb.s2c.loginUserID
+        res['conn_id'] = rsp_pb.s2c.connID
 
-        return RET_OK, "", rsp_pb.s2c.serverVer
+        return RET_OK, "", res
 
 
 class TradeDayQuery:
@@ -1409,7 +1413,8 @@ class GlobalStateQuery:
         # pack to json
         from futuquant.common.pb.GlobalState_pb2 import Request
         req = Request()
-
+        global USER_ID
+        req.c2s.userID = USER_ID
         return pack_pb_req(req, ProtoId.GlobalState)
 
     @classmethod
@@ -1454,7 +1459,7 @@ class GlobalStateQuery:
             'Market_HK': str(raw_state.marketHK),
             'Market_HKFuture': str(raw_state.marketHKFuture)
         }
-        return RET_OK, "", rsp_data
+        return RET_OK, "", state_dict
 
 
 class HeartBeatPush:

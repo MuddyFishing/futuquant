@@ -6,6 +6,7 @@ import "Qot_Common.proto";
 
 message C2S
 {
+	required uint64 userID = 1; //需要跟FutuOpenD登陆的牛牛用户ID一致，否则会返回失败
 }
 
 message S2C
