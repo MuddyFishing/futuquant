@@ -26,13 +26,15 @@ def pack_pb_req(pb_req, proto_id):
         error_str = ERROR_STR_PREFIX + 'unknown protocol format, %d' % proto_fmt
         return RET_ERROR, error_str, None
 
-
+g_serialNo = 100
 def _joint_head(proto_id, proto_fmt_type, body_len, str_body, proto_ver=0):
     if proto_fmt_type == ProtoFMT.Protobuf:
         str_body = str_body.SerializeToString()
     fmt = "%s%ds" % (MESSAGE_HEAD_FMT, body_len)
     #serial_no is useless for now, set to 1
-    serial_no = 1
+    global  g_serialNo
+    g_serialNo += 1
+    serial_no = g_serialNo
     bin_head = struct.pack(fmt, b'F', b'T', proto_id, proto_fmt_type,
                            proto_ver, serial_no, body_len, 0, 0, 0, 0, 0, 0, 0,
                            0, str_body)
