@@ -72,8 +72,8 @@ class OpenContextBase(object):
         ret_code, msg = self._send_async_req(InitConnect.pack_req(client_ver, client_id, recv_notify)[2])
         if ret_code != RET_OK:
             return RET_ERROR, msg
-        global USER_ID
-        USER_ID = content['login_user_id']
+
+        set_user_id(content['login_user_id'])
         return RET_OK, content
 
     def __del__(self):
@@ -357,5 +357,5 @@ class OpenContextBase(object):
             if (self._check_last_req_time is
                     None) or (cur_time - self._check_last_req_time > 10):
                 self._check_last_req_time = cur_time
-                if self._thread_check_sync_sock is thread_handle:
-                    self.get_global_state()
+                #if self._thread_check_sync_sock is thread_handle:
+                    #self.get_global_state()

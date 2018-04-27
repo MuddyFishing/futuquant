@@ -87,7 +87,6 @@ KL_NO_DATA_MODE_NONE = '0'  # 返回无数据
 KL_NO_DATA_MODE_FORWARD = '1'  # 往前取数据
 KL_NO_DATA_MODE_BACKWARD = '2'  # 往后取数据
 
-USER_ID = 0
 
 # noinspection PyPep8Naming
 class TRADE(object):

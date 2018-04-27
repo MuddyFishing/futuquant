@@ -1413,8 +1413,7 @@ class GlobalStateQuery:
         # pack to json
         from futuquant.common.pb.GlobalState_pb2 import Request
         req = Request()
-        global USER_ID
-        req.c2s.userID = USER_ID
+        req.c2s.userID = get_user_id()
         return pack_pb_req(req, ProtoId.GlobalState)
 
     @classmethod

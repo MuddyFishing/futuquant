@@ -27,6 +27,12 @@ def set_trd_market(market_code):
     """set the trade account ID"""
     os.environ['FT_TRD_MARKET'] = str(market_code)
 
+def set_user_id(user_id):
+    os.environ['FT_USER_ID'] = str(user_id)
+
+def get_user_id():
+    return int(os.environ['FT_USER_ID'])
+
 def get_proto_fmt():
     return int(os.environ['FT_PROTO_FMT'])
 
