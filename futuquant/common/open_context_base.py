@@ -349,6 +349,7 @@ class OpenContextBase(object):
                 if self._thread_check_sync_sock is thread_handle and not self._is_obj_closed:
                     logger.debug("check_sync_sock thread : reconnect !")
                     self._socket_reconnect_and_wait_ready()
+                    self.init_connect()
                 return
             else:
                 sleep(0.1)

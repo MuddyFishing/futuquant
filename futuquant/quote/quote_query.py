@@ -809,7 +809,7 @@ class ExrightQuery:
                 if company_act_flag_bin_str[0] == '1':
                     stock_rehab_tmp['special_dividend'] = rehab.spDivident
                 if company_act_flag_bin_str[1] == '1':
-                    stock_rehab_tmp['per_cash_div'] = dividend
+                    stock_rehab_tmp['per_cash_div'] = rehab.dividend
                 if company_act_flag_bin_str[2] == '1':
                     stock_rehab_tmp[
                         'stk_spo_ratio'] = rehab.addBase / rehab.addErt

@@ -205,7 +205,7 @@ class GetAccountList:
         from futuquant.common.pb.Trd_GetAccList_pb2 import Request
 
         req = Request()
-        req.c2s.n = 0
+        req.c2s.userID = get_user_id()
         return pack_pb_req(req, ProtoId.Trd_GetAccList)
 
     @classmethod
