@@ -71,6 +71,8 @@ def dict2pb(cls, adict, strict=False):
             if field.type == FD.TYPE_MESSAGE:
                 value = dict2pb(msg_type._concrete_class, adict[field.name])
                 getattr(obj, field.name).CopyFrom(value)
+            elif field.type in [FD.TYPE_UINT64, FD.TYPE_INT64, FD.TYPE_SINT64]:
+                setattr(obj, field.name, int(adict[field.name]))
             else:
                 setattr(obj, field.name, adict[field.name])
     return obj

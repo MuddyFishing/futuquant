@@ -91,7 +91,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         rsp_pb = u''
         try:
             recv_buf = self.recv(5 * 1024 * 1024)
-            # print("async handle_read len={} data={}".format(len(recv_buf), recv_buf))
+            print("async handle_read len={} data={}".format(len(recv_buf), recv_buf))
             if recv_buf == b'':
                return
 
