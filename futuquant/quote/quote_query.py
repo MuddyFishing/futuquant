@@ -5,12 +5,13 @@
 import json
 import sys
 import struct
+import time
 from datetime import timedelta
 from google.protobuf.json_format import MessageToJson
 from futuquant.common.constant import *
 from futuquant.common.utils import *
 from futuquant.common.pb.Common_pb2 import RetType
-
+from threading import RLock
 
 def pack_pb_req(pb_req, proto_id):
     proto_fmt = get_proto_fmt()
@@ -26,20 +27,23 @@ def pack_pb_req(pb_req, proto_id):
         error_str = ERROR_STR_PREFIX + 'unknown protocol format, %d' % proto_fmt
         return RET_ERROR, error_str, None
 
-g_serialNo = 100
+g_serialNo = int(time.time())
+g_serialLock = RLock()
 def _joint_head(proto_id, proto_fmt_type, body_len, str_body, proto_ver=0):
     if proto_fmt_type == ProtoFMT.Protobuf:
         str_body = str_body.SerializeToString()
     fmt = "%s%ds" % (MESSAGE_HEAD_FMT, body_len)
-    #serial_no is useless for now, set to 1
-    global  g_serialNo
-    g_serialNo += 1
+
+    global g_serialNo
+    with g_serialLock:
+        g_serialNo += 1
+
+    print("serial no = {} proto_id = {}".format(g_serialNo, proto_id))
     serial_no = g_serialNo
     bin_head = struct.pack(fmt, b'F', b'T', proto_id, proto_fmt_type,
                            proto_ver, serial_no, body_len, 0, 0, 0, 0, 0, 0, 0,
                            0, str_body)
     return bin_head
-
 
 def parse_head(head_bytes):
     head_dict = {}
@@ -1034,7 +1038,7 @@ class SubscriptionQuery:
         for sub_ in data_type:
             req.c2s.subType.append(SUBTYPE_MAP[sub_])
         req.c2s.isRegOrUnReg = True
-        logger.debug(ProtoId.Qot_RegQotPush)
+        # logger.debug(ProtoId.Qot_RegQotPush)
         return pack_pb_req(req, ProtoId.Qot_RegQotPush)
 
     @classmethod

@@ -200,7 +200,6 @@ class PriceRegularMode(object):
     """
     IGNORE = '0'  # 不调整
     UPPER = '1'  # 向上调整
-
     LOWER = '2'  # 向下调整
 
 

@@ -8,11 +8,7 @@ from time import sleep
 
 import pandas as pd
 from futuquant.common.open_context_base import OpenContextBase
-from futuquant.common.constant import *
-from futuquant.common.utils import *
-from futuquant.common.ft_logger import logger
 from futuquant.quote.quote_query import *
-
 
 
 class OpenQuoteContext(OpenContextBase):

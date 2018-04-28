@@ -46,11 +46,10 @@ def get_client_ver():
     return 300
 
 def get_client_id():
-    return socket.gethostname()
+    return "PyNormal"
 
 def get_message_head_len():
     return calcsize(MESSAGE_HEAD_FMT)
-
 
 def check_date_str_format(s):
     """Check the format of date string"""
@@ -280,7 +279,7 @@ def binary2pb(b, proto_id, proto_fmt_type):
     elif proto_fmt_type == ProtoFMT.Protobuf:
         rsp = pb_map[proto_id]
         rsp.Clear()
-        logger.debug((proto_id))
+        # logger.debug((proto_id))
         rsp.ParseFromString(b)
         return rsp
     else:

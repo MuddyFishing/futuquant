@@ -2,39 +2,47 @@
 import asyncore
 import socket as sock
 import time
-from threading import Thread
+from threading import Thread, RLock
+from multiprocessing import Queue
 import traceback
 from futuquant.common.utils import *
 from futuquant.quote.quote_query import parse_head
+
 
 class _AsyncThreadCtrl(object):
     def __init__(self):
         self.__list_aync = []
         self.__net_proc = None
         self.__stop = False
+        self.__list_lock = RLock()
 
     def add_async(self, async_obj):
-        if async_obj in self.__list_aync:
-            return
-        self.__list_aync.append(async_obj)
-        if self.__net_proc is None:
-            self.__stop = False
-            self.__net_proc = Thread(
-                target=self._thread_aysnc_net_proc, args=())
-            self.__net_proc.start()
+        with self.__list_lock:
+            if async_obj in self.__list_aync:
+                return
+            self.__list_aync.append(async_obj)
+            if self.__net_proc is None:
+                self.__stop = False
+                self.__net_proc = Thread(
+                    target=self._thread_aysnc_net_proc, args=())
+                self.__net_proc.start()
 
     def remove_async(self, async_obj):
-        if async_obj not in self.__list_aync:
-            return
-        self.__list_aync.remove(async_obj)
-        if len(self.__list_aync) == 0:
-            self.__stop = True
-            self.__net_proc.join(timeout=5)
-            self.__net_proc = None
+        with self.__list_lock:
+            if async_obj not in self.__list_aync:
+                return
+            self.__list_aync.remove(async_obj)
+            if len(self.__list_aync) == 0:
+                self.__stop = True
+                self.__net_proc.join(timeout=5)
+                self.__net_proc = None
 
     def _thread_aysnc_net_proc(self):
         while not self.__stop:
-            asyncore.loop(timeout=0.001, count=5)
+            with self.__list_lock:
+                for obj in self.__list_aync:
+                    obj.thread_proc_async_req()
+                asyncore.loop(timeout=0.001, count=5)
 
 
 class _AsyncNetworkManager(asyncore.dispatcher_with_send):
@@ -44,6 +52,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         self.__host = host
         self.__port = port
         self.__close_handler = close_handler
+        self.__req_queue = Queue()
 
         asyncore.dispatcher_with_send.__init__(self)
         self._socket_create_and_connect()
@@ -66,6 +75,14 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         self.async_thread_ctrl.remove_async(self)
         self.close()
 
+    def async_req(self, req_str):
+        self.__req_queue.put(req_str)
+
+    def thread_proc_async_req(self):
+        if self.__req_queue.empty() is False:
+            req_str = self.__req_queue.get(timeout=0.001)
+            self.send(req_str)
+
     def handle_read(self):
         """
                     deal with package
@@ -74,9 +91,9 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         rsp_pb = u''
         try:
             recv_buf = self.recv(5 * 1024 * 1024)
-
+            # print("async handle_read len={} data={}".format(len(recv_buf), recv_buf))
             if recv_buf == b'':
-                raise Exception("_AsyncNetworkManager : remote server close")
+               return
 
             head_dict = parse_head(recv_buf[:get_message_head_len()])
             rsp_body = recv_buf[get_message_head_len():]
@@ -95,8 +112,9 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                     self._force_close_session()
                     return RET_ERROR, error_str, None
                 logger.debug(head_dict['proto_id'])
-            rsp_pb = binary2pb(rsp_body, head_dict['proto_id'], head_dict['proto_fmt_type'])
-            self.handler_ctx.recv_func(rsp_pb, head_dict['proto_id'])
+            # ysq error
+            # rsp_pb = binary2pb(rsp_body, head_dict['proto_id'], head_dict['proto_fmt_type'])
+            # self.handler_ctx.recv_func(rsp_pb, head_dict['proto_id'])
 
         except Exception as e:
             if isinstance(e, IOError) and e.errno == 10035:

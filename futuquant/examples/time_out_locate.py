@@ -221,7 +221,6 @@ if __name__ =="__main__":
     quote_ctx = ft.OpenQuoteContext(host='127.0.0.1', port=11111, proto_fmt=ProtoFMT.Protobuf)
     hk_trd = ft.OpenHKTradeContext()
     logger.debug(quote_ctx.init_connect())
-    hk_trd.init_connect()
     logger.debug(quote_ctx.get_global_state())
     logger.debug(hk_trd.unlock_trade(321321))
     #logger.debug(hk_trd.lock_trade(559844))
