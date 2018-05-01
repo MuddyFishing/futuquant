@@ -13,8 +13,9 @@ pd.set_option('display.max_columns',500)
 pd.set_option('display.width',1000)
 pd.set_option('colheader_justify', 'right')#value显示居右
 
-RET_OK =0
-RET_ERROR=-1
+from time import sleep
+from futuquant import *
+
 '''
 #获取所有板块下的子版块列表
 def _example_plate_list(quote_ctx):
@@ -216,39 +217,33 @@ class HeartBeatTest(HeartBeatHandlerBase):
 
 if __name__ =="__main__":
     # 实例化行情上下文对象
-    code = "HK.00700"
-    from futuquant.common.ft_logger import logger
-    quote_ctx = ft.OpenQuoteContext(host='127.0.0.1', port=11111, proto_fmt=ProtoFMT.Protobuf)
-    hk_trd = ft.OpenHKTradeContext()
-    logger.debug(quote_ctx.init_connect())
-    logger.debug(quote_ctx.get_global_state())
-    logger.debug(hk_trd.unlock_trade(321321))
-    #logger.debug(hk_trd.lock_trade(559844))
-    print(hk_trd.get_accinfo())
-    #set_trd_accID(hk_trd.get_accinfo()[1].at[0,'acc_id'])
-    #set_trd_market(MKT_MAP_NEW[hk_trd.get_accinfo()[1].at[0, 'acc_market']])
-    #logger.debug(hk_trd.accinfo_query(1))
-    logger.debug(quote_ctx.get_global_state())
-    logger.debug(quote_ctx.get_trading_days("HK", "2018-01-01", "2018-11-18"))
-    logger.debug(quote_ctx.subscribe("HK.00700", [ft.SubscribeType.K_1M, ft.SubscribeType.TICKER, ft.SubscribeType.RT_DATA, ft.SubscribeType.QUOTE], push=True))
-    logger.debug(quote_ctx.query_subscription())
-    quote_ctx.set_handler(StockQuoteTest())
-    quote_ctx.set_handler(HeartBeatTest())
-    quote_ctx.start()
-    stock_code_list = ["HK.00700"]
-    logger.debug(quote_ctx.get_stock_quote(stock_code_list))
-    logger.debug(quote_ctx.get_autype_list(['HK.00700']))
-    logger.debug(quote_ctx.get_suspension_info(['SZ.300384']))
-    logger.debug(quote_ctx.get_rt_data("HK.00700"))
-    logger.debug(quote_ctx.get_history_kline('SZ.002739',start='2017-06-20', end='2017-06-22'))
-    logger.debug(quote_ctx.get_stock_basicinfo("HK","STOCK"))
-    logger.debug(quote_ctx.get_market_snapshot(['HK.00700']))
-    logger.debug(quote_ctx.get_plate_list("HK", "ALL"))
-    logger.debug(quote_ctx.get_plate_stock("SH.BK0531"))
-    logger.debug(quote_ctx.get_broker_queue("HK.00700"))
-    logger.debug(quote_ctx.get_order_book("HK.00700"))
-    logger.debug(quote_ctx.get_cur_kline("HK.00700",5,'K_1M'))
-    logger.debug(quote_ctx.get_rt_ticker('HK.00700'))
-    logger.debug(quote_ctx.get_history_kline(code, ktype='K_DAY',start='2018-01-01', end='2018-11-20'))
+    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111, proto_fmt=ProtoFMT.Json)
 
+    # 获取推送数据
+    code_list = ['HK.00700', 'HK.02318']
+    sub_type_list = [SubType.ORDER_BOOK, SubType.K_DAY]
+    # print(quote_ctx.get_global_state())
+    print(quote_ctx.subscribe(code_list, sub_type_list, push=False))
+    # print(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.ETF))
+    # print(quote_ctx.get_cur_kline(code_list[0], 10, SubType.K_DAY, AuType.QFQ))
+    # print(quote_ctx.get_rt_data(code_list[0]))
+    # print(quote_ctx.get_rt_ticker(code_list[0], 10))
 
+    # print(quote_ctx.get_broker_queue(code_list[0]))
+    # print(quote_ctx.get_order_book(code_list[0]))
+    # print(quote_ctx.get_history_kline('HK.00700', start='2017-06-20', end='2017-06-22'))
+
+    # print(quote_ctx.get_multi_points_history_kline(code_list, ['2017-06-20', '2017-06-22', '2017-06-23'], KL_FIELD.ALL, KLType.K_DAY, AuType.QFQ))
+    # print(quote_ctx.get_autype_list("HK.00700"))
+
+    # print(quote_ctx.get_trading_days(Market.HK, '2018-11-01', '2018-11-20'))
+    # print(quote_ctx.get_suspension_info('SZ.300104', '2010-02-01', '2018-11-20'))
+
+    # print(quote_ctx.get_market_snapshot('HK.21901'))
+    # print(quote_ctx.get_market_snapshot(code_list))
+
+    print(quote_ctx.get_plate_list(Market.HK, Plate.ALL))
+    # print(quote_ctx.get_plate_stock('HK.BK1001'))
+
+    sleep(3)
+    quote_ctx.close()

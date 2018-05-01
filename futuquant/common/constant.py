@@ -72,11 +72,11 @@ SEC_TYPE_MAP = {
 
 # 窝轮类型
 class WrtType(object):
-    CALL = "CALL",
-    PUT = "PUT",
-    BULL = "BULL",
-    BEAR = "BEAR",
-    NONE = "N/A",
+    CALL = "CALL"
+    PUT = "PUT"
+    BULL = "BULL"
+    BEAR = "BEAR"
+    NONE = "N/A"
 
 WRT_TYPE_MAP = {WrtType.CALL: 1, WrtType.PUT: 2, WrtType.BULL: 3, WrtType.BEAR: 4, WrtType.NONE: 0}
 

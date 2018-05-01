@@ -326,7 +326,7 @@ class OpenQuoteContext(OpenContextBase):
                 error_str = ERROR_STR_PREFIX + "the type of market param is wrong"
                 return RET_ERROR, error_str
 
-        if market not in MKT_MAP_NEW:
+        if market not in MKT_MAP:
             error_str = ERROR_STR_PREFIX + "the value of market param is wrong "
             return RET_ERROR, error_str
 

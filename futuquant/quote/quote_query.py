@@ -331,7 +331,7 @@ class MarketSnapshotQuery:
             snapshot_tmp['listing_date'] = record.basic.listTime
             snapshot_tmp['price_spread'] = record.basic.priceSpread
             snapshot_tmp['lot_size'] = record.basic.lotSize
-            if record.basic.type == 5:
+            if record.basic.type == SEC_TYPE_MAP[SecurityType.WARRANT]:
                 snapshot_tmp['wrt_valid'] = True
                 snapshot_tmp[
                     'wrt_conversion_ratio'] = record.warrantExData.conversionRate
@@ -516,8 +516,8 @@ class PlateStockQuery:
                 record.basic.stock.market, record.basic.stock.code)
             stock_tmp['list_time'] = record.basic.listTime
             stock_tmp['stock_child_type'] = QUOTE.REV_WRT_TYPE_MAP[
-                record.basic.secType]
-            stock_tmp['stock_tmpe'] = QUOTE.REV_SEC_TYPE_MAP[
+                record.warrantExData.type] if record.HasField('warrantExData') else ""
+            stock_tmp['stock_type'] = QUOTE.REV_SEC_TYPE_MAP[
                 record.basic.secType]
             stock_list.append(stock_tmp)
 
