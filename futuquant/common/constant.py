@@ -7,74 +7,7 @@ from copy import copy
 # 需要安装的最低牛牛客户端版本号
 NN_VERSION_MIN = '3.42.4962'
 
-MKT_MAP = {
-    "HK": 1,
-    "QotMarket_HK_Future": 2,
-    "US": 11,
-    "QotMarket_US_Option": 12,
-    "SH": 21,
-    "SZ": 22,
-    "HK_FUTURE": 6
-}
-MKT_MAP_NEW = {
-    "QotMarket_Unknown": 0,
-    "HK": 1,  #QotMarket_HK_Stock
-    "QotMarket_HK_Future": 2,
-    "US": 11,  #QotMarket_US_Stock
-    "QotMarket_US_Option": 12,
-    "SH": 21,  #QotMarket_CNSH_Stock
-    "SZ": 22  #QotMarket_CNSZ_Stock
-}
-
-WRT_TYPE_MAP = {"CALL": 1, "PUT": 2, "BULL": 3, "BEAR": 4, "N/A": 0}
-
-PLATE_CLASS_MAP = {"ALL": 0, "INDUSTRY": 1, "REGION": 2, "CONCEPT": 3}
-
-SEC_TYPE_MAP = {
-    "STOCK": 3,
-    "IDX": 6,
-    "ETF": 4,
-    "WARRANT": 5,
-    "BOND": 1,
-    "N/A": 0
-}
-
-SUBTYPE_MAP = {
-    "TICKER": 4,
-    "QUOTE": 1,
-    "ORDER_BOOK": 2,
-    "K_1M": 11,
-    "K_5M": 7,
-    "K_15M": 8,
-    "K_30M": 9,
-    "K_60M": 10,
-    "K_DAY": 6,
-    "K_WEEK": 12,
-    "K_MON": 13,
-    "RT_DATA": 5,
-    "BROKER": 14
-}
-
-KTYPE_MAP = {
-    "K_1M": 1,
-    "K_5M": 6,
-    "K_15M": 7,
-    "K_30M": 8,
-    "K_60M": 9,
-    "K_DAY": 2,
-    "K_WEEK": 3,
-    "K_MON": 4
-}
-
-AUTYPE_MAP = {'None': 0, "qfq": 1, "hfq": 2}
-
-TICKER_DIRECTION = {"TT_BUY": 1, "TT_SELL": 2, "TT_NEUTRAL": 3}
-
 ORDER_STATUS = {"CANCEL": 0, "INVALID": 1, "VALID": 2, "DELETE": 3}
-
-ENVTYPE_MAP = {"TRUE": 0, "SIMULATE": 1}
-
-PROTO_FMT_MAP = {"Protobuf": 0, "Json": 1}
 
 MESSAGE_HEAD_FMT = "<1s1sI2B2I8B"
 RET_OK = 0
@@ -82,48 +15,145 @@ RET_ERROR = -1
 ERROR_STR_PREFIX = 'ERROR. '
 EMPTY_STRING = ''
 
+
+# 协议格式
+class ProtoFMT(object):
+    Protobuf = 0
+    Json = 1
+
+
+# 交易环境
+class EnvType(object):
+    REAL = "REAL",
+    SIMULATE = "SIMULATE",
+
+ENVTYPE_MAP = {EnvType.REAL: 0, EnvType.SIMULATE: 1}
+
+
+# 市场标识字符串
+class Market(object):
+    HK = "HK"
+    US = "US"
+    SH = "SH"
+    SZ = "SZ"
+    HK_FUTURE = "HK_FUTURE"
+    US_OPTION = "US_OPTION"
+    NONE = "N/A"
+
+MKT_MAP = {
+    Market.NONE: 0,
+    Market.HK: 1,
+    Market.HK_FUTURE: 2,
+    Market.US: 11,
+    Market.US_OPTION: 12,
+    Market.SH: 21,
+    Market.SZ: 22
+}
+
+
+# 股票类型
+class SecurityType(object):
+    STOCK = "STOCK"
+    IDX = "IDX"
+    ETF = "ETF"
+    WARRANT = "WARRANT"
+    BOND = "BOND"
+    NONE = "N/A"
+
+SEC_TYPE_MAP = {
+    SecurityType.STOCK: 3,
+    SecurityType.IDX: 6,
+    SecurityType.ETF: 4,
+    SecurityType.WARRANT: 5,
+    SecurityType.BOND: 1,
+    SecurityType.NONE: 0
+}
+
+
+# 窝轮类型
+class WrtType(object):
+    CALL = "CALL",
+    PUT = "PUT",
+    BULL = "BULL",
+    BEAR = "BEAR",
+    NONE = "N/A",
+
+WRT_TYPE_MAP = {WrtType.CALL: 1, WrtType.PUT: 2, WrtType.BULL: 3, WrtType.BEAR: 4, WrtType.NONE: 0}
+
+
+# 定阅类型
+class SubType(object):
+    TICKER = "TICKER"
+    QUOTE = "QUOTE"
+    ORDER_BOOK = "ORDER_BOOK"
+    K_1M = "K_1M"
+    K_5M = "K_5M"
+    K_15M = "K_15M"
+    K_30M = "K_30M"
+    K_60M = "K_60M"
+    K_DAY = "K_DAY"
+    K_WEEK = "K_WEEK"
+    K_MON = "K_MON"
+    RT_DATA = "RT_DATA"
+    BROKER = "BROKER"
+
+SUBTYPE_MAP = {
+    SubType.QUOTE: 1,
+    SubType.ORDER_BOOK: 2,
+    SubType.TICKER: 4,
+    SubType.RT_DATA: 5,
+    SubType.K_DAY: 6,
+    SubType.K_5M: 7,
+    SubType.K_15M: 8,
+    SubType.K_30M: 9,
+    SubType.K_60M: 10,
+    SubType.K_1M: 11,
+    SubType.K_WEEK: 12,
+    SubType.K_MON: 13,
+    SubType.BROKER: 14
+}
+
+
+# k线类型
+class KLType(object):
+    K_1M = "K_1M"
+    K_5M = "K_5M"
+    K_15M = "K_15M"
+    K_30M = "K_30M"
+    K_60M = "K_60M"
+    K_DAY = "K_DAY"
+    K_WEEK = "K_WEEK"
+    K_MON = "K_MON"
+
+KTYPE_MAP = {
+    KLType.K_1M: 1,
+    KLType.K_5M: 6,
+    KLType.K_15M: 7,
+    KLType.K_30M: 8,
+    KLType.K_60M: 9,
+    KLType.K_DAY: 2,
+    KLType.K_WEEK: 3,
+    KLType.K_MON: 4
+}
+
+
+# k线复权定义
+class AuType(object):
+    QFQ = "qfq"
+    HFQ = "hfq"
+    NONE = "None"
+
+AUTYPE_MAP = {AuType.NONE: 0, AuType.QFQ: 1, AuType.HFQ: 2}
+
+
 # 指定时间为非交易日时，对应的k线数据取值模式， get_multi_points_history_kline 参数用到
-KL_NO_DATA_MODE_NONE = '0'  # 返回无数据
-KL_NO_DATA_MODE_FORWARD = '1'  # 往前取数据
-KL_NO_DATA_MODE_BACKWARD = '2'  # 往后取数据
+class KLNoDataMode(object):
+    NONE = 0     # 返回无数据
+    FORWARD = 1  # 往前取数据
+    BACKWARD = 2  # 往后取数据
 
 
-# noinspection PyPep8Naming
-class TRADE(object):
-    REV_MKT_MAP = {MKT_MAP[x]: x for x in MKT_MAP}
-    REV_MKT_MAP_NEW = {MKT_MAP_NEW[x]: x for x in MKT_MAP_NEW}
-    REV_SEC_TYPE_MAP = {SEC_TYPE_MAP[x]: x for x in SEC_TYPE_MAP}
-    REV_SUBTYPE_MAP = {SUBTYPE_MAP[x]: x for x in SUBTYPE_MAP}
-    REV_KTYPE_MAP = {KTYPE_MAP[x]: x for x in KTYPE_MAP}
-    REV_AUTYPE_MAP = {AUTYPE_MAP[x]: x for x in AUTYPE_MAP}
-    REV_TICKER_DIRECTION = {TICKER_DIRECTION[x]: x for x in TICKER_DIRECTION}
-    REV_ORDER_STATUS = {ORDER_STATUS[x]: x for x in ORDER_STATUS}
-    REV_ENVTYPE_MAP = {ENVTYPE_MAP[x]: x for x in ENVTYPE_MAP}
-    REV_ENVTYPE_STR_MAP = {str(ENVTYPE_MAP[x]): x for x in ENVTYPE_MAP}
-
-    # 港股支持模拟和真实环境
-    @staticmethod
-    def check_envtype_hk(envtype):
-        return str(envtype) in TRADE.REV_ENVTYPE_STR_MAP
-
-    # 美股目前不支持模拟环境
-    @staticmethod
-    def check_envtype_us(envtype):
-        return str(envtype) == u'0'
-
-
-# noinspection PyPep8Naming
-class QUOTE(object):
-    REV_MKT_MAP = {MKT_MAP[x]: x for x in MKT_MAP}
-    REV_WRT_TYPE_MAP = {WRT_TYPE_MAP[x]: x for x in WRT_TYPE_MAP}
-    REV_PLATE_CLASS_MAP = {PLATE_CLASS_MAP[x]: x for x in PLATE_CLASS_MAP}
-    REV_SEC_TYPE_MAP = {SEC_TYPE_MAP[x]: x for x in SEC_TYPE_MAP}
-    REV_SUBTYPE_MAP = {SUBTYPE_MAP[x]: x for x in SUBTYPE_MAP}
-    REV_KTYPE_MAP = {KTYPE_MAP[x]: x for x in KTYPE_MAP}
-    REV_AUTYPE_MAP = {AUTYPE_MAP[x]: x for x in AUTYPE_MAP}
-    REV_TICKER_DIRECTION = {TICKER_DIRECTION[x]: x for x in TICKER_DIRECTION}
-
-
+# k线数据字段
 class KL_FIELD(object):
     ALL = ''
     DATE_TIME = '1'
@@ -137,23 +167,26 @@ class KL_FIELD(object):
     TRADE_VAL = '9'
     CHANGE_RATE = '10'
     LAST_CLOSE = '11'
+
     ALL_REAL = [
         DATE_TIME, OPEN, CLOSE, HIGH, LOW, PE_RATIO, TURNOVER_RATE, TRADE_VOL,
         TRADE_VAL, CHANGE_RATE, LAST_CLOSE
     ]
-    #use binary represent field, here's the filed&position map
-    FIELD_BINARY_MAP = {
+
+    FIELD_FLAG_VAL_MAP = {
+        DATE_TIME: 0,
         HIGH: 1,
         OPEN: 2,
-        LOW: 3,
-        CLOSE: 4,
-        LAST_CLOSE: 5,
-        TRADE_VOL: 6,
-        TRADE_VAL: 7,
-        TURNOVER_RATE: 8,
-        PE_RATIO: 9,
-        CHANGE_RATE: 10
+        LOW: 4,
+        CLOSE: 8,
+        LAST_CLOSE: 16,
+        TRADE_VOL: 32,
+        TRADE_VAL: 64,
+        TURNOVER_RATE: 128,
+        PE_RATIO: 256,
+        CHANGE_RATE: 512,
     }
+
     DICT_KL_FIELD_STR = {
         DATE_TIME: 'time_key',
         OPEN: 'open',
@@ -191,7 +224,42 @@ class KL_FIELD(object):
                     list_ret.append(x)
         return list_ret
 
+    @classmethod
+    def kl_fields_to_flag_val(cls, fields):
+        fields_normal = KL_FIELD.normalize_field_list(fields)
+        ret_flags = 0
+        for x in fields_normal:
+            ret_flags += KL_FIELD.FIELD_FLAG_VAL_MAP[x]
+        return ret_flags
 
+# 成交逐笔的方向
+class TickerDirect(object):
+    BUY = "BUY"
+    SELL = "SELL"
+    NEUTRAL = "NEUTRAL"
+
+TICKER_DIRECTION = {
+    TickerDirect.BUY: 1,
+    TickerDirect.SELL: 2,
+    TickerDirect.NEUTRAL: 3
+}
+
+
+class Plate(object):
+    ALL = "ALL"
+    INDUSTRY = "INDUSTRY"
+    REGION = "REGION"
+    CONCEPT = "CONCEPT"
+
+PLATE_CLASS_MAP = {
+    Plate.ALL: 0,
+    Plate.INDUSTRY: 1,
+    Plate.REGION: 2,
+    Plate.CONCEPT: 3
+}
+
+
+# 交易报价调整类型
 class PriceRegularMode(object):
     """
     港股报价需符合价位表的要求， 详见https://www.futu5.com/faq/topic1683
@@ -201,61 +269,6 @@ class PriceRegularMode(object):
     IGNORE = '0'  # 不调整
     UPPER = '1'  # 向上调整
     LOWER = '2'  # 向下调整
-
-
-class Plate(object):
-    ALL = "ALL"
-    INDUSTRY = "INDUSTRY"
-    REGION = "REGION"
-    CONCEPT = "CONCEPT"
-
-
-class Market(object):
-    HK = "HK"
-    US = "US"
-    SH = "SH"
-    SZ = "SZ"
-    HK_FUTURE = "HK_FUTURE"
-
-
-class SecurityType(object):
-    STOCK = "STOCK"
-    IDX = "IDX"
-    ETF = "ETF"
-    WARRANT = "WARRANT"
-    BOND = "BOND"
-
-
-class Autype(object):
-    qfq = "qft"
-    hfq = "hfq"
-
-
-class KLine(object):
-    K_1M = "K_1M"
-    K_5M = "K_5M"
-    K_15M = "K_15M"
-    K_30M = "K_30M"
-    K_60M = "K_60M"
-    K_DAY = "K_DAY"
-    K_WEEK = "K_WEEK"
-    K_MON = "K_MON"
-
-
-class SubscribeType(object):
-    TICKER = "TICKER"
-    QUOTE = "QUOTE"
-    ORDER_BOOK = "ORDER_BOOK"
-    K_1M = "K_1M"
-    K_5M = "K_5M"
-    K_15M = "K_15M"
-    K_30M = "K_30M"
-    K_60M = "K_60M"
-    K_DAY = "K_DAY"
-    K_WEEK = "K_WEEK"
-    K_MON = "K_MON"
-    RT_DATA = "RT_DATA"
-    BROKER = "BROKER"
 
 
 class ProtoId(object):
@@ -313,6 +326,35 @@ class ProtoId(object):
     Qot_ReqPlateStock = 3205  # 获取板块下的股票
 
 
-class ProtoFMT(object):
-    Protobuf = 0
-    Json = 1
+class TRADE(object):
+    REV_MKT_MAP = {MKT_MAP[x]: x for x in MKT_MAP}
+    REV_SEC_TYPE_MAP = {SEC_TYPE_MAP[x]: x for x in SEC_TYPE_MAP}
+    REV_SUBTYPE_MAP = {SUBTYPE_MAP[x]: x for x in SUBTYPE_MAP}
+    REV_KTYPE_MAP = {KTYPE_MAP[x]: x for x in KTYPE_MAP}
+    REV_AUTYPE_MAP = {AUTYPE_MAP[x]: x for x in AUTYPE_MAP}
+    REV_TICKER_DIRECTION = {TICKER_DIRECTION[x]: x for x in TICKER_DIRECTION}
+    REV_ORDER_STATUS = {ORDER_STATUS[x]: x for x in ORDER_STATUS}
+    REV_ENVTYPE_MAP = {ENVTYPE_MAP[x]: x for x in ENVTYPE_MAP}
+    REV_ENVTYPE_STR_MAP = {str(ENVTYPE_MAP[x]): x for x in ENVTYPE_MAP}
+
+    # 港股支持模拟和真实环境
+    @staticmethod
+    def check_envtype_hk(envtype):
+        return str(envtype) in TRADE.REV_ENVTYPE_STR_MAP
+
+    # 美股目前不支持模拟环境
+    @staticmethod
+    def check_envtype_us(envtype):
+        return str(envtype) == u'0'
+
+
+# noinspection PyPep8Naming
+class QUOTE(object):
+    REV_MKT_MAP = {MKT_MAP[x]: x for x in MKT_MAP}
+    REV_WRT_TYPE_MAP = {WRT_TYPE_MAP[x]: x for x in WRT_TYPE_MAP}
+    REV_PLATE_CLASS_MAP = {PLATE_CLASS_MAP[x]: x for x in PLATE_CLASS_MAP}
+    REV_SEC_TYPE_MAP = {SEC_TYPE_MAP[x]: x for x in SEC_TYPE_MAP}
+    REV_SUBTYPE_MAP = {SUBTYPE_MAP[x]: x for x in SUBTYPE_MAP}
+    REV_KTYPE_MAP = {KTYPE_MAP[x]: x for x in KTYPE_MAP}
+    REV_AUTYPE_MAP = {AUTYPE_MAP[x]: x for x in AUTYPE_MAP}
+    REV_TICKER_DIRECTION = {TICKER_DIRECTION[x]: x for x in TICKER_DIRECTION}

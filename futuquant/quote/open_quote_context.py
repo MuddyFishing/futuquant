@@ -67,7 +67,7 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, trade_day_list
 
-    def get_stock_basicinfo(self, market, stock_type='STOCK'):
+    def get_stock_basicinfo(self, market, stock_type=SecurityType.STOCK):
         """get the basic information of stock"""
         param_table = {'market': market, 'stock_type': stock_type}
         for x in param_table:
@@ -97,8 +97,8 @@ class OpenQuoteContext(OpenContextBase):
                                    codelist,
                                    start=None,
                                    end=None,
-                                   ktype='K_DAY',
-                                   autype='qfq'):
+                                   ktype=KLType.K_DAY,
+                                   autype=AuType.QFQ):
         if is_str(codelist):
             codelist = codelist.split(',')
         elif isinstance(codelist, list):
@@ -120,16 +120,16 @@ class OpenQuoteContext(OpenContextBase):
                           code,
                           start=None,
                           end=None,
-                          ktype='K_DAY',
-                          autype='qfq',
+                          ktype=KLType.K_DAY,
+                          autype=AuType.QFQ,
                           fields=[KL_FIELD.ALL]):
         '''
         得到本地历史k线，需先参照帮助文档下载k线
         :param code: 股票code
         :param start: 开始时间 '%Y-%m-%d'
         :param end:  结束时间 '%Y-%m-%d'
-        :param ktype: k线类型， 参见 KTYPE_MAP 定义 'K_1M' 'K_DAY'...
-        :param autype: 复权类型, 参见 AUTYPE_MAP 定义 'None', 'qfq', 'hfq'
+        :param ktype: k线类型， 参见 KLType 定义
+        :param autype: 复权类型, 参见 AuType 定义
         :param fields: 需返回的字段列表，参见 KL_FIELD 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
         :return: (ret, data) ret == 0 返回pd dataframe数据，表头包括'code', 'time_key', 'open', 'close', 'high', 'low',
                                         'volume', 'turnover', 'pe_ratio', 'turnover_rate' 'change_rate'
@@ -174,7 +174,7 @@ class OpenQuoteContext(OpenContextBase):
                 "end_date": end,
                 "ktype": ktype,
                 "autype": autype,
-                "fields": req_fields,
+                "fields": copy(req_fields),
                 "max_num": max_kl_num
             }
             query_processor = self._get_sync_query_processor(
@@ -202,9 +202,7 @@ class OpenQuoteContext(OpenContextBase):
 
     def get_autype_list(self, code_list):
         """get the autype list"""
-        if code_list is None or isinstance(code_list, list) is False:
-            error_str = ERROR_STR_PREFIX + "the type of code_list param is wrong"
-            return RET_ERROR, error_str
+        code_list = unique_and_normalize_list(code_list)
 
         for code in code_list:
             if code is None or is_str(code) is False:
@@ -306,6 +304,9 @@ class OpenQuoteContext(OpenContextBase):
         ret_code, msg, rt_data_list = query_processor(**kargs)
         if ret_code == RET_ERROR:
             return ret_code, msg
+
+        for x in rt_data_list:
+            x['code'] = code
 
         col_list = [
             'code', 'time', 'data_status', 'opened_mins', 'cur_price',
@@ -577,7 +578,7 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, ticker_frame_table
 
-    def get_cur_kline(self, code, num, ktype='K_DAY', autype='qfq'):
+    def get_cur_kline(self, code, num, ktype=SubType.K_DAY, autype=AuType.QFQ):
         """
         get current kline
         :param code: stock code
@@ -674,9 +675,9 @@ class OpenQuoteContext(OpenContextBase):
                                        codes,
                                        dates,
                                        fields,
-                                       ktype='K_DAY',
-                                       autype='qfq',
-                                       no_data_mode=KL_NO_DATA_MODE_FORWARD):
+                                       ktype=KLType.K_DAY,
+                                       autype=AuType.QFQ,
+                                       no_data_mode=KLNoDataMode.FORWARD):
         '''
         获取多支股票多个时间点的指定数据列
         :param codes: 单个或多个股票 'HK.00700'  or  ['HK.00700', 'HK.00001']
@@ -725,7 +726,7 @@ class OpenQuoteContext(OpenContextBase):
             kargs = {
                 "codes": req_codes,
                 "dates": req_dates,
-                "fields": req_fields,
+                "fields": copy(req_fields),
                 "ktype": ktype,
                 "autype": autype,
                 "max_num": max_kl_num,

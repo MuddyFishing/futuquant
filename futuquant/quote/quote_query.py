@@ -71,7 +71,7 @@ class InitConnect:
         :param client_ver:
         :param client_id:
         :param recv_notify:
-         :return:  json string for request
+         :return: pb binary request data
         """
         from futuquant.common.pb.InitConnect_pb2 import Request
         req = Request()
@@ -111,22 +111,11 @@ class TradeDayQuery:
         :param market:
         :param start_date:
         :param end_date:
-        :return:  json string for request
-
-        Example:
-
-        ret,msg,content =  TradeDayQuery.pack_req("US", "2017-01-01", "2017-01-18")
-
-        ret: 0
-        msg: ""
-        content:
-        '{"Protocol": "1013", "Version": "1", "ReqParam": {"end_date": "2017-01-18",
-        "Market": "2", "start_date": "2017-01-01"}}\r\n'
-
+        :return: pb binary request data
         """
 
         # '''Parameter check'''
-        if market not in MKT_MAP_NEW:
+        if market not in MKT_MAP:
             error_str = ERROR_STR_PREFIX + " market is %s, which is not valid. (%s)" \
                                            % (market, ",".join([x for x in MKT_MAP]))
             return RET_ERROR, error_str, None
@@ -152,7 +141,7 @@ class TradeDayQuery:
             end_date = normalize_date_format(end_date)
 
         # pack to json
-        mkt = MKT_MAP_NEW[market]
+        mkt = MKT_MAP[market]
         from futuquant.common.pb.Qot_ReqTradeDate_pb2 import Request
         req = Request()
         req.c2s.market = mkt
@@ -218,16 +207,10 @@ class StockBasicInfoQuery:
         Convert from user request for trading days to PLS request
         :param market:
         :param stock_type:
-        :return: json string for request
+        :return:  pb binary request data
 
-        Example:
-         ret,msg,content = StockBasicInfoQuery.pack_req("HK_FUTURE","IDX")
-
-         ret : 0
-         msg : ""
-         content : '{"Protocol": "1014", "Version": "1", "ReqParam": {"Market": "6", "StockType": "6"}}\r\n'
         """
-        if market not in MKT_MAP_NEW:
+        if market not in MKT_MAP:
             error_str = ERROR_STR_PREFIX + " market is %s, which is not valid. (%s)" \
                                            % (market, ",".join([x for x in MKT_MAP]))
             return RET_ERROR, error_str, None
@@ -239,7 +222,7 @@ class StockBasicInfoQuery:
 
         from futuquant.common.pb.Qot_ReqStockList_pb2 import Request
         req = Request()
-        req.c2s.market = MKT_MAP_NEW[market]
+        req.c2s.market = MKT_MAP[market]
         req.c2s.secType = SEC_TYPE_MAP[stock_type]
 
         return pack_pb_req(req, ProtoId.Qot_ReqStockList)
@@ -248,29 +231,8 @@ class StockBasicInfoQuery:
     def unpack_rsp(cls, rsp_pb):
         """
         Convert from PLS response to user response
-        :return: json string for request
-
-        Example:
-
-        rsp_str : '{"ErrCode":"0","ErrDesc":"","Protocol":"1014",
-        "RetData":{"BasicInfoArr":
-        [{"LotSize":"0","Name":"恒指当月期货","StockCode":"999010","StockID":"999010","StockType":"6"},
-        {"LotSize":"0","Name":"恒指下月期货","StockCode":"999011","StockID":"999011","StockType":"6"}],
-        "Market":"6"},"Version":"1"}\n\r\n\r\n'
-
-
-         ret,msg,content = StockBasicInfoQuery.unpack_rsp(rsp_str)
-
-        ret : 0
-        msg : ""
-        content : [{'code': 'HK_FUTURE.999010',
-                    'lot_size': 0,
-                    'name': '恒指当月期货',
-                    'stock_type': 'IDX'},
-                   {'code': 'HK_FUTURE.999011',
-                    'lot_size': 0,
-                    'name': '恒指下月期货',
-                    'stock_type': 'IDX'}]
+        :return: (ret, msg , data)
+            ret == 0, data = basic_info_list
 
         """
         ret_type = rsp_pb.retType
@@ -453,16 +415,11 @@ class RtDataQuery:
             return RET_ERROR, ret_msg, None
 
         raw_rt_data_list = rsp_pb.s2c.rt
-        stock_code = "test"
-        #stock_code = merge_stock_str(
-        #int(rsp_data.Market']), rsp_data['StockCode'])
         rt_list = [
             {
                 "time": record.time,
-                "code": stock_code,
                 "data_status": record.isBlank,
-                #"opened_mins":
-                #record.OpenedMins,
+                "opened_mins": record.minute,
                 "cur_price": record.price,
                 "last_close": record.lastClosePrice,
                 "avg_price": record.avgPrice,
@@ -470,7 +427,6 @@ class RtDataQuery:
                 "volume": record.volume
             } for record in raw_rt_data_list
         ]
-
         return RET_OK, "", rt_list
 
 
@@ -487,7 +443,7 @@ class SubplateQuery:
         """Convert from user request for trading days to PLS request"""
         from futuquant.common.pb.Qot_ReqPlateSet_pb2 import Request
         req = Request()
-        req.c2s.market = MKT_MAP_NEW[market]
+        req.c2s.market = MKT_MAP[market]
         req.c2s.plateSetType = PLATE_CLASS_MAP[plate_class]
 
         return pack_pb_req(req, ProtoId.Qot_ReqPlateSet)
@@ -676,10 +632,6 @@ class HistoryKlineQuery:
                                            % (autype, ", ".join([str(x) for x in AUTYPE_MAP]))
             return RET_ERROR, error_str, None
 
-        str_field = ','.join(fields)
-        list_req_field = KL_FIELD.get_field_list(str_field)
-        if not list_req_field:
-            return RET_ERROR, ERROR_STR_PREFIX + "field error", None
         from futuquant.common.pb.Qot_HistoryKL_pb2 import Request
 
         req = Request()
@@ -690,13 +642,7 @@ class HistoryKlineQuery:
         req.c2s.beginTime = start_date
         req.c2s.endTime = end_date
         req.c2s.maxAckKLNum = max_num
-        kl_field_str = "0000000000"
-        fields.remove(KL_FIELD.DATE_TIME)
-        kl_field_list = list(kl_field_str)
-        for field in fields:
-            kl_field_list[10 - KL_FIELD.FIELD_BINARY_MAP[str(field)]] = '1'
-        kl_field_str = ('').join(kl_field_list)
-        req.c2s.needKLFieldsFlag = int(kl_field_str, 2)
+        req.c2s.needKLFieldsFlag = KL_FIELD.kl_fields_to_flag_val(fields)
 
         return pack_pb_req(req, ProtoId.Qot_ReqHistoryKL)
 
@@ -790,13 +736,23 @@ class ExrightQuery:
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
 
+        class KLRehabFlag(object):
+            SPLIT = 1
+            JOIN = 2
+            BONUS = 4
+            TRANSFER = 8
+            ALLOT = 16
+            ADD = 32
+            DIVIDED = 64
+            SP_DIVIDED = 128
+
         raw_exr_list = rsp_pb.s2c.stockRehab
         exr_list = []
         for stock_rehab in raw_exr_list:
-            stock_rehab_tmp = {}
             stock_str = merge_stock_str(stock_rehab.stock.market,
                                         stock_rehab.stock.code)
             for rehab in stock_rehab.rehab:
+                stock_rehab_tmp = {}
                 stock_rehab_tmp['code'] = stock_str
                 stock_rehab_tmp['ex_div_date'] = rehab.time.split()[0]
                 stock_rehab_tmp['forward_adj_factorA'] = rehab.fwdFactorA
@@ -804,39 +760,35 @@ class ExrightQuery:
                 stock_rehab_tmp['backward_adj_factorA'] = rehab.bwdFactorA
                 stock_rehab_tmp['backward_adj_factorB'] = rehab.bwdFactorB
 
-                company_act_flag = rehab.companyActFlag
-                if company_act_flag == 0:
-                    break
+                act_flag = rehab.companyActFlag
+                if act_flag == 0:
+                    continue
 
-                company_act_flag_bin_str = bin(company_act_flag)
-                company_act_flag_bin_str = company_act_flag_bin_str.replace(
-                    '0b', (10 - len(company_act_flag_bin_str)) * '0')
-
-                if company_act_flag_bin_str[0] == '1':
+                if act_flag & KLRehabFlag.SP_DIVIDED:
                     stock_rehab_tmp['special_dividend'] = rehab.spDivident
-                if company_act_flag_bin_str[1] == '1':
+                if act_flag & KLRehabFlag.DIVIDED:
                     stock_rehab_tmp['per_cash_div'] = rehab.dividend
-                if company_act_flag_bin_str[2] == '1':
+                if act_flag & KLRehabFlag.ADD:
                     stock_rehab_tmp[
                         'stk_spo_ratio'] = rehab.addBase / rehab.addErt
                     stock_rehab_tmp['stk_spo_price'] = rehab.addPrice
-                if company_act_flag_bin_str[3] == '1':
+                if act_flag & KLRehabFlag.ALLOT:
                     stock_rehab_tmp[
                         'allotment_ratio'] = rehab.allotBase / rehab.allotErt
                     stock_rehab_tmp['allotment_price'] = rehab.allotPrice
-                if company_act_flag_bin_str[4] == '1':
+                if act_flag & KLRehabFlag.TRANSFER:
                     stock_rehab_tmp[
                         'per_share_trans_ratio'] = rehab.transferBase / rehab.transferErt
-                if company_act_flag_bin_str[5] == '1':
+                if act_flag & KLRehabFlag.BONUS:
                     stock_rehab_tmp[
                         'per_share_div_ratio'] = rehab.bonusBase / rehab.bonusErt
-                if company_act_flag_bin_str[6] == '1':
+                if act_flag & KLRehabFlag.JOIN:
                     stock_rehab_tmp[
                         'join_ratio'] = rehab.joinBase / rehab.joinErt
-                if company_act_flag_bin_str[7] == '1':
+                if act_flag & KLRehabFlag.SPLIT:
                     stock_rehab_tmp[
                         'split_ratio'] = rehab.splitBase / rehab.splitErt
-            exr_list.append(stock_rehab_tmp)
+                exr_list.append(stock_rehab_tmp)
 
         return RET_OK, "", exr_list
 
@@ -855,7 +807,7 @@ class SubscriptionQuery:
         Pack subscribe user's request
         :param stock_str:
         :param data_type:
-        :return:
+        :return: pb binary request data
         """
         if not isinstance(stock_str, list):
             stock_str = [stock_str]
@@ -1207,20 +1159,13 @@ class TickerQuery:
                                      rsp_pb.s2c.stock.code)
         raw_ticker_list = rsp_pb.s2c.ticker
         ticker_list = [{
-            "code":
-            stock_code,
-            "time":
-            record.time,
-            "price":
-            record.price,
-            "volume":
-            record.volume,
-            "turnover":
-            record.turnover,
-            "ticker_direction":
-            QUOTE.REV_TICKER_DIRECTION[record.dir],
-            "sequence":
-            999
+            "code": stock_code,
+            "time": record.time,
+            "price": record.price,
+            "volume": record.volume,
+            "turnover": record.turnover,
+            "ticker_direction": str(QUOTE.REV_TICKER_DIRECTION[record.dir]), # if record.dir in QUOTE.REV_TICKER_DIRECTION else "",
+            "sequence": record.sequence,
         } for record in raw_ticker_list]
         return RET_OK, "", ticker_list
 
@@ -1232,7 +1177,7 @@ class CurKlineQuery:
         pass
 
     @classmethod
-    def pack_req(cls, stock_str, num, ktype='K_DAY', autype='qfq'):
+    def pack_req(cls, stock_str, num, ktype, autype):
         """Convert from user request for trading days to PLS request"""
         ret, content = split_stock_str(stock_str)
         if ret == RET_ERROR:
@@ -1410,9 +1355,8 @@ class GlobalStateQuery:
         """
         Convert from user request for trading days to PLS request
         :param state_type: for reserved, no use now !
-        :return:  json string for request
+        :return: pb binary request data
 
-        req_str: '{"Protocol":"1029","ReqParam":{"StateType":"0"},"Version":"1"}'
         """
         '''Parameter check'''
 
@@ -1523,18 +1467,9 @@ class MultiPointsHisKLine:
                                            % (autype, ", ".join([str(x) for x in AUTYPE_MAP]))
             return RET_ERROR, error_str, None
 
-        if len(fields) == 0:
-            fields = copy(KL_FIELD.ALL_REAL)
-        kl_field_str = "0000000000"
-        fields.remove(KL_FIELD.DATE_TIME)
-        kl_field_list = list(kl_field_str)
-        for field in fields:
-            kl_field_list[10 - KL_FIELD.FIELD_BINARY_MAP[str(field)]] = '1'
-        kl_field_str = ('').join(kl_field_list)
-
         from futuquant.common.pb.Qot_HistoryKLPoints_pb2 import Request
         req = Request()
-        req.c2s.needKLFieldsFlag = int(kl_field_str, 2)
+        req.c2s.needKLFieldsFlag = KL_FIELD.kl_fields_to_flag_val(fields)
         req.c2s.rehabType = AUTYPE_MAP[autype]
         req.c2s.klType = KTYPE_MAP[ktype]
         req.c2s.noDataMode = no_data_mode

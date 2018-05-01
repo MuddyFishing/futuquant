@@ -101,9 +101,9 @@ def split_stock_str(stock_str_param):
     The built-in function cannot handle some stock strings correctly.
     for instance, US..DJI, where the dot . itself is a part of original code'''
     if 0 <= split_loc < len(
-            stock_str) - 1 and stock_str[0:split_loc] in MKT_MAP_NEW:
+            stock_str) - 1 and stock_str[0:split_loc] in MKT_MAP:
         market_str = stock_str[0:split_loc]
-        market_code = MKT_MAP_NEW[market_str]
+        market_code = MKT_MAP[market_str]
         partial_stock_str = stock_str[split_loc + 1:]
         return RET_OK, (market_code, partial_stock_str)
 
