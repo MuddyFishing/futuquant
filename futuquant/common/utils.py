@@ -243,7 +243,7 @@ class ProtobufMap(dict):
         ProtobufMap.created_protobuf_map[ProtoId.GlobalState] = Response()
 
     def __getitem__(self, key):
-        return ProtobufMap.created_protobuf_map[key]
+        return ProtobufMap.created_protobuf_map[key] if key in ProtobufMap.created_protobuf_map else None
 
 pb_map = ProtobufMap()
 
@@ -274,10 +274,12 @@ def binary2pb(b, proto_id, proto_fmt_type):
     :param b: binary content to be transformed to pb message
     :return: pb message
     """
+    rsp = pb_map[proto_id]
+    if rsp is None:
+        return None
     if proto_fmt_type == ProtoFMT.Json:
-        return json2pb(type(pb_map[proto_id]), b.decode('utf-8'))
+        return json2pb(type(rsp), b.decode('utf-8'))
     elif proto_fmt_type == ProtoFMT.Protobuf:
-        rsp = pb_map[proto_id]
         rsp.Clear()
         # logger.debug((proto_id))
         rsp.ParseFromString(b)

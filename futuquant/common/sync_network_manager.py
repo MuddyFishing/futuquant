@@ -93,6 +93,8 @@ class _SyncNetworkQueryCtx:
                     return RET_ERROR, error_str, None
 
             rsp_pb = binary2pb(rsp_body, head_dict['proto_id'], head_dict['proto_fmt_type'])
+            if rsp_pb is None:
+                return RET_ERROR, "parse error", None
             self._close_session()
         except Exception as e:
             traceback.print_exc()

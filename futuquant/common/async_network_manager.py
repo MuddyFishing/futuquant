@@ -58,9 +58,8 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         self._socket_create_and_connect()
 
         time.sleep(0.1)
-        self.rsp_buf = b''
+        self.__buf_last = b''
         self.handler_ctx = handler_ctx
-
         self.async_thread_ctrl.add_async(self)
 
     def __del__(self):
@@ -72,6 +71,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
 
     def close_socket(self):
         """close socket"""
+        self.__buf_last = b''
         self.async_thread_ctrl.remove_async(self)
         self.close()
 
@@ -86,39 +86,43 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
     def handle_read(self):
         """
                     deal with package
-                    :return: err
+                    :return:
                     """
-        rsp_pb = u''
         try:
-            recv_buf = self.recv(5 * 1024 * 1024)
-            print("async handle_read len={} data={}".format(len(recv_buf), recv_buf))
-            if recv_buf == b'':
+            recv_tmp = self.recv(5 * 1024 * 1024)
+            # print("async handle_read len={} data={}".format(len(recv_tmp), recv_tmp))
+            if recv_tmp == b'':
                return
+            recv_buf = self.__buf_last + recv_tmp
 
-            head_dict = parse_head(recv_buf[:get_message_head_len()])
-            rsp_body = recv_buf[get_message_head_len():]
+            while len(recv_buf) > get_message_head_len():
+                head_dict = parse_head(recv_buf[:get_message_head_len()])
+                rsp_body = recv_buf[get_message_head_len():]
+                body_len = head_dict['body_len']
 
-            while head_dict['body_len'] > len(rsp_body):
-                try:
-                    recv_buf = self.s.recv(5 * 1024 * 1024)
-                    rsp_body += recv_buf
-                    if recv_buf == b'':
-                        raise Exception("_SyncNetworkQueryCtx : remote server close")
-                except Exception as e:
-                    traceback.print_exc()
-                    err = sys.exc_info()[1]
-                    error_str = ERROR_STR_PREFIX + str(
-                        err) + ' when receiving after sending %s bytes. For req: ' % s_cnt + ""
-                    self._force_close_session()
-                    return RET_ERROR, error_str, None
-                logger.debug(head_dict['proto_id'])
-            # ysq error
-            # rsp_pb = binary2pb(rsp_body, head_dict['proto_id'], head_dict['proto_fmt_type'])
-            # self.handler_ctx.recv_func(rsp_pb, head_dict['proto_id'])
+                while  body_len > len(rsp_body):
+                    recv_tmp = self.s.recv(5 * 1024 * 1024)
+                    if recv_tmp == b'':
+                        raise Exception("_AsyncNetworkManager : remote server close")
+                    rsp_body += recv_tmp
+
+                logger.debug("async proto_id = {}".format(head_dict['proto_id']))
+                recv_buf = rsp_body[body_len:]
+                rsp_body = rsp_body[:body_len]
+                rsp_pb = binary2pb(rsp_body, head_dict['proto_id'], head_dict['proto_fmt_type'])
+                if rsp_pb is None:
+                    logger.debug("async handle_read not support proto:{}".format(head_dict['proto_id']))
+                else:
+                    self.handler_ctx.recv_func(rsp_pb, head_dict['proto_id'])
+
+            self.__buf_last = recv_buf
+            if len(self.__buf_last):
+                logger.debug("left len = {} data={}".format(len(self.__buf_last), self.__buf_last))
 
         except Exception as e:
             if isinstance(e, IOError) and e.errno == 10035:
                 return
+            self.__buf_last = b''
             traceback.print_exc()
             err = sys.exc_info()[1]
             self.handler_ctx.error_func(str(err))
