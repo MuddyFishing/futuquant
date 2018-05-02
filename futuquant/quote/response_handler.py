@@ -1,9 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 import pandas as pd
-
-from futuquant.common.constant import *
-from futuquant.common.utils import *
-from futuquant.quote.quote_query import StockQuoteQuery
+from futuquant.quote.quote_query import *
 
 
 class RspHandlerBase(object):
@@ -12,7 +9,7 @@ class RspHandlerBase(object):
     def __init__(self):
         pass
 
-    def on_recv_rsp(self, rsp_content):
+    def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
         return 0, None
 
@@ -24,9 +21,9 @@ class RspHandlerBase(object):
 class StockQuoteHandlerBase(RspHandlerBase):
     """Base class for handle stock quote"""
 
-    def on_recv_rsp(self, rsp_str):
+    def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
-        ret_code, msg, quote_list = StockQuoteQuery.unpack_rsp(rsp_str)
+        ret_code, msg, quote_list = StockQuoteQuery.unpack_rsp(rsp_pb)
         if ret_code == RET_ERROR:
             return ret_code, msg
         else:
@@ -49,9 +46,9 @@ class StockQuoteHandlerBase(RspHandlerBase):
 class OrderBookHandlerBase(RspHandlerBase):
     """Base class for handling order book data"""
 
-    def on_recv_rsp(self, rsp_str):
+    def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
-        ret_code, msg, order_book = OrderBookQuery.unpack_rsp(rsp_str)
+        ret_code, msg, order_book = OrderBookQuery.unpack_rsp(rsp_pb)
         if ret_code == RET_ERROR:
             return ret_code, msg
         else:
@@ -65,15 +62,15 @@ class OrderBookHandlerBase(RspHandlerBase):
 class CurKlineHandlerBase(RspHandlerBase):
     """Base class for handling current Kline data"""
 
-    def on_recv_rsp(self, rsp_str):
+    def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
-        ret_code, msg, kline_list = CurKlineQuery.unpack_rsp(rsp_str)
+        ret_code, msg, kline_list = CurKlinePush.unpack_rsp(rsp_pb)
         if ret_code == RET_ERROR:
             return ret_code, msg
         else:
             col_list = [
                 'code', 'time_key', 'open', 'close', 'high', 'low', 'volume',
-                'turnover', 'k_type'
+                'turnover', 'k_type', 'last_close'
             ]
             kline_frame_table = pd.DataFrame(kline_list, columns=col_list)
 
@@ -87,9 +84,9 @@ class CurKlineHandlerBase(RspHandlerBase):
 class TickerHandlerBase(RspHandlerBase):
     """Base class for handling ticker data"""
 
-    def on_recv_rsp(self, rsp_str):
+    def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
-        ret_code, msg, ticker_list = TickerQuery.unpack_rsp(rsp_str)
+        ret_code, msg, ticker_list = TickerQuery.unpack_rsp(rsp_pb)
         if ret_code == RET_ERROR:
             return ret_code, msg
         else:
@@ -110,9 +107,9 @@ class TickerHandlerBase(RspHandlerBase):
 class RTDataHandlerBase(RspHandlerBase):
     """Base class for handling real-time data"""
 
-    def on_recv_rsp(self, rsp_str):
+    def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
-        ret_code, msg, rt_data_list = RtDataQuery.unpack_rsp(rsp_str)
+        ret_code, msg, rt_data_list = RtDataQuery.unpack_rsp(rsp_pb)
         if ret_code == RET_ERROR:
             return ret_code, msg
         else:
@@ -133,10 +130,10 @@ class RTDataHandlerBase(RspHandlerBase):
 class BrokerHandlerBase(RspHandlerBase):
     """Base class for handling broker"""
 
-    def on_recv_rsp(self, rsp_str):
+    def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
         ret_code, bid_content, ask_content = BrokerQueueQuery.unpack_rsp(
-            rsp_str)
+            rsp_pb)
         if ret_code == RET_ERROR:
             return ret_code, [bid_content, ask_content]
         else:
@@ -159,9 +156,9 @@ class BrokerHandlerBase(RspHandlerBase):
 class HeartBeatHandlerBase(RspHandlerBase):
     """Base class for handling Heart Beat"""
 
-    def on_recv_rsp(self, rsp_str):
+    def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
-        ret_code, msg, timestamp = HeartBeatPush.unpack_rsp(rsp_str)
+        ret_code, msg, timestamp = HeartBeatPush.unpack_rsp(rsp_pb)
 
         return ret_code, timestamp
 
@@ -173,10 +170,10 @@ class HeartBeatHandlerBase(RspHandlerBase):
 class HKTradeOrderHandlerBase(RspHandlerBase):
     """Base class for handle trader order push"""
 
-    def on_recv_rsp(self, rsp_str):
+    def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
         ret_code, msg, order_info = TradePushQuery.hk_unpack_order_push_rsp(
-            rsp_str)
+            rsp_pb)
         order_list = [order_info]
 
         if ret_code == RET_ERROR:
@@ -204,10 +201,10 @@ class HKTradeOrderPreHandler(RspHandlerBase):
         self._notify_obj = notify_obj
         super(HKTradeOrderPreHandler, self).__init__()
 
-    def on_recv_rsp(self, rsp_str):
+    def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
         ret_code, msg, order_info = TradePushQuery.hk_unpack_order_push_rsp(
-            rsp_str)
+            rsp_pb)
 
         if ret_code == RET_OK:
             orderid = order_info['orderid']
@@ -222,10 +219,10 @@ class HKTradeOrderPreHandler(RspHandlerBase):
 class USTradeOrderHandlerBase(RspHandlerBase):
     """Base class for handle trader order push"""
 
-    def on_recv_rsp(self, rsp_str):
+    def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
         ret_code, msg, order_info = TradePushQuery.us_unpack_order_push_rsp(
-            rsp_str)
+            rsp_pb)
         order_list = [order_info]
 
         if ret_code == RET_ERROR:
@@ -253,10 +250,10 @@ class USTradeOrderPreHandler(RspHandlerBase):
         self._notify_obj = notify_obj
         super(USTradeOrderPreHandler, self).__init__()
 
-    def on_recv_rsp(self, rsp_str):
+    def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
         ret_code, msg, order_info = TradePushQuery.us_unpack_order_push_rsp(
-            rsp_str)
+            rsp_pb)
 
         if ret_code == RET_OK:
             orderid = order_info['orderid']
@@ -272,10 +269,10 @@ class USTradeOrderPreHandler(RspHandlerBase):
 class HKTradeDealHandlerBase(RspHandlerBase):
     """Base class for handle trade deal push"""
 
-    def on_recv_rsp(self, rsp_str):
+    def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
         ret_code, msg, deal_info = TradePushQuery.hk_unpack_deal_push_rsp(
-            rsp_str)
+            rsp_pb)
         deal_list = [deal_info]
 
         if ret_code == RET_ERROR:
@@ -299,10 +296,10 @@ class HKTradeDealHandlerBase(RspHandlerBase):
 class USTradeDealHandlerBase(RspHandlerBase):
     """Base class for handle trade deal push"""
 
-    def on_recv_rsp(self, rsp_str):
+    def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
         ret_code, msg, deal_info = TradePushQuery.us_unpack_deal_push_rsp(
-            rsp_str)
+            rsp_pb)
         deal_list = [deal_info]
 
         if ret_code == RET_ERROR:
@@ -340,13 +337,13 @@ class HandlerContext:
                 "type": StockQuoteHandlerBase,
                 "obj": StockQuoteHandlerBase()
             },
-            2208: {
-                "type": OrderBookHandlerBase,
-                "obj": OrderBookHandlerBase()
-            },
             3007: {
                 "type": CurKlineHandlerBase,
                 "obj": CurKlineHandlerBase()
+            },
+            2208: {
+                "type": OrderBookHandlerBase,
+                "obj": OrderBookHandlerBase()
             },
             3011: {
                 "type": TickerHandlerBase,

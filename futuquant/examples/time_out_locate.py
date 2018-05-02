@@ -20,15 +20,25 @@ class StockQuoteTest(StockQuoteHandlerBase):
     """
     获得报价推送数据
     """
-
-    def on_recv_rsp(self, rsp_str):
+    def on_recv_rsp(self, rsp_pb):
         """数据响应回调函数"""
-        ret_code, content = super(StockQuoteTest, self).on_recv_rsp(rsp_str)
+        ret_code, content = super(StockQuoteTest, self).on_recv_rsp(rsp_pb)
         if ret_code != RET_OK:
             logger.debug("StockQuoteTest: error, msg: %s" % content)
             return RET_ERROR, content
-        logger.debug("StockQuoteTest", content)
+        print("StockQuoteTest : %s" % content)
         return RET_OK, content
+
+
+class CurKlineTest(CurKlineHandlerBase):
+    """ kline push"""
+    def on_recv_rsp(self, rsp_pb):
+        """数据响应回调函数"""
+        ret_code, content = super(CurKlineTest, self).on_recv_rsp(rsp_pb)
+        if ret_code == RET_OK:
+            print("CurKlineTest : %s" % content)
+        return RET_OK, content
+
 
 class HeartBeatTest(HeartBeatHandlerBase):
     """
@@ -41,17 +51,21 @@ class HeartBeatTest(HeartBeatHandlerBase):
             print("heart beat server timestamp = ", timestamp)
         return ret_code, timestamp
 
+
 if __name__ =="__main__":
     # 实例化行情上下文对象
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111, proto_fmt=ProtoFMT.Json)
+    quote_ctx.set_handler(StockQuoteTest())
+    quote_ctx.set_handler(CurKlineTest())
+    quote_ctx.start()
 
     # 获取推送数据
-    code_list = ['HK.00700', 'HK.02318']
-    sub_type_list = [SubType.RT_DATA, SubType.BROKER]
+    code_list = ['HK.00700'] #  'HK.02318']
+    sub_type_list = [SubType.K_DAY] # SubType.BROKER]
     # print(quote_ctx.get_global_state())
     print(quote_ctx.subscribe(code_list, sub_type_list, push=True))
     # print(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.ETF))
-    # print(quote_ctx.get_cur_kline(code_list[0], 10, SubType.K_DAY, AuType.QFQ))
+    print(quote_ctx.get_cur_kline(code_list[0], 10, SubType.K_DAY, AuType.QFQ))
     # print(quote_ctx.get_rt_data(code_list[0]))
     # print(quote_ctx.get_rt_ticker(code_list[0], 10))
 
@@ -71,5 +85,5 @@ if __name__ =="__main__":
     # print(quote_ctx.get_plate_list(Market.HK, Plate.ALL))
     # print(quote_ctx.get_plate_stock('HK.BK1001'))
 
-    sleep(3)
+    sleep(10)
     quote_ctx.close()

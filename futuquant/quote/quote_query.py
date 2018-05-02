@@ -1082,36 +1082,21 @@ class StockQuoteQuery:
         raw_quote_list = rsp_pb.s2c.stockBasic
 
         quote_list = [{
-            'code':
-            merge_stock_str(int(record.stock.market), record.stock.code),
-            'data_date':
-            record.updateTime.split()[0],
-            'data_time':
-            record.updateTime.split()[1],
-            'last_price':
-            record.curPrice,
-            'open_price':
-            record.openPrice,
-            'high_price':
-            record.highPrice,
-            'low_price':
-            record.lowPrice,
-            'prev_close_price':
-            record.lastClosePrice,
-            'volume':
-            int(record.volume),
-            'turnover':
-            record.turnover,
-            'turnover_rate':
-            record.turnoverRate,
-            'amplitude':
-            record.amplitude,
-            'suspension':
-            record.isSuspended,
-            'listing_date':
-            record.listTime.split()[0],
-            'price_spread':
-            record.priceSpread if record.HasField('priceSpread') else 0,
+            'code': merge_stock_str(int(record.stock.market), record.stock.code),
+            'data_date': record.updateTime.split()[0],
+            'data_time': record.updateTime.split()[1],
+            'last_price': record.curPrice,
+            'open_price': record.openPrice,
+            'high_price': record.highPrice,
+            'low_price': record.lowPrice,
+            'prev_close_price': record.lastClosePrice,
+            'volume': int(record.volume),
+            'turnover': record.turnover,
+            'turnover_rate': record.turnoverRate,
+            'amplitude': record.amplitude,
+            'suspension': record.isSuspended,
+            'listing_date': record.listTime.split()[0],
+            'price_spread': record.priceSpread if record.HasField('priceSpread') else 0,
         } for record in raw_quote_list]
 
         return RET_OK, "", quote_list
@@ -1233,8 +1218,49 @@ class CurKlineQuery:
             "volume": record.volume,
             "turnover": record.turnover,
             "pe_ratio": record.pe,
-            "turnover_rate": record.turnoverRate
+            "turnover_rate": record.turnoverRate,
+            "last_close": record.lastClosePrice,
         } for record in raw_kline_list]
+
+        return RET_OK, "", kline_list
+
+
+class CurKlinePush:
+    """Stock Kline data push class"""
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def unpack_rsp(cls, rsp_pb):
+        """Convert from PLS response to user response"""
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, []
+
+        if rsp_pb.s2c.rehabType != AUTYPE_MAP[AuType.QFQ]:
+            return RET_ERROR, "kline push only support AuType.QFQ", None
+
+        kl_type = QUOTE.REV_KTYPE_MAP[rsp_pb.s2c.klType] if rsp_pb.s2c.klType in QUOTE.REV_KTYPE_MAP else None
+        if not kl_type:
+            return RET_ERROR, "kline push error kltype", None
+
+        stock_code = merge_stock_str(rsp_pb.s2c.stock.market,
+                                     rsp_pb.s2c.stock.code)
+        raw_kline_list = rsp_pb.s2c.kl
+        kline_list = [{
+                          "k_type": kl_type,
+                          "code": stock_code,
+                          "time_key": record.time,
+                          "open": record.openPrice,
+                          "high": record.highPrice,
+                          "low": record.lowPrice,
+                          "close": record.closePrice,
+                          "volume": record.volume,
+                          "turnover": record.turnover,
+                          "pe_ratio": record.pe,
+                          "turnover_rate": record.turnoverRate,
+                          "last_close": record.lastClosePrice,
+                      } for record in raw_kline_list]
 
         return RET_OK, "", kline_list
 

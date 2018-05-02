@@ -140,26 +140,41 @@ class ProtobufMap(dict):
     created_protobuf_map = {}
 
     def __init__(self):
+        """ InitConnect = 1001  # 初始化连接 """
         from futuquant.common.pb.InitConnect_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.InitConnect] = Response()
 
+        """ Qot_Sub = 3001  # 订阅或者反订阅 """
         from futuquant.common.pb.Qot_Sub_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_Sub] = Response()
 
+        """ Qot_RegQotPush = 3002  # 注册推送 """
+        from futuquant.common.pb.Qot_RegQotPush_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_RegQotPush] = Response()
+
+        """ Qot_ReqSubInfo = 3003  # 获取订阅信息 """
         from futuquant.common.pb.Qot_ReqSubInfo_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqSubInfo] = Response()
 
+        """ Qot_ReqStockBasic = 3004  # 获取股票基本行情 """
         from futuquant.common.pb.Qot_ReqStockBasic_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqStockBasic] = Response()
 
+        """ Qot_PushStockBasic = 3005  # 推送股票基本行情 """
         from futuquant.common.pb.Qot_PushStockBasic_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_PushStockBasic] = Response()
 
+        """ Qot_ReqKL = 3006  # 获取K线 """
+        from futuquant.common.pb.Qot_ReqKL_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqKL] = Response()
+
+        """ Qot_PushKL = 3007  # 推送K线 """
+        from futuquant.common.pb.Qot_PushKL_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_PushKL] = Response()
+
+        """ Qot_ReqTradeDate = 3200  # 获取市场交易日 """
         from futuquant.common.pb.Qot_ReqTradeDate_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqTradeDate] = Response()
-
-        from futuquant.common.pb.Qot_RegQotPush_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Qot_RegQotPush] = Response()
 
         from futuquant.common.pb.Qot_ReqStockList_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqStockList] = Response()
@@ -179,8 +194,7 @@ class ProtobufMap(dict):
         from futuquant.common.pb.Qot_ReqOrderBook_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqOrderBook] = Response()
 
-        from futuquant.common.pb.Qot_ReqKL_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqKL] = Response()
+
 
         from futuquant.common.pb.Trd_UnlockTrade_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Trd_UnlockTrade] = Response()
