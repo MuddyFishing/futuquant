@@ -4,6 +4,7 @@ Examples for use the python functions: get push data
 """
 
 from futuquant import *
+from time import sleep
 
 #设置dataframe结构的显示------pandas display设置
 pd.set_option('display.height', 1000)
@@ -95,6 +96,19 @@ class HeartBeatTest(HeartBeatHandlerBase):
         return ret_code, time
 
 
+class SysNotifyTest(SysNotifyHandlerBase):
+    """sys notify"""
+    def on_recv_rsp(self, rsp_pb):
+        """receive response callback function"""
+        ret_code, content = super(SysNotifyTest, self).on_recv_rsp(rsp_pb)
+        if ret_code == RET_OK:
+            main_type, sub_type, msg = content
+            print("SysNotify main_type={} sub_type='{}' msg='{}'".format(main_type, sub_type, msg))
+        else:
+            print("SysNotify error:{}".format(content))
+        return ret_code, content
+
+
 if __name__ =="__main__":
     # 实例化行情上下文对象
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111, proto_fmt=ProtoFMT.Json)
@@ -105,6 +119,7 @@ if __name__ =="__main__":
     quote_ctx.set_handler(OrderBookTest())
     quote_ctx.set_handler(BrokerTest())
     quote_ctx.set_handler(HeartBeatTest())
+    quote_ctx.set_handler(SysNotifyTest())
     quote_ctx.start()
 
     # 获取推送数据

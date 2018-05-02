@@ -1451,6 +1451,27 @@ class HeartBeatPush:
         return RET_OK, '', rsp_pb.s2c.time
 
 
+class SysNotifyPush:
+    """ SysNotifyPush """
+    def __init__(self):
+        pass
+    @classmethod
+    def unpack_rsp(cls, rsp_pb):
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg,
+
+        notify_type = rsp_pb.s2c.type
+        sub_type = "n/a"
+        msg = ""
+        if notify_type == SysNotifyType.GTW_EVENT:
+            tmp_type = rsp_pb.s2c.event.eventType
+            if tmp_type in SysNoitfy.REV_GTW_EVENT_MAP:
+                sub_type = SysNoitfy.REV_GTW_EVENT_MAP[tmp_type]
+            msg = rsp_pb.s2c.event.desc
+
+        return RET_OK, (notify_type, sub_type, msg)
+
+
 class MultiPointsHisKLine:
     """
     Query MultiPointsHisKLine
