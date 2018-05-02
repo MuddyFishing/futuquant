@@ -1460,8 +1460,10 @@ class SysNotifyPush:
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg,
 
-        notify_type = rsp_pb.s2c.type
-        sub_type = "n/a"
+        tmp_type = rsp_pb.s2c.type
+
+        notify_type = SysNoitfy.REV_SYS_EVENT_TYPE_MAP[tmp_type] if tmp_type in SysNoitfy.REV_SYS_EVENT_TYPE_MAP else SysNotifyType.NONE
+        sub_type = "N/A"
         msg = ""
         if notify_type == SysNotifyType.GTW_EVENT:
             tmp_type = rsp_pb.s2c.event.eventType

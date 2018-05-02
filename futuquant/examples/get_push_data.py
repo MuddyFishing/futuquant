@@ -103,7 +103,7 @@ class SysNotifyTest(SysNotifyHandlerBase):
         ret_code, content = super(SysNotifyTest, self).on_recv_rsp(rsp_pb)
         if ret_code == RET_OK:
             main_type, sub_type, msg = content
-            print("SysNotify main_type={} sub_type='{}' msg='{}'".format(main_type, sub_type, msg))
+            print("SysNotify main_type='{}' sub_type='{}' msg='{}'".format(main_type, sub_type, msg))
         else:
             print("SysNotify error:{}".format(content))
         return ret_code, content

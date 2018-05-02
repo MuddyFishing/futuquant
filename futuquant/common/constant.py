@@ -362,9 +362,12 @@ class QUOTE(object):
 
 # sys notify info
 class SysNotifyType(object):
-    NONE = 0
-    GTW_EVENT = 1
+    NONE = "N/A"
+    GTW_EVENT = "GTW_EVENT"
 
+SYS_EVENT_TYPE_MAP = {
+    SysNotifyType.NONE: 0, SysNotifyType.GTW_EVENT: 1
+}
 
 class GtwEventType(object):
     NONE = ""
@@ -400,4 +403,5 @@ GTW_EVENT_MAP = {
 }
 
 class SysNoitfy(object):
+    REV_SYS_EVENT_TYPE_MAP = {SYS_EVENT_TYPE_MAP[x]: x for x in SYS_EVENT_TYPE_MAP}
     REV_GTW_EVENT_MAP = {GTW_EVENT_MAP[x]: x for x in GTW_EVENT_MAP}
