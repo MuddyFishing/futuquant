@@ -1463,7 +1463,7 @@ class SysNotifyPush:
         tmp_type = rsp_pb.s2c.type
 
         notify_type = SysNoitfy.REV_SYS_EVENT_TYPE_MAP[tmp_type] if tmp_type in SysNoitfy.REV_SYS_EVENT_TYPE_MAP else SysNotifyType.NONE
-        sub_type = "N/A"
+        sub_type = GtwEventType.NONE
         msg = ""
         if notify_type == SysNotifyType.GTW_EVENT:
             tmp_type = rsp_pb.s2c.event.eventType

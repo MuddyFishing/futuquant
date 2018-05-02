@@ -370,7 +370,7 @@ SYS_EVENT_TYPE_MAP = {
 }
 
 class GtwEventType(object):
-    NONE = ""
+    NONE = "N/A"
     LocalCfgLoadFailed = "LocalCfgLoadFailed"
     APISvrRunFailed = "APISvrRunFailed"
     ForceUpdate = "ForceUpdate"
