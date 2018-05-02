@@ -90,7 +90,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                     """
         try:
             recv_tmp = self.recv(5 * 1024 * 1024)
-            print("async handle_read len={} data={}".format(len(recv_tmp), recv_tmp))
+            # print("async handle_read len={} data={}".format(len(recv_tmp), recv_tmp))
             if recv_tmp == b'':
                return
             recv_buf = self.__buf_last + recv_tmp
@@ -100,8 +100,8 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                 rsp_body = recv_buf[get_message_head_len():]
                 body_len = head_dict['body_len']
 
-                while  body_len > len(rsp_body):
-                    recv_tmp = self.s.recv(5 * 1024 * 1024)
+                while body_len > len(rsp_body):
+                    recv_tmp = self.recv(5 * 1024 * 1024)
                     if recv_tmp == b'':
                         raise Exception("_AsyncNetworkManager : remote server close")
                     rsp_body += recv_tmp

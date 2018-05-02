@@ -158,9 +158,9 @@ class HeartBeatHandlerBase(RspHandlerBase):
 
     def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
-        ret_code, msg, timestamp = HeartBeatPush.unpack_rsp(rsp_pb)
+        ret_code, msg, time = HeartBeatPush.unpack_rsp(rsp_pb)
 
-        return ret_code, timestamp
+        return ret_code, time
 
     def on_error(self, error_str):
         """error callback function"""
@@ -333,6 +333,10 @@ class HandlerContext:
         self.cb_check_recv = cb_check_recv
         self._default_handler = RspHandlerBase()
         self._handler_table = {
+            1004: {
+                "type": HeartBeatHandlerBase,
+                "obj": HeartBeatHandlerBase()
+            },
             3005: {
                 "type": StockQuoteHandlerBase,
                 "obj": StockQuoteHandlerBase()
@@ -341,25 +345,21 @@ class HandlerContext:
                 "type": CurKlineHandlerBase,
                 "obj": CurKlineHandlerBase()
             },
-            2208: {
-                "type": OrderBookHandlerBase,
-                "obj": OrderBookHandlerBase()
+            3009: {
+                "type": RTDataHandlerBase,
+                "obj": RTDataHandlerBase()
             },
             3011: {
                 "type": TickerHandlerBase,
                 "obj": TickerHandlerBase()
             },
-            3009: {
-                "type": RTDataHandlerBase,
-                "obj": RTDataHandlerBase()
+            3013: {
+                "type": OrderBookHandlerBase,
+                "obj": OrderBookHandlerBase()
             },
             3015: {
                 "type": BrokerHandlerBase,
                 "obj": BrokerHandlerBase()
-            },
-            "1036": {
-                "type": HeartBeatHandlerBase,
-                "obj": HeartBeatHandlerBase()
             },
             "6200": {
                 "type": HKTradeOrderHandlerBase,

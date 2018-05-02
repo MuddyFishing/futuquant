@@ -417,6 +417,7 @@ class RtDataQuery:
         raw_rt_data_list = rsp_pb.s2c.rt
         rt_list = [
             {
+                "code": merge_stock_str(rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code),
                 "time": record.time,
                 "data_status": record.isBlank,
                 "opened_mins": record.minute,
@@ -559,28 +560,20 @@ class BrokerQueueQuery:
         bid_list = []
         if raw_broker_bid is not None:
             bid_list = [{
-                "bid_broker_id":
-                record.id,
-                "bid_broker_name":
-                record.name,
-                "bid_broker_pos":
-                record.pos,
-                "code":
-                merge_stock_str(rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code)
+                "bid_broker_id": record.id,
+                "bid_broker_name": record.name,
+                "bid_broker_pos": record.pos,
+                "code": merge_stock_str(rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code)
             } for record in raw_broker_bid]
 
         raw_broker_ask = rsp_pb.s2c.brokerAsk
         ask_list = []
         if raw_broker_ask is not None:
             ask_list = [{
-                "ask_broker_id":
-                record.id,
-                "ask_broker_name":
-                record.name,
-                "ask_broker_pos":
-                record.pos,
-                "code":
-                merge_stock_str(rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code)
+                "ask_broker_id": record.id,
+                "ask_broker_name": record.name,
+                "ask_broker_pos": record.pos,
+                "code": merge_stock_str(rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code)
             } for record in raw_broker_ask]
 
         return RET_OK, bid_list, ask_list
@@ -1149,7 +1142,7 @@ class TickerQuery:
             "price": record.price,
             "volume": record.volume,
             "turnover": record.turnover,
-            "ticker_direction": str(QUOTE.REV_TICKER_DIRECTION[record.dir]), # if record.dir in QUOTE.REV_TICKER_DIRECTION else "",
+            "ticker_direction": str(QUOTE.REV_TICKER_DIRECTION[record.dir]) if record.dir in QUOTE.REV_TICKER_DIRECTION else "",
             "sequence": record.sequence,
         } for record in raw_ticker_list]
         return RET_OK, "", ticker_list

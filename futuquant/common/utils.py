@@ -140,9 +140,18 @@ class ProtobufMap(dict):
     created_protobuf_map = {}
 
     def __init__(self):
+
         """ InitConnect = 1001  # 初始化连接 """
         from futuquant.common.pb.InitConnect_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.InitConnect] = Response()
+
+        """ GlobalState = 1002  # 获取全局状态 """
+        from futuquant.common.pb.GlobalState_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.GlobalState] = Response()
+
+        """ PushHeartBeat = 1004  # 通知推送 """
+        from futuquant.common.pb.PushHeartBeat_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.PushHeartBeat] = Response()
 
         """ Qot_Sub = 3001  # 订阅或者反订阅 """
         from futuquant.common.pb.Qot_Sub_pb2 import Response
@@ -172,50 +181,80 @@ class ProtobufMap(dict):
         from futuquant.common.pb.Qot_PushKL_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_PushKL] = Response()
 
+        """ Qot_ReqRT = 3008  # 获取分时 """
+        from futuquant.common.pb.Qot_ReqRT_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqRT] = Response()
+
+        """ Qot_PushRT = 3009  # 推送分时 """
+        from futuquant.common.pb.Qot_PushRT_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_PushRT] = Response()
+
+        """ Qot_ReqTicker = 3010  # 获取逐笔 """
+        from futuquant.common.pb.Qot_ReqTicker_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqTicker] = Response()
+
+        """ Qot_PushTicker = 3011  # 推送逐笔 """
+        from futuquant.common.pb.Qot_PushTicker_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_PushTicker] = Response()
+
+        """ Qot_ReqOrderBook = 3012  # 获取买卖盘 """
+        from futuquant.common.pb.Qot_ReqOrderBook_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqOrderBook] = Response()
+
+        """ Qot_PushOrderBook = 3013  # 推送买卖盘 """
+        from futuquant.common.pb.Qot_PushOrderBook_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_PushOrderBook] = Response()
+
+        """ Qot_ReqBroker = 3014  # 获取经纪队列 """
+        from futuquant.common.pb.Qot_ReqBroker_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqBroker] = Response()
+
+        """ Qot_PushBroker = 3015  # 推送经纪队列 """
+        from futuquant.common.pb.Qot_PushBroker_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_PushBroker] = Response()
+
+        """ Qot_ReqHistoryKLPoints = 3101  # 获取多只股票历史单点K线 """
+        from futuquant.common.pb.Qot_HistoryKL_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqHistoryKL] = Response()
+
+        """ Qot_ReqHistoryKLPoints = 3101  # 获取多只股票历史单点K线 """
+        from futuquant.common.pb.Qot_HistoryKLPoints_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqHistoryKLPoints] = Response()
+
+        """ Qot_ReqRehab = 3102  # 获取复权信息 """
+        from futuquant.common.pb.Qot_ReqRehab_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqRehab] = Response()
+
         """ Qot_ReqTradeDate = 3200  # 获取市场交易日 """
         from futuquant.common.pb.Qot_ReqTradeDate_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqTradeDate] = Response()
 
-        from futuquant.common.pb.Qot_ReqStockList_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqStockList] = Response()
-
-        from futuquant.common.pb.Qot_ReqStockSnapshot_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqStockSnapshot] = Response()
-
-        from futuquant.common.pb.Qot_ReqPlateSet_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqPlateSet] = Response()
-
-        from futuquant.common.pb.Qot_ReqPlateStock_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqPlateStock] = Response()
-
-        from futuquant.common.pb.Qot_ReqBroker_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqBroker] = Response()
-
-        from futuquant.common.pb.Qot_ReqOrderBook_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqOrderBook] = Response()
-
-
-
-        from futuquant.common.pb.Trd_UnlockTrade_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Trd_UnlockTrade] = Response()
-
-        from futuquant.common.pb.Qot_ReqRT_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqRT] = Response()
-
-        from futuquant.common.pb.PushHeartBeat_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.PushHeartBeat] = Response()
-
-        from futuquant.common.pb.Trd_UnlockTrade_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Trd_UnlockTrade] = Response()
-
-        from futuquant.common.pb.Qot_ReqRehab_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqRehab] = Response()
-
+        """ Qot_ReqSuspend = 3201  # 获取股票停牌信息 """
         from futuquant.common.pb.Qot_ReqSuspend_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqSuspend] = Response()
 
-        from futuquant.common.pb.Qot_ReqTicker_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqTicker] = Response()
+        """ Qot_ReqStockList = 3202  # 获取股票列表 """
+        from futuquant.common.pb.Qot_ReqStockList_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqStockList] = Response()
+
+        """ Qot_ReqStockSnapshot = 3203  # 获取股票快照 """
+        from futuquant.common.pb.Qot_ReqStockSnapshot_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqStockSnapshot] = Response()
+
+        """ Qot_ReqPlateSet = 3204  # 获取板块集合下的板块 """
+        from futuquant.common.pb.Qot_ReqPlateSet_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqPlateSet] = Response()
+
+        """ Qot_ReqPlateStock = 3205  # 获取板块下的股票 """
+        from futuquant.common.pb.Qot_ReqPlateStock_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqPlateStock] = Response()
+
+
+        from futuquant.common.pb.Trd_UnlockTrade_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_UnlockTrade] = Response()
+
+        from futuquant.common.pb.Trd_UnlockTrade_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_UnlockTrade] = Response()
 
         from futuquant.common.pb.Trd_GetAccList_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Trd_GetAccList] = Response()
@@ -246,15 +285,6 @@ class ProtobufMap(dict):
 
         from futuquant.common.pb.Trd_GetHistoryOrderFillList_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Trd_GetHistoryOrderFillList] = Response()
-
-        from futuquant.common.pb.Qot_HistoryKL_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqHistoryKL] = Response()
-
-        from futuquant.common.pb.Qot_HistoryKLPoints_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqHistoryKLPoints] = Response()
-
-        from futuquant.common.pb.GlobalState_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.GlobalState] = Response()
 
     def __getitem__(self, key):
         return ProtobufMap.created_protobuf_map[key] if key in ProtobufMap.created_protobuf_map else None
