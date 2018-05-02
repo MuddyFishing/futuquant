@@ -419,7 +419,7 @@ class RtDataQuery:
             {
                 "code": merge_stock_str(rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code),
                 "time": record.time,
-                "data_status": record.isBlank,
+                "data_status": not record.isBlank,
                 "opened_mins": record.minute,
                 "cur_price": record.price,
                 "last_close": record.lastClosePrice,

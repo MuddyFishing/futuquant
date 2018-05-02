@@ -4,6 +4,7 @@ Examples for use the python functions: get push data
 """
 
 from futuquant import *
+from time import sleep
 
 #设置dataframe结构的显示------pandas display设置
 pd.set_option('display.height', 1000)
@@ -108,8 +109,8 @@ if __name__ =="__main__":
     quote_ctx.start()
 
     # 获取推送数据
-    code_list = ['HK.00700'] #  'HK.02318']
-    sub_type_list = [SubType.RT_DATA] # SubType.BROKER]
+    code_list = ['HK.00700', 'HK.02318']
+    sub_type_list = [SubType.RT_DATA, SubType.K_1M]
     # print(quote_ctx.get_global_state())
     print(quote_ctx.subscribe(code_list, sub_type_list, push=True))
     # print(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.ETF))
@@ -133,5 +134,5 @@ if __name__ =="__main__":
     # print(quote_ctx.get_plate_list(Market.HK, Plate.ALL))
     # print(quote_ctx.get_plate_stock('HK.BK1001'))
 
-    # sleep(10)
+    # sleep(15)
     # quote_ctx.close()
