@@ -167,6 +167,19 @@ class HeartBeatHandlerBase(RspHandlerBase):
         return error_str
 
 
+class SysNotifyHandlerBase(RspHandlerBase):
+    """sys notify"""
+    def on_recv_rsp(self, rsp_pb):
+        """receive response callback function"""
+        ret_code, content = SysNotifyPush.unpack_rsp(rsp_pb)
+
+        return ret_code, content
+
+    def on_error(self, error_str):
+        """error callback function"""
+        return error_str
+
+
 class HKTradeOrderHandlerBase(RspHandlerBase):
     """Base class for handle trader order push"""
 
@@ -333,6 +346,10 @@ class HandlerContext:
         self.cb_check_recv = cb_check_recv
         self._default_handler = RspHandlerBase()
         self._handler_table = {
+            1003: {
+                "type": SysNotifyHandlerBase,
+                "obj": SysNotifyHandlerBase()
+            },
             1004: {
                 "type": HeartBeatHandlerBase,
                 "obj": HeartBeatHandlerBase()

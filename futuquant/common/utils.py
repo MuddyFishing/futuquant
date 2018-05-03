@@ -149,6 +149,10 @@ class ProtobufMap(dict):
         from futuquant.common.pb.GlobalState_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.GlobalState] = Response()
 
+        """ PushNotify = 1003  # 通知推送 """
+        from futuquant.common.pb.PushNotify_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.PushNotify] = Response()
+
         """ PushHeartBeat = 1004  # 通知推送 """
         from futuquant.common.pb.PushHeartBeat_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.PushHeartBeat] = Response()

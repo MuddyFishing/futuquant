@@ -358,3 +358,50 @@ class QUOTE(object):
     REV_KTYPE_MAP = {KTYPE_MAP[x]: x for x in KTYPE_MAP}
     REV_AUTYPE_MAP = {AUTYPE_MAP[x]: x for x in AUTYPE_MAP}
     REV_TICKER_DIRECTION = {TICKER_DIRECTION[x]: x for x in TICKER_DIRECTION}
+
+
+# sys notify info
+class SysNotifyType(object):
+    NONE = "N/A"
+    GTW_EVENT = "GTW_EVENT"
+
+SYS_EVENT_TYPE_MAP = {
+    SysNotifyType.NONE: 0, SysNotifyType.GTW_EVENT: 1
+}
+
+class GtwEventType(object):
+    NONE = "N/A"
+    LocalCfgLoadFailed = "LocalCfgLoadFailed"
+    APISvrRunFailed = "APISvrRunFailed"
+    ForceUpdate = "ForceUpdate"
+    LoginFailed = "LoginFailed"
+    UnAgreeDisclaimer = "UnAgreeDisclaimer"
+    NetCfgMissing = "NetCfgMissing"
+    KickedOut = "KickedOut"
+    LoginPwdChanged = "LoginPwdChanged"
+    TradePwdChanged = "TradePwdChanged"
+    BanLogin = "BanLogin"
+    NeedPicVerifyCode = "NeedPicVerifyCode"
+    NeedPhoneVerifyCode = "NeedPhoneVerifyCode"
+    NessaryDataMissing = "NessaryDataMissing"
+
+GTW_EVENT_MAP = {
+    GtwEventType.NONE: 0,
+    GtwEventType.LocalCfgLoadFailed: 1,
+    GtwEventType.APISvrRunFailed: 2,
+    GtwEventType.ForceUpdate: 3,
+    GtwEventType.LoginFailed: 4,
+    GtwEventType.UnAgreeDisclaimer: 5,
+    GtwEventType.NetCfgMissing: 6,
+    GtwEventType.KickedOut: 7,
+    GtwEventType.LoginPwdChanged: 8,
+    GtwEventType.TradePwdChanged: 9,
+    GtwEventType.BanLogin: 10,
+    GtwEventType.NeedPicVerifyCode: 11,
+    GtwEventType.NeedPhoneVerifyCode: 12,
+    GtwEventType.NessaryDataMissing: 13,
+}
+
+class SysNoitfy(object):
+    REV_SYS_EVENT_TYPE_MAP = {SYS_EVENT_TYPE_MAP[x]: x for x in SYS_EVENT_TYPE_MAP}
+    REV_GTW_EVENT_MAP = {GTW_EVENT_MAP[x]: x for x in GTW_EVENT_MAP}
