@@ -505,7 +505,6 @@ class BrokerQueueQuery:
             return RET_ERROR, rsp_pb.retMsg, None
 
         raw_broker_bid = rsp_pb.s2c.brokerBid
-        logger.debug(raw_broker_bid)
         bid_list = []
         if raw_broker_bid is not None:
             bid_list = [{

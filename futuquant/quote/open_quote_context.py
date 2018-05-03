@@ -380,7 +380,6 @@ class OpenQuoteContext(OpenContextBase):
         kargs = {"stock_str": code}
 
         ret_code, bid_list, ask_list = query_processor(**kargs)
-        logger.debug(bid_list)
         if ret_code == RET_ERROR:
             return ret_code, ERROR_STR_PREFIX, EMPTY_STRING
 

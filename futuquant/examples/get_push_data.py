@@ -123,8 +123,8 @@ if __name__ =="__main__":
     quote_ctx.start()
 
     # 获取推送数据
-    code_list = ['HK.00700'] #  'HK.02318']
-    sub_type_list = [SubType.RT_DATA] # SubType.BROKER]
+    code_list = ['HK.00700', 'HK.02318']
+    sub_type_list = [SubType.RT_DATA, SubType.BROKER]
 
     # """
     print(quote_ctx.get_global_state())
