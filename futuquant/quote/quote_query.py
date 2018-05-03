@@ -38,7 +38,7 @@ def _joint_head(proto_id, proto_fmt_type, body_len, str_body, proto_ver=0):
     with g_serialLock:
         g_serialNo += 1
 
-    print("serial no = {} proto_id = {}".format(g_serialNo, proto_id))
+    logger.debug("serial no = {} proto_id = {}".format(g_serialNo, proto_id))
     serial_no = g_serialNo
     bin_head = struct.pack(fmt, b'F', b'T', proto_id, proto_fmt_type,
                            proto_ver, serial_no, body_len, 0, 0, 0, 0, 0, 0, 0,
