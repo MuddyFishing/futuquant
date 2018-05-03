@@ -9,6 +9,9 @@ import traceback
 from datetime import datetime
 from struct import calcsize
 from google.protobuf.json_format import MessageToJson
+from threading import RLock
+import struct
+import time
 
 from futuquant.common.constant import *
 from futuquant.common.pbjson import json2pb
@@ -19,37 +22,26 @@ def set_proto_fmt(proto_fmt):
     """Set communication protocol format, json ans protobuf supported"""
     os.environ['FT_PROTO_FMT'] = str(proto_fmt)
 
-def set_trd_accID(accID):
-    """set the trade account ID"""
-    os.environ['FT_TRD_ACCID'] = str(accID)
-
-def set_trd_market(market_code):
-    """set the trade account ID"""
-    os.environ['FT_TRD_MARKET'] = str(market_code)
-
-def set_user_id(user_id):
-    os.environ['FT_USER_ID'] = str(user_id)
-
-def get_user_id():
-    return int(os.environ['FT_USER_ID'])
 
 def get_proto_fmt():
-    return int(os.environ['FT_PROTO_FMT'])
+    return int(os.environ['FT_PROTO_FMT']) if 'FT_PROTO_FMT' in os.environ else DEFULAT_PROTO_FMT
 
-def get_trd_accID():
-    return int(os.environ['FT_TRD_ACCID'])
-
-def get_trd_market():
-    return int(os.environ['FT_TRD_MARKET'])
 
 def get_client_ver():
-    return 300
+    return CLIENT_VERSION
+
 
 def get_client_id():
-    return "PyNormal"
+    return int(os.environ['CLIENT_ID']) if 'CLIENT_ID' in os.environ else DEFULAT_CLIENT_ID
+
+
+def set_client_id(client_id):
+    os.environ['CLIENT_ID'] = str(client_id)
+
 
 def get_message_head_len():
     return calcsize(MESSAGE_HEAD_FMT)
+
 
 def check_date_str_format(s):
     """Check the format of date string"""
@@ -108,12 +100,11 @@ def split_stock_str(stock_str_param):
         return RET_OK, (market_code, partial_stock_str)
 
     else:
-
         error_str = ERROR_STR_PREFIX + "format of %s is wrong. (US.AAPL, HK.00700, SZ.000001)" % stock_str
         return RET_ERROR, error_str
 
 
-def merge_stock_str(market, partial_stock_str):
+def merge_qot_mkt_stock_str(qot_mkt, partial_stock_str):
     """
     Merge the string of stocks
     :param market: market code
@@ -121,10 +112,29 @@ def merge_stock_str(market, partial_stock_str):
     :return: unified representation of a stock code. i.e. "US.AAPL", "HK.00700", "SZ.000001"
 
     """
-
-    market_str = TRADE.REV_MKT_MAP[market]
+    market_str = QUOTE.REV_MKT_MAP[qot_mkt]
     stock_str = '.'.join([market_str, partial_stock_str])
     return stock_str
+
+
+def merge_trd_mkt_stock_str(trd_mkt, partial_stock_str):
+    """
+    Merge the string of stocks
+    :param market: market code
+    :param partial_stock_str: original stock code string. i.e. "AAPL","00700", "000001"
+    :return: unified representation of a stock code. i.e. "US.AAPL", "HK.00700", "SZ.000001"
+
+    """
+    mkt_qot = Market.NONE
+    mkt = TRADE.REV_TRD_MKT_MAP[trd_mkt] if trd_mkt in TRADE.REV_TRD_MKT_MAP else TrdMarket.NONE
+    if mkt == TrdMarket.HK:
+        mkt_qot = Market.HK
+    elif mkt == TrdMarket.US:
+        mkt_qot = Market.US
+    else: # mkt == TrdMarket.CN or mt == TrdMarket.HKCC: 暂时不支持
+        raise Exception("merge_trd_mkt_stock_str: unknown trd_mkt.")
+
+    return merge_qot_mkt_stock_str(MKT_MAP[mkt_qot], partial_stock_str)
 
 
 def str2binary(s):
@@ -134,6 +144,58 @@ def str2binary(s):
     :return: binary
     """
     return s.encode('utf-8')
+
+
+def is_str(obj):
+    if sys.version_info.major == 3:
+        return isinstance(obj, str) or isinstance(obj, bytes)
+    else:
+        return isinstance(obj, basestring)
+
+
+def price_to_str_int1000(price):
+    return str(int(round(float(price) * 1000,
+                         0))) if str(price) is not '' else ''
+
+
+# 1000*int price to float val
+def int1000_price_to_float(price):
+    return round(float(price) / 1000.0,
+                 3) if str(price) is not '' else float(0)
+
+
+# 10^9 int price to float val
+def int10_9_price_to_float(price):
+    return round(float(price) / float(10**9),
+                 3) if str(price) is not '' else float(0)
+
+
+# list 参数除重及规整
+def unique_and_normalize_list(lst):
+    ret = []
+    if not lst:
+        return ret
+    tmp = lst if isinstance(lst, list) else [lst]
+    [ret.append(x) for x in tmp if x not in ret]
+    return ret
+
+
+def md5_transform(raw_str):
+    h1 = hashlib.md5()
+    h1.update(raw_str.encode(encoding='utf-8'))
+    return h1.hexdigest()
+
+
+g_unique_id = int(time.time() % 10000)
+g_unique_lock = RLock()
+def get_unique_id32():
+    global g_unique_id
+    with g_unique_lock:
+        g_unique_id += 1
+        if g_unique_id >= 4294967295:
+            g_unique_id = int(time.time() % 10000)
+        ret_id = g_unique_id
+    return ret_id
 
 
 class ProtobufMap(dict):
@@ -156,6 +218,58 @@ class ProtobufMap(dict):
         """ PushHeartBeat = 1004  # 通知推送 """
         from futuquant.common.pb.PushHeartBeat_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.PushHeartBeat] = Response()
+
+        """ Trd_GetAccList = 2001  # 获取业务账户列表 """
+        from futuquant.common.pb.Trd_GetAccList_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetAccList] = Response()
+
+        """ Trd_UnlockTrade = 2005  # 解锁或锁定交易 """
+        from futuquant.common.pb.Trd_UnlockTrade_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_UnlockTrade] = Response()
+
+        """ Trd_SubAccPush = 2008  # 订阅业务账户的交易推送数据 """
+        from futuquant.common.pb.Trd_SubAccPush_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_SubAccPush] = Response()
+
+        """  Trd_GetFunds = 2101  # 获取账户资金 """
+        from futuquant.common.pb.Trd_GetFunds_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetFunds] = Response()
+
+        """ Trd_GetPositionList = 2102  # 获取账户持仓 """
+        from futuquant.common.pb.Trd_GetPositionList_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetPositionList] = Response()
+
+        """ Trd_GetOrderList = 2201  # 获取订单列表 """
+        from futuquant.common.pb.Trd_GetOrderList_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetOrderList] = Response()
+
+        """ Trd_PlaceOrder = 2202  # 下单 """
+        from futuquant.common.pb.Trd_PlaceOrder_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_PlaceOrder] = Response()
+
+        """ Trd_ModifyOrder = 2205  # 修改订单 """
+        from futuquant.common.pb.Trd_ModifyOrder_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_ModifyOrder] = Response()
+
+        """ Trd_UpdateOrder = 2208  # 订单状态变动通知(推送) """
+        from futuquant.common.pb.Trd_UpdateOrder_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_UpdateOrder] = Response()
+
+        """ Trd_GetOrderFillList = 2211  # 获取成交列表 """
+        from futuquant.common.pb.Trd_GetOrderFillList_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetOrderFillList] = Response()
+
+        """ Trd_UpdateOrderFill = 2218  # 成交通知(推送) """
+        from  futuquant.common.pb.Trd_UpdateOrderFill_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_UpdateOrderFill] = Response()
+
+        """ Trd_GetHistoryOrderList = 2221  # 获取历史订单列表 """
+        from futuquant.common.pb.Trd_GetHistoryOrderList_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetHistoryOrderList] = Response()
+
+        """ Trd_GetHistoryOrderFillList = 2222  # 获取历史成交列表 """
+        from futuquant.common.pb.Trd_GetHistoryOrderFillList_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetHistoryOrderFillList] = Response()
 
         """ Qot_Sub = 3001  # 订阅或者反订阅 """
         from futuquant.common.pb.Qot_Sub_pb2 import Response
@@ -217,7 +331,7 @@ class ProtobufMap(dict):
         from futuquant.common.pb.Qot_PushBroker_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_PushBroker] = Response()
 
-        """ Qot_ReqHistoryKLPoints = 3101  # 获取多只股票历史单点K线 """
+        """ Qot_ReqHistoryKL = 3100  # 获取历史K线 """
         from futuquant.common.pb.Qot_HistoryKL_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqHistoryKL] = Response()
 
@@ -253,53 +367,11 @@ class ProtobufMap(dict):
         from futuquant.common.pb.Qot_ReqPlateStock_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_ReqPlateStock] = Response()
 
-
-        from futuquant.common.pb.Trd_UnlockTrade_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Trd_UnlockTrade] = Response()
-
-        from futuquant.common.pb.Trd_UnlockTrade_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Trd_UnlockTrade] = Response()
-
-        from futuquant.common.pb.Trd_GetAccList_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetAccList] = Response()
-
-        from futuquant.common.pb.Trd_GetFunds_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetFunds] = Response()
-
-        from futuquant.common.pb.Trd_GetPositionList_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetPositionList] = Response()
-
-        from futuquant.common.pb.Trd_GetOrderList_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetOrderList] = Response()
-
-        from futuquant.common.pb.Trd_PlaceOrder_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Trd_PlaceOrder] = Response()
-
-        from futuquant.common.pb.Trd_UpdateOrder_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Trd_UpdateOrder] = Response()
-
-        from  futuquant.common.pb.Trd_UpdateOrderFill_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Trd_UpdateOrderFill] = Response()
-
-        from futuquant.common.pb.Trd_GetOrderFillList_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetOrderFillList] = Response()
-
-        from futuquant.common.pb.Trd_GetHistoryOrderList_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetHistoryOrderList] = Response()
-
-        from futuquant.common.pb.Trd_GetHistoryOrderFillList_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetHistoryOrderFillList] = Response()
-
     def __getitem__(self, key):
         return ProtobufMap.created_protobuf_map[key] if key in ProtobufMap.created_protobuf_map else None
 
+
 pb_map = ProtobufMap()
-
-def md5_transform(raw_str):
-    h1 = hashlib.md5()
-    h1.update(raw_str.encode(encoding='utf-8'))
-    return h1.hexdigest()
-
 
 def binary2str(b, proto_id, proto_fmt_type):
     """
@@ -315,6 +387,7 @@ def binary2str(b, proto_id, proto_fmt_type):
         return MessageToJson(rsp)
     else:
         raise Exception("binary2str: unknown proto format.")
+
 
 def binary2pb(b, proto_id, proto_fmt_type):
     """
@@ -335,35 +408,41 @@ def binary2pb(b, proto_id, proto_fmt_type):
     else:
         raise Exception("binary2str: unknown proto format.")
 
-def is_str(obj):
-    if sys.version_info.major == 3:
-        return isinstance(obj, str) or isinstance(obj, bytes)
+
+
+def pack_pb_req(pb_req, proto_id):
+    proto_fmt = get_proto_fmt()
+    if proto_fmt == ProtoFMT.Json:
+        req_json = MessageToJson(pb_req)
+        req = _joint_head(proto_id, proto_fmt, len(req_json),
+                          req_json.encode())
+        return RET_OK, "", req
+    elif proto_fmt == ProtoFMT.Protobuf:
+        req = _joint_head(proto_id, proto_fmt, pb_req.ByteSize(), pb_req)
+        return RET_OK, "", req
     else:
-        return isinstance(obj, basestring)
+        error_str = ERROR_STR_PREFIX + 'unknown protocol format, %d' % proto_fmt
+        return RET_ERROR, error_str, None
 
 
-def price_to_str_int1000(price):
-    return str(int(round(float(price) * 1000,
-                         0))) if str(price) is not '' else ''
+def _joint_head(proto_id, proto_fmt_type, body_len, str_body, proto_ver=0):
+    if proto_fmt_type == ProtoFMT.Protobuf:
+        str_body = str_body.SerializeToString()
+    fmt = "%s%ds" % (MESSAGE_HEAD_FMT, body_len)
 
+    serial_no = get_unique_id32()
+    print("serial no = {} proto_id = {}".format(serial_no, proto_id))
+    bin_head = struct.pack(fmt, b'F', b'T', proto_id, proto_fmt_type,
+                           proto_ver, serial_no, body_len, 0, 0, 0, 0, 0, 0, 0,
+                           0, str_body)
+    return bin_head
 
-# 1000*int price to float val
-def int1000_price_to_float(price):
-    return round(float(price) / 1000.0,
-                 3) if str(price) is not '' else float(0)
-
-
-# 10^9 int price to float val
-def int10_9_price_to_float(price):
-    return round(float(price) / float(10**9),
-                 3) if str(price) is not '' else float(0)
-
-
-# list 参数除重及规整
-def unique_and_normalize_list(lst):
-    ret = []
-    if not lst:
-        return ret
-    tmp = lst if isinstance(lst, list) else [lst]
-    [ret.append(x) for x in tmp if x not in ret]
-    return ret
+def parse_head(head_bytes):
+    head_dict = {}
+    head_dict['head_1'], head_dict['head_2'], head_dict['proto_id'], \
+    head_dict['proto_fmt_type'], head_dict['proto_ver'], \
+    head_dict['serial_no'], head_dict['body_len'], head_dict['reserved_1'], \
+    head_dict['reserved_2'], head_dict['reserved_3'], head_dict['reserved_4'], \
+    head_dict['reserved_5'], head_dict['reserved_6'], head_dict['reserved_7'], \
+    head_dict['reserved_8'] = struct.unpack(MESSAGE_HEAD_FMT, head_bytes)
+    return head_dict

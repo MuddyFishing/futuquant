@@ -8,9 +8,9 @@ message C2S
 {
 	required Common.PacketID packetID = 1; //交易写操作防重放攻击
 	required Trd_Common.TrdHeader header = 2; //交易公共参数头
-	required uint64 orderID = 3; //订单号
+	required uint64 orderID = 3; //订单号，forAll为true时，传0
 	required int32 modifyOrderOp = 4; //修改订单的操作类型，参见Trd_Common.ModifyOrderOp的枚举定义
-	optional bool forAll = 5; //操作是否对此业务账户全部订单操作，true是，false否(单个订单)
+	optional bool forAll = 5; //操作是否对此业务账户全部订单操作，true是，false否(对单个订单)，无此字段代表false，仅对单个订单
 	
 	//下面的字段仅在modifyOrderOp为ModifyOrderOp_Normal有效
 	optional double qty = 8; //数量，港股2位小数精度

@@ -14,9 +14,8 @@ from futuquant.quote.quote_query import *
 class OpenQuoteContext(OpenContextBase):
     """Class for set context of stock quote"""
 
-    def __init__(self, host='127.0.0.1', port=11111, proto_fmt = ProtoFMT.Json):
+    def __init__(self, host='127.0.0.1', port=11111):
         self._ctx_subscribe = set()
-        set_proto_fmt(proto_fmt)
         super(OpenQuoteContext, self).__init__(host, port, True, True)
 
     def close(self):
@@ -363,7 +362,7 @@ class OpenQuoteContext(OpenContextBase):
             return ret_code, msg
 
         col_list = [
-            'code', 'lot_size', 'stock_name', 'owner_market',
+            'code', 'lot_size', 'stock_name', 'stock_owner',
             'stock_child_type', 'stock_type', 'list_time'
         ]
         plate_stock_table = pd.DataFrame(plate_stock_list, columns=col_list)
@@ -756,3 +755,19 @@ class OpenQuoteContext(OpenContextBase):
         pd_frame = pd.DataFrame(list_ret, columns=col_list)
 
         return RET_OK, pd_frame
+
+    def get_global_state(self):
+        """
+        get api server(exe) global state
+        :return: RET_OK, state_dict | err_code, msg
+        """
+        query_processor = self._get_sync_query_processor(
+            GlobalStateQuery.pack_req, GlobalStateQuery.unpack_rsp)
+
+        kargs = {"user_id": self.get_login_user_id()}
+        ret_code, msg, state_dict = query_processor(**kargs)
+        if ret_code != RET_OK:
+            return ret_code, msg
+
+        return RET_OK, state_dict
+

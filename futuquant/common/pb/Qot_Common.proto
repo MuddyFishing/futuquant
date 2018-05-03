@@ -191,10 +191,11 @@ message TimeShare
 message StockStaticBasic
 {
 	required Qot_Common.Stock stock = 1; //股票
-	required int32 lotSize = 2; //每手数量
-	required int32 secType = 3; //Qot_Common.SecurityType,股票类型
-	required string name = 4; //股票名字
-	required string listTime = 5; //上市时间字符串
+	required int64 id = 2; //股票ID
+	required int32 lotSize = 3; //每手数量
+	required int32 secType = 4; //Qot_Common.SecurityType,股票类型
+	required string name = 5; //股票名字
+	required string listTime = 6; //上市时间字符串
 }
 
 message WarrantStaticExData

@@ -68,7 +68,6 @@ class OpenContextBase(object):
                 return RET_ERROR, msg
             else:
                 self._connect_info = copy(content)
-                set_user_id(self.get_login_user_id())
                 logger.info("init connect ok: {}".format(content))
 
         if self.__async_socket_enable:
@@ -173,33 +172,6 @@ class OpenContextBase(object):
         if self._handlers_ctx is not None:
             return self._handlers_ctx.set_pre_handler(handler)
         return RET_ERROR
-
-    def get_global_state(self):
-        """
-        get api server(exe) global state
-        :return: RET_OK, state_dict | err_code, msg
-        """
-
-        query_processor = self._get_sync_query_processor(
-            GlobalStateQuery.pack_req, GlobalStateQuery.unpack_rsp)
-        kargs = {"state_type": 0}
-        ret_code, msg, state_dict = query_processor(**kargs)
-        if ret_code != RET_OK:
-            return ret_code, msg
-        '''
-        state_dict = {
-            'Market_SZ': '6',
-            'Version': '3.42.4965',
-            'Trade_Logined': '1',
-            'TimeStamp': '1523177365',
-            'Market_US': '11',
-            'Quote_Logined': '1',
-            'Market_SH': '6',
-            'Market_HK': '6',
-            'Market_HKFuture': '14'
-        }
-        '''
-        return RET_OK, state_dict
 
     def _is_proc_run(self):
         return self._proc_run
@@ -320,6 +292,7 @@ class OpenContextBase(object):
                 err = sys.exc_info()[1]
                 logger.debug(err)
 
+    @abstractmethod
     def notify_sync_socket_connected(self, sync_ctxt):
         """
         :param sync_ctxt:

@@ -11,49 +11,6 @@ from google.protobuf.json_format import MessageToJson
 from futuquant.common.constant import *
 from futuquant.common.utils import *
 from futuquant.common.pb.Common_pb2 import RetType
-from threading import RLock
-
-def pack_pb_req(pb_req, proto_id):
-    proto_fmt = get_proto_fmt()
-    if proto_fmt == ProtoFMT.Json:
-        req_json = MessageToJson(pb_req)
-        req = _joint_head(proto_id, proto_fmt, len(req_json),
-                          req_json.encode())
-        return RET_OK, "", req
-    elif proto_fmt == ProtoFMT.Protobuf:
-        req = _joint_head(proto_id, proto_fmt, pb_req.ByteSize(), pb_req)
-        return RET_OK, "", req
-    else:
-        error_str = ERROR_STR_PREFIX + 'unknown protocol format, %d' % proto_fmt
-        return RET_ERROR, error_str, None
-
-g_serialNo = int(time.time())
-g_serialLock = RLock()
-def _joint_head(proto_id, proto_fmt_type, body_len, str_body, proto_ver=0):
-    if proto_fmt_type == ProtoFMT.Protobuf:
-        str_body = str_body.SerializeToString()
-    fmt = "%s%ds" % (MESSAGE_HEAD_FMT, body_len)
-
-    global g_serialNo
-    with g_serialLock:
-        g_serialNo += 1
-
-    print("serial no = {} proto_id = {}".format(g_serialNo, proto_id))
-    serial_no = g_serialNo
-    bin_head = struct.pack(fmt, b'F', b'T', proto_id, proto_fmt_type,
-                           proto_ver, serial_no, body_len, 0, 0, 0, 0, 0, 0, 0,
-                           0, str_body)
-    return bin_head
-
-def parse_head(head_bytes):
-    head_dict = {}
-    head_dict['head_1'], head_dict['head_2'], head_dict['proto_id'], \
-    head_dict['proto_fmt_type'], head_dict['proto_ver'], \
-    head_dict['serial_no'], head_dict['body_len'], head_dict['reserved_1'], \
-    head_dict['reserved_2'], head_dict['reserved_3'], head_dict['reserved_4'], \
-    head_dict['reserved_5'], head_dict['reserved_6'], head_dict['reserved_7'], \
-    head_dict['reserved_8'] = struct.unpack(MESSAGE_HEAD_FMT, head_bytes)
-    return head_dict
 
 
 class InitConnect:
@@ -88,13 +45,16 @@ class InitConnect:
 
         if ret_type != RET_OK:
             return RET_ERROR, ret_msg, None
+
         res = {}
-        res['server_version'] = rsp_pb.s2c.serverVer
-        res['login_user_id'] = rsp_pb.s2c.loginUserID
-        res['conn_id'] = rsp_pb.s2c.connID
+        if rsp_pb.HasField('s2c'):
+            res['server_version'] = rsp_pb.s2c.serverVer
+            res['login_user_id'] = rsp_pb.s2c.loginUserID
+            res['conn_id'] = rsp_pb.s2c.connID
+        else:
+            return RET_ERROR, "rsp_pb error", None
 
         return RET_OK, "", res
-
 
 class TradeDayQuery:
     """
@@ -244,24 +204,15 @@ class StockBasicInfoQuery:
         raw_basic_info_list = rsp_pb.s2c.staticInfo
 
         basic_info_list = [{
-            "code":
-            merge_stock_str(record.basic.stock.market,
-                            record.basic.stock.code),
-            "stockid":
-            merge_stock_str(record.basic.stock.market,
-                            record.basic.stock.code),
-            "name":
-            record.basic.name,
-            "lot_size":
-            record.basic.lotSize,
-            "stock_type":
-            record.basic.secType,
-            "stock_child_type":
-            record.warrantExData.type,
-            "owner_stock_code":
-            record.warrantExData.ownerStock,
-            "listing_date":
-            record.basic.listTime
+            "code": merge_qot_mkt_stock_str(record.basic.stock.market,
+                                            record.basic.stock.code),
+            "stockid": 0,  # ysq
+            "name": record.basic.name,
+            "lot_size": record.basic.lotSize,
+            "stock_type": record.basic.secType,
+            "stock_child_type": record.warrantExData.type,
+            "owner_stock_code": record.warrantExData.ownerStock,
+            "listing_date": record.basic.listTime
         } for record in raw_basic_info_list]
         return RET_OK, "", basic_info_list
 
@@ -316,7 +267,7 @@ class MarketSnapshotQuery:
         snapshot_list = []
         for record in raw_snapshot_list:
             snapshot_tmp = {}
-            snapshot_tmp['code'] = merge_stock_str(
+            snapshot_tmp['code'] = merge_qot_mkt_stock_str(
                 int(record.basic.stock.market), record.basic.stock.code)
             snapshot_tmp['update_time'] = record.basic.updateTime
             snapshot_tmp['last_price'] = record.basic.curPrice
@@ -343,7 +294,7 @@ class MarketSnapshotQuery:
                     'wrt_maturity_date'] = record.warrantExData.maturityTime
                 snapshot_tmp[
                     'wrt_end_trade'] = record.warrantExData.endTradeTime
-                snapshot_tmp['wrt_code'] = merge_stock_str(
+                snapshot_tmp['wrt_code'] = merge_qot_mkt_stock_str(
                     record.warrantExData.ownerStock.market,
                     record.warrantExData.ownerStock.code)
                 snapshot_tmp[
@@ -417,7 +368,7 @@ class RtDataQuery:
         raw_rt_data_list = rsp_pb.s2c.rt
         rt_list = [
             {
-                "code": merge_stock_str(rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code),
+                "code": merge_qot_mkt_stock_str(rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code),
                 "time": record.time,
                 "data_status": not record.isBlank,
                 "opened_mins": record.minute,
@@ -458,8 +409,7 @@ class SubplateQuery:
         raw_plate_list = rsp_pb.s2c.plateInfo
 
         plate_list = [{
-            "code":
-            merge_stock_str(record.plate.market, record.plate.code),
+            "code": merge_qot_mkt_stock_str(record.plate.market, record.plate.code),
             "plate_name":
             record.name,
             "plate_id":
@@ -510,16 +460,15 @@ class PlateStockQuery:
         for record in raw_stock_list:
             stock_tmp = {}
             stock_tmp['lot_size'] = record.basic.lotSize
-            stock_tmp['code'] = merge_stock_str(record.basic.stock.market,
-                                                record.basic.stock.code)
+            stock_tmp['code'] = merge_qot_mkt_stock_str(record.basic.stock.market, record.basic.stock.code)
             stock_tmp['stock_name'] = record.basic.name
-            stock_tmp['owner_market'] = merge_stock_str(
-                record.basic.stock.market, record.basic.stock.code)
+            stock_tmp['stock_owner'] = merge_qot_mkt_stock_str(
+                record.warrantExData.ownerStock.market,
+                record.warrantExData.ownerStock.market.code) if record.HasField('warrantExData') else ""
             stock_tmp['list_time'] = record.basic.listTime
             stock_tmp['stock_child_type'] = QUOTE.REV_WRT_TYPE_MAP[
                 record.warrantExData.type] if record.HasField('warrantExData') else ""
-            stock_tmp['stock_type'] = QUOTE.REV_SEC_TYPE_MAP[
-                record.basic.secType]
+            stock_tmp['stock_type'] = QUOTE.REV_SEC_TYPE_MAP[record.basic.secType] if record.basic.secType in QUOTE.REV_SEC_TYPE_MAP else SecurityType.NONE
             stock_list.append(stock_tmp)
 
         return RET_OK, "", stock_list
@@ -563,7 +512,7 @@ class BrokerQueueQuery:
                 "bid_broker_id": record.id,
                 "bid_broker_name": record.name,
                 "bid_broker_pos": record.pos,
-                "code": merge_stock_str(rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code)
+                "code": merge_qot_mkt_stock_str(rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code)
             } for record in raw_broker_bid]
 
         raw_broker_ask = rsp_pb.s2c.brokerAsk
@@ -573,7 +522,7 @@ class BrokerQueueQuery:
                 "ask_broker_id": record.id,
                 "ask_broker_name": record.name,
                 "ask_broker_pos": record.pos,
-                "code": merge_stock_str(rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code)
+                "code": merge_qot_mkt_stock_str(rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code)
             } for record in raw_broker_ask]
 
         return RET_OK, bid_list, ask_list
@@ -651,7 +600,7 @@ class HistoryKlineQuery:
             has_next = True
             next_time = rsp_pb.s2c.nextKLTime
 
-        stock_code = merge_stock_str(rsp_pb.s2c.stock.market,
+        stock_code = merge_qot_mkt_stock_str(rsp_pb.s2c.stock.market,
                                      rsp_pb.s2c.stock.code)
 
         list_ret = []
@@ -742,7 +691,7 @@ class ExrightQuery:
         raw_exr_list = rsp_pb.s2c.stockRehab
         exr_list = []
         for stock_rehab in raw_exr_list:
-            stock_str = merge_stock_str(stock_rehab.stock.market,
+            stock_str = merge_qot_mkt_stock_str(stock_rehab.stock.market,
                                         stock_rehab.stock.code)
             for rehab in stock_rehab.rehab:
                 stock_rehab_tmp = {}
@@ -1075,7 +1024,7 @@ class StockQuoteQuery:
         raw_quote_list = rsp_pb.s2c.stockBasic
 
         quote_list = [{
-            'code': merge_stock_str(int(record.stock.market), record.stock.code),
+            'code': merge_qot_mkt_stock_str(int(record.stock.market), record.stock.code),
             'data_date': record.updateTime.split()[0],
             'data_time': record.updateTime.split()[1],
             'last_price': record.curPrice,
@@ -1133,7 +1082,7 @@ class TickerQuery:
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
 
-        stock_code = merge_stock_str(rsp_pb.s2c.stock.market,
+        stock_code = merge_qot_mkt_stock_str(rsp_pb.s2c.stock.market,
                                      rsp_pb.s2c.stock.code)
         raw_ticker_list = rsp_pb.s2c.ticker
         ticker_list = [{
@@ -1198,7 +1147,7 @@ class CurKlineQuery:
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, []
 
-        stock_code = merge_stock_str(rsp_pb.s2c.stock.market,
+        stock_code = merge_qot_mkt_stock_str(rsp_pb.s2c.stock.market,
                                      rsp_pb.s2c.stock.code)
         raw_kline_list = rsp_pb.s2c.rt
         kline_list = [{
@@ -1237,7 +1186,7 @@ class CurKlinePush:
         if not kl_type:
             return RET_ERROR, "kline push error kltype", None
 
-        stock_code = merge_stock_str(rsp_pb.s2c.stock.market,
+        stock_code = merge_qot_mkt_stock_str(rsp_pb.s2c.stock.market,
                                      rsp_pb.s2c.stock.code)
         raw_kline_list = rsp_pb.s2c.kl
         kline_list = [{
@@ -1352,7 +1301,7 @@ class SuspensionQuery:
         ret_susp_list = []
         for record in rsp_pb.s2c.stockSuspendList:
             suspend_info_tmp = {}
-            stock_str = merge_stock_str(record.stock.market, record.stock.code)
+            stock_str = merge_qot_mkt_stock_str(record.stock.market, record.stock.code)
             for suspend_info in record.suspendList:
                 suspend_info_tmp['code'] = stock_str
                 suspend_info_tmp['suspension_dates'] = suspend_info.time
@@ -1370,7 +1319,7 @@ class GlobalStateQuery:
         pass
 
     @classmethod
-    def pack_req(cls, state_type=0):
+    def pack_req(cls,user_id):
         """
         Convert from user request for trading days to PLS request
         :param state_type: for reserved, no use now !
@@ -1382,7 +1331,7 @@ class GlobalStateQuery:
         # pack to json
         from futuquant.common.pb.GlobalState_pb2 import Request
         req = Request()
-        req.c2s.userID = get_user_id()
+        req.c2s.userID = user_id
         return pack_pb_req(req, ProtoId.GlobalState)
 
     @classmethod
@@ -1539,7 +1488,7 @@ class MultiPointsHisKLine:
         dict_data = {}
         raw_kline_points = rsp_pb.s2c.klPoints
         for raw_kline in raw_kline_points:
-            stock_code = merge_stock_str(raw_kline.stock.market,
+            stock_code = merge_qot_mkt_stock_str(raw_kline.stock.market,
                                          raw_kline.stock.code)
             for raw_kl in raw_kline.kl:
                 dict_data['code'] = stock_code

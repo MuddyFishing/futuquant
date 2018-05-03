@@ -71,26 +71,40 @@ class _SyncNetworkQueryCtx:
             if ret != RET_OK:
                 return ret, msg, None
 
+            head_len = get_message_head_len()
+            req_head_dict = parse_head(req_str[:head_len])
             s_cnt = self.s.send(req_str)
 
-            rsp_buf = b''
-            recv_buf = self.s.recv(5 * 1024 * 1024)
-            head_dict = parse_head(recv_buf[:get_message_head_len()])
-            rsp_body = recv_buf[get_message_head_len():]
-
-            while head_dict['body_len'] > len(rsp_body):
-                try:
+            is_rsp_body = False
+            left_buf = b''
+            rsp_body = b''
+            head_dict = []
+            while not is_rsp_body:
+                if len(left_buf) < head_len:
                     recv_buf = self.s.recv(5 * 1024 * 1024)
-                    rsp_body += recv_buf
-                    if recv_buf == b'':
-                        raise Exception("_SyncNetworkQueryCtx : remote server close")
-                except Exception as e:
-                    traceback.print_exc()
-                    err = sys.exc_info()[1]
-                    error_str = ERROR_STR_PREFIX + str(
-                        err) + ' when receiving after sending %s bytes. For req: ' % s_cnt + ""
-                    self._force_close_session()
-                    return RET_ERROR, error_str, None
+                    left_buf += recv_buf
+
+                head_dict = parse_head(left_buf[:head_len])
+                rsp_body = left_buf[head_len:]
+
+                while head_dict['body_len'] > len(rsp_body):
+                    try:
+                        recv_buf = self.s.recv(5 * 1024 * 1024)
+                        rsp_body += recv_buf
+                        if recv_buf == b'':
+                            raise Exception("_SyncNetworkQueryCtx : remote server close")
+                    except Exception as e:
+                        traceback.print_exc()
+                        err = sys.exc_info()[1]
+                        error_str = ERROR_STR_PREFIX + str(
+                            err) + ' when receiving after sending %s bytes. For req: ' % s_cnt + ""
+                        self._force_close_session()
+                        return RET_ERROR, error_str, None
+                if head_dict["proto_id"] == req_head_dict['proto_id']:
+                    is_rsp_body = True
+                else:
+                    left_buf = rsp_body[head_dict['body_len']:]
+                    logger.debug("req protoID={}, recv protoID={}".format(req_head_dict["proto_id"], head_dict["proto_id"]))
 
             rsp_pb = binary2pb(rsp_body, head_dict['proto_id'], head_dict['proto_fmt_type'])
             if rsp_pb is None:

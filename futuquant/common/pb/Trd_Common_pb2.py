@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Trd_Common.proto',
   package='Trd_Common',
   syntax='proto2',
-  serialized_pb=_b('\n\x10Trd_Common.proto\x12\nTrd_Common\x1a\x0c\x43ommon.proto\"=\n\tTrdHeader\x12\r\n\x05\x61\x63\x63ID\x18\x01 \x02(\x04\x12\x0e\n\x06trdEnv\x18\x02 \x02(\x05\x12\x11\n\taccMarket\x18\x03 \x02(\x05\":\n\x06TrdAcc\x12\r\n\x05\x61\x63\x63ID\x18\x01 \x02(\x04\x12\x0e\n\x06trdEnv\x18\x02 \x02(\x05\x12\x11\n\taccMarket\x18\x03 \x02(\x05\"f\n\x05\x46unds\x12\x0b\n\x03gml\x18\x01 \x02(\x01\x12\x0c\n\x04zcjz\x18\x02 \x02(\x01\x12\n\n\x02xj\x18\x03 \x02(\x01\x12\x0c\n\x04zqsz\x18\x04 \x02(\x01\x12\x0c\n\x04\x64jje\x18\x05 \x02(\x01\x12\x0c\n\x04qkje\x18\x06 \x02(\x01\x12\x0c\n\x04ktje\x18\x07 \x02(\x01\"\xb3\x02\n\x08Position\x12\x12\n\npositionID\x18\x01 \x02(\x04\x12\x14\n\x0cpositionSide\x18\x02 \x02(\x05\x12\x0c\n\x04\x63ode\x18\x03 \x02(\t\x12\x0c\n\x04name\x18\x04 \x02(\t\x12\x0b\n\x03qty\x18\x05 \x02(\x01\x12\x12\n\ncanSellQty\x18\x06 \x02(\x01\x12\r\n\x05price\x18\x07 \x02(\x01\x12\x11\n\tcostPrice\x18\x08 \x01(\x01\x12\x0b\n\x03val\x18\t \x02(\x01\x12\r\n\x05plVal\x18\n \x02(\x01\x12\x0f\n\x07plRatio\x18\x0b \x01(\x01\x12\x10\n\x08td_plVal\x18\x15 \x01(\x01\x12\x11\n\ttd_trdVal\x18\x16 \x01(\x01\x12\x11\n\ttd_buyVal\x18\x17 \x01(\x01\x12\x11\n\ttd_buyQty\x18\x18 \x01(\x01\x12\x12\n\ntd_sellVal\x18\x19 \x01(\x01\x12\x12\n\ntd_sellQty\x18\x1a \x01(\x01\"\xff\x01\n\x05Order\x12\x0f\n\x07trdSide\x18\x01 \x02(\x05\x12\x11\n\torderType\x18\x02 \x02(\x05\x12\x13\n\x0borderStatus\x18\x03 \x02(\x05\x12\x0f\n\x07orderID\x18\x04 \x02(\x04\x12\x11\n\torderIDEx\x18\x05 \x02(\t\x12\x0c\n\x04\x63ode\x18\x06 \x02(\t\x12\x0c\n\x04name\x18\x07 \x02(\t\x12\x0b\n\x03qty\x18\x08 \x02(\x01\x12\r\n\x05price\x18\t \x01(\x01\x12\x12\n\ncreateTime\x18\n \x02(\t\x12\x12\n\nupdateTime\x18\x0b \x02(\t\x12\x0f\n\x07\x66illQty\x18\x0c \x01(\x01\x12\x14\n\x0c\x66illAvgPrice\x18\r \x01(\x01\x12\x12\n\nlastErrMsg\x18\x0e \x01(\t\"\xc7\x01\n\tOrderFill\x12\x0f\n\x07trdSide\x18\x01 \x02(\x05\x12\x0e\n\x06\x66illID\x18\x02 \x02(\x04\x12\x10\n\x08\x66illIDEx\x18\x03 \x02(\t\x12\x0f\n\x07orderID\x18\x04 \x01(\x04\x12\x11\n\torderIDEx\x18\x05 \x01(\t\x12\x0c\n\x04\x63ode\x18\x06 \x02(\t\x12\x0c\n\x04name\x18\x07 \x02(\t\x12\x0b\n\x03qty\x18\x08 \x02(\x01\x12\r\n\x05price\x18\t \x02(\x01\x12\x12\n\ncreateTime\x18\n \x02(\t\x12\x17\n\x0f\x63ounterBrokerID\x18\x0b \x01(\x05\"S\n\x13TrdFilterConditions\x12\x0c\n\x04\x63ode\x18\x01 \x03(\t\x12\n\n\x02id\x18\x02 \x03(\x04\x12\x11\n\tbeginTime\x18\x03 \x01(\t\x12\x0f\n\x07\x65ndTime\x18\x04 \x01(\t*.\n\x06TrdEnv\x12\x13\n\x0fTrdEnv_Simulate\x10\x00\x12\x0f\n\x0bTrdEnv_Real\x10\x01*l\n\tAccMarket\x12\x15\n\x11\x41\x63\x63Market_Unknown\x10\x00\x12\x10\n\x0c\x41\x63\x63Market_HK\x10\x01\x12\x10\n\x0c\x41\x63\x63Market_US\x10\x02\x12\x10\n\x0c\x41\x63\x63Market_CN\x10\x03\x12\x12\n\x0e\x41\x63\x63Market_HKCC\x10\x04*\xb9\x01\n\tTrdMarket\x12\x15\n\x11TrdMarket_Unknown\x10\x00\x12\x16\n\x12TrdMarket_HK_Stock\x10\x01\x12\x16\n\x12TrdMarket_US_Stock\x10\x0b\x12\x17\n\x13TrdMarket_US_Option\x10\x0c\x12\x18\n\x14TrdMarket_CNSH_Stock\x10\x15\x12\x18\n\x14TrdMarket_CNSZ_Stock\x10\x16\x12\x18\n\x14TrdMarket_HKCC_Stock\x10\x1f*m\n\x07TrdSide\x12\x13\n\x0fTrdSide_Unknown\x10\x00\x12\x0f\n\x0bTrdSide_Buy\x10\x01\x12\x10\n\x0cTrdSide_Sell\x10\x02\x12\x15\n\x11TrdSide_SellShort\x10\x03\x12\x13\n\x0fTrdSide_BuyBack\x10\x04*\x96\x01\n\tOrderType\x12\x15\n\x11OrderType_Unknown\x10\x00\x12\x14\n\x10OrderType_Normal\x10\x01\x12\x14\n\x10OrderType_Market\x10\x02\x12\x13\n\x0fOrderType_Limit\x10\x05\x12\x15\n\x11OrderType_Auction\x10\x06\x12\x1a\n\x16OrderType_AuctionLimit\x10\x07*\xdd\x03\n\x0bOrderStatus\x12 \n\x13OrderStatus_Unknown\x10\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\x1b\n\x17OrderStatus_Unsubmitted\x10\x00\x12\x1d\n\x19OrderStatus_WaitingSubmit\x10\x01\x12\x1a\n\x16OrderStatus_Submitting\x10\x02\x12\x1c\n\x18OrderStatus_SubmitFailed\x10\x03\x12\x17\n\x13OrderStatus_TimeOut\x10\x04\x12\x19\n\x15OrderStatus_Submitted\x10\x05\x12\x1b\n\x17OrderStatus_Filled_Part\x10\n\x12\x1a\n\x16OrderStatus_Filled_All\x10\x0b\x12\x1f\n\x1bOrderStatus_Cancelling_Part\x10\x0c\x12\x1e\n\x1aOrderStatus_Cancelling_All\x10\r\x12\x1e\n\x1aOrderStatus_Cancelled_Part\x10\x0e\x12\x1d\n\x19OrderStatus_Cancelled_All\x10\x0f\x12\x16\n\x12OrderStatus_Failed\x10\x15\x12\x18\n\x14OrderStatus_Disabled\x10\x16\x12\x17\n\x13OrderStatus_Deleted\x10\x17*`\n\x0cPositionSide\x12!\n\x14PositionSide_Unknown\x10\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\x15\n\x11PositionSide_Long\x10\x00\x12\x16\n\x12PositionSide_Short\x10\x01*\xad\x01\n\rModifyOrderOp\x12\x19\n\x15ModifyOrderOp_Unknown\x10\x00\x12\x18\n\x14ModifyOrderOp_Normal\x10\x01\x12\x18\n\x14ModifyOrderOp_Cancel\x10\x02\x12\x19\n\x15ModifyOrderOp_Disable\x10\x03\x12\x18\n\x14ModifyOrderOp_Enable\x10\x04\x12\x18\n\x14ModifyOrderOp_Delete\x10\x05*\x86\x01\n\x14ReconfirmOrderReason\x12 \n\x1cReconfirmOrderReason_Unknown\x10\x00\x12$\n ReconfirmOrderReason_QtyTooLarge\x10\x01\x12&\n\"ReconfirmOrderReason_PriceAbnormal\x10\x02')
+  serialized_pb=_b('\n\x10Trd_Common.proto\x12\nTrd_Common\x1a\x0c\x43ommon.proto\"=\n\tTrdHeader\x12\x0e\n\x06trdEnv\x18\x01 \x02(\x05\x12\r\n\x05\x61\x63\x63ID\x18\x02 \x02(\x04\x12\x11\n\ttrdMarket\x18\x03 \x02(\x05\">\n\x06TrdAcc\x12\x0e\n\x06trdEnv\x18\x01 \x02(\x05\x12\r\n\x05\x61\x63\x63ID\x18\x02 \x02(\x04\x12\x15\n\rtrdMarketAuth\x18\x03 \x03(\x05\"f\n\x05\x46unds\x12\x0b\n\x03gml\x18\x01 \x02(\x01\x12\x0c\n\x04zcjz\x18\x02 \x02(\x01\x12\n\n\x02xj\x18\x03 \x02(\x01\x12\x0c\n\x04zqsz\x18\x04 \x02(\x01\x12\x0c\n\x04\x64jje\x18\x05 \x02(\x01\x12\x0c\n\x04qkje\x18\x06 \x02(\x01\x12\x0c\n\x04ktje\x18\x07 \x02(\x01\"\xb3\x02\n\x08Position\x12\x12\n\npositionID\x18\x01 \x02(\x04\x12\x14\n\x0cpositionSide\x18\x02 \x02(\x05\x12\x0c\n\x04\x63ode\x18\x03 \x02(\t\x12\x0c\n\x04name\x18\x04 \x02(\t\x12\x0b\n\x03qty\x18\x05 \x02(\x01\x12\x12\n\ncanSellQty\x18\x06 \x02(\x01\x12\r\n\x05price\x18\x07 \x02(\x01\x12\x11\n\tcostPrice\x18\x08 \x01(\x01\x12\x0b\n\x03val\x18\t \x02(\x01\x12\r\n\x05plVal\x18\n \x02(\x01\x12\x0f\n\x07plRatio\x18\x0b \x01(\x01\x12\x10\n\x08td_plVal\x18\x15 \x01(\x01\x12\x11\n\ttd_trdVal\x18\x16 \x01(\x01\x12\x11\n\ttd_buyVal\x18\x17 \x01(\x01\x12\x11\n\ttd_buyQty\x18\x18 \x01(\x01\x12\x12\n\ntd_sellVal\x18\x19 \x01(\x01\x12\x12\n\ntd_sellQty\x18\x1a \x01(\x01\"\xff\x01\n\x05Order\x12\x0f\n\x07trdSide\x18\x01 \x02(\x05\x12\x11\n\torderType\x18\x02 \x02(\x05\x12\x13\n\x0borderStatus\x18\x03 \x02(\x05\x12\x0f\n\x07orderID\x18\x04 \x02(\x04\x12\x11\n\torderIDEx\x18\x05 \x02(\t\x12\x0c\n\x04\x63ode\x18\x06 \x02(\t\x12\x0c\n\x04name\x18\x07 \x02(\t\x12\x0b\n\x03qty\x18\x08 \x02(\x01\x12\r\n\x05price\x18\t \x01(\x01\x12\x12\n\ncreateTime\x18\n \x02(\t\x12\x12\n\nupdateTime\x18\x0b \x02(\t\x12\x0f\n\x07\x66illQty\x18\x0c \x01(\x01\x12\x14\n\x0c\x66illAvgPrice\x18\r \x01(\x01\x12\x12\n\nlastErrMsg\x18\x0e \x01(\t\"\xe2\x01\n\tOrderFill\x12\x0f\n\x07trdSide\x18\x01 \x02(\x05\x12\x0e\n\x06\x66illID\x18\x02 \x02(\x04\x12\x10\n\x08\x66illIDEx\x18\x03 \x02(\t\x12\x0f\n\x07orderID\x18\x04 \x01(\x04\x12\x11\n\torderIDEx\x18\x05 \x01(\t\x12\x0c\n\x04\x63ode\x18\x06 \x02(\t\x12\x0c\n\x04name\x18\x07 \x02(\t\x12\x0b\n\x03qty\x18\x08 \x02(\x01\x12\r\n\x05price\x18\t \x02(\x01\x12\x12\n\ncreateTime\x18\n \x02(\t\x12\x17\n\x0f\x63ounterBrokerID\x18\x0b \x01(\x05\x12\x19\n\x11\x63ounterBrokerName\x18\x0c \x01(\t\"S\n\x13TrdFilterConditions\x12\x0c\n\x04\x63ode\x18\x01 \x03(\t\x12\n\n\x02id\x18\x02 \x03(\x04\x12\x11\n\tbeginTime\x18\x03 \x01(\t\x12\x0f\n\x07\x65ndTime\x18\x04 \x01(\t*.\n\x06TrdEnv\x12\x13\n\x0fTrdEnv_Simulate\x10\x00\x12\x0f\n\x0bTrdEnv_Real\x10\x01*l\n\tTrdMarket\x12\x15\n\x11TrdMarket_Unknown\x10\x00\x12\x10\n\x0cTrdMarket_HK\x10\x01\x12\x10\n\x0cTrdMarket_US\x10\x02\x12\x10\n\x0cTrdMarket_CN\x10\x03\x12\x12\n\x0eTrdMarket_HKCC\x10\x04*m\n\x07TrdSide\x12\x13\n\x0fTrdSide_Unknown\x10\x00\x12\x0f\n\x0bTrdSide_Buy\x10\x01\x12\x10\n\x0cTrdSide_Sell\x10\x02\x12\x15\n\x11TrdSide_SellShort\x10\x03\x12\x13\n\x0fTrdSide_BuyBack\x10\x04*\x96\x01\n\tOrderType\x12\x15\n\x11OrderType_Unknown\x10\x00\x12\x14\n\x10OrderType_Normal\x10\x01\x12\x14\n\x10OrderType_Market\x10\x02\x12\x13\n\x0fOrderType_Limit\x10\x05\x12\x15\n\x11OrderType_Auction\x10\x06\x12\x1a\n\x16OrderType_AuctionLimit\x10\x07*\xdd\x03\n\x0bOrderStatus\x12 \n\x13OrderStatus_Unknown\x10\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\x1b\n\x17OrderStatus_Unsubmitted\x10\x00\x12\x1d\n\x19OrderStatus_WaitingSubmit\x10\x01\x12\x1a\n\x16OrderStatus_Submitting\x10\x02\x12\x1c\n\x18OrderStatus_SubmitFailed\x10\x03\x12\x17\n\x13OrderStatus_TimeOut\x10\x04\x12\x19\n\x15OrderStatus_Submitted\x10\x05\x12\x1b\n\x17OrderStatus_Filled_Part\x10\n\x12\x1a\n\x16OrderStatus_Filled_All\x10\x0b\x12\x1f\n\x1bOrderStatus_Cancelling_Part\x10\x0c\x12\x1e\n\x1aOrderStatus_Cancelling_All\x10\r\x12\x1e\n\x1aOrderStatus_Cancelled_Part\x10\x0e\x12\x1d\n\x19OrderStatus_Cancelled_All\x10\x0f\x12\x16\n\x12OrderStatus_Failed\x10\x15\x12\x18\n\x14OrderStatus_Disabled\x10\x16\x12\x17\n\x13OrderStatus_Deleted\x10\x17*`\n\x0cPositionSide\x12!\n\x14PositionSide_Unknown\x10\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\x15\n\x11PositionSide_Long\x10\x00\x12\x16\n\x12PositionSide_Short\x10\x01*\xad\x01\n\rModifyOrderOp\x12\x19\n\x15ModifyOrderOp_Unknown\x10\x00\x12\x18\n\x14ModifyOrderOp_Normal\x10\x01\x12\x18\n\x14ModifyOrderOp_Cancel\x10\x02\x12\x19\n\x15ModifyOrderOp_Disable\x10\x03\x12\x18\n\x14ModifyOrderOp_Enable\x10\x04\x12\x18\n\x14ModifyOrderOp_Delete\x10\x05*\x86\x01\n\x14ReconfirmOrderReason\x12 \n\x1cReconfirmOrderReason_Unknown\x10\x00\x12$\n ReconfirmOrderReason_QtyTooLarge\x10\x01\x12&\n\"ReconfirmOrderReason_PriceAbnormal\x10\x02')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,])
 
@@ -42,47 +42,12 @@ _TRDENV = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=1128,
-  serialized_end=1174,
+  serialized_start=1159,
+  serialized_end=1205,
 )
 _sym_db.RegisterEnumDescriptor(_TRDENV)
 
 TrdEnv = enum_type_wrapper.EnumTypeWrapper(_TRDENV)
-_ACCMARKET = _descriptor.EnumDescriptor(
-  name='AccMarket',
-  full_name='Trd_Common.AccMarket',
-  filename=None,
-  file=DESCRIPTOR,
-  values=[
-    _descriptor.EnumValueDescriptor(
-      name='AccMarket_Unknown', index=0, number=0,
-      options=None,
-      type=None),
-    _descriptor.EnumValueDescriptor(
-      name='AccMarket_HK', index=1, number=1,
-      options=None,
-      type=None),
-    _descriptor.EnumValueDescriptor(
-      name='AccMarket_US', index=2, number=2,
-      options=None,
-      type=None),
-    _descriptor.EnumValueDescriptor(
-      name='AccMarket_CN', index=3, number=3,
-      options=None,
-      type=None),
-    _descriptor.EnumValueDescriptor(
-      name='AccMarket_HKCC', index=4, number=4,
-      options=None,
-      type=None),
-  ],
-  containing_type=None,
-  options=None,
-  serialized_start=1176,
-  serialized_end=1284,
-)
-_sym_db.RegisterEnumDescriptor(_ACCMARKET)
-
-AccMarket = enum_type_wrapper.EnumTypeWrapper(_ACCMARKET)
 _TRDMARKET = _descriptor.EnumDescriptor(
   name='TrdMarket',
   full_name='Trd_Common.TrdMarket',
@@ -94,34 +59,26 @@ _TRDMARKET = _descriptor.EnumDescriptor(
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='TrdMarket_HK_Stock', index=1, number=1,
+      name='TrdMarket_HK', index=1, number=1,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='TrdMarket_US_Stock', index=2, number=11,
+      name='TrdMarket_US', index=2, number=2,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='TrdMarket_US_Option', index=3, number=12,
+      name='TrdMarket_CN', index=3, number=3,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='TrdMarket_CNSH_Stock', index=4, number=21,
-      options=None,
-      type=None),
-    _descriptor.EnumValueDescriptor(
-      name='TrdMarket_CNSZ_Stock', index=5, number=22,
-      options=None,
-      type=None),
-    _descriptor.EnumValueDescriptor(
-      name='TrdMarket_HKCC_Stock', index=6, number=31,
+      name='TrdMarket_HKCC', index=4, number=4,
       options=None,
       type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=1287,
-  serialized_end=1472,
+  serialized_start=1207,
+  serialized_end=1315,
 )
 _sym_db.RegisterEnumDescriptor(_TRDMARKET)
 
@@ -155,8 +112,8 @@ _TRDSIDE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=1474,
-  serialized_end=1583,
+  serialized_start=1317,
+  serialized_end=1426,
 )
 _sym_db.RegisterEnumDescriptor(_TRDSIDE)
 
@@ -194,8 +151,8 @@ _ORDERTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=1586,
-  serialized_end=1736,
+  serialized_start=1429,
+  serialized_end=1579,
 )
 _sym_db.RegisterEnumDescriptor(_ORDERTYPE)
 
@@ -273,8 +230,8 @@ _ORDERSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=1739,
-  serialized_end=2216,
+  serialized_start=1582,
+  serialized_end=2059,
 )
 _sym_db.RegisterEnumDescriptor(_ORDERSTATUS)
 
@@ -300,8 +257,8 @@ _POSITIONSIDE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=2218,
-  serialized_end=2314,
+  serialized_start=2061,
+  serialized_end=2157,
 )
 _sym_db.RegisterEnumDescriptor(_POSITIONSIDE)
 
@@ -339,8 +296,8 @@ _MODIFYORDEROP = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=2317,
-  serialized_end=2490,
+  serialized_start=2160,
+  serialized_end=2333,
 )
 _sym_db.RegisterEnumDescriptor(_MODIFYORDEROP)
 
@@ -366,26 +323,19 @@ _RECONFIRMORDERREASON = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=2493,
-  serialized_end=2627,
+  serialized_start=2336,
+  serialized_end=2470,
 )
 _sym_db.RegisterEnumDescriptor(_RECONFIRMORDERREASON)
 
 ReconfirmOrderReason = enum_type_wrapper.EnumTypeWrapper(_RECONFIRMORDERREASON)
 TrdEnv_Simulate = 0
 TrdEnv_Real = 1
-AccMarket_Unknown = 0
-AccMarket_HK = 1
-AccMarket_US = 2
-AccMarket_CN = 3
-AccMarket_HKCC = 4
 TrdMarket_Unknown = 0
-TrdMarket_HK_Stock = 1
-TrdMarket_US_Stock = 11
-TrdMarket_US_Option = 12
-TrdMarket_CNSH_Stock = 21
-TrdMarket_CNSZ_Stock = 22
-TrdMarket_HKCC_Stock = 31
+TrdMarket_HK = 1
+TrdMarket_US = 2
+TrdMarket_CN = 3
+TrdMarket_HKCC = 4
 TrdSide_Unknown = 0
 TrdSide_Buy = 1
 TrdSide_Sell = 2
@@ -436,21 +386,21 @@ _TRDHEADER = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='accID', full_name='Trd_Common.TrdHeader.accID', index=0,
-      number=1, type=4, cpp_type=4, label=2,
+      name='trdEnv', full_name='Trd_Common.TrdHeader.trdEnv', index=0,
+      number=1, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='trdEnv', full_name='Trd_Common.TrdHeader.trdEnv', index=1,
-      number=2, type=5, cpp_type=1, label=2,
+      name='accID', full_name='Trd_Common.TrdHeader.accID', index=1,
+      number=2, type=4, cpp_type=4, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='accMarket', full_name='Trd_Common.TrdHeader.accMarket', index=2,
+      name='trdMarket', full_name='Trd_Common.TrdHeader.trdMarket', index=2,
       number=3, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -481,23 +431,23 @@ _TRDACC = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='accID', full_name='Trd_Common.TrdAcc.accID', index=0,
-      number=1, type=4, cpp_type=4, label=2,
+      name='trdEnv', full_name='Trd_Common.TrdAcc.trdEnv', index=0,
+      number=1, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='trdEnv', full_name='Trd_Common.TrdAcc.trdEnv', index=1,
-      number=2, type=5, cpp_type=1, label=2,
+      name='accID', full_name='Trd_Common.TrdAcc.accID', index=1,
+      number=2, type=4, cpp_type=4, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='accMarket', full_name='Trd_Common.TrdAcc.accMarket', index=2,
-      number=3, type=5, cpp_type=1, label=2,
-      has_default_value=False, default_value=0,
+      name='trdMarketAuth', full_name='Trd_Common.TrdAcc.trdMarketAuth', index=2,
+      number=3, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
@@ -514,7 +464,7 @@ _TRDACC = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=109,
-  serialized_end=167,
+  serialized_end=171,
 )
 
 
@@ -586,8 +536,8 @@ _FUNDS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=169,
-  serialized_end=271,
+  serialized_start=173,
+  serialized_end=275,
 )
 
 
@@ -729,8 +679,8 @@ _POSITION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=274,
-  serialized_end=581,
+  serialized_start=278,
+  serialized_end=585,
 )
 
 
@@ -851,8 +801,8 @@ _ORDER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=584,
-  serialized_end=839,
+  serialized_start=588,
+  serialized_end=843,
 )
 
 
@@ -940,6 +890,13 @@ _ORDERFILL = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='counterBrokerName', full_name='Trd_Common.OrderFill.counterBrokerName', index=11,
+      number=12, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -952,8 +909,8 @@ _ORDERFILL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=842,
-  serialized_end=1041,
+  serialized_start=846,
+  serialized_end=1072,
 )
 
 
@@ -1004,8 +961,8 @@ _TRDFILTERCONDITIONS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1043,
-  serialized_end=1126,
+  serialized_start=1074,
+  serialized_end=1157,
 )
 
 DESCRIPTOR.message_types_by_name['TrdHeader'] = _TRDHEADER
@@ -1016,7 +973,6 @@ DESCRIPTOR.message_types_by_name['Order'] = _ORDER
 DESCRIPTOR.message_types_by_name['OrderFill'] = _ORDERFILL
 DESCRIPTOR.message_types_by_name['TrdFilterConditions'] = _TRDFILTERCONDITIONS
 DESCRIPTOR.enum_types_by_name['TrdEnv'] = _TRDENV
-DESCRIPTOR.enum_types_by_name['AccMarket'] = _ACCMARKET
 DESCRIPTOR.enum_types_by_name['TrdMarket'] = _TRDMARKET
 DESCRIPTOR.enum_types_by_name['TrdSide'] = _TRDSIDE
 DESCRIPTOR.enum_types_by_name['OrderType'] = _ORDERTYPE

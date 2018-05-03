@@ -15,19 +15,17 @@ RET_ERROR = -1
 ERROR_STR_PREFIX = 'ERROR. '
 EMPTY_STRING = ''
 
+# 默认的ClientID, 用于区分不同的api : set_client_id 更改
+DEFULAT_CLIENT_ID = "PyNormal"
+CLIENT_VERSION = 300
 
 # 协议格式
 class ProtoFMT(object):
     Protobuf = 0
     Json = 1
 
-
-# 交易环境
-class EnvType(object):
-    REAL = "REAL",
-    SIMULATE = "SIMULATE",
-
-ENVTYPE_MAP = {EnvType.REAL: 0, EnvType.SIMULATE: 1}
+# 默认的协议格式 : set_proto_fmt 更改
+DEFULAT_PROTO_FMT = ProtoFMT.Protobuf
 
 
 # 市场标识字符串
@@ -326,28 +324,6 @@ class ProtoId(object):
     Qot_ReqPlateStock = 3205  # 获取板块下的股票
 
 
-class TRADE(object):
-    REV_MKT_MAP = {MKT_MAP[x]: x for x in MKT_MAP}
-    REV_SEC_TYPE_MAP = {SEC_TYPE_MAP[x]: x for x in SEC_TYPE_MAP}
-    REV_SUBTYPE_MAP = {SUBTYPE_MAP[x]: x for x in SUBTYPE_MAP}
-    REV_KTYPE_MAP = {KTYPE_MAP[x]: x for x in KTYPE_MAP}
-    REV_AUTYPE_MAP = {AUTYPE_MAP[x]: x for x in AUTYPE_MAP}
-    REV_TICKER_DIRECTION = {TICKER_DIRECTION[x]: x for x in TICKER_DIRECTION}
-    REV_ORDER_STATUS = {ORDER_STATUS[x]: x for x in ORDER_STATUS}
-    REV_ENVTYPE_MAP = {ENVTYPE_MAP[x]: x for x in ENVTYPE_MAP}
-    REV_ENVTYPE_STR_MAP = {str(ENVTYPE_MAP[x]): x for x in ENVTYPE_MAP}
-
-    # 港股支持模拟和真实环境
-    @staticmethod
-    def check_envtype_hk(envtype):
-        return str(envtype) in TRADE.REV_ENVTYPE_STR_MAP
-
-    # 美股目前不支持模拟环境
-    @staticmethod
-    def check_envtype_us(envtype):
-        return str(envtype) == u'0'
-
-
 # noinspection PyPep8Naming
 class QUOTE(object):
     REV_MKT_MAP = {MKT_MAP[x]: x for x in MKT_MAP}
@@ -368,6 +344,7 @@ class SysNotifyType(object):
 SYS_EVENT_TYPE_MAP = {
     SysNotifyType.NONE: 0, SysNotifyType.GTW_EVENT: 1
 }
+
 
 class GtwEventType(object):
     NONE = "N/A"
@@ -402,6 +379,170 @@ GTW_EVENT_MAP = {
     GtwEventType.NessaryDataMissing: 13,
 }
 
+
 class SysNoitfy(object):
     REV_SYS_EVENT_TYPE_MAP = {SYS_EVENT_TYPE_MAP[x]: x for x in SYS_EVENT_TYPE_MAP}
     REV_GTW_EVENT_MAP = {GTW_EVENT_MAP[x]: x for x in GTW_EVENT_MAP}
+
+
+# 交易环境
+class TrdEnv(object):
+    REAL = "REAL"
+    SIMULATE = "SIMULATE"
+
+TRD_ENV_MAP = {TrdEnv.REAL: 0, TrdEnv.SIMULATE: 1}
+
+
+# 交易大市场， 不是具体品种
+class TrdMarket(object):
+    NONE = "N/A"   # 未知
+    HK = "HK"      # 香港市场
+    US = "US"      # 美国市场
+    CN = "CN"      # 大陆市场
+    HKCC = "HKCC"  # 香港A股通市场
+
+TRD_MKT_MAP = {
+    TrdMarket.NONE: 0,
+    TrdMarket.HK: 1,
+    TrdMarket.US: 2,
+    TrdMarket.CN: 3,
+    TrdMarket.HKCC: 4,
+}
+
+
+# 持仓方向
+class PositionSide(object):
+    NONE = "N/A"
+    LONG = "LONG"    # 多仓
+    SHORT = "SHORT"  # 空仓
+
+POSITION_SIDE_MAP = {
+    PositionSide.NONE: -1,
+    PositionSide.LONG: 0,
+    PositionSide.SHORT: 1,
+}
+
+
+# 订单类型
+class OrderType(object):
+    NONE = "N/A"
+    NORMAL = "NORMAL"       # 普通订单(港股的增强限价单、A股限价委托、美股的限价单)
+    MARKET = "MARKET"       # 市价，目前仅美股
+    LIMIT = "LIMIT"         # 港股_限价(只有价格完全匹配才成交)
+    AUCTION = "AUCTION"     # 港股_竞价
+    AUCTION_LIMIT = "AUCTION_LIMIT" # 港股_竞价限价
+
+ORDER_TYPE_MAP = {
+    OrderType.NONE: 0,
+    OrderType.NORMAL: 1,
+    OrderType.MARKET: 2,
+    OrderType.LIMIT: 5,
+    OrderType.AUCTION: 6,
+    OrderType.AUCTION_LIMIT: 7,
+}
+
+
+# 订单状态
+class OrderStatus(object):
+    NONE = "N/A"                                # 未知状态
+    UNSUBMITTED = "UNSUBMITTED"                 # 未提交
+    WAITING_SUBMIT = "WAITING_SUBMIT"           # 等待提交
+    SUBMITTING = "SUBMITTING"                   # 提交中
+    SUBMIT_FAILED = "SUBMIT_FAILED"             # 提交失败，下单失败
+    TIMEOUT = "TIMEOUT"                         # 处理超时，结果未知
+    SUBMITTED = "SUBMITTED"                     # 已提交，等待成交
+    FILLED_PART = "FILLED_PART"                 # 部分成交
+    FILLED_ALL = "FILLED_ALL"                   # 全部已成
+    CANCELLING_PART = "CANCELLING_PART"         # 正在撤单_部分(部分已成交，正在撤销剩余部分)
+    CANCELLING_ALL = "CANCELLING_ALL"           # 正在撤单_全部
+    CANCELLED_PART = "CANCELLED_PART"           # 部分成交，剩余部分已撤单
+    CANCELLED_ALL = "CANCELLED_ALL"             # 全部已撤单，无成交
+    FAILED = "FAILED"                           # 下单失败，服务拒绝
+    DISABLED = "DISABLED"                       # 已失效
+    DELETED = "DELETED"                         # 已删除，无成交的订单才能删除
+
+ORDER_STATUS_MAP = {
+    OrderStatus.NONE: -1,
+    OrderStatus.UNSUBMITTED: 0,
+    OrderStatus.WAITING_SUBMIT: 1,
+    OrderStatus.SUBMITTING: 2,
+    OrderStatus.SUBMIT_FAILED: 3,
+    OrderStatus.TIMEOUT: 4,
+    OrderStatus.SUBMITTED: 5,
+    OrderStatus.FILLED_PART: 10,
+    OrderStatus.FILLED_ALL: 11,
+    OrderStatus.CANCELLING_PART: 12,
+    OrderStatus.CANCELLING_ALL: 13,
+    OrderStatus.CANCELLED_PART: 14,
+    OrderStatus.CANCELLED_ALL: 15,
+    OrderStatus.FAILED: 21,
+    OrderStatus.DISABLED: 22,
+    OrderStatus.DELETED: 23,
+}
+
+# 修改订单操作
+class ModifyOrderOp(object):
+    NONE = "N/A"
+    NORMAL = "NORMAL"
+    CANCEL = "CANCEL"
+    DISABLE = "DISABLE"
+    ENABLE = "ENABLE"
+    DELETE = "DELETE"
+
+MODIFY_ORDER_OP_MAP = {
+    ModifyOrderOp.NONE: 0,
+    ModifyOrderOp.NORMAL: 1,
+    ModifyOrderOp.CANCEL: 2,
+    ModifyOrderOp.DISABLE: 3,
+    ModifyOrderOp.ENABLE: 4,
+    ModifyOrderOp.DELETE: 5,
+}
+
+# 交易方向 (客户端下单只传Buy或Sell即可，SELL_SHORT / BUY_BACK 服务器可能会传回
+class TrdSide(object):
+    NONE = "N/A"
+    BUY = "BUY"
+    SELL = "SELL"
+    SELL_SHORT = "SELL_SHORT"
+    BUY_BACK = "BUY_BACK"
+
+TRD_SIDE_MAP = {
+    TrdSide.NONE: 0,
+    TrdSide.BUY: 1,
+    TrdSide.SELL: 2,
+    TrdSide.SELL_SHORT: 3,
+    TrdSide.BUY_BACK: 4,
+}
+
+# 交易的支持能力，持续更新中
+MKT_ENV_ENABLE_MAP = {
+    (TrdMarket.HK, TrdEnv.REAL): True,
+    (TrdMarket.HK, TrdEnv.SIMULATE): False,
+
+    (TrdMarket.US, TrdEnv.REAL): True,
+    (TrdMarket.US, TrdEnv.SIMULATE): False,
+
+    (TrdMarket.HKCC, TrdEnv.REAL): False,
+    (TrdMarket.HKCC, TrdEnv.SIMULATE): False,
+
+    (TrdMarket.CN, TrdEnv.REAL): False,
+    (TrdMarket.CN, TrdEnv.SIMULATE): False,
+}
+
+
+class TRADE(object):
+    REV_TRD_MKT_MAP = {TRD_MKT_MAP[x]: x for x in TRD_MKT_MAP}
+    REV_ENVTYPE_MAP = {TRD_ENV_MAP[x]: x for x in TRD_ENV_MAP}
+    REV_POSITION_SIDE_MAP = {POSITION_SIDE_MAP[x]: x for x in POSITION_SIDE_MAP}
+    REV_ORDER_TYPE_MAP = {ORDER_TYPE_MAP[x]: x for x in ORDER_TYPE_MAP}
+    REV_TRD_SIDE_MAP = {TRD_SIDE_MAP[x]: x for x in TRD_SIDE_MAP}
+    REV_ORDER_STATUS_MAP = {ORDER_STATUS_MAP[x]: x for x in ORDER_STATUS_MAP}
+    REV_MODIFY_ORDER_OP_MAP = {MODIFY_ORDER_OP_MAP[x]: x for x in MODIFY_ORDER_OP_MAP}
+
+    @staticmethod
+    def check_mkt_envtype(trd_mkt, trd_env):
+        if (trd_mkt, trd_env) in MKT_ENV_ENABLE_MAP:
+            return MKT_ENV_ENABLE_MAP[trd_mkt, trd_env]
+        return False
+
+

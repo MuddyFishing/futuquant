@@ -7,23 +7,38 @@ from futuquant.trade.order_list_manager import SafeTradeSubscribeList
 from futuquant.trade.trade_query import *
 from futuquant.quote.response_handler import HKTradeOrderPreHandler
 
-
-class OpenHKTradeContext(OpenContextBase):
+class OpenTradeContextBase(OpenContextBase):
     """Class for set context of HK stock trade"""
-    cookie = 100000
 
-    def __init__(self, host="127.0.0.1", port=11111):
+    def __init__(self, trd_mkt, host="127.0.0.1", port=11111):
+        self.__trd_mkt = trd_mkt
         self._ctx_unlock = None
         self._obj_order_sub = SafeTradeSubscribeList()
+        self.__last_acc_list = []
 
-        super(OpenHKTradeContext, self).__init__(host, port, True, True)
+        super(OpenTradeContextBase, self).__init__(host, port, True, True)
         self.set_pre_handler(HKTradeOrderPreHandler(self))
 
     def close(self):
         """
         to call close old obj before loop create new, otherwise socket will encounter erro 10053 or more!
         """
-        super(OpenHKTradeContext, self).close()
+        super(OpenTradeContextBase, self).close()
+
+    def notify_sync_socket_connected(self, sync_ctxt):
+        is_ready, is_retry = super(OpenTradeContextBase, self).notify_sync_socket_connected(self, sync_ctxt)
+        if not is_ready:
+            return is_ready, is_retry
+
+        # 连接成功后立即拉取帐号列表
+        self.__last_acc_list = []
+        ret, data = self.get_acc_list()
+
+        if ret != RET_OK:
+            is_ready = False
+            logger.debug("get aacount list error: {}".format(data))
+
+        return is_ready, is_retry
 
     def on_api_socket_reconnected(self):
         """for API socket reconnected"""
@@ -36,419 +51,179 @@ class OpenHKTradeContext(OpenContextBase):
                     break
                 sleep(1)
 
-        # auto subscribe order deal push
-        list_sub = self._obj_order_sub.copy()
-        dic_order = {}
-        list_zero_order_env = []
-        for (orderid, envtype) in list_sub:
-            if str(orderid) == u'':
-                list_zero_order_env.append(envtype)
-                continue
-            if envtype not in dic_order:
-                dic_order[envtype] = []
-            dic_order[envtype].append(orderid)
+        # auto sub account push
+        pass
 
-        for envtype in dic_order:
-            self._subscribe_order_deal_push(dic_order[envtype], True, True,
-                                            envtype)
+    def get_acc_list(self):
+        """
+        :return: (ret, data)
+        """
+        query_processor = self._get_sync_query_processor(
+            GetAccountList.pack_req, GetAccountList.unpack_rsp)
 
-        # use orderid blank to subscrible all order
-        for envtype in list_zero_order_env:
-            self._subscribe_order_deal_push([], True, False, envtype)
+        kargs = {'user_id': get_user_id()}
 
-    def on_trade_order_check(self, orderid, envtype, status):
-        '''multi thread notify order finish after subscribe order push'''
-        if is_HKTrade_order_status_finish(status):
-            self._obj_order_sub.del_val(orderid=orderid, envtype=envtype)
-        elif (not self._obj_order_sub.has_val(
-                orderid, envtype)) and self._obj_order_sub.has_val(
-                    u'', envtype):
-            self._obj_order_sub.add_val(
-                orderid, envtype)  #record info for subscribe order u''
+        ret_code, msg, acc_list = query_processor(**kargs)
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
 
-    def _subscribe_order_deal_push(self,
-                                   orderid_list,
-                                   order_deal_push=True,
-                                   push_atonce=True,
-                                   envtype=0):
-        """subscribe order for recv push data"""
-        for orderid in orderid_list:
-            if order_deal_push is False:
-                self._obj_order_sub.del_val(orderid, envtype)
-            else:
-                self._obj_order_sub.add_val(orderid, envtype)
+        # 记录当前市场的帐号列表
+        self.__last_acc_list = []
+        for x in acc_list:
+            if acc_list["acc_market"] == self.__trd_mkt:
+                self.__last_acc_list.append(x)
 
-        ret_code, _, push_req_str = TradePushQuery.hk_pack_subscribe_req(
-            str(self.cookie), str(envtype), orderid_list,
-            str(int(order_deal_push)), str(int(push_atonce)))
-        if ret_code == RET_OK:
-            ret_code, _ = self._send_async_req(push_req_str)
+        col_list = ["acc_id", "trd_env", "acc_market"]
 
-        return ret_code
+        acc_table = pd.DataFrame(copy(self.__last_acc_list), columns=col_list)
 
-    def unlock_trade(self, password, password_md5=None):
+        return RET_OK, acc_table
+
+    def unlock_trade(self, password, password_md5=None, is_unlock=True):
         '''
         交易解锁，安全考虑，所有的交易api,需成功解锁后才可操作
         :param password: 明文密码字符串 (二选一）
         :param password_md5: 密码的md5字符串（二选一）
+        :param is_unlock: 解锁 = True, 锁定 = False
         :return:(ret, data) ret == 0 时, data为None
                             ret != 0 时， data为错误字符串
         '''
         query_processor = self._get_sync_query_processor(
             UnlockTrade.pack_req, UnlockTrade.unpack_rsp)
 
-        # the keys of kargs should be corresponding to the actual function arguments
+        md5_val = str(password_md5) if not str(password_md5) else md5_transform(str(password))
         kargs = {
-            'cookie': str(self.cookie),
-            'password': str(password) if password else '',
-            'password_md5': str(password_md5) if password_md5 else ''
+            'is_unlock': is_unlock,
+            'password_md5': str(md5_val)
         }
 
-        ret_code, msg, unlock_list = query_processor(**kargs)
+        ret_code, msg, _ = query_processor(**kargs)
         if ret_code != RET_OK:
             return RET_ERROR, msg
 
         # reconnected to auto unlock
         if RET_OK == ret_code:
-            self._ctx_unlock = (password, password_md5)
+            self._ctx_unlock = (password, password_md5) if is_unlock else None
 
-            # unlock push socket
-            ret_code, msg, push_req_str = UnlockTrade.pack_req(**kargs)
-            if ret_code == RET_OK:
-                self._send_async_req(push_req_str)
-
-        return RET_OK, None
-
-    def lock_trade(self, password, password_md5=None):
-        '''
-        交易锁定
-        :param password: 明文密码字符串 (二选一）
-        :param password_md5: 密码的md5字符串（二选一）
-        :return:(ret, data) ret == 0 时, data为None
-                            ret != 0 时， data为错误字符串
-        '''
-        query_processor = self._get_sync_query_processor(
-            UnlockTrade.pack_lock_req, UnlockTrade.unpack_rsp)
-
-        # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {
-            'cookie': str(self.cookie),
-            'password': str(password) if password else '',
-            'password_md5': str(password_md5) if password_md5 else ''
-        }
-
-        ret_code, msg, unlock_list = query_processor(**kargs)
-        if ret_code != RET_OK:
-            return RET_ERROR, msg
-
-        # reconnected to auto unlock
-        if RET_OK == ret_code:
-            self._ctx_unlock = (password, password_md5)
-
-            # unlock push socket
-            ret_code, msg, push_req_str = UnlockTrade.pack_req(**kargs)
-            if ret_code == RET_OK:
-                self._send_async_req(push_req_str)
+        # unlock push socket
+        ret_code, msg, push_req_str = UnlockTrade.pack_req(**kargs)
+        if ret_code == RET_OK:
+            self._send_async_req(push_req_str)
 
         return RET_OK, None
 
-    def subscribe_order_deal_push(self,
-                                  orderid_list,
-                                  order_deal_push=True,
-                                  envtype=0):
+    def _async_sub_acc_push(self, acc_id):
         """
-        subscribe_order_deal_push
+        异步连接指定要接收送的acc id
+        :param acc_id:
+        :return:
         """
-        if not TRADE.check_envtype_hk(envtype):
-            return RET_ERROR
-
-        list_sub = [u'']
-        if orderid_list is None:
-            list_sub = [u'']
-        elif isinstance(orderid_list, list):
-            list_sub = [str(x) for x in orderid_list]
-        else:
-            list_sub = [str(orderid_list)]
-
-        return self._subscribe_order_deal_push(list_sub, order_deal_push, True,
-                                               envtype)
-
-    def place_order(self,
-                    price,
-                    qty,
-                    strcode,
-                    orderside,
-                    ordertype=0,
-                    envtype=0,
-                    order_deal_push=False,
-                    price_mode=PriceRegularMode.IGNORE,
-                    adjust_limit=0):
-        """
-        place order
-        use  set_handle(HKTradeOrderHandlerBase) to recv order push !
-        """
-        if not TRADE.check_envtype_hk(envtype):
-            error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
-            return RET_ERROR, error_str
-
-        ret_code, content = split_stock_str(str(strcode))
-        if ret_code == RET_ERROR:
-            error_str = content
-            return RET_ERROR, error_str, None
-
-        market_code, stock_code = content
-        if int(market_code) != 1:
-            error_str = ERROR_STR_PREFIX + "the type of stocks is wrong "
-            return RET_ERROR, error_str
-
-        query_processor = self._get_sync_query_processor(
-            PlaceOrder.hk_pack_req, PlaceOrder.hk_unpack_rsp)
-
-        # the keys of kargs should be corresponding to the actual function arguments
         kargs = {
-            'cookie': str(self.cookie),
-            'envtype': str(envtype),
-            'orderside': str(orderside),
-            'ordertype': str(ordertype),
-            'price': str(price),
-            'qty': str(qty),
-            'strcode': str(stock_code),
-            'price_mode': str(price_mode),
-            'adjust_limit': adjust_limit
+            'acc_id': int(acc_id),
         }
+        ret_code, msg, push_req_str = SubAccPush.pack_req(**kargs)
+        if ret_code == RET_OK:
+            self._send_async_req(push_req_str)
 
-        ret_code, msg, order_id = query_processor(**kargs)
-        if ret_code != RET_OK:
-            return RET_ERROR, msg
+        return RET_OK, None
 
-        # handle order push
-        self._subscribe_order_deal_push(
-            orderid_list=[order_id],
-            order_deal_push=order_deal_push,
-            envtype=envtype)
 
-        col_list = [
-            "envtype", "orderid", "code", "stock_name", "dealt_avg_price",
-            "dealt_qty", "qty", "order_type", "order_side", "price", "status",
-            "submited_time", "updated_time"
-        ]
-        order_pd = self.order_list_query(orderid=order_id, envtype=envtype)
-        place_order_list = [{
-            'envtype':
-            envtype,
-            'orderid':
-            order_id,
-            'code':
-            strcode,
-            'stock_name':
-            order_pd.at[0, 'stock_name'],
-            'dealt_avg_price':
-            order_pd.at[0, 'dealt_avg_price'],
-            'dealt_qty':
-            order_pd.at[0, 'dealt_qty'],
-            'qty':
-            qty,
-            'order_type':
-            ordertype,
-            'order_side':
-            orderside,
-            'price':
-            price,
-            'status':
-            order_pd.at[0, 'status'],
-            'submited_time':
-            order_pd.at[0, 'submited_time'],
-            'updated_time':
-            order_pd.at[0, 'updated_time']
-        }]
+    def _check_trd_env(self, envtype):
+        is_enable = TRADE.check_mkt_envtype(self.__trd_mkt, envtype)
+        if not is_enable:
+            return RET_ERROR, ERROR_STR_PREFIX + "the type of environment param is wrong "
 
-        place_order_table = pd.DataFrame(place_order_list, columns=col_list)
+        return RET_OK, ""
 
-        return RET_OK, place_order_table
+    def _check_acc_id(self, envtype, acc_id):
+        if acc_id == 0:
+            acc_id = self.get_default_acc_id(envtype)
+        msg = "" if acc_id != 0 else ERROR_STR_PREFIX + "the type of acc_id param is wrong "
+        ret = RET_OK if acc_id != 0 else RET_ERROR
 
-    def set_order_status(self, status, orderid=0, envtype=0):
-        """for setting the status of order"""
-        if int(status) not in TRADE.REV_ORDER_STATUS:
-            error_str = ERROR_STR_PREFIX + "the type of status is wrong "
-            return RET_ERROR, error_str
+        return ret, msg, acc_id
 
-        if not TRADE.check_envtype_hk(envtype):
-            error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
-            return RET_ERROR, error_str
+    def _check_order_status(self, status):
+        status_list = []
+        if not status:
+            str_status = str(status)
+            status_list = [x for x in str_status.split(' ,')]
+            for x in status_list:
+                x = x.replace(' ', '')
+                if x in ORDER_STATUS_MAP:
+                    status_list.append(x)
+                else:
+                    return RET_ERROR, ERROR_STR_PREFIX + "the type of order_status param is wrong ", status_list
+        return RET_OK, "", status_list
+
+    def get_default_acc_id(self, envtype):
+        for record in self.__last_acc_list:
+            if record['acc_market'] == self.__trd_mkt and record['trd_env'] == envtype:
+                return record['acc_id']
+        return 0
+
+    def accinfo_query(self, envtype=TrdEnv.REAL, acc_id=0):
+        """
+        :param envtype:
+        :param acc_id:
+        :return:
+        """
+        ret, msg = self._check_trd_env(envtype)
+        if ret != RET_OK:
+            return ret, msg
+        ret, msg , acc_id = self._check_acc_id(envtype, acc_id)
+        if ret != RET_OK:
+            return ret, msg
 
         query_processor = self._get_sync_query_processor(
-            SetOrderStatus.hk_pack_req, SetOrderStatus.hk_unpack_rsp)
+            AccInfoQuery.pack_req, AccInfoQuery.unpack_rsp)
 
-        # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {
-            'cookie': str(self.cookie),
-            'envtype': str(envtype),
-            'localid': str(0),
-            'orderid': str(orderid),
-            'status': str(status)
-        }
-
-        ret_code, msg, set_order_list = query_processor(**kargs)
-        if ret_code != RET_OK:
-            return RET_ERROR, msg
-
-        col_list = ['envtype', 'orderID']
-        set_order_table = pd.DataFrame(set_order_list, columns=col_list)
-
-        return RET_OK, set_order_table
-
-    def change_order(self, price, qty, orderid=0, envtype=0):
-        """for changing the order"""
-        if not TRADE.check_envtype_hk(envtype):
-            error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
-            return RET_ERROR, error_str
-
-        query_processor = self._get_sync_query_processor(
-            ChangeOrder.hk_pack_req, ChangeOrder.hk_unpack_rsp)
-
-        # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {
-            'cookie': str(self.cookie),
-            'envtype': str(envtype),
-            'localid': str(0),
-            'orderid': str(orderid),
-            'price': str(price),
-            'qty': str(qty)
-        }
-
-        ret_code, msg, change_order_list = query_processor(**kargs)
-        if ret_code != RET_OK:
-            return RET_ERROR, msg
-
-        col_list = ['envtype', 'orderID']
-        change_order_table = pd.DataFrame(change_order_list, columns=col_list)
-
-        return RET_OK, change_order_table
-
-    def get_accinfo(self):
-        """
-        query account information
-        :param envtype: trading environment parameters,0 means real transaction and 1 means simulation trading
-        :return:error return RET_ERROR,msg and ok return RET_OK,ret
-        """
-        query_processor = self._get_sync_query_processor(
-            GetAccountList.hk_pack_req, GetAccountList.hk_unpack_rsp)
-
-        ret_code, msg, acc_list = query_processor()
-        logger.debug(acc_list)
-        if ret_code != RET_OK:
-            return RET_ERROR, msg
-
-        col_list = ["acc_id", "trd_env", "acc_market"]
-
-        acc_table = pd.DataFrame(acc_list, columns=col_list)
-
-        return RET_OK, acc_table
-
-    def accinfo_query(self, envtype=0):
-        """
-        query account information
-        :param envtype: trading environment parameters,0 means real transaction and 1 means simulation trading
-        :return:error return RET_ERROR,msg and ok return RET_OK,ret
-        """
-        if not TRADE.check_envtype_hk(envtype):
-            error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
-            return RET_ERROR, error_str
-
-        query_processor = self._get_sync_query_processor(
-            AccInfoQuery.hk_pack_req, AccInfoQuery.hk_unpack_rsp)
-
-        # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {'cookie': str(self.cookie), 'envtype': envtype}
+        kargs = {'acc_id': int(acc_id), 'trd_env': envtype, 'trd_market':self.__trd_mkt}
 
         ret_code, msg, accinfo_list = query_processor(**kargs)
         if ret_code != RET_OK:
             return RET_ERROR, msg
 
         col_list = [
-            'Power', 'ZCJZ', 'ZQSZ', 'XJJY', 'KQXJ', 'DJZJ', 'ZSJE', 'ZGJDE',
-            'YYJDE', 'GPBZJ'
+            'Power', 'ZCJZ', 'ZQSZ', 'XJJY', 'KQXJ', 'DJZJ'
         ]
         accinfo_frame_table = pd.DataFrame(accinfo_list, columns=col_list)
 
         return RET_OK, accinfo_frame_table
 
-    def order_list_query(self,
-                         orderid="",
-                         statusfilter="",
-                         strcode='',
-                         start='',
-                         end='',
-                         envtype=0):
-        """for querying the order list"""
-        if not TRADE.check_envtype_hk(envtype):
-            error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
-            return RET_ERROR, error_str
-
+    def _check_stock_code(self, code):
         stock_code = ''
-        if strcode != '':
-            ret_code, content = split_stock_str(str(strcode))
-            if ret_code == RET_ERROR:
-                return RET_ERROR, content
-            _, stock_code = content
+        if code != '':
+            ret_code, content = split_stock_str(str(code))
+            if ret_code == RET_OK:
+                _, stock_code = content
+            else:
+                stock_code = code
+        return RET_OK, "", stock_code
 
-        query_processor = self._get_sync_query_processor(
-            OrderListQuery.hk_pack_req, OrderListQuery.hk_unpack_rsp)
-
-        # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {
-            'cookie': str(self.cookie),
-            'orderid': str(orderid),
-            'statusfilter': str(statusfilter),
-            'strcode': str(stock_code),
-            'start': str(start),
-            'end': str(end),
-            'envtype': str(envtype)
-        }
-        ret_code, msg, order_list = query_processor(**kargs)
-
-        if ret_code != RET_OK:
-            return RET_ERROR, msg
-
-        col_list = [
-            "code", "stock_name", "dealt_avg_price", "dealt_qty", "qty",
-            "orderid", "order_type", "order_side", "price", "status",
-            "submited_time", "updated_time", "last_err_msg"
-        ]
-
-        order_list_table = pd.DataFrame(order_list, columns=col_list)
-
-        return RET_OK, order_list_table
-
-    def position_list_query(self,
-                            strcode='',
-                            stocktype='',
-                            pl_ratio_min='',
-                            pl_ratio_max='',
-                            envtype=0):
+    def position_list_query(self, strcode='', pl_ratio_min='', pl_ratio_max='', envtype=TrdEnv.REAL, acc_id=0):
         """for querying the position list"""
-        if not TRADE.check_envtype_hk(envtype):
-            error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
-            return RET_ERROR, error_str
+        ret, msg = self._check_trd_env(envtype)
+        if ret != RET_OK:
+            return ret, msg
+        ret, msg , acc_id = self._check_acc_id(envtype, acc_id)
+        if ret != RET_OK:
+            return ret, msg
 
-        stock_code = ''
-        if strcode != '':
-            ret_code, content = split_stock_str(str(strcode))
-            if ret_code == RET_ERROR:
-                return RET_ERROR, content
-            _, stock_code = content
+        ret, msg, stock_code = self._check_stock_code(strcode)
+        if ret != RET_OK:
+            return ret, msg
 
         query_processor = self._get_sync_query_processor(
-            PositionListQuery.hk_pack_req, PositionListQuery.hk_unpack_rsp)
+            PositionListQuery.pack_req, PositionListQuery.unpack_rsp)
 
-        # the keys of kargs should be corresponding to the actual function arguments
         kargs = {
-            'cookie': str(self.cookie),
             'strcode': str(stock_code),
-            'stocktype': str(stocktype),
             'pl_ratio_min': str(pl_ratio_min),
             'pl_ratio_max': str(pl_ratio_max),
-            'envtype': str(envtype)
+            'trd_mkt': self.__trd_mkt,
+            'trd_env': envtype,
+            'acc_id': 0,
         }
         ret_code, msg, position_list = query_processor(**kargs)
 
@@ -459,69 +234,43 @@ class OpenHKTradeContext(OpenContextBase):
             "code", "stock_name", "qty", "can_sell_qty", "cost_price",
             "cost_price_valid", "market_val", "nominal_price", "pl_ratio",
             "pl_ratio_valid", "pl_val", "pl_val_valid", "today_buy_qty",
-            "today_buy_val", "today_pl_val", "today_sell_qty", "today_sell_val"
+            "today_buy_val", "today_pl_val", "today_sell_qty", "today_sell_val",
+            "position_side"
         ]
 
         position_list_table = pd.DataFrame(position_list, columns=col_list)
-
         return RET_OK, position_list_table
 
-    def deal_list_query(self, envtype=0):
-        """for querying deal list"""
-        if not TRADE.check_envtype_hk(envtype):
-            error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
-            return RET_ERROR, error_str
+    def order_list_query(self, order_id="", status_filter="", strcode='', start='', end='',
+                         envtype=TrdEnv.REAL, acc_id=0):
+        ret, msg = self._check_trd_env(envtype)
+        if ret != RET_OK:
+            return ret, msg
+        ret, msg , acc_id = self._check_acc_id(envtype, acc_id)
+        if ret != RET_OK:
+            return ret, msg
+
+        ret, msg, stock_code = self._check_stock_code(strcode)
+        if ret != RET_OK:
+            return ret, msg
+
+        ret, msg, status_filter_list = self._check_order_status(status_filter)
+        if ret != RET_OK:
+            return ret, msg
 
         query_processor = self._get_sync_query_processor(
-            DealListQuery.hk_pack_req, DealListQuery.hk_unpack_rsp)
-
-        # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {'cookie': str(self.cookie), 'envtype': str(envtype)}
-        ret_code, msg, deal_list = query_processor(**kargs)
-
-        if ret_code != RET_OK:
-            return RET_ERROR, msg
-
-        # "orderside" 保留是为了兼容旧版本, 对外文档统一为"order_side"
-        col_list = [
-            "code", "stock_name", "dealid", "orderid", "qty", "price",
-            "orderside", "time", "order_side"
-        ]
-
-        deal_list_table = pd.DataFrame(deal_list, columns=col_list)
-
-        return RET_OK, deal_list_table
-
-    def history_order_list_query(self,
-                                 statusfilter='',
-                                 strcode='',
-                                 start='',
-                                 end='',
-                                 envtype=0):
-        """for querying the order list"""
-        if not TRADE.check_envtype_hk(envtype):
-            error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
-            return RET_ERROR, error_str
-
-        stock_code = ''
-        if strcode != '':
-            ret_code, content = split_stock_str(str(strcode))
-            if ret_code == RET_ERROR:
-                return RET_ERROR, content
-            _, stock_code = content
-
-        query_processor = self._get_sync_query_processor(
-            HistoryOrderListQuery.hk_pack_req,
-            HistoryOrderListQuery.hk_unpack_rsp)
+            OrderListQuery.pack_req, OrderListQuery.unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
         kargs = {
-            'cookie': str(self.cookie),
-            'statusfilter': str(statusfilter),
+            'order_id': str(order_id),
+            'status_filter_list': status_filter_list,
             'strcode': str(stock_code),
-            'start': str(start),
-            'end': str(end),
-            'envtype': str(envtype)
+            'start': str(start) if start else "",
+            'end': str(end) if end else "",
+            'trd_mkt': self.__trd_mkt,
+            'trd_env': envtype,
+            'acc_id': 0,
         }
         ret_code, msg, order_list = query_processor(**kargs)
 
@@ -529,91 +278,212 @@ class OpenHKTradeContext(OpenContextBase):
             return RET_ERROR, msg
 
         col_list = [
-            "code", "stock_name", "dealt_qty", "qty", "orderid", "order_type",
-            "order_side", "price", "status", "submited_time", "updated_time"
+            "code", "stock_name", "trd_side", "order_type", "order_status",
+            "order_id", "qty", "price", "create_time", "updated_time",
+            "dealt_qty", "dealt_avg_price", "last_err_msg"
         ]
-
         order_list_table = pd.DataFrame(order_list, columns=col_list)
 
         return RET_OK, order_list_table
 
-    def history_deal_list_query(self, strcode, start, end, envtype=0):
-        """for querying deal list"""
-        if not TRADE.check_envtype_hk(envtype):
-            error_str = ERROR_STR_PREFIX + "the type of environment param is wrong "
-            return RET_ERROR, error_str
+    def place_order(self, price, qty, strcode, trd_side=TrdSide.NONE, order_type=OrderType.NORMAL,
+                    adjust_limit=0, envtype=TrdEnv.REAL, acc_id=0):
+        """
+        place order
+        use  set_handle(HKTradeOrderHandlerBase) to recv order push !
+        """
+        ret, msg = self._check_trd_env(envtype)
+        if ret != RET_OK:
+            return ret, msg
+        ret, msg , acc_id = self._check_acc_id(envtype, acc_id)
+        if ret != RET_OK:
+            return ret, msg
 
-        stock_code = ''
-        if strcode != '':
-            ret_code, content = split_stock_str(str(strcode))
-            if ret_code == RET_ERROR:
-                return RET_ERROR, content
-            _, stock_code = content
+        ret, msg, stock_code = self._check_stock_code(strcode)
+        if ret != RET_OK:
+            return ret, msg
 
         query_processor = self._get_sync_query_processor(
-            HistoryDealListQuery.hk_pack_req,
-            HistoryDealListQuery.hk_unpack_rsp)
+            PlaceOrder.pack_req, PlaceOrder.unpack_rsp)
 
         # the keys of kargs should be corresponding to the actual function arguments
         kargs = {
-            'cookie': str(self.cookie),
+            'trd_side': trd_side,
+            'order_type': order_type,
+            'price': str(price),
+            'qty': str(qty),
             'strcode': str(stock_code),
-            'start': str(start),
-            'end': str(end),
-            'envtype': str(envtype)
+            'adjust_limit': float(adjust_limit),
+            'trd_mkt': self.__trd_mkt,
+            'trd_env': envtype,
+            'acc_id': acc_id,
         }
 
-        ret_code, msg, deal_list = query_processor(**kargs)
+        ret_code, msg, order_id = query_processor(**kargs)
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
 
+        col_list = ['trd_env', 'order_id']
+        order_list = [{ 'trd_env': envtype, 'order_id': order_id}]
+        order_table = pd.DataFrame(order_list, columns=col_list)
+
+        return RET_OK, order_table
+
+    def modify_order(self, modify_order_op, order_id, qty, price, adjust_limit=0, envtype=TrdEnv.REAL, acc_id=0):
+
+        ret, msg = self._check_trd_env(envtype)
+        if ret != RET_OK:
+            return ret, msg
+        ret, msg , acc_id = self._check_acc_id(envtype, acc_id)
+        if ret != RET_OK:
+            return ret, msg
+
+        if not order_id:
+            return RET_ERROR, ERROR_STR_PREFIX + "the type of order_id param is wrong "
+
+        if modify_order_op not in MODIFY_ORDER_OP_MAP:
+            return RET_ERROR, ERROR_STR_PREFIX + "the type of modify_order_op param is wrong "
+
+        query_processor = self._get_sync_query_processor(
+            ModifyOrder.pack_req, ModifyOrder.unpack_rsp)
+
+        kargs = {
+            'modify_order_op': modify_order_op,
+            'order_id': str(order_id),
+            'price': str(price),
+            'qty': str(qty),
+            'adjust_limit': adjust_limit,
+            'trd_mkt': self.__trd_mkt,
+            'trd_env': envtype,
+            'acc_id': acc_id,
+        }
+
+        ret_code, msg, modify_order_list = query_processor(**kargs)
+        col_list = ['trd_env', 'order_id']
+        modify_order_table = pd.DataFrame(modify_order_list, columns=col_list)
+
+        return RET_OK, modify_order_table
+
+    def change_order(self, order_id, price, qty, adjust_limit=0, envtype=TrdEnv.REAL, acc_id=0):
+        return self.modify_order(ModifyOrderOp.NORMAL, order_id, price, qty, adjust_limit, envtype, acc_id)
+
+    def deal_list_query(self, strcode="", envtype=TrdEnv.REAL, acc_id=0):
+        """for querying deal list"""
+        ret, msg = self._check_trd_env(envtype)
+        if ret != RET_OK:
+            return ret, msg
+        ret, msg , acc_id = self._check_acc_id(envtype, acc_id)
+        if ret != RET_OK:
+            return ret, msg
+
+        ret, msg, stock_code = self._check_stock_code(strcode)
+        if ret != RET_OK:
+            return ret, msg
+
+        query_processor = self._get_sync_query_processor(
+            DealListQuery.pack_req, DealListQuery.unpack_rsp)
+
+        kargs = {
+            'strcode': strcode,
+            'trd_mkt': self.__trd_mkt,
+            'trd_env': envtype,
+            'acc_id': acc_id,
+            }
+        ret_code, msg, deal_list = query_processor(**kargs)
         if ret_code != RET_OK:
             return RET_ERROR, msg
 
         col_list = [
-            "code", "stock_name", "dealid", "orderid", "qty", "price",
-            "order_side", "time", "contra_broker_id", "contra_broker_name"
+            "code", "stock_name", "deal_id", "order_id", "qty", "price",
+            "trd_side", "create_time", "counter_broker_id", "counter_broker_name"
         ]
-
         deal_list_table = pd.DataFrame(deal_list, columns=col_list)
 
         return RET_OK, deal_list_table
 
-    def login_new_account(self,
-                          user_id,
-                          login_password_md5,
-                          trade_password,
-                          trade_password_md5=None):
-        '''
-        自动登陆一个新的牛牛帐号
-        :param user_id: 牛牛号
-        :param login_password_md5: 新帐号的登陆密码的md5值
-        :param trade_password: 新帐号的交易密码
-        :param trade_password_md5: 新帐号的交易密码的md5值 (跟交易密码二选一)
-        :return:
-        '''
+    def history_order_list_query(self, status_filter='', strcode='', start='', end='',
+                                 envtype=TrdEnv.REAL, acc_id=0):
+
+        ret, msg = self._check_trd_env(envtype)
+        if ret != RET_OK:
+            return ret, msg
+        ret, msg , acc_id = self._check_acc_id(envtype, acc_id)
+        if ret != RET_OK:
+            return ret, msg
+
+        ret, msg, stock_code = self._check_stock_code(strcode)
+        if ret != RET_OK:
+            return ret, msg
+
+        ret, msg, status_filter_list = self._check_order_status(status_filter)
+        if ret != RET_OK:
+            return ret, msg
+
         query_processor = self._get_sync_query_processor(
-            LoginNewAccountQuery.pack_req, LoginNewAccountQuery.unpack_rsp)
+            HistoryOrderListQuery.pack_req,
+            HistoryOrderListQuery.unpack_rsp)
 
         kargs = {
-            'cookie': str(self.cookie),
-            'user_id': str(user_id),
-            'password_md5': str(login_password_md5)
+            'status_filter_list': status_filter_list,
+            'strcode': str(stock_code),
+            'start': str(start) if start else "",
+            'end': str(end) if end else "",
+            'trd_mkt': self.__trd_mkt,
+            'trd_env': envtype,
+            'acc_id': 0,
         }
+        ret_code, msg, order_list = query_processor(**kargs)
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
 
-        # 切换帐号，必然会断线，故判断ret_code 无意义
-        try:
-            query_processor(**kargs)
-        except Exception as e:
-            pass
+        col_list = [
+            "code", "stock_name", "trd_side", "order_type", "order_status",
+            "order_id", "qty", "price", "create_time", "updated_time",
+            "dealt_qty", "dealt_avg_price", "last_err_msg"
+        ]
+        order_list_table = pd.DataFrame(order_list, columns=col_list)
 
-        # 触发重连等待
-        self.get_global_state()
+        return RET_OK, order_list_table
 
-        # 接下来就是解锁交易密码
-        ret = RET_OK
-        data = ''
-        if trade_password or trade_password_md5:
-            ret, data = self.unlock_trade(trade_password, trade_password_md5)
-        else:
-            self._ctx_unlock = None
+    def history_deal_list_query(self, strcode, start, end, envtype=TrdEnv.REAL, acc_id=0):
 
-        return ret, data
+        ret, msg = self._check_trd_env(envtype)
+        if ret != RET_OK:
+            return ret, msg
+        ret, msg, acc_id = self._check_acc_id(envtype, acc_id)
+        if ret != RET_OK:
+            return ret, msg
+
+        ret, msg, stock_code = self._check_stock_code(strcode)
+        if ret != RET_OK:
+            return ret, msg
+
+        query_processor = self._get_sync_query_processor(
+            HistoryDealListQuery.pack_req,
+            HistoryDealListQuery.unpack_rsp)
+
+        kargs = {
+            'strcode': str(stock_code),
+            'start': str(start) if start else "",
+            'end': str(end) if end else "",
+            'trd_mkt': self.__trd_mkt,
+            'trd_env': envtype,
+            'acc_id': 0,
+        }
+        ret_code, msg, deal_list = query_processor(**kargs)
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
+
+        col_list = [
+            "code", "stock_name", "deal_id", "order_id", "qty", "price",
+            "trd_side", "create_time", "counter_broker_id", "counter_broker_name"
+        ]
+        deal_list_table = pd.DataFrame(deal_list, columns=col_list)
+
+        return RET_OK, deal_list_table
+
+
+
+class OpenHKTradeContext(OpenTradeContextBase):
+    def __init__(self, host="127.0.0.1", port=11111):
+        super(OpenHKTradeContext, self).__init__(TrdMarket.HK, host, port)

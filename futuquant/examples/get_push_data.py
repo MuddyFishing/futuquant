@@ -111,7 +111,7 @@ class SysNotifyTest(SysNotifyHandlerBase):
 
 if __name__ =="__main__":
     # 实例化行情上下文对象
-    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111, proto_fmt=ProtoFMT.Json)
+    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
     quote_ctx.set_handler(StockQuoteTest())
     quote_ctx.set_handler(CurKlineTest())
     quote_ctx.set_handler(RTDataTest())
@@ -125,28 +125,31 @@ if __name__ =="__main__":
     # 获取推送数据
     code_list = ['HK.00700'] #  'HK.02318']
     sub_type_list = [SubType.RT_DATA] # SubType.BROKER]
-    # print(quote_ctx.get_global_state())
+
+    # """
+    print(quote_ctx.get_global_state())
     print(quote_ctx.subscribe(code_list, sub_type_list, push=True))
-    # print(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.ETF))
-    # print(quote_ctx.get_cur_kline(code_list[0], 10, SubType.K_DAY, AuType.QFQ))
-    # print(quote_ctx.get_rt_data(code_list[0]))
-    # print(quote_ctx.get_rt_ticker(code_list[0], 10))
+    print(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.ETF))
+    print(quote_ctx.get_cur_kline(code_list[0], 10, SubType.K_DAY, AuType.QFQ))
 
-    # print(quote_ctx.get_broker_queue(code_list[0]))
-    # print(quote_ctx.get_order_book(code_list[0]))
-    # print(quote_ctx.get_history_kline('HK.00700', start='2017-06-20', end='2017-06-22'))
+    print(quote_ctx.get_rt_data(code_list[0]))
+    print(quote_ctx.get_rt_ticker(code_list[0], 10))
 
-    # print(quote_ctx.get_multi_points_history_kline(code_list, ['2017-06-20', '2017-06-22', '2017-06-23'], KL_FIELD.ALL, KLType.K_DAY, AuType.QFQ))
-    # print(quote_ctx.get_autype_list("HK.00700"))
+    print(quote_ctx.get_broker_queue(code_list[0]))
+    print(quote_ctx.get_order_book(code_list[0]))
+    print(quote_ctx.get_history_kline('HK.00700', start='2017-06-20', end='2017-06-22'))
+    # """
+    print(quote_ctx.get_multi_points_history_kline(code_list, ['2017-06-20', '2017-06-22', '2017-06-23'], KL_FIELD.ALL, KLType.K_DAY, AuType.QFQ))
+    print(quote_ctx.get_autype_list("HK.00700"))
 
-    # print(quote_ctx.get_trading_days(Market.HK, '2018-11-01', '2018-11-20'))
-    # print(quote_ctx.get_suspension_info('SZ.300104', '2010-02-01', '2018-11-20'))
+    print(quote_ctx.get_trading_days(Market.HK, '2018-11-01', '2018-11-20'))
+    print(quote_ctx.get_suspension_info('SZ.300104', '2010-02-01', '2018-11-20'))
 
-    # print(quote_ctx.get_market_snapshot('HK.21901'))
-    # print(quote_ctx.get_market_snapshot(code_list))
+    print(quote_ctx.get_market_snapshot('HK.21901'))
+    print(quote_ctx.get_market_snapshot(code_list))
 
-    # print(quote_ctx.get_plate_list(Market.HK, Plate.ALL))
-    # print(quote_ctx.get_plate_stock('HK.BK1001'))
+    print(quote_ctx.get_plate_list(Market.HK, Plate.ALL))
+    print(quote_ctx.get_plate_stock('HK.BK1001'))
 
-    # sleep(10)
-    # quote_ctx.close()
+    sleep(10)
+    quote_ctx.close()
