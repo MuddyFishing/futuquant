@@ -20,8 +20,8 @@ from futuquant.quote.response_handler import *
 from futuquant.quote.response_handler import StockQuoteHandlerBase
 
 #import HK and US trade context
-from futuquant.trade.open_hk_trade_context import OpenHKTradeContext
-from futuquant.trade.open_us_trade_context import OpenUSTradeContext
+from futuquant.trade.open_trade_context import OpenHKTradeContext
+from futuquant.trade.open_trade_context import OpenUSTradeContext
 
 #import constant values
 from futuquant.common.constant import *

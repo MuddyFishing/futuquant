@@ -510,6 +510,18 @@ class OpenTradeContextBase(OpenContextBase):
         return start, end
 
 
+# 港股交易接口
 class OpenHKTradeContext(OpenTradeContextBase):
     def __init__(self, host="127.0.0.1", port=11111):
         super(OpenHKTradeContext, self).__init__(TrdMarket.HK, host, port)
+
+
+# 美股交易接口
+class OpenUSTradeContext(OpenTradeContextBase):
+    def __init__(self, host="127.0.0.1", port=11111):
+        super(OpenUSTradeContext, self).__init__(TrdMarket.US, host, port)
+
+
+
+
+
