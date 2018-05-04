@@ -6,7 +6,7 @@ import datetime as dt
 from futuquant.common.open_context_base import OpenContextBase
 from futuquant.trade.order_list_manager import SafeTradeSubscribeList
 from futuquant.trade.trade_query import *
-from futuquant.quote.response_handler import HKTradeOrderPreHandler
+from futuquant.quote.response_handler import AsyncHandler_TrdSubAccPush
 
 class OpenTradeContextBase(OpenContextBase):
     """Class for set context of HK stock trade"""
@@ -16,9 +16,10 @@ class OpenTradeContextBase(OpenContextBase):
         self._ctx_unlock = None
         self._obj_order_sub = SafeTradeSubscribeList()
         self.__last_acc_list = []
+        self.__is_acc_sub_push = False
 
         super(OpenTradeContextBase, self).__init__(host, port, True, True)
-        self.set_pre_handler(HKTradeOrderPreHandler(self))
+        self.set_pre_handler(AsyncHandler_TrdSubAccPush(self))
 
     def close(self):
         """
@@ -26,25 +27,11 @@ class OpenTradeContextBase(OpenContextBase):
         """
         super(OpenTradeContextBase, self).close()
 
-    def notify_sync_socket_connected(self, sync_ctxt):
-        is_ready, is_retry = super(OpenTradeContextBase, self).notify_sync_socket_connected(sync_ctxt)
-        if not is_ready:
-            return is_ready, is_retry
-
-        """ 所有的交易操作需要先解锁， 先不主动拉
-        # 连接成功后立即拉取帐号列表
-        self.__last_acc_list = []
-        ret, data = self.get_acc_list()
-
-        if ret != RET_OK:
-            is_ready = False
-            logger.debug("get aacount list error: {}".format(data))
-        """
-        return is_ready, is_retry
-
     def on_api_socket_reconnected(self):
         """for API socket reconnected"""
-        # auto unlock
+        self.__is_acc_sub_push = False
+
+        # auto unlock trade
         if self._ctx_unlock is not None:
             for i in range(3):
                 password, password_md5 = self._ctx_unlock
@@ -53,8 +40,6 @@ class OpenTradeContextBase(OpenContextBase):
                     break
                 sleep(1)
 
-        # auto sub account push
-        pass
 
     def get_acc_list(self):
         """
@@ -71,6 +56,7 @@ class OpenTradeContextBase(OpenContextBase):
 
         # 记录当前市场的帐号列表
         self.__last_acc_list = []
+
         for record in acc_list:
             trdMkt_list = record["trdMarket_list"]
             if self.__trd_mkt in trdMkt_list:
@@ -115,16 +101,20 @@ class OpenTradeContextBase(OpenContextBase):
         if ret_code == RET_OK:
             self._send_async_req(push_req_str)
 
+        # 定阅交易帐号推送
+        if is_unlock and ret_code == RET_OK:
+            self.__check_acc_sub_push()
+
         return RET_OK, None
 
-    def _async_sub_acc_push(self, acc_id):
+    def _async_sub_acc_push(self, acc_id_list):
         """
         异步连接指定要接收送的acc id
         :param acc_id:
         :return:
         """
         kargs = {
-            'acc_id': int(acc_id),
+            'acc_id_list': acc_id_list,
         }
         ret_code, msg, push_req_str = SubAccPush.pack_req(**kargs)
         if ret_code == RET_OK:
@@ -132,6 +122,10 @@ class OpenTradeContextBase(OpenContextBase):
 
         return RET_OK, None
 
+    def on_async_sub_acc_push(self, ret_code, msg):
+        self.__is_acc_sub_push = ret_code == RET_OK
+        if not self.__is_acc_sub_push:
+            logger.error("ret={} msg={}".format(ret_code, msg))
 
     def _check_trd_env(self, envtype):
         is_enable = TRADE.check_mkt_envtype(self.__trd_mkt, envtype)
@@ -139,6 +133,20 @@ class OpenTradeContextBase(OpenContextBase):
             return RET_ERROR, ERROR_STR_PREFIX + "the type of environment param is wrong "
 
         return RET_OK, ""
+
+    def __check_acc_sub_push(self):
+        if self.__is_acc_sub_push:
+            return
+
+        if len(self.__last_acc_list) == 0:
+            ret, _ = self.get_acc_list()
+            if ret != RET_OK:
+                return
+
+        acc_id_list = [x['acc_id'] for x in self.__last_acc_list]
+
+        if len(acc_id_list):
+            self._async_sub_acc_push(acc_id_list)
 
     def _check_acc_id(self, envtype, acc_id):
         if acc_id == 0:
@@ -150,6 +158,10 @@ class OpenTradeContextBase(OpenContextBase):
 
         msg = "" if acc_id != 0 else ERROR_STR_PREFIX + "the type of acc_id param is wrong "
         ret = RET_OK if acc_id != 0 else RET_ERROR
+
+        # 异步定阅帐号推送
+        if ret == RET_OK:
+            self.__check_acc_sub_push()
 
         return ret, msg, acc_id
 

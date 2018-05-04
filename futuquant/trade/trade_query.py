@@ -80,10 +80,11 @@ class SubAccPush:
         pass
 
     @classmethod
-    def pack_req(cls, acc_id):
+    def pack_req(cls, acc_id_list):
         from futuquant.common.pb.Trd_SubAccPush_pb2 import Request
         req = Request()
-        req.c2s.accID = acc_id
+        for x in acc_id_list:
+            req.c2s.accID.append(x)
 
         return pack_pb_req(req, ProtoId.Trd_SubAccPush)
 

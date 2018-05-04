@@ -1,6 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 import pandas as pd
 from futuquant.quote.quote_query import *
+from futuquant.trade.trade_query import *
 
 
 class RspHandlerBase(object):
@@ -180,31 +181,36 @@ class SysNotifyHandlerBase(RspHandlerBase):
         return error_str
 
 
-class HKTradeOrderHandlerBase(RspHandlerBase):
-    """Base class for handle trader order push"""
+class AsyncHandler_TrdSubAccPush(RspHandlerBase):
+    """ AsyncHandler_TrdSubAccPush"""
+    def __init__(self, notify_obj=None):
+        self._notify_obj = notify_obj
+        super(AsyncHandler_TrdSubAccPush, self).__init__()
 
     def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
-        ret_code, msg, order_info = TradePushQuery.hk_unpack_order_push_rsp(
-            rsp_pb)
-        order_list = [order_info]
+        ret_code, msg, _= SubAccPush.unpack_rsp(rsp_pb)
 
-        if ret_code == RET_ERROR:
-            return ret_code, msg
-        else:
-            col_list = [
-                'envtype', 'code', 'stock_name', 'dealt_avg_price',
-                'dealt_qty', 'qty', 'orderid', 'order_type', 'order_side',
-                'price', 'status', 'submited_time', 'updated_time'
-            ]
+        if self._notify_obj is not None:
+            self._notify_obj.on_async_sub_acc_push(ret_code, msg)
 
-            trade_frame_table = pd.DataFrame(order_list, columns=col_list)
+        return ret_code, msg
 
-            return RET_OK, trade_frame_table
 
-    def on_error(self, error_str):
-        """error callback function"""
-        return error_str
+class AsyncHandler_InitConnect(RspHandlerBase):
+    """ AsyncHandler_TrdSubAccPush"""
+    def __init__(self, notify_obj=None):
+        self._notify_obj = notify_obj
+        super(AsyncHandler_InitConnect, self).__init__()
+
+    def on_recv_rsp(self, rsp_pb):
+        """receive response callback function"""
+        ret_code, msg, conn_info_map = InitConnect.unpack_rsp(rsp_pb)
+
+        if self._notify_obj is not None:
+            self._notify_obj.on_async_init_connect(ret_code, msg, conn_info_map)
+
+        return ret_code, msg
 
 
 class HKTradeOrderPreHandler(RspHandlerBase):
@@ -227,117 +233,6 @@ class HKTradeOrderPreHandler(RspHandlerBase):
                 self._notify_obj.on_trade_order_check(orderid, envtype, status)
 
         return ret_code, None
-
-
-class USTradeOrderHandlerBase(RspHandlerBase):
-    """Base class for handle trader order push"""
-
-    def on_recv_rsp(self, rsp_pb):
-        """receive response callback function"""
-        ret_code, msg, order_info = TradePushQuery.us_unpack_order_push_rsp(
-            rsp_pb)
-        order_list = [order_info]
-
-        if ret_code == RET_ERROR:
-            return ret_code, msg
-        else:
-            col_list = [
-                'envtype', 'code', 'stock_name', 'dealt_avg_price',
-                'dealt_qty', 'qty', 'orderid', 'order_type', 'order_side',
-                'price', 'status', 'submited_time', 'updated_time'
-            ]
-
-            trade_frame_table = pd.DataFrame(order_list, columns=col_list)
-
-            return RET_OK, trade_frame_table
-
-    def on_error(self, error_str):
-        """error callback function"""
-        return error_str
-
-
-class USTradeOrderPreHandler(RspHandlerBase):
-    """class for pre handle trader order push"""
-
-    def __init__(self, notify_obj=None):
-        self._notify_obj = notify_obj
-        super(USTradeOrderPreHandler, self).__init__()
-
-    def on_recv_rsp(self, rsp_pb):
-        """receive response callback function"""
-        ret_code, msg, order_info = TradePushQuery.us_unpack_order_push_rsp(
-            rsp_pb)
-
-        if ret_code == RET_OK:
-            orderid = order_info['orderid']
-            envtype = order_info['envtype']
-            status = order_info['status']
-            if self._notify_obj is not None and is_USTrade_order_status_finish(
-                    status):
-                self._notify_obj.on_trade_order_check(orderid, envtype, status)
-
-        return ret_code, None
-
-
-class HKTradeDealHandlerBase(RspHandlerBase):
-    """Base class for handle trade deal push"""
-
-    def on_recv_rsp(self, rsp_pb):
-        """receive response callback function"""
-        ret_code, msg, deal_info = TradePushQuery.hk_unpack_deal_push_rsp(
-            rsp_pb)
-        deal_list = [deal_info]
-
-        if ret_code == RET_ERROR:
-            return ret_code, msg
-        else:
-            col_list = [
-                'envtype', 'code', 'stock_name', 'dealid', 'orderid', 'qty',
-                'price', 'order_side', 'time', 'contra_broker_id',
-                'contra_broker_name'
-            ]
-
-            trade_frame_table = pd.DataFrame(deal_list, columns=col_list)
-
-            return RET_OK, trade_frame_table
-
-    def on_error(self, error_str):
-        """error callback function"""
-        return error_str
-
-
-class USTradeDealHandlerBase(RspHandlerBase):
-    """Base class for handle trade deal push"""
-
-    def on_recv_rsp(self, rsp_pb):
-        """receive response callback function"""
-        ret_code, msg, deal_info = TradePushQuery.us_unpack_deal_push_rsp(
-            rsp_pb)
-        deal_list = [deal_info]
-
-        if ret_code == RET_ERROR:
-            return ret_code, msg
-        else:
-            col_list = [
-                'envtype',
-                'code',
-                'stock_name',
-                'dealid',
-                'orderid',
-                'qty',
-                'price',
-                'order_side',
-                'time',
-            ]
-
-            trade_frame_table = pd.DataFrame(deal_list, columns=col_list)
-
-            return RET_OK, trade_frame_table
-
-    def on_error(self, error_str):
-        """error callback function"""
-        return error_str
-
 
 class HandlerContext:
     """Handle Context"""
@@ -378,32 +273,16 @@ class HandlerContext:
                 "type": BrokerHandlerBase,
                 "obj": BrokerHandlerBase()
             },
-            "6200": {
-                "type": HKTradeOrderHandlerBase,
-                "obj": HKTradeOrderHandlerBase()
-            },
-            "6201": {
-                "type": HKTradeDealHandlerBase,
-                "obj": HKTradeDealHandlerBase()
-            },
-            "7200": {
-                "type": USTradeOrderHandlerBase,
-                "obj": USTradeOrderHandlerBase()
-            },
-            "7201": {
-                "type": USTradeDealHandlerBase,
-                "obj": USTradeDealHandlerBase()
-            },
         }
 
         self._pre_handler_table = {
-            "6200": {
-                "type": HKTradeOrderPreHandler,
-                "obj": HKTradeOrderPreHandler()
+            1001: {
+                "type": AsyncHandler_InitConnect,
+                "obj": AsyncHandler_InitConnect()
             },
-            "7200": {
-                "type": USTradeOrderPreHandler,
-                "obj": USTradeOrderPreHandler()
+            2008: {
+                "type": AsyncHandler_TrdSubAccPush,
+                "obj": AsyncHandler_TrdSubAccPush()
             },
         }
         # self._pre_handler_table = self._handler_table.copy()

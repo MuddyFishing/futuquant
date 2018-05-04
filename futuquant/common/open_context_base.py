@@ -8,8 +8,8 @@ from futuquant.common.async_network_manager import _AsyncNetworkManager
 from futuquant.common.sync_network_manager import _SyncNetworkQueryCtx
 from futuquant.common.utils import *
 from futuquant.quote.response_handler import HandlerContext
-from futuquant.quote.quote_query import GlobalStateQuery
 from futuquant.quote.quote_query import InitConnect
+from futuquant.quote.response_handler import AsyncHandler_InitConnect
 
 
 class OpenContextBase(object):
@@ -79,6 +79,17 @@ class OpenContextBase(object):
                 return RET_ERROR, msg
 
         return RET_OK, ""
+
+    def on_async_init_connect(self, ret, msg, conn_info_map):
+        """
+        异步socket收到initconnect的回包
+        :param ret:
+        :param msg:
+        :param conn_info_map:
+        :return:
+        """
+        # logger.debug("ret={}, msg={}, conn_info={}".format(ret, msg, conn_info_map))
+        pass
 
     def get_conn_id(self):
         """
@@ -259,6 +270,7 @@ class OpenContextBase(object):
                     self._handlers_ctx = HandlerContext(self._is_proc_run)
                     self._async_ctx = _AsyncNetworkManager(
                         self.__host, self.__port, self._handlers_ctx, self)
+                    self.set_pre_handler(AsyncHandler_InitConnect(self))
                 else:
                     self._async_ctx.reconnect()
 

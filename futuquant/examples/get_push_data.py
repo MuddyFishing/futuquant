@@ -159,7 +159,7 @@ def trade_hk_test():
     trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
     trd_ctx.start()
     # 交易请求必须先解锁 !!!
-    pwd_unlock = ''
+    pwd_unlock = '979899'
     print(trd_ctx.unlock_trade(pwd_unlock))
 
     # print(trd_ctx.accinfo_query())
@@ -176,9 +176,9 @@ def trade_hk_test():
     # print(trd_ctx.history_order_list_query(status_filter_list=[OrderStatus.FILLED_ALL, OrderStatus.FILLED_PART],
     #                                      strcode="00700", start="", end="2018-2-1"))
 
-    print(trd_ctx.history_deal_list_query(strcode="", start="", end="2018-6-1"))
+    # print(trd_ctx.history_deal_list_query(strcode="", start="", end="2018-6-1"))
 
-    sleep(3)
+    sleep(15)
     trd_ctx.close()
 
 
