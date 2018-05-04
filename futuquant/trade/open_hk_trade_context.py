@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import pandas as pd
+from time import sleep
+import datetime as dt
 from futuquant.common.open_context_base import OpenContextBase
-from futuquant.common.utils import *
 from futuquant.trade.order_list_manager import SafeTradeSubscribeList
 from futuquant.trade.trade_query import *
 from futuquant.quote.response_handler import HKTradeOrderPreHandler
@@ -26,10 +27,11 @@ class OpenTradeContextBase(OpenContextBase):
         super(OpenTradeContextBase, self).close()
 
     def notify_sync_socket_connected(self, sync_ctxt):
-        is_ready, is_retry = super(OpenTradeContextBase, self).notify_sync_socket_connected(self, sync_ctxt)
+        is_ready, is_retry = super(OpenTradeContextBase, self).notify_sync_socket_connected(sync_ctxt)
         if not is_ready:
             return is_ready, is_retry
 
+        """ 所有的交易操作需要先解锁， 先不主动拉
         # 连接成功后立即拉取帐号列表
         self.__last_acc_list = []
         ret, data = self.get_acc_list()
@@ -37,7 +39,7 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             is_ready = False
             logger.debug("get aacount list error: {}".format(data))
-
+        """
         return is_ready, is_retry
 
     def on_api_socket_reconnected(self):
@@ -61,7 +63,7 @@ class OpenTradeContextBase(OpenContextBase):
         query_processor = self._get_sync_query_processor(
             GetAccountList.pack_req, GetAccountList.unpack_rsp)
 
-        kargs = {'user_id': get_user_id()}
+        kargs = {'user_id': self.get_login_user_id()}
 
         ret_code, msg, acc_list = query_processor(**kargs)
         if ret_code != RET_OK:
@@ -69,11 +71,14 @@ class OpenTradeContextBase(OpenContextBase):
 
         # 记录当前市场的帐号列表
         self.__last_acc_list = []
-        for x in acc_list:
-            if acc_list["acc_market"] == self.__trd_mkt:
-                self.__last_acc_list.append(x)
+        for record in acc_list:
+            trdMkt_list = record["trdMarket_list"]
+            if self.__trd_mkt in trdMkt_list:
+                self.__last_acc_list.append({
+                    "trd_env": record["trd_env"],
+                    "acc_id": record["acc_id"]})
 
-        col_list = ["acc_id", "trd_env", "acc_market"]
+        col_list = ["acc_id", "trd_env"]
 
         acc_table = pd.DataFrame(copy(self.__last_acc_list), columns=col_list)
 
@@ -137,28 +142,27 @@ class OpenTradeContextBase(OpenContextBase):
 
     def _check_acc_id(self, envtype, acc_id):
         if acc_id == 0:
-            acc_id = self.get_default_acc_id(envtype)
+            if len(self.__last_acc_list) == 0:
+                ret, content = self.get_acc_list()
+                if ret != RET_OK:
+                    return ret, content
+            acc_id = self._get_default_acc_id(envtype)
+
         msg = "" if acc_id != 0 else ERROR_STR_PREFIX + "the type of acc_id param is wrong "
         ret = RET_OK if acc_id != 0 else RET_ERROR
 
         return ret, msg, acc_id
 
-    def _check_order_status(self, status):
-        status_list = []
-        if not status:
-            str_status = str(status)
-            status_list = [x for x in str_status.split(' ,')]
-            for x in status_list:
-                x = x.replace(' ', '')
-                if x in ORDER_STATUS_MAP:
-                    status_list.append(x)
-                else:
-                    return RET_ERROR, ERROR_STR_PREFIX + "the type of order_status param is wrong ", status_list
-        return RET_OK, "", status_list
+    def _check_order_status(self, status_filter_list):
+        unique_and_normalize_list(status_filter_list)
+        for status in status_filter_list:
+            if status not in ORDER_STATUS_MAP:
+                return RET_ERROR, ERROR_STR_PREFIX + "the type of status_filter_list param is wrong "
+        return RET_OK, "",
 
-    def get_default_acc_id(self, envtype):
+    def _get_default_acc_id(self, envtype):
         for record in self.__last_acc_list:
-            if record['acc_market'] == self.__trd_mkt and record['trd_env'] == envtype:
+            if  record['trd_env'] == envtype:
                 return record['acc_id']
         return 0
 
@@ -223,7 +227,7 @@ class OpenTradeContextBase(OpenContextBase):
             'pl_ratio_max': str(pl_ratio_max),
             'trd_mkt': self.__trd_mkt,
             'trd_env': envtype,
-            'acc_id': 0,
+            'acc_id': acc_id,
         }
         ret_code, msg, position_list = query_processor(**kargs)
 
@@ -241,7 +245,7 @@ class OpenTradeContextBase(OpenContextBase):
         position_list_table = pd.DataFrame(position_list, columns=col_list)
         return RET_OK, position_list_table
 
-    def order_list_query(self, order_id="", status_filter="", strcode='', start='', end='',
+    def order_list_query(self, order_id="", status_filter_list=[], strcode='', start='', end='',
                          envtype=TrdEnv.REAL, acc_id=0):
         ret, msg = self._check_trd_env(envtype)
         if ret != RET_OK:
@@ -254,7 +258,7 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        ret, msg, status_filter_list = self._check_order_status(status_filter)
+        ret, msg = self._check_order_status(status_filter_list)
         if ret != RET_OK:
             return ret, msg
 
@@ -270,7 +274,7 @@ class OpenTradeContextBase(OpenContextBase):
             'end': str(end) if end else "",
             'trd_mkt': self.__trd_mkt,
             'trd_env': envtype,
-            'acc_id': 0,
+            'acc_id': acc_id,
         }
         ret_code, msg, order_list = query_processor(**kargs)
 
@@ -310,13 +314,14 @@ class OpenTradeContextBase(OpenContextBase):
         kargs = {
             'trd_side': trd_side,
             'order_type': order_type,
-            'price': str(price),
-            'qty': str(qty),
+            'price': float(price),
+            'qty': float(qty),
             'strcode': str(stock_code),
             'adjust_limit': float(adjust_limit),
             'trd_mkt': self.__trd_mkt,
             'trd_env': envtype,
             'acc_id': acc_id,
+            'conn_id': self.get_conn_id()
         }
 
         ret_code, msg, order_id = query_processor(**kargs)
@@ -350,15 +355,20 @@ class OpenTradeContextBase(OpenContextBase):
         kargs = {
             'modify_order_op': modify_order_op,
             'order_id': str(order_id),
-            'price': str(price),
-            'qty': str(qty),
+            'price': float(price),
+            'qty':float(qty),
             'adjust_limit': adjust_limit,
             'trd_mkt': self.__trd_mkt,
             'trd_env': envtype,
             'acc_id': acc_id,
+            'conn_id':self.get_conn_id(),
         }
 
         ret_code, msg, modify_order_list = query_processor(**kargs)
+
+        if ret_code != RET_OK:
+            return RET_ERROR,msg
+
         col_list = ['trd_env', 'order_id']
         modify_order_table = pd.DataFrame(modify_order_list, columns=col_list)
 
@@ -401,7 +411,7 @@ class OpenTradeContextBase(OpenContextBase):
 
         return RET_OK, deal_list_table
 
-    def history_order_list_query(self, status_filter='', strcode='', start='', end='',
+    def history_order_list_query(self, status_filter_list=[], strcode='', start='', end='',
                                  envtype=TrdEnv.REAL, acc_id=0):
 
         ret, msg = self._check_trd_env(envtype)
@@ -415,9 +425,11 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        ret, msg, status_filter_list = self._check_order_status(status_filter)
+        ret, msg = self._check_order_status(status_filter_list)
         if ret != RET_OK:
             return ret, msg
+
+        start, end = self._make_start_end_param(start, end, days=90)
 
         query_processor = self._get_sync_query_processor(
             HistoryOrderListQuery.pack_req,
@@ -430,7 +442,7 @@ class OpenTradeContextBase(OpenContextBase):
             'end': str(end) if end else "",
             'trd_mkt': self.__trd_mkt,
             'trd_env': envtype,
-            'acc_id': 0,
+            'acc_id': acc_id,
         }
         ret_code, msg, order_list = query_processor(**kargs)
         if ret_code != RET_OK:
@@ -458,6 +470,8 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
+        start, end = self._make_start_end_param(start, end, days=90)
+
         query_processor = self._get_sync_query_processor(
             HistoryDealListQuery.pack_req,
             HistoryDealListQuery.unpack_rsp)
@@ -468,7 +482,7 @@ class OpenTradeContextBase(OpenContextBase):
             'end': str(end) if end else "",
             'trd_mkt': self.__trd_mkt,
             'trd_env': envtype,
-            'acc_id': 0,
+            'acc_id': acc_id,
         }
         ret_code, msg, deal_list = query_processor(**kargs)
         if ret_code != RET_OK:
@@ -482,6 +496,18 @@ class OpenTradeContextBase(OpenContextBase):
 
         return RET_OK, deal_list_table
 
+    def _make_start_end_param(self, start, end, days):
+        if not start and not end:
+            today = dt.date.today()
+            end = today.strftime("%Y-%m-%d")
+            start = (today - dt.timedelta(days=days)).strftime("%Y-%m-%d")
+        elif not start:
+            dt_base = dt.datetime.strptime(end, "%Y-%m-%d")
+            start = (dt_base - dt.timedelta(days=days)).strftime("%Y-%m-%d")
+        elif not end:
+            dt_base = dt.datetime.strptime(start, "%Y-%m-%d")
+            end = (dt_base + dt.timedelta(days=days)).strftime("%Y-%m-%d")
+        return start, end
 
 
 class OpenHKTradeContext(OpenTradeContextBase):

@@ -109,8 +109,7 @@ class SysNotifyTest(SysNotifyHandlerBase):
         return ret_code, content
 
 
-if __name__ =="__main__":
-    # 实例化行情上下文对象
+def quote_test():
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
     quote_ctx.set_handler(StockQuoteTest())
     quote_ctx.set_handler(CurKlineTest())
@@ -139,7 +138,8 @@ if __name__ =="__main__":
     print(quote_ctx.get_order_book(code_list[0]))
     print(quote_ctx.get_history_kline('HK.00700', start='2017-06-20', end='2017-06-22'))
     # """
-    print(quote_ctx.get_multi_points_history_kline(code_list, ['2017-06-20', '2017-06-22', '2017-06-23'], KL_FIELD.ALL, KLType.K_DAY, AuType.QFQ))
+    print(quote_ctx.get_multi_points_history_kline(code_list, ['2017-06-20', '2017-06-22', '2017-06-23'], KL_FIELD.ALL,
+                                                   KLType.K_DAY, AuType.QFQ))
     print(quote_ctx.get_autype_list("HK.00700"))
 
     print(quote_ctx.get_trading_days(Market.HK, '2018-11-01', '2018-11-20'))
@@ -153,3 +153,38 @@ if __name__ =="__main__":
 
     sleep(10)
     quote_ctx.close()
+
+
+def trade_hk_test():
+    trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+    trd_ctx.start()
+    # 交易请求必须先解锁 !!!
+    pwd_unlock = ''
+    print(trd_ctx.unlock_trade(pwd_unlock))
+
+    # print(trd_ctx.accinfo_query())
+    # print(trd_ctx.position_list_query(pl_ratio_min=-50, pl_ratio_max=50))
+    # print(trd_ctx.order_list_query(status_filter_list=[OrderStatus.DISABLED]))
+    print(trd_ctx.get_acc_list())
+    # print(trd_ctx.order_list_query(status_filter_list=[OrderStatus.SUBMITTED]))
+
+    order_id = 8366620264715058660
+    # print(trd_ctx.place_order(381.0, 100, "HK.00700", TrdSide.SELL))
+    # print(trd_ctx.modify_order(ModifyOrderOp.NORMAL, order_id, 380.0, 200))
+
+    # print(trd_ctx.deal_list_query(strcode="00700"))
+    # print(trd_ctx.history_order_list_query(status_filter_list=[OrderStatus.FILLED_ALL, OrderStatus.FILLED_PART],
+    #                                      strcode="00700", start="", end="2018-2-1"))
+
+    # print(trd_ctx.history_deal_list_query(strcode="", start="", end="2018-6-1"))
+
+    sleep(3)
+    trd_ctx.close()
+
+
+if __name__ =="__main__":
+    # quote_test()
+    trade_hk_test()
+
+
+

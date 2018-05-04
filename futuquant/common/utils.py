@@ -410,30 +410,30 @@ def binary2pb(b, proto_id, proto_fmt_type):
 
 
 
-def pack_pb_req(pb_req, proto_id):
+def pack_pb_req(pb_req, proto_id, serial_no=0):
     proto_fmt = get_proto_fmt()
     if proto_fmt == ProtoFMT.Json:
         req_json = MessageToJson(pb_req)
         req = _joint_head(proto_id, proto_fmt, len(req_json),
-                          req_json.encode())
+                          req_json.encode(), serial_no)
         return RET_OK, "", req
     elif proto_fmt == ProtoFMT.Protobuf:
-        req = _joint_head(proto_id, proto_fmt, pb_req.ByteSize(), pb_req)
+        req = _joint_head(proto_id, proto_fmt, pb_req.ByteSize(), pb_req, serial_no)
         return RET_OK, "", req
     else:
         error_str = ERROR_STR_PREFIX + 'unknown protocol format, %d' % proto_fmt
         return RET_ERROR, error_str, None
 
 
-def _joint_head(proto_id, proto_fmt_type, body_len, str_body, proto_ver=0):
+def _joint_head(proto_id, proto_fmt_type, body_len, str_body, serial_no):
     if proto_fmt_type == ProtoFMT.Protobuf:
         str_body = str_body.SerializeToString()
     fmt = "%s%ds" % (MESSAGE_HEAD_FMT, body_len)
 
-    serial_no = get_unique_id32()
-    print("serial no = {} proto_id = {}".format(serial_no, proto_id))
+    head_serial_no = serial_no if serial_no else get_unique_id32()
+    print("serial no = {} proto_id = {}".format(head_serial_no, proto_id))
     bin_head = struct.pack(fmt, b'F', b'T', proto_id, proto_fmt_type,
-                           proto_ver, serial_no, body_len, 0, 0, 0, 0, 0, 0, 0,
+                           API_PROTO_VER, head_serial_no, body_len, 0, 0, 0, 0, 0, 0, 0,
                            0, str_body)
     return bin_head
 

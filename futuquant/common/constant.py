@@ -27,6 +27,8 @@ class ProtoFMT(object):
 # 默认的协议格式 : set_proto_fmt 更改
 DEFULAT_PROTO_FMT = ProtoFMT.Protobuf
 
+# api的协议版本号
+API_PROTO_VER = int(0)
 
 # 市场标识字符串
 class Market(object):
@@ -390,7 +392,7 @@ class TrdEnv(object):
     REAL = "REAL"
     SIMULATE = "SIMULATE"
 
-TRD_ENV_MAP = {TrdEnv.REAL: 0, TrdEnv.SIMULATE: 1}
+TRD_ENV_MAP = {TrdEnv.REAL: 1, TrdEnv.SIMULATE: 0}
 
 
 # 交易大市场， 不是具体品种
@@ -460,6 +462,7 @@ class OrderStatus(object):
     FAILED = "FAILED"                           # 下单失败，服务拒绝
     DISABLED = "DISABLED"                       # 已失效
     DELETED = "DELETED"                         # 已删除，无成交的订单才能删除
+
 
 ORDER_STATUS_MAP = {
     OrderStatus.NONE: -1,
