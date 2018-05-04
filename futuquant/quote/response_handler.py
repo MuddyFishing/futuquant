@@ -181,6 +181,30 @@ class SysNotifyHandlerBase(RspHandlerBase):
         return error_str
 
 
+class TradeOrderHandlerBase(RspHandlerBase):
+    """sys notify"""
+    def on_recv_rsp(self, rsp_pb):
+        """receive response callback function"""
+        ret_code, content = UpdateOrderPush.unpack_rsp(rsp_pb)
+        return ret_code, content
+
+    def on_error(self, error_str):
+        """error callback function"""
+        return error_str
+
+
+class TradeDealHandlerBase(RspHandlerBase):
+    """sys notify"""
+    def on_recv_rsp(self, rsp_pb):
+        """receive response callback function"""
+        ret_code, content = UpdateDealPush.unpack_rsp(rsp_pb)
+        return ret_code, content
+
+    def on_error(self, error_str):
+        """error callback function"""
+        return error_str
+
+
 class AsyncHandler_TrdSubAccPush(RspHandlerBase):
     """ AsyncHandler_TrdSubAccPush"""
     def __init__(self, notify_obj=None):
@@ -213,27 +237,6 @@ class AsyncHandler_InitConnect(RspHandlerBase):
         return ret_code, msg
 
 
-class HKTradeOrderPreHandler(RspHandlerBase):
-    """class for pre handle trader order push"""
-
-    def __init__(self, notify_obj=None):
-        self._notify_obj = notify_obj
-        super(HKTradeOrderPreHandler, self).__init__()
-
-    def on_recv_rsp(self, rsp_pb):
-        """receive response callback function"""
-        ret_code, msg, order_info = TradePushQuery.hk_unpack_order_push_rsp(
-            rsp_pb)
-
-        if ret_code == RET_OK:
-            orderid = order_info['orderid']
-            envtype = order_info['envtype']
-            status = order_info['status']
-            if self._notify_obj is not None:
-                self._notify_obj.on_trade_order_check(orderid, envtype, status)
-
-        return ret_code, None
-
 class HandlerContext:
     """Handle Context"""
 
@@ -249,6 +252,15 @@ class HandlerContext:
                 "type": HeartBeatHandlerBase,
                 "obj": HeartBeatHandlerBase()
             },
+            2208: {
+                "type": TradeOrderHandlerBase,
+                "obj": TradeOrderHandlerBase()
+            },
+            2218: {
+                "type": TradeDealHandlerBase,
+                "obj": TradeDealHandlerBase()
+            },
+
             3005: {
                 "type": StockQuoteHandlerBase,
                 "obj": StockQuoteHandlerBase()

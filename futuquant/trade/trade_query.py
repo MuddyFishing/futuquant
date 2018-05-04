@@ -219,13 +219,8 @@ class OrderListQuery:
         return pack_pb_req(req, ProtoId.Trd_GetOrderList)
 
     @classmethod
-    def unpack_rsp(cls, rsp_pb):
-        """Convert from PLS response to user response"""
-        if rsp_pb.retType != RET_OK:
-            return RET_ERROR, rsp_pb.retMsg, None
-
-        raw_order_list = rsp_pb.s2c.orderList
-        order_list = [{
+    def parse_order(cls, rsp_pb, order):
+        order_dict = {
             "code": merge_trd_mkt_stock_str(rsp_pb.s2c.header.trdMarket, order.code),
             "stock_name": order.name,
             "trd_side": TRADE.REV_TRD_SIDE_MAP[order.trdSide] if order.trdSide in TRADE.REV_TRD_SIDE_MAP else TrdSide.NONE,
@@ -239,7 +234,17 @@ class OrderListQuery:
             "dealt_qty": order.fillQty,
             "dealt_avg_price": order.fillAvgPrice,
             "last_err_msg": order.lastErrMsg
-        } for order in raw_order_list]
+        }
+        return order_dict
+
+    @classmethod
+    def unpack_rsp(cls, rsp_pb):
+        """Convert from PLS response to user response"""
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
+
+        raw_order_list = rsp_pb.s2c.orderList
+        order_list = [OrderListQuery.parse_order(rsp_pb, order) for order in raw_order_list]
         return RET_OK, "", order_list
 
 
@@ -348,13 +353,8 @@ class DealListQuery:
         return pack_pb_req(req, ProtoId.Trd_GetOrderFillList)
 
     @classmethod
-    def unpack_rsp(cls, rsp_pb):
-        """Convert from PLS response to user response"""
-        if rsp_pb.retType != RET_OK:
-            return RET_ERROR, rsp_pb.retMsg, None
-
-        raw_deal_list = rsp_pb.s2c.orderFillList
-        deal_list = [{
+    def parse_deal(cls, rsp_pb, deal):
+        deal_dict = {
             "code": merge_trd_mkt_stock_str(rsp_pb.s2c.header.trdMarket, deal.code),
             "stock_name": deal.name,
             "deal_id": deal.fillID,
@@ -365,10 +365,19 @@ class DealListQuery:
             "create_time": deal.createTime,
             "counter_broker_id": deal.counterBrokerID,
             "counter_broker_name": deal.counterBrokerName,
-        } for deal in raw_deal_list]
+        }
+        return deal_dict
+
+    @classmethod
+    def unpack_rsp(cls, rsp_pb):
+        """Convert from PLS response to user response"""
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
+
+        raw_deal_list = rsp_pb.s2c.orderFillList
+        deal_list = [DealListQuery.parse_deal(rsp_pb, deal) for deal in raw_deal_list]
 
         return RET_OK, "", deal_list
-
 
 
 class HistoryOrderListQuery:
@@ -424,7 +433,6 @@ class HistoryOrderListQuery:
         return RET_OK, "", order_list
 
 
-
 class HistoryDealListQuery:
     """Class for """
 
@@ -471,161 +479,37 @@ class HistoryDealListQuery:
         return RET_OK, "", deal_list
 
 
-class TradePushQuery:
-    """ Query Trade push info"""
-
+class UpdateOrderPush:
+    """Class for order update push"""
     def __init__(self):
         pass
 
     @classmethod
-    def hk_pack_subscribe_req(cls, cookie, envtype, orderid_list,
-                              order_deal_push, push_at_once):
-        """Pack the pushed response"""
-        """By default subscribe all order in the given account ID"""
-        from futuquant.common.pb.Trd_SubAccPush_pb2 import Request
-        req = Request()
-        req.c2s.accID.append(get_trd_accID())
-
-        return pack_pb_req(req, ProtoId.Trd_SubAccPush)
-
-    @classmethod
-    def us_pack_subscribe_req(cls, cookie, envtype, orderid_list,
-                              order_deal_push, push_at_once):
-        """Pack the pushed response"""
-        str_id = u''
-        for orderid in orderid_list:
-            if len(str_id) > 0:
-                str_id += u','
-            str_id += str(orderid)
-
-        req = {
-            "Protocol": "7100",
-            "Version": "1",
-            "ReqParam": {
-                "Cookie": cookie,
-                "EnvType": envtype,
-                "OrderID": str_id,
-                "SubOrder": order_deal_push,
-                "SubDeal": order_deal_push,
-                "FirstPush": push_at_once,
-            }
-        }
-        req_str = json.dumps(req) + '\r\n'
-        return RET_OK, "", req_str
-
-    @classmethod
-    def hk_unpack_order_push_rsp(cls, rsp_pb):
+    def unpack_rsp(cls, rsp_pb):
+        trd_env = TRADE.REV_ENVTYPE_MAP[rsp_pb.s2c.header.trdEnv]
+        trd_mkt = TRADE.REV_TRD_MKT_MAP[rsp_pb.s2c.header.trdMarket]
 
         if rsp_pb.retType != RET_OK:
-            return RET_ERROR, rsp_pb.retMsg, None
+            return RET_ERROR, rsp_pb.retMsg
 
-        raw_order_info = rsp_pb.s2c.order
-        order_info = {
-            "envtype": rsp_pb.s2c.header.trdEnv,
-            "code": raw_order_info.code,
-            "stock_name": raw_order_info.name,
-            "dealt_avg_price": raw_order_info.fillAvgPrice,
-            "dealt_qty": raw_order_info.fillQty,
-            "qty": raw_order_info.qty,
-            "orderid": raw_order_info.orderID,
-            "order_type": raw_order_info.orderType,
-            "order_side": raw_order_info.trdSide,
-            "price": raw_order_info.price,
-            "status": raw_order_info.orderStatus,
-            "submited_time": raw_order_info.createTime,
-            "updated_time": raw_order_info.updateTime
-        }
-        return RET_OK, "", order_info
+        order_dict = OrderListQuery.parse_order(rsp_pb, rsp_pb.s2c.order)
+
+        return RET_OK, (trd_env, trd_mkt, order_dict)
+
+
+class UpdateDealPush:
+    """Class for order update push"""
+    def __init__(self):
+        pass
 
     @classmethod
-    def hk_unpack_deal_push_rsp(cls, rsp_pb):
+    def unpack_rsp(cls, rsp_pb):
+        trd_env = TRADE.REV_ENVTYPE_MAP[rsp_pb.s2c.header.trdEnv]
+        trd_mkt = TRADE.REV_TRD_MKT_MAP[rsp_pb.s2c.header.trdMarket]
 
         if rsp_pb.retType != RET_OK:
-            return RET_ERROR, rsp_pb.retMsg, None
+            return RET_ERROR, rsp_pb.retMsg
 
-        raw_deal_info = rsp_pb.s2c.orderFill
-        deal_info = {
-            "envtype":
-            rsp_pb.s2c.header.trdEnv,
-            "code":
-            raw_deal_info.code,
-            "stock_name":
-            raw_deal_info.name,
-            "dealid":
-            raw_deal_info.fillID,
-            "orderid":
-            raw_deal_info.orderID if raw_deal_info.HasField('orderID') else 0,
-            "qty":
-            raw_deal_info.qty,
-            "price":
-            raw_deal_info.price,
-            "order_side":
-            raw_deal_info.trdSide,
-            "time":
-            raw_deal_info.createTime,
-            "contra_broker_id":
-            raw_deal_info.counterBrokerID
-            if raw_deal_info.HasField('counterBrokerID') else 0,
-            "contra_broker_name":
-            raw_deal_info.counterBrokerName
-            if raw_deal_info.HasField('counterBrokerName') else ""
-        }
-        return RET_OK, "", deal_info
+        deal_dict = DealListQuery.parse_deal(rsp_pb, rsp_pb.s2c.orderFill)
 
-    @classmethod
-    def us_unpack_order_push_rsp(cls, rsp_str):
-
-        ret, msg, rsp = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
-
-        rsp_data = rsp['RetData']
-
-        if 'EnvType' not in rsp_data:
-            error_str = ERROR_STR_PREFIX + "cannot find EnvType in client rsp. Response: %s" % rsp_str
-            return RET_ERROR, error_str, None
-
-        order_info = {
-            "envtype": int(rsp_data['EnvType']),
-            "code": merge_stock_str(2, rsp_data['StockCode']),
-            "stock_name": rsp_data["StockName"],
-            "dealt_avg_price":
-            int1000_price_to_float(rsp_data['DealtAvgPrice']),
-            "dealt_qty": rsp_data['DealtQty'],
-            "qty": rsp_data['Qty'],
-            "orderid": rsp_data['OrderID'],
-            "order_type": rsp_data['OrderType'],
-            "order_side": rsp_data['OrderSide'],
-            "price": int1000_price_to_float(rsp_data['Price']),
-            "status": rsp_data['Status'],
-            "submited_time": rsp_data['SubmitedTime'],
-            "updated_time": rsp_data['UpdatedTime']
-        }
-        return RET_OK, "", order_info
-
-    @classmethod
-    def us_unpack_deal_push_rsp(cls, rsp_str):
-
-        ret, msg, rsp = extract_pls_rsp(rsp_str)
-        if ret != RET_OK:
-            return RET_ERROR, msg, None
-
-        rsp_data = rsp['RetData']
-
-        if 'EnvType' not in rsp_data:
-            error_str = ERROR_STR_PREFIX + "cannot find EnvType in client rsp. Response: %s" % rsp_str
-            return RET_ERROR, error_str, None
-
-        deal_info = {
-            "envtype": int(rsp_data['EnvType']),
-            "code": merge_stock_str(1, rsp_data['StockCode']),
-            "stock_name": rsp_data["StockName"],
-            "dealid": rsp_data['DealID'],
-            "orderid": rsp_data['OrderID'],
-            "qty": rsp_data['Qty'],
-            "price": int1000_price_to_float(rsp_data['Price']),
-            "order_side": rsp_data['OrderSide'],
-            "time": rsp_data['Time']
-        }
-        return RET_OK, "", deal_info
-
+        return RET_OK, (trd_env, trd_mkt, deal_dict)

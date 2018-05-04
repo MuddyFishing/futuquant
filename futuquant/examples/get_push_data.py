@@ -101,12 +101,37 @@ class SysNotifyTest(SysNotifyHandlerBase):
     def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
         ret_code, content = super(SysNotifyTest, self).on_recv_rsp(rsp_pb)
+
         if ret_code == RET_OK:
             main_type, sub_type, msg = content
             print("SysNotify main_type='{}' sub_type='{}' msg='{}'".format(main_type, sub_type, msg))
         else:
             print("SysNotify error:{}".format(content))
         return ret_code, content
+
+
+class TradeOrderTest(TradeOrderHandlerBase):
+    """ order update push"""
+    def on_recv_rsp(self, rsp_pb):
+        ret, content = super(TradeOrderTest, self).on_recv_rsp(rsp_pb)
+
+        if ret == RET_OK:
+            trd_env, trd_mkt, order_dict = content
+            print("TradeOrderTest trd_env={}, trd_mt={}, order={}".format(trd_env, trd_mkt, order_dict))
+
+        return ret, content
+
+
+class TradeDealTest(TradeDealHandlerBase):
+    """ order update push"""
+    def on_recv_rsp(self, rsp_pb):
+        ret, content = super(TradeDealTest, self).on_recv_rsp(rsp_pb)
+
+        if ret == RET_OK:
+            trd_env, trd_mkt, deal_dict = content
+            print("TradeDealTest trd_env={}, trd_mt={}, deal={}".format(trd_env, trd_mkt, deal_dict))
+
+        return ret, content
 
 
 def quote_test():
@@ -157,6 +182,8 @@ def quote_test():
 
 def trade_hk_test():
     trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+    trd_ctx.set_handler(TradeOrderTest())
+    trd_ctx.set_handler(TradeDealTest())
     trd_ctx.start()
     # 交易请求必须先解锁 !!!
     pwd_unlock = '979899'
@@ -183,8 +210,8 @@ def trade_hk_test():
 
 
 if __name__ =="__main__":
-    # quote_test()
-    trade_hk_test()
+    quote_test()
+    # trade_hk_test()
 
 
 
