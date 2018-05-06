@@ -431,7 +431,7 @@ def _joint_head(proto_id, proto_fmt_type, body_len, str_body, serial_no):
     fmt = "%s%ds" % (MESSAGE_HEAD_FMT, body_len)
 
     head_serial_no = serial_no if serial_no else get_unique_id32()
-    print("serial no = {} proto_id = {}".format(head_serial_no, proto_id))
+    # print("serial no = {} proto_id = {}".format(head_serial_no, proto_id))
     bin_head = struct.pack(fmt, b'F', b'T', proto_id, proto_fmt_type,
                            API_PROTO_VER, head_serial_no, body_len, 0, 0, 0, 0, 0, 0, 0,
                            0, str_body)

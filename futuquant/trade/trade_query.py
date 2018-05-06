@@ -43,7 +43,7 @@ class GetAccountList:
         raw_acc_list = rsp_pb.s2c.accList
         acc_list = [{
             'acc_id': record.accID,
-            'trd_env': TRADE.REV_ENVTYPE_MAP[record.trdEnv] if record.trdEnv in TRADE.REV_ENVTYPE_MAP else "",
+            'trd_env': TRADE.REV_TRD_ENV_MAP[record.trdEnv] if record.trdEnv in TRADE.REV_TRD_ENV_MAP else "",
             'trdMarket_list': [(TRADE.REV_TRD_MKT_MAP[trdMkt] if trdMkt in TRADE.REV_TRD_MKT_MAP else TrdMarket.NONE) for trdMkt in record.trdMarketAuth]
         } for record in raw_acc_list]
 
@@ -138,7 +138,7 @@ class PositionListQuery:
         pass
 
     @classmethod
-    def pack_req(cls, strcode, pl_ratio_min,
+    def pack_req(cls, code, pl_ratio_min,
                  pl_ratio_max, trd_env, acc_id, trd_mkt):
         """Convert from user request for trading days to PLS request"""
         from futuquant.common.pb.Trd_GetPositionList_pb2 import Request
@@ -146,8 +146,8 @@ class PositionListQuery:
         req.c2s.header.trdEnv = TRD_ENV_MAP[trd_env]
         req.c2s.header.accID = acc_id
         req.c2s.header.trdMarket = TRD_MKT_MAP[trd_mkt]
-        if strcode:
-            req.c2s.filterConditions.code.append(strcode)
+        if code:
+            req.c2s.filterConditions.code.append(code)
         if pl_ratio_min:
             req.c2s.filterPLRatioMin = float(pl_ratio_min) / 100.0
         if pl_ratio_max:
@@ -193,7 +193,7 @@ class OrderListQuery:
         pass
 
     @classmethod
-    def pack_req(cls, order_id, status_filter_list, strcode, start, end,
+    def pack_req(cls, order_id, status_filter_list, code, start, end,
                  trd_env, acc_id, trd_mkt):
         """Convert from user request for trading days to PLS request"""
         from futuquant.common.pb.Trd_GetOrderList_pb2 import Request
@@ -202,8 +202,8 @@ class OrderListQuery:
         req.c2s.header.accID = acc_id
         req.c2s.header.trdMarket = TRD_MKT_MAP[trd_mkt]
 
-        if strcode:
-            req.c2s.filterConditions.code.append(strcode)
+        if code:
+            req.c2s.filterConditions.code.append(code)
         if order_id:
             req.c2s.filterConditions.id.append(int(order_id))
 
@@ -255,7 +255,7 @@ class PlaceOrder:
 
     @classmethod
     def pack_req(cls, conn_id, trd_side, order_type, price, qty,
-                    strcode, adjust_limit, trd_env, acc_id, trd_mkt):
+                 code, adjust_limit, trd_env, acc_id, trd_mkt):
         """Convert from user request for place order to PLS request"""
         from futuquant.common.pb.Trd_PlaceOrder_pb2 import Request
         req = Request()
@@ -269,7 +269,7 @@ class PlaceOrder:
 
         req.c2s.trdSide = TRD_SIDE_MAP[trd_side]
         req.c2s.orderType = ORDER_TYPE_MAP[order_type]
-        req.c2s.code = strcode
+        req.c2s.code = code
         req.c2s.qty = qty
         req.c2s.price = price
         req.c2s.adjustPrice = adjust_limit != 0
@@ -339,7 +339,7 @@ class DealListQuery:
         pass
 
     @classmethod
-    def pack_req(cls, strcode, trd_env, acc_id, trd_mkt):
+    def pack_req(cls, code, trd_env, acc_id, trd_mkt):
         """Convert from user request for place order to PLS request"""
         from futuquant.common.pb.Trd_GetOrderFillList_pb2 import Request
         req = Request()
@@ -347,8 +347,8 @@ class DealListQuery:
         req.c2s.header.accID = acc_id
         req.c2s.header.trdMarket = TRD_MKT_MAP[trd_mkt]
 
-        if strcode:
-            req.c2s.filterConditions.code.append(strcode)
+        if code:
+            req.c2s.filterConditions.code.append(code)
 
         return pack_pb_req(req, ProtoId.Trd_GetOrderFillList)
 
@@ -387,7 +387,7 @@ class HistoryOrderListQuery:
         pass
 
     @classmethod
-    def pack_req(cls, status_filter_list, strcode, start, end,
+    def pack_req(cls, status_filter_list, code, start, end,
                  trd_env, acc_id, trd_mkt):
 
         from futuquant.common.pb.Trd_GetHistoryOrderList_pb2 import Request
@@ -396,8 +396,8 @@ class HistoryOrderListQuery:
         req.c2s.header.accID = acc_id
         req.c2s.header.trdMarket = TRD_MKT_MAP[trd_mkt]
 
-        if strcode:
-            req.c2s.filterConditions.code.append(strcode)
+        if code:
+            req.c2s.filterConditions.code.append(code)
 
         req.c2s.filterConditions.beginTime = start
         req.c2s.filterConditions.endTime = end
@@ -440,7 +440,7 @@ class HistoryDealListQuery:
         pass
 
     @classmethod
-    def pack_req(cls, strcode, start, end, trd_env, acc_id, trd_mkt):
+    def pack_req(cls, code, start, end, trd_env, acc_id, trd_mkt):
 
         from futuquant.common.pb.Trd_GetHistoryOrderFillList_pb2 import Request
         req = Request()
@@ -448,8 +448,8 @@ class HistoryDealListQuery:
         req.c2s.header.accID = acc_id
         req.c2s.header.trdMarket = TRD_MKT_MAP[trd_mkt]
 
-        if strcode:
-            req.c2s.filterConditions.code.append(strcode)
+        if code:
+            req.c2s.filterConditions.code.append(code)
 
         req.c2s.filterConditions.beginTime = start
         req.c2s.filterConditions.endTime = end
@@ -486,7 +486,7 @@ class UpdateOrderPush:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        trd_env = TRADE.REV_ENVTYPE_MAP[rsp_pb.s2c.header.trdEnv]
+        trd_env = TRADE.REV_TRD_ENV_MAP[rsp_pb.s2c.header.trdEnv]
         trd_mkt = TRADE.REV_TRD_MKT_MAP[rsp_pb.s2c.header.trdMarket]
 
         if rsp_pb.retType != RET_OK:
@@ -504,7 +504,7 @@ class UpdateDealPush:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        trd_env = TRADE.REV_ENVTYPE_MAP[rsp_pb.s2c.header.trdEnv]
+        trd_env = TRADE.REV_TRD_ENV_MAP[rsp_pb.s2c.header.trdEnv]
         trd_mkt = TRADE.REV_TRD_MKT_MAP[rsp_pb.s2c.header.trdMarket]
 
         if rsp_pb.retType != RET_OK:

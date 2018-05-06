@@ -535,7 +535,7 @@ MKT_ENV_ENABLE_MAP = {
 
 class TRADE(object):
     REV_TRD_MKT_MAP = {TRD_MKT_MAP[x]: x for x in TRD_MKT_MAP}
-    REV_ENVTYPE_MAP = {TRD_ENV_MAP[x]: x for x in TRD_ENV_MAP}
+    REV_TRD_ENV_MAP = {TRD_ENV_MAP[x]: x for x in TRD_ENV_MAP}
     REV_POSITION_SIDE_MAP = {POSITION_SIDE_MAP[x]: x for x in POSITION_SIDE_MAP}
     REV_ORDER_TYPE_MAP = {ORDER_TYPE_MAP[x]: x for x in ORDER_TYPE_MAP}
     REV_TRD_SIDE_MAP = {TRD_SIDE_MAP[x]: x for x in TRD_SIDE_MAP}

@@ -282,6 +282,26 @@ class MarketSnapshotQuery:
             snapshot_tmp['listing_date'] = record.basic.listTime
             snapshot_tmp['price_spread'] = record.basic.priceSpread
             snapshot_tmp['lot_size'] = record.basic.lotSize
+
+            # equityExData
+            snapshot_tmp[
+                'circular_market_val'] = record.equityExData.outstandingMktVal
+            snapshot_tmp[
+                'total_market_val'] = record.equityExData.issuedMktVal
+            snapshot_tmp[
+                'issued_shares'] = record.equityExData.issuedShares
+            snapshot_tmp['net_asset'] = record.equityExData.netAsset
+            snapshot_tmp['net_profit'] = record.equityExData.netProfit
+            snapshot_tmp[
+                'earning_per_share'] = record.equityExData.earningsPershare
+            snapshot_tmp[
+                'outstanding_shares'] = record.equityExData.outstandingShares
+            snapshot_tmp[
+                'net_asset_per_share'] = record.equityExData.netAssetPershare
+            snapshot_tmp['ey_ratio'] = record.equityExData.eyRate
+            snapshot_tmp['pe_ratio'] = record.equityExData.peRate
+            snapshot_tmp['pb_ratio'] = record.equityExData.pbRate
+
             if record.basic.type == SEC_TYPE_MAP[SecurityType.WARRANT]:
                 snapshot_tmp['wrt_valid'] = True
                 snapshot_tmp[
@@ -310,23 +330,7 @@ class MarketSnapshotQuery:
                     'wrt_implied_volatility'] = record.warrantExData.impliedVolatility
                 snapshot_tmp['wrt_premium'] = record.warrantExData.premium
             else:
-                snapshot_tmp[
-                    'circular_market_val'] = record.equityExData.outstandingMktVal
-                snapshot_tmp[
-                    'total_market_val'] = record.equityExData.issuedMktVal
-                snapshot_tmp[
-                    'issued_shares'] = record.equityExData.issuedShares
-                snapshot_tmp['net_asset'] = record.equityExData.netAsset
-                snapshot_tmp['net_profit'] = record.equityExData.netProfit
-                snapshot_tmp[
-                    'earning_per_share'] = record.equityExData.earningsPershare
-                snapshot_tmp[
-                    'outstanding_shares'] = record.equityExData.outstandingShares
-                snapshot_tmp[
-                    'net_asset_per_share'] = record.equityExData.netAssetPershare
-                snapshot_tmp['ey_ratio'] = record.equityExData.eyRate
-                snapshot_tmp['pe_ratio'] = record.equityExData.peRate
-                snapshot_tmp['pb_ratio'] = record.equityExData.pbRate
+                pass
             snapshot_list.append(snapshot_tmp)
 
         return RET_OK, "", snapshot_list
@@ -341,9 +345,9 @@ class RtDataQuery:
         pass
 
     @classmethod
-    def pack_req(cls, stock_str):
+    def pack_req(cls, code):
         """Convert from user request for trading days to PLS request"""
-        ret, content = split_stock_str(stock_str)
+        ret, content = split_stock_str(code)
         if ret == RET_ERROR:
             error_str = content
             return RET_ERROR, error_str, None
@@ -436,7 +440,7 @@ class PlateStockQuery:
             error_str = ERROR_STR_PREFIX + msg
             return RET_ERROR, error_str, None
 
-        market, stock_code = content
+        market, code = content
         if market not in QUOTE.REV_MKT_MAP:
             error_str = ERROR_STR_PREFIX + "market is %s, which is not valid. (%s)" \
                                            % (market, ",".join([x for x in MKT_MAP]))
@@ -444,7 +448,7 @@ class PlateStockQuery:
         from futuquant.common.pb.Qot_ReqPlateStock_pb2 import Request
         req = Request()
         req.c2s.plate.market = market
-        req.c2s.plate.code = stock_code
+        req.c2s.plate.code = code
 
         return pack_pb_req(req, ProtoId.Qot_ReqPlateStock)
 
@@ -483,18 +487,18 @@ class BrokerQueueQuery:
         pass
 
     @classmethod
-    def pack_req(cls, stock_str):
+    def pack_req(cls, code):
         """Convert from user request for trading days to PLS request"""
-        ret_code, content = split_stock_str(stock_str)
+        ret_code, content = split_stock_str(code)
         if ret_code == RET_ERROR:
             error_str = content
             return RET_ERROR, error_str, None
 
-        market_code, stock_code = content
+        market, code = content
         from futuquant.common.pb.Qot_ReqBroker_pb2 import Request
         req = Request()
-        req.c2s.stock.market = market_code
-        req.c2s.stock.code = stock_code
+        req.c2s.stock.market = market
+        req.c2s.stock.code = code
 
         return pack_pb_req(req, ProtoId.Qot_ReqBroker)
 
@@ -536,10 +540,10 @@ class HistoryKlineQuery:
         pass
 
     @classmethod
-    def pack_req(cls, stock_str, start_date, end_date, ktype, autype, fields,
+    def pack_req(cls, code, start_date, end_date, ktype, autype, fields,
                  max_num):
         """Convert from user request for trading days to PLS request"""
-        ret, content = split_stock_str(stock_str)
+        ret, content = split_stock_str(code)
         if ret == RET_ERROR:
             error_str = content
             return RET_ERROR, error_str, None
@@ -690,11 +694,11 @@ class ExrightQuery:
         raw_exr_list = rsp_pb.s2c.stockRehab
         exr_list = []
         for stock_rehab in raw_exr_list:
-            stock_str = merge_qot_mkt_stock_str(stock_rehab.stock.market,
+            code = merge_qot_mkt_stock_str(stock_rehab.stock.market,
                                         stock_rehab.stock.code)
             for rehab in stock_rehab.rehab:
                 stock_rehab_tmp = {}
-                stock_rehab_tmp['code'] = stock_str
+                stock_rehab_tmp['code'] = code
                 stock_rehab_tmp['ex_div_date'] = rehab.time.split()[0]
                 stock_rehab_tmp['forward_adj_factorA'] = rehab.fwdFactorA
                 stock_rehab_tmp['forward_adj_factorB'] = rehab.fwdFactorB
@@ -738,46 +742,19 @@ class SubscriptionQuery:
     """
     Query Conversion for getting user's subscription information.
     """
-
     def __init__(self):
         pass
 
     @classmethod
-    def pack_subscribe_req(cls, stock_str, data_type):
-        """
-        Pack subscribe user's request
-        :param stock_str:
-        :param data_type:
-        :return: pb binary request data
-        """
-        if not isinstance(stock_str, list):
-            stock_str = [stock_str]
-        if not isinstance(data_type, list):
-            data_type = [data_type]
+    def pack_sub_or_unsub_req(cls, code_list, subtype_list, is_sub):
 
         stock_tuple_list = []
-        failure_tuple_list = []
-        for stock_inst in stock_str:
-            ret_code, content = split_stock_str(stock_inst)
+        for code in code_list:
+            ret_code, content = split_stock_str(code)
             if ret_code != RET_OK:
-                msg = content
-                error_str = ERROR_STR_PREFIX + msg
-                failure_tuple_list.append((ret_code, error_str))
-                continue
-
+                return ret_code, content, None
             market_code, stock_code = content
             stock_tuple_list.append((market_code, stock_code))
-
-        if len(failure_tuple_list) > 0:
-            error_str = '\n'.join([x[1] for x in failure_tuple_list])
-            return RET_ERROR, error_str, None
-
-        for sub_type in data_type:
-            if sub_type not in SUBTYPE_MAP:
-                subtype_str = ','.join([x for x in SUBTYPE_MAP])
-                error_str = ERROR_STR_PREFIX + 'data_type is %s , which is wrong. (%s)' % (
-                    sub_type, subtype_str)
-                return RET_ERROR, error_str, None
 
         from futuquant.common.pb.Qot_Sub_pb2 import Request
         req = Request()
@@ -785,11 +762,15 @@ class SubscriptionQuery:
             stock_inst = req.c2s.stock.add()
             stock_inst.code = stock_code
             stock_inst.market = market_code
-        for sub_ in data_type:
-            req.c2s.subType.append(SUBTYPE_MAP[sub_])
-        req.c2s.isSubOrUnSub = True
+        for subtype in subtype_list:
+            req.c2s.subType.append(SUBTYPE_MAP[subtype])
+        req.c2s.isSubOrUnSub = is_sub
 
         return pack_pb_req(req, ProtoId.Qot_Sub)
+
+    @classmethod
+    def pack_subscribe_req(cls, code_list, subtype_list):
+        return SubscriptionQuery.pack_sub_or_unsub_req(code_list, subtype_list, True)
 
     @classmethod
     def unpack_subscribe_rsp(cls, rsp_pb):
@@ -800,48 +781,9 @@ class SubscriptionQuery:
         return RET_OK, "", None
 
     @classmethod
-    def pack_unsubscribe_req(cls, stock_str, data_type):
+    def pack_unsubscribe_req(cls, code_list, subtype_list):
         """Pack the un-subscribed request"""
-        if not isinstance(stock_str, list):
-            stock_str = [stock_str]
-        if not isinstance(data_type, list):
-            data_type = [data_type]
-
-        stock_tuple_list = []
-        failure_tuple_list = []
-        for stock_inst in stock_str:
-            ret_code, content = split_stock_str(stock_inst)
-            if ret_code != RET_OK:
-                msg = content
-                error_str = ERROR_STR_PREFIX + msg
-                failure_tuple_list.append((ret_code, error_str))
-                continue
-
-            market_code, stock_code = content
-            stock_tuple_list.append((market_code, stock_code))
-
-        if len(failure_tuple_list) > 0:
-            error_str = '\n'.join([x[1] for x in failure_tuple_list])
-            return RET_ERROR, error_str, None
-
-        for sub_type in data_type:
-            if sub_type not in SUBTYPE_MAP:
-                subtype_str = ','.join([x for x in SUBTYPE_MAP])
-                error_str = ERROR_STR_PREFIX + 'data_type is %s , which is wrong. (%s)' % (
-                    sub_type, subtype_str)
-                return RET_ERROR, error_str, None
-
-        from futuquant.common.pb.Qot_Sub_pb2 import Request
-        req = Request()
-        for market_code, stock_code in stock_tuple_list:
-            stock_inst = req.c2s.stock.add()
-            stock_inst.code = stock_code
-            stock_inst.market = market_code
-        for sub_ in data_type:
-            req.c2s.subType.append(SUBTYPE_MAP[sub_])
-        req.c2s.isSubOrUnSub = False
-
-        return pack_pb_req(req, ProtoId.Qot_Sub)
+        return SubscriptionQuery.pack_sub_or_unsub_req(code_list, subtype_list, False)
 
     @classmethod
     def unpack_unsubscribe_rsp(cls, rsp_pb):
@@ -852,12 +794,11 @@ class SubscriptionQuery:
         return RET_OK, "", None
 
     @classmethod
-    def pack_subscription_query_req(cls, query):
+    def pack_subscription_query_req(cls, is_all_conn):
         """Pack the subscribed query request"""
         from futuquant.common.pb.Qot_ReqSubInfo_pb2 import Request
         req = Request()
-        param_map = {0: True, 1: False}
-        req.c2s.isReqAllConn = param_map[query]
+        req.c2s.isReqAllConn = is_all_conn
 
         return pack_pb_req(req, ProtoId.Qot_ReqSubInfo)
 
@@ -868,59 +809,40 @@ class SubscriptionQuery:
             return RET_ERROR, rsp_pb.retMsg, None
         raw_sub_info = rsp_pb.s2c
         result = {}
-        result['total_used_quota'] = raw_sub_info.totalUsedQuota
-        result['remain_quota'] = raw_sub_info.remainQuota
-        result['conn_sub_info'] = []
+        result['total_used'] = raw_sub_info.totalUsedQuota
+        result['remain'] = raw_sub_info.remainQuota
+        result['conn_sub_list'] = []
         for conn_sub_info in raw_sub_info.connSubInfo:
             conn_sub_info_tmp = {}
-            conn_sub_info_tmp['used_quota'] = conn_sub_info.usedQuota
-            conn_sub_info_tmp['is_own_conn_data'] = conn_sub_info.isOwnConnData
-            conn_sub_info_tmp['sub_info'] = []
+            conn_sub_info_tmp['used'] = conn_sub_info.usedQuota
+            conn_sub_info_tmp['is_own_conn'] = conn_sub_info.isOwnConnData
+            conn_sub_info_tmp['sub_list'] = []
             for sub_info in conn_sub_info.subInfo:
                 sub_info_tmp = {}
-                sub_info_tmp['sub_type'] = sub_info.subType
-                sub_info_tmp['stock'] = []
+                if sub_info.subType not in QUOTE.REV_SUBTYPE_MAP:
+                    logger.error("error subtype:{}".format(sub_info.subType))
+                    continue
+
+                sub_info_tmp['subtype'] = QUOTE.REV_SUBTYPE_MAP[sub_info.subType]
+                sub_info_tmp['code_list'] = []
                 for stock in sub_info.stock:
-                    stock_tmp = {}
-                    stock_tmp['market'] = stock.market
-                    stock_tmp['code'] = stock.code
-                    sub_info_tmp['stock'].append(stock_tmp)
-                conn_sub_info_tmp['sub_info'].append(sub_info_tmp)
-            result['conn_sub_info'].append(conn_sub_info_tmp)
+                    sub_info_tmp['code_list'].append(merge_qot_mkt_stock_str(int(stock.market), stock.code),)
+
+                conn_sub_info_tmp['sub_list'].append(sub_info_tmp)
+
+            result['conn_sub_list'].append(conn_sub_info_tmp)
 
         return RET_OK, "", result
 
     @classmethod
-    def pack_push_req(cls, stock_str, data_type):
-        """Pack the push request"""
-        if not isinstance(stock_str, list):
-            stock_str = [stock_str]
-        if not isinstance(data_type, list):
-            data_type = [data_type]
-
+    def pack_push_or_unpush_req(cls, code_list, subtype_list, is_push):
         stock_tuple_list = []
-        failure_tuple_list = []
-        for stock_inst in stock_str:
-            ret_code, content = split_stock_str(stock_inst)
+        for code in code_list:
+            ret_code, content = split_stock_str(code)
             if ret_code != RET_OK:
-                msg = content
-                error_str = ERROR_STR_PREFIX + msg
-                failure_tuple_list.append((ret_code, error_str))
-                continue
-
+                return ret_code, content, None
             market_code, stock_code = content
             stock_tuple_list.append((market_code, stock_code))
-
-        if len(failure_tuple_list) > 0:
-            error_str = '\n'.join([x[1] for x in failure_tuple_list])
-            return RET_ERROR, error_str, None
-
-        for sub_type in data_type:
-            if sub_type not in SUBTYPE_MAP:
-                subtype_str = ','.join([x for x in SUBTYPE_MAP])
-                error_str = ERROR_STR_PREFIX + 'data_type is %s , which is wrong. (%s)' % (
-                    sub_type, subtype_str)
-                return RET_ERROR, error_str, None
 
         from futuquant.common.pb.Qot_RegQotPush_pb2 import Request
         req = Request()
@@ -928,55 +850,21 @@ class SubscriptionQuery:
             stock_inst = req.c2s.stock.add()
             stock_inst.code = stock_code
             stock_inst.market = market_code
-        for sub_ in data_type:
-            req.c2s.subType.append(SUBTYPE_MAP[sub_])
-        req.c2s.isRegOrUnReg = True
-        # logger.debug(ProtoId.Qot_RegQotPush)
+        for subtype in subtype_list:
+            req.c2s.subType.append(SUBTYPE_MAP[subtype])
+        req.c2s.isRegOrUnReg = is_push
+
         return pack_pb_req(req, ProtoId.Qot_RegQotPush)
 
     @classmethod
-    def pack_unpush_req(cls, stock_str, data_type):
+    def pack_push_req(cls, code_list, subtype_list):
+        """Pack the push request"""
+        return SubscriptionQuery.pack_push_or_unpush_req(code_list, subtype_list, True)
+
+    @classmethod
+    def pack_unpush_req(cls, code_list, subtype_list):
         """Pack the un-pushed request"""
-        if not isinstance(stock_str, list):
-            stock_str = [stock_str]
-        if not isinstance(data_type, list):
-            data_type = [data_type]
-
-        stock_tuple_list = []
-        failure_tuple_list = []
-        for stock_inst in stock_str:
-            ret_code, content = split_stock_str(stock_inst)
-            if ret_code != RET_OK:
-                msg = content
-                error_str = ERROR_STR_PREFIX + msg
-                failure_tuple_list.append((ret_code, error_str))
-                continue
-
-            market_code, stock_code = content
-            stock_tuple_list.append((market_code, stock_code))
-
-        if len(failure_tuple_list) > 0:
-            error_str = '\n'.join([x[1] for x in failure_tuple_list])
-            return RET_ERROR, error_str, None
-
-        for sub_type in data_type:
-            if sub_type not in SUBTYPE_MAP:
-                subtype_str = ','.join([x for x in SUBTYPE_MAP])
-                error_str = ERROR_STR_PREFIX + 'data_type is %s , which is wrong. (%s)' % (
-                    sub_type, subtype_str)
-                return RET_ERROR, error_str, None
-
-        from futuquant.common.pb.Qot_RegQotPush_pb2 import Request
-        req = Request()
-        for market_code, stock_code in stock_tuple_list:
-            stock_inst = req.c2s.stock.add()
-            stock_inst.code = stock_code
-            stock_inst.market = market_code
-        for sub_ in data_type:
-            req.c2s.subType.append(SUBTYPE_MAP[sub_])
-        req.c2s.isRegOrUnReg = False
-
-        return pack_pb_req(req, ProtoId.Qot_RegQotPush)
+        return SubscriptionQuery.pack_push_or_unpush_req(code_list, subtype_list, False)
 
 
 class StockQuoteQuery:
@@ -1050,9 +938,9 @@ class TickerQuery:
         pass
 
     @classmethod
-    def pack_req(cls, stock_str, num=500):
+    def pack_req(cls, code, num=500):
         """Convert from user request for trading days to PLS request"""
-        ret, content = split_stock_str(stock_str)
+        ret, content = split_stock_str(code)
         if ret == RET_ERROR:
             error_str = content
             return RET_ERROR, error_str, None
@@ -1103,9 +991,9 @@ class CurKlineQuery:
         pass
 
     @classmethod
-    def pack_req(cls, stock_str, num, ktype, autype):
+    def pack_req(cls, code, num, ktype, autype):
         """Convert from user request for trading days to PLS request"""
-        ret, content = split_stock_str(stock_str)
+        ret, content = split_stock_str(code)
         if ret == RET_ERROR:
             error_str = content
             return RET_ERROR, error_str, None
@@ -1215,9 +1103,9 @@ class OrderBookQuery:
         pass
 
     @classmethod
-    def pack_req(cls, stock_str):
+    def pack_req(cls, code):
         """Convert from user request for trading days to PLS request"""
-        ret, content = split_stock_str(stock_str)
+        ret, content = split_stock_str(code)
         if ret == RET_ERROR:
             error_str = content
             return RET_ERROR, error_str, None
@@ -1263,10 +1151,10 @@ class SuspensionQuery:
         pass
 
     @classmethod
-    def pack_req(cls, codes, start, end):
+    def pack_req(cls, code_list, start, end):
         """Convert from user request for trading days to PLS request"""
         list_req_stock = []
-        for stock_str in codes:
+        for stock_str in code_list:
             ret, content = split_stock_str(stock_str)
             if ret == RET_ERROR:
                 return RET_ERROR, content, None
@@ -1300,9 +1188,9 @@ class SuspensionQuery:
         ret_susp_list = []
         for record in rsp_pb.s2c.stockSuspendList:
             suspend_info_tmp = {}
-            stock_str = merge_qot_mkt_stock_str(record.stock.market, record.stock.code)
+            code = merge_qot_mkt_stock_str(record.stock.market, record.stock.code)
             for suspend_info in record.suspendList:
-                suspend_info_tmp['code'] = stock_str
+                suspend_info_tmp['code'] = code
                 suspend_info_tmp['suspension_dates'] = suspend_info.time
             ret_susp_list.append(suspend_info_tmp)
 
@@ -1431,12 +1319,12 @@ class MultiPointsHisKLine:
         pass
 
     @classmethod
-    def pack_req(cls, codes, dates, fields, ktype, autype, max_num,
+    def pack_req(cls, code_list, dates, fields, ktype, autype, max_num,
                  no_data_mode):
         """Convert from user request for multiple history kline points to PLS request"""
         list_req_stock = []
-        for stock_str in codes:
-            ret, content = split_stock_str(stock_str)
+        for code in code_list:
+            ret, content = split_stock_str(code)
             if ret == RET_ERROR:
                 return RET_ERROR, content, None
             else:
@@ -1464,10 +1352,10 @@ class MultiPointsHisKLine:
         req.c2s.klType = KTYPE_MAP[ktype]
         req.c2s.noDataMode = no_data_mode
         req.c2s.maxAckKLNum = max_num
-        for market_code, stock_code in list_req_stock:
+        for market_code, code in list_req_stock:
             stock_inst = req.c2s.stock.add()
             stock_inst.market = market_code
-            stock_inst.code = stock_code
+            stock_inst.code = code
         for date_ in dates:
             req.c2s.time.append(date_)
 
@@ -1487,10 +1375,10 @@ class MultiPointsHisKLine:
         dict_data = {}
         raw_kline_points = rsp_pb.s2c.klPoints
         for raw_kline in raw_kline_points:
-            stock_code = merge_qot_mkt_stock_str(raw_kline.stock.market,
+            code = merge_qot_mkt_stock_str(raw_kline.stock.market,
                                          raw_kline.stock.code)
             for raw_kl in raw_kline.kl:
-                dict_data['code'] = stock_code
+                dict_data['code'] = code
                 dict_data['time_point'] = raw_kl.reqTime
                 dict_data['data_valid'] = raw_kl.status
                 dict_data['time_key'] = raw_kl.kl.time
@@ -1518,6 +1406,9 @@ class MultiPointsHisKLine:
                 dict_data[
                     'change_rate'] = raw_kl.kl.changeRate if raw_kl.kl.HasField(
                         'changeRate') else 0
+                dict_data[
+                    'last_close'] = raw_kl.kl.lastClosePrice if raw_kl.kl.HasField(
+                        'lastClosePrice') else 0
 
                 list_ret.append(dict_data.copy())
 
