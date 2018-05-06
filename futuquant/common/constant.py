@@ -358,11 +358,12 @@ class GtwEventType(object):
     NetCfgMissing = "NetCfgMissing"
     KickedOut = "KickedOut"
     LoginPwdChanged = "LoginPwdChanged"
-    TradePwdChanged = "TradePwdChanged"
     BanLogin = "BanLogin"
     NeedPicVerifyCode = "NeedPicVerifyCode"
     NeedPhoneVerifyCode = "NeedPhoneVerifyCode"
+    AppDataNotExist = "AppDataNotExist"
     NessaryDataMissing = "NessaryDataMissing"
+    TradePwdChanged = "TradePwdChanged"
 
 GTW_EVENT_MAP = {
     GtwEventType.NONE: 0,
@@ -374,11 +375,12 @@ GTW_EVENT_MAP = {
     GtwEventType.NetCfgMissing: 6,
     GtwEventType.KickedOut: 7,
     GtwEventType.LoginPwdChanged: 8,
-    GtwEventType.TradePwdChanged: 9,
-    GtwEventType.BanLogin: 10,
-    GtwEventType.NeedPicVerifyCode: 11,
-    GtwEventType.NeedPhoneVerifyCode: 12,
+    GtwEventType.BanLogin: 9,
+    GtwEventType.NeedPicVerifyCode: 10,
+    GtwEventType.NeedPhoneVerifyCode: 11,
+    GtwEventType.AppDataNotExist: 12,
     GtwEventType.NessaryDataMissing: 13,
+    GtwEventType.TradePwdChanged: 14,
 }
 
 
