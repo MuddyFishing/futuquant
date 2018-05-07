@@ -137,6 +137,20 @@ KTYPE_MAP = {
 }
 
 
+class KLDataStatus(object):
+    NONE = 'N/A'
+    CURRENT = 'CURRENT'
+    PREVIOUS = 'PREVIOUS'
+    BACK = 'BACK'
+
+KLDATA_STATUS_MAP = {
+    KLDataStatus.NONE: 0,
+    KLDataStatus.CURRENT: 1,
+    KLDataStatus.PREVIOUS: 2,
+    KLDataStatus.BACK: 3,
+}
+
+
 # k线复权定义
 class AuType(object):
     QFQ = "qfq"
@@ -335,6 +349,7 @@ class QUOTE(object):
     REV_SUBTYPE_MAP = {SUBTYPE_MAP[x]: x for x in SUBTYPE_MAP}
     REV_KTYPE_MAP = {KTYPE_MAP[x]: x for x in KTYPE_MAP}
     REV_AUTYPE_MAP = {AUTYPE_MAP[x]: x for x in AUTYPE_MAP}
+    REV_KLDATA_STATUS_MAP = {KLDATA_STATUS_MAP[x]: x for x in KLDATA_STATUS_MAP}
     REV_TICKER_DIRECTION = {TICKER_DIRECTION[x]: x for x in TICKER_DIRECTION}
 
 

@@ -177,11 +177,17 @@ def quote_test():
     print("* subscribe : {}\n".format(quote_ctx.subscribe(code_list, subtype_list)))
 
     # 临时测试
+    """
     print("* get_market_snapshot : {}\n".format(quote_ctx.get_market_snapshot(code_list)))
     ret_code, ret_data = quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.STOCK)
     codes = ret_data['code'].tolist()[:100]
     dates = ['2010-1-1', '2010-1-2', '2010-1-3', '2010-1-4', '2010-1-5'] # '2010-1-6', '2010-1-7']
     print(quote_ctx.get_multi_points_history_kline(codes, dates, KL_FIELD.ALL))
+    """
+    # print("* get_rt_data : {}\n".format(quote_ctx.get_rt_data(code_list[0])))
+
+    quote_ctx.subscribe('HK.00002', SubType.QUOTE)
+    print(quote_ctx.get_stock_quote('HK.00002'))
 
     quote_ctx.close()
     return

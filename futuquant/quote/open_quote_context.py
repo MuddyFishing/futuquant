@@ -310,7 +310,7 @@ class OpenQuoteContext(OpenContextBase):
             x['code'] = code
 
         col_list = [
-            'code', 'time', 'data_status', 'opened_mins', 'cur_price',
+            'code', 'time', 'is_blank', 'opened_mins', 'cur_price',
             'last_close', 'avg_price', 'volume', 'turnover'
         ]
 
@@ -711,7 +711,7 @@ class OpenQuoteContext(OpenContextBase):
         :param ktype: K线类型
         :param autype:复权类型
         :param no_data_mode: 指定时间为非交易日时，对应的k线数据取值模式，
-        :return: pd frame 表头与指定的数据列相关， 固定表头包括'code'(代码) 'time_point'(指定的日期) 'data_valid' (0=无数据 1=请求点有数据 2=请求点无数据，取前一个)
+        :return: pd frame 表头与指定的数据列相关， 固定表头包括'code'(代码) 'time_point'(指定的日期) 'data_status' (KLDataStatus)
         '''
         req_codes = unique_and_normalize_list(code_list)
         if not code_list:
@@ -735,7 +735,7 @@ class OpenQuoteContext(OpenContextBase):
             MultiPointsHisKLine.pack_req, MultiPointsHisKLine.unpack_rsp)
 
         # 一次性最多取100支股票的数据
-        max_req_code_num = 100
+        max_req_code_num = 50
 
         data_finish = False
         list_ret = []
@@ -768,7 +768,7 @@ class OpenQuoteContext(OpenContextBase):
                 data_finish = True
 
         # 表头列
-        col_list = ['code', 'time_point', 'data_valid']
+        col_list = ['code', 'time_point', 'data_status']
         for field in req_fields:
             str_field = KL_FIELD.DICT_KL_FIELD_STR[field]
             if str_field not in col_list:

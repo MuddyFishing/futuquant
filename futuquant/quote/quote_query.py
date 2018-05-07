@@ -379,7 +379,7 @@ class RtDataQuery:
             {
                 "code": merge_qot_mkt_stock_str(rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code),
                 "time": record.time,
-                "data_status": not record.isBlank,
+                "is_blank":  True if record.isBlank else False,
                 "opened_mins": record.minute,
                 "cur_price": record.price,
                 "last_close": record.lastClosePrice,
@@ -930,7 +930,7 @@ class StockQuoteQuery:
             'turnover_rate': record.turnoverRate,
             'amplitude': record.amplitude,
             'suspension': record.isSuspended,
-            'listing_date': record.listTime.split()[0],
+            'listing_date': record.listTime,
             'price_spread': record.priceSpread if record.HasField('priceSpread') else 0,
         } for record in raw_quote_list]
 
@@ -1380,16 +1380,16 @@ class MultiPointsHisKLine:
         list_ret = []
         dict_data = {}
         raw_kline_points = rsp_pb.s2c.klPoints
+
         for raw_kline in raw_kline_points:
             code = merge_qot_mkt_stock_str(raw_kline.stock.market,
                                          raw_kline.stock.code)
             for raw_kl in raw_kline.kl:
                 dict_data['code'] = code
                 dict_data['time_point'] = raw_kl.reqTime
-                dict_data['data_valid'] = raw_kl.status
+                dict_data['data_status'] = QUOTE.REV_KLDATA_STATUS_MAP[raw_kl.status] if raw_kl.status in QUOTE.REV_KLDATA_STATUS_MAP else KLDataStatus.NONE
                 dict_data['time_key'] = raw_kl.kl.time
-                if raw_kl.kl.isBlank:
-                    continue
+
                 dict_data['open'] = raw_kl.kl.openPrice if raw_kl.kl.HasField(
                     'openPrice') else 0
                 dict_data['high'] = raw_kl.kl.highPrice if raw_kl.kl.HasField(
