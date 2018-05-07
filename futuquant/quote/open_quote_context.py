@@ -778,18 +778,5 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, pd_frame
 
-    def get_global_state(self):
-        """
-        get api server(exe) global state
-        :return: RET_OK, state_dict | err_code, msg
-        """
-        query_processor = self._get_sync_query_processor(
-            GlobalStateQuery.pack_req, GlobalStateQuery.unpack_rsp)
 
-        kargs = {"user_id": self.get_login_user_id()}
-        ret_code, msg, state_dict = query_processor(**kargs)
-        if ret_code != RET_OK:
-            return ret_code, msg
-
-        return RET_OK, state_dict
 

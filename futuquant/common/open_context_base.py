@@ -10,7 +10,7 @@ from futuquant.common.utils import *
 from futuquant.quote.response_handler import HandlerContext
 from futuquant.quote.quote_query import InitConnect
 from futuquant.quote.response_handler import AsyncHandler_InitConnect
-
+from futuquant.quote.quote_query import GlobalStateQuery
 
 class OpenContextBase(object):
     """Base class for set context"""
@@ -369,7 +369,22 @@ class OpenContextBase(object):
             # send req loop per 10 seconds
             cur_time = time.time()
             if (self._check_last_req_time is
-                    None) or (cur_time - self._check_last_req_time > 10):
+                    None) or (cur_time - self._check_last_req_time > 15):
                 self._check_last_req_time = cur_time
-                #if self._thread_check_sync_sock is thread_handle:
-                    #self.get_global_state()
+                if self._thread_check_sync_sock is thread_handle:
+                    self.get_global_state()
+
+    def get_global_state(self):
+        """
+        get api server(exe) global state
+        :return: RET_OK, state_dict | err_code, msg
+        """
+        query_processor = self._get_sync_query_processor(
+            GlobalStateQuery.pack_req, GlobalStateQuery.unpack_rsp)
+
+        kargs = {"user_id": self.get_login_user_id()}
+        ret_code, msg, state_dict = query_processor(**kargs)
+        if ret_code != RET_OK:
+            return ret_code, msg
+
+        return RET_OK, state_dict
