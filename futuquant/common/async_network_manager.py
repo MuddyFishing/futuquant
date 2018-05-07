@@ -140,6 +140,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
 
     def handle_close(self):
         """handle close"""
+        logger.debug("async socket err!")
         if self.__close_handler is not None:
             self.__close_handler.notify_async_socket_close(self)
 

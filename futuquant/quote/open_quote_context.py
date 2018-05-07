@@ -755,7 +755,7 @@ class OpenQuoteContext(OpenContextBase):
                 "ktype": ktype,
                 "autype": autype,
                 "max_num": max_kl_num,
-                "no_data_mode": no_data_mode
+                "no_data_mode": int(no_data_mode)
             }
             ret_code, msg, content = query_processor(**kargs)
             if ret_code == RET_ERROR:

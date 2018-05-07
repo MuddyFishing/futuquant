@@ -151,7 +151,7 @@ class OpenTradeContextBase(OpenContextBase):
             if len(self.__last_acc_list) == 0:
                 ret, content = self.get_acc_list()
                 if ret != RET_OK:
-                    return ret, content
+                    return ret, content, acc_id
             acc_id = self._get_default_acc_id(trd_env)
 
         msg = "" if acc_id != 0 else ERROR_STR_PREFIX + "the type of acc_id param is wrong "
@@ -185,7 +185,7 @@ class OpenTradeContextBase(OpenContextBase):
         ret, msg = self._check_trd_env(trd_env)
         if ret != RET_OK:
             return ret, msg
-        ret, msg , acc_id = self._check_acc_id(trd_env, acc_id)
+        ret, msg, acc_id = self._check_acc_id(trd_env, acc_id)
         if ret != RET_OK:
             return ret, msg
 

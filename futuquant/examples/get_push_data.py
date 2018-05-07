@@ -149,21 +149,33 @@ def quote_test():
     print(quote_ctx.get_global_state())
 
     # 获取推送数据
+    big_sub_codes = ['HK.02318', 'HK.02828', 'HK.00939', 'HK.01093', 'HK.01299', 'HK.00175',
+                     'HK.01299', 'HK.01833', 'HK.00005', 'HK.00883', 'HK.00388', 'HK.01398',
+                     'HK.01114', 'HK.02800', 'HK.02018', 'HK.03988', 'HK.00386', 'HK.01211',
+                     'HK.00857', 'HK.01177',  'HK.02601', 'HK.02628', 'HK.00941']
+    # big_sub_codes = []
+
     code_list = ['HK.00700', 'HK.00700', 'HK.00700', 'HK.00700', 'HK.00700']
     subtype_list = [SubType.ORDER_BOOK, SubType.TICKER, SubType.K_DAY, SubType.RT_DATA, SubType.BROKER]
 
+    # 测试大量数据定阅
+    for code in big_sub_codes:
+        code_list_tmp = []
+        for i in range(len(subtype_list)):
+            code_list_tmp.append(code)
+        print("* subscribe : {}\n".format(quote_ctx.subscribe(code_list_tmp, subtype_list)))
+
     """
-    if True:
+    # if True:
         print("* subscribe : {}\n".format(quote_ctx.subscribe(code_list, subtype_list)))
-        sleep(1)
         print("* query_subscription : {}\n".format(quote_ctx.query_subscription(True)))
-        sleep(1)
+        sleep(60.1)
         print("* unsubscribe : {}\n".format(quote_ctx.unsubscribe(code_list, subtype_list)))
-        sleep(1)
         print("* query_subscription : {}\n".format(quote_ctx.query_subscription(True)))
         sleep(1)
     """
     print("* subscribe : {}\n".format(quote_ctx.subscribe(code_list, subtype_list)))
+
 
     # """
     print("* get_stock_basicinfo : {}\n".format(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.ETF)))
@@ -193,8 +205,8 @@ def quote_test():
     # """
 
     # """
-    sleep(15)
-    quote_ctx.close()
+    # sleep(15)
+    # quote_ctx.close()
     # """
 
 
@@ -204,7 +216,7 @@ def trade_hk_test():
     trd_ctx.set_handler(TradeDealTest())
     trd_ctx.start()
     # 交易请求必须先解锁 !!!
-    pwd_unlock = '979899'
+    pwd_unlock = '123456'
     print("* unlock_trade : {}\n".format(trd_ctx.unlock_trade(pwd_unlock)))
 
     # """
@@ -225,13 +237,13 @@ def trade_hk_test():
     print("* history_deal_list_query : {}\n".format(trd_ctx.history_deal_list_query(code="", start="", end="2018-6-1")))
     # """
 
-    sleep(15)
-    trd_ctx.close()
+    # sleep(15)
+    # trd_ctx.close()
 
 
 if __name__ =="__main__":
-    # quote_test()
-    trade_hk_test()
+    quote_test()
+    # trade_hk_test()
 
 
 
