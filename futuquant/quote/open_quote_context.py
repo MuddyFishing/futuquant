@@ -733,28 +733,22 @@ class OpenQuoteContext(OpenContextBase):
 
         query_processor = self._get_sync_query_processor(
             MultiPointsHisKLine.pack_req, MultiPointsHisKLine.unpack_rsp)
-        all_num = max(1, len(req_dates) * len(req_codes))
-        one_num = max(1, len(req_dates))
-        max_data_num = 500
-        max_kl_num = all_num if all_num <= max_data_num else int(
-            max_data_num / one_num) * one_num
-        if 0 == max_kl_num:
-            error_str = ERROR_STR_PREFIX + "too much data to req"
-            return RET_ERROR, error_str
+
+        # 一次性最多取100支股票的数据
+        max_req_code_num = 100
 
         data_finish = False
         list_ret = []
         # 循环请求数据，避免一次性取太多超时
         while not data_finish:
-            logger.debug('get_multi_points_history_kline - wait ... %s' %
-                  datetime.now())
+            logger.debug('get_multi_points_history_kline - wait ... %s' % datetime.now())
             kargs = {
                 "code_list": req_codes,
                 "dates": req_dates,
                 "fields": copy(req_fields),
                 "ktype": ktype,
                 "autype": autype,
-                "max_num": max_kl_num,
+                "max_req": max_req_code_num,
                 "no_data_mode": int(no_data_mode)
             }
             ret_code, msg, content = query_processor(**kargs)
@@ -763,11 +757,13 @@ class OpenQuoteContext(OpenContextBase):
 
             list_kline, has_next = content
             data_finish = (not has_next)
+
             for dict_item in list_kline:
                 item_code = dict_item['code']
-                if has_next and item_code in req_codes:
-                    req_codes.remove(item_code)
                 list_ret.append(dict_item)
+                if item_code in req_codes:
+                    req_codes.remove(item_code)
+
             if 0 == len(req_codes):
                 data_finish = True
 

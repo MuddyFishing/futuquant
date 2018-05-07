@@ -28,7 +28,7 @@ message C2S
 	required int32 noDataMode = 3; //NoDataMode,当请求时间点数据为空时，如何返回数据
 	repeated Qot_Common.Stock stock = 4; //股票市场以及股票代码
 	repeated string time = 5; //时间字符串
-	optional int32 maxAckKLNum = 6; //最多返回多少根K线，如果未指定表示不限制
+	optional int32 maxReqStockNum = 6; //最多返回多少只股票的数据，如果未指定表示不限制
 	optional int64 needKLFieldsFlag = 7; //指定返回K线结构体特定某几项数据，KLFields枚举值或组合，如果未指定返回全部字段
 }
 

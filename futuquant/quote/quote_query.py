@@ -1325,7 +1325,7 @@ class MultiPointsHisKLine:
         pass
 
     @classmethod
-    def pack_req(cls, code_list, dates, fields, ktype, autype, max_num,
+    def pack_req(cls, code_list, dates, fields, ktype, autype, max_req,
                  no_data_mode):
         """Convert from user request for multiple history kline points to PLS request"""
         list_req_stock = []
@@ -1357,7 +1357,7 @@ class MultiPointsHisKLine:
         req.c2s.rehabType = AUTYPE_MAP[autype]
         req.c2s.klType = KTYPE_MAP[ktype]
         req.c2s.noDataMode = no_data_mode
-        req.c2s.maxAckKLNum = max_num
+        req.c2s.maxReqStockNum = max_req
         for market_code, code in list_req_stock:
             stock_inst = req.c2s.stock.add()
             stock_inst.market = market_code

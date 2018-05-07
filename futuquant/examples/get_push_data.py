@@ -153,7 +153,7 @@ def quote_test():
                      'HK.01299', 'HK.01833', 'HK.00005', 'HK.00883', 'HK.00388', 'HK.01398',
                      'HK.01114', 'HK.02800', 'HK.02018', 'HK.03988', 'HK.00386', 'HK.01211',
                      'HK.00857', 'HK.01177',  'HK.02601', 'HK.02628', 'HK.00941']
-    # big_sub_codes = []
+    big_sub_codes = []
 
     code_list = ['HK.00700', 'HK.00700', 'HK.00700', 'HK.00700', 'HK.00700']
     subtype_list = [SubType.ORDER_BOOK, SubType.TICKER, SubType.K_DAY, SubType.RT_DATA, SubType.BROKER]
@@ -176,6 +176,16 @@ def quote_test():
     """
     print("* subscribe : {}\n".format(quote_ctx.subscribe(code_list, subtype_list)))
 
+    # 临时测试
+    print("* get_market_snapshot : {}\n".format(quote_ctx.get_market_snapshot(code_list)))
+    ret_code, ret_data = quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.STOCK)
+    codes = ret_data['code'].tolist()[:100]
+    dates = ['2010-1-1', '2010-1-2', '2010-1-3', '2010-1-4', '2010-1-5'] # '2010-1-6', '2010-1-7']
+    print(quote_ctx.get_multi_points_history_kline(codes, dates, KL_FIELD.ALL))
+
+    quote_ctx.close()
+    return
+    #
 
     # """
     print("* get_stock_basicinfo : {}\n".format(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.ETF)))
