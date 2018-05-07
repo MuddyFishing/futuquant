@@ -113,7 +113,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                                                                                       len(rsp_body), body_len))
                 rsp_pb = binary2pb(rsp_body, head_dict['proto_id'], head_dict['proto_fmt_type'])
                 if rsp_pb is None:
-                    logger.debug("async handle_read not support proto:{}".format(head_dict['proto_id']))
+                    logger.error("async handle_read not support proto:{}".format(head_dict['proto_id']))
                 else:
                     self.handler_ctx.recv_func(rsp_pb, head_dict['proto_id'])
 
@@ -140,6 +140,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
 
     def handle_close(self):
         """handle close"""
+        logger.debug("async socket err!")
         if self.__close_handler is not None:
             self.__close_handler.notify_async_socket_close(self)
 

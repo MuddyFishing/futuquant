@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Trd_PlaceOrder.proto',
   package='Trd_PlaceOrder',
   syntax='proto2',
-  serialized_pb=_b('\n\x14Trd_PlaceOrder.proto\x12\x0eTrd_PlaceOrder\x1a\x0c\x43ommon.proto\x1a\x10Trd_Common.proto\"\xe2\x01\n\x03\x43\x32S\x12\"\n\x08packetID\x18\x01 \x02(\x0b\x32\x10.Common.PacketID\x12%\n\x06header\x18\x02 \x02(\x0b\x32\x15.Trd_Common.TrdHeader\x12\x11\n\ttrdMarket\x18\x03 \x02(\x05\x12\x0f\n\x07trdSide\x18\x04 \x02(\x05\x12\x11\n\torderType\x18\x05 \x02(\x05\x12\x0c\n\x04\x63ode\x18\x06 \x02(\t\x12\x0b\n\x03qty\x18\x07 \x02(\x01\x12\r\n\x05price\x18\x08 \x01(\x01\x12\x13\n\x0b\x61\x64justPrice\x18\t \x01(\x08\x12\x1a\n\x12\x61\x64justSideAndLimit\x18\n \x01(\x01\"=\n\x03S2C\x12%\n\x06header\x18\x01 \x02(\x0b\x32\x15.Trd_Common.TrdHeader\x12\x0f\n\x07orderID\x18\x02 \x01(\x04\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Trd_PlaceOrder.C2S\"d\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12 \n\x03s2c\x18\x04 \x01(\x0b\x32\x13.Trd_PlaceOrder.S2C')
+  serialized_pb=_b('\n\x14Trd_PlaceOrder.proto\x12\x0eTrd_PlaceOrder\x1a\x0c\x43ommon.proto\x1a\x10Trd_Common.proto\"\xcf\x01\n\x03\x43\x32S\x12\"\n\x08packetID\x18\x01 \x02(\x0b\x32\x10.Common.PacketID\x12%\n\x06header\x18\x02 \x02(\x0b\x32\x15.Trd_Common.TrdHeader\x12\x0f\n\x07trdSide\x18\x03 \x02(\x05\x12\x11\n\torderType\x18\x04 \x02(\x05\x12\x0c\n\x04\x63ode\x18\x05 \x02(\t\x12\x0b\n\x03qty\x18\x06 \x02(\x01\x12\r\n\x05price\x18\x07 \x01(\x01\x12\x13\n\x0b\x61\x64justPrice\x18\x08 \x01(\x08\x12\x1a\n\x12\x61\x64justSideAndLimit\x18\t \x01(\x01\"=\n\x03S2C\x12%\n\x06header\x18\x01 \x02(\x0b\x32\x15.Trd_Common.TrdHeader\x12\x0f\n\x07orderID\x18\x02 \x01(\x04\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Trd_PlaceOrder.C2S\"d\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12 \n\x03s2c\x18\x04 \x01(\x0b\x32\x13.Trd_PlaceOrder.S2C')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,Trd__Common__pb2.DESCRIPTOR,])
 
@@ -50,57 +50,50 @@ _C2S = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='trdMarket', full_name='Trd_PlaceOrder.C2S.trdMarket', index=2,
+      name='trdSide', full_name='Trd_PlaceOrder.C2S.trdSide', index=2,
       number=3, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='trdSide', full_name='Trd_PlaceOrder.C2S.trdSide', index=3,
+      name='orderType', full_name='Trd_PlaceOrder.C2S.orderType', index=3,
       number=4, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='orderType', full_name='Trd_PlaceOrder.C2S.orderType', index=4,
-      number=5, type=5, cpp_type=1, label=2,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='code', full_name='Trd_PlaceOrder.C2S.code', index=5,
-      number=6, type=9, cpp_type=9, label=2,
+      name='code', full_name='Trd_PlaceOrder.C2S.code', index=4,
+      number=5, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='qty', full_name='Trd_PlaceOrder.C2S.qty', index=6,
-      number=7, type=1, cpp_type=5, label=2,
+      name='qty', full_name='Trd_PlaceOrder.C2S.qty', index=5,
+      number=6, type=1, cpp_type=5, label=2,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='price', full_name='Trd_PlaceOrder.C2S.price', index=7,
-      number=8, type=1, cpp_type=5, label=1,
+      name='price', full_name='Trd_PlaceOrder.C2S.price', index=6,
+      number=7, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='adjustPrice', full_name='Trd_PlaceOrder.C2S.adjustPrice', index=8,
-      number=9, type=8, cpp_type=7, label=1,
+      name='adjustPrice', full_name='Trd_PlaceOrder.C2S.adjustPrice', index=7,
+      number=8, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='adjustSideAndLimit', full_name='Trd_PlaceOrder.C2S.adjustSideAndLimit', index=9,
-      number=10, type=1, cpp_type=5, label=1,
+      name='adjustSideAndLimit', full_name='Trd_PlaceOrder.C2S.adjustSideAndLimit', index=8,
+      number=9, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -118,7 +111,7 @@ _C2S = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=73,
-  serialized_end=299,
+  serialized_end=280,
 )
 
 
@@ -155,8 +148,8 @@ _S2C = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=301,
-  serialized_end=362,
+  serialized_start=282,
+  serialized_end=343,
 )
 
 
@@ -186,8 +179,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=364,
-  serialized_end=407,
+  serialized_start=345,
+  serialized_end=388,
 )
 
 
@@ -238,8 +231,8 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=409,
-  serialized_end=509,
+  serialized_start=390,
+  serialized_end=490,
 )
 
 _C2S.fields_by_name['packetID'].message_type = Common__pb2._PACKETID

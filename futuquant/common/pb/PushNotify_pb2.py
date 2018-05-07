@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='PushNotify.proto',
   package='PushNotify',
   syntax='proto2',
-  serialized_pb=_b('\n\x10PushNotify.proto\x12\nPushNotify\x1a\x0c\x43ommon.proto\"+\n\x08GtwEvent\x12\x11\n\teventType\x18\x01 \x02(\x05\x12\x0c\n\x04\x64\x65sc\x18\x02 \x02(\t\"8\n\x03S2C\x12\x0c\n\x04type\x18\x01 \x02(\x05\x12#\n\x05\x65vent\x18\x02 \x01(\x0b\x32\x14.PushNotify.GtwEvent\"`\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\x1c\n\x03s2c\x18\x04 \x01(\x0b\x32\x0f.PushNotify.S2C*:\n\nNotifyType\x12\x13\n\x0fNotifyType_None\x10\x00\x12\x17\n\x13NotifyType_GtwEvent\x10\x01*\xd6\x03\n\x0cGtwEventType\x12\x15\n\x11GtwEventType_None\x10\x00\x12#\n\x1fGtwEventType_LocalCfgLoadFailed\x10\x01\x12 \n\x1cGtwEventType_APISvrRunFailed\x10\x02\x12\x1c\n\x18GtwEventType_ForceUpdate\x10\x03\x12\x1c\n\x18GtwEventType_LoginFailed\x10\x04\x12\"\n\x1eGtwEventType_UnAgreeDisclaimer\x10\x05\x12\x1e\n\x1aGtwEventType_NetCfgMissing\x10\x06\x12\x1a\n\x16GtwEventType_KickedOut\x10\x07\x12 \n\x1cGtwEventType_LoginPwdChanged\x10\x08\x12 \n\x1cGtwEventType_TradePwdChanged\x10\t\x12\x19\n\x15GtwEventType_BanLogin\x10\n\x12\"\n\x1eGtwEventType_NeedPicVerifyCode\x10\x0b\x12$\n GtwEventType_NeedPhoneVerifyCode\x10\x0c\x12#\n\x1fGtwEventType_NessaryDataMissing\x10\r')
+  serialized_pb=_b('\n\x10PushNotify.proto\x12\nPushNotify\x1a\x0c\x43ommon.proto\"+\n\x08GtwEvent\x12\x11\n\teventType\x18\x01 \x02(\x05\x12\x0c\n\x04\x64\x65sc\x18\x02 \x02(\t\"8\n\x03S2C\x12\x0c\n\x04type\x18\x01 \x02(\x05\x12#\n\x05\x65vent\x18\x02 \x01(\x0b\x32\x14.PushNotify.GtwEvent\"`\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\x1c\n\x03s2c\x18\x04 \x01(\x0b\x32\x0f.PushNotify.S2C*:\n\nNotifyType\x12\x13\n\x0fNotifyType_None\x10\x00\x12\x17\n\x13NotifyType_GtwEvent\x10\x01*\xf8\x03\n\x0cGtwEventType\x12\x15\n\x11GtwEventType_None\x10\x00\x12#\n\x1fGtwEventType_LocalCfgLoadFailed\x10\x01\x12 \n\x1cGtwEventType_APISvrRunFailed\x10\x02\x12\x1c\n\x18GtwEventType_ForceUpdate\x10\x03\x12\x1c\n\x18GtwEventType_LoginFailed\x10\x04\x12\"\n\x1eGtwEventType_UnAgreeDisclaimer\x10\x05\x12\x1e\n\x1aGtwEventType_NetCfgMissing\x10\x06\x12\x1a\n\x16GtwEventType_KickedOut\x10\x07\x12 \n\x1cGtwEventType_LoginPwdChanged\x10\x08\x12\x19\n\x15GtwEventType_BanLogin\x10\t\x12\"\n\x1eGtwEventType_NeedPicVerifyCode\x10\n\x12$\n GtwEventType_NeedPhoneVerifyCode\x10\x0b\x12 \n\x1cGtwEventType_AppDataNotExist\x10\x0c\x12#\n\x1fGtwEventType_NessaryDataMissing\x10\r\x12 \n\x1cGtwEventType_TradePwdChanged\x10\x0e')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,])
 
@@ -91,30 +91,34 @@ _GTWEVENTTYPE = _descriptor.EnumDescriptor(
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='GtwEventType_TradePwdChanged', index=9, number=9,
+      name='GtwEventType_BanLogin', index=9, number=9,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='GtwEventType_BanLogin', index=10, number=10,
+      name='GtwEventType_NeedPicVerifyCode', index=10, number=10,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='GtwEventType_NeedPicVerifyCode', index=11, number=11,
+      name='GtwEventType_NeedPhoneVerifyCode', index=11, number=11,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='GtwEventType_NeedPhoneVerifyCode', index=12, number=12,
+      name='GtwEventType_AppDataNotExist', index=12, number=12,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GtwEventType_NessaryDataMissing', index=13, number=13,
       options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='GtwEventType_TradePwdChanged', index=14, number=14,
+      options=None,
+      type=None),
   ],
   containing_type=None,
   options=None,
   serialized_start=308,
-  serialized_end=778,
+  serialized_end=812,
 )
 _sym_db.RegisterEnumDescriptor(_GTWEVENTTYPE)
 
@@ -130,11 +134,12 @@ GtwEventType_UnAgreeDisclaimer = 5
 GtwEventType_NetCfgMissing = 6
 GtwEventType_KickedOut = 7
 GtwEventType_LoginPwdChanged = 8
-GtwEventType_TradePwdChanged = 9
-GtwEventType_BanLogin = 10
-GtwEventType_NeedPicVerifyCode = 11
-GtwEventType_NeedPhoneVerifyCode = 12
+GtwEventType_BanLogin = 9
+GtwEventType_NeedPicVerifyCode = 10
+GtwEventType_NeedPhoneVerifyCode = 11
+GtwEventType_AppDataNotExist = 12
 GtwEventType_NessaryDataMissing = 13
+GtwEventType_TradePwdChanged = 14
 
 
 

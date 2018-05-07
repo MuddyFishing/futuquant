@@ -20,11 +20,12 @@ enum GtwEventType
 	GtwEventType_NetCfgMissing = 6; //缺少必要网络配置信息;例如控制订阅额度
 	GtwEventType_KickedOut = 7; //牛牛帐号在别处登录
 	GtwEventType_LoginPwdChanged = 8; //登录密码被修改
-	GtwEventType_TradePwdChanged = 9; //登录密码被修改
-	GtwEventType_BanLogin = 10; //用户被禁止登录
-	GtwEventType_NeedPicVerifyCode = 11; //需要图形验证码
-	GtwEventType_NeedPhoneVerifyCode = 12; //需要手机验证码
+	GtwEventType_BanLogin = 9; //用户被禁止登录
+	GtwEventType_NeedPicVerifyCode = 10; //需要图形验证码
+	GtwEventType_NeedPhoneVerifyCode = 11; //需要手机验证码
+	GtwEventType_AppDataNotExist = 12; //程序自带数据不存在
 	GtwEventType_NessaryDataMissing = 13; //缺少必要数据
+	GtwEventType_TradePwdChanged = 14; //交易密码被修改
 }
 
 message GtwEvent

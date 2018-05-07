@@ -8,7 +8,8 @@ message C2S
 {
 	repeated Qot_Common.Stock stock = 1; //股票
 	repeated int32 subType = 2; //Qot_Common.SubType,要注册到该连接的订阅类型
-	required bool isRegOrUnReg = 3; //注册或取消
+	repeated int32 rehabType = 3; //Qot_Common.RehabType,复权类型,注册K线类型才生效,其他订阅类型忽略该参数,注册K线时该参数不指定默认前复权
+	required bool isRegOrUnReg = 4; //注册或取消
 }
 
 message S2C

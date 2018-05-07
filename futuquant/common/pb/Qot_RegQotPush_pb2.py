@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_RegQotPush.proto',
   package='Qot_RegQotPush',
   syntax='proto2',
-  serialized_pb=_b('\n\x14Qot_RegQotPush.proto\x12\x0eQot_RegQotPush\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"N\n\x03\x43\x32S\x12 \n\x05stock\x18\x01 \x03(\x0b\x32\x11.Qot_Common.Stock\x12\x0f\n\x07subType\x18\x02 \x03(\x05\x12\x14\n\x0cisRegOrUnReg\x18\x03 \x02(\x08\"\x05\n\x03S2C\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Qot_RegQotPush.C2S\"d\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12 \n\x03s2c\x18\x04 \x01(\x0b\x32\x13.Qot_RegQotPush.S2C')
+  serialized_pb=_b('\n\x14Qot_RegQotPush.proto\x12\x0eQot_RegQotPush\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"a\n\x03\x43\x32S\x12 \n\x05stock\x18\x01 \x03(\x0b\x32\x11.Qot_Common.Stock\x12\x0f\n\x07subType\x18\x02 \x03(\x05\x12\x11\n\trehabType\x18\x03 \x03(\x05\x12\x14\n\x0cisRegOrUnReg\x18\x04 \x02(\x08\"\x05\n\x03S2C\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Qot_RegQotPush.C2S\"d\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12 \n\x03s2c\x18\x04 \x01(\x0b\x32\x13.Qot_RegQotPush.S2C')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
 
@@ -50,8 +50,15 @@ _C2S = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='isRegOrUnReg', full_name='Qot_RegQotPush.C2S.isRegOrUnReg', index=2,
-      number=3, type=8, cpp_type=7, label=2,
+      name='rehabType', full_name='Qot_RegQotPush.C2S.rehabType', index=2,
+      number=3, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='isRegOrUnReg', full_name='Qot_RegQotPush.C2S.isRegOrUnReg', index=3,
+      number=4, type=8, cpp_type=7, label=2,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -69,7 +76,7 @@ _C2S = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=72,
-  serialized_end=150,
+  serialized_end=169,
 )
 
 
@@ -92,8 +99,8 @@ _S2C = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=152,
-  serialized_end=157,
+  serialized_start=171,
+  serialized_end=176,
 )
 
 
@@ -123,8 +130,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=159,
-  serialized_end=202,
+  serialized_start=178,
+  serialized_end=221,
 )
 
 
@@ -175,8 +182,8 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=204,
-  serialized_end=304,
+  serialized_start=223,
+  serialized_end=323,
 )
 
 _C2S.fields_by_name['stock'].message_type = Qot__Common__pb2._STOCK

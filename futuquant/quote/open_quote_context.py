@@ -14,9 +14,8 @@ from futuquant.quote.quote_query import *
 class OpenQuoteContext(OpenContextBase):
     """Class for set context of stock quote"""
 
-    def __init__(self, host='127.0.0.1', port=11111, proto_fmt = ProtoFMT.Json):
+    def __init__(self, host='127.0.0.1', port=11111):
         self._ctx_subscribe = set()
-        set_proto_fmt(proto_fmt)
         super(OpenQuoteContext, self).__init__(host, port, True, True)
 
     def close(self):
@@ -28,14 +27,16 @@ class OpenQuoteContext(OpenContextBase):
     def on_api_socket_reconnected(self):
         """for API socket reconnected"""
         # auto subscribe
-        set_sub = self._ctx_subscribe.copy()
-        for (stock_code, data_type, push) in set_sub:
-            for i in range(3):
-                ret, _ = self.subscribe(stock_code, data_type, push)
-                if ret == 0:
-                    break
-                else:
-                    sleep(1)
+        if len(self._ctx_subscribe):
+            set_sub = self._ctx_subscribe.copy()
+            code_list = []
+            subtype_list = []
+
+            for (code, data_type) in set_sub:
+                code_list.append(code)
+                subtype_list.append(data_type)
+
+            ret, _ = self.subscribe(code_list, subtype_list)
 
     def get_trading_days(self, market, start_date=None, end_date=None):
         """get the trading days"""
@@ -81,12 +82,12 @@ class OpenQuoteContext(OpenContextBase):
         kargs = {"market": market, 'stock_type': stock_type}
 
         ret_code, msg, basic_info_list = query_processor(**kargs)
-        if ret_code == RET_ERROR:
+        if ret_code != RET_OK:
             return ret_code, msg
 
         col_list = [
             'code', 'name', 'lot_size', 'stock_type', 'stock_child_type',
-            "owner_stock_code", "listing_date", "stockid"
+            "stock_owner", "listing_date", "stock_id"
         ]
 
         basic_info_table = pd.DataFrame(basic_info_list, columns=col_list)
@@ -169,7 +170,7 @@ class OpenQuoteContext(OpenContextBase):
         # 循环请求数据，避免一次性取太多超时
         while not data_finish:
             kargs = {
-                "stock_str": code,
+                "code": code,
                 "start_date": req_start,
                 "end_date": end,
                 "ktype": ktype,
@@ -299,7 +300,7 @@ class OpenQuoteContext(OpenContextBase):
 
         query_processor = self._get_sync_query_processor(
             RtDataQuery.pack_req, RtDataQuery.unpack_rsp)
-        kargs = {"stock_str": code}
+        kargs = {"code": code}
 
         ret_code, msg, rt_data_list = query_processor(**kargs)
         if ret_code == RET_ERROR:
@@ -309,7 +310,7 @@ class OpenQuoteContext(OpenContextBase):
             x['code'] = code
 
         col_list = [
-            'code', 'time', 'data_status', 'opened_mins', 'cur_price',
+            'code', 'time', 'is_blank', 'opened_mins', 'cur_price',
             'last_close', 'avg_price', 'volume', 'turnover'
         ]
 
@@ -351,7 +352,7 @@ class OpenQuoteContext(OpenContextBase):
     def get_plate_stock(self, plate_code):
         """get the stock of the given plate"""
         if plate_code is None or is_str(plate_code) is False:
-            error_str = ERROR_STR_PREFIX + "the type of stock_code is wrong"
+            error_str = ERROR_STR_PREFIX + "the type of code is wrong"
             return RET_ERROR, error_str
 
         query_processor = self._get_sync_query_processor(
@@ -363,8 +364,8 @@ class OpenQuoteContext(OpenContextBase):
             return ret_code, msg
 
         col_list = [
-            'code', 'lot_size', 'stock_name', 'owner_market',
-            'stock_child_type', 'stock_type', 'list_time'
+            'code', 'lot_size', 'stock_name', 'stock_owner',
+            'stock_child_type', 'stock_type', 'list_time', 'stock_id',
         ]
         plate_stock_table = pd.DataFrame(plate_stock_list, columns=col_list)
 
@@ -378,10 +379,9 @@ class OpenQuoteContext(OpenContextBase):
 
         query_processor = self._get_sync_query_processor(
             BrokerQueueQuery.pack_req, BrokerQueueQuery.unpack_rsp)
-        kargs = {"stock_str": code}
+        kargs = {"code": code}
 
         ret_code, bid_list, ask_list = query_processor(**kargs)
-        logger.debug(bid_list)
         if ret_code == RET_ERROR:
             return ret_code, ERROR_STR_PREFIX, EMPTY_STRING
 
@@ -396,116 +396,141 @@ class OpenQuoteContext(OpenContextBase):
         ask_frame_table = pd.DataFrame(ask_list, columns=col_ask_list)
         return RET_OK, bid_frame_table, ask_frame_table
 
-    def subscribe(self, stock_code, data_type, push=False):
+    def _check_subscribe_param(self, code_list, subtype_list):
+        if not isinstance(code_list, list):
+            code_list = [code_list]
+        if not isinstance(subtype_list, list):
+            subtype_list = [subtype_list]
+
+        if len(code_list) != len(subtype_list):
+            return RET_ERROR, ERROR_STR_PREFIX + "code_list subtype_list must be same length!", code_list, subtype_list
+
+        for subtype in subtype_list:
+            if subtype not in SUBTYPE_MAP:
+                subtype_str = ','.join([x for x in SUBTYPE_MAP])
+                msg = ERROR_STR_PREFIX + 'subtype is %s , which is wrong. (%s)' % (
+                    subtype, subtype_str)
+                return RET_ERROR, msg, code_list, subtype_list
+
+        for code in code_list:
+            ret, msg = split_stock_str(code)
+            if ret != RET_OK:
+                return RET_ERROR, msg, code_list, subtype_list
+
+        return RET_OK, "", code_list, subtype_list
+
+    def subscribe(self, code_list, subtype_list):
         """
-        subscribe a sort of data for a stock
-        :param stock_code: string stock_code . For instance, "HK.00700", "US.AAPL"
-        :param data_type: string  data type. For instance, "K_1M", "K_MON"
-        :param push: push option
-        :return: (ret_code, ret_data). ret_code: RET_OK or RET_ERROR.
-        """
-        if not isinstance(stock_code, list):
-            stock_code = [stock_code]
-        if not isinstance(data_type, list):
-            data_type = [data_type]
-
-        param_table = {'stock_code': stock_code, 'data_type': data_type}
-        for x in param_table:
-            param = param_table[x]
-            if param is None or isinstance(param, list) is False:
-                error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
-                return RET_ERROR, error_str
-        query_processor = self._get_sync_query_processor(
-            SubscriptionQuery.pack_subscribe_req,
-            SubscriptionQuery.unpack_subscribe_rsp)
-
-        # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {'stock_str': stock_code, 'data_type': data_type}
-        ret_code, msg, _ = query_processor(**kargs)
-
-        # update subscribe context info
-        sub_obj = (str(stock_code), str(data_type), bool(push))
-        self._ctx_subscribe.add(sub_obj)
-
-        if ret_code != RET_OK:
-            return RET_ERROR, msg
-
-        if push:
-            ret_code, msg, push_req_str = SubscriptionQuery.pack_push_req(
-                stock_code, data_type)
-
-            if ret_code != RET_OK:
-                return RET_ERROR, msg
-
-            ret_code, msg = self._send_async_req(push_req_str)
-            if ret_code != RET_OK:
-                return RET_ERROR, msg
-
-        return RET_OK, None
-
-    def unsubscribe(self, stock_code, data_type, unpush=True):
-        """
-        unsubcribe a sort of data for a stock
-        :param stock_code: string stock_code . For instance, "HK.00700", "US.AAPL"
-        :param data_type: string  data type. For instance, "K_1M", "K_MON"
-        :param unpush: bool
-        :return: (ret_code, ret_data). ret_code: RET_OK or RET_ERROR.
-        """
-
-        param_table = {'stock_code': stock_code, 'data_type': data_type}
-        for x in param_table:
-            param = param_table[x]
-            if param is None or is_str(param) is False:
-                error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
-                return RET_ERROR, error_str
-
-        query_processor = self._get_sync_query_processor(
-            SubscriptionQuery.pack_unsubscribe_req,
-            SubscriptionQuery.unpack_unsubscribe_rsp)
-        # the keys of kargs should be corresponding to the actual function arguments
-        kargs = {'stock_str': stock_code, 'data_type': data_type}
-
-        # update subscribe context info
-        unsub_obj1 = (str(stock_code), str(data_type), True)
-        unsub_obj2 = (str(stock_code), str(data_type), False)
-        if unsub_obj1 in self._ctx_subscribe:
-            self._ctx_subscribe.remove(unsub_obj1)
-        if unsub_obj2 in self._ctx_subscribe:
-            self._ctx_subscribe.remove(unsub_obj2)
-
-        ret_code, msg, _ = query_processor(**kargs)
-
-        if ret_code != RET_OK:
-            return RET_ERROR, msg
-
-        if unpush:
-            ret_code, msg, unpush_req_str = SubscriptionQuery.pack_unpush_req(
-                stock_code, data_type)
-
-            if ret_code != RET_OK:
-                return RET_ERROR, msg
-
-            ret_code, msg = self._send_async_req(unpush_req_str)
-            if ret_code != RET_OK:
-                return RET_ERROR, msg
-
-        return RET_OK, None
-
-    def query_subscription(self, query=0):
-        """
-        get the current subscription table
+        :param code_list:
+        :param subtype_list:
         :return:
         """
+        ret, msg, code_list, subtype_list = self._check_subscribe_param(code_list, subtype_list)
+        if ret != RET_OK:
+            return ret, msg
+
+        query_processor = self._get_sync_query_processor(SubscriptionQuery.pack_subscribe_req,
+                                                         SubscriptionQuery.unpack_subscribe_rsp)
+
+        kargs = {'code_list': code_list, 'subtype_list': subtype_list}
+        ret_code, msg, _ = query_processor(**kargs)
+
+        for (code, subtype) in zip(code_list, subtype_list):
+            self._ctx_subscribe.add((code, subtype))
+
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
+
+        ret_code, msg, push_req_str = SubscriptionQuery.pack_push_req(
+            code_list, subtype_list)
+
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
+
+        ret_code, msg = self._send_async_req(push_req_str)
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
+
+        return RET_OK, None
+
+    def unsubscribe(self, code_list, subtype_list):
+
+        ret, msg, code_list, subtype_list = self._check_subscribe_param(code_list, subtype_list)
+        if ret != RET_OK:
+            return ret, msg
+
+        query_processor = self._get_sync_query_processor(SubscriptionQuery.pack_unsubscribe_req,
+                                                         SubscriptionQuery.unpack_unsubscribe_rsp)
+
+        kargs = {'code_list': code_list, 'subtype_list': subtype_list}
+
+        for (code, subtype) in zip(code_list, subtype_list):
+            self._ctx_subscribe.remove((code, subtype))
+
+        ret_code, msg, _ = query_processor(**kargs)
+
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
+
+        ret_code, msg, unpush_req_str = SubscriptionQuery.pack_unpush_req(code_list, subtype_list)
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
+
+        ret_code, msg = self._send_async_req(unpush_req_str)
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
+
+        return RET_OK, None
+
+    def query_subscription(self, is_all_conn=True):
+        """
+        get the current subscription table
+        :return: (ret, content)  ret != 0 返回错误字符串
+                                ret == 0 返回 定阅信息的字典数据 ，格式如下:
+            {'total_used': 4,    # 所有连接已使用的定阅额度
+            'own_used': 0,       # 当前连接已使用的定阅额度
+            'remain': 496,       #  剩余的定阅额度
+            'sub_list':          #  每种定阅类型对应的股票列表
+                {'BROKER': ['HK.00700', 'HK.02318'],
+                'RT_DATA': ['HK.00700', 'HK.02318']
+                }
+            }
+        """
+        is_all_conn = bool(is_all_conn)
         query_processor = self._get_sync_query_processor(
             SubscriptionQuery.pack_subscription_query_req,
             SubscriptionQuery.unpack_subscription_query_rsp)
-        kargs = {"query": query}
+        kargs = {"is_all_conn": is_all_conn}
 
-        ret_code, msg, subscription_table = query_processor(**kargs)
+        ret_code, msg, sub_table = query_processor(**kargs)
         if ret_code == RET_ERROR:
             return ret_code, msg
 
-        return RET_OK, subscription_table
+        ret_dict = {}
+        ret_dict['total_used'] = sub_table['total_used']
+        ret_dict['remain'] = sub_table['remain']
+        ret_dict['own_used'] = 0
+        ret_dict['sub_list'] = {}
+        for conn_sub in sub_table['conn_sub_list']:
+
+            is_own_conn = conn_sub['is_own_conn']
+            if is_own_conn:
+                ret_dict['own_used'] = conn_sub['used']
+            if not is_all_conn and not is_own_conn:
+                continue
+
+            for sub_info in conn_sub['sub_list']:
+                subtype = sub_info['subtype']
+
+                if subtype not in ret_dict['sub_list']:
+                    ret_dict['sub_list'][subtype] = []
+                code_list = ret_dict['sub_list'][subtype]
+
+                for code in sub_info['code_list']:
+                    if code not in code_list:
+                        code_list.append(code)
+
+        return RET_OK, ret_dict
 
     def get_stock_quote(self, code_list):
         """
@@ -565,7 +590,7 @@ class OpenQuoteContext(OpenContextBase):
             TickerQuery.pack_req,
             TickerQuery.unpack_rsp,
         )
-        kargs = {"stock_str": code, "num": num}
+        kargs = {"code": code, "num": num}
         ret_code, msg, ticker_list = query_processor(**kargs)
         if ret_code == RET_ERROR:
             return ret_code, msg
@@ -608,7 +633,7 @@ class OpenQuoteContext(OpenContextBase):
         )
 
         kargs = {
-            "stock_str": code,
+            "code": code,
             "num": num,
             "ktype": ktype,
             "autype": autype
@@ -636,14 +661,14 @@ class OpenQuoteContext(OpenContextBase):
             OrderBookQuery.unpack_rsp,
         )
 
-        kargs = {"stock_str": code}
+        kargs = {"code": code}
         ret_code, msg, orderbook = query_processor(**kargs)
         if ret_code == RET_ERROR:
             return ret_code, msg
 
         return RET_OK, orderbook
 
-    def get_suspension_info(self, codes, start='', end=''):
+    def get_suspension_info(self, code_list, start='', end=''):
         '''
         指定时间段，获某一支股票的停牌日期
         :param codes: 股票code
@@ -652,8 +677,8 @@ class OpenQuoteContext(OpenContextBase):
         :return: (ret, data) ret == 0 data为pd dataframe数据， 表头'code' 'suspension_dates'(逗号分隔的多个日期字符串)
                          ret != 0 data为错误字符串
         '''
-        req_codes = unique_and_normalize_list(codes)
-        if not codes:
+        req_codes = unique_and_normalize_list(code_list)
+        if not code_list:
             error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
             return RET_ERROR, error_str
 
@@ -662,7 +687,7 @@ class OpenQuoteContext(OpenContextBase):
             SuspensionQuery.unpack_rsp,
         )
 
-        kargs = {"codes": req_codes, "start": str(start), "end": str(end)}
+        kargs = {"code_list": req_codes, "start": str(start), "end": str(end)}
         ret_code, msg, susp_list = query_processor(**kargs)
         if ret_code == RET_ERROR:
             return ret_code, msg
@@ -672,7 +697,7 @@ class OpenQuoteContext(OpenContextBase):
         return RET_OK, pd_frame
 
     def get_multi_points_history_kline(self,
-                                       codes,
+                                       code_list,
                                        dates,
                                        fields,
                                        ktype=KLType.K_DAY,
@@ -680,16 +705,16 @@ class OpenQuoteContext(OpenContextBase):
                                        no_data_mode=KLNoDataMode.FORWARD):
         '''
         获取多支股票多个时间点的指定数据列
-        :param codes: 单个或多个股票 'HK.00700'  or  ['HK.00700', 'HK.00001']
+        :param code_list: 单个或多个股票 'HK.00700'  or  ['HK.00700', 'HK.00001']
         :param dates: 单个或多个日期 '2017-01-01' or ['2017-01-01', '2017-01-02']
         :param fields:单个或多个数据列 KL_FIELD.ALL or [KL_FIELD.DATE_TIME, KL_FIELD.OPEN]
         :param ktype: K线类型
         :param autype:复权类型
         :param no_data_mode: 指定时间为非交易日时，对应的k线数据取值模式，
-        :return: pd frame 表头与指定的数据列相关， 固定表头包括'code'(代码) 'time_point'(指定的日期) 'data_valid' (0=无数据 1=请求点有数据 2=请求点无数据，取前一个)
+        :return: pd frame 表头与指定的数据列相关， 固定表头包括'code'(代码) 'time_point'(指定的日期) 'data_status' (KLDataStatus)
         '''
-        req_codes = unique_and_normalize_list(codes)
-        if not codes:
+        req_codes = unique_and_normalize_list(code_list)
+        if not code_list:
             error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
             return RET_ERROR, error_str
 
@@ -708,29 +733,23 @@ class OpenQuoteContext(OpenContextBase):
 
         query_processor = self._get_sync_query_processor(
             MultiPointsHisKLine.pack_req, MultiPointsHisKLine.unpack_rsp)
-        all_num = max(1, len(req_dates) * len(req_codes))
-        one_num = max(1, len(req_dates))
-        max_data_num = 500
-        max_kl_num = all_num if all_num <= max_data_num else int(
-            max_data_num / one_num) * one_num
-        if 0 == max_kl_num:
-            error_str = ERROR_STR_PREFIX + "too much data to req"
-            return RET_ERROR, error_str
+
+        # 一次性最多取100支股票的数据
+        max_req_code_num = 50
 
         data_finish = False
         list_ret = []
         # 循环请求数据，避免一次性取太多超时
         while not data_finish:
-            logger.debug('get_multi_points_history_kline - wait ... %s' %
-                  datetime.now())
+            logger.debug('get_multi_points_history_kline - wait ... %s' % datetime.now())
             kargs = {
-                "codes": req_codes,
+                "code_list": req_codes,
                 "dates": req_dates,
                 "fields": copy(req_fields),
                 "ktype": ktype,
                 "autype": autype,
-                "max_num": max_kl_num,
-                "no_data_mode": no_data_mode
+                "max_req": max_req_code_num,
+                "no_data_mode": int(no_data_mode)
             }
             ret_code, msg, content = query_processor(**kargs)
             if ret_code == RET_ERROR:
@@ -738,16 +757,18 @@ class OpenQuoteContext(OpenContextBase):
 
             list_kline, has_next = content
             data_finish = (not has_next)
+
             for dict_item in list_kline:
                 item_code = dict_item['code']
-                if has_next and item_code in req_codes:
-                    req_codes.remove(item_code)
                 list_ret.append(dict_item)
+                if item_code in req_codes:
+                    req_codes.remove(item_code)
+
             if 0 == len(req_codes):
                 data_finish = True
 
         # 表头列
-        col_list = ['code', 'time_point', 'data_valid']
+        col_list = ['code', 'time_point', 'data_status']
         for field in req_fields:
             str_field = KL_FIELD.DICT_KL_FIELD_STR[field]
             if str_field not in col_list:
@@ -756,3 +777,19 @@ class OpenQuoteContext(OpenContextBase):
         pd_frame = pd.DataFrame(list_ret, columns=col_list)
 
         return RET_OK, pd_frame
+
+    def get_global_state(self):
+        """
+        get api server(exe) global state
+        :return: RET_OK, state_dict | err_code, msg
+        """
+        query_processor = self._get_sync_query_processor(
+            GlobalStateQuery.pack_req, GlobalStateQuery.unpack_rsp)
+
+        kargs = {"user_id": self.get_login_user_id()}
+        ret_code, msg, state_dict = query_processor(**kargs)
+        if ret_code != RET_OK:
+            return ret_code, msg
+
+        return RET_OK, state_dict
+

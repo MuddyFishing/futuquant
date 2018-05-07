@@ -22,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_HistoryKLPoints.proto',
   package='Qot_HistoryKLPoints',
   syntax='proto2',
-  serialized_pb=_b('\n\x19Qot_HistoryKLPoints.proto\x12\x13Qot_HistoryKLPoints\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"\x9b\x01\n\x03\x43\x32S\x12\x11\n\trehabType\x18\x01 \x02(\x05\x12\x0e\n\x06klType\x18\x02 \x02(\x05\x12\x12\n\nnoDataMode\x18\x03 \x02(\x05\x12 \n\x05stock\x18\x04 \x03(\x0b\x32\x11.Qot_Common.Stock\x12\x0c\n\x04time\x18\x05 \x03(\t\x12\x13\n\x0bmaxAckKLNum\x18\x06 \x01(\x05\x12\x18\n\x10needKLFieldsFlag\x18\x07 \x01(\x03\"Q\n\x0fHistoryPointsKL\x12\x0e\n\x06status\x18\x01 \x02(\x05\x12\x0f\n\x07reqTime\x18\x02 \x02(\t\x12\x1d\n\x02kl\x18\x03 \x02(\x0b\x32\x11.Qot_Common.KLine\"j\n\x14StockHistoryKLPoints\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\x12\x30\n\x02kl\x18\x02 \x03(\x0b\x32$.Qot_HistoryKLPoints.HistoryPointsKL\"S\n\x03S2C\x12;\n\x08klPoints\x18\x01 \x03(\x0b\x32).Qot_HistoryKLPoints.StockHistoryKLPoints\x12\x0f\n\x07hasNext\x18\x02 \x01(\x08\"0\n\x07Request\x12%\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x18.Qot_HistoryKLPoints.C2S\"i\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12%\n\x03s2c\x18\x04 \x01(\x0b\x32\x18.Qot_HistoryKLPoints.S2C*R\n\nNoDataMode\x12\x13\n\x0fNoDataMode_Null\x10\x00\x12\x16\n\x12NoDataMode_Forward\x10\x01\x12\x17\n\x13NoDataMode_Backward\x10\x02*g\n\nDataStatus\x12\x13\n\x0f\x44\x61taStatus_Null\x10\x00\x12\x16\n\x12\x44\x61taStatus_Current\x10\x01\x12\x17\n\x13\x44\x61taStatus_Previous\x10\x02\x12\x13\n\x0f\x44\x61taStatus_Back\x10\x03')
+  serialized_pb=_b('\n\x19Qot_HistoryKLPoints.proto\x12\x13Qot_HistoryKLPoints\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"\x9e\x01\n\x03\x43\x32S\x12\x11\n\trehabType\x18\x01 \x02(\x05\x12\x0e\n\x06klType\x18\x02 \x02(\x05\x12\x12\n\nnoDataMode\x18\x03 \x02(\x05\x12 \n\x05stock\x18\x04 \x03(\x0b\x32\x11.Qot_Common.Stock\x12\x0c\n\x04time\x18\x05 \x03(\t\x12\x16\n\x0emaxReqStockNum\x18\x06 \x01(\x05\x12\x18\n\x10needKLFieldsFlag\x18\x07 \x01(\x03\"Q\n\x0fHistoryPointsKL\x12\x0e\n\x06status\x18\x01 \x02(\x05\x12\x0f\n\x07reqTime\x18\x02 \x02(\t\x12\x1d\n\x02kl\x18\x03 \x02(\x0b\x32\x11.Qot_Common.KLine\"j\n\x14StockHistoryKLPoints\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\x12\x30\n\x02kl\x18\x02 \x03(\x0b\x32$.Qot_HistoryKLPoints.HistoryPointsKL\"S\n\x03S2C\x12;\n\x08klPoints\x18\x01 \x03(\x0b\x32).Qot_HistoryKLPoints.StockHistoryKLPoints\x12\x0f\n\x07hasNext\x18\x02 \x01(\x08\"0\n\x07Request\x12%\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x18.Qot_HistoryKLPoints.C2S\"i\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12%\n\x03s2c\x18\x04 \x01(\x0b\x32\x18.Qot_HistoryKLPoints.S2C*R\n\nNoDataMode\x12\x13\n\x0fNoDataMode_Null\x10\x00\x12\x16\n\x12NoDataMode_Forward\x10\x01\x12\x17\n\x13NoDataMode_Backward\x10\x02*g\n\nDataStatus\x12\x13\n\x0f\x44\x61taStatus_Null\x10\x00\x12\x16\n\x12\x44\x61taStatus_Current\x10\x01\x12\x17\n\x13\x44\x61taStatus_Previous\x10\x02\x12\x13\n\x0f\x44\x61taStatus_Back\x10\x03')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
 
@@ -47,8 +47,8 @@ _NODATAMODE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=673,
-  serialized_end=755,
+  serialized_start=676,
+  serialized_end=758,
 )
 _sym_db.RegisterEnumDescriptor(_NODATAMODE)
 
@@ -78,8 +78,8 @@ _DATASTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=757,
-  serialized_end=860,
+  serialized_start=760,
+  serialized_end=863,
 )
 _sym_db.RegisterEnumDescriptor(_DATASTATUS)
 
@@ -137,7 +137,7 @@ _C2S = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='maxAckKLNum', full_name='Qot_HistoryKLPoints.C2S.maxAckKLNum', index=5,
+      name='maxReqStockNum', full_name='Qot_HistoryKLPoints.C2S.maxReqStockNum', index=5,
       number=6, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -163,7 +163,7 @@ _C2S = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=83,
-  serialized_end=238,
+  serialized_end=241,
 )
 
 
@@ -207,8 +207,8 @@ _HISTORYPOINTSKL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=240,
-  serialized_end=321,
+  serialized_start=243,
+  serialized_end=324,
 )
 
 
@@ -245,8 +245,8 @@ _STOCKHISTORYKLPOINTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=323,
-  serialized_end=429,
+  serialized_start=326,
+  serialized_end=432,
 )
 
 
@@ -283,8 +283,8 @@ _S2C = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=431,
-  serialized_end=514,
+  serialized_start=434,
+  serialized_end=517,
 )
 
 
@@ -314,8 +314,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=516,
-  serialized_end=564,
+  serialized_start=519,
+  serialized_end=567,
 )
 
 
@@ -366,8 +366,8 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=566,
-  serialized_end=671,
+  serialized_start=569,
+  serialized_end=674,
 )
 
 _C2S.fields_by_name['stock'].message_type = Qot__Common__pb2._STOCK

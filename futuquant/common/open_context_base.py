@@ -8,8 +8,8 @@ from futuquant.common.async_network_manager import _AsyncNetworkManager
 from futuquant.common.sync_network_manager import _SyncNetworkQueryCtx
 from futuquant.common.utils import *
 from futuquant.quote.response_handler import HandlerContext
-from futuquant.quote.quote_query import GlobalStateQuery
 from futuquant.quote.quote_query import InitConnect
+from futuquant.quote.response_handler import AsyncHandler_InitConnect
 
 
 class OpenContextBase(object):
@@ -68,7 +68,6 @@ class OpenContextBase(object):
                 return RET_ERROR, msg
             else:
                 self._connect_info = copy(content)
-                set_user_id(self.get_login_user_id())
                 logger.info("init connect ok: {}".format(content))
 
         if self.__async_socket_enable:
@@ -80,6 +79,17 @@ class OpenContextBase(object):
                 return RET_ERROR, msg
 
         return RET_OK, ""
+
+    def on_async_init_connect(self, ret, msg, conn_info_map):
+        """
+        异步socket收到initconnect的回包
+        :param ret:
+        :param msg:
+        :param conn_info_map:
+        :return:
+        """
+        # logger.debug("ret={}, msg={}, conn_info={}".format(ret, msg, conn_info_map))
+        pass
 
     def get_conn_id(self):
         """
@@ -174,33 +184,6 @@ class OpenContextBase(object):
             return self._handlers_ctx.set_pre_handler(handler)
         return RET_ERROR
 
-    def get_global_state(self):
-        """
-        get api server(exe) global state
-        :return: RET_OK, state_dict | err_code, msg
-        """
-
-        query_processor = self._get_sync_query_processor(
-            GlobalStateQuery.pack_req, GlobalStateQuery.unpack_rsp)
-        kargs = {"state_type": 0}
-        ret_code, msg, state_dict = query_processor(**kargs)
-        if ret_code != RET_OK:
-            return ret_code, msg
-        '''
-        state_dict = {
-            'Market_SZ': '6',
-            'Version': '3.42.4965',
-            'Trade_Logined': '1',
-            'TimeStamp': '1523177365',
-            'Market_US': '11',
-            'Quote_Logined': '1',
-            'Market_SH': '6',
-            'Market_HK': '6',
-            'Market_HKFuture': '14'
-        }
-        '''
-        return RET_OK, state_dict
-
     def _is_proc_run(self):
         return self._proc_run
 
@@ -287,6 +270,7 @@ class OpenContextBase(object):
                     self._handlers_ctx = HandlerContext(self._is_proc_run)
                     self._async_ctx = _AsyncNetworkManager(
                         self.__host, self.__port, self._handlers_ctx, self)
+                    self.set_pre_handler(AsyncHandler_InitConnect(self))
                 else:
                     self._async_ctx.reconnect()
 
@@ -320,6 +304,7 @@ class OpenContextBase(object):
                 err = sys.exc_info()[1]
                 logger.debug(err)
 
+    @abstractmethod
     def notify_sync_socket_connected(self, sync_ctxt):
         """
         :param sync_ctxt:
