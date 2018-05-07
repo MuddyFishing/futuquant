@@ -79,7 +79,11 @@ def extract_pls_rsp(rsp_str):
 
 def normalize_date_format(date_str):
     """normalize the format of data"""
-    date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+    if ":" not in date_str:
+        date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+    else:
+        date_obj = datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S")
+
     ret = date_obj.strftime("%Y-%m-%d")
     return ret
 
