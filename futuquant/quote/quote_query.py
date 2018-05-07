@@ -206,13 +206,17 @@ class StockBasicInfoQuery:
         basic_info_list = [{
             "code": merge_qot_mkt_stock_str(record.basic.stock.market,
                                             record.basic.stock.code),
-            "stockid": 0,  # ysq
+            "stock_id": record.basic.id,
             "name": record.basic.name,
             "lot_size": record.basic.lotSize,
-            "stock_type": record.basic.secType,
-            "stock_child_type": record.warrantExData.type,
-            "owner_stock_code": record.warrantExData.ownerStock,
-            "listing_date": record.basic.listTime
+            "stock_type": QUOTE.REV_SEC_TYPE_MAP[record.basic.secType]
+                if record.basic.secType in QUOTE.REV_SEC_TYPE_MAP else SecurityType.NONE,
+            "stock_child_type": QUOTE.REV_WRT_TYPE_MAP[record.warrantExData.type]
+                if record.warrantExData.type in QUOTE.REV_WRT_TYPE_MAP else WrtType.NONE,
+            "stock_owner":merge_qot_mkt_stock_str(
+                    record.warrantExData.ownerStock.market,
+                    record.warrantExData.ownerStock.code) if record.HasField('warrantExData') else "",
+            "listing_date": record.basic.listTime,
         } for record in raw_basic_info_list]
         return RET_OK, "", basic_info_list
 
@@ -463,12 +467,13 @@ class PlateStockQuery:
         stock_list = []
         for record in raw_stock_list:
             stock_tmp = {}
+            stock_tmp['stock_id'] = record.basic.id
             stock_tmp['lot_size'] = record.basic.lotSize
             stock_tmp['code'] = merge_qot_mkt_stock_str(record.basic.stock.market, record.basic.stock.code)
             stock_tmp['stock_name'] = record.basic.name
             stock_tmp['stock_owner'] = merge_qot_mkt_stock_str(
                 record.warrantExData.ownerStock.market,
-                record.warrantExData.ownerStock.market.code) if record.HasField('warrantExData') else ""
+                record.warrantExData.ownerStock.code) if record.HasField('warrantExData') else ""
             stock_tmp['list_time'] = record.basic.listTime
             stock_tmp['stock_child_type'] = QUOTE.REV_WRT_TYPE_MAP[
                 record.warrantExData.type] if record.HasField('warrantExData') else ""

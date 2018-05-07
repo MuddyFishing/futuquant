@@ -82,12 +82,12 @@ class OpenQuoteContext(OpenContextBase):
         kargs = {"market": market, 'stock_type': stock_type}
 
         ret_code, msg, basic_info_list = query_processor(**kargs)
-        if ret_code == RET_ERROR:
+        if ret_code != RET_OK:
             return ret_code, msg
 
         col_list = [
             'code', 'name', 'lot_size', 'stock_type', 'stock_child_type',
-            "owner_stock_code", "listing_date", "stockid"
+            "stock_owner", "listing_date", "stock_id"
         ]
 
         basic_info_table = pd.DataFrame(basic_info_list, columns=col_list)
@@ -365,7 +365,7 @@ class OpenQuoteContext(OpenContextBase):
 
         col_list = [
             'code', 'lot_size', 'stock_name', 'stock_owner',
-            'stock_child_type', 'stock_type', 'list_time'
+            'stock_child_type', 'stock_type', 'list_time', 'stock_id',
         ]
         plate_stock_table = pd.DataFrame(plate_stock_list, columns=col_list)
 
