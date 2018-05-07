@@ -177,9 +177,15 @@ def quote_test():
     print("* subscribe : {}\n".format(quote_ctx.subscribe(code_list, subtype_list)))
 
     # 临时测试
-    # quote_ctx.close()
-    # return
+    codes = ['HK.00700', 'US.AAPL', 'SH.601318', 'SZ.000001']
+    kTypes = [SubType.K_1M, SubType.K_15M, SubType.K_60M, SubType.K_DAY, SubType.K_WEEK, SubType.K_MON]
+    for code in codes:
+        for kType in kTypes:
+            quote_ctx.subscribe(code, kType)
+            print(quote_ctx.get_cur_kline(code, 1000, kType, AuType.QFQ))
 
+    sleep(15)
+    return
     # """
     print("* get_stock_basicinfo : {}\n".format(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.ETF)))
     print("* get_cur_kline : {}\n".format(quote_ctx.get_cur_kline(code_list[0], 10, SubType.K_DAY, AuType.QFQ)))
