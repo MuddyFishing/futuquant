@@ -82,6 +82,8 @@ class _SyncNetworkQueryCtx:
             while not is_rsp_body:
                 if len(left_buf) < head_len:
                     recv_buf = self.s.recv(5 * 1024 * 1024)
+                    if recv_buf == b'':
+                        raise Exception("_SyncNetworkQueryCtx : head recv error, remote server close")
                     left_buf += recv_buf
 
                 head_dict = parse_head(left_buf[:head_len])
@@ -92,7 +94,7 @@ class _SyncNetworkQueryCtx:
                         recv_buf = self.s.recv(5 * 1024 * 1024)
                         rsp_body += recv_buf
                         if recv_buf == b'':
-                            raise Exception("_SyncNetworkQueryCtx : remote server close")
+                            raise Exception("_SyncNetworkQueryCtx : body recv error, remote server close")
                     except Exception as e:
                         traceback.print_exc()
                         err = sys.exc_info()[1]

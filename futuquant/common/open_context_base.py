@@ -285,15 +285,16 @@ class OpenContextBase(object):
                         connected_handler=self)
                 self._sync_net_ctx.reconnect()
 
-            # notify reconnected
-            self.on_api_socket_reconnected()
-
             # run thread to check sync socket state
             if self.__sync_socket_enable:
                 self._thread_check_sync_sock = Thread(
                     target=self._thread_check_sync_sock_fun)
                 self._thread_check_sync_sock.setDaemon(True)
                 self._thread_check_sync_sock.start()
+
+            # notify reconnected
+            self.on_api_socket_reconnected()
+
         finally:
             try:
                 self._is_socket_reconnecting = False
