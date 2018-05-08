@@ -54,6 +54,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         self.__port = port
         self.__close_handler = close_handler
         self.__req_queue = Queue()
+        self.__is_log_handle_close = False
 
         asyncore.dispatcher_with_send.__init__(self)
         self._socket_create_and_connect()
@@ -82,7 +83,8 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
     def thread_proc_async_req(self):
         if self.__req_queue.empty() is False:
             req_str = self.__req_queue.get(timeout=0.001)
-            self.send(req_str)
+            if self.connected:
+                self.send(req_str)
 
     def handle_read(self):
         """
@@ -138,9 +140,19 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
     def __del__(self):
         self.close()
 
+    def handle_connect(self):
+        self.__is_log_handle_close = False
+
     def handle_close(self):
         """handle close"""
-        logger.debug("async socket err!")
+        # reduce close log info
+        if not self.__is_log_handle_close:
+            logger.debug("async socket err!")
+            self.__is_log_handle_close = True
+
+        while self.__req_queue.empty() is False:
+            self.__req_queue.get(timeout=0.001)
+
         if self.__close_handler is not None:
             self.__close_handler.notify_async_socket_close(self)
 

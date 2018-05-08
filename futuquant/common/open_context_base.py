@@ -10,7 +10,7 @@ from futuquant.common.utils import *
 from futuquant.quote.response_handler import HandlerContext
 from futuquant.quote.quote_query import InitConnect
 from futuquant.quote.response_handler import AsyncHandler_InitConnect
-
+from futuquant.quote.quote_query import GlobalStateQuery
 
 class OpenContextBase(object):
     """Base class for set context"""
@@ -88,7 +88,7 @@ class OpenContextBase(object):
         :param conn_info_map:
         :return:
         """
-        # logger.debug("ret={}, msg={}, conn_info={}".format(ret, msg, conn_info_map))
+        logger.debug("ret={}, msg={}, conn_info={}".format(ret, msg, conn_info_map))
         pass
 
     def get_conn_id(self):
@@ -258,6 +258,7 @@ class OpenContextBase(object):
         if self._is_socket_reconnecting or self._is_obj_closed or self._sync_query_lock is None:
             return
 
+        logger.debug(" enter ...")
         self._count_reconnect += 1
         # logger.debug("_socket_reconnect_and_wait_ready - count = %s" % self._count_reconnect)
         try:
@@ -285,15 +286,16 @@ class OpenContextBase(object):
                         connected_handler=self)
                 self._sync_net_ctx.reconnect()
 
-            # notify reconnected
-            self.on_api_socket_reconnected()
-
             # run thread to check sync socket state
             if self.__sync_socket_enable:
                 self._thread_check_sync_sock = Thread(
                     target=self._thread_check_sync_sock_fun)
                 self._thread_check_sync_sock.setDaemon(True)
                 self._thread_check_sync_sock.start()
+
+            # notify reconnected
+            self.on_api_socket_reconnected()
+
         finally:
             try:
                 self._is_socket_reconnecting = False
@@ -303,6 +305,7 @@ class OpenContextBase(object):
                 traceback.print_exc()
                 err = sys.exc_info()[1]
                 logger.debug(err)
+            logger.debug(" leave ...")
 
     @abstractmethod
     def notify_sync_socket_connected(self, sync_ctxt):
@@ -310,9 +313,11 @@ class OpenContextBase(object):
         :param sync_ctxt:
         :return: (is_socket_ok[bool], is_to_retry_connect[bool])
         """
+        logger.debug("sync_ctxt = {}  self._sync_net_ctx={} ".format(id(sync_ctxt), id(self._sync_net_ctx)))
         if self._is_obj_closed or self._sync_net_ctx is None or self._sync_net_ctx is not sync_ctxt:
             return False, False
 
+        logger.debug("sync socket init_connect")
         ret_code, _ = self._init_connect()
         is_ready = ret_code == RET_OK
         is_retry = True
@@ -335,6 +340,7 @@ class OpenContextBase(object):
         """
         if self._is_obj_closed or self._async_ctx is None or async_ctx is not self._async_ctx:
             return
+        logger.debug("notify_async_socket_close")
 
         # auto reconnect
         self._socket_reconnect_and_wait_ready()
@@ -369,7 +375,24 @@ class OpenContextBase(object):
             # send req loop per 10 seconds
             cur_time = time.time()
             if (self._check_last_req_time is
-                    None) or (cur_time - self._check_last_req_time > 10):
+                    None) or (cur_time - self._check_last_req_time > 15):
                 self._check_last_req_time = cur_time
-                #if self._thread_check_sync_sock is thread_handle:
-                    #self.get_global_state()
+                id_cur = id(self._thread_check_sync_sock)
+                id_old = id(thread_handle)
+                if id_cur == id_old:
+                    self.get_global_state()
+
+    def get_global_state(self):
+        """
+        get api server(exe) global state
+        :return: RET_OK, state_dict | err_code, msg
+        """
+        query_processor = self._get_sync_query_processor(
+            GlobalStateQuery.pack_req, GlobalStateQuery.unpack_rsp)
+
+        kargs = {"user_id": self.get_login_user_id()}
+        ret_code, msg, state_dict = query_processor(**kargs)
+        if ret_code != RET_OK:
+            return ret_code, msg
+
+        return RET_OK, state_dict
