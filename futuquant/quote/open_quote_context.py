@@ -37,6 +37,7 @@ class OpenQuoteContext(OpenContextBase):
                 subtype_list.append(data_type)
 
             ret, _ = self.subscribe(code_list, subtype_list)
+            logger.debug("reconnect subscribe code count = {} ret = {}".format(len(code_list), ret))
 
     def get_trading_days(self, market, start_date=None, end_date=None):
         """get the trading days"""

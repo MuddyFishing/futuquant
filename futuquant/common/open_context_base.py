@@ -88,7 +88,7 @@ class OpenContextBase(object):
         :param conn_info_map:
         :return:
         """
-        # logger.debug("ret={}, msg={}, conn_info={}".format(ret, msg, conn_info_map))
+        logger.debug("ret={}, msg={}, conn_info={}".format(ret, msg, conn_info_map))
         pass
 
     def get_conn_id(self):
@@ -258,6 +258,7 @@ class OpenContextBase(object):
         if self._is_socket_reconnecting or self._is_obj_closed or self._sync_query_lock is None:
             return
 
+        logger.debug(" enter ...")
         self._count_reconnect += 1
         # logger.debug("_socket_reconnect_and_wait_ready - count = %s" % self._count_reconnect)
         try:
@@ -304,6 +305,7 @@ class OpenContextBase(object):
                 traceback.print_exc()
                 err = sys.exc_info()[1]
                 logger.debug(err)
+            logger.debug(" leave ...")
 
     @abstractmethod
     def notify_sync_socket_connected(self, sync_ctxt):
@@ -311,9 +313,11 @@ class OpenContextBase(object):
         :param sync_ctxt:
         :return: (is_socket_ok[bool], is_to_retry_connect[bool])
         """
+        logger.debug("sync_ctxt = {}  self._sync_net_ctx={} ".format(id(sync_ctxt), id(self._sync_net_ctx)))
         if self._is_obj_closed or self._sync_net_ctx is None or self._sync_net_ctx is not sync_ctxt:
             return False, False
 
+        logger.debug("sync socket init_connect")
         ret_code, _ = self._init_connect()
         is_ready = ret_code == RET_OK
         is_retry = True
@@ -336,6 +340,7 @@ class OpenContextBase(object):
         """
         if self._is_obj_closed or self._async_ctx is None or async_ctx is not self._async_ctx:
             return
+        logger.debug("notify_async_socket_close")
 
         # auto reconnect
         self._socket_reconnect_and_wait_ready()
@@ -372,7 +377,9 @@ class OpenContextBase(object):
             if (self._check_last_req_time is
                     None) or (cur_time - self._check_last_req_time > 15):
                 self._check_last_req_time = cur_time
-                if self._thread_check_sync_sock is thread_handle:
+                id_cur = id(self._thread_check_sync_sock)
+                id_old = id(thread_handle)
+                if id_cur == id_old:
                     self.get_global_state()
 
     def get_global_state(self):
