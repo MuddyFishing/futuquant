@@ -111,8 +111,8 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
 
                 rsp_body = self.__recv_buf[head_len: head_len + body_len]
                 self.__recv_buf = self.__recv_buf[head_len + body_len:]
-                logger.debug("async proto_id = {} rsp_body_len={} body_len={}".format(head_dict['proto_id'],
-                                                                                      len(rsp_body), body_len))
+                # logger.debug("async proto_id = {} rsp_body_len={} body_len={}".format(head_dict['proto_id'],
+                #                                                                      len(rsp_body), body_len))
                 rsp_pb = binary2pb(rsp_body, head_dict['proto_id'], head_dict['proto_fmt_type'])
                 if rsp_pb is None:
                     logger.error("async handle_read not support proto:{}".format(head_dict['proto_id']))

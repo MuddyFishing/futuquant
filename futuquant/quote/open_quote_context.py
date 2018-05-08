@@ -26,7 +26,10 @@ class OpenQuoteContext(OpenContextBase):
 
     def on_api_socket_reconnected(self):
         """for API socket reconnected"""
-        # auto subscribe
+        # auto subscriber
+        ret = RET_OK
+        msg = "n/a"
+        resub_count = 0
         if len(self._ctx_subscribe):
             set_sub = self._ctx_subscribe.copy()
             code_list = []
@@ -36,8 +39,9 @@ class OpenQuoteContext(OpenContextBase):
                 code_list.append(code)
                 subtype_list.append(data_type)
 
-            ret, _ = self.subscribe(code_list, subtype_list)
-            logger.debug("reconnect subscribe code count = {} ret = {}".format(len(code_list), ret))
+            resub_count = len(code_list)
+            ret, msg = self.subscribe(code_list, subtype_list)
+        logger.debug("reconnect subscribe code_count={} ret={} msg={}".format(resub_count, ret, msg))
 
     def get_trading_days(self, market, start_date=None, end_date=None):
         """get the trading days"""

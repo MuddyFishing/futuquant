@@ -250,13 +250,24 @@ class OpenContextBase(object):
 
         return sync_query_processor
 
+    def on_create_sync_session(self):
+
+        logger.debug("...")
+        ret = RET_OK
+        msg = ""
+
+        if not self._sync_net_ctx.is_sock_ok(0.01):
+            ret, msg = self._socket_reconnect_and_wait_ready()
+
+        return ret, msg
+
     def _socket_reconnect_and_wait_ready(self):
         """
         sync_socket & async_socket recreate
-        :return: None
+        :return: (ret, msg)
         """
         if self._is_socket_reconnecting or self._is_obj_closed or self._sync_query_lock is None:
-            return
+            return RET_ERROR, 'socket is reconnecting or closed'
 
         logger.debug(" enter ...")
         self._count_reconnect += 1
@@ -283,7 +294,10 @@ class OpenContextBase(object):
                         self.__host,
                         self.__port,
                         long_conn=True,
-                        connected_handler=self)
+                        connected_handler=self,
+                    create_session_handler=self,
+                    )
+
                 self._sync_net_ctx.reconnect()
 
             # run thread to check sync socket state
@@ -307,13 +321,14 @@ class OpenContextBase(object):
                 logger.debug(err)
             logger.debug(" leave ...")
 
+        return RET_OK, ""
+
     @abstractmethod
     def notify_sync_socket_connected(self, sync_ctxt):
         """
         :param sync_ctxt:
         :return: (is_socket_ok[bool], is_to_retry_connect[bool])
         """
-        logger.debug("sync_ctxt = {}  self._sync_net_ctx={} ".format(id(sync_ctxt), id(self._sync_net_ctx)))
         if self._is_obj_closed or self._sync_net_ctx is None or self._sync_net_ctx is not sync_ctxt:
             return False, False
 
@@ -338,9 +353,8 @@ class OpenContextBase(object):
         """
          AsyncNetworkManager onclose callback
         """
-        if self._is_obj_closed or self._async_ctx is None or async_ctx is not self._async_ctx:
+        if self._is_socket_reconnecting or self._is_obj_closed or self._async_ctx is None or async_ctx is not self._async_ctx:
             return
-        logger.debug("notify_async_socket_close")
 
         # auto reconnect
         self._socket_reconnect_and_wait_ready()
@@ -379,8 +393,8 @@ class OpenContextBase(object):
                 self._check_last_req_time = cur_time
                 id_cur = id(self._thread_check_sync_sock)
                 id_old = id(thread_handle)
-                if id_cur == id_old:
-                    self.get_global_state()
+                # if id_cur == id_old:
+                #    self.get_global_state()
 
     def get_global_state(self):
         """
