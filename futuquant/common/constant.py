@@ -9,11 +9,27 @@ NN_VERSION_MIN = '3.42.4962'
 
 ORDER_STATUS = {"CANCEL": 0, "INVALID": 1, "VALID": 2, "DELETE": 3}
 
-MESSAGE_HEAD_FMT = "<1s1sI2B2I8B"
+MESSAGE_HEAD_FMT = "<1s1sI2B2I20s8s  "
 RET_OK = 0
 RET_ERROR = -1
 ERROR_STR_PREFIX = 'ERROR. '
 EMPTY_STRING = ''
+
+"""
+    #pragma pack(push, APIProtoHeader, 1)
+    struct APIProtoHeader
+    {
+        u8_t szHeaderFlag[2]; //包头起始标志，固定为“FT”
+        u32_t nProtoID;	 //协议ID
+        u8_t nProtoFmtType; //协议格式类型，0为Protobuf格式，1为Json格式
+        u8_t nProtoVer; //协议版本，用于迭代兼容
+        u32_t nSerialNo; //包序列号
+        u32_t nBodyLen; //包体长度
+        u8_t arrBodySHA1[20]; //包体原数据(解密后)的SHA1哈希值
+        u8_t arrReserved[8]; //保留8字节扩展
+    };
+    #pragma pack(pop, APIProtoHeader)
+"""
 
 # 默认的ClientID, 用于区分不同的api : set_client_id 更改
 DEFULAT_CLIENT_ID = "PyNormal"

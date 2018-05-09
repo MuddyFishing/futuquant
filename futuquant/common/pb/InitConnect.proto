@@ -12,9 +12,10 @@ message C2S
 
 message S2C
 {
-	required uint64 loginUserID = 1; //FutuOpenD登陆的牛牛用户ID
-	required uint64 connID = 2; //此连接的ID，连接唯一标识
-	required int32 serverVer = 3; //FutuOpenD的版本号
+	required int32 serverVer = 1; //FutuOpenD的版本号
+	required uint64 loginUserID = 2; //FutuOpenD登陆的牛牛用户ID
+	required uint64 connID = 3; //此连接的ID，连接唯一标识
+	required string connAESKeyBase64 = 4; //此连接后续AES加密通信的Key的Base64
 }
 
 message Request

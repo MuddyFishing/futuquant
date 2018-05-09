@@ -436,17 +436,16 @@ def _joint_head(proto_id, proto_fmt_type, body_len, str_body, serial_no):
 
     head_serial_no = serial_no if serial_no else get_unique_id32()
     # print("serial no = {} proto_id = {}".format(head_serial_no, proto_id))
+    sha20 = b'00000000000000000000'
+    reserve8 = b'\x00\x00\x00\x00\x00\x00\x00\x00'
     bin_head = struct.pack(fmt, b'F', b'T', proto_id, proto_fmt_type,
-                           API_PROTO_VER, head_serial_no, body_len, 0, 0, 0, 0, 0, 0, 0,
-                           0, str_body)
+                           API_PROTO_VER, head_serial_no, body_len, sha20, reserve8, str_body)
     return bin_head
 
 def parse_head(head_bytes):
     head_dict = {}
     head_dict['head_1'], head_dict['head_2'], head_dict['proto_id'], \
     head_dict['proto_fmt_type'], head_dict['proto_ver'], \
-    head_dict['serial_no'], head_dict['body_len'], head_dict['reserved_1'], \
-    head_dict['reserved_2'], head_dict['reserved_3'], head_dict['reserved_4'], \
-    head_dict['reserved_5'], head_dict['reserved_6'], head_dict['reserved_7'], \
-    head_dict['reserved_8'] = struct.unpack(MESSAGE_HEAD_FMT, head_bytes)
+    head_dict['serial_no'], head_dict['body_len'], head_dict['sha20'], \
+    head_dict['reserve8'], = struct.unpack(MESSAGE_HEAD_FMT, head_bytes)
     return head_dict

@@ -51,6 +51,7 @@ class InitConnect:
             res['server_version'] = rsp_pb.s2c.serverVer
             res['login_user_id'] = rsp_pb.s2c.loginUserID
             res['conn_id'] = rsp_pb.s2c.connID
+            res['conn_key'] = rsp_pb.s2c.connAESKeyBase64
         else:
             return RET_ERROR, "rsp_pb error", None
 

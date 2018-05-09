@@ -162,7 +162,7 @@ def quote_test():
         print("* subscribe : {}\n".format(quote_ctx.subscribe(big_sub_codes, subtype_list)))
 
     # """
-    if False:
+    if True:
         print("* subscribe : {}\n".format(quote_ctx.subscribe(code_list, subtype_list)))
         print("* query_subscription : {}\n".format(quote_ctx.query_subscription(True)))
         # sleep(60.1)
