@@ -15,7 +15,7 @@ class OpenQuoteContext(OpenContextBase):
     """Class for set context of stock quote"""
 
     def __init__(self, host='127.0.0.1', port=11111):
-        self._ctx_subscribe = set()
+        self._ctx_subscribe = {}
         super(OpenQuoteContext, self).__init__(host, port, True, True)
 
     def close(self):
@@ -26,18 +26,40 @@ class OpenQuoteContext(OpenContextBase):
 
     def on_api_socket_reconnected(self):
         """for API socket reconnected"""
-        # auto subscribe
-        if len(self._ctx_subscribe):
-            set_sub = self._ctx_subscribe.copy()
-            code_list = []
-            subtype_list = []
+        # auto subscriber
+        resub_count = 0
+        subtype_list = []
+        code_list = []
 
-            for (code, data_type) in set_sub:
-                code_list.append(code)
-                subtype_list.append(data_type)
+        resub_dict = copy(self._ctx_subscribe)
+        subtype_all_cnt = len(resub_dict.keys())
+        subtype_cur_cnt = 0
 
-            ret, _ = self.subscribe(code_list, subtype_list)
-            logger.debug("reconnect subscribe code count = {} ret = {}".format(len(code_list), ret))
+        for subtype in resub_dict.keys():
+            subtype_cur_cnt += 1
+            code_set = resub_dict[subtype]
+            code_list_new = [code for code in code_set]
+            if len(code_list_new) == 0:
+                continue
+
+            if len(code_list) == 0:
+                code_list = code_list_new
+                subtype_list = [subtype]
+
+            is_need_sub = False
+            if code_list == code_list_new:
+                subtype_list.append(subtype)   # 合并subtype请求
+            else:
+                is_need_sub = True
+
+            if is_need_sub or subtype_cur_cnt == subtype_all_cnt:
+                ret, msg = self.subscribe(code_list, subtype_list)
+                logger.debug("reconnect subscribe code_count={} ret={} msg={}".format(len(code_list), ret, msg))
+                resub_count += len(code_list)
+                code_list = []
+                subtype_list = []
+
+        logger.debug("reconnect subscribe all code_count={}".format(resub_count))
 
     def get_trading_days(self, market, start_date=None, end_date=None):
         """get the trading days"""
@@ -398,13 +420,17 @@ class OpenQuoteContext(OpenContextBase):
         return RET_OK, bid_frame_table, ask_frame_table
 
     def _check_subscribe_param(self, code_list, subtype_list):
-        if not isinstance(code_list, list):
-            code_list = [code_list]
-        if not isinstance(subtype_list, list):
-            subtype_list = [subtype_list]
 
-        if len(code_list) != len(subtype_list):
-            return RET_ERROR, ERROR_STR_PREFIX + "code_list subtype_list must be same length!", code_list, subtype_list
+        code_list = unique_and_normalize_list(code_list)
+        subtype_list = unique_and_normalize_list(subtype_list)
+
+        if len(code_list) == 0:
+            msg = ERROR_STR_PREFIX + 'code_list is null'
+            return RET_ERROR, msg, code_list, subtype_list
+
+        if len(subtype_list) == 0:
+            msg = ERROR_STR_PREFIX + 'subtype_list is null'
+            return RET_ERROR, msg, code_list, subtype_list
 
         for subtype in subtype_list:
             if subtype not in SUBTYPE_MAP:
@@ -436,8 +462,12 @@ class OpenQuoteContext(OpenContextBase):
         kargs = {'code_list': code_list, 'subtype_list': subtype_list}
         ret_code, msg, _ = query_processor(**kargs)
 
-        for (code, subtype) in zip(code_list, subtype_list):
-            self._ctx_subscribe.add((code, subtype))
+        for subtype in subtype_list:
+            if subtype not in self._ctx_subscribe:
+                self._ctx_subscribe[subtype] = set()
+            code_set = self._ctx_subscribe[subtype]
+            for code in code_list:
+                code_set.add(code)
 
         if ret_code != RET_OK:
             return RET_ERROR, msg
@@ -465,8 +495,14 @@ class OpenQuoteContext(OpenContextBase):
 
         kargs = {'code_list': code_list, 'subtype_list': subtype_list}
 
-        for (code, subtype) in zip(code_list, subtype_list):
-            self._ctx_subscribe.remove((code, subtype))
+        for subtype in subtype_list:
+            if subtype not in self._ctx_subscribe:
+                continue
+            code_set = self._ctx_subscribe[subtype]
+            for code in code_list:
+                if code not in code_set:
+                    continue
+                code_set.remove(code)
 
         ret_code, msg, _ = query_processor(**kargs)
 

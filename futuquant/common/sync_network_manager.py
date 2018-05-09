@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import select
-import sys
+from abc import abstractmethod
 import socket as sock
 from struct import pack
 from time import sleep
@@ -23,7 +23,7 @@ class _SyncNetworkQueryCtx:
 
     """
 
-    def __init__(self, host, port, long_conn=True, connected_handler=None):
+    def __init__(self, host, port, long_conn=True, connected_handler=None, create_session_handler=None):
         self.s = None
         self.__host = host
         self.__port = port
@@ -31,6 +31,7 @@ class _SyncNetworkQueryCtx:
         self._socket_lock = RLock()
         self._connected_handler = connected_handler
         self._is_loop_connecting = False
+        self._create_session_handler = create_session_handler
 
     def close_socket(self):
         """close socket"""
@@ -57,6 +58,7 @@ class _SyncNetworkQueryCtx:
 
     def reconnect(self):
         """reconnect"""
+        logger.debug(" ****")
         self._socket_create_and_loop_connect()
 
     def network_query(self, req_str):
@@ -99,7 +101,7 @@ class _SyncNetworkQueryCtx:
                         traceback.print_exc()
                         err = sys.exc_info()[1]
                         error_str = ERROR_STR_PREFIX + str(
-                            err) + ' when receiving after sending %s bytes. For req: ' % s_cnt + ""
+                            err) + ' when receiving after sending %s bytes.' % s_cnt + ""
                         self._force_close_session()
                         return RET_ERROR, error_str, None
                 if head_dict["proto_id"] == req_head_dict['proto_id']:
@@ -115,7 +117,7 @@ class _SyncNetworkQueryCtx:
         except Exception as e:
             traceback.print_exc()
             err = sys.exc_info()[1]
-            error_str = ERROR_STR_PREFIX + str(err) + ' when sending. For req:'
+            error_str = ERROR_STR_PREFIX + str(err) + ' when sending.'
 
             self._force_close_session()
             return RET_ERROR, error_str, None
@@ -126,12 +128,13 @@ class _SyncNetworkQueryCtx:
 
     def _socket_create_and_loop_connect(self):
 
-        self._socket_lock.acquire()
-        is_socket_lock = True
-
+        logger.debug("***")
         if self._is_loop_connecting:
             return RET_ERROR, "is loop connecting, can't create_session"
         self._is_loop_connecting = True
+
+        self._socket_lock.acquire()
+        is_socket_lock = True
 
         if self.s is not None:
             self._force_close_session()
@@ -181,10 +184,19 @@ class _SyncNetworkQueryCtx:
 
         return RET_OK, ''
 
+    def on_create_sync_session(self):
+        self.reconnect()
+        return RET_OK, ""
+
     def _create_session(self):
         if self.long_conn is True and self.s is not None:
             return RET_OK, ""
-        ret, msg = self._socket_create_and_loop_connect()
+
+        if self._create_session_handler:
+            ret, msg = self._create_session_handler.on_create_sync_session()
+        else:
+            ret, msg = self.on_create_sync_session()
+
         if ret != RET_OK:
             return ret, msg
         return RET_OK, ""

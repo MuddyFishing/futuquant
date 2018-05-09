@@ -153,27 +153,23 @@ def quote_test():
                      'HK.01299', 'HK.01833', 'HK.00005', 'HK.00883', 'HK.00388', 'HK.01398',
                      'HK.01114', 'HK.02800', 'HK.02018', 'HK.03988', 'HK.00386', 'HK.01211',
                      'HK.00857', 'HK.01177',  'HK.02601', 'HK.02628', 'HK_FUTURE.999010']
-    # big_sub_codes = []
-
-    code_list = ['HK.00700', 'HK.00700', 'HK.00700', 'HK.00700', 'HK.00700']
+    big_sub_codes = []
     subtype_list = [SubType.ORDER_BOOK, SubType.TICKER, SubType.K_DAY, SubType.RT_DATA, SubType.BROKER]
+    code_list = ['HK.00700', 'HK.00388']
 
     # 测试大量数据定阅
-    for code in big_sub_codes:
-        code_list_tmp = []
-        for i in range(len(subtype_list)):
-            code_list_tmp.append(code)
-        print("* subscribe : {}\n".format(quote_ctx.subscribe(code_list_tmp, subtype_list)))
+    if len(big_sub_codes):
+        print("* subscribe : {}\n".format(quote_ctx.subscribe(big_sub_codes, subtype_list)))
 
-    """
-    # if True:
+    # """
+    if False:
         print("* subscribe : {}\n".format(quote_ctx.subscribe(code_list, subtype_list)))
         print("* query_subscription : {}\n".format(quote_ctx.query_subscription(True)))
-        sleep(60.1)
+        # sleep(60.1)
         print("* unsubscribe : {}\n".format(quote_ctx.unsubscribe(code_list, subtype_list)))
         print("* query_subscription : {}\n".format(quote_ctx.query_subscription(True)))
         sleep(1)
-    """
+    # """
     print("* subscribe : {}\n".format(quote_ctx.subscribe(code_list, subtype_list)))
 
     # 临时测试
