@@ -330,7 +330,8 @@ class HandlerContext:
 
     def recv_func(self, rsp_pb, proto_id):
         """receive response callback function"""
-        if self.cb_check_recv is not None and not self.cb_check_recv():
+
+        if self.cb_check_recv is not None and not self.cb_check_recv() and ProtoId.is_proto_id_push(proto_id):
             return
 
         handler = self._default_handler

@@ -355,6 +355,13 @@ class ProtoId(object):
     Qot_ReqPlateSet = 3204  # 获取板块集合下的板块
     Qot_ReqPlateStock = 3205  # 获取板块下的股票
 
+    All_PushId = [PushNotify, PushHeartBeat, Trd_UpdateOrder, Trd_UpdateOrderFill,Qot_PushBroker,
+                  Qot_PushOrderBook, Qot_PushKL, Qot_PushRT, Qot_PushStockBasic, Qot_PushTicker]
+
+    @classmethod
+    def is_proto_id_push(cls, id):
+        return id in ProtoId.All_PushId
+
 
 # noinspection PyPep8Naming
 class QUOTE(object):

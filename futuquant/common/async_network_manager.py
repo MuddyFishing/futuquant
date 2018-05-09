@@ -55,12 +55,9 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         self.__close_handler = close_handler
         self.__req_queue = Queue()
         self.__is_log_handle_close = False
-
-        asyncore.dispatcher_with_send.__init__(self)
-        self._socket_create_and_connect()
-
-        time.sleep(0.1)
         self.__recv_buf = b''
+        super(_AsyncNetworkManager, self).__init__()
+
         self.handler_ctx = handler_ctx
         self.async_thread_ctrl.add_async(self)
 
@@ -73,7 +70,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
 
     def close_socket(self):
         """close socket"""
-        self.__recv_buf = b''
+        self._clear_req_recv_cache()
         self.async_thread_ctrl.remove_async(self)
         self.close()
 
@@ -81,10 +78,13 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         self.__req_queue.put(req_str)
 
     def thread_proc_async_req(self):
-        if self.__req_queue.empty() is False:
-            req_str = self.__req_queue.get(timeout=0.001)
-            if self.connected:
+        try:
+            if self.connected and self.__req_queue.empty() is False:
+                req_str = self.__req_queue.get(timeout=0.001)
                 self.send(req_str)
+        except Exception as e:
+            traceback.print_exc()
+            pass
 
     def handle_read(self):
         """
@@ -111,8 +111,8 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
 
                 rsp_body = self.__recv_buf[head_len: head_len + body_len]
                 self.__recv_buf = self.__recv_buf[head_len + body_len:]
-                # logger.debug("async proto_id = {} rsp_body_len={} body_len={}".format(head_dict['proto_id'],
-                #                                                                      len(rsp_body), body_len))
+                # logger.debug("async proto_id = {} rsp_body_len={} body_len={}".format(head_dict['proto_id'],len(rsp_body), body_len))
+
                 rsp_pb = binary2pb(rsp_body, head_dict['proto_id'], head_dict['proto_fmt_type'])
                 if rsp_pb is None:
                     logger.error("async handle_read not support proto:{}".format(head_dict['proto_id']))
@@ -137,9 +137,6 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         s_buf = str2binary(req_str)
         self.send(s_buf)
 
-    def __del__(self):
-        self.close()
-
     def handle_connect(self):
         self.__is_log_handle_close = False
 
@@ -150,15 +147,24 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
             logger.debug("async socket err!")
             self.__is_log_handle_close = True
 
-        while self.__req_queue.empty() is False:
-            self.__req_queue.get(timeout=0.001)
+        self._clear_req_recv_cache()
 
         if self.__close_handler is not None:
             self.__close_handler.notify_async_socket_close(self)
 
+    def _clear_req_recv_cache(self):
+        while self.__req_queue.empty() is False:
+            self.__req_queue.get(timeout=0.001)
+        self.__recv_buf = b''
+
     def _socket_create_and_connect(self):
+
+        if self.__host is None or self.__port is None:
+            raise Exception("_AsyncNetworkManager  host or port is None")
+
         if self.socket is not None:
             self.close()
-        if self.__host is not None and self.__port is not None:
-            self.create_socket(sock.AF_INET, sock.SOCK_STREAM)
-            self.connect((self.__host, self.__port))
+
+        self._clear_req_recv_cache()
+        self.create_socket(sock.AF_INET, sock.SOCK_STREAM)
+        self.connect((self.__host, self.__port))

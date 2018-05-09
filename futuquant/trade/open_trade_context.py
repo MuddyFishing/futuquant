@@ -16,7 +16,7 @@ class OpenTradeContextBase(OpenContextBase):
         self.__last_acc_list = []
         self.__is_acc_sub_push = False
 
-        super(OpenTradeContextBase, self).__init__(host, port, True, True)
+        super(OpenTradeContextBase, self).__init__(host, port, True)
         self.set_pre_handler(AsyncHandler_TrdSubAccPush(self))
 
     def close(self):

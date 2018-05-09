@@ -11,15 +11,17 @@ from futuquant.quote.response_handler import HandlerContext
 from futuquant.quote.quote_query import InitConnect
 from futuquant.quote.response_handler import AsyncHandler_InitConnect
 from futuquant.quote.quote_query import GlobalStateQuery
+from futuquant.common.conn_mng import FutuConnMng
+import threading
+
 
 class OpenContextBase(object):
     """Base class for set context"""
     metaclass__ = ABCMeta
 
-    def __init__(self, host, port, sync_enable, async_enable):
+    def __init__(self, host, port, async_enable):
         self.__host = host
         self.__port = port
-        self.__sync_socket_enable = sync_enable
         self.__async_socket_enable = async_enable
         self._async_ctx = None
         self._sync_net_ctx = None
@@ -36,47 +38,36 @@ class OpenContextBase(object):
         self._count_reconnect = 0
 
         # init connect info
-        self._connect_info = {}
-
-        if not self.__sync_socket_enable and not self.__async_socket_enable:
-            raise Exception(
-                'you should specify at least one socket type to create !')
+        self._sync_connect_info = {}
+        self._sync_conn_id = 0
+        self._async_conn_id = 0
+        self._event_async_close = threading.Event()
 
         self._socket_reconnect_and_wait_ready()
 
-    def _init_connect(self):
+    def _sync_init_connect(self):
         """
         :param client_ver:
         :param client_id:
         :return:(ret, msg)
         """
-        self._connect_info = {}
-        client_ver = get_client_ver()
-        client_id = get_client_id()
-        if self.__sync_socket_enable:
-            query_processor = self._get_sync_query_processor(
-                InitConnect.pack_req, InitConnect.unpack_rsp)
-            kargs = {
-                'client_ver': int(client_ver),
-                'client_id': str(client_id),
-                "recv_notify": False
-            }
-            ret_code, msg, content = query_processor(**kargs)
+        query_processor = self._get_sync_query_processor(
+            InitConnect.pack_req, InitConnect.unpack_rsp)
+        kargs = {
+            'client_ver': int(get_client_ver()),
+            'client_id': str(get_client_id()),
+            "recv_notify": False
+        }
+        ret_code, msg, content = query_processor(**kargs)
 
-            if ret_code != RET_OK:
-                logger.info("init connect fail: {}".format(msg))
-                return RET_ERROR, msg
-            else:
-                self._connect_info = copy(content)
-                logger.info("init connect ok: {}".format(content))
-
-        if self.__async_socket_enable:
-            ret_code, msg, req = InitConnect.pack_req(client_ver, client_id, True)
-            if ret_code == RET_OK:
-                ret_code, msg = self._send_async_req(req)
-            if ret_code != RET_OK:
-                logger.info("async int connect fail:{}".format(msg))
-                return RET_ERROR, msg
+        if ret_code != RET_OK:
+            logger.info("init connect fail: {}".format(msg))
+            return RET_ERROR, msg
+        else:
+            conn_info = copy(content)
+            self._sync_conn_id = conn_info['conn_id']
+            FutuConnMng.add_conn(conn_info)
+            logger.info("sync socket init_connect ok: {}".format(conn_info))
 
         return RET_OK, ""
 
@@ -88,32 +79,31 @@ class OpenContextBase(object):
         :param conn_info_map:
         :return:
         """
-        logger.debug("ret={}, msg={}, conn_info={}".format(ret, msg, conn_info_map))
-        pass
+        if ret == RET_OK:
+            self._async_conn_id = conn_info_map['conn_id']
+            FutuConnMng.add_conn(conn_info_map)
+        logger.debug("async init connect ret={}, msg={}, conn_info={}".format(ret, msg, conn_info_map))
 
-    def get_conn_id(self):
+    def get_sync_conn_id(self):
         """
         get sync soocket connect id
         :return: id(int)
         """
-        key = 'conn_id'
-        return self._connect_info[key] if key in self._connect_info else 0
+        return self._sync_conn_id
 
-    def get_server_ver(self):
+    def get_async_conn_id(self):
         """
-        get api server version
-        :return: ver(int)
+        get async soocket connect id
+        :return: id(int)
         """
-        key = 'server_version'
-        return self._connect_info[key] if key in self._connect_info else 0
+        return self._async_conn_id
 
     def get_login_user_id(self):
         """
         get login user id
         :return: user id(int64)
         """
-        key = 'login_user_id'
-        return self._connect_info[key] if key in self._connect_info else 0
+        return FutuConnMng.get_conn_user_id(self._sync_conn_id)
 
     def __del__(self):
         self._close()
@@ -261,6 +251,15 @@ class OpenContextBase(object):
 
         return ret, msg
 
+    def _clear_conn_id(self):
+        if self._sync_conn_id:
+            FutuConnMng.remove_conn(self._sync_conn_id)
+            self._sync_conn_id = 0
+
+        if self._async_conn_id:
+            FutuConnMng.remove_conn(self._async_conn_id)
+            self._async_conn_id = 0
+
     def _socket_reconnect_and_wait_ready(self):
         """
         sync_socket & async_socket recreate
@@ -268,44 +267,30 @@ class OpenContextBase(object):
         """
         if self._is_socket_reconnecting or self._is_obj_closed or self._sync_query_lock is None:
             return RET_ERROR, 'socket is reconnecting or closed'
+        self._is_socket_reconnecting = True
 
         logger.debug(" enter ...")
+        self._clear_conn_id()
         self._count_reconnect += 1
-        # logger.debug("_socket_reconnect_and_wait_ready - count = %s" % self._count_reconnect)
+
         try:
-            self._is_socket_reconnecting = True
             self._sync_query_lock.acquire()
 
-            # create async socket (for push data)
-            if self.__async_socket_enable:
-                if self._async_ctx is None:
-                    self._handlers_ctx = HandlerContext(self._is_proc_run)
-                    self._async_ctx = _AsyncNetworkManager(
-                        self.__host, self.__port, self._handlers_ctx, self)
-                    self.set_pre_handler(AsyncHandler_InitConnect(self))
-                else:
-                    self._async_ctx.reconnect()
-
             # create sync socket and loop wait to connect api server
-            if self.__sync_socket_enable:
-                self._thread_check_sync_sock = None
-                if self._sync_net_ctx is None:
-                    self._sync_net_ctx = _SyncNetworkQueryCtx(
-                        self.__host,
-                        self.__port,
-                        long_conn=True,
-                        connected_handler=self,
-                    create_session_handler=self,
-                    )
+            self._thread_check_sync_sock = None
+            if self._sync_net_ctx is None:
+                self._sync_net_ctx = _SyncNetworkQueryCtx(self.__host, self.__port,
+                                    long_conn=True, connected_handler=self, create_session_handler=self)
 
-                self._sync_net_ctx.reconnect()
+            # sync socket reconnect
+            self._sync_net_ctx.reconnect()
+            self._event_async_close.clear()
 
             # run thread to check sync socket state
-            if self.__sync_socket_enable:
-                self._thread_check_sync_sock = Thread(
+            self._thread_check_sync_sock = Thread(
                     target=self._thread_check_sync_sock_fun)
-                self._thread_check_sync_sock.setDaemon(True)
-                self._thread_check_sync_sock.start()
+            self._thread_check_sync_sock.setDaemon(True)
+            self._thread_check_sync_sock.start()
 
             # notify reconnected
             self.on_api_socket_reconnected()
@@ -323,6 +308,35 @@ class OpenContextBase(object):
 
         return RET_OK, ""
 
+    def _wait_async_init_connect(self, timeout=5):
+
+        if not self.__async_socket_enable:
+            return RET_OK
+
+        # send req
+        ret_code, msg, req = InitConnect.pack_req(get_client_ver(), get_client_id(), True)
+        if ret_code == RET_OK:
+            ret_code, msg = self._send_async_req(req)
+        if ret_code != RET_OK:
+            logger.info("async int connect fail:{}".format(msg))
+            return RET_ERROR, msg
+
+        # wait
+        last_time = time.time()
+        last_log = last_time
+        while True:
+            sleep(0.01)
+            if self._async_conn_id != 0:
+                break
+            cur_time = time.time()
+            if cur_time - last_log >= 1:
+                last_log = cur_time
+                logger.debug("wait async init conn ...")
+            if cur_time - last_time > timeout:
+                break
+
+        return RET_OK if self._async_conn_id != 0 else RET_ERROR
+
     @abstractmethod
     def notify_sync_socket_connected(self, sync_ctxt):
         """
@@ -333,20 +347,25 @@ class OpenContextBase(object):
             return False, False
 
         logger.debug("sync socket init_connect")
-        ret_code, _ = self._init_connect()
+        ret_code, _ = self._sync_init_connect()
         is_ready = ret_code == RET_OK
         is_retry = True
 
-        # 检查版本是否匹配
-        """
-        if is_ready:
-            cur_ver = state_dict['Version']
-            if cur_ver < NN_VERSION_MIN:
-                str_ver = cur_ver if cur_ver else str('未知')
-                str_error = "API连接的客户端版本过低， 当前版本:\'%s\', 最低要求版本:\'%s\', 请联系管理员重新安装牛牛API客户端！" % (
-                    str_ver, NN_VERSION_MIN)
-                raise Exception(str_error)
-        """
+        # create async socket (for push data)
+        if is_ready and self.__async_socket_enable:
+            if self._async_ctx is None:
+                self._handlers_ctx = HandlerContext(self._is_proc_run)
+                self._async_ctx = _AsyncNetworkManager(
+                    self.__host, self.__port, self._handlers_ctx, self)
+                self.set_pre_handler(AsyncHandler_InitConnect(self))
+
+            self._async_ctx.reconnect()
+
+        # wait async init connect
+        is_ready = (self._wait_async_init_connect() == RET_OK)
+        if not is_ready:
+            self._clear_conn_id()
+
         return is_ready, is_retry
 
     def notify_async_socket_close(self, async_ctx):
@@ -357,7 +376,7 @@ class OpenContextBase(object):
             return
 
         # auto reconnect
-        self._socket_reconnect_and_wait_ready()
+        self._event_async_close.set()
 
     def _thread_check_sync_sock_fun(self):
         """
@@ -378,7 +397,8 @@ class OpenContextBase(object):
                 self._thread_is_exit = True
                 return
             # select sock to get err state
-            if not sync_net_ctx.is_sock_ok(0.01):
+            is_async_close = self._event_async_close.wait(0.01)
+            if is_async_close or not sync_net_ctx.is_sock_ok(0.01):
                 self._thread_is_exit = True
                 if self._thread_check_sync_sock is thread_handle and not self._is_obj_closed:
                     logger.debug("check_sync_sock thread : reconnect !")

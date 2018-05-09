@@ -16,7 +16,7 @@ class OpenQuoteContext(OpenContextBase):
 
     def __init__(self, host='127.0.0.1', port=11111):
         self._ctx_subscribe = {}
-        super(OpenQuoteContext, self).__init__(host, port, True, True)
+        super(OpenQuoteContext, self).__init__(host, port, True)
 
     def close(self):
         """
