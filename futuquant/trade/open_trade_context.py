@@ -162,10 +162,6 @@ class OpenTradeContextBase(OpenContextBase):
         msg = "" if acc_id != 0 else ERROR_STR_PREFIX + "No one available account!"
         ret = RET_OK if acc_id != 0 else RET_ERROR
 
-        # 异步定阅帐号推送
-        if ret == RET_OK:
-            self.__check_acc_sub_push()
-
         return ret, msg, acc_id
 
     def _check_order_status(self, status_filter_list):
