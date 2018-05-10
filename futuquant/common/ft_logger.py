@@ -2,7 +2,7 @@ import logging
 logger = logging.getLogger('FT')
 
 # 设置logger的level为DEBUG
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.CRITICAL)
 
 # 创建一个输出日志到控制台的StreamHandler
 hdr = logging.StreamHandler()

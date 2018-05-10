@@ -486,15 +486,14 @@ class UpdateOrderPush:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        trd_env = TRADE.REV_TRD_ENV_MAP[rsp_pb.s2c.header.trdEnv]
-        trd_mkt = TRADE.REV_TRD_MKT_MAP[rsp_pb.s2c.header.trdMarket]
-
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg
 
         order_dict = OrderListQuery.parse_order(rsp_pb, rsp_pb.s2c.order)
+        order_dict['trd_env'] = TRADE.REV_TRD_ENV_MAP[rsp_pb.s2c.header.trdEnv]
+        order_dict['trd_market'] = TRADE.REV_TRD_MKT_MAP[rsp_pb.s2c.header.trdMarket]
 
-        return RET_OK, (trd_env, trd_mkt, order_dict)
+        return RET_OK, order_dict
 
 
 class UpdateDealPush:
@@ -504,12 +503,12 @@ class UpdateDealPush:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        trd_env = TRADE.REV_TRD_ENV_MAP[rsp_pb.s2c.header.trdEnv]
-        trd_mkt = TRADE.REV_TRD_MKT_MAP[rsp_pb.s2c.header.trdMarket]
 
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg
 
         deal_dict = DealListQuery.parse_deal(rsp_pb, rsp_pb.s2c.orderFill)
+        deal_dict['trd_env'] = TRADE.REV_TRD_ENV_MAP[rsp_pb.s2c.header.trdEnv]
+        deal_dict['trd_market'] = TRADE.REV_TRD_MKT_MAP[rsp_pb.s2c.header.trdMarket]
 
-        return RET_OK, (trd_env, trd_mkt, deal_dict)
+        return RET_OK, deal_dict

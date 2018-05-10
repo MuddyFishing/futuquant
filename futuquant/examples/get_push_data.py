@@ -116,8 +116,7 @@ class TradeOrderTest(TradeOrderHandlerBase):
         ret, content = super(TradeOrderTest, self).on_recv_rsp(rsp_pb)
 
         if ret == RET_OK:
-            trd_env, trd_mkt, order_dict = content
-            print("* TradeOrderTest trd_env={}, trd_mt={}, order={}\n".format(trd_env, trd_mkt, order_dict))
+            print("* TradeOrderTest content={}\n".format(content))
 
         return ret, content
 
@@ -128,8 +127,7 @@ class TradeDealTest(TradeDealHandlerBase):
         ret, content = super(TradeDealTest, self).on_recv_rsp(rsp_pb)
 
         if ret == RET_OK:
-            trd_env, trd_mkt, deal_dict = content
-            print("TradeDealTest trd_env={}, trd_mt={}, deal={}".format(trd_env, trd_mkt, deal_dict))
+            print("TradeDealTest content={}".format(content))
 
         return ret, content
 
@@ -224,7 +222,7 @@ def trade_hk_test():
     trd_ctx.set_handler(TradeDealTest())
     trd_ctx.start()
     # 交易请求必须先解锁 !!!
-    pwd_unlock = '123456'
+    pwd_unlock = '979899'
     print("* unlock_trade : {}\n".format(trd_ctx.unlock_trade(pwd_unlock)))
 
     # """
