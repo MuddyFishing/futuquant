@@ -281,10 +281,11 @@ class PlaceOrder:
     def unpack_rsp(cls, rsp_pb):
         """Convert from PLS response to user response"""
         if rsp_pb.retType != RET_OK:
-            return RET_ERROR, rsp_pb, None
-        order_id = rsp_pb.s2c.orderID
+            return RET_ERROR, rsp_pb.retMsg, None
 
-        return RET_OK, "", str(order_id)
+        order_id = str(rsp_pb.s2c.orderID)
+
+        return RET_OK, "", order_id
 
 
 class ModifyOrder:
@@ -324,10 +325,10 @@ class ModifyOrder:
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
 
-        order_id = rsp_pb.s2c.orderID
+        order_id = str(rsp_pb.s2c.orderID)
         modify_order_list = [{
             'trd_env': TRADE.REV_TRD_MKT_MAP[rsp_pb.s2c.header.trdEnv],
-            'order_id': str(order_id)
+            'order_id': order_id
         }]
 
         return RET_OK, "", modify_order_list
@@ -358,7 +359,7 @@ class DealListQuery:
             "code": merge_trd_mkt_stock_str(rsp_pb.s2c.header.trdMarket, deal.code),
             "stock_name": deal.name,
             "deal_id": deal.fillID,
-            "order_id": deal.orderID if deal.HasField('orderID') else 0,
+            "order_id": str(deal.orderID) if deal.HasField('orderID') else "",
             "qty": deal.qty,
             "price": deal.price,
             "trd_side": TRADE.REV_TRD_SIDE_MAP[deal.trdSide] if dael.trdSide in TRADE.REV_TRD_SIDE_MAP else TrdSide.NONE,
@@ -467,7 +468,7 @@ class HistoryDealListQuery:
                     "code": merge_trd_mkt_stock_str(rsp_pb.s2c.header.trdMarket, deal.code),
                     "stock_name": deal.name,
                     "deal_id": deal.fillID,
-                    "order_id": deal.orderID if deal.HasField('orderID') else 0,
+                    "order_id": str(deal.orderID) if deal.HasField('orderID') else "",
                     "qty": deal.qty,
                     "price": deal.price,
                     "trd_side": TRADE.REV_TRD_SIDE_MAP[deal.trdSide] if deal.trdSide in TRADE.REV_TRD_SIDE_MAP else TrdSide.NONE,

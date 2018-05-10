@@ -262,6 +262,23 @@ class OpenTradeContextBase(OpenContextBase):
 
     def order_list_query(self, order_id="", status_filter_list=[], code='', start='', end='',
                          trd_env=TrdEnv.REAL, acc_id=0):
+
+        ret_code, ret_data = self._order_list_query_impl(order_id, status_filter_list,
+                                                         code, start, end, trd_env, acc_id)
+        if ret_code != RET_OK:
+            return ret_code, ret_data
+
+        col_list = [
+            "code", "stock_name", "trd_side", "order_type", "order_status",
+            "order_id", "qty", "price", "create_time", "updated_time",
+            "dealt_qty", "dealt_avg_price", "last_err_msg"
+        ]
+        order_list = ret_data
+        order_list_table = pd.DataFrame(order_list, columns=col_list)
+
+        return RET_OK, order_list_table
+
+    def _order_list_query_impl(self, order_id, status_filter_list, code, start, end, trd_env, acc_id):
         ret, msg = self._check_trd_env(trd_env)
         if ret != RET_OK:
             return ret, msg
@@ -296,14 +313,7 @@ class OpenTradeContextBase(OpenContextBase):
         if ret_code != RET_OK:
             return RET_ERROR, msg
 
-        col_list = [
-            "code", "stock_name", "trd_side", "order_type", "order_status",
-            "order_id", "qty", "price", "create_time", "updated_time",
-            "dealt_qty", "dealt_avg_price", "last_err_msg"
-        ]
-        order_list_table = pd.DataFrame(order_list, columns=col_list)
-
-        return RET_OK, order_list_table
+        return RET_OK, order_list
 
     def place_order(self, price, qty, code, trd_side=TrdSide.NONE, order_type=OrderType.NORMAL,
                     adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0):
@@ -343,8 +353,23 @@ class OpenTradeContextBase(OpenContextBase):
         if ret_code != RET_OK:
             return RET_ERROR, msg
 
-        col_list = ['trd_env', 'order_id']
-        order_list = [{ 'trd_env': trd_env, 'order_id': order_id}]
+        order_item = {'trd_env': trd_env, 'order_id': order_id}
+
+        # 保持跟v2.0兼容， 增加必要的订单字段
+        for x in range(3):
+            ret_code, ret_data = self._order_list_query_impl(order_id=order_id,status_filter_list=[],
+                                            code=code, start="", end="", trd_env=trd_env, acc_id=acc_id)
+            if ret_code == RET_OK and len(ret_data) > 0:
+                order_item = ret_data[0]
+                order_item['trd_env'] = trd_env
+                break
+
+        col_list = [
+            "code", "stock_name", "trd_side", "order_type", "order_status",
+            "order_id", "qty", "price", "create_time", "updated_time",
+            "dealt_qty", "dealt_avg_price", "last_err_msg"
+        ]
+        order_list = [order_item]
         order_table = pd.DataFrame(order_list, columns=col_list)
 
         return RET_OK, order_table
