@@ -83,7 +83,7 @@ class OpenTradeContextBase(OpenContextBase):
             return ret, msg
 
         query_processor = self._get_sync_query_processor(
-            UnlockTrade.pack_req, UnlockTrade.unpack_rsp)
+                UnlockTrade.pack_req, UnlockTrade.unpack_rsp)
 
         md5_val = str(password_md5) if not str(password_md5) else md5_transform(str(password))
         kargs = {
@@ -159,7 +159,7 @@ class OpenTradeContextBase(OpenContextBase):
                     return ret, content, acc_id
             acc_id = self._get_default_acc_id(trd_env)
 
-        msg = "" if acc_id != 0 else ERROR_STR_PREFIX + "the type of acc_id param is wrong "
+        msg = "" if acc_id != 0 else ERROR_STR_PREFIX + "No one available account!"
         ret = RET_OK if acc_id != 0 else RET_ERROR
 
         # 异步定阅帐号推送
