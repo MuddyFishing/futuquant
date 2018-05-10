@@ -250,8 +250,8 @@ def trade_hk_test():
 
 
 if __name__ =="__main__":
-    quote_test()
-    # trade_hk_test()
+    # quote_test()
+    trade_hk_test()
 
 
 

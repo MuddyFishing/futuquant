@@ -77,6 +77,11 @@ class OpenTradeContextBase(OpenContextBase):
         :return:(ret, data) ret == 0 时, data为None
                             ret != 0 时， data为错误字符串
         '''
+        # 解锁要求先拉一次帐户列表, 目前仅真实环境需要解锁
+        ret, msg, acc_id = self._check_acc_id(TrdEnv.REAL, 0)
+        if ret != RET_OK:
+            return ret, msg
+
         query_processor = self._get_sync_query_processor(
             UnlockTrade.pack_req, UnlockTrade.unpack_rsp)
 
@@ -331,7 +336,7 @@ class OpenTradeContextBase(OpenContextBase):
             'trd_mkt': self.__trd_mkt,
             'trd_env': trd_env,
             'acc_id': acc_id,
-            'conn_id': self.get_conn_id()
+            'conn_id': self.get_sync_conn_id()
         }
 
         ret_code, msg, order_id = query_processor(**kargs)
@@ -371,7 +376,7 @@ class OpenTradeContextBase(OpenContextBase):
             'trd_mkt': self.__trd_mkt,
             'trd_env': trd_env,
             'acc_id': acc_id,
-            'conn_id':self.get_conn_id(),
+            'conn_id': self.get_sync_conn_id(),
         }
 
         ret_code, msg, modify_order_list = query_processor(**kargs)
