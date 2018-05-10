@@ -80,7 +80,7 @@ class OpenTradeContextBase(OpenContextBase):
         query_processor = self._get_sync_query_processor(
             UnlockTrade.pack_req, UnlockTrade.unpack_rsp)
 
-        md5_val = str(password_md5) if not str(password_md5) else md5_transform(str(password))
+        md5_val = str(password_md5) if password_md5 else md5_transform(str(password))
         kargs = {
             'is_unlock': is_unlock,
             'password_md5': str(md5_val)
@@ -366,7 +366,7 @@ class OpenTradeContextBase(OpenContextBase):
             'modify_order_op': modify_order_op,
             'order_id': str(order_id),
             'price': float(price),
-            'qty':float(qty),
+            'qty': float(qty),
             'adjust_limit': adjust_limit,
             'trd_mkt': self.__trd_mkt,
             'trd_env': trd_env,
