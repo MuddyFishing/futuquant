@@ -56,10 +56,14 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         self.__req_queue = Queue()
         self.__is_log_handle_close = False
         self.__recv_buf = b''
+        self._conn_id = 0
         super(_AsyncNetworkManager, self).__init__()
 
         self.handler_ctx = handler_ctx
         self.async_thread_ctrl.add_async(self)
+
+    def set_conn_id(self, conn_id):
+        self._conn_id = conn_id
 
     def __del__(self):
         self.async_thread_ctrl.remove_async(self)
@@ -113,11 +117,25 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                 self.__recv_buf = self.__recv_buf[head_len + body_len:]
                 # logger.debug("async proto_id = {} rsp_body_len={} body_len={}".format(head_dict['proto_id'],len(rsp_body), body_len))
 
-                rsp_pb = binary2pb(rsp_body, head_dict['proto_id'], head_dict['proto_fmt_type'])
-                if rsp_pb is None:
-                    logger.error("async handle_read not support proto:{}".format(head_dict['proto_id']))
+                # 数据解密码校验
+                ret_decrypt, msg_decrypt, rsp_body = decrypt_rsp_body(rsp_body, head_dict, self._conn_id)
+
+                # debug 时可打开，避免异步推送影响同步请求的调试
+                """
+                if head_dict['proto_id'] == ProtoId.InitConnect:
+                    ret_decrypt, msg_decrypt, rsp_body = decrypt_rsp_body(rsp_body, head_dict, self._conn_id)
                 else:
-                    self.handler_ctx.recv_func(rsp_pb, head_dict['proto_id'])
+                    ret_decrypt, msg_decrypt, rsp_body = -1, "only for debug", None
+                """
+
+                if ret_decrypt == RET_OK:
+                    rsp_pb = binary2pb(rsp_body, head_dict['proto_id'], head_dict['proto_fmt_type'])
+                    if rsp_pb is None:
+                        logger.error("async handle_read not support proto:{}".format(head_dict['proto_id']))
+                    else:
+                        self.handler_ctx.recv_func(rsp_pb, head_dict['proto_id'])
+                else:
+                    logger.error(msg_decrypt)
 
             if len(self.__recv_buf):
                 logger.debug("left len = {} data={}".format(len(self.__recv_buf), self.__recv_buf))

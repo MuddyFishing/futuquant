@@ -27,12 +27,12 @@ class GetAccountList:
         pass
 
     @classmethod
-    def pack_req(cls, user_id):
+    def pack_req(cls, user_id, conn_id):
         from futuquant.common.pb.Trd_GetAccList_pb2 import Request
 
         req = Request()
         req.c2s.userID = user_id
-        return pack_pb_req(req, ProtoId.Trd_GetAccList)
+        return pack_pb_req(req, ProtoId.Trd_GetAccList, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -56,14 +56,14 @@ class UnlockTrade:
         pass
 
     @classmethod
-    def pack_req(cls, is_unlock, password_md5):
+    def pack_req(cls, is_unlock, password_md5, conn_id):
         """Convert from user request for trading days to PLS request"""
         from futuquant.common.pb.Trd_UnlockTrade_pb2 import Request
         req = Request()
         req.c2s.unlock = is_unlock
         req.c2s.pwdMD5 = password_md5
 
-        return pack_pb_req(req, ProtoId.Trd_UnlockTrade)
+        return pack_pb_req(req, ProtoId.Trd_UnlockTrade, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -80,13 +80,13 @@ class SubAccPush:
         pass
 
     @classmethod
-    def pack_req(cls, acc_id_list):
+    def pack_req(cls, acc_id_list, conn_id):
         from futuquant.common.pb.Trd_SubAccPush_pb2 import Request
         req = Request()
         for x in acc_id_list:
             req.c2s.accID.append(x)
 
-        return pack_pb_req(req, ProtoId.Trd_SubAccPush)
+        return pack_pb_req(req, ProtoId.Trd_SubAccPush, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -104,14 +104,14 @@ class AccInfoQuery:
         pass
 
     @classmethod
-    def pack_req(cls, acc_id, trd_market, trd_env):
+    def pack_req(cls, acc_id, trd_market, trd_env, conn_id):
         from futuquant.common.pb.Trd_GetFunds_pb2 import Request
         req = Request()
         req.c2s.header.trdEnv = TRD_ENV_MAP[trd_env]
         req.c2s.header.accID = acc_id
         req.c2s.header.trdMarket = TRD_MKT_MAP[trd_market]
 
-        return pack_pb_req(req, ProtoId.Trd_GetFunds)
+        return pack_pb_req(req, ProtoId.Trd_GetFunds, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -139,7 +139,7 @@ class PositionListQuery:
 
     @classmethod
     def pack_req(cls, code, pl_ratio_min,
-                 pl_ratio_max, trd_env, acc_id, trd_mkt):
+                 pl_ratio_max, trd_env, acc_id, trd_mkt, conn_id):
         """Convert from user request for trading days to PLS request"""
         from futuquant.common.pb.Trd_GetPositionList_pb2 import Request
         req = Request()
@@ -153,7 +153,7 @@ class PositionListQuery:
         if pl_ratio_max:
             req.c2s.filterPLRatioMax = float(pl_ratio_max) / 100.0
 
-        return pack_pb_req(req, ProtoId.Trd_GetPositionList)
+        return pack_pb_req(req, ProtoId.Trd_GetPositionList, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -194,7 +194,7 @@ class OrderListQuery:
 
     @classmethod
     def pack_req(cls, order_id, status_filter_list, code, start, end,
-                 trd_env, acc_id, trd_mkt):
+                 trd_env, acc_id, trd_mkt, conn_id):
         """Convert from user request for trading days to PLS request"""
         from futuquant.common.pb.Trd_GetOrderList_pb2 import Request
         req = Request()
@@ -216,7 +216,7 @@ class OrderListQuery:
             for order_status in status_filter_list:
                 req.c2s.filterStatus.append(ORDER_STATUS_MAP[order_status])
 
-        return pack_pb_req(req, ProtoId.Trd_GetOrderList)
+        return pack_pb_req(req, ProtoId.Trd_GetOrderList, conn_id)
 
     @classmethod
     def parse_order(cls, rsp_pb, order):
@@ -254,8 +254,8 @@ class PlaceOrder:
         pass
 
     @classmethod
-    def pack_req(cls, conn_id, trd_side, order_type, price, qty,
-                 code, adjust_limit, trd_env, acc_id, trd_mkt):
+    def pack_req(cls, trd_side, order_type, price, qty,
+                 code, adjust_limit, trd_env, acc_id, trd_mkt, conn_id):
         """Convert from user request for place order to PLS request"""
         from futuquant.common.pb.Trd_PlaceOrder_pb2 import Request
         req = Request()
@@ -275,7 +275,7 @@ class PlaceOrder:
         req.c2s.adjustPrice = adjust_limit != 0
         req.c2s.adjustSideAndLimit = adjust_limit
 
-        return pack_pb_req(req, ProtoId.Trd_PlaceOrder, serial_no)
+        return pack_pb_req(req, ProtoId.Trd_PlaceOrder, conn_id, serial_no)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -317,7 +317,7 @@ class ModifyOrder:
             req.c2s.adjustPrice = adjust_limit != 0
             req.c2s.adjustSideAndLimit = adjust_limit
 
-        return pack_pb_req(req, ProtoId.Trd_ModifyOrder, serial_no)
+        return pack_pb_req(req, ProtoId.Trd_ModifyOrder, conn_id, serial_no)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -340,7 +340,7 @@ class DealListQuery:
         pass
 
     @classmethod
-    def pack_req(cls, code, trd_env, acc_id, trd_mkt):
+    def pack_req(cls, code, trd_env, acc_id, trd_mkt, conn_id):
         """Convert from user request for place order to PLS request"""
         from futuquant.common.pb.Trd_GetOrderFillList_pb2 import Request
         req = Request()
@@ -351,7 +351,7 @@ class DealListQuery:
         if code:
             req.c2s.filterConditions.code.append(code)
 
-        return pack_pb_req(req, ProtoId.Trd_GetOrderFillList)
+        return pack_pb_req(req, ProtoId.Trd_GetOrderFillList, conn_id)
 
     @classmethod
     def parse_deal(cls, rsp_pb, deal):
@@ -389,7 +389,7 @@ class HistoryOrderListQuery:
 
     @classmethod
     def pack_req(cls, status_filter_list, code, start, end,
-                 trd_env, acc_id, trd_mkt):
+                 trd_env, acc_id, trd_mkt, conn_id):
 
         from futuquant.common.pb.Trd_GetHistoryOrderList_pb2 import Request
         req = Request()
@@ -407,7 +407,7 @@ class HistoryOrderListQuery:
             for order_status in status_filter_list:
                 req.c2s.filterStatus.append(ORDER_STATUS_MAP[order_status])
 
-        return pack_pb_req(req, ProtoId.Trd_GetHistoryOrderList)
+        return pack_pb_req(req, ProtoId.Trd_GetHistoryOrderList, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -441,7 +441,7 @@ class HistoryDealListQuery:
         pass
 
     @classmethod
-    def pack_req(cls, code, start, end, trd_env, acc_id, trd_mkt):
+    def pack_req(cls, code, start, end, trd_env, acc_id, trd_mkt, conn_id):
 
         from futuquant.common.pb.Trd_GetHistoryOrderFillList_pb2 import Request
         req = Request()
@@ -455,7 +455,7 @@ class HistoryDealListQuery:
         req.c2s.filterConditions.beginTime = start
         req.c2s.filterConditions.endTime = end
 
-        return pack_pb_req(req, ProtoId.Trd_GetHistoryOrderFillList)
+        return pack_pb_req(req, ProtoId.Trd_GetHistoryOrderFillList, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):

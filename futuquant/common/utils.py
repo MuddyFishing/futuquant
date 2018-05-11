@@ -14,8 +14,11 @@ import struct
 import time
 
 from futuquant.common.constant import *
+from futuquant.common.sys_config import *
+from futuquant.common.conn_mng import *
 from futuquant.common.pbjson import json2pb
 from futuquant.common.ft_logger import logger
+
 
 
 def set_proto_fmt(proto_fmt):
@@ -413,34 +416,55 @@ def binary2pb(b, proto_id, proto_fmt_type):
         raise Exception("binary2str: unknown proto format.")
 
 
-
-def pack_pb_req(pb_req, proto_id, serial_no=0):
+def pack_pb_req(pb_req, proto_id, conn_id, serial_no=0):
     proto_fmt = get_proto_fmt()
     if proto_fmt == ProtoFMT.Json:
         req_json = MessageToJson(pb_req)
-        req = _joint_head(proto_id, proto_fmt, len(req_json),
-                          req_json.encode(), serial_no)
-        return RET_OK, "", req
+        ret, msg, req = _joint_head(proto_id, proto_fmt, len(req_json),
+                          req_json.encode(), conn_id, serial_no)
+        return ret, msg, req
+
     elif proto_fmt == ProtoFMT.Protobuf:
-        req = _joint_head(proto_id, proto_fmt, pb_req.ByteSize(), pb_req, serial_no)
-        return RET_OK, "", req
+        ret, msg, req = _joint_head(proto_id, proto_fmt, pb_req.ByteSize(), pb_req, conn_id, serial_no)
+        return ret, msg, req
     else:
         error_str = ERROR_STR_PREFIX + 'unknown protocol format, %d' % proto_fmt
         return RET_ERROR, error_str, None
 
 
-def _joint_head(proto_id, proto_fmt_type, body_len, str_body, serial_no):
+def _joint_head(proto_id, proto_fmt_type, body_len, str_body, conn_id, serial_no):
+
+    # sha20 = b'00000000000000000000'
+    reserve8 = b'\x00\x00\x00\x00\x00\x00\x00\x00'
+
     if proto_fmt_type == ProtoFMT.Protobuf:
         str_body = str_body.SerializeToString()
+
+    if type(str_body) is not bytes:
+        str_body = bytes(str_body, encoding='utf-8')
+    sha20 = hashlib.sha1(str_body).digest()
+
+    # init connect 需要用rsa加密
+    if SysConfig.is_proto_encrypt():
+        if proto_id == ProtoId.InitConnect:
+            str_body = RsaCrypt.encrypt(str_body)
+            body_len = len(str_body)
+        else:
+            ret, msg, str_body = FutuConnMng.encrypt_conn_data(conn_id, str_body)
+            body_len = len(str_body)
+            if ret != RET_OK:
+                return ret, msg, str_body
+
     fmt = "%s%ds" % (MESSAGE_HEAD_FMT, body_len)
 
     head_serial_no = serial_no if serial_no else get_unique_id32()
     # print("serial no = {} proto_id = {}".format(head_serial_no, proto_id))
-    sha20 = b'00000000000000000000'
-    reserve8 = b'\x00\x00\x00\x00\x00\x00\x00\x00'
+
     bin_head = struct.pack(fmt, b'F', b'T', proto_id, proto_fmt_type,
                            API_PROTO_VER, head_serial_no, body_len, sha20, reserve8, str_body)
-    return bin_head
+
+    return RET_OK, "", bin_head
+
 
 def parse_head(head_bytes):
     head_dict = {}
@@ -449,3 +473,34 @@ def parse_head(head_bytes):
     head_dict['serial_no'], head_dict['body_len'], head_dict['sha20'], \
     head_dict['reserve8'], = struct.unpack(MESSAGE_HEAD_FMT, head_bytes)
     return head_dict
+
+
+def decrypt_rsp_body(rsp_body, head_dict, conn_id):
+    ret_code = RET_OK
+    msg = ''
+    if not SysConfig.is_proto_encrypt():
+        return ret_code, msg, rsp_body
+    try:
+        sha20 = head_dict['sha20']
+        proto_id = head_dict['proto_id']
+        if proto_id == ProtoId.InitConnect:
+            rsp_body_len = len(rsp_body)
+            rsp_body = RsaCrypt.decrypt(rsp_body)
+        else:
+            ret_code, msg, decrypt_data = FutuConnMng.decrypt_conn_data(conn_id, rsp_body)
+            rsp_body = decrypt_data
+
+        # check sha20
+        if ret_code == RET_OK:
+            sha20_check = hashlib.sha1(rsp_body).digest()
+            if sha20_check != sha20:
+                ret_code = RET_ERROR
+                msg = "proto id:{} check sha error!".format(proto_id)
+
+    except Exception as e:
+        msg = sys.exc_info()[1]
+        ret_code = RET_ERROR
+
+    return ret_code, msg, rsp_body
+
+

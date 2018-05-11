@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+from futuquant.common.utils import *
+from futuquant.common.sys_config import SysConfig
+from Crypto.Cipher import AES
+
 
 class FutuConnMng(object):
     All_Conn_Dict = {}
@@ -33,3 +37,69 @@ class FutuConnMng(object):
     def is_conn_encrypt(cls, conn_id):
         # 连接暂时未启用加密
         return False
+
+    @classmethod
+    def get_conn_aes_cryptor(cls, conn_id):
+        conn_info = FutuConnMng.get_conn_info(conn_id)
+        if not conn_info:
+            return None
+
+        if 'aes_cryptor' not in conn_info:
+            key = FutuConnMng.get_conn_key(conn_id)
+            if not key:
+                return None
+            cryptor = AES.new(key, AES.MODE_ECB, key)
+            conn_info['aes_cryptor'] = cryptor
+            return cryptor
+
+        return conn_info['aes_cryptor']
+
+    @classmethod
+    def encrypt_conn_data(cls, conn_id, data):
+        if not SysConfig.is_proto_encrypt():
+            return RET_OK, '', data
+
+        if type(data) is not bytes:
+            data = bytes(str(data), encoding='utf-8')
+
+        len_src = len(data)
+        mod_tail_len = (len_src % 16)
+        add_pad = 16 - mod_tail_len
+
+        if add_pad:
+            data += (b'\x00' * add_pad)
+
+        aes_cryptor = FutuConnMng.get_conn_aes_cryptor(conn_id)
+        if aes_cryptor:
+            data = aes_cryptor.encrypt(data)
+            data_tail = b'\x00' * 15 + bytes(chr(mod_tail_len), encoding='utf-8')
+            data_tail = data_tail[-16:]
+            data += data_tail
+            return RET_OK, '', data
+
+        return RET_ERROR, 'AES encrypt error', data
+
+    @classmethod
+    def decrypt_conn_data(cls, conn_id, data):
+        if not SysConfig.is_proto_encrypt():
+            return RET_OK, '', data
+
+        # tail的未尾字节记录解密数据的最一个数据块真实的长度
+        data_real = data[:len(data) - 16]
+        data_tail = data[-1:]
+        tail_real_len = int.from_bytes(data_tail, 'little')
+
+        aes_cryptor = FutuConnMng.get_conn_aes_cryptor(conn_id)
+        if aes_cryptor:
+            de_data = aes_cryptor.decrypt(data_real)
+            if tail_real_len != 0:
+                cut_len = 16 - tail_real_len
+                de_data = de_data[0: len(de_data) - cut_len]
+
+            return RET_OK, '', de_data
+
+        return RET_ERROR, 'AES decrypt error', data
+
+
+
+

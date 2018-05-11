@@ -134,6 +134,7 @@ class TradeDealTest(TradeDealHandlerBase):
 
 def quote_test():
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+
     quote_ctx.set_handler(StockQuoteTest())
     quote_ctx.set_handler(CurKlineTest())
     quote_ctx.set_handler(RTDataTest())
@@ -183,7 +184,7 @@ def quote_test():
     return
     """
 
-    """
+    # """
     print("* get_stock_basicinfo : {}\n".format(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.ETF)))
     print("* get_cur_kline : {}\n".format(quote_ctx.get_cur_kline(code_list[0], 10, SubType.K_DAY, AuType.QFQ)))
 
@@ -193,9 +194,9 @@ def quote_test():
     print("* get_broker_queue : {}\n".format(quote_ctx.get_broker_queue(code_list[0])))
     print("* get_order_book : {}\n".format(quote_ctx.get_order_book(code_list[0])))
     print("* get_history_kline : {}\n".format(quote_ctx.get_history_kline('HK.00700', start='2017-06-20', end='2017-06-22')))
-    """
+    # """
 
-    """
+    # """
     print("* get_multi_points_history_kline : {}\n".format(quote_ctx.get_multi_points_history_kline(code_list, ['2017-06-20', '2017-06-22', '2017-06-23'], KL_FIELD.ALL,
                                                    KLType.K_DAY, AuType.QFQ)))
     print("* get_autype_list : {}\n".format(quote_ctx.get_autype_list("HK.00700")))
@@ -208,11 +209,11 @@ def quote_test():
 
     print("* get_plate_list : {}\n".format(quote_ctx.get_plate_list(Market.HK, Plate.ALL)))
     print("* get_plate_stock : {}\n".format(quote_ctx.get_plate_stock('HK.BK1001')))
-    """
+    # """
 
     # """
-    # sleep(15)
-    # quote_ctx.close()
+    sleep(10)
+    quote_ctx.close()
     # """
 
 
@@ -248,8 +249,8 @@ def trade_hk_test():
 
 
 if __name__ =="__main__":
-    # quote_test()
-    trade_hk_test()
+    quote_test()
+    # trade_hk_test()
 
 
 

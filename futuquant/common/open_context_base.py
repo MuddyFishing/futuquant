@@ -56,7 +56,7 @@ class OpenContextBase(object):
         kargs = {
             'client_ver': int(get_client_ver()),
             'client_id': str(get_client_id()),
-            "recv_notify": False
+            'recv_notify': False,
         }
         ret_code, msg, content = query_processor(**kargs)
 
@@ -66,6 +66,7 @@ class OpenContextBase(object):
         else:
             conn_info = copy(content)
             self._sync_conn_id = conn_info['conn_id']
+            self._sync_net_ctx.set_conn_id(self._sync_conn_id)
             FutuConnMng.add_conn(conn_info)
             logger.info("sync socket init_connect ok: {}".format(conn_info))
 
@@ -81,6 +82,7 @@ class OpenContextBase(object):
         """
         if ret == RET_OK:
             self._async_conn_id = conn_info_map['conn_id']
+            self._async_ctx.set_conn_id(self._async_conn_id)
             FutuConnMng.add_conn(conn_info_map)
         logger.debug("async init connect ret={}, msg={}, conn_info={}".format(ret, msg, conn_info_map))
 
@@ -362,7 +364,9 @@ class OpenContextBase(object):
             self._async_ctx.reconnect()
 
         # wait async init connect
-        is_ready = (self._wait_async_init_connect() == RET_OK)
+        if is_ready:
+            is_ready = (self._wait_async_init_connect() == RET_OK)
+
         if not is_ready:
             self._clear_conn_id()
 
@@ -424,7 +428,10 @@ class OpenContextBase(object):
         query_processor = self._get_sync_query_processor(
             GlobalStateQuery.pack_req, GlobalStateQuery.unpack_rsp)
 
-        kargs = {"user_id": self.get_login_user_id()}
+        kargs = {
+            'user_id': self.get_login_user_id(),
+            'conn_id': self.get_sync_conn_id(),
+        }
         ret_code, msg, state_dict = query_processor(**kargs)
         if ret_code != RET_OK:
             return ret_code, msg

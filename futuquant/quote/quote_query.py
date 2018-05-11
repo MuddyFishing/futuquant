@@ -11,7 +11,8 @@ from google.protobuf.json_format import MessageToJson
 from futuquant.common.constant import *
 from futuquant.common.utils import *
 from futuquant.common.pb.Common_pb2 import RetType
-
+from futuquant.common.sys_config import SysConfig
+import base64
 
 class InitConnect:
     """
@@ -35,7 +36,7 @@ class InitConnect:
         req.c2s.clientVer = client_ver
         req.c2s.clientID = client_id
         req.c2s.recvNotify = recv_notify
-        return pack_pb_req(req, ProtoId.InitConnect)
+        return pack_pb_req(req, ProtoId.InitConnect, 0)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -51,7 +52,7 @@ class InitConnect:
             res['server_version'] = rsp_pb.s2c.serverVer
             res['login_user_id'] = rsp_pb.s2c.loginUserID
             res['conn_id'] = rsp_pb.s2c.connID
-            res['conn_key'] = rsp_pb.s2c.connAESKeyBase64
+            res['conn_key'] = rsp_pb.s2c.connAESKey
         else:
             return RET_ERROR, "rsp_pb error", None
 
@@ -66,7 +67,7 @@ class TradeDayQuery:
         pass
 
     @classmethod
-    def pack_req(cls, market, start_date=None, end_date=None):
+    def pack_req(cls, market, conn_id, start_date=None, end_date=None):
         """
         Convert from user request for trading days to PLS request
         :param market:
@@ -109,7 +110,7 @@ class TradeDayQuery:
         req.c2s.beginTime = start_date
         req.c2s.endTime = end_date
 
-        return pack_pb_req(req, ProtoId.Qot_ReqTradeDate)
+        return pack_pb_req(req, ProtoId.Qot_ReqTradeDate, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -163,7 +164,7 @@ class StockBasicInfoQuery:
         pass
 
     @classmethod
-    def pack_req(cls, market, stock_type='STOCK'):
+    def pack_req(cls, market, conn_id, stock_type='STOCK'):
         """
         Convert from user request for trading days to PLS request
         :param market:
@@ -186,7 +187,7 @@ class StockBasicInfoQuery:
         req.c2s.market = MKT_MAP[market]
         req.c2s.secType = SEC_TYPE_MAP[stock_type]
 
-        return pack_pb_req(req, ProtoId.Qot_ReqStockList)
+        return pack_pb_req(req, ProtoId.Qot_ReqStockList, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -231,7 +232,7 @@ class MarketSnapshotQuery:
         pass
 
     @classmethod
-    def pack_req(cls, stock_list):
+    def pack_req(cls, stock_list, conn_id):
         """Convert from user request for trading days to PLS request"""
         stock_tuple_list = []
         failure_tuple_list = []
@@ -257,7 +258,7 @@ class MarketSnapshotQuery:
             stock_inst.market = market
             stock_inst.code = code
 
-        return pack_pb_req(req, ProtoId.Qot_ReqStockSnapshot)
+        return pack_pb_req(req, ProtoId.Qot_ReqStockSnapshot, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -351,7 +352,7 @@ class RtDataQuery:
         pass
 
     @classmethod
-    def pack_req(cls, code):
+    def pack_req(cls, code, conn_id):
         """Convert from user request for trading days to PLS request"""
         ret, content = split_stock_str(code)
         if ret == RET_ERROR:
@@ -364,7 +365,7 @@ class RtDataQuery:
         req.c2s.stock.market = market_code
         req.c2s.stock.code = stock_code
 
-        return pack_pb_req(req, ProtoId.Qot_ReqRT)
+        return pack_pb_req(req, ProtoId.Qot_ReqRT, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -401,14 +402,14 @@ class SubplateQuery:
         pass
 
     @classmethod
-    def pack_req(cls, market, plate_class):
+    def pack_req(cls, market, plate_class, conn_id):
         """Convert from user request for trading days to PLS request"""
         from futuquant.common.pb.Qot_ReqPlateSet_pb2 import Request
         req = Request()
         req.c2s.market = MKT_MAP[market]
         req.c2s.plateSetType = PLATE_CLASS_MAP[plate_class]
 
-        return pack_pb_req(req, ProtoId.Qot_ReqPlateSet)
+        return pack_pb_req(req, ProtoId.Qot_ReqPlateSet, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -438,7 +439,7 @@ class PlateStockQuery:
         pass
 
     @classmethod
-    def pack_req(cls, plate_code):
+    def pack_req(cls, plate_code, conn_id):
         """Convert from user request for trading days to PLS request"""
         ret_code, content = split_stock_str(plate_code)
         if ret_code != RET_OK:
@@ -456,7 +457,7 @@ class PlateStockQuery:
         req.c2s.plate.market = market
         req.c2s.plate.code = code
 
-        return pack_pb_req(req, ProtoId.Qot_ReqPlateStock)
+        return pack_pb_req(req, ProtoId.Qot_ReqPlateStock, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -494,7 +495,7 @@ class BrokerQueueQuery:
         pass
 
     @classmethod
-    def pack_req(cls, code):
+    def pack_req(cls, code, conn_id):
         """Convert from user request for trading days to PLS request"""
         ret_code, content = split_stock_str(code)
         if ret_code == RET_ERROR:
@@ -507,7 +508,7 @@ class BrokerQueueQuery:
         req.c2s.stock.market = market
         req.c2s.stock.code = code
 
-        return pack_pb_req(req, ProtoId.Qot_ReqBroker)
+        return pack_pb_req(req, ProtoId.Qot_ReqBroker, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -548,7 +549,7 @@ class HistoryKlineQuery:
 
     @classmethod
     def pack_req(cls, code, start_date, end_date, ktype, autype, fields,
-                 max_num):
+                 max_num, conn_id):
         """Convert from user request for trading days to PLS request"""
         ret, content = split_stock_str(code)
         if ret == RET_ERROR:
@@ -596,7 +597,7 @@ class HistoryKlineQuery:
         req.c2s.maxAckKLNum = max_num
         req.c2s.needKLFieldsFlag = KL_FIELD.kl_fields_to_flag_val(fields)
 
-        return pack_pb_req(req, ProtoId.Qot_ReqHistoryKL)
+        return pack_pb_req(req, ProtoId.Qot_ReqHistoryKL, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -655,7 +656,7 @@ class ExrightQuery:
         pass
 
     @classmethod
-    def pack_req(cls, stock_list):
+    def pack_req(cls, stock_list, conn_id):
         """Convert from user request for trading days to PLS request"""
         stock_tuple_list = []
         failure_tuple_list = []
@@ -680,7 +681,7 @@ class ExrightQuery:
             stock_inst.market = market_code
             stock_inst.code = stock_code
 
-        return pack_pb_req(req, ProtoId.Qot_ReqRehab)
+        return pack_pb_req(req, ProtoId.Qot_ReqRehab, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -753,7 +754,7 @@ class SubscriptionQuery:
         pass
 
     @classmethod
-    def pack_sub_or_unsub_req(cls, code_list, subtype_list, is_sub):
+    def pack_sub_or_unsub_req(cls, code_list, subtype_list, is_sub, conn_id):
 
         stock_tuple_list = []
         for code in code_list:
@@ -773,11 +774,11 @@ class SubscriptionQuery:
             req.c2s.subType.append(SUBTYPE_MAP[subtype])
         req.c2s.isSubOrUnSub = is_sub
 
-        return pack_pb_req(req, ProtoId.Qot_Sub)
+        return pack_pb_req(req, ProtoId.Qot_Sub, conn_id)
 
     @classmethod
-    def pack_subscribe_req(cls, code_list, subtype_list):
-        return SubscriptionQuery.pack_sub_or_unsub_req(code_list, subtype_list, True)
+    def pack_subscribe_req(cls, code_list, subtype_list, conn_id):
+        return SubscriptionQuery.pack_sub_or_unsub_req(code_list, subtype_list, True, conn_id)
 
     @classmethod
     def unpack_subscribe_rsp(cls, rsp_pb):
@@ -788,9 +789,9 @@ class SubscriptionQuery:
         return RET_OK, "", None
 
     @classmethod
-    def pack_unsubscribe_req(cls, code_list, subtype_list):
+    def pack_unsubscribe_req(cls, code_list, subtype_list, conn_id):
         """Pack the un-subscribed request"""
-        return SubscriptionQuery.pack_sub_or_unsub_req(code_list, subtype_list, False)
+        return SubscriptionQuery.pack_sub_or_unsub_req(code_list, subtype_list, False, conn_id)
 
     @classmethod
     def unpack_unsubscribe_rsp(cls, rsp_pb):
@@ -801,13 +802,13 @@ class SubscriptionQuery:
         return RET_OK, "", None
 
     @classmethod
-    def pack_subscription_query_req(cls, is_all_conn):
+    def pack_subscription_query_req(cls, is_all_conn, conn_id):
         """Pack the subscribed query request"""
         from futuquant.common.pb.Qot_ReqSubInfo_pb2 import Request
         req = Request()
         req.c2s.isReqAllConn = is_all_conn
 
-        return pack_pb_req(req, ProtoId.Qot_ReqSubInfo)
+        return pack_pb_req(req, ProtoId.Qot_ReqSubInfo, conn_id)
 
     @classmethod
     def unpack_subscription_query_rsp(cls, rsp_pb):
@@ -842,7 +843,7 @@ class SubscriptionQuery:
         return RET_OK, "", result
 
     @classmethod
-    def pack_push_or_unpush_req(cls, code_list, subtype_list, is_push):
+    def pack_push_or_unpush_req(cls, code_list, subtype_list, is_push, conn_id):
         stock_tuple_list = []
         for code in code_list:
             ret_code, content = split_stock_str(code)
@@ -861,17 +862,17 @@ class SubscriptionQuery:
             req.c2s.subType.append(SUBTYPE_MAP[subtype])
         req.c2s.isRegOrUnReg = is_push
 
-        return pack_pb_req(req, ProtoId.Qot_RegQotPush)
+        return pack_pb_req(req, ProtoId.Qot_RegQotPush, conn_id)
 
     @classmethod
-    def pack_push_req(cls, code_list, subtype_list):
+    def pack_push_req(cls, code_list, subtype_list, conn_id):
         """Pack the push request"""
-        return SubscriptionQuery.pack_push_or_unpush_req(code_list, subtype_list, True)
+        return SubscriptionQuery.pack_push_or_unpush_req(code_list, subtype_list, True, conn_id)
 
     @classmethod
-    def pack_unpush_req(cls, code_list, subtype_list):
+    def pack_unpush_req(cls, code_list, subtype_list, conn_id):
         """Pack the un-pushed request"""
-        return SubscriptionQuery.pack_push_or_unpush_req(code_list, subtype_list, False)
+        return SubscriptionQuery.pack_push_or_unpush_req(code_list, subtype_list, False, conn_id)
 
 
 class StockQuoteQuery:
@@ -883,7 +884,7 @@ class StockQuoteQuery:
         pass
 
     @classmethod
-    def pack_req(cls, stock_list):
+    def pack_req(cls, stock_list, conn_id):
         """Convert from user request for trading days to PLS request"""
         stock_tuple_list = []
         failure_tuple_list = []
@@ -908,7 +909,7 @@ class StockQuoteQuery:
             stock_inst.market = market_code
             stock_inst.code = stock_code
 
-        return pack_pb_req(req, ProtoId.Qot_ReqStockBasic)
+        return pack_pb_req(req, ProtoId.Qot_ReqStockBasic, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -945,7 +946,7 @@ class TickerQuery:
         pass
 
     @classmethod
-    def pack_req(cls, code, num=500):
+    def pack_req(cls, code, num, conn_id):
         """Convert from user request for trading days to PLS request"""
         ret, content = split_stock_str(code)
         if ret == RET_ERROR:
@@ -968,7 +969,7 @@ class TickerQuery:
         req.c2s.stock.code = stock_code
         req.c2s.maxRetNum = num
 
-        return pack_pb_req(req, ProtoId.Qot_ReqTicker)
+        return pack_pb_req(req, ProtoId.Qot_ReqTicker, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -998,7 +999,7 @@ class CurKlineQuery:
         pass
 
     @classmethod
-    def pack_req(cls, code, num, ktype, autype):
+    def pack_req(cls, code, num, ktype, autype, conn_id):
         """Convert from user request for trading days to PLS request"""
         ret, content = split_stock_str(code)
         if ret == RET_ERROR:
@@ -1033,7 +1034,7 @@ class CurKlineQuery:
         req.c2s.reqNum = num
         req.c2s.klType = KTYPE_MAP[ktype]
 
-        return pack_pb_req(req, ProtoId.Qot_ReqKL)
+        return pack_pb_req(req, ProtoId.Qot_ReqKL, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -1110,7 +1111,7 @@ class OrderBookQuery:
         pass
 
     @classmethod
-    def pack_req(cls, code):
+    def pack_req(cls, code, conn_id):
         """Convert from user request for trading days to PLS request"""
         ret, content = split_stock_str(code)
         if ret == RET_ERROR:
@@ -1124,7 +1125,7 @@ class OrderBookQuery:
         req.c2s.stock.code = stock_code
         req.c2s.num = 10
 
-        return pack_pb_req(req, ProtoId.Qot_ReqOrderBook)
+        return pack_pb_req(req, ProtoId.Qot_ReqOrderBook, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -1158,7 +1159,7 @@ class SuspensionQuery:
         pass
 
     @classmethod
-    def pack_req(cls, code_list, start, end):
+    def pack_req(cls, code_list, start, end, conn_id):
         """Convert from user request for trading days to PLS request"""
         list_req_stock = []
         for stock_str in code_list:
@@ -1184,7 +1185,7 @@ class SuspensionQuery:
             stock_inst.market = market
             stock_inst.code = code
 
-        return pack_pb_req(req, ProtoId.Qot_ReqSuspend)
+        return pack_pb_req(req, ProtoId.Qot_ReqSuspend, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -1213,7 +1214,7 @@ class GlobalStateQuery:
         pass
 
     @classmethod
-    def pack_req(cls,user_id):
+    def pack_req(cls,user_id, conn_id):
         """
         Convert from user request for trading days to PLS request
         :param state_type: for reserved, no use now !
@@ -1226,7 +1227,7 @@ class GlobalStateQuery:
         from futuquant.common.pb.GlobalState_pb2 import Request
         req = Request()
         req.c2s.userID = user_id
-        return pack_pb_req(req, ProtoId.GlobalState)
+        return pack_pb_req(req, ProtoId.GlobalState, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -1327,7 +1328,7 @@ class MultiPointsHisKLine:
 
     @classmethod
     def pack_req(cls, code_list, dates, fields, ktype, autype, max_req,
-                 no_data_mode):
+                 no_data_mode, conn_id):
         """Convert from user request for multiple history kline points to PLS request"""
         list_req_stock = []
         for code in code_list:
@@ -1366,7 +1367,7 @@ class MultiPointsHisKLine:
         for date_ in dates:
             req.c2s.time.append(date_)
 
-        return pack_pb_req(req, ProtoId.Qot_ReqHistoryKLPoints)
+        return pack_pb_req(req, ProtoId.Qot_ReqHistoryKLPoints, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):

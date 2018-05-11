@@ -32,6 +32,10 @@ class _SyncNetworkQueryCtx:
         self._connected_handler = connected_handler
         self._is_loop_connecting = False
         self._create_session_handler = create_session_handler
+        self._conn_id = 0
+
+    def set_conn_id(self, conn_id):
+        self._conn_id = conn_id
 
     def close_socket(self):
         """close socket"""
@@ -110,9 +114,22 @@ class _SyncNetworkQueryCtx:
                     left_buf = rsp_body[head_dict['body_len']:]
                     logger.debug("req protoID={}, recv protoID={}".format(req_head_dict["proto_id"], head_dict["proto_id"]))
 
+            # 数据解密码校验
+            """
+            from binascii import b2a_hex, a2b_hex
+            import base64
+            if head_dict['proto_id'] == ProtoId.InitConnect:
+                print(base64.b64encode(rsp_body))
+            """
+            ret_decrypt, msg_decrypt, rsp_body = decrypt_rsp_body(rsp_body, head_dict, self._conn_id)
+
+            if ret_decrypt != RET_OK:
+                return ret_decrypt, msg_decrypt, None
+
             rsp_pb = binary2pb(rsp_body, head_dict['proto_id'], head_dict['proto_fmt_type'])
             if rsp_pb is None:
                 return RET_ERROR, "parse error", None
+
             self._close_session()
         except Exception as e:
             traceback.print_exc()

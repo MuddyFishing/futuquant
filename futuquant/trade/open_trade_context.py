@@ -46,7 +46,10 @@ class OpenTradeContextBase(OpenContextBase):
         query_processor = self._get_sync_query_processor(
             GetAccountList.pack_req, GetAccountList.unpack_rsp)
 
-        kargs = {'user_id': self.get_login_user_id()}
+        kargs = {
+            'user_id': self.get_login_user_id(),
+            'conn_id': self.get_sync_conn_id()
+        }
 
         ret_code, msg, acc_list = query_processor(**kargs)
         if ret_code != RET_OK:
@@ -88,7 +91,8 @@ class OpenTradeContextBase(OpenContextBase):
         md5_val = str(password_md5) if password_md5 else md5_transform(str(password))
         kargs = {
             'is_unlock': is_unlock,
-            'password_md5': str(md5_val)
+            'password_md5': str(md5_val),
+            'conn_id': self.get_sync_conn_id()
         }
 
         ret_code, msg, _ = query_processor(**kargs)
@@ -100,7 +104,12 @@ class OpenTradeContextBase(OpenContextBase):
             self._ctx_unlock = (password, password_md5) if is_unlock else None
 
         # unlock push socket
-        ret_code, msg, push_req_str = UnlockTrade.pack_req(**kargs)
+        kargs_async = {
+            'is_unlock': is_unlock,
+            'password_md5': str(md5_val),
+            'conn_id': self.get_async_conn_id(),
+        }
+        ret_code, msg, push_req_str = UnlockTrade.pack_req(**kargs_async)
         if ret_code == RET_OK:
             self._send_async_req(push_req_str)
 
@@ -118,6 +127,7 @@ class OpenTradeContextBase(OpenContextBase):
         """
         kargs = {
             'acc_id_list': acc_id_list,
+            'conn_id': self.get_async_conn_id(),
         }
         ret_code, msg, push_req_str = SubAccPush.pack_req(**kargs)
         if ret_code == RET_OK:
@@ -193,7 +203,12 @@ class OpenTradeContextBase(OpenContextBase):
         query_processor = self._get_sync_query_processor(
             AccInfoQuery.pack_req, AccInfoQuery.unpack_rsp)
 
-        kargs = {'acc_id': int(acc_id), 'trd_env': trd_env, 'trd_market':self.__trd_mkt}
+        kargs = {
+            'acc_id': int(acc_id),
+            'trd_env': trd_env,
+            'trd_market': self.__trd_mkt,
+            'conn_id': self.get_sync_conn_id()
+        }
 
         ret_code, msg, accinfo_list = query_processor(**kargs)
         if ret_code != RET_OK:
@@ -239,6 +254,7 @@ class OpenTradeContextBase(OpenContextBase):
             'trd_mkt': self.__trd_mkt,
             'trd_env': trd_env,
             'acc_id': acc_id,
+            'conn_id': self.get_sync_conn_id()
         }
         ret_code, msg, position_list = query_processor(**kargs)
 
@@ -303,6 +319,7 @@ class OpenTradeContextBase(OpenContextBase):
             'trd_mkt': self.__trd_mkt,
             'trd_env': trd_env,
             'acc_id': acc_id,
+            'conn_id': self.get_sync_conn_id()
         }
         ret_code, msg, order_list = query_processor(**kargs)
 
@@ -434,6 +451,7 @@ class OpenTradeContextBase(OpenContextBase):
             'trd_mkt': self.__trd_mkt,
             'trd_env': trd_env,
             'acc_id': acc_id,
+            'conn_id': self.get_sync_conn_id()
             }
         ret_code, msg, deal_list = query_processor(**kargs)
         if ret_code != RET_OK:
@@ -479,6 +497,7 @@ class OpenTradeContextBase(OpenContextBase):
             'trd_mkt': self.__trd_mkt,
             'trd_env': trd_env,
             'acc_id': acc_id,
+            'conn_id': self.get_sync_conn_id()
         }
         ret_code, msg, order_list = query_processor(**kargs)
         if ret_code != RET_OK:
@@ -519,6 +538,7 @@ class OpenTradeContextBase(OpenContextBase):
             'trd_mkt': self.__trd_mkt,
             'trd_env': trd_env,
             'acc_id': acc_id,
+            'conn_id': self.get_sync_conn_id()
         }
         ret_code, msg, deal_list = query_processor(**kargs)
         if ret_code != RET_OK:

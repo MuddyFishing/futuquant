@@ -82,7 +82,8 @@ class OpenQuoteContext(OpenContextBase):
         kargs = {
             'market': market,
             'start_date': start_date,
-            "end_date": end_date
+            'end_date': end_date,
+            'conn_id': self.get_sync_conn_id()
         }
         ret_code, msg, trade_day_list = query_processor(**kargs)
 
@@ -102,7 +103,11 @@ class OpenQuoteContext(OpenContextBase):
 
         query_processor = self._get_sync_query_processor(
             StockBasicInfoQuery.pack_req, StockBasicInfoQuery.unpack_rsp)
-        kargs = {"market": market, 'stock_type': stock_type}
+        kargs = {
+            "market": market,
+            'stock_type': stock_type,
+            'conn_id': self.get_sync_conn_id()
+        }
 
         ret_code, msg, basic_info_list = query_processor(**kargs)
         if ret_code != RET_OK:
@@ -199,7 +204,8 @@ class OpenQuoteContext(OpenContextBase):
                 "ktype": ktype,
                 "autype": autype,
                 "fields": copy(req_fields),
-                "max_num": max_kl_num
+                "max_num": max_kl_num,
+                "conn_id": self.get_sync_conn_id()
             }
             query_processor = self._get_sync_query_processor(
                 HistoryKlineQuery.pack_req, HistoryKlineQuery.unpack_rsp)
@@ -235,7 +241,10 @@ class OpenQuoteContext(OpenContextBase):
 
         query_processor = self._get_sync_query_processor(
             ExrightQuery.pack_req, ExrightQuery.unpack_rsp)
-        kargs = {"stock_list": code_list}
+        kargs = {
+            "stock_list": code_list,
+            "conn_id": self.get_sync_conn_id()
+        }
         ret_code, msg, exr_record = query_processor(**kargs)
         if ret_code == RET_ERROR:
             return ret_code, msg
@@ -261,7 +270,10 @@ class OpenQuoteContext(OpenContextBase):
 
         query_processor = self._get_sync_query_processor(
             MarketSnapshotQuery.pack_req, MarketSnapshotQuery.unpack_rsp)
-        kargs = {"stock_list": code_list}
+        kargs = {
+            "stock_list": code_list,
+            "conn_id": self.get_sync_conn_id()
+        }
 
         ret_code, msg, snapshot_list = query_processor(**kargs)
         if ret_code == RET_ERROR:
@@ -323,7 +335,10 @@ class OpenQuoteContext(OpenContextBase):
 
         query_processor = self._get_sync_query_processor(
             RtDataQuery.pack_req, RtDataQuery.unpack_rsp)
-        kargs = {"code": code}
+        kargs = {
+            "code": code,
+            "conn_id": self.get_sync_conn_id()
+        }
 
         ret_code, msg, rt_data_list = query_processor(**kargs)
         if ret_code == RET_ERROR:
@@ -360,7 +375,11 @@ class OpenQuoteContext(OpenContextBase):
 
         query_processor = self._get_sync_query_processor(
             SubplateQuery.pack_req, SubplateQuery.unpack_rsp)
-        kargs = {'market': market, 'plate_class': plate_class}
+        kargs = {
+            'market': market,
+            'plate_class': plate_class,
+            'conn_id': self.get_sync_conn_id()
+        }
 
         ret_code, msg, subplate_list = query_processor(**kargs)
         if ret_code == RET_ERROR:
@@ -380,7 +399,10 @@ class OpenQuoteContext(OpenContextBase):
 
         query_processor = self._get_sync_query_processor(
             PlateStockQuery.pack_req, PlateStockQuery.unpack_rsp)
-        kargs = {"plate_code": plate_code}
+        kargs = {
+            "plate_code": plate_code,
+            "conn_id": self.get_sync_conn_id()
+        }
 
         ret_code, msg, plate_stock_list = query_processor(**kargs)
         if ret_code == RET_ERROR:
@@ -402,7 +424,10 @@ class OpenQuoteContext(OpenContextBase):
 
         query_processor = self._get_sync_query_processor(
             BrokerQueueQuery.pack_req, BrokerQueueQuery.unpack_rsp)
-        kargs = {"code": code}
+        kargs = {
+            "code": code,
+            "conn_id": self.get_sync_conn_id()
+        }
 
         ret_code, bid_list, ask_list = query_processor(**kargs)
         if ret_code == RET_ERROR:
@@ -459,7 +484,11 @@ class OpenQuoteContext(OpenContextBase):
         query_processor = self._get_sync_query_processor(SubscriptionQuery.pack_subscribe_req,
                                                          SubscriptionQuery.unpack_subscribe_rsp)
 
-        kargs = {'code_list': code_list, 'subtype_list': subtype_list}
+        kargs = {
+            'code_list': code_list,
+            'subtype_list': subtype_list,
+            "conn_id": self.get_sync_conn_id()
+        }
         ret_code, msg, _ = query_processor(**kargs)
 
         for subtype in subtype_list:
@@ -473,7 +502,7 @@ class OpenQuoteContext(OpenContextBase):
             return RET_ERROR, msg
 
         ret_code, msg, push_req_str = SubscriptionQuery.pack_push_req(
-            code_list, subtype_list)
+            code_list, subtype_list, self.get_async_conn_id())
 
         if ret_code != RET_OK:
             return RET_ERROR, msg
@@ -493,7 +522,11 @@ class OpenQuoteContext(OpenContextBase):
         query_processor = self._get_sync_query_processor(SubscriptionQuery.pack_unsubscribe_req,
                                                          SubscriptionQuery.unpack_unsubscribe_rsp)
 
-        kargs = {'code_list': code_list, 'subtype_list': subtype_list}
+        kargs = {
+            'code_list': code_list,
+            'subtype_list': subtype_list,
+            "conn_id": self.get_sync_conn_id()
+        }
 
         for subtype in subtype_list:
             if subtype not in self._ctx_subscribe:
@@ -509,7 +542,7 @@ class OpenQuoteContext(OpenContextBase):
         if ret_code != RET_OK:
             return RET_ERROR, msg
 
-        ret_code, msg, unpush_req_str = SubscriptionQuery.pack_unpush_req(code_list, subtype_list)
+        ret_code, msg, unpush_req_str = SubscriptionQuery.pack_unpush_req(code_list, subtype_list, self.get_async_conn_id())
         if ret_code != RET_OK:
             return RET_ERROR, msg
 
@@ -537,7 +570,10 @@ class OpenQuoteContext(OpenContextBase):
         query_processor = self._get_sync_query_processor(
             SubscriptionQuery.pack_subscription_query_req,
             SubscriptionQuery.unpack_subscription_query_rsp)
-        kargs = {"is_all_conn": is_all_conn}
+        kargs = {
+            "is_all_conn": is_all_conn,
+            "conn_id": self.get_sync_conn_id()
+        }
 
         ret_code, msg, sub_table = query_processor(**kargs)
         if ret_code == RET_ERROR:
@@ -590,7 +626,10 @@ class OpenQuoteContext(OpenContextBase):
             StockQuoteQuery.pack_req,
             StockQuoteQuery.unpack_rsp,
         )
-        kargs = {"stock_list": code_list}
+        kargs = {
+            "stock_list": code_list,
+            "conn_id": self.get_sync_conn_id()
+        }
 
         ret_code, msg, quote_list = query_processor(**kargs)
         if ret_code == RET_ERROR:
@@ -627,7 +666,11 @@ class OpenQuoteContext(OpenContextBase):
             TickerQuery.pack_req,
             TickerQuery.unpack_rsp,
         )
-        kargs = {"code": code, "num": num}
+        kargs = {
+            "code": code,
+            "num": num,
+            "conn_id": self.get_sync_conn_id()
+        }
         ret_code, msg, ticker_list = query_processor(**kargs)
         if ret_code == RET_ERROR:
             return ret_code, msg
@@ -673,7 +716,8 @@ class OpenQuoteContext(OpenContextBase):
             "code": code,
             "num": num,
             "ktype": ktype,
-            "autype": autype
+            "autype": autype,
+            "conn_id": self.get_sync_conn_id()
         }
         ret_code, msg, kline_list = query_processor(**kargs)
         if ret_code == RET_ERROR:
@@ -698,7 +742,10 @@ class OpenQuoteContext(OpenContextBase):
             OrderBookQuery.unpack_rsp,
         )
 
-        kargs = {"code": code}
+        kargs = {
+            "code": code,
+            "conn_id": self.get_sync_conn_id()
+        }
         ret_code, msg, orderbook = query_processor(**kargs)
         if ret_code == RET_ERROR:
             return ret_code, msg
@@ -724,7 +771,12 @@ class OpenQuoteContext(OpenContextBase):
             SuspensionQuery.unpack_rsp,
         )
 
-        kargs = {"code_list": req_codes, "start": str(start), "end": str(end)}
+        kargs = {
+            "code_list": req_codes,
+            "start": str(start),
+            "end": str(end),
+            "conn_id": self.get_sync_conn_id()
+        }
         ret_code, msg, susp_list = query_processor(**kargs)
         if ret_code == RET_ERROR:
             return ret_code, msg
@@ -786,7 +838,8 @@ class OpenQuoteContext(OpenContextBase):
                 "ktype": ktype,
                 "autype": autype,
                 "max_req": max_req_code_num,
-                "no_data_mode": int(no_data_mode)
+                "no_data_mode": int(no_data_mode),
+                "conn_id": self.get_sync_conn_id()
             }
             ret_code, msg, content = query_processor(**kargs)
             if ret_code == RET_ERROR:

@@ -5,9 +5,7 @@
 from copy import copy
 
 # 需要安装的最低牛牛客户端版本号
-NN_VERSION_MIN = '3.42.4962'
-
-ORDER_STATUS = {"CANCEL": 0, "INVALID": 1, "VALID": 2, "DELETE": 3}
+GTW_VER_MIN = '100'
 
 MESSAGE_HEAD_FMT = "<1s1sI2B2I20s8s  "
 RET_OK = 0
@@ -34,6 +32,9 @@ EMPTY_STRING = ''
 # 默认的ClientID, 用于区分不同的api : set_client_id 更改
 DEFULAT_CLIENT_ID = "PyNormal"
 CLIENT_VERSION = 300
+
+# 默认的init_connect连接用的rsa private key文件路径
+DEFAULT_INIT_PRI_KEY_FILE = "conn_key.txt"
 
 # 协议格式
 class ProtoFMT(object):
