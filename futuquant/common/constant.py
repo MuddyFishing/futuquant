@@ -4,15 +4,13 @@
 """
 from copy import copy
 
-# 需要安装的最低牛牛客户端版本号
-GTW_VER_MIN = '100'
 
-MESSAGE_HEAD_FMT = "<1s1sI2B2I20s8s  "
 RET_OK = 0
 RET_ERROR = -1
 ERROR_STR_PREFIX = 'ERROR. '
 EMPTY_STRING = ''
 
+MESSAGE_HEAD_FMT = "<1s1sI2B2I20s8s"
 """
     #pragma pack(push, APIProtoHeader, 1)
     struct APIProtoHeader
@@ -29,7 +27,7 @@ EMPTY_STRING = ''
     #pragma pack(pop, APIProtoHeader)
 """
 
-# 默认的ClientID, 用于区分不同的api : set_client_id 更改
+# 默认的ClientID, 用于区分不同的api
 DEFULAT_CLIENT_ID = "PyNormal"
 CLIENT_VERSION = 300
 

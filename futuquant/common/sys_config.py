@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from futuquant.common.utils import *
 from futuquant.common.constant import *
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5 as Cipher_pkcs1
@@ -7,17 +6,37 @@ from Crypto import Random
 
 
 class SysConfig(object):
-    # api通讯协议是否加密
-    IS_PROTO_ENCRYPT = False
+    IS_PROTO_ENCRYPT = False                # api通讯协议是否加密
+    INIT_RSA_FILE = ''                      # 初始连接协议用到的rsa private key file
+    RSA_OBJ = None                          # ras加解密对象
+    PROTO_FMT = None                        # 协议格式
+    CLINET_ID = None                        # Client标识
+    CLIENT_VER = None                       # Client ver
 
-    # 初始连接协议用到的rsa private key file
-    INIT_RSA_FILE = ''
+    @classmethod
+    def set_client_info(cls, client_id, client_ver):
+        SysConfig.CLINET_ID = client_id
+        SysConfig.CLIENT_VER = client_ver
 
-    # ras加解密对象
-    RSA_OBJ = None
+    @classmethod
+    def get_client_id(cls):
+        return SysConfig.CLINET_ID if SysConfig.CLINET_ID else DEFULAT_CLIENT_ID
 
-    def __init__(self):
-        pass
+    @classmethod
+    def get_client_ver(cls):
+        return SysConfig.CLIENT_VER if SysConfig.CLIENT_VER is not None else CLIENT_VERSION
+
+    @classmethod
+    def get_proto_fmt(cls):
+        return SysConfig.PROTO_FMT if SysConfig.PROTO_FMT else DEFULAT_PROTO_FMT
+
+    @classmethod
+    def set_proto_fmt(cls, proto_fmt):
+        fmt_list = [ProtoFMT.Protobuf, ProtoFMT.Json]
+
+        if proto_fmt not in fmt_list:
+            raise Exception("proto_fmt error")
+        SysConfig.PROTO_FMT = proto_fmt
 
     @classmethod
     def set_init_rsa_file(cls, file):
@@ -29,7 +48,7 @@ class SysConfig(object):
         pass
 
     @classmethod
-    def get_init_rsa(cls):
+    def get_init_rsa_obj(cls):
         """
         :return: str , private key for init connect protocol
         """
@@ -84,7 +103,7 @@ class RsaCrypt(object):
     @classmethod
     def encrypt(cls, data):
         if RsaCrypt.CHIPPER is None:
-            rsa = SysConfig.get_init_rsa()
+            rsa = SysConfig.get_init_rsa_obj()
             RsaCrypt.CHIPPER = Cipher_pkcs1.new(rsa)
 
         if type(data) is not bytes:
@@ -101,7 +120,7 @@ class RsaCrypt(object):
     @classmethod
     def decrypt(cls, data):
         if RsaCrypt.CHIPPER is None:
-            rsa = SysConfig.get_init_rsa()
+            rsa = SysConfig.get_init_rsa_obj()
             RsaCrypt.CHIPPER = Cipher_pkcs1.new(rsa)
 
         # 1024 bit的证书用128，2048 bit证书用256位

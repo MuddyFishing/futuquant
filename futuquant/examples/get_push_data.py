@@ -6,12 +6,13 @@ Examples for use the python functions: get push data
 from futuquant import *
 from time import sleep
 
-#设置dataframe结构的显示------pandas display设置
+# 设置dataframe结构的显示------pandas display设置
 pd.set_option('display.height', 1000)
-pd.set_option('display.max_rows', None) # pandas.set_option() 可以设置pandas相关的参数，从而改变默认参数。 打印pandas数据事，默认是输出100行，多的话会输出....省略号。
+pd.set_option('display.max_rows', None)         # pandas.set_option() 可以设置pandas相关的参数，从而改变默认参数。 打印pandas数据事，默认是输出100行，多的话会输出....省略号。
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
-pd.set_option('colheader_justify', 'right') #value显示居右
+pd.set_option('colheader_justify', 'right')     #value显示居右
+
 
 class StockQuoteTest(StockQuoteHandlerBase):
     """
@@ -238,18 +239,26 @@ def trade_hk_test():
 
 
 if __name__ =="__main__":
-    # 默认rsa密钥在futuquant.common下的conn_key.txt
-    # 注意同步配置FutuOpenD的FTGateway.xml中的 rsa_private_key 字段
+    '''
+    默认rsa密钥在futuquant.common下的conn_key.txt
+    注意同步配置FutuOpenD的FTGateway.xml中的 rsa_private_key 字段
+    '''
     # SysConfig.set_init_rsa_file()
 
-    # 是否启用协议加密
-    # SysConfig.enable_proto_encrypt(True)
+    ''' 是否启用协议加密 '''
+    # SysConfig.enable_proto_encrypt(False)
 
-    # 行情api测试
+    '''设置通讯协议格式 '''
+    # SysConfig.set_proto_fmt(ProtoFMT.Json)
+
+    '''设置client信息'''
+    # SysConfig.set_client_info('sample', 0)
+
+    ''' 行情api测试 '''
     quote_test()
 
-    # 交易api测试
-    # trade_hk_test()
+    ''' 交易api测试 '''
+    trade_hk_test()
 
 
 

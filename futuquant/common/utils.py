@@ -1,45 +1,15 @@
 # -*- coding: utf-8 -*-
 
-import hashlib
-import json
-import os
-import sys
-import socket
-import traceback
+import hashlib, json, os, sys, socket, traceback, time, struct
 from datetime import datetime
 from struct import calcsize
 from google.protobuf.json_format import MessageToJson
 from threading import RLock
-import struct
-import time
 
 from futuquant.common.constant import *
-from futuquant.common.sys_config import *
 from futuquant.common.conn_mng import *
 from futuquant.common.pbjson import json2pb
 from futuquant.common.ft_logger import logger
-
-
-
-def set_proto_fmt(proto_fmt):
-    """Set communication protocol format, json ans protobuf supported"""
-    os.environ['FT_PROTO_FMT'] = str(proto_fmt)
-
-
-def get_proto_fmt():
-    return int(os.environ['FT_PROTO_FMT']) if 'FT_PROTO_FMT' in os.environ else DEFULAT_PROTO_FMT
-
-
-def get_client_ver():
-    return CLIENT_VERSION
-
-
-def get_client_id():
-    return int(os.environ['CLIENT_ID']) if 'CLIENT_ID' in os.environ else DEFULAT_CLIENT_ID
-
-
-def set_client_id(client_id):
-    os.environ['CLIENT_ID'] = str(client_id)
 
 
 def get_message_head_len():
@@ -417,7 +387,7 @@ def binary2pb(b, proto_id, proto_fmt_type):
 
 
 def pack_pb_req(pb_req, proto_id, conn_id, serial_no=0):
-    proto_fmt = get_proto_fmt()
+    proto_fmt = SysConfig.get_proto_fmt()
     if proto_fmt == ProtoFMT.Json:
         req_json = MessageToJson(pb_req)
         ret, msg, req = _joint_head(proto_id, proto_fmt, len(req_json),

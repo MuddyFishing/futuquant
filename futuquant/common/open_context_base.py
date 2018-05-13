@@ -54,8 +54,8 @@ class OpenContextBase(object):
         query_processor = self._get_sync_query_processor(
             InitConnect.pack_req, InitConnect.unpack_rsp)
         kargs = {
-            'client_ver': int(get_client_ver()),
-            'client_id': str(get_client_id()),
+            'client_ver': int(SysConfig.get_client_ver()),
+            'client_id': str(SysConfig.get_client_id()),
             'recv_notify': False,
         }
         ret_code, msg, content = query_processor(**kargs)
@@ -316,7 +316,7 @@ class OpenContextBase(object):
             return RET_OK
 
         # send req
-        ret_code, msg, req = InitConnect.pack_req(get_client_ver(), get_client_id(), True)
+        ret_code, msg, req = InitConnect.pack_req(SysConfig.get_client_ver(), SysConfig.get_client_id(), True)
         if ret_code == RET_OK:
             ret_code, msg = self._send_async_req(req)
         if ret_code != RET_OK:
