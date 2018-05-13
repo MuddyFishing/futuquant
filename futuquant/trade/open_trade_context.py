@@ -373,7 +373,7 @@ class OpenTradeContextBase(OpenContextBase):
         # 保持跟v2.0兼容， 增加必要的订单字段
         for x in range(3):
             ret_code, ret_data = self._order_list_query_impl(order_id=order_id,status_filter_list=[],
-                                            code=code, start="", end="", trd_env=trd_env, acc_id=acc_id)
+                                            code="", start="", end="", trd_env=trd_env, acc_id=acc_id)
             if ret_code == RET_OK and len(ret_data) > 0:
                 order_item = ret_data[0]
                 order_item['trd_env'] = trd_env
