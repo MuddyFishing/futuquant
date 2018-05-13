@@ -135,6 +135,7 @@ class TradeDealTest(TradeDealHandlerBase):
 def quote_test():
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
 
+    # 设置异步回调接口
     quote_ctx.set_handler(StockQuoteTest())
     quote_ctx.set_handler(CurKlineTest())
     quote_ctx.set_handler(RTDataTest())
@@ -145,7 +146,7 @@ def quote_test():
     quote_ctx.set_handler(SysNotifyTest())
     quote_ctx.start()
 
-    print(quote_ctx.get_global_state())
+    print("* get_global_state : {}\n".format(quote_ctx.get_global_state()))
 
     # 获取推送数据
     big_sub_codes = ['HK.02318', 'HK.02828', 'HK.00939', 'HK.01093', 'HK.01299', 'HK.00175',
@@ -160,29 +161,16 @@ def quote_test():
     if len(big_sub_codes):
         print("* subscribe : {}\n".format(quote_ctx.subscribe(big_sub_codes, subtype_list)))
 
-    # """
+    """
     if True:
         print("* subscribe : {}\n".format(quote_ctx.subscribe(code_list, subtype_list)))
         print("* query_subscription : {}\n".format(quote_ctx.query_subscription(True)))
-        # sleep(60.1)
+        sleep(60.1)
         print("* unsubscribe : {}\n".format(quote_ctx.unsubscribe(code_list, subtype_list)))
         print("* query_subscription : {}\n".format(quote_ctx.query_subscription(True)))
         sleep(1)
-    # """
+    """
     print("* subscribe : {}\n".format(quote_ctx.subscribe(code_list, subtype_list)))
-
-    # 临时测试
-    """
-    codes = ['HK.00700', 'US.AAPL', 'SH.601318', 'SZ.000001']
-    kTypes = [SubType.K_1M, SubType.K_15M, SubType.K_60M, SubType.K_DAY, SubType.K_WEEK, SubType.K_MON]
-    for code in codes:
-        for kType in kTypes:
-            quote_ctx.subscribe(code, kType)
-            print(quote_ctx.get_cur_kline(code, 1000, kType, AuType.QFQ))
-
-    sleep(15)
-    return
-    """
 
     # """
     print("* get_stock_basicinfo : {}\n".format(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.ETF)))
@@ -222,6 +210,7 @@ def trade_hk_test():
     trd_ctx.set_handler(TradeOrderTest())
     trd_ctx.set_handler(TradeDealTest())
     trd_ctx.start()
+
     # 交易请求必须先解锁 !!!
     pwd_unlock = '979899'
     print("* unlock_trade : {}\n".format(trd_ctx.unlock_trade(pwd_unlock)))
@@ -234,7 +223,7 @@ def trade_hk_test():
     print("* order_list_query : {}\n".format(trd_ctx.order_list_query(status_filter_list=[OrderStatus.SUBMITTED])))
 
     order_id = 8418297869332751056
-    print("* place_order : {}\n".format(trd_ctx.place_order(381.0, 100, "HK.00700", TrdSide.SELL)))
+    print("* place_order : {}\n".format(trd_ctx.place_order(700.0, 100, "HK.00700", TrdSide.SELL)))
     print("* modify_order : {}\n".format(trd_ctx.modify_order(ModifyOrderOp.NORMAL, order_id, 380.0, 200)))
 
     print("* deal_list_query : {}\n".format(trd_ctx.deal_list_query(code="00700")))
@@ -244,12 +233,22 @@ def trade_hk_test():
     print("* history_deal_list_query : {}\n".format(trd_ctx.history_deal_list_query(code="", start="", end="2018-6-1")))
     # """
 
-    # sleep(15)
-    # trd_ctx.close()
+    sleep(10)
+    trd_ctx.close()
 
 
 if __name__ =="__main__":
+    # 默认rsa密钥在futuquant.common下的conn_key.txt
+    # 注意同步配置FutuOpenD的FTGateway.xml中的 rsa_private_key 字段
+    # SysConfig.set_init_rsa_file()
+
+    # 是否启用协议加密
+    # SysConfig.enable_proto_encrypt(True)
+
+    # 行情api测试
     quote_test()
+
+    # 交易api测试
     # trade_hk_test()
 
 

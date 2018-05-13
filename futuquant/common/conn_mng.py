@@ -64,20 +64,22 @@ class FutuConnMng(object):
 
         len_src = len(data)
         mod_tail_len = (len_src % 16)
-        add_pad = 16 - mod_tail_len
 
-        if add_pad:
-            data += (b'\x00' * add_pad)
+        # AES 要求源数据长度是16的整数倍， 不足的话要补0
+        if mod_tail_len != 0:
+            data += (b'\x00' * (16 - mod_tail_len))
 
         aes_cryptor = FutuConnMng.get_conn_aes_cryptor(conn_id)
         if aes_cryptor:
             data = aes_cryptor.encrypt(data)
+
+            # 增加一个16字节的数据块（目前只有最后一个字节有用），如果对原数据有补数据，记录原数据最后一个数据块真实长度
             data_tail = b'\x00' * 15 + bytes(chr(mod_tail_len), encoding='utf-8')
             data_tail = data_tail[-16:]
             data += data_tail
             return RET_OK, '', data
 
-        return RET_ERROR, 'AES encrypt error', data
+        return RET_ERROR, 'invalid connid', data
 
     @classmethod
     def decrypt_conn_data(cls, conn_id, data):
@@ -92,6 +94,8 @@ class FutuConnMng(object):
         aes_cryptor = FutuConnMng.get_conn_aes_cryptor(conn_id)
         if aes_cryptor:
             de_data = aes_cryptor.decrypt(data_real)
+
+            # 去掉在加密前增加的额外数据
             if tail_real_len != 0:
                 cut_len = 16 - tail_real_len
                 de_data = de_data[0: len(de_data) - cut_len]

@@ -3,14 +3,18 @@ from futuquant.common.utils import *
 from futuquant.common.constant import *
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5 as Cipher_pkcs1
-#from Crypto.Cipher import PKCS1_OAEP as Cipher_pkcs1
-
 from Crypto import Random
 
+
 class SysConfig(object):
-    INIT_RSA_FILE = ''
-    RSA_OBJ = None
+    # api通讯协议是否加密
     IS_PROTO_ENCRYPT = False
+
+    # 初始连接协议用到的rsa private key file
+    INIT_RSA_FILE = ''
+
+    # ras加解密对象
+    RSA_OBJ = None
 
     def __init__(self):
         pass
@@ -86,7 +90,13 @@ class RsaCrypt(object):
         if type(data) is not bytes:
             data = bytes(str(data), encoding='utf8')
 
-        return RsaCrypt.CHIPPER.encrypt(data)
+        # 单次加密串的长度最大为(key_size / 8) - 11
+        # 1024 bit的证书用100， 2048 bit的证书用 200
+        one_len = 100
+        ret_data = b''
+        for i in range(0, len(data), one_len):
+            ret_data += RsaCrypt.CHIPPER.encrypt(data[i:i + one_len])
+        return ret_data
 
     @classmethod
     def decrypt(cls, data):
@@ -94,12 +104,18 @@ class RsaCrypt(object):
             rsa = SysConfig.get_init_rsa()
             RsaCrypt.CHIPPER = Cipher_pkcs1.new(rsa)
 
-        return RsaCrypt.CHIPPER.decrypt(data, RsaCrypt.RANDOM_GENERATOR)
+        # 1024 bit的证书用128，2048 bit证书用256位
+        one_len = 128
+        ret_data = b''
+        for i in range(0, len(data), one_len):
+            ret_data += RsaCrypt.CHIPPER.decrypt(data[i:i + one_len], RsaCrypt.RANDOM_GENERATOR)
+        return ret_data
 
 
 """
-test_str = 'futu api'
+test_str = 'futu api' * 32
 dt_encrypt = RsaCrypt.encrypt(test_str)
+print(dt_encrypt)
 dt_decrypt = RsaCrypt.decrypt(dt_encrypt)
 print(dt_decrypt)
 """

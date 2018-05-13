@@ -42,7 +42,7 @@ class ProtoFMT(object):
     Json = 1
 
 # 默认的协议格式 : set_proto_fmt 更改
-DEFULAT_PROTO_FMT = ProtoFMT.Protobuf
+DEFULAT_PROTO_FMT = ProtoFMT.Json
 
 # api的协议版本号
 API_PROTO_VER = int(0)
