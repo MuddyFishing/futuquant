@@ -448,28 +448,28 @@ def parse_head(head_bytes):
 def decrypt_rsp_body(rsp_body, head_dict, conn_id):
     ret_code = RET_OK
     msg = ''
-    if not SysConfig.is_proto_encrypt():
-        return ret_code, msg, rsp_body
-    try:
-        sha20 = head_dict['sha20']
-        proto_id = head_dict['proto_id']
-        if proto_id == ProtoId.InitConnect:
-            rsp_body_len = len(rsp_body)
-            rsp_body = RsaCrypt.decrypt(rsp_body)
-        else:
-            ret_code, msg, decrypt_data = FutuConnMng.decrypt_conn_data(conn_id, rsp_body)
-            rsp_body = decrypt_data
+    sha20 = head_dict['sha20']
 
-        # check sha20
-        if ret_code == RET_OK:
-            sha20_check = hashlib.sha1(rsp_body).digest()
-            if sha20_check != sha20:
-                ret_code = RET_ERROR
-                msg = "proto id:{} check sha error!".format(proto_id)
+    if SysConfig.is_proto_encrypt():
+        try:
+            proto_id = head_dict['proto_id']
 
-    except Exception as e:
-        msg = sys.exc_info()[1]
-        ret_code = RET_ERROR
+            if proto_id == ProtoId.InitConnect:
+                rsp_body = RsaCrypt.decrypt(rsp_body)
+            else:
+                ret_code, msg, decrypt_data = FutuConnMng.decrypt_conn_data(conn_id, rsp_body)
+                rsp_body = decrypt_data
+
+        except Exception as e:
+            msg = sys.exc_info()[1]
+            ret_code = RET_ERROR
+
+    # check sha20
+    if ret_code == RET_OK:
+        sha20_check = hashlib.sha1(rsp_body).digest()
+        if sha20_check != sha20:
+            ret_code = RET_ERROR
+            msg = "proto id:{} check sha error!".format(proto_id)
 
     return ret_code, msg, rsp_body
 

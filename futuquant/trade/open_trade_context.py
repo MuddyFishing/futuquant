@@ -28,6 +28,7 @@ class OpenTradeContextBase(OpenContextBase):
     def on_api_socket_reconnected(self):
         """for API socket reconnected"""
         self.__is_acc_sub_push = False
+        self.__last_acc_list = []
 
         # auto unlock trade
         if self._ctx_unlock is not None:
@@ -35,6 +36,7 @@ class OpenTradeContextBase(OpenContextBase):
                 password, password_md5 = self._ctx_unlock
                 ret, data = self.unlock_trade(password, password_md5)
                 if ret == RET_OK:
+                    logger.debug('auto unlock trade ok!')
                     break
                 sleep(1)
 
