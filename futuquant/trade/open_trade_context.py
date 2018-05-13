@@ -449,7 +449,7 @@ class OpenTradeContextBase(OpenContextBase):
             DealListQuery.pack_req, DealListQuery.unpack_rsp)
 
         kargs = {
-            'code': code,
+            'code': stock_code,
             'trd_mkt': self.__trd_mkt,
             'trd_env': trd_env,
             'acc_id': acc_id,
