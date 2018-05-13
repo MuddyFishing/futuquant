@@ -362,7 +362,7 @@ class DealListQuery:
             "order_id": str(deal.orderID) if deal.HasField('orderID') else "",
             "qty": deal.qty,
             "price": deal.price,
-            "trd_side": TRADE.REV_TRD_SIDE_MAP[deal.trdSide] if dael.trdSide in TRADE.REV_TRD_SIDE_MAP else TrdSide.NONE,
+            "trd_side": TRADE.REV_TRD_SIDE_MAP[deal.trdSide] if deal.trdSide in TRADE.REV_TRD_SIDE_MAP else TrdSide.NONE,
             "create_time": deal.createTime,
             "counter_broker_id": deal.counterBrokerID,
             "counter_broker_name": deal.counterBrokerName,

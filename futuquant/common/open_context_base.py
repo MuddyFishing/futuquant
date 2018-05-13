@@ -7,9 +7,9 @@ from threading import RLock, Thread
 from futuquant.common.async_network_manager import _AsyncNetworkManager
 from futuquant.common.sync_network_manager import _SyncNetworkQueryCtx
 from futuquant.common.utils import *
-from futuquant.quote.response_handler import HandlerContext
+from futuquant.common.handler_context import HandlerContext
 from futuquant.quote.quote_query import InitConnect
-from futuquant.quote.response_handler import AsyncHandler_InitConnect
+from futuquant.quote.quote_response_handler import AsyncHandler_InitConnect
 from futuquant.quote.quote_query import GlobalStateQuery
 from futuquant.common.conn_mng import FutuConnMng
 import threading
