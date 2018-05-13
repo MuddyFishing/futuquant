@@ -102,7 +102,7 @@ class RTDataHandlerBase(RspHandlerBase):
         else:
 
             col_list = [
-                'code', 'time', 'data_status', 'opened_mins', 'cur_price',
+                'code', 'time', 'is_blank', 'opened_mins', 'cur_price',
                 "last_close", 'avg_price', 'turnover', 'volume'
             ]
             rt_data_table = pd.DataFrame(rt_data_list, columns=col_list)
