@@ -8,6 +8,7 @@ from threading import RLock
 
 from futuquant.common.constant import *
 from futuquant.common.conn_mng import *
+from futuquant.common.sys_config import *
 from futuquant.common.pbjson import json2pb
 from futuquant.common.ft_logger import logger
 

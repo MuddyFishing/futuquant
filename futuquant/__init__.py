@@ -25,6 +25,7 @@ from futuquant.trade.open_trade_context import OpenUSTradeContext
 
 #import constant values
 from futuquant.common.constant import *
+from futuquant.common.sys_config import SysConfig
 
 from futuquant.examples.emailplugin import EmailNotification
 from futuquant.examples.stocksell import simple_sell, smart_sell
