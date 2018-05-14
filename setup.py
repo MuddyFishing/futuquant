@@ -17,7 +17,6 @@
 
 import sys
 from os.path import dirname, join
-from pip.req import parse_requirements
 
 from setuptools import (
     find_packages,
@@ -26,11 +25,6 @@ from setuptools import (
 
 with open(join(dirname(__file__), 'futuquant/VERSION.txt'), 'rb') as f:
     version = f.read().decode('ascii').strip()
-
-requirements = [str(ir.req) for ir in parse_requirements("requirements.txt", session=False)]
-
-# if sys.version_info.major == 2:
-#     requirements += [str(ir.req) for ir in parse_requirements("requirements-py2.txt", session=False)]
 
 setup(
     name='futuquant',
@@ -46,5 +40,12 @@ setup(
     package_data={'': ['*.*']},
     include_package_data=True,
     zip_safe=True,
-    install_requires=requirements,
+    install_requires=[
+    	"future",
+			"vnpy >= 1.7.3",
+			"pandas",
+			"numpy",
+			"matplotlib",
+			"psutil",
+    ],
 )

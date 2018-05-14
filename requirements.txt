@@ -4,3 +4,7 @@ pandas
 numpy
 matplotlib
 psutil
+simplejson
+protobuf
+
+
