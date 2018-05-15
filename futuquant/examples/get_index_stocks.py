@@ -1006,28 +1006,28 @@ import futuquant as ft
 def enum_all_index(ip, port):
     quote_ctx = ft.OpenQuoteContext(ip, port)
 
-    ret, data_frame = quote_ctx.get_stock_basicinfo(market='SH', stock_type='IDX')
+    ret, data_frame = quote_ctx.get_stock_basicinfo(market=ft.Market.SH, stock_type=ft.SecurityType.IDX)
     data_frame.to_csv("index_sh.txt", index=True, sep=' ', columns=['code', 'name'])
     print('market SH index data saved!')
 
-    ret, data_frame = quote_ctx.get_stock_basicinfo(market='SZ', stock_type='IDX')
+    ret, data_frame = quote_ctx.get_stock_basicinfo(market=ft.Market.SZ, stock_type=ft.SecurityType.IDX)
     data_frame.to_csv("index_sz.txt", index=True, sep=' ', columns=['code', 'name'])
     print('market SZ index data saved!')
 
-    ret, data_frame = quote_ctx.get_stock_basicinfo(market='HK', stock_type='IDX')
+    ret, data_frame = quote_ctx.get_stock_basicinfo(market=ft.Market.HK, stock_type=ft.SecurityType.IDX)
     data_frame.to_csv("index_hk.txt", index=True, sep=' ', columns=['code', 'name'])
     print('market HK index data saved!')
 
-    ret, data_frame = quote_ctx.get_stock_basicinfo(market='US', stock_type='IDX')
+    ret, data_frame = quote_ctx.get_stock_basicinfo(market=ft.Market.US, stock_type=ft.SecurityType.IDX)
     data_frame.to_csv("index_us.txt", index=True, sep=' ', columns=['code', 'name'])
     print('market US index data saved!')
 
     quote_ctx.close()
 
 
-def get_index_stocks(ip, port, strcode):
+def get_index_stocks(ip, port, code):
     quote_ctx = ft.OpenQuoteContext(ip, port)
-    ret, data_frame = quote_ctx.get_plate_stock(strcode)
+    ret, data_frame = quote_ctx.get_plate_stock(code)
     quote_ctx.close()
     return ret, data_frame
 
