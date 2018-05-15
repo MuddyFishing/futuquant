@@ -24,13 +24,7 @@ class InitConnect:
 
     @classmethod
     def pack_req(cls, client_ver, client_id, recv_notify=False):
-        """
-        Send a init connection request to establish the connection btw gateway and client
-        :param client_ver:
-        :param client_id:
-        :param recv_notify:
-         :return: pb binary request data
-        """
+
         from futuquant.common.pb.InitConnect_pb2 import Request
         req = Request()
         req.c2s.clientVer = client_ver
@@ -557,22 +551,6 @@ class HistoryKlineQuery:
             return RET_ERROR, error_str, None
 
         market_code, stock_code = content
-        # check date format
-        if start_date is None:
-            start_date = datetime.now().strftime('%Y-%m-%d')
-        else:
-            ret, msg = check_date_str_format(start_date)
-            if ret != RET_OK:
-                return ret, msg, None
-            start_date = normalize_date_format(start_date)
-
-        if end_date is None:
-            end_date = datetime.now().strftime('%Y-%m-%d')
-        else:
-            ret, msg = check_date_str_format(end_date)
-            if ret != RET_OK:
-                return ret, msg, None
-            end_date = normalize_date_format(end_date)
 
         # check k line type
         if ktype not in KTYPE_MAP:
@@ -592,8 +570,10 @@ class HistoryKlineQuery:
         req.c2s.klType = KTYPE_MAP[ktype]
         req.c2s.stock.market = market_code
         req.c2s.stock.code = stock_code
-        req.c2s.beginTime = start_date
-        req.c2s.endTime = end_date
+        if start_date:
+            req.c2s.beginTime = start_date
+        if end_date:
+            req.c2s.endTime = end_date
         req.c2s.maxAckKLNum = max_num
         req.c2s.needKLFieldsFlag = KL_FIELD.kl_fields_to_flag_val(fields)
 

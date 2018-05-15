@@ -191,6 +191,15 @@ class OpenQuoteContext(OpenContextBase):
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
 
+        if start:
+            ret, msg = check_date_str_format(start)
+            if ret != RET_OK:
+                return ret, msg
+        if end:
+            ret, msg = check_date_str_format(end)
+            if ret != RET_OK:
+                return ret, msg
+
         req_start = start
         max_kl_num = 1000
         data_finish = False
