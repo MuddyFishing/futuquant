@@ -9,8 +9,8 @@ message C2S
 	required int32 rehabType = 1; //Qot_Common.RehabType,复权类型
 	required int32 klType = 2; //Qot_Common.KLType,K线类型
 	required Qot_Common.Stock stock = 3; //股票市场以及股票代码
-	required string beginTime = 4; //开始时间字符串,若不指定,则默认返回一年数据
-	required string endTime = 5; //结束时间字符串,若不指定,则为当前时间
+	required string beginTime = 4; //开始时间字符串
+	required string endTime = 5; //结束时间字符串
 	optional int32 maxAckKLNum = 6; //最多返回多少根K线，如果未指定表示不限制
 	optional int64 needKLFieldsFlag = 7; //指定返回K线结构体特定某几项数据，KLFields枚举值或组合，如果未指定返回全部字段
 }
