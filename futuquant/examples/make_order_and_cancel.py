@@ -17,8 +17,8 @@ import futuquant as ft
   api_svr_ip: (string)ip
   api_svr_port: (string)ip
   unlock_password: (string)交易解锁密码, 必需修改！！！
-  test_code: (string)股票
-  trade_env: (int)0 真实交易 1仿真交易  ( 美股暂不支持仿真）
+  test_code: (string)股票 'HK.xxxxx' or 'US.xxxx'
+  trade_env:   ft.TrdEnv.SIMULATE or  ft.TrdEnv.REAL
 '''
 
 
@@ -29,21 +29,19 @@ def make_order_and_cancel(api_svr_ip, api_svr_port, unlock_password, test_code, 
     :param api_svr_port: (string) ip
     :param unlock_password: (string) 交易解锁密码, 必需修改!
     :param test_code: (string) 股票
-    :param trade_env: (int) 0: 真实交易 1: 仿真交易 (美股暂不支持仿真)
+    :param trade_env:
     """
     if unlock_password == "":
         raise Exception("请先配置交易解锁密码!")
 
     quote_ctx = ft.OpenQuoteContext(host=api_svr_ip, port=api_svr_port)  # 创建行情api
-    quote_ctx.subscribe(test_code, "ORDER_BOOK", push=False)  # 定阅摆盘
+    quote_ctx.subscribe(test_code, ft.SubType.ORDER_BOOK) # 定阅摆盘
 
     # 创建交易api
     is_hk_trade = 'HK.' in test_code
     if is_hk_trade:
         trade_ctx = ft.OpenHKTradeContext(host=api_svr_ip, port=api_svr_port)
     else:
-        if trade_env != 0:
-            raise Exception("美股交易接口不支持仿真环境")
         trade_ctx = ft.OpenUSTradeContext(host=api_svr_ip, port=api_svr_port)
 
     # 每手股数
@@ -54,23 +52,26 @@ def make_order_and_cancel(api_svr_ip, api_svr_port, unlock_password, test_code, 
         sleep(2)
         # 解锁交易
         if not is_unlock_trade:
+            print("unlocking trade...")
             ret_code, ret_data = trade_ctx.unlock_trade(unlock_password)
-            is_unlock_trade = (ret_code == 0)
-            if not trade_env and not is_unlock_trade:
+            is_unlock_trade = (ret_code == ft.RET_OK)
+            if not is_unlock_trade:
                 print("请求交易解锁失败：{}".format(ret_data))
                 continue
 
         if lot_size == 0:
-            ret, data = quote_ctx.get_market_snapshot([test_code])
-            lot_size = data.iloc[0]['lot_size'] if ret == 0 else 0
-            if ret != 0:
-                print("取不到每手信息，重试中!")
+            print("get lotsize...")
+            ret, data = quote_ctx.get_market_snapshot(test_code)
+            lot_size = data.iloc[0]['lot_size'] if ret == ft.RET_OK else 0
+            if ret != ft.RET_OK:
+                print("取不到每手信息，重试中: {}".format(data))
                 continue
             elif lot_size <= 0:
                 raise BaseException("该股票每手信息错误，可能不支持交易 code ={}".format(test_code))
 
+        print("get order book...")
         ret, data = quote_ctx.get_order_book(test_code)  # 得到第十档数据
-        if ret != 0:
+        if ret != ft.RET_OK:
             continue
 
         # 计算交易价格
@@ -93,31 +94,27 @@ def make_order_and_cancel(api_svr_ip, api_svr_port, unlock_password, test_code, 
         if qty == 0 or price == 0.0:
             continue
 
-        # 交易类型
-        order_side = 0  # 买
-        if is_hk_trade:
-            order_type = 0  # 港股增强限价单(普通交易)
-        else:
-            order_type = 2  # 美股限价单
-
         # 下单
         order_id = 0
-        ret_code, ret_data = trade_ctx.place_order(price=price, qty=qty, strcode=test_code, orderside=order_side,
-                                                   ordertype=order_type, envtype=trade_env)
+        print("place order : price={} qty={} code={}".format(price, qty, test_code))
+        ret_code, ret_data = trade_ctx.place_order(price=price, qty=qty, code=test_code, trd_side=ft.TrdSide.BUY,
+                                                   order_type=ft.OrderType.NORMAL, trd_env=trade_env)
         is_fire_trade = True
         print('下单ret={} data={}'.format(ret_code, ret_data))
-        if ret_code == 0:
+        if ret_code == ft.RET_OK:
             row = ret_data.iloc[0]
-            order_id = row['orderid']
+            order_id = row['order_id']
 
         # 循环撤单
         sleep(2)
-        if order_id != 0:
+        if order_id:
             while True:
-                ret_code, ret_data = trade_ctx.set_order_status(status=0, orderid=order_id,
-                                                                envtype=trade_env)
+                print("cancel order...")
+                ret_code, ret_data = trade_ctx.modify_order(modify_order_op=ft.ModifyOrderOp.CANCEL, order_id=order_id,
+                                price=price, qty=qty, adjust_limit=0, trd_env=trade_env)
                 print("撤单ret={} data={}".format(ret_code, ret_data))
-                if ret_code == 0:
+                if ret_code == ft.RET_OK:
+                    order_id = 0
                     break
                 else:
                     sleep(2)
@@ -127,10 +124,10 @@ def make_order_and_cancel(api_svr_ip, api_svr_port, unlock_password, test_code, 
 
 
 if __name__ == "__main__":
-    API_SVR_IP = '119.29.141.202'
-    API_SVR_PORT = 11111
-    UNLOCK_PASSWORD = "123"
-    TEST_CODE = 'HK.00700'  # 'US.BABA' 'HK.00700'
-    TRADE_ENV = 1
+    ip = '127.0.0.1'
+    port = 11111
+    unlock_pwd = "979899"
+    code = 'HK.00700'  # 'US.BABA' 'HK.00700'
+    trd_env = ft.TrdEnv.SIMULATE
 
-    make_order_and_cancel(API_SVR_IP, API_SVR_PORT, UNLOCK_PASSWORD, TEST_CODE, TRADE_ENV)
+    make_order_and_cancel(ip, port, unlock_pwd, code, trd_env)
