@@ -14,6 +14,13 @@ import numpy as np
 sys.path.append(os.path.split(os.path.abspath(os.path.pardir))[0])
 
 import futuquant as ft
+from emailplugin import EmailNotification
+from stocksell import simple_sell, simple_sell
+
+
+class TrailingMethod(object):
+    DROP_ABS = "DROP_ABS"  # 绝对值降低
+    DROP_PER = "DROP_PER"  # 百分比降低
 
 
 class TrailingStopHandler(ft.StockQuoteHandlerBase):
@@ -31,6 +38,9 @@ class TrailingStopHandler(ft.StockQuoteHandlerBase):
         self.stop_lst = []
         self.time_lst = []
 
+        if self.method not in [TrailingMethod.DROP_ABS, TrailingMethod.DROP_PER]:
+            raise Exception("trailing method is error!")
+
     def on_recv_rsp(self, rsp_str):
         """数据接收回调函数"""
         ret, content = super(TrailingStopHandler, self).on_recv_rsp(rsp_str)
@@ -44,8 +54,8 @@ class TrailingStopHandler(ft.StockQuoteHandlerBase):
             print('获取全局状态失败')
             trading = False
         else:
-            hk_trading = (data['Market_HK'] == '3' or data['Market_HK'] == '5')
-            us_trading = (data['Market_US'] == '3')
+            hk_trading = (data['Market_HK'] == ft.MarketState.MORNING or data['Market_HK'] == ft.MarketState.AFTERNOON)
+            us_trading = (data['Market_US'] == ft.MarketState.MORNING)
             trading = hk_trading if self.is_hk_trade else us_trading
 
         if not trading:
@@ -54,9 +64,9 @@ class TrailingStopHandler(ft.StockQuoteHandlerBase):
         last_price = content.iloc[0]['last_price']
 
         if self.stop is None:
-            self.stop = last_price - self.drop if self.method == 0 else last_price * (1 - self.drop)
-        elif (self.stop + self.drop < last_price) if self.method == 0 else (self.stop < last_price * (1 - self.drop)):
-            self.stop = last_price - self.drop if self.method == 0 else last_price * (1 - self.drop)
+            self.stop = last_price - self.drop if self.method == TrailingMethod.DROP_ABS else last_price * (1 - self.drop)
+        elif (self.stop + self.drop < last_price) if self.method == TrailingMethod.DROP_ABS else (self.stop < last_price * (1 - self.drop)):
+            self.stop = last_price - self.drop if self.method == TrailingMethod.DROP_ABS else last_price * (1 - self.drop)
         elif self.stop >= last_price:
             # 交易己被触发
             self.finished = True
@@ -88,7 +98,7 @@ def trailing_stop(api_svr_ip='127.0.0.1', api_svr_port=11111, unlock_password=""
     :param enable_email_notification: 激活email功能
     :param receiver: 邮件接收者
     """
-    ft.EmailNotification.set_enable(enable_email_notification)
+    EmailNotification.set_enable(enable_email_notification)
     if how_to_sell != 0 and how_to_sell != 1:
         print('how_to_sell must be 0 or 1')
         raise Exception('how_to_sell value error')
@@ -239,11 +249,11 @@ def trailing_stop(api_svr_ip='127.0.0.1', api_svr_port=11111, unlock_password=""
 
 if __name__ == '__main__':
     # 全局参数配置
-    API_SVR_IP = '119.29.141.202'
-    API_SVR_PORT = 11111
-    UNLOCK_PASSWORD = "a"
+    ip = '127.0.0.1'
+    port = 11111
+    unlock_pws = "123456"
     CODE = 'HK.00700'  # 'US.BABA' #'HK.00700'
-    TRADE_ENV = 1
+    trd_env = ft.TrdEnv.SIMULATE
     METHOD = 0
     DROP = 0.2
     VOLUME = 0

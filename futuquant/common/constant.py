@@ -65,6 +65,49 @@ MKT_MAP = {
     Market.SZ: 22
 }
 
+# 市场状态
+class MarketState:
+    NONE = "NONE"                                   # 无交易,美股未开盘
+    AUCTION = "AUCTION"                             # 竞价
+    WAITING_OPEN = "WAITING_OPEN"                   # 早盘前等待开盘
+    MORNING = "MORNING"                             # 早盘
+    REST = "REST"                                   # 午间休市
+    AFTERNOON = "AFTERNOON"                         # 午盘
+    CLOSED = "CLOSED"                               # 收盘
+    PRE_MARKET_BEGIN = "PRE_MARKET_BEGIN"           # 盘前
+    PRE_MARKET_END = "PRE_MARKET_END"               # 盘前结束
+    AFTER_HOURS_BEGIN = "AFTER_HOURS_BEGIN"         # 盘后
+    AFTER_HOURS_END = "AFTER_HOURS_END"             # 盘后结束
+    NIGHT_OPEN = "NIGHT_OPEN"                       # 夜市开盘
+    NIGHT_END = "NIGHT_END"                         # 夜市收盘
+    FUTURE_DAY_OPEN = "FUTURE_DAY_OPEN"             # 期指日市开盘
+    FUTURE_DAY_BREAK = "FUTURE_DAY_BREAK"           # 期指日市休市
+    FUTURE_DAY_CLOSE = "FUTURE_DAY_CLOSE"           # 期指日市收盘
+    FUTURE_DAY_WAIT_OPEN = "FUTURE_DAY_WAIT_OPEN"   # 期指日市等待开盘
+    HK_CAS = "HK_CAS"                               # 盘后竞价, 港股市场增加CAS机制对应的市场状态
+
+
+MARKET_STATE_MAP = {
+    MarketState.NONE: 0,
+    MarketState.AUCTION: 1,
+    MarketState.WAITING_OPEN: 2,
+    MarketState.MORNING: 3,
+    MarketState.REST: 4,
+    MarketState.AFTERNOON: 5,
+    MarketState.CLOSED: 6,
+    MarketState.PRE_MARKET_BEGIN: 8,
+    MarketState.PRE_MARKET_END: 9,
+    MarketState.AFTER_HOURS_BEGIN: 10,
+    MarketState.AFTER_HOURS_END: 11,
+    MarketState.NIGHT_OPEN: 13,
+    MarketState.NIGHT_END: 14,
+    MarketState.FUTURE_DAY_OPEN: 15,
+    MarketState.FUTURE_DAY_BREAK: 16,
+    MarketState.FUTURE_DAY_CLOSE: 17,
+    MarketState.FUTURE_DAY_WAIT_OPEN: 18,
+    MarketState.HK_CAS: 19,
+}
+
 
 # 股票类型
 class SecurityType(object):
@@ -373,7 +416,7 @@ class QUOTE(object):
     REV_AUTYPE_MAP = {AUTYPE_MAP[x]: x for x in AUTYPE_MAP}
     REV_KLDATA_STATUS_MAP = {KLDATA_STATUS_MAP[x]: x for x in KLDATA_STATUS_MAP}
     REV_TICKER_DIRECTION = {TICKER_DIRECTION[x]: x for x in TICKER_DIRECTION}
-
+    REV_MARKET_STATE_MAP = {MARKET_STATE_MAP[x]: x for x in MARKET_STATE_MAP}
 
 # sys notify info
 class SysNotifyType(object):

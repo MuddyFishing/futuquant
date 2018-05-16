@@ -1158,17 +1158,23 @@ class GlobalStateQuery:
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
 
-        raw_state = rsp_pb.s2c
+        state = rsp_pb.s2c
         state_dict = {
-            'Market_SZ': str(raw_state.marketSZ),
-            'Version': str(raw_state.serverVer),
-            'Trade_Logined': "1" if raw_state.trdLogined else "0",
-            'TimeStamp': str(raw_state.time),
-            'Market_US': str(raw_state.marketUS),
-            'Quote_Logined': "1" if raw_state.qotLogined else "0",
-            'Market_SH': str(raw_state.marketSH),
-            'Market_HK': str(raw_state.marketHK),
-            'Market_HKFuture': str(raw_state.marketHKFuture)
+            'Market_SZ': QUOTE.REV_MARKET_STATE_MAP[state.marketSZ]
+                    if state.marketSZ in QUOTE.REV_MARKET_STATE_MAP else MarketState.NONE,
+            'Market_US': QUOTE.REV_MARKET_STATE_MAP[state.marketUS]
+                    if state.marketUS in QUOTE.REV_MARKET_STATE_MAP else MarketState.NONE,
+            'Market_SH': QUOTE.REV_MARKET_STATE_MAP[state.marketSH]
+                    if state.marketSH in QUOTE.REV_MARKET_STATE_MAP else MarketState.NONE,
+            'Market_HK': QUOTE.REV_MARKET_STATE_MAP[state.marketHK]
+                    if state.marketHK in QUOTE.REV_MARKET_STATE_MAP else MarketState.NONE,
+            'Market_HKFuture': QUOTE.REV_MARKET_STATE_MAP[state.marketHKFuture]
+                    if state.marketHKFuture in QUOTE.REV_MARKET_STATE_MAP else MarketState.NONE,
+
+            'Version': str(state.serverVer),
+            'Trade_Logined': "1" if state.trdLogined else "0",
+            'TimeStamp': str(state.time),
+            'Quote_Logined': "1" if state.qotLogined else "0",
         }
         return RET_OK, "", state_dict
 
