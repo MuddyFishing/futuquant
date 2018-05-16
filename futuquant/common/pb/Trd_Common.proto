@@ -41,6 +41,7 @@ enum OrderType
 	OrderType_Limit = 5; //港股_限价(只有价格完全匹配才成交)
 	OrderType_Auction = 6; //港股_竞价
 	OrderType_AuctionLimit = 7; //港股_竞价限价
+	OrderType_SpecialLimit = 8; //港股_特别限价(只有价格完全匹配才成交，且如果当前没有对手可成交，自动撤单)
 }
 
 //订单状态

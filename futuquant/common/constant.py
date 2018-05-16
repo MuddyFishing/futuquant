@@ -471,7 +471,8 @@ class OrderType(object):
     MARKET = "MARKET"       # 市价，目前仅美股
     LIMIT = "LIMIT"         # 港股_限价(只有价格完全匹配才成交)
     AUCTION = "AUCTION"     # 港股_竞价
-    AUCTION_LIMIT = "AUCTION_LIMIT" # 港股_竞价限价
+    AUCTION_LIMIT = "AUCTION_LIMIT"  # 港股_竞价限价
+    SPECIAL_LIMIT = "SPECIAL_LIMIT"  # 港股_特别限价(即市价IOC, 订单到达交易所后，或全部成交， 或部分成交再撤单， 或下单失败)
 
 ORDER_TYPE_MAP = {
     OrderType.NONE: 0,
@@ -480,6 +481,7 @@ ORDER_TYPE_MAP = {
     OrderType.LIMIT: 5,
     OrderType.AUCTION: 6,
     OrderType.AUCTION_LIMIT: 7,
+    OrderType.SPECIAL_LIMIT: 8,
 }
 
 

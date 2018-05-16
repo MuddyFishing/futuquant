@@ -14,7 +14,7 @@ class MACD(object):
     api_svr_ip = '127.0.0.1'  # 账户登录的牛牛客户端PC的IP, 本机默认为127.0.0.1
     api_svr_port = 11111  # 富途牛牛端口，默认为11111
     unlock_password = "123456"  # 美股和港股交易解锁密码
-    trade_env = 1  # 0: 真实交易 1: 仿真交易（仿真交易无密码验证，美股暂不支持仿真）
+    trade_env = ft.TrdEnv.SIMULATE
 
     def __init__(self, stock, short_period, long_period, smooth_period,
                  observation):
@@ -27,6 +27,10 @@ class MACD(object):
         self.smooth_period = smooth_period
         self.observation = observation
         self.quote_ctx, self.trade_ctx = self.context_setting()
+
+    def close(self):
+        self.quote_ctx.close()
+        self.trade_ctx.close()
 
     def context_setting(self):
         """
@@ -43,14 +47,14 @@ class MACD(object):
         if 'HK.' in self.stock:
             trade_ctx = ft.OpenHKTradeContext(
                 host=self.api_svr_ip, port=self.api_svr_port)
-            if self.trade_env == 0:
+
+            if self.trade_env == ft.TrdEnv.REAL:
                 ret_code, ret_data = trade_ctx.unlock_trade(
                     self.unlock_password)
-                if ret_code == 0:
+                if ret_code == ft.RET_OK:
                     print('解锁交易成功!')
                 else:
-                    raise Exception("请求交易解锁失败, 请确认解锁密码! password: {}".format(
-                        self.unlock_password))
+                    raise Exception("请求交易解锁失败: {}".format(ret_data))
             else:
                 print('解锁交易成功!')
         elif 'US.' in self.stock:
@@ -72,7 +76,11 @@ class MACD(object):
         today = datetime.datetime.today()
         pre_day = (today - datetime.timedelta(days=self.observation)
                    ).strftime('%Y-%m-%d')
-        _, prices = self.quote_ctx.get_history_kline(self.stock, start=pre_day)
+        end_dt = today.strftime('%Y-%m-%d')
+        ret_code, prices = self.quote_ctx.get_history_kline(self.stock, start=pre_day, end=end_dt, ktype=ft.KLType.K_DAY)
+        if ret_code != ft.RET_OK:
+            print("get_history_kline fail: {}".format(prices))
+            return
 
         # 用talib计算MACD取值，得到三个时间序列数组，分别为 macd, signal 和 hist
         # macd 是长短均线的差值，signal 是 macd 的均线
@@ -85,10 +93,12 @@ class MACD(object):
         if macd[-1] < signal[-1] and macd[-2] > signal[-2]:
             # 计算现在portfolio中股票的仓位
             ret_code, data = self.trade_ctx.position_list_query(
-                envtype=self.trade_env)
+                trd_env=self.trade_env)
+
+            if ret_code != ft.RET_OK:
+                raise Exception('账户信息获取失败: {}'.format(data))
             pos_info = data.set_index('code')
-            if ret_code != 0:
-                raise Exception('账户信息获取失败! 请重试: {}'.format(pos_info))
+
             cur_pos = int(pos_info['qty'][self.stock])
             # 进行清仓
             if cur_pos > 0:
@@ -100,22 +110,21 @@ class MACD(object):
                 ret_code, ret_data = self.trade_ctx.place_order(
                     price=cur_price,
                     qty=cur_pos,
-                    strcode=self.stock,
-                    orderside=1,
-                    envtype=self.trade_env)
-                if not ret_code:
-                    print(
-                        'stop_loss MAKE SELL ORDER\n\tcode = {} price = {} quantity = {}'
-                        .format(self.stock, cur_price, cur_pos))
+                    code=self.stock,
+                    trd_side=ft.TrdSide.SELL,
+                    order_type=ft.OrderType.NORMAL,
+                    trd_env=self.trade_env)
+                if ret_code == ft.RET_OK:
+                    print('stop_loss MAKE SELL ORDER\n\tcode = {} price = {} quantity = {}'
+                          .format(self.stock, cur_price, cur_pos))
                 else:
-                    print('stop_loss: MAKE SELL ORDER FAILURE: {}'.format(
-                        ret_data))
+                    print('stop_loss: MAKE SELL ORDER FAILURE: {}'.format(ret_data))
 
         # 如果短均线从下往上突破长均线，为入场信号
         if macd[-1] > signal[-1] and macd[-2] < signal[-2]:
             # 满仓入股
             ret_code, acc_info = self.trade_ctx.accinfo_query(
-                envtype=self.trade_env)
+                trd_env=self.trade_env)
             if ret_code != 0:
                 raise Exception('账户信息获取失败! 请重试: {}'.format(acc_info))
 
@@ -123,16 +132,19 @@ class MACD(object):
                 [self.stock])
             if ret_code != 0:
                 raise Exception('市场快照数据获取异常 {}'.format(snapshot))
+            lot_size = snapshot['lot_size'][0]
             cur_price = snapshot['last_price'][0]
-            cash = acc_info[''][0]  # 可花费的现金
-            qty = math.floor(cash / cur_price)
+            cash = acc_info['Power'][0]  # 购买力
+            qty = int(math.floor(cash / cur_price))
+            qty = qty // lot_size * lot_size
 
             ret_code, ret_data = self.trade_ctx.place_order(
                 price=cur_price,
                 qty=qty,
-                strcode=self.stock,
-                orderside=0,
-                envtype=self.trade_env)
+                code=self.stock,
+                trd_side=ft.TrdSide.BUY,
+                order_type=ft.OrderType.NORMAL,
+                trd_env=self.trade_env)
             if not ret_code:
                 print(
                     'stop_loss MAKE BUY ORDER\n\tcode = {} price = {} quantity = {}'
@@ -151,3 +163,4 @@ if __name__ == "__main__":
 
     test = MACD(STOCK, SHORT_PERIOD, LONG_PERIOD, SMOOTH_PERIOD, OBSERVATION)
     test.handle_data()
+    test.close()
