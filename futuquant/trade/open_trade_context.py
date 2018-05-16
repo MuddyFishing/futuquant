@@ -528,7 +528,7 @@ class OpenTradeContextBase(OpenContextBase):
 
         return RET_OK, order_list_table
 
-    def history_deal_list_query(self, code, start, end, trd_env=TrdEnv.REAL, acc_id=0):
+    def history_deal_list_query(self, code, start='', end='', trd_env=TrdEnv.REAL, acc_id=0):
 
         ret, msg = self._check_trd_env(trd_env)
         if ret != RET_OK:
