@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_ReqSuspend.proto',
   package='Qot_ReqSuspend',
   syntax='proto2',
-  serialized_pb=_b('\n\x14Qot_ReqSuspend.proto\x12\x0eQot_ReqSuspend\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"K\n\x03\x43\x32S\x12 \n\x05stock\x18\x01 \x03(\x0b\x32\x11.Qot_Common.Stock\x12\x11\n\tbeginTime\x18\x02 \x01(\t\x12\x0f\n\x07\x65ndTime\x18\x03 \x01(\t\"\x17\n\x07Suspend\x12\x0c\n\x04time\x18\x01 \x02(\t\"^\n\x0cStockSuspend\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\x12,\n\x0bsuspendList\x18\x02 \x03(\x0b\x32\x17.Qot_ReqSuspend.Suspend\"=\n\x03S2C\x12\x36\n\x10stockSuspendList\x18\x01 \x03(\x0b\x32\x1c.Qot_ReqSuspend.StockSuspend\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Qot_ReqSuspend.C2S\"d\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12 \n\x03s2c\x18\x04 \x01(\x0b\x32\x13.Qot_ReqSuspend.S2C')
+  serialized_pb=_b('\n\x14Qot_ReqSuspend.proto\x12\x0eQot_ReqSuspend\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"K\n\x03\x43\x32S\x12 \n\x05stock\x18\x01 \x03(\x0b\x32\x11.Qot_Common.Stock\x12\x11\n\tbeginTime\x18\x02 \x02(\t\x12\x0f\n\x07\x65ndTime\x18\x03 \x02(\t\"\x17\n\x07Suspend\x12\x0c\n\x04time\x18\x01 \x02(\t\"^\n\x0cStockSuspend\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\x12,\n\x0bsuspendList\x18\x02 \x03(\x0b\x32\x17.Qot_ReqSuspend.Suspend\"=\n\x03S2C\x12\x36\n\x10stockSuspendList\x18\x01 \x03(\x0b\x32\x1c.Qot_ReqSuspend.StockSuspend\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Qot_ReqSuspend.C2S\"d\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12 \n\x03s2c\x18\x04 \x01(\x0b\x32\x13.Qot_ReqSuspend.S2C')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
 
@@ -44,14 +44,14 @@ _C2S = _descriptor.Descriptor(
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='beginTime', full_name='Qot_ReqSuspend.C2S.beginTime', index=1,
-      number=2, type=9, cpp_type=9, label=1,
+      number=2, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='endTime', full_name='Qot_ReqSuspend.C2S.endTime', index=2,
-      number=3, type=9, cpp_type=9, label=1,
+      number=3, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,

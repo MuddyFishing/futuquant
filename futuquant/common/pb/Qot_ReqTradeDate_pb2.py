@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_ReqTradeDate.proto',
   package='Qot_ReqTradeDate',
   syntax='proto2',
-  serialized_pb=_b('\n\x16Qot_ReqTradeDate.proto\x12\x10Qot_ReqTradeDate\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"9\n\x03\x43\x32S\x12\x0e\n\x06market\x18\x01 \x02(\x05\x12\x11\n\tbeginTime\x18\x02 \x01(\t\x12\x0f\n\x07\x65ndTime\x18\x03 \x01(\t\"\x19\n\tTradeDate\x12\x0c\n\x04time\x18\x01 \x02(\t\"5\n\x03S2C\x12.\n\ttradeDate\x18\x01 \x03(\x0b\x32\x1b.Qot_ReqTradeDate.TradeDate\"-\n\x07Request\x12\"\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x15.Qot_ReqTradeDate.C2S\"f\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\"\n\x03s2c\x18\x04 \x01(\x0b\x32\x15.Qot_ReqTradeDate.S2C')
+  serialized_pb=_b('\n\x16Qot_ReqTradeDate.proto\x12\x10Qot_ReqTradeDate\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"9\n\x03\x43\x32S\x12\x0e\n\x06market\x18\x01 \x02(\x05\x12\x11\n\tbeginTime\x18\x02 \x02(\t\x12\x0f\n\x07\x65ndTime\x18\x03 \x02(\t\"\x19\n\tTradeDate\x12\x0c\n\x04time\x18\x01 \x02(\t\"5\n\x03S2C\x12.\n\ttradeDate\x18\x01 \x03(\x0b\x32\x1b.Qot_ReqTradeDate.TradeDate\"-\n\x07Request\x12\"\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x15.Qot_ReqTradeDate.C2S\"f\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\"\n\x03s2c\x18\x04 \x01(\x0b\x32\x15.Qot_ReqTradeDate.S2C')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
 
@@ -44,14 +44,14 @@ _C2S = _descriptor.Descriptor(
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='beginTime', full_name='Qot_ReqTradeDate.C2S.beginTime', index=1,
-      number=2, type=9, cpp_type=9, label=1,
+      number=2, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='endTime', full_name='Qot_ReqTradeDate.C2S.endTime', index=2,
-      number=3, type=9, cpp_type=9, label=1,
+      number=3, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
