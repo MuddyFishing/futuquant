@@ -246,4 +246,4 @@ if __name__ == "__main__":
     _example_global_state(quote_context)
 
     quote_context.close()
-    print("* all test finish! *")
+    print("\n* all test finish! *")
