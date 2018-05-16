@@ -10,8 +10,8 @@ from futuquant import *
 
 
 
-def query_history_change_stocks(quote_context=None, markets=['HK'], start='2017-01-05', end='2017-12-30', change_min=5.0,
-                            change_max=None, stock_type='STOCK', ascend=True):
+def query_history_change_stocks(quote_context=None, markets=[Market.HK], start='2017-01-05', end='2017-1-10', change_min=5.0,
+                            change_max=None, stock_type=SecurityType.STOCK, ascend=True):
     '''
     :param quote_context: api 行情对象
     :param markets: 要查询的市场列表, 可以只传单个市场如'HK'字符串
@@ -51,13 +51,13 @@ def query_history_change_stocks(quote_context=None, markets=['HK'], start='2017-
     dt_last = datetime.now()
     ret_list = []
     ret, data_start = quote_context.get_multi_points_history_kline(list_stocks, [start],
-                                                             [KL_FIELD.DATE_TIME, KL_FIELD.CLOSE], 'K_DAY', 'hfq',
-                                                                   KL_NO_DATA_MODE_BACKWARD)
+                                                             [KL_FIELD.DATE_TIME, KL_FIELD.CLOSE], KLType.K_DAY, AuType.QFQ,
+                                                                   KLNoDataMode.FORWARD)
     if ret != 0:
         return ret, data_start
     ret, data_end = quote_context.get_multi_points_history_kline(list_stocks, [end],
-                                                             [KL_FIELD.DATE_TIME, KL_FIELD.CLOSE], 'K_DAY', 'hfq',
-                                                             KL_NO_DATA_MODE_FORWARD)
+                                                             [KL_FIELD.DATE_TIME, KL_FIELD.CLOSE], KLType.K_DAY, AuType.QFQ,
+                                                                 KLNoDataMode.FORWARD)
     if ret != 0:
         return ret, data_end
 
@@ -74,7 +74,7 @@ def query_history_change_stocks(quote_context=None, markets=['HK'], start='2017-
         close_end = 0
         real_times = []
         for _, row in pd_find.iterrows():
-            if 0 == row['data_valid']:
+            if KLDataStatus.NONE == row['data_status']:
                 break
             if row['time_point'] == start:
                 close_start = row['close']
@@ -104,9 +104,9 @@ def query_history_change_stocks(quote_context=None, markets=['HK'], start='2017-
 if __name__ == "__main__":
     api_ip = '127.0.0.1'  # ''119.29.141.202'
     api_port = 11111
-    change_min = 10
-    change_max = 20
+    change_min = 1
+    change_max = 2
 
     quote_context = OpenQuoteContext(host=api_ip, port=api_port)
-    print(query_history_change_stocks(quote_context, ['HK'], '2017-01-10', '2017-12-06', change_min, change_max,  'STOCK'))
+    print(query_history_change_stocks(quote_context, [Market.HK], '2017-01-10', '2017-1-15', change_min, change_max, SecurityType.ETF))
     quote_context.close()
