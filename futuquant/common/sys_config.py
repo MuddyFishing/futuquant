@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from futuquant.common.constant import *
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5 as Cipher_pkcs1
