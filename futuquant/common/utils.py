@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import hashlib, json, os, sys, socket, traceback, time, struct
-from datetime import datetime
+from datetime import datetime, timedelta
 from struct import calcsize
 from google.protobuf.json_format import MessageToJson
 from threading import RLock
@@ -17,19 +17,71 @@ def get_message_head_len():
     return calcsize(MESSAGE_HEAD_FMT)
 
 
-def check_date_str_format(s):
+def check_date_str_format(s, default_time="00:00:00"):
     """Check the format of date string"""
     try:
+        str_fmt = s
         if ":" not in s:
-            _ = datetime.strptime(s, "%Y-%m-%d")
-        else:
-            _ = datetime.strptime(s, "%Y-%m-%d %H:%M:%S")
-        return RET_OK, None
+            str_fmt = '{} {}'.format(s, default_time)
+
+        dt_obj = datetime.strptime(str_fmt, "%Y-%m-%d %H:%M:%S")
+
+        return RET_OK, dt_obj
+
     except ValueError:
         traceback.print_exc()
         err = sys.exc_info()[1]
         error_str = ERROR_STR_PREFIX + str(err)
         return RET_ERROR, error_str
+
+
+def normalize_date_format(date_str, default_time="00:00:00"):
+    """normalize the format of data"""
+    ret_code, ret_data = check_date_str_format(date_str, default_time)
+    if ret_code != RET_OK:
+        return ret_code, ret_data
+
+    return ret_data.strftime("%Y-%m-%d %H:%M:%S")
+
+
+def normalize_start_end_date(start, end, delta_days=0, default_time_start="00:00:00", default_time_end="23:59:59"):
+
+    dt_start = None
+    dt_end = None
+    delta = timedelta(days=delta_days)
+    hour_end, min_end, sec_end = [int(x) for x in default_time_end.split(':')]
+    hour_start, min_start, sec_start = [int(x) for x in default_time_start.split(':')]
+
+    if start:
+        ret_code, ret_data = check_date_str_format(start, default_time_start)
+        if ret_code != RET_OK:
+            return ret_code, ret_data, start, end
+        dt_start = ret_data
+
+    if end:
+        ret_code, ret_data = check_date_str_format(end, default_time_end)
+        if ret_code != RET_OK:
+            return ret_code, ret_data, start, end
+        dt_end = ret_data
+
+    if end and not start:
+        dt_tmp = dt_end - delta
+        dt_start = datetime(year=dt_tmp.year, month=dt_tmp.month, day=dt_tmp.day, hour=hour_start, minute=min_start, second=sec_start)
+
+    if start and not end:
+        dt_tmp = dt_start + delta
+        dt_end = datetime(year=dt_tmp.year, month=dt_tmp.month, day=dt_tmp.day, hour=hour_end, minute=min_end, second=sec_end)
+
+    if not start and not end:
+        dt_now = datetime.now()
+        dt_end = datetime(year=dt_now.year, month=dt_now.month, day=dt_now.day, hour=hour_end, minute=min_end, second=sec_end)
+        dt_tmp = dt_end - delta
+        dt_start = datetime(year=dt_tmp.year, month=dt_tmp.month, day=dt_tmp.day, hour=hour_start, minute=min_start, second=sec_start)
+
+    start = dt_start.strftime("%Y-%m-%d %H:%M:%S")
+    end = dt_end.strftime("%Y-%m-%d %H:%M:%S")
+
+    return RET_OK, '', start, end
 
 
 def extract_pls_rsp(rsp_str):
@@ -49,17 +101,6 @@ def extract_pls_rsp(rsp_str):
         return RET_ERROR, error_str, None
 
     return RET_OK, "", rsp
-
-
-def normalize_date_format(date_str):
-    """normalize the format of data"""
-    if ":" not in date_str:
-        date_obj = datetime.strptime(date_str, "%Y-%m-%d")
-    else:
-        date_obj = datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S")
-
-    ret = date_obj.strftime("%Y-%m-%d")
-    return ret
 
 
 def split_stock_str(stock_str_param):

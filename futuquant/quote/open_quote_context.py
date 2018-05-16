@@ -67,13 +67,9 @@ class OpenQuoteContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "the type of market param is wrong"
             return RET_ERROR, error_str
 
-        if start_date is not None and is_str(start_date) is False:
-            error_str = ERROR_STR_PREFIX + "the type of start_date param is wrong"
-            return RET_ERROR, error_str
-
-        if end_date is not None and is_str(end_date) is False:
-            error_str = ERROR_STR_PREFIX + "the type of end_date param is wrong"
-            return RET_ERROR, error_str
+        ret, msg, start_date, end_date = normalize_start_end_date(start_date, end_date, 365)
+        if ret != RET_OK:
+            return ret, msg
 
         query_processor = self._get_sync_query_processor(
             TradeDayQuery.pack_req, TradeDayQuery.unpack_rsp)
@@ -191,16 +187,11 @@ class OpenQuoteContext(OpenContextBase):
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
 
-        if start:
-            ret, msg = check_date_str_format(start)
-            if ret != RET_OK:
-                return ret, msg
-        if end:
-            ret, msg = check_date_str_format(end)
-            if ret != RET_OK:
-                return ret, msg
+        # format start end date
+        ret, msg, req_start, end = normalize_start_end_date(start, end, 365)
+        if ret != RET_OK:
+            return ret, msg
 
-        req_start = start
         max_kl_num = 1000
         data_finish = False
         list_ret = []
@@ -774,6 +765,10 @@ class OpenQuoteContext(OpenContextBase):
         if not code_list:
             error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
             return RET_ERROR, error_str
+
+        ret, msg, start, end = normalize_start_end_date(start, end, 365)
+        if ret != RET_OK:
+            return ret, msg
 
         query_processor = self._get_sync_query_processor(
             SuspensionQuery.pack_req,

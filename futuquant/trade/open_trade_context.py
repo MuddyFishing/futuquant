@@ -308,6 +308,18 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
+        if start:
+            ret, data = normalize_date_format(start)
+            if ret != RET_OK:
+                return ret, data
+            start = data
+
+        if end:
+            ret, data = normalize_date_format(end)
+            if ret != RET_OK:
+                return ret, data
+            end = data
+
         query_processor = self._get_sync_query_processor(
             OrderListQuery.pack_req, OrderListQuery.unpack_rsp)
 
@@ -485,7 +497,9 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        start, end = self._make_start_end_param(start, end, days=90)
+        ret, msg, start, end = normalize_start_end_date(start, end, 90)
+        if ret != RET_OK:
+            return ret, msg
 
         query_processor = self._get_sync_query_processor(
             HistoryOrderListQuery.pack_req,
@@ -527,7 +541,9 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        start, end = self._make_start_end_param(start, end, days=90)
+        ret, msg, start, end = normalize_start_end_date(start, end, 90)
+        if ret != RET_OK:
+            return ret, msg
 
         query_processor = self._get_sync_query_processor(
             HistoryDealListQuery.pack_req,
@@ -553,19 +569,6 @@ class OpenTradeContextBase(OpenContextBase):
         deal_list_table = pd.DataFrame(deal_list, columns=col_list)
 
         return RET_OK, deal_list_table
-
-    def _make_start_end_param(self, start, end, days):
-        if not start and not end:
-            today = dt.date.today()
-            end = today.strftime("%Y-%m-%d")
-            start = (today - dt.timedelta(days=days)).strftime("%Y-%m-%d")
-        elif not start:
-            dt_base = dt.datetime.strptime(end, "%Y-%m-%d")
-            start = (dt_base - dt.timedelta(days=days)).strftime("%Y-%m-%d")
-        elif not end:
-            dt_base = dt.datetime.strptime(start, "%Y-%m-%d")
-            end = (dt_base + dt.timedelta(days=days)).strftime("%Y-%m-%d")
-        return start, end
 
 
 # 港股交易接口

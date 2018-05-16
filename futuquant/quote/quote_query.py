@@ -62,13 +62,6 @@ class TradeDayQuery:
 
     @classmethod
     def pack_req(cls, market, conn_id, start_date=None, end_date=None):
-        """
-        Convert from user request for trading days to PLS request
-        :param market:
-        :param start_date:
-        :param end_date:
-        :return: pb binary request data
-        """
 
         # '''Parameter check'''
         if market not in MKT_MAP:
@@ -108,33 +101,7 @@ class TradeDayQuery:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        """
-        Convert from PLS response to user response
-        :return: trading day list
 
-        Example:
-
-        rsp_str : '{"ErrCode":"0","ErrDesc":"","Protocol":"1013","RetData":{"Market":"2",
-        "TradeDateArr":["2017-01-17","2017-01-13","2017-01-12","2017-01-11",
-        "2017-01-10","2017-01-09","2017-01-06","2017-01-05","2017-01-04",
-        "2017-01-03"],"end_date":"2017-01-18","start_date":"2017-01-01"},"Version":"1"}\n\r\n\r\n'
-
-         ret,msg,content = TradeDayQuery.unpack_rsp(rsp_str)
-
-         ret : 0
-         msg : ""
-         content : ['2017-01-17',
-                    '2017-01-13',
-                    '2017-01-12',
-                    '2017-01-11',
-                    '2017-01-10',
-                    '2017-01-09',
-                    '2017-01-06',
-                    '2017-01-05',
-                    '2017-01-04',
-                    '2017-01-03']
-
-        """
         # response check and unpack response json to objects
         ret_type = rsp_pb.retType
         ret_msg = rsp_pb.retMsg
@@ -159,13 +126,7 @@ class StockBasicInfoQuery:
 
     @classmethod
     def pack_req(cls, market, conn_id, stock_type='STOCK'):
-        """
-        Convert from user request for trading days to PLS request
-        :param market:
-        :param stock_type:
-        :return:  pb binary request data
 
-        """
         if market not in MKT_MAP:
             error_str = ERROR_STR_PREFIX + " market is %s, which is not valid. (%s)" \
                                            % (market, ",".join([x for x in MKT_MAP]))
@@ -185,12 +146,7 @@ class StockBasicInfoQuery:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        """
-        Convert from PLS response to user response
-        :return: (ret, msg , data)
-            ret == 0, data = basic_info_list
 
-        """
         ret_type = rsp_pb.retType
         ret_msg = rsp_pb.retMsg
 
@@ -347,7 +303,7 @@ class RtDataQuery:
 
     @classmethod
     def pack_req(cls, code, conn_id):
-        """Convert from user request for trading days to PLS request"""
+
         ret, content = split_stock_str(code)
         if ret == RET_ERROR:
             error_str = content
@@ -363,7 +319,7 @@ class RtDataQuery:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        """Convert from PLS response to user response"""
+
         ret_type = rsp_pb.retType
         ret_msg = rsp_pb.retMsg
 
@@ -397,7 +353,7 @@ class SubplateQuery:
 
     @classmethod
     def pack_req(cls, market, plate_class, conn_id):
-        """Convert from user request for trading days to PLS request"""
+
         from futuquant.common.pb.Qot_ReqPlateSet_pb2 import Request
         req = Request()
         req.c2s.market = MKT_MAP[market]
@@ -407,7 +363,7 @@ class SubplateQuery:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        """Convert from PLS response to user response"""
+
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
 
@@ -434,7 +390,7 @@ class PlateStockQuery:
 
     @classmethod
     def pack_req(cls, plate_code, conn_id):
-        """Convert from user request for trading days to PLS request"""
+
         ret_code, content = split_stock_str(plate_code)
         if ret_code != RET_OK:
             msg = content
@@ -455,7 +411,7 @@ class PlateStockQuery:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        """Convert from PLS response to user response"""
+
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
 
@@ -490,7 +446,7 @@ class BrokerQueueQuery:
 
     @classmethod
     def pack_req(cls, code, conn_id):
-        """Convert from user request for trading days to PLS request"""
+
         ret_code, content = split_stock_str(code)
         if ret_code == RET_ERROR:
             error_str = content
@@ -506,7 +462,7 @@ class BrokerQueueQuery:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        """Convert from PLS response to user response"""
+
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
 
@@ -544,7 +500,7 @@ class HistoryKlineQuery:
     @classmethod
     def pack_req(cls, code, start_date, end_date, ktype, autype, fields,
                  max_num, conn_id):
-        """Convert from user request for trading days to PLS request"""
+
         ret, content = split_stock_str(code)
         if ret == RET_ERROR:
             error_str = content
@@ -581,7 +537,7 @@ class HistoryKlineQuery:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        """Convert from PLS response to user response"""
+
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
 
@@ -637,7 +593,7 @@ class ExrightQuery:
 
     @classmethod
     def pack_req(cls, stock_list, conn_id):
-        """Convert from user request for trading days to PLS request"""
+
         stock_tuple_list = []
         failure_tuple_list = []
         for stock_str in stock_list:
@@ -665,7 +621,7 @@ class ExrightQuery:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        """Convert from PLS response to user response"""
+
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
 
@@ -762,7 +718,7 @@ class SubscriptionQuery:
 
     @classmethod
     def unpack_subscribe_rsp(cls, rsp_pb):
-        """Unpack the subscribed response"""
+
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
 
@@ -770,7 +726,7 @@ class SubscriptionQuery:
 
     @classmethod
     def pack_unsubscribe_req(cls, code_list, subtype_list, conn_id):
-        """Pack the un-subscribed request"""
+
         return SubscriptionQuery.pack_sub_or_unsub_req(code_list, subtype_list, False, conn_id)
 
     @classmethod
@@ -783,7 +739,7 @@ class SubscriptionQuery:
 
     @classmethod
     def pack_subscription_query_req(cls, is_all_conn, conn_id):
-        """Pack the subscribed query request"""
+
         from futuquant.common.pb.Qot_ReqSubInfo_pb2 import Request
         req = Request()
         req.c2s.isReqAllConn = is_all_conn
@@ -792,7 +748,7 @@ class SubscriptionQuery:
 
     @classmethod
     def unpack_subscription_query_rsp(cls, rsp_pb):
-        """Unpack the subscribed query response"""
+
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
         raw_sub_info = rsp_pb.s2c
@@ -846,12 +802,12 @@ class SubscriptionQuery:
 
     @classmethod
     def pack_push_req(cls, code_list, subtype_list, conn_id):
-        """Pack the push request"""
+
         return SubscriptionQuery.pack_push_or_unpush_req(code_list, subtype_list, True, conn_id)
 
     @classmethod
     def pack_unpush_req(cls, code_list, subtype_list, conn_id):
-        """Pack the un-pushed request"""
+
         return SubscriptionQuery.pack_push_or_unpush_req(code_list, subtype_list, False, conn_id)
 
 
@@ -865,7 +821,7 @@ class StockQuoteQuery:
 
     @classmethod
     def pack_req(cls, stock_list, conn_id):
-        """Convert from user request for trading days to PLS request"""
+
         stock_tuple_list = []
         failure_tuple_list = []
         for stock_str in stock_list:
@@ -893,7 +849,7 @@ class StockQuoteQuery:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        """Convert from PLS response to user response"""
+
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, []
         raw_quote_list = rsp_pb.s2c.stockBasic
@@ -927,7 +883,7 @@ class TickerQuery:
 
     @classmethod
     def pack_req(cls, code, num, conn_id):
-        """Convert from user request for trading days to PLS request"""
+
         ret, content = split_stock_str(code)
         if ret == RET_ERROR:
             error_str = content
@@ -953,7 +909,7 @@ class TickerQuery:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        """Convert from PLS response to user response"""
+
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
 
@@ -980,7 +936,7 @@ class CurKlineQuery:
 
     @classmethod
     def pack_req(cls, code, num, ktype, autype, conn_id):
-        """Convert from user request for trading days to PLS request"""
+
         ret, content = split_stock_str(code)
         if ret == RET_ERROR:
             error_str = content
@@ -1018,7 +974,7 @@ class CurKlineQuery:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        """Convert from PLS response to user response"""
+
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, []
 
@@ -1050,7 +1006,7 @@ class CurKlinePush:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        """Convert from PLS response to user response"""
+
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, []
 
@@ -1092,7 +1048,7 @@ class OrderBookQuery:
 
     @classmethod
     def pack_req(cls, code, conn_id):
-        """Convert from user request for trading days to PLS request"""
+
         ret, content = split_stock_str(code)
         if ret == RET_ERROR:
             error_str = content
@@ -1109,7 +1065,7 @@ class OrderBookQuery:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        """Convert from PLS response to user response"""
+
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, []
 
@@ -1140,7 +1096,7 @@ class SuspensionQuery:
 
     @classmethod
     def pack_req(cls, code_list, start, end, conn_id):
-        """Convert from user request for trading days to PLS request"""
+
         list_req_stock = []
         for stock_str in code_list:
             ret, content = split_stock_str(stock_str)
@@ -1148,12 +1104,7 @@ class SuspensionQuery:
                 return RET_ERROR, content, None
             else:
                 list_req_stock.append(content)
-        '''
-        for x in [start, end]:
-            ret, msg = check_date_str_format(x)
-            if ret != RET_OK:
-                return ret, msg, None
-        '''
+
         from futuquant.common.pb.Qot_ReqSuspend_pb2 import Request
         req = Request()
         if start:
@@ -1169,7 +1120,7 @@ class SuspensionQuery:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        """Convert from PLS response to user response"""
+
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
 
@@ -1195,15 +1146,7 @@ class GlobalStateQuery:
 
     @classmethod
     def pack_req(cls,user_id, conn_id):
-        """
-        Convert from user request for trading days to PLS request
-        :param state_type: for reserved, no use now !
-        :return: pb binary request data
 
-        """
-        '''Parameter check'''
-
-        # pack to json
         from futuquant.common.pb.GlobalState_pb2 import Request
         req = Request()
         req.c2s.userID = user_id
@@ -1211,31 +1154,7 @@ class GlobalStateQuery:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        """
-        Convert from PLS response to user response
 
-        Example:
-
-        rsp_str : '{"ErrCode":"0","ErrDesc":"","Protocol":"1029","RetData":{"Market_HK":"5",
-        "Market_HKFuture":"15","Market_SH":"6","Market_SZ":"6","Market_US":"11","Quote_Logined":"1","Trade_Logined":"1"
-        },"Version":"1"}\r\n\r\n'
-
-         ret,msg,content = TradeDayQuery.unpack_rsp(rsp_str)
-
-         ret : 0
-         msg : ""
-         content : {"Market_HK":"5",
-                    "Market_HKFuture":"15",
-                    "Market_SH":"6",
-                    "Market_SZ":"6",
-                    "Market_US":"11",
-                    "Quote_Logined":"1",
-                    "Trade_Logined":"1"
-                    "TimeStamp":"1508250058"
-                   }
-
-        """
-        # response check and unpack response json to objects
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
 
@@ -1264,11 +1183,7 @@ class HeartBeatPush:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        """
-        Convert from PLS response to user response
 
-        """
-        # response check and unpack response pb to objects
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
 
@@ -1279,8 +1194,10 @@ class SysNotifyPush:
     """ SysNotifyPush """
     def __init__(self):
         pass
+
     @classmethod
     def unpack_rsp(cls, rsp_pb):
+
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg,
 
@@ -1309,7 +1226,7 @@ class MultiPointsHisKLine:
     @classmethod
     def pack_req(cls, code_list, dates, fields, ktype, autype, max_req,
                  no_data_mode, conn_id):
-        """Convert from user request for multiple history kline points to PLS request"""
+
         list_req_stock = []
         for code in code_list:
             ret, content = split_stock_str(code)
@@ -1351,11 +1268,10 @@ class MultiPointsHisKLine:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        """Convert from PLS response to user response"""
+
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
 
-        has_next = False
         has_next = rsp_pb.s2c.hasNext if rsp_pb.s2c.HasField(
             'hasNext') else False
 
