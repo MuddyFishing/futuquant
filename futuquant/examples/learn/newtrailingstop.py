@@ -10,17 +10,23 @@ from math import floor
 
 import matplotlib.pyplot as plt
 import numpy as np
+from time import sleep
 
 sys.path.append(os.path.split(os.path.abspath(os.path.pardir))[0])
 
 import futuquant as ft
 from emailplugin import EmailNotification
-from stocksell import simple_sell, simple_sell
+from stocksell import simple_sell, smart_sell
 
 
 class TrailingMethod(object):
     DROP_ABS = "DROP_ABS"  # 绝对值降低
     DROP_PER = "DROP_PER"  # 百分比降低
+
+
+class SellMethod(object):
+    SIMPLE_SELL = "SIMPLE_SELL"
+    SMART_SELL = "SMART_SELL"
 
 
 class TrailingStopHandler(ft.StockQuoteHandlerBase):
@@ -80,33 +86,31 @@ class TrailingStopHandler(ft.StockQuoteHandlerBase):
 
 
 def trailing_stop(api_svr_ip='127.0.0.1', api_svr_port=11111, unlock_password="", code='HK.00700',
-                  trade_env=1, method=0, drop=1, volume=100, how_to_sell=1, diff=0, rest_time=2,
-                  enable_email_notification=False, receiver='haha.email'):
+                  trade_env=ft.TrdEnv.SIMULATE, method=TrailingMethod.DROP_ABS, drop=1.0, volume=100,
+                  how_to_sell=SellMethod.SMART_SELL, diff=0, rest_time=2,
+                  enable_email_notification=False, receiver=''):
     """
     止损策略函数
     :param api_svr_ip: (string)ip
     :param api_svr_port: (int)port
     :param unlock_password: (string)交易解锁密码, 必需修改! 模拟交易设为一个非空字符串即可
     :param code: (string)股票
-    :param trade_env: 0: 真实交易 1: 模拟交易 (美股暂不支持模拟交易)
-    :param method: 0: 股票下跌drop价格就会止损  1: 股票下跌drop的百分比就会止损
-    :param drop: method == 0, 股票下跌的价格   method == 1，股票下跌的百分比，0.01表示下跌1%则止损
+    :param trade_env: ft.TrdEnv.REAL: 真实交易 ft.TrdEnv.SIMULATE: 模拟交易
+    :param method: method == TrailingMethod.DROP_ABS: 股票下跌drop价格就会止损  railingMethod.DROP_PER: 股票下跌drop的百分比就会止损
+    :param drop: method == TrailingMethod.DROP_ABS, 股票下跌的价格   method == TrailingMethod.DROP_PER，股票下跌的百分比，0.01表示下跌1%则止损
     :param volume: 需要卖掉的股票数量
-    :param how_to_sell: 以何种方式卖出股票，默认值为0  0: 以(市价-diff)的价格卖出  1: 以smart_sell方式卖出
-    :param diff: 默认为0，当how_to_sell为0时，以(市价-diff)的价格卖出
+    :param how_to_sell: 以何种方式卖出股票， SellMethod 类型
+    :param diff: 默认为0，当how_to_sell为SellMethod.DROP_ABS时，以(市价-diff)的价格卖出
     :param rest_time: 每隔REST_TIME秒，会检查订单状态, 需要>=2
     :param enable_email_notification: 激活email功能
     :param receiver: 邮件接收者
     """
     EmailNotification.set_enable(enable_email_notification)
-    if how_to_sell != 0 and how_to_sell != 1:
-        print('how_to_sell must be 0 or 1')
+
+    if how_to_sell not in [SellMethod.SIMPLE_SELL, SellMethod.SMART_SELL]:
         raise Exception('how_to_sell value error')
-    if trade_env != 0 and trade_env != 1:
-        print('trade_env must be 0 or 1')
-        raise Exception('trade_env value error')
-    if method != 0 and method != 1:
-        print('method must be 0 or 1')
+
+    if method not in [TrailingMethod.DROP_ABS, TrailingMethod.DROP_PER]:
         raise Exception('method value error')
 
     quote_ctx = ft.OpenQuoteContext(host=api_svr_ip, port=api_svr_port)
@@ -114,17 +118,16 @@ def trailing_stop(api_svr_ip='127.0.0.1', api_svr_port=11111, unlock_password=""
     if is_hk_trade:
         trade_ctx = ft.OpenHKTradeContext(host=api_svr_ip, port=api_svr_port)
     else:
-        if trade_env != 0:
-            raise Exception('美股不支持仿真环境')
         trade_ctx = ft.OpenUSTradeContext(host=api_svr_ip, port=api_svr_port)
 
     if unlock_password == "":
         raise Exception('请先配置交易密码')
-    if trade_env == 0:
-        ret, data = trade_ctx.unlock_trade(unlock_password)
-        if ret != ft.RET_OK:
-            raise Exception('解锁交易失败')
-    ret, data = trade_ctx.position_list_query(envtype=trade_env)
+
+    ret, data = trade_ctx.unlock_trade(unlock_password)
+    if ret != ft.RET_OK:
+        raise Exception('解锁交易失败')
+
+    ret, data = trade_ctx.position_list_query(trd_env=trd_env)
     if ret != ft.RET_OK:
         raise Exception("无法获取持仓列表")
 
@@ -132,26 +135,28 @@ def trailing_stop(api_svr_ip='127.0.0.1', api_svr_port=11111, unlock_password=""
         qty = data[data['code'] == code].iloc[0]['qty']
     except:
         raise Exception('你没有持仓！无法买卖')
+
     qty = int(qty)
     if volume == 0:
         volume = qty
-    elif volume < 0:
+    if volume < 0:
         raise Exception('volume lower than  0')
-    else:
-        if qty < volume:
-            raise Exception('持仓不足')
-    if volume <= 0:
-        raise Exception('没有持仓')
-    ret, data = quote_ctx.get_market_snapshot([code])
+    elif qty < volume:
+        raise Exception('持仓不足')
+
+    ret, data = quote_ctx.get_market_snapshot(code)
     if ret != ft.RET_OK:
         raise Exception('获取lot size失败')
     lot_size = data.iloc[0]['lot_size']
+
     if volume % lot_size != 0:
         raise Exception('volume 必须是{}的整数倍'.format(lot_size))
-    ret, data = quote_ctx.subscribe(code, 'QUOTE', push=True)
+
+    ret, data = quote_ctx.subscribe(code, ft.SubType.QUOTE)
     if ret != ft.RET_OK:
         raise Exception('订阅QUOTE错误: error {}:{}'.format(ret, data))
-    ret, data = quote_ctx.subscribe(code, 'ORDER_BOOK')
+
+    ret, data = quote_ctx.subscribe(code, ft.SubType.ORDER_BOOK)
     if ret != ft.RET_OK:
         print('error {}:{}'.format(ret, data))
         raise Exception('订阅order book失败: error {}:{}'.format(ret, data))
@@ -161,22 +166,25 @@ def trailing_stop(api_svr_ip='127.0.0.1', api_svr_port=11111, unlock_password=""
             ret, data = quote_ctx.get_order_book(code)
             if ret != ft.RET_OK:
                 raise Exception('获取order book失败: cannot get order book'.format(data))
+
             min_diff = round(abs(data['Bid'][0][0] - data['Bid'][1][0]), 3)
             if floor(diff / min_diff) * min_diff != diff:
                 raise Exception('diff 应是{}的整数倍'.format(min_diff))
         else:
             if round(diff, 2) != diff:
                 raise Exception('美股价差保留2位小数{}->{}'.format(diff, round(diff, 2)))
-    if method == 0:
+
+    if method == TrailingMethod.DROP_ABS:
         if is_hk_trade:
             if floor(drop / min_diff) * min_diff != drop:
                 raise Exception('drop必须是{}的整数倍'.format(min_diff))
         else:
             if round(drop, 2) != drop:
                 raise Exception('drop必须保留2位小数{}->{}'.format(drop, round(drop, 2)))
-    elif method == 1:
+
+    elif method == TrailingMethod.DROP_PER:
         if drop < 0 or drop > 1:
-            raise Exception('drop must in [0, 1] if method is 1')
+            raise Exception('drop must in [0, 1] if method is DROP_PER')
 
     trailing_stop_handler = TrailingStopHandler(quote_ctx, is_hk_trade, method, drop)
     quote_ctx.set_handler(trailing_stop_handler)
@@ -187,50 +195,49 @@ def trailing_stop(api_svr_ip='127.0.0.1', api_svr_port=11111, unlock_password=""
             qty = volume
             sell_price = trailing_stop_handler.stop
             while qty > 0:
-                if how_to_sell == 0:
-                    data = simple_sell(quote_ctx, trade_ctx, code, sell_price - diff, qty, trade_env)
+                if how_to_sell == SellMethod.SIMPLE_SELL:
+                    data = simple_sell(quote_ctx, trade_ctx, code, sell_price - diff, qty, trade_env, ft.OrderType.SPECIAL_LIMIT)
                 else:
-                    data = smart_sell(quote_ctx, trade_ctx, code, qty, trade_env)
+                    data = smart_sell(quote_ctx, trade_ctx, code, qty, trade_env, ft.OrderType.SPECIAL_LIMIT)
                 if data is None:
                     print('下单失败')
                     EmailNotification.send_email(receiver, '下单失败', '股票代码{}，数量{}'.format(code, volume))
-                orderid = data.iloc[0]['orderid']
-                envtype = data.iloc[0]['envtype']
-                time.sleep(rest_time)
-                ret, data = trade_ctx.order_list_query(envtype=envtype)
-                if ret != ft.RET_OK:
-                    raise Exception('获取订单状态失败')
-                status = data[data['orderid'] == orderid].iloc[0]['status']
-                dealt_qty = data[data['orderid'] == orderid].iloc[0]['dealt_qty']
-                order_price = data[data['orderid'] == orderid].iloc[0]['price']
-                status = int(status)
-                dealt_qty = int(dealt_qty)
-                qty -= dealt_qty
+                    sleep(rest_time)
+                    continue
 
-                if status == 3:
-                    print('全部成交:股票代码{}, 成交总数{}，价格{}'.format(code, dealt_qty, order_price))
-                    EmailNotification.send_email(receiver, '全部成交', '股票代码{}，成交总数{}，价格{}'
-                                                 .format(code, dealt_qty, order_price))
-                elif status == 2:
-                    print('部分成交:股票代码{}，成交总数{}，价格{}'.format(code, dealt_qty, order_price))
-                    EmailNotification.send_email(receiver, '部分成交', '股票代码{}，成交总数{}，价格{}'
-                                                 .format(code, dealt_qty, order_price))
-                    while True:
-                        ret, data = trade_ctx.set_order_status(0, orderid=orderid, envtype=trade_env)
-                        if ret != ft.RET_OK:
-                            time.sleep(rest_time)
-                            continue
-                        else:
-                            break
-                else:
-                    while True:
-                        ret, data = trade_ctx.set_order_status(0, orderid=orderid, envtype=trade_env)
-                        if ret != ft.RET_OK:
-                            time.sleep(rest_time)
-                            continue
-                        else:
-                            break
-                if how_to_sell == 0:
+                order_id = data.iloc[0]['order_id']
+                sleep(rest_time)
+
+                while True:
+                    ret, data = trade_ctx.order_list_query(order_id=order_id, trd_env=trade_env)
+                    if ret != ft.RET_OK:
+                        sleep(rest_time)
+                        continue
+
+                    status = data.iloc[0]['order_status']
+                    dealt_qty = int(data.iloc[0]['dealt_qty'])
+                    order_price = data.iloc[0]['price']
+                    qty -= dealt_qty
+
+                    if status == ft.OrderStatus.FILLED_ALL:
+                        print('全部成交:股票代码{}, 成交总数{}，价格{}'.format(code, dealt_qty, order_price))
+                        EmailNotification.send_email(receiver, '全部成交', '股票代码{}，成交总数{}，价格{}'
+                                                     .format(code, dealt_qty, order_price))
+                        break
+                    elif status == ft.OrderStatus.FILLED_PART:
+                        print('部分成交:股票代码{}，成交总数{}，价格{}'.format(code, dealt_qty, order_price))
+                        EmailNotification.send_email(receiver, '部分成交', '股票代码{}，成交总数{}，价格{}'
+                                                     .format(code, dealt_qty, order_price))
+                        break
+                    elif status == ft.OrderStatus.FAILED or status == ft.OrderStatus.SUBMIT_FAILED or \
+                                    status == ft.OrderStatus.CANCELLED_ALL or status == ft.OrderStatus.DELETED:
+                        break
+                    else:
+                        trade_ctx.modify_order(ft.ModifyOrderOp.CANCEL, order_id, 0, 0)
+                        sleep(rest_time)
+                        continue
+
+                if how_to_sell == SellMethod.SIMPLE_SELL:
                     ret, data = quote_ctx.get_order_book(code)
                     if ret != ft.RET_OK:
                         raise Exception('获取order_book失败')
@@ -251,19 +258,21 @@ if __name__ == '__main__':
     # 全局参数配置
     ip = '127.0.0.1'
     port = 11111
-    unlock_pws = "123456"
-    CODE = 'HK.00700'  # 'US.BABA' #'HK.00700'
-    trd_env = ft.TrdEnv.SIMULATE
-    METHOD = 0
-    DROP = 0.2
-    VOLUME = 0
-    HOW_TO_SELL = 0
-    DIFF = 0.2
-    REST_TIME = 2  # 每隔REST_TIME秒，会检查订单状态, 需要>=2
+    unlock_pwd = "979899"
+    code = 'HK.00700'  # 'US.BABA' #'HK.00700'
+    trd_env = ft.TrdEnv.REAL
+
+    trailing_method = TrailingMethod.DROP_PER
+    trailing_drop = 0.03   # 3%
+    vol = 0
+    how_to_sell = SellMethod.SMART_SELL
+    diff = 0
+    rest_time = 2  # 每隔REST_TIME秒，会检查订单状态, 需要>=2
 
     # 邮件通知参数
-    ENABLE_EMAIL_NOTIFICATION = True
-    RECEIVER = 'your receive email'
+    enable_email = True
+    receiver_email = 'your receive email'
 
-    trailing_stop(API_SVR_IP, API_SVR_PORT, UNLOCK_PASSWORD, CODE, TRADE_ENV, METHOD, DROP,
-                  VOLUME, HOW_TO_SELL, DIFF, REST_TIME, ENABLE_EMAIL_NOTIFICATION, RECEIVER)
+    trailing_stop(ip, port, unlock_pwd, code, trd_env, trailing_method, trailing_drop, vol,
+                  how_to_sell, diff, rest_time, enable_email, receiver_email)
+
