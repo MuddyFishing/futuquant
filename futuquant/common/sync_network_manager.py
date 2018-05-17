@@ -156,6 +156,7 @@ class _SyncNetworkQueryCtx:
         if self.s is not None:
             self._force_close_session()
 
+        conn_cnt = 0
         while True:
             try:
                 if not is_socket_lock:
@@ -171,7 +172,8 @@ class _SyncNetworkQueryCtx:
                 traceback.print_exc()
                 err = sys.exc_info()[1]
                 err_msg = ERROR_STR_PREFIX + str(err)
-                logger.debug("socket connect err:{}".format(err_msg))
+                logger.debug("socket connect count:{} err:{}".format(conn_cnt, err_msg))
+                conn_cnt += 1
                 self.s = None
                 if s:
                     s.close()

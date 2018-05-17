@@ -376,11 +376,9 @@ class OpenContextBase(object):
         """
          AsyncNetworkManager onclose callback
         """
-        if self._is_socket_reconnecting or self._is_obj_closed or self._async_ctx is None or async_ctx is not self._async_ctx:
-            return
-
         # auto reconnect
-        self._event_async_close.set()
+        if not self._event_async_close.is_set():
+            self._event_async_close.set()
 
     def _thread_check_sync_sock_fun(self):
         """

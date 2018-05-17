@@ -2,6 +2,7 @@
 import asyncore
 import socket as sock
 import time
+from time import sleep
 from threading import Thread, RLock
 from multiprocessing import Queue
 import traceback
@@ -44,6 +45,9 @@ class _AsyncThreadCtrl(object):
                 for obj in self.__list_aync:
                     obj.thread_proc_async_req()
                 asyncore.loop(timeout=0.001, count=5)
+            if not asyncore.socket_map:
+                sleep(0.01)
+
 
 
 class _AsyncNetworkManager(asyncore.dispatcher_with_send):
@@ -164,6 +168,9 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         if not self.__is_log_handle_close:
             logger.debug("async socket err!")
             self.__is_log_handle_close = True
+
+        if self.connected:
+            self.close()
 
         self._clear_req_recv_cache()
 
