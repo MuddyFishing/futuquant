@@ -6,8 +6,8 @@
 from abc import abstractmethod
 from datetime import datetime
 
-from TinyDefine import *
-from vnpyInc import *
+from .TinyDefine import *
+from .vnpyInc import *
 
 from futuquant.common.constant import PriceRegularMode
 
@@ -189,12 +189,12 @@ class TinyStrateBase(object):
 
     def __event_before_trading(self, event):
         self._market_opened= True
-        date_time = datetime.fromtimestamp(int(event.dict_['TimeStamp']))
+        date_time = datetime.fromtimestamp(int(event.dict_['timestamp']))
         self.on_before_trading(date_time)
 
     def __event_after_trading(self, event):
         self._market_opened= False
-        date_time = datetime.fromtimestamp(int(event.dict_['TimeStamp']))
+        date_time = datetime.fromtimestamp(int(event.dict_['timestamp']))
 
         self.on_after_trading(date_time)
 

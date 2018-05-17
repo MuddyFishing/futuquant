@@ -3,9 +3,9 @@
 '''
     策略运行脚本
 '''
-
-from TinyQuantFrame import *
+from futuquant.examples.TinyQuant.TinyQuantFrame import *
 from TinyStrateSample import *
+
 
 if __name__ == '__main__':
     my_strate = TinyStrateSample()

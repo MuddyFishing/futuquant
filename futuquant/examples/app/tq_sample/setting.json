@@ -38,5 +38,10 @@
     },
     "tiny_strate_base":
     {
+    },
+    "tiny_strate_sample":
+    {
+        "param1": 1,
+        "param2": 2
     }
 }

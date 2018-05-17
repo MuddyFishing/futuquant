@@ -6,7 +6,7 @@
 '''
 import talib
 import time
-from TinyStrateBase import *
+from futuquant.examples.TinyQuant.TinyStrateBase import *
 
 class TinyStrateSouthETF(TinyStrateBase):
     """策略名称, setting.json中作为该策略配置的key"""

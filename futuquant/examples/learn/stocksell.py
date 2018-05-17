@@ -78,7 +78,7 @@ if __name__ =="__main__":
     quote_ctx.subscribe(code, ft.SubType.ORDER_BOOK)
     print("* unlock_trade:{}".format(trd_ctx.unlock_trade(unlock_pwd)))
 
-    simple_sell(quote_ctx, trd_ctx, code, 300.0, 100, trd_env, order_type)
+    simple_sell(quote_ctx, trd_ctx, code, 700.0, 100, trd_env, order_type)
     smart_sell(quote_ctx, trd_ctx, code, 100, trd_env, order_type)
 
     quote_ctx.close()

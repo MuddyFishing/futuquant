@@ -1073,6 +1073,7 @@ class OrderBookQuery:
         raw_order_book_bid = rsp_pb.s2c.orderBookBid
 
         order_book = {}
+        order_book['code'] = rsp.pb.s2c.stock
         order_book['Bid'] = []
         order_book['Ask'] = []
 
@@ -1160,21 +1161,21 @@ class GlobalStateQuery:
 
         state = rsp_pb.s2c
         state_dict = {
-            'Market_SZ': QUOTE.REV_MARKET_STATE_MAP[state.marketSZ]
+            'market_sz': QUOTE.REV_MARKET_STATE_MAP[state.marketSZ]
                     if state.marketSZ in QUOTE.REV_MARKET_STATE_MAP else MarketState.NONE,
-            'Market_US': QUOTE.REV_MARKET_STATE_MAP[state.marketUS]
+            'market_us': QUOTE.REV_MARKET_STATE_MAP[state.marketUS]
                     if state.marketUS in QUOTE.REV_MARKET_STATE_MAP else MarketState.NONE,
-            'Market_SH': QUOTE.REV_MARKET_STATE_MAP[state.marketSH]
+            'market_sh': QUOTE.REV_MARKET_STATE_MAP[state.marketSH]
                     if state.marketSH in QUOTE.REV_MARKET_STATE_MAP else MarketState.NONE,
-            'Market_HK': QUOTE.REV_MARKET_STATE_MAP[state.marketHK]
+            'market_hk': QUOTE.REV_MARKET_STATE_MAP[state.marketHK]
                     if state.marketHK in QUOTE.REV_MARKET_STATE_MAP else MarketState.NONE,
-            'Market_HKFuture': QUOTE.REV_MARKET_STATE_MAP[state.marketHKFuture]
+            'market_hkfuture': QUOTE.REV_MARKET_STATE_MAP[state.marketHKFuture]
                     if state.marketHKFuture in QUOTE.REV_MARKET_STATE_MAP else MarketState.NONE,
 
-            'Version': str(state.serverVer),
-            'Trade_Logined': "1" if state.trdLogined else "0",
-            'TimeStamp': str(state.time),
-            'Quote_Logined': "1" if state.qotLogined else "0",
+            'server_ver': str(state.serverVer),
+            'trd_logined': "1" if state.trdLogined else "0",
+            'timestamp': str(state.time),
+            'qot_logined': "1" if state.qotLogined else "0",
         }
         return RET_OK, "", state_dict
 

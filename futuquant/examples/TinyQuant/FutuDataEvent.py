@@ -6,11 +6,9 @@
 import time
 from copy import copy
 from datetime import datetime, timedelta
-
-from TinyDefine import *
-from vnpyInc import *
-
-from futuquant.quote.response_handler import *
+from .TinyDefine import *
+from .vnpyInc import *
+import futuquant as ft
 
 
 class FutuDataEvent(object):
@@ -44,38 +42,38 @@ class FutuDataEvent(object):
         self._event_engine.register(EVENT_AFTER_TRADING, self.__event_after_trading)
         self._event_engine.register(EVENT_AFTER_TRADING_FINAL, self.__event_after_trading_final)
 
-        class QuoteHandler(StockQuoteHandlerBase):
+        class QuoteHandler(ft.StockQuoteHandlerBase):
             """报价处理器"""
             futu_data_event = self
 
             def on_recv_rsp(self, rsp_str):
                 ret_code, content = super(QuoteHandler, self).on_recv_rsp(rsp_str)
-                if ret_code != RET_OK:
-                    return RET_ERROR, content
+                if ret_code != ft.RET_OK:
+                    return ft.RET_ERROR, content
                 self.futu_data_event.process_quote(content)
-                return RET_OK, content
+                return ft.RET_OK, content
 
-        class OrderBookHandler(OrderBookHandlerBase):
+        class OrderBookHandler(ft.OrderBookHandlerBase):
             """摆盘处理器"""
             futu_data_event = self
 
             def on_recv_rsp(self, rsp_str):
                 ret_code, content = super(OrderBookHandler, self).on_recv_rsp(rsp_str)
-                if ret_code != RET_OK:
-                    return RET_ERROR, content
+                if ret_code != ft.RET_OK:
+                    return ft.RET_ERROR, content
                 self.futu_data_event.process_orderbook(content)
-                return RET_OK, content
+                return ft.RET_OK, content
 
-        class CurKlineHandler(CurKlineHandlerBase):
+        class CurKlineHandler(ft.CurKlineHandlerBase):
             """实时k线推送处理器"""
             futu_data_event = self
 
             def on_recv_rsp(self, rsp_str):
                 ret_code, content = super(CurKlineHandler, self).on_recv_rsp(rsp_str)
-                if ret_code != RET_OK:
-                    return RET_ERROR, content
+                if ret_code != ft.RET_OK:
+                    return ft.RET_ERROR, content
                 self.futu_data_event.process_curkline(content)
-                return RET_OK, content
+                return ft.RET_OK, content
 
         # 设置回调处理对象
         self._quote_context.set_handler(QuoteHandler())
@@ -83,11 +81,10 @@ class FutuDataEvent(object):
         self._quote_context.set_handler(CurKlineHandler())
 
         # 定阅数据
-        for symbol in symbol_pools:
-            for data_type in ['QUOTE', 'ORDER_BOOK', 'K_DAY', 'K_1M']:
-                ret, data = self._quote_context.subscribe(symbol, data_type, True)
-                if ret != 0:
-                    self.log(u'订阅行情失败：%s' % data)
+        subtype_list = [ft.SubType.QUOTE, ft.SubType.ORDER_BOOK, ft.SubType.K_DAY, ft.SubType.K_1M]
+        ret, data = self._quote_context.subscribe(symbol_pools, subtype_list)
+        if ret != ft.RET_OK:
+            raise Exception('订阅行情失败：{}'.format(data))
 
         # 启动时先构建一次数据
         self._rebuild_sym_kline_all()
@@ -131,7 +128,7 @@ class FutuDataEvent(object):
         dt_start = dt_now - timedelta(days= 365 if ktype == KTYPE_DAY else 30)
         str_start = dt_start.strftime("%Y-%m-%d")
         str_end = dt_now.strftime("%Y-%m-%d")
-        ret, data = self._quote_context.get_history_kline(code=symbol, start=str_start, end=str_end, ktype=ktype, autype='qfq')
+        ret, data = self._quote_context.get_history_kline(code=symbol, start=str_start, end=str_end, ktype=ktype, autype=ft.AuType.QFQ)
         if ret == 0:
             # with GLOBAL.dt_lock:
             for ix, row in data.iterrows():
@@ -149,7 +146,7 @@ class FutuDataEvent(object):
                     last_am_bar = bar
 
         # 导入今天的最新数据
-        ret, data = self._quote_context.get_cur_kline(code=symbol, num=1000, ktype=ktype, autype='qfq')
+        ret, data = self._quote_context.get_cur_kline(code=symbol, num=1000, ktype=ktype, autype=ft.AuType.QFQ)
         if ret == 0:
             # with GLOBAL.dt_lock:
             for ix, row in data.iterrows():
@@ -367,7 +364,7 @@ class FutuDataEvent(object):
 
     def process_orderbook(self, data):
         """订单簿推送"""
-        symbol = data['stock_code']
+        symbol = data['code']
 
         tick = self._tick_dict.get(symbol, None)
         if not tick:

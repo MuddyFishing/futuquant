@@ -1,16 +1,16 @@
 # encoding: UTF-8
 
-'''
+"""
 
-'''
-from __future__ import division
+"""
+import json
+from .vnpyInc import *
+from .TinyDefine import *
+from .TinyStrateBase import TinyStrateBase
+from .FutuMarketEvent import *
+from .FutuDataEvent import *
+import futuquant as ft
 
-from vnpyInc import *
-from TinyDefine import *
-from TinyStrateBase import TinyStrateBase
-from FutuMarketEvent import *
-from FutuDataEvent import *
-from futuquant import *
 
 class TinyQuantFrame(object):
     """策略frame"""
@@ -61,84 +61,72 @@ class TinyQuantFrame(object):
         """日k线的array manager数据"""
         return self._futu_data_event.get_kl_day_am(symbol)
 
-    def buy(self, price, volume, symbol, price_mode=PriceRegularMode.UPPER):
+    def buy(self, price, volume, symbol, order_type=ft.OrderType.NORMAL, adjust_limit=0, acc_id=0):
         """买入"""
-        ret = None
-        data = None
-        if self._market == MARKET_HK:
-            ret, data = self._trade_ctx.place_order(price=price, qty=volume, strcode=symbol, orderside=0, ordertype=0,
-                                envtype=self._env_type, order_deal_push=False, price_mode=price_mode)
-        else:
-            ret, data = self._trade_ctx.place_order(price=price, qty=volume, strcode=symbol, orderside=0, ordertype=2,
-                                envtype=self._env_type, order_deal_push=False, price_mode=price_mode)
-        if ret != 0:
+        ret, data = self._trade_ctx.place_order(price=price, qty=volume, code=symbol, trd_side=ft.TrdSide.BUY,
+                                                order_type=order_type, adjust_limit=adjust_limit,
+                                                trd_env=self._env_type, acc_id=acc_id)
+        if ret != ft.RET_OK:
             return ret, data
+
         order_id = 0
         for ix, row in data.iterrows():
-            order_id = str(row['orderid'])
+            order_id = str(row['order_id'])
 
-        return 0, order_id
+        return ret, order_id
 
-    def sell(self, price, volume, symbol, price_mode=PriceRegularMode.LOWER):
+    def sell(self, price, volume, symbol, order_type=ft.OrderType.NORMAL, adjust_limit=0, acc_id=0):
         """卖出"""
-        ret = -1
-        data = None
-        if self._market == MARKET_HK:
-            ret, data = self._trade_ctx.place_order(price=price, qty=volume, strcode=symbol, orderside=1, ordertype=0,
-                                envtype=self._env_type, order_deal_push=False, price_mode=price_mode)
-        else:
-            ret, data = self._trade_ctx.place_order(price=price, qty=volume, strcode=symbol, orderside=1, ordertype=2,
-                                envtype=self._env_type, order_deal_push=False, price_mode=price_mode)
-        if ret != 0:
+        ret, data = self._trade_ctx.place_order(price=price, qty=volume, code=symbol, trd_side=ft.TrdSide.SELL,
+                                                order_type=order_type, adjust_limit=adjust_limit,
+                                                trd_env=self._env_type, acc_id=acc_id)
+        if ret != ft.RET_OK:
             return ret, data
         order_id = 0
         for ix, row in data.iterrows():
-            order_id = str(row['orderid'])
+            order_id = str(row['order_id'])
 
-        return 0, order_id
+        return ret, order_id
 
-    def cancel_order(self, order_id):
+    def cancel_order(self, order_id, acc_id=0):
         """取消订单"""
-        ret, data = self._trade_ctx.set_order_status(status=0, orderid=order_id, envtype=self._env_type)
+        ret, data = self._trade_ctx.modify_order(ft.ModifyOrderOp.CANCEL, order_id=order_id, qty=0, price=0,
+                                                 adjust_limit=0, trd_env=self._env_type, acc_id=acc_id)
 
         # ret不为0时， data为错误字符串
-        if ret == 0:
-            return 0, ''
+        if ret == ft.RET_OK:
+            return ret, ''
         else:
             return ret, data
 
-    def get_tiny_trade_order(self, order_id):
+    def get_tiny_trade_order(self, order_id, acc_id=0):
         """得到订单信息"""
-        ret, data = self._trade_ctx.order_list_query(orderid=order_id, statusfilter='', strcode='', start='',
-                                                         end='', envtype=self._env_type)
-        if ret != 0:
+        ret, data = self._trade_ctx.order_list_query(order_id=order_id, status_filter_list=[], code='', start='',
+                                                     end='', trd_env=self._env_type, acc_id=acc_id)
+        if ret != ft.RET_OK:
             return ret, data
 
         order = TinyTradeOrder()
         for ix, row in data.iterrows():
-            if order_id != str(row['orderid']):
+            if order_id != str(row['order_id']):
                 continue
             order.symbol = row['code']
             order.order_id = order_id
-            if int(row['order_side']) == 0:
-                order.direction = TRADE_DIRECT_BUY
-            elif int(row['order_side']) == 1:
-                order.direction = TRADE_DIRECT_SELL
-            else:
-                raise Exception("get_tiny_trade_order error order_side=%s" % (row['order_side']))
+            order.direction = row['trd_side']
+
             order.price = float(row['price'])
             order.total_volume = int(row['qty'])
             order.trade_volume = int(row['dealt_qty'])
-            order.submit_time = datetime.fromtimestamp(int(row['submited_time'])).strftime('%Y%m%d %H:%M:%S')
-            order.updated_time = datetime.fromtimestamp(int(row['updated_time'])).strftime('%Y%m%d %H:%M:%S')
+            order.create_time = row['create_time']
+            order.updated_time = row['updated_time']
             order.trade_avg_price = float(row['dealt_avg_price']) if row['dealt_avg_price'] else 0
-            order.order_status = int(row['status'])
+            order.order_status = row['order_status']
             break
-        return 0, order
+        return ret, order
 
-    def get_tiny_position(self, symbol):
+    def get_tiny_position(self, symbol, acc_id=0):
         """得到股票持仓"""
-        ret, data = self._trade_ctx.position_list_query(strcode=symbol, envtype=self._env_type)
+        ret, data = self._trade_ctx.position_list_query(code=symbol, trd_env=self._env_type, acc_id=acc_id)
         if 0 != ret:
             return None
 
@@ -147,10 +135,10 @@ class TinyQuantFrame(object):
                 continue
             pos = TinyPosition()
             pos.symbol = symbol
-            pos.position = int(row['qty'])
-            pos.frozen = pos.position - int(row['can_sell_qty'])
-            pos.price = float(row['cost_price'])
-            pos.market_value = float(row['market_val'])
+            pos.position = row['qty']
+            pos.frozen = pos.position - row['can_sell_qty']
+            pos.price = row['cost_price']
+            pos.market_value = row['market_val']
             return pos
         return None
 
@@ -187,16 +175,14 @@ class TinyQuantFrame(object):
                     raise Exception(str_error)
 
             # check _env_type / market
-            if self._env_type != 0 and self._env_type != 1:
-                str_error = "setting.json - 'frame' config '_env_type' can only is 0 or 1!"
+            env_list = [ft.TrdEnv.REAL, ft.TrdEnv.SIMULATE]
+            if self._env_type not in env_list:
+                str_error = "setting.json - 'frame' config '_env_type' can only is '{}'".format(','.join(env_list))
                 raise Exception(str_error)
 
-            if self._market != MARKET_HK and self._market != MARKET_US:
-                str_error = "setting.json - 'frame' config '_market' can only is 'HK' or 'US'!"
-                raise Exception(str_error)
-
-            if self._market == MARKET_US and self._env_type != 0:
-                str_error = "setting.json - 'frame' config '_env_type' can only is 0 if _market is US!"
+            market_list = [ft.Market.HK, ft.Market.US]
+            if self._market not in market_list:
+                str_error = "setting.json - 'frame' config '_market' can only is '{}'".format(','.join(market_list))
                 raise Exception(str_error)
 
         return True
@@ -230,15 +216,15 @@ class TinyQuantFrame(object):
             return
 
         # 创建futu api对象
-        self._quote_ctx = OpenQuoteContext(self._api_ip, self._api_port)
+        self._quote_ctx = ft.OpenQuoteContext(self._api_ip, self._api_port)
         if self._market == MARKET_HK:
-            self._trade_ctx = OpenHKTradeContext(self._api_ip, self._api_port)
+            self._trade_ctx = ft.OpenHKTradeContext(self._api_ip, self._api_port)
         elif self._market == MARKET_US:
-            self._trade_ctx = OpenUSTradeContext(self._api_ip, self._api_port)
+            self._trade_ctx = ft.OpenUSTradeContext(self._api_ip, self._api_port)
         else:
             raise Exception("error param!")
 
-        if self._env_type == 0:
+        if self._env_type == ft.TrdEnv.REAL:
             ret, _ = self._trade_ctx.unlock_trade(self._trade_password)
             if 0 != ret:
                 raise Exception("error param!")
@@ -262,9 +248,4 @@ class TinyQuantFrame(object):
             self._is_start = True
             self._event_engine.put(Event(type_=EVENT_INI_FUTU_API))
             self._event_engine.start(timer=True)
-
-if __name__ == '__main__':
-    strate = TinyStrateBase()
-    frame = TinyQuantFrame(strate)
-    frame.run()
 

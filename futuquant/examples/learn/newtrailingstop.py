@@ -60,8 +60,8 @@ class TrailingStopHandler(ft.StockQuoteHandlerBase):
             print('获取全局状态失败')
             trading = False
         else:
-            hk_trading = (data['Market_HK'] == ft.MarketState.MORNING or data['Market_HK'] == ft.MarketState.AFTERNOON)
-            us_trading = (data['Market_US'] == ft.MarketState.MORNING)
+            hk_trading = (data['market_hk'] == ft.MarketState.MORNING or data['market_hk'] == ft.MarketState.AFTERNOON)
+            us_trading = (data['market_us'] == ft.MarketState.MORNING)
             trading = hk_trading if self.is_hk_trade else us_trading
 
         if not trading:

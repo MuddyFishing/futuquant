@@ -3,10 +3,13 @@
 
 '''
 
-from vnpyInc import *
-from TinyDefine import *
+from .vnpyInc import *
+from .TinyDefine import *
 from datetime import datetime
+import futuquant as ft
 
+
+# 简化市场状态
 class Futu_Market_State:
     MARKET_NONE = "none"
     MARKET_PRE_OPEN = 'pre_open'
@@ -15,6 +18,7 @@ class Futu_Market_State:
     MARKET_MID_OPEN = 'mid open'
     MARKET_CLOSE = 'close'
     MARKET_CLOSE_FINAL = 'close fin'
+
 
 class FutuMarketEvent(object):
     def __init__(self, market, quote_context, event_engine):
@@ -31,32 +35,31 @@ class FutuMarketEvent(object):
 
         self._mkt_key = ""
         self._mkt_dic = {
-            0: Futu_Market_State.MARKET_NONE,  # 未开盘
-            1: Futu_Market_State.MARKET_PRE_OPEN,  # 竞价交易(港股)
-            2: Futu_Market_State.MARKET_PRE_OPEN,  # 早盘前等待开盘(港股)
-            3: Futu_Market_State.MARKET_OPEN,  # 早盘(港股)
-            4: Futu_Market_State.MARKET_REST,  # 午休(A|港股)
-            5: Futu_Market_State.MARKET_MID_OPEN,  # 午盘(A|港股) &&  盘中(美股)
-            6: Futu_Market_State.MARKET_CLOSE,  # 交易日结束(A|港股) / 已收盘(美股)
-            8: Futu_Market_State.MARKET_PRE_OPEN,  # 盘前开始(美股)
-            9: Futu_Market_State.MARKET_PRE_OPEN,  # 盘前结束(美股)
-            10: Futu_Market_State.MARKET_CLOSE,  # 盘后开始(美股)
-            11: Futu_Market_State.MARKET_CLOSE,  # 盘后结束(美股)
-            12: Futu_Market_State.MARKET_NONE,  # 盘后结束(美股)
+            ft.MarketState.NONE: Futu_Market_State.MARKET_NONE,  # 未开盘
+            ft.MarketState.AUCTION: Futu_Market_State.MARKET_PRE_OPEN,  # 竞价交易(港股)
+            ft.MarketState.WAITING_OPEN: Futu_Market_State.MARKET_PRE_OPEN,  # 早盘前等待开盘(港股)
+            ft.MarketState.MORNING: Futu_Market_State.MARKET_OPEN,  # 早盘(港股)
+            ft.MarketState.REST: Futu_Market_State.MARKET_REST,  # 午休(A|港股)
+            ft.MarketState.AFTERNOON: Futu_Market_State.MARKET_MID_OPEN,  # 午盘(A|港股) &&  盘中(美股)
+            ft.MarketState.CLOSED: Futu_Market_State.MARKET_CLOSE,  # 交易日结束(A|港股) / 已收盘(美股)
+            ft.MarketState.PRE_MARKET_BEGIN: Futu_Market_State.MARKET_PRE_OPEN,  # 盘前开始(美股)
+            ft.MarketState.PRE_MARKET_END: Futu_Market_State.MARKET_PRE_OPEN,  # 盘前结束(美股)
+            ft.MarketState.AFTER_HOURS_BEGIN: Futu_Market_State.MARKET_CLOSE,  # 盘后开始(美股)
+            ft.MarketState.AFTER_HOURS_END: Futu_Market_State.MARKET_CLOSE,  # 盘后结束(美股)
 
-            13: Futu_Market_State.MARKET_MID_OPEN,  # 夜市交易中(港期货)
-            14: Futu_Market_State.MARKET_CLOSE_FINAL,  # 夜市收盘(港期货)
-            15: Futu_Market_State.MARKET_OPEN,  # 日市交易中(港期货)
-            16: Futu_Market_State.MARKET_REST,  # 日市午休(港期货)
-            17: Futu_Market_State.MARKET_CLOSE,  # 日市收盘(港期货)
-            18: Futu_Market_State.MARKET_PRE_OPEN,  # 日市等待开盘(港期货)
-            19: Futu_Market_State.MARKET_CLOSE_FINAL,  # 港股盘后竞价
+            ft.MarketState.NIGHT_OPEN: Futu_Market_State.MARKET_MID_OPEN,  # 夜市交易中(港期货)
+            ft.MarketState.NIGHT_END: Futu_Market_State.MARKET_CLOSE_FINAL,  # 夜市收盘(港期货)
+            ft.MarketState.FUTURE_DAY_OPEN: Futu_Market_State.MARKET_OPEN,  # 日市交易中(港期货)
+            ft.MarketState.FUTURE_DAY_BREAK: Futu_Market_State.MARKET_REST,  # 日市午休(港期货)
+            ft.MarketState.FUTURE_DAY_CLOSE: Futu_Market_State.MARKET_REST,  # 日市收盘(港期货)
+            ft.MarketState.FUTURE_DAY_WAIT_OPEN: Futu_Market_State.MARKET_PRE_OPEN,  # 日市等待开盘(港期货)
+            ft.MarketState.HK_CAS: Futu_Market_State.MARKET_CLOSE_FINAL,  # 港股盘后竞价
         }
 
         if self._market == MARKET_HK:
-            self._mkt_key = 'Market_HK'
+            self._mkt_key = 'market_hk'
         elif self._market == MARKET_US:
-            self._mkt_key = 'Market_US'
+            self._mkt_key = 'market_us'
         else:
             raise RuntimeError("Market Error")
 
@@ -76,19 +79,19 @@ class FutuMarketEvent(object):
         if ret != 0:
             return
 
-        mkt_val = int(state_dict[self._mkt_key])
+        mkt_val = state_dict[self._mkt_key]
         new_status = self._mkt_dic[mkt_val]
         if self._last_status == new_status:
             return
         self._last_status = new_status
-        self._today_date = datetime.fromtimestamp(int(state_dict['TimeStamp'])).strftime('%Y%m%d')
+        self._today_date = datetime.fromtimestamp(int(state_dict['timestamp'])).strftime('%Y%m%d')
 
         if new_status == Futu_Market_State.MARKET_OPEN or new_status == Futu_Market_State.MARKET_MID_OPEN:
             # before trading 通知
             if not self._has_notify_before_trading:
                 self._has_notify_before_trading = True
                 event = Event(type_= EVENT_BEFORE_TRADING)
-                event.dict_['TimeStamp'] = state_dict['TimeStamp']
+                event.dict_['timestamp'] = state_dict['timestamp']
                 self._event_engine.put(event)
         elif new_status == Futu_Market_State.MARKET_CLOSE:
             list_event = [EVENT_AFTER_TRADING]
@@ -99,13 +102,13 @@ class FutuMarketEvent(object):
 
             for x in list_event:
                 event = Event(type_=x)
-                event.dict_['TimeStamp'] = state_dict['TimeStamp']
+                event.dict_['timestamp'] = state_dict['timestamp']
                 self._event_engine.put(event)
 
         elif new_status == Futu_Market_State.MARKET_CLOSE_FINAL:
             self._has_notify_before_trading = False
             event = Event(type_=EVENT_AFTER_TRADING_FINAL)
-            event.dict_['TimeStamp'] = state_dict['TimeStamp']
+            event.dict_['timestamp'] = state_dict['timestamp']
             self._event_engine.put(event)
 
 

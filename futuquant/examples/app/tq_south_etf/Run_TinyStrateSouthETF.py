@@ -8,7 +8,7 @@
     4. 策略实现参考 TinyStrateSample.py文件
 '''
 
-from TinyQuantFrame import *
+from futuquant.examples.TinyQuant.TinyQuantFrame import *
 from TinyStrateSouthETF import *
 
 if __name__ == '__main__':

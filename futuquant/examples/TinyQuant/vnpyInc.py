@@ -14,7 +14,6 @@ import talib
 
 from vnpy.event import *
 from vnpy.event.eventType import EVENT_TIMER
-
 from vnpy.trader.vtObject import VtBaseData
 from vnpy.trader.vtFunction import getJsonPath, getTempPath
 from vnpy.trader.language.chinese.constant import (EMPTY_STRING, EMPTY_UNICODE,
