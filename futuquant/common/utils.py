@@ -302,13 +302,13 @@ class ProtobufMap(dict):
         from futuquant.common.pb.Qot_GetSubInfo_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_GetSubInfo] = Response()
 
-        """ Qot_GetStaticInfo = 3004  # 获取股票基本行情 """
-        from futuquant.common.pb.Qot_GetStaticInfo_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Qot_GetStaticInfo] = Response()
+        """ Qot_GetBasicQot = 3004  # 获取股票基本行情 """
+        from futuquant.common.pb.Qot_GetBasicQot_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_GetBasicQot] = Response()
 
-        """ Qot_UpdateOrderBook = 3005  # 推送股票基本行情 """
-        from futuquant.common.pb.Qot_UpdateOrderBook_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.Qot_UpdateOrderBook] = Response()
+        """ Qot_UpdateBasicQot = 3005  # 推送股票基本行情 """
+        from futuquant.common.pb.Qot_UpdateBasicQot_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_UpdateBasicQot] = Response()
 
         """ Qot_GetKL = 3006  # 获取K线 """
         from futuquant.common.pb.Qot_GetKL_pb2 import Response

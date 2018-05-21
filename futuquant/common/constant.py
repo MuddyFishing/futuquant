@@ -371,7 +371,7 @@ class ProtoId(object):
     Qot_Sub = 3001  # 订阅或者反订阅
     Qot_RegQotPush = 3002  # 注册推送
     Qot_GetSubInfo = 3003  # 获取订阅信息
-    Qot_GetStockBasic = 3004  # 获取股票基本行情
+    Qot_GetBasicQot = 3004  # 获取股票基本行情
     Qot_UpdateBasicQot = 3005  # 推送股票基本行情
     Qot_GetKL = 3006  # 获取K线
     Qot_UpdateKL = 3007  # 推送K线

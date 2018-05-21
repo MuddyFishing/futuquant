@@ -772,7 +772,7 @@ class SubscriptionQuery:
 
                 sub_info_tmp['subtype'] = QUOTE.REV_SUBTYPE_MAP[sub_info.subType]
                 sub_info_tmp['code_list'] = []
-                for stock in sub_info.stock:
+                for stock in sub_info.securityList:
                     sub_info_tmp['code_list'].append(merge_qot_mkt_stock_str(int(stock.market), stock.code),)
 
                 conn_sub_info_tmp['sub_list'].append(sub_info_tmp)
