@@ -1,11 +1,11 @@
 syntax = "proto2";
-package PushHeartBeat;
+package HeartBeat;
 
 import "Common.proto";
 
 message S2C
 {
-	required string time = 1; //时间字符串,30秒一次
+	required int64 time = 10; //当前格林威治时间
 }
 
 message Response

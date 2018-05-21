@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_Common.proto',
   package='Qot_Common',
   syntax='proto2',
-  serialized_pb=_b('\n\x10Qot_Common.proto\x12\nQot_Common\x1a\x0c\x43ommon.proto\"%\n\x05Stock\x12\x0e\n\x06market\x18\x01 \x02(\x05\x12\x0c\n\x04\x63ode\x18\x02 \x02(\t\"\xe2\x01\n\x05KLine\x12\x0c\n\x04time\x18\x01 \x02(\t\x12\x0f\n\x07isBlank\x18\x02 \x02(\x08\x12\x11\n\thighPrice\x18\x03 \x01(\x01\x12\x11\n\topenPrice\x18\x04 \x01(\x01\x12\x10\n\x08lowPrice\x18\x05 \x01(\x01\x12\x12\n\nclosePrice\x18\x06 \x01(\x01\x12\x16\n\x0elastClosePrice\x18\x07 \x01(\x01\x12\x0e\n\x06volume\x18\x08 \x01(\x03\x12\x10\n\x08turnover\x18\t \x01(\x01\x12\x14\n\x0cturnoverRate\x18\n \x01(\x01\x12\n\n\x02pe\x18\x0b \x01(\x01\x12\x12\n\nchangeRate\x18\x0c \x01(\x01\"\xab\x02\n\nStockBasic\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\x12\x13\n\x0bisSuspended\x18\x02 \x02(\x08\x12\x10\n\x08listTime\x18\x03 \x02(\t\x12\x13\n\x0bpriceSpread\x18\x04 \x02(\x01\x12\x12\n\nupdateTime\x18\x05 \x02(\t\x12\x11\n\thighPrice\x18\x06 \x02(\x01\x12\x11\n\topenPrice\x18\x07 \x02(\x01\x12\x10\n\x08lowPrice\x18\x08 \x02(\x01\x12\x10\n\x08\x63urPrice\x18\t \x02(\x01\x12\x16\n\x0elastClosePrice\x18\n \x02(\x01\x12\x0e\n\x06volume\x18\x0b \x02(\x03\x12\x10\n\x08turnover\x18\x0c \x02(\x01\x12\x14\n\x0cturnoverRate\x18\r \x02(\x01\x12\x11\n\tamplitude\x18\x0e \x02(\x01\"\x95\x01\n\tTimeShare\x12\x0c\n\x04time\x18\x01 \x02(\t\x12\x0e\n\x06minute\x18\x02 \x02(\x05\x12\x0f\n\x07isBlank\x18\x03 \x02(\x08\x12\r\n\x05price\x18\x04 \x01(\x01\x12\x16\n\x0elastClosePrice\x18\x05 \x01(\x01\x12\x10\n\x08\x61vgPrice\x18\x06 \x01(\x01\x12\x0e\n\x06volume\x18\x07 \x01(\x03\x12\x10\n\x08turnover\x18\x08 \x01(\x01\"\x82\x01\n\x10StockStaticBasic\x12 \n\x05stock\x18\x01 \x02(\x0b\x32\x11.Qot_Common.Stock\x12\n\n\x02id\x18\x02 \x02(\x03\x12\x0f\n\x07lotSize\x18\x03 \x02(\x05\x12\x0f\n\x07secType\x18\x04 \x02(\x05\x12\x0c\n\x04name\x18\x05 \x02(\t\x12\x10\n\x08listTime\x18\x06 \x02(\t\"J\n\x13WarrantStaticExData\x12\x0c\n\x04type\x18\x01 \x02(\x05\x12%\n\nownerStock\x18\x02 \x02(\x0b\x32\x11.Qot_Common.Stock\"v\n\x0fStockStaticInfo\x12+\n\x05\x62\x61sic\x18\x01 \x02(\x0b\x32\x1c.Qot_Common.StockStaticBasic\x12\x36\n\rwarrantExData\x18\x02 \x01(\x0b\x32\x1f.Qot_Common.WarrantStaticExData\"/\n\x06\x42roker\x12\n\n\x02id\x18\x01 \x02(\x03\x12\x0c\n\x04name\x18\x02 \x02(\t\x12\x0b\n\x03pos\x18\x03 \x02(\x05\"f\n\x06Ticker\x12\x0c\n\x04time\x18\x01 \x02(\t\x12\x10\n\x08sequence\x18\x02 \x02(\x03\x12\x0b\n\x03\x64ir\x18\x03 \x02(\x05\x12\r\n\x05price\x18\x04 \x02(\x01\x12\x0e\n\x06volume\x18\x05 \x02(\x03\x12\x10\n\x08turnover\x18\x06 \x02(\x01\"?\n\tOrderBook\x12\r\n\x05price\x18\x01 \x02(\x01\x12\x0e\n\x06volume\x18\x02 \x02(\x03\x12\x13\n\x0borederCount\x18\x03 \x02(\x05\"<\n\x07SubInfo\x12\x0f\n\x07subType\x18\x01 \x02(\x05\x12 \n\x05stock\x18\x02 \x03(\x0b\x32\x11.Qot_Common.Stock\"]\n\x0b\x43onnSubInfo\x12$\n\x07subInfo\x18\x01 \x03(\x0b\x32\x13.Qot_Common.SubInfo\x12\x11\n\tusedQuota\x18\x02 \x02(\x05\x12\x15\n\risOwnConnData\x18\x03 \x02(\x08*\xb8\x01\n\tQotMarket\x12\x15\n\x11QotMarket_Unknown\x10\x00\x12\x16\n\x12QotMarket_HK_Stock\x10\x01\x12\x17\n\x13QotMarket_HK_Future\x10\x02\x12\x16\n\x12QotMarket_US_Stock\x10\x0b\x12\x17\n\x13QotMarket_US_Option\x10\x0c\x12\x18\n\x14QotMarket_CNSH_Stock\x10\x15\x12\x18\n\x14QotMarket_CNSZ_Stock\x10\x16*\x81\x02\n\x0cSecurityType\x12\x18\n\x14SecurityType_Unknown\x10\x00\x12\x15\n\x11SecurityType_Bond\x10\x01\x12\x15\n\x11SecurityType_Bwrt\x10\x02\x12\x15\n\x11SecurityType_Eqty\x10\x03\x12\x16\n\x12SecurityType_Trust\x10\x04\x12\x18\n\x14SecurityType_Warrant\x10\x05\x12\x16\n\x12SecurityType_Index\x10\x06\x12\x16\n\x12SecurityType_Plate\x10\x07\x12\x15\n\x11SecurityType_Drvt\x10\x08\x12\x19\n\x15SecurityType_PlateSet\x10\t*r\n\x0cPlateSetType\x12\x14\n\x10PlateSetType_All\x10\x00\x12\x19\n\x15PlateSetType_Industry\x10\x01\x12\x17\n\x13PlateSetType_Region\x10\x02\x12\x18\n\x14PlateSetType_Concept\x10\x03*}\n\x0bWarrantType\x12\x17\n\x13WarrantType_Unknown\x10\x00\x12\x13\n\x0fWarrantType_Buy\x10\x01\x12\x14\n\x10WarrantType_Sell\x10\x02\x12\x14\n\x10WarrantType_Bull\x10\x03\x12\x14\n\x10WarrantType_Bear\x10\x04*\xc3\x04\n\x0eQotMarketState\x12\x17\n\x13QotMarketState_None\x10\x00\x12\x1a\n\x16QotMarketState_Auction\x10\x01\x12\x1e\n\x1aQotMarketState_WaitingOpen\x10\x02\x12\x1a\n\x16QotMarketState_Morning\x10\x03\x12\x17\n\x13QotMarketState_Rest\x10\x04\x12\x1c\n\x18QotMarketState_Afternoon\x10\x05\x12\x19\n\x15QotMarketState_Closed\x10\x06\x12!\n\x1dQotMarketState_PreMarketBegin\x10\x08\x12\x1f\n\x1bQotMarketState_PreMarketEnd\x10\t\x12\"\n\x1eQotMarketState_AfterHoursBegin\x10\n\x12 \n\x1cQotMarketState_AfterHoursEnd\x10\x0b\x12\x1c\n\x18QotMarketState_NightOpen\x10\r\x12\x1b\n\x17QotMarketState_NightEnd\x10\x0e\x12 \n\x1cQotMarketState_FutureDayOpen\x10\x0f\x12!\n\x1dQotMarketState_FutureDayBreak\x10\x10\x12!\n\x1dQotMarketState_FutureDayClose\x10\x11\x12\'\n#QotMarketState_FutureDayWaitForOpen\x10\x12\x12\x18\n\x14QotMarketState_HkCas\x10\x13*N\n\tRehabType\x12\x12\n\x0eRehabType_None\x10\x00\x12\x15\n\x11RehabType_Forward\x10\x01\x12\x16\n\x12RehabType_Backward\x10\x02*\xc9\x01\n\x06KLType\x12\x0f\n\x0bKLType_1Min\x10\x01\x12\x0e\n\nKLType_Day\x10\x02\x12\x0f\n\x0bKLType_Week\x10\x03\x12\x10\n\x0cKLType_Month\x10\x04\x12\x0f\n\x0bKLType_Year\x10\x05\x12\x0f\n\x0bKLType_5Min\x10\x06\x12\x10\n\x0cKLType_15Min\x10\x07\x12\x10\n\x0cKLType_30Min\x10\x08\x12\x10\n\x0cKLType_60Min\x10\t\x12\x0f\n\x0bKLType_3Min\x10\n\x12\x12\n\x0eKLType_Quarter\x10\x0b*\xe2\x01\n\x08KLFields\x12\x11\n\rKLFields_High\x10\x01\x12\x11\n\rKLFields_Open\x10\x02\x12\x10\n\x0cKLFields_Low\x10\x04\x12\x12\n\x0eKLFields_Close\x10\x08\x12\x16\n\x12KLFields_LastClose\x10\x10\x12\x13\n\x0fKLFields_Volume\x10 \x12\x15\n\x11KLFields_Turnover\x10@\x12\x1a\n\x15KLFields_TurnoverRate\x10\x80\x01\x12\x10\n\x0bKLFields_PE\x10\x80\x02\x12\x18\n\x13KLFields_ChangeRate\x10\x80\x04*\xea\x02\n\x07SubType\x12\x10\n\x0cSubType_None\x10\x00\x12\x11\n\rSubType_Basic\x10\x01\x12\x15\n\x11SubType_OrderBook\x10\x02\x12\x12\n\x0eSubType_Ticker\x10\x04\x12\x0e\n\nSubType_RT\x10\x05\x12\x12\n\x0eSubType_KL_Day\x10\x06\x12\x13\n\x0fSubType_KL_5Min\x10\x07\x12\x14\n\x10SubType_KL_15Min\x10\x08\x12\x14\n\x10SubType_KL_30Min\x10\t\x12\x14\n\x10SubType_KL_60Min\x10\n\x12\x13\n\x0fSubType_KL_1Min\x10\x0b\x12\x13\n\x0fSubType_KL_Week\x10\x0c\x12\x14\n\x10SubType_KL_Month\x10\r\x12\x12\n\x0eSubType_Broker\x10\x0e\x12\x16\n\x12SubType_KL_Qurater\x10\x0f\x12\x13\n\x0fSubType_KL_Year\x10\x10\x12\x13\n\x0fSubType_KL_3Min\x10\x11*`\n\x0fTickerDirection\x12\x17\n\x13TickerDirection_Bid\x10\x01\x12\x17\n\x13TickerDirection_Ask\x10\x02\x12\x1b\n\x17TickerDirection_Neutral\x10\x03')
+  serialized_pb=_b('\n\x10Qot_Common.proto\x12\nQot_Common\x1a\x0c\x43ommon.proto\"(\n\x08Security\x12\x0e\n\x06market\x18\x01 \x02(\x05\x12\x0c\n\x04\x63ode\x18\x02 \x02(\t\"\xe2\x01\n\x05KLine\x12\x0c\n\x04time\x18\x01 \x02(\t\x12\x0f\n\x07isBlank\x18\x02 \x02(\x08\x12\x11\n\thighPrice\x18\x03 \x01(\x01\x12\x11\n\topenPrice\x18\x04 \x01(\x01\x12\x10\n\x08lowPrice\x18\x05 \x01(\x01\x12\x12\n\nclosePrice\x18\x06 \x01(\x01\x12\x16\n\x0elastClosePrice\x18\x07 \x01(\x01\x12\x0e\n\x06volume\x18\x08 \x01(\x03\x12\x10\n\x08turnover\x18\t \x01(\x01\x12\x14\n\x0cturnoverRate\x18\n \x01(\x01\x12\n\n\x02pe\x18\x0b \x01(\x01\x12\x12\n\nchangeRate\x18\x0c \x01(\x01\"\xaf\x02\n\x08\x42\x61sicQot\x12&\n\x08security\x18\x01 \x02(\x0b\x32\x14.Qot_Common.Security\x12\x13\n\x0bisSuspended\x18\x02 \x02(\x08\x12\x10\n\x08listTime\x18\x03 \x02(\t\x12\x13\n\x0bpriceSpread\x18\x04 \x02(\x01\x12\x12\n\nupdateTime\x18\x05 \x02(\t\x12\x11\n\thighPrice\x18\x06 \x02(\x01\x12\x11\n\topenPrice\x18\x07 \x02(\x01\x12\x10\n\x08lowPrice\x18\x08 \x02(\x01\x12\x10\n\x08\x63urPrice\x18\t \x02(\x01\x12\x16\n\x0elastClosePrice\x18\n \x02(\x01\x12\x0e\n\x06volume\x18\x0b \x02(\x03\x12\x10\n\x08turnover\x18\x0c \x02(\x01\x12\x14\n\x0cturnoverRate\x18\r \x02(\x01\x12\x11\n\tamplitude\x18\x0e \x02(\x01\"\x95\x01\n\tTimeShare\x12\x0c\n\x04time\x18\x01 \x02(\t\x12\x0e\n\x06minute\x18\x02 \x02(\x05\x12\x0f\n\x07isBlank\x18\x03 \x02(\x08\x12\r\n\x05price\x18\x04 \x01(\x01\x12\x16\n\x0elastClosePrice\x18\x05 \x01(\x01\x12\x10\n\x08\x61vgPrice\x18\x06 \x01(\x01\x12\x0e\n\x06volume\x18\x07 \x01(\x03\x12\x10\n\x08turnover\x18\x08 \x01(\x01\"\x8b\x01\n\x13SecurityStaticBasic\x12&\n\x08security\x18\x01 \x02(\x0b\x32\x14.Qot_Common.Security\x12\n\n\x02id\x18\x02 \x02(\x03\x12\x0f\n\x07lotSize\x18\x03 \x02(\x05\x12\x0f\n\x07secType\x18\x04 \x02(\x05\x12\x0c\n\x04name\x18\x05 \x02(\t\x12\x10\n\x08listTime\x18\x06 \x02(\t\"H\n\x13WarrantStaticExData\x12\x0c\n\x04type\x18\x01 \x02(\x05\x12#\n\x05owner\x18\x02 \x02(\x0b\x32\x14.Qot_Common.Security\"|\n\x12SecurityStaticInfo\x12.\n\x05\x62\x61sic\x18\x01 \x02(\x0b\x32\x1f.Qot_Common.SecurityStaticBasic\x12\x36\n\rwarrantExData\x18\x02 \x01(\x0b\x32\x1f.Qot_Common.WarrantStaticExData\"/\n\x06\x42roker\x12\n\n\x02id\x18\x01 \x02(\x03\x12\x0c\n\x04name\x18\x02 \x02(\t\x12\x0b\n\x03pos\x18\x03 \x02(\x05\"f\n\x06Ticker\x12\x0c\n\x04time\x18\x01 \x02(\t\x12\x10\n\x08sequence\x18\x02 \x02(\x03\x12\x0b\n\x03\x64ir\x18\x03 \x02(\x05\x12\r\n\x05price\x18\x04 \x02(\x01\x12\x0e\n\x06volume\x18\x05 \x02(\x03\x12\x10\n\x08turnover\x18\x06 \x02(\x01\"?\n\tOrderBook\x12\r\n\x05price\x18\x01 \x02(\x01\x12\x0e\n\x06volume\x18\x02 \x02(\x03\x12\x13\n\x0borederCount\x18\x03 \x02(\x05\"F\n\x07SubInfo\x12\x0f\n\x07subType\x18\x01 \x02(\x05\x12*\n\x0csecurityList\x18\x02 \x03(\x0b\x32\x14.Qot_Common.Security\"a\n\x0b\x43onnSubInfo\x12(\n\x0bsubInfoList\x18\x01 \x03(\x0b\x32\x13.Qot_Common.SubInfo\x12\x11\n\tusedQuota\x18\x02 \x02(\x05\x12\x15\n\risOwnConnData\x18\x03 \x02(\x08*\xc4\x01\n\tQotMarket\x12\x15\n\x11QotMarket_Unknown\x10\x00\x12\x19\n\x15QotMarket_HK_Security\x10\x01\x12\x17\n\x13QotMarket_HK_Future\x10\x02\x12\x19\n\x15QotMarket_US_Security\x10\x0b\x12\x17\n\x13QotMarket_US_Option\x10\x0c\x12\x1b\n\x17QotMarket_CNSH_Security\x10\x15\x12\x1b\n\x17QotMarket_CNSZ_Security\x10\x16*\x81\x02\n\x0cSecurityType\x12\x18\n\x14SecurityType_Unknown\x10\x00\x12\x15\n\x11SecurityType_Bond\x10\x01\x12\x15\n\x11SecurityType_Bwrt\x10\x02\x12\x15\n\x11SecurityType_Eqty\x10\x03\x12\x16\n\x12SecurityType_Trust\x10\x04\x12\x18\n\x14SecurityType_Warrant\x10\x05\x12\x16\n\x12SecurityType_Index\x10\x06\x12\x16\n\x12SecurityType_Plate\x10\x07\x12\x15\n\x11SecurityType_Drvt\x10\x08\x12\x19\n\x15SecurityType_PlateSet\x10\t*r\n\x0cPlateSetType\x12\x14\n\x10PlateSetType_All\x10\x00\x12\x19\n\x15PlateSetType_Industry\x10\x01\x12\x17\n\x13PlateSetType_Region\x10\x02\x12\x18\n\x14PlateSetType_Concept\x10\x03*}\n\x0bWarrantType\x12\x17\n\x13WarrantType_Unknown\x10\x00\x12\x13\n\x0fWarrantType_Buy\x10\x01\x12\x14\n\x10WarrantType_Sell\x10\x02\x12\x14\n\x10WarrantType_Bull\x10\x03\x12\x14\n\x10WarrantType_Bear\x10\x04*\xc3\x04\n\x0eQotMarketState\x12\x17\n\x13QotMarketState_None\x10\x00\x12\x1a\n\x16QotMarketState_Auction\x10\x01\x12\x1e\n\x1aQotMarketState_WaitingOpen\x10\x02\x12\x1a\n\x16QotMarketState_Morning\x10\x03\x12\x17\n\x13QotMarketState_Rest\x10\x04\x12\x1c\n\x18QotMarketState_Afternoon\x10\x05\x12\x19\n\x15QotMarketState_Closed\x10\x06\x12!\n\x1dQotMarketState_PreMarketBegin\x10\x08\x12\x1f\n\x1bQotMarketState_PreMarketEnd\x10\t\x12\"\n\x1eQotMarketState_AfterHoursBegin\x10\n\x12 \n\x1cQotMarketState_AfterHoursEnd\x10\x0b\x12\x1c\n\x18QotMarketState_NightOpen\x10\r\x12\x1b\n\x17QotMarketState_NightEnd\x10\x0e\x12 \n\x1cQotMarketState_FutureDayOpen\x10\x0f\x12!\n\x1dQotMarketState_FutureDayBreak\x10\x10\x12!\n\x1dQotMarketState_FutureDayClose\x10\x11\x12\'\n#QotMarketState_FutureDayWaitForOpen\x10\x12\x12\x18\n\x14QotMarketState_HkCas\x10\x13*N\n\tRehabType\x12\x12\n\x0eRehabType_None\x10\x00\x12\x15\n\x11RehabType_Forward\x10\x01\x12\x16\n\x12RehabType_Backward\x10\x02*\xc9\x01\n\x06KLType\x12\x0f\n\x0bKLType_1Min\x10\x01\x12\x0e\n\nKLType_Day\x10\x02\x12\x0f\n\x0bKLType_Week\x10\x03\x12\x10\n\x0cKLType_Month\x10\x04\x12\x0f\n\x0bKLType_Year\x10\x05\x12\x0f\n\x0bKLType_5Min\x10\x06\x12\x10\n\x0cKLType_15Min\x10\x07\x12\x10\n\x0cKLType_30Min\x10\x08\x12\x10\n\x0cKLType_60Min\x10\t\x12\x0f\n\x0bKLType_3Min\x10\n\x12\x12\n\x0eKLType_Quarter\x10\x0b*\xe2\x01\n\x08KLFields\x12\x11\n\rKLFields_High\x10\x01\x12\x11\n\rKLFields_Open\x10\x02\x12\x10\n\x0cKLFields_Low\x10\x04\x12\x12\n\x0eKLFields_Close\x10\x08\x12\x16\n\x12KLFields_LastClose\x10\x10\x12\x13\n\x0fKLFields_Volume\x10 \x12\x15\n\x11KLFields_Turnover\x10@\x12\x1a\n\x15KLFields_TurnoverRate\x10\x80\x01\x12\x10\n\x0bKLFields_PE\x10\x80\x02\x12\x18\n\x13KLFields_ChangeRate\x10\x80\x04*\xea\x02\n\x07SubType\x12\x10\n\x0cSubType_None\x10\x00\x12\x11\n\rSubType_Basic\x10\x01\x12\x15\n\x11SubType_OrderBook\x10\x02\x12\x12\n\x0eSubType_Ticker\x10\x04\x12\x0e\n\nSubType_RT\x10\x05\x12\x12\n\x0eSubType_KL_Day\x10\x06\x12\x13\n\x0fSubType_KL_5Min\x10\x07\x12\x14\n\x10SubType_KL_15Min\x10\x08\x12\x14\n\x10SubType_KL_30Min\x10\t\x12\x14\n\x10SubType_KL_60Min\x10\n\x12\x13\n\x0fSubType_KL_1Min\x10\x0b\x12\x13\n\x0fSubType_KL_Week\x10\x0c\x12\x14\n\x10SubType_KL_Month\x10\r\x12\x12\n\x0eSubType_Broker\x10\x0e\x12\x16\n\x12SubType_KL_Qurater\x10\x0f\x12\x13\n\x0fSubType_KL_Year\x10\x10\x12\x13\n\x0fSubType_KL_3Min\x10\x11*`\n\x0fTickerDirection\x12\x17\n\x13TickerDirection_Bid\x10\x01\x12\x17\n\x13TickerDirection_Ask\x10\x02\x12\x1b\n\x17TickerDirection_Neutral\x10\x03')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,])
 
@@ -36,7 +36,7 @@ _QOTMARKET = _descriptor.EnumDescriptor(
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='QotMarket_HK_Stock', index=1, number=1,
+      name='QotMarket_HK_Security', index=1, number=1,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
@@ -44,7 +44,7 @@ _QOTMARKET = _descriptor.EnumDescriptor(
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='QotMarket_US_Stock', index=3, number=11,
+      name='QotMarket_US_Security', index=3, number=11,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
@@ -52,18 +52,18 @@ _QOTMARKET = _descriptor.EnumDescriptor(
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='QotMarket_CNSH_Stock', index=5, number=21,
+      name='QotMarket_CNSH_Security', index=5, number=21,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='QotMarket_CNSZ_Stock', index=6, number=22,
+      name='QotMarket_CNSZ_Security', index=6, number=22,
       options=None,
       type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=1473,
-  serialized_end=1657,
+  serialized_start=1507,
+  serialized_end=1703,
 )
 _sym_db.RegisterEnumDescriptor(_QOTMARKET)
 
@@ -117,8 +117,8 @@ _SECURITYTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=1660,
-  serialized_end=1917,
+  serialized_start=1706,
+  serialized_end=1963,
 )
 _sym_db.RegisterEnumDescriptor(_SECURITYTYPE)
 
@@ -148,8 +148,8 @@ _PLATESETTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=1919,
-  serialized_end=2033,
+  serialized_start=1965,
+  serialized_end=2079,
 )
 _sym_db.RegisterEnumDescriptor(_PLATESETTYPE)
 
@@ -183,8 +183,8 @@ _WARRANTTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=2035,
-  serialized_end=2160,
+  serialized_start=2081,
+  serialized_end=2206,
 )
 _sym_db.RegisterEnumDescriptor(_WARRANTTYPE)
 
@@ -270,8 +270,8 @@ _QOTMARKETSTATE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=2163,
-  serialized_end=2742,
+  serialized_start=2209,
+  serialized_end=2788,
 )
 _sym_db.RegisterEnumDescriptor(_QOTMARKETSTATE)
 
@@ -297,8 +297,8 @@ _REHABTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=2744,
-  serialized_end=2822,
+  serialized_start=2790,
+  serialized_end=2868,
 )
 _sym_db.RegisterEnumDescriptor(_REHABTYPE)
 
@@ -356,8 +356,8 @@ _KLTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=2825,
-  serialized_end=3026,
+  serialized_start=2871,
+  serialized_end=3072,
 )
 _sym_db.RegisterEnumDescriptor(_KLTYPE)
 
@@ -411,8 +411,8 @@ _KLFIELDS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=3029,
-  serialized_end=3255,
+  serialized_start=3075,
+  serialized_end=3301,
 )
 _sym_db.RegisterEnumDescriptor(_KLFIELDS)
 
@@ -494,8 +494,8 @@ _SUBTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=3258,
-  serialized_end=3620,
+  serialized_start=3304,
+  serialized_end=3666,
 )
 _sym_db.RegisterEnumDescriptor(_SUBTYPE)
 
@@ -521,19 +521,19 @@ _TICKERDIRECTION = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=3622,
-  serialized_end=3718,
+  serialized_start=3668,
+  serialized_end=3764,
 )
 _sym_db.RegisterEnumDescriptor(_TICKERDIRECTION)
 
 TickerDirection = enum_type_wrapper.EnumTypeWrapper(_TICKERDIRECTION)
 QotMarket_Unknown = 0
-QotMarket_HK_Stock = 1
+QotMarket_HK_Security = 1
 QotMarket_HK_Future = 2
-QotMarket_US_Stock = 11
+QotMarket_US_Security = 11
 QotMarket_US_Option = 12
-QotMarket_CNSH_Stock = 21
-QotMarket_CNSZ_Stock = 22
+QotMarket_CNSH_Security = 21
+QotMarket_CNSZ_Security = 22
 SecurityType_Unknown = 0
 SecurityType_Bond = 1
 SecurityType_Bwrt = 2
@@ -618,22 +618,22 @@ TickerDirection_Neutral = 3
 
 
 
-_STOCK = _descriptor.Descriptor(
-  name='Stock',
-  full_name='Qot_Common.Stock',
+_SECURITY = _descriptor.Descriptor(
+  name='Security',
+  full_name='Qot_Common.Security',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='market', full_name='Qot_Common.Stock.market', index=0,
+      name='market', full_name='Qot_Common.Security.market', index=0,
       number=1, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='code', full_name='Qot_Common.Stock.code', index=1,
+      name='code', full_name='Qot_Common.Security.code', index=1,
       number=2, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -652,7 +652,7 @@ _STOCK = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=46,
-  serialized_end=83,
+  serialized_end=86,
 )
 
 
@@ -759,111 +759,111 @@ _KLINE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=86,
-  serialized_end=312,
+  serialized_start=89,
+  serialized_end=315,
 )
 
 
-_STOCKBASIC = _descriptor.Descriptor(
-  name='StockBasic',
-  full_name='Qot_Common.StockBasic',
+_BASICQOT = _descriptor.Descriptor(
+  name='BasicQot',
+  full_name='Qot_Common.BasicQot',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='stock', full_name='Qot_Common.StockBasic.stock', index=0,
+      name='security', full_name='Qot_Common.BasicQot.security', index=0,
       number=1, type=11, cpp_type=10, label=2,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='isSuspended', full_name='Qot_Common.StockBasic.isSuspended', index=1,
+      name='isSuspended', full_name='Qot_Common.BasicQot.isSuspended', index=1,
       number=2, type=8, cpp_type=7, label=2,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='listTime', full_name='Qot_Common.StockBasic.listTime', index=2,
+      name='listTime', full_name='Qot_Common.BasicQot.listTime', index=2,
       number=3, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='priceSpread', full_name='Qot_Common.StockBasic.priceSpread', index=3,
+      name='priceSpread', full_name='Qot_Common.BasicQot.priceSpread', index=3,
       number=4, type=1, cpp_type=5, label=2,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='updateTime', full_name='Qot_Common.StockBasic.updateTime', index=4,
+      name='updateTime', full_name='Qot_Common.BasicQot.updateTime', index=4,
       number=5, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='highPrice', full_name='Qot_Common.StockBasic.highPrice', index=5,
+      name='highPrice', full_name='Qot_Common.BasicQot.highPrice', index=5,
       number=6, type=1, cpp_type=5, label=2,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='openPrice', full_name='Qot_Common.StockBasic.openPrice', index=6,
+      name='openPrice', full_name='Qot_Common.BasicQot.openPrice', index=6,
       number=7, type=1, cpp_type=5, label=2,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='lowPrice', full_name='Qot_Common.StockBasic.lowPrice', index=7,
+      name='lowPrice', full_name='Qot_Common.BasicQot.lowPrice', index=7,
       number=8, type=1, cpp_type=5, label=2,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='curPrice', full_name='Qot_Common.StockBasic.curPrice', index=8,
+      name='curPrice', full_name='Qot_Common.BasicQot.curPrice', index=8,
       number=9, type=1, cpp_type=5, label=2,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='lastClosePrice', full_name='Qot_Common.StockBasic.lastClosePrice', index=9,
+      name='lastClosePrice', full_name='Qot_Common.BasicQot.lastClosePrice', index=9,
       number=10, type=1, cpp_type=5, label=2,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='volume', full_name='Qot_Common.StockBasic.volume', index=10,
+      name='volume', full_name='Qot_Common.BasicQot.volume', index=10,
       number=11, type=3, cpp_type=2, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='turnover', full_name='Qot_Common.StockBasic.turnover', index=11,
+      name='turnover', full_name='Qot_Common.BasicQot.turnover', index=11,
       number=12, type=1, cpp_type=5, label=2,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='turnoverRate', full_name='Qot_Common.StockBasic.turnoverRate', index=12,
+      name='turnoverRate', full_name='Qot_Common.BasicQot.turnoverRate', index=12,
       number=13, type=1, cpp_type=5, label=2,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='amplitude', full_name='Qot_Common.StockBasic.amplitude', index=13,
+      name='amplitude', full_name='Qot_Common.BasicQot.amplitude', index=13,
       number=14, type=1, cpp_type=5, label=2,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
@@ -881,8 +881,8 @@ _STOCKBASIC = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=315,
-  serialized_end=614,
+  serialized_start=318,
+  serialized_end=621,
 )
 
 
@@ -961,55 +961,55 @@ _TIMESHARE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=617,
-  serialized_end=766,
+  serialized_start=624,
+  serialized_end=773,
 )
 
 
-_STOCKSTATICBASIC = _descriptor.Descriptor(
-  name='StockStaticBasic',
-  full_name='Qot_Common.StockStaticBasic',
+_SECURITYSTATICBASIC = _descriptor.Descriptor(
+  name='SecurityStaticBasic',
+  full_name='Qot_Common.SecurityStaticBasic',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='stock', full_name='Qot_Common.StockStaticBasic.stock', index=0,
+      name='security', full_name='Qot_Common.SecurityStaticBasic.security', index=0,
       number=1, type=11, cpp_type=10, label=2,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='id', full_name='Qot_Common.StockStaticBasic.id', index=1,
+      name='id', full_name='Qot_Common.SecurityStaticBasic.id', index=1,
       number=2, type=3, cpp_type=2, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='lotSize', full_name='Qot_Common.StockStaticBasic.lotSize', index=2,
+      name='lotSize', full_name='Qot_Common.SecurityStaticBasic.lotSize', index=2,
       number=3, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='secType', full_name='Qot_Common.StockStaticBasic.secType', index=3,
+      name='secType', full_name='Qot_Common.SecurityStaticBasic.secType', index=3,
       number=4, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='name', full_name='Qot_Common.StockStaticBasic.name', index=4,
+      name='name', full_name='Qot_Common.SecurityStaticBasic.name', index=4,
       number=5, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='listTime', full_name='Qot_Common.StockStaticBasic.listTime', index=5,
+      name='listTime', full_name='Qot_Common.SecurityStaticBasic.listTime', index=5,
       number=6, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -1027,8 +1027,8 @@ _STOCKSTATICBASIC = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=769,
-  serialized_end=899,
+  serialized_start=776,
+  serialized_end=915,
 )
 
 
@@ -1047,7 +1047,7 @@ _WARRANTSTATICEXDATA = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ownerStock', full_name='Qot_Common.WarrantStaticExData.ownerStock', index=1,
+      name='owner', full_name='Qot_Common.WarrantStaticExData.owner', index=1,
       number=2, type=11, cpp_type=10, label=2,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -1065,27 +1065,27 @@ _WARRANTSTATICEXDATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=901,
-  serialized_end=975,
+  serialized_start=917,
+  serialized_end=989,
 )
 
 
-_STOCKSTATICINFO = _descriptor.Descriptor(
-  name='StockStaticInfo',
-  full_name='Qot_Common.StockStaticInfo',
+_SECURITYSTATICINFO = _descriptor.Descriptor(
+  name='SecurityStaticInfo',
+  full_name='Qot_Common.SecurityStaticInfo',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='basic', full_name='Qot_Common.StockStaticInfo.basic', index=0,
+      name='basic', full_name='Qot_Common.SecurityStaticInfo.basic', index=0,
       number=1, type=11, cpp_type=10, label=2,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='warrantExData', full_name='Qot_Common.StockStaticInfo.warrantExData', index=1,
+      name='warrantExData', full_name='Qot_Common.SecurityStaticInfo.warrantExData', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -1103,8 +1103,8 @@ _STOCKSTATICINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=977,
-  serialized_end=1095,
+  serialized_start=991,
+  serialized_end=1115,
 )
 
 
@@ -1148,8 +1148,8 @@ _BROKER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1097,
-  serialized_end=1144,
+  serialized_start=1117,
+  serialized_end=1164,
 )
 
 
@@ -1214,8 +1214,8 @@ _TICKER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1146,
-  serialized_end=1248,
+  serialized_start=1166,
+  serialized_end=1268,
 )
 
 
@@ -1259,8 +1259,8 @@ _ORDERBOOK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1250,
-  serialized_end=1313,
+  serialized_start=1270,
+  serialized_end=1333,
 )
 
 
@@ -1279,7 +1279,7 @@ _SUBINFO = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='stock', full_name='Qot_Common.SubInfo.stock', index=1,
+      name='securityList', full_name='Qot_Common.SubInfo.securityList', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -1297,8 +1297,8 @@ _SUBINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1315,
-  serialized_end=1375,
+  serialized_start=1335,
+  serialized_end=1405,
 )
 
 
@@ -1310,7 +1310,7 @@ _CONNSUBINFO = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='subInfo', full_name='Qot_Common.ConnSubInfo.subInfo', index=0,
+      name='subInfoList', full_name='Qot_Common.ConnSubInfo.subInfoList', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -1342,24 +1342,24 @@ _CONNSUBINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1377,
-  serialized_end=1470,
+  serialized_start=1407,
+  serialized_end=1504,
 )
 
-_STOCKBASIC.fields_by_name['stock'].message_type = _STOCK
-_STOCKSTATICBASIC.fields_by_name['stock'].message_type = _STOCK
-_WARRANTSTATICEXDATA.fields_by_name['ownerStock'].message_type = _STOCK
-_STOCKSTATICINFO.fields_by_name['basic'].message_type = _STOCKSTATICBASIC
-_STOCKSTATICINFO.fields_by_name['warrantExData'].message_type = _WARRANTSTATICEXDATA
-_SUBINFO.fields_by_name['stock'].message_type = _STOCK
-_CONNSUBINFO.fields_by_name['subInfo'].message_type = _SUBINFO
-DESCRIPTOR.message_types_by_name['Stock'] = _STOCK
+_BASICQOT.fields_by_name['security'].message_type = _SECURITY
+_SECURITYSTATICBASIC.fields_by_name['security'].message_type = _SECURITY
+_WARRANTSTATICEXDATA.fields_by_name['owner'].message_type = _SECURITY
+_SECURITYSTATICINFO.fields_by_name['basic'].message_type = _SECURITYSTATICBASIC
+_SECURITYSTATICINFO.fields_by_name['warrantExData'].message_type = _WARRANTSTATICEXDATA
+_SUBINFO.fields_by_name['securityList'].message_type = _SECURITY
+_CONNSUBINFO.fields_by_name['subInfoList'].message_type = _SUBINFO
+DESCRIPTOR.message_types_by_name['Security'] = _SECURITY
 DESCRIPTOR.message_types_by_name['KLine'] = _KLINE
-DESCRIPTOR.message_types_by_name['StockBasic'] = _STOCKBASIC
+DESCRIPTOR.message_types_by_name['BasicQot'] = _BASICQOT
 DESCRIPTOR.message_types_by_name['TimeShare'] = _TIMESHARE
-DESCRIPTOR.message_types_by_name['StockStaticBasic'] = _STOCKSTATICBASIC
+DESCRIPTOR.message_types_by_name['SecurityStaticBasic'] = _SECURITYSTATICBASIC
 DESCRIPTOR.message_types_by_name['WarrantStaticExData'] = _WARRANTSTATICEXDATA
-DESCRIPTOR.message_types_by_name['StockStaticInfo'] = _STOCKSTATICINFO
+DESCRIPTOR.message_types_by_name['SecurityStaticInfo'] = _SECURITYSTATICINFO
 DESCRIPTOR.message_types_by_name['Broker'] = _BROKER
 DESCRIPTOR.message_types_by_name['Ticker'] = _TICKER
 DESCRIPTOR.message_types_by_name['OrderBook'] = _ORDERBOOK
@@ -1377,12 +1377,12 @@ DESCRIPTOR.enum_types_by_name['SubType'] = _SUBTYPE
 DESCRIPTOR.enum_types_by_name['TickerDirection'] = _TICKERDIRECTION
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-Stock = _reflection.GeneratedProtocolMessageType('Stock', (_message.Message,), dict(
-  DESCRIPTOR = _STOCK,
+Security = _reflection.GeneratedProtocolMessageType('Security', (_message.Message,), dict(
+  DESCRIPTOR = _SECURITY,
   __module__ = 'Qot_Common_pb2'
-  # @@protoc_insertion_point(class_scope:Qot_Common.Stock)
+  # @@protoc_insertion_point(class_scope:Qot_Common.Security)
   ))
-_sym_db.RegisterMessage(Stock)
+_sym_db.RegisterMessage(Security)
 
 KLine = _reflection.GeneratedProtocolMessageType('KLine', (_message.Message,), dict(
   DESCRIPTOR = _KLINE,
@@ -1391,12 +1391,12 @@ KLine = _reflection.GeneratedProtocolMessageType('KLine', (_message.Message,), d
   ))
 _sym_db.RegisterMessage(KLine)
 
-StockBasic = _reflection.GeneratedProtocolMessageType('StockBasic', (_message.Message,), dict(
-  DESCRIPTOR = _STOCKBASIC,
+BasicQot = _reflection.GeneratedProtocolMessageType('BasicQot', (_message.Message,), dict(
+  DESCRIPTOR = _BASICQOT,
   __module__ = 'Qot_Common_pb2'
-  # @@protoc_insertion_point(class_scope:Qot_Common.StockBasic)
+  # @@protoc_insertion_point(class_scope:Qot_Common.BasicQot)
   ))
-_sym_db.RegisterMessage(StockBasic)
+_sym_db.RegisterMessage(BasicQot)
 
 TimeShare = _reflection.GeneratedProtocolMessageType('TimeShare', (_message.Message,), dict(
   DESCRIPTOR = _TIMESHARE,
@@ -1405,12 +1405,12 @@ TimeShare = _reflection.GeneratedProtocolMessageType('TimeShare', (_message.Mess
   ))
 _sym_db.RegisterMessage(TimeShare)
 
-StockStaticBasic = _reflection.GeneratedProtocolMessageType('StockStaticBasic', (_message.Message,), dict(
-  DESCRIPTOR = _STOCKSTATICBASIC,
+SecurityStaticBasic = _reflection.GeneratedProtocolMessageType('SecurityStaticBasic', (_message.Message,), dict(
+  DESCRIPTOR = _SECURITYSTATICBASIC,
   __module__ = 'Qot_Common_pb2'
-  # @@protoc_insertion_point(class_scope:Qot_Common.StockStaticBasic)
+  # @@protoc_insertion_point(class_scope:Qot_Common.SecurityStaticBasic)
   ))
-_sym_db.RegisterMessage(StockStaticBasic)
+_sym_db.RegisterMessage(SecurityStaticBasic)
 
 WarrantStaticExData = _reflection.GeneratedProtocolMessageType('WarrantStaticExData', (_message.Message,), dict(
   DESCRIPTOR = _WARRANTSTATICEXDATA,
@@ -1419,12 +1419,12 @@ WarrantStaticExData = _reflection.GeneratedProtocolMessageType('WarrantStaticExD
   ))
 _sym_db.RegisterMessage(WarrantStaticExData)
 
-StockStaticInfo = _reflection.GeneratedProtocolMessageType('StockStaticInfo', (_message.Message,), dict(
-  DESCRIPTOR = _STOCKSTATICINFO,
+SecurityStaticInfo = _reflection.GeneratedProtocolMessageType('SecurityStaticInfo', (_message.Message,), dict(
+  DESCRIPTOR = _SECURITYSTATICINFO,
   __module__ = 'Qot_Common_pb2'
-  # @@protoc_insertion_point(class_scope:Qot_Common.StockStaticInfo)
+  # @@protoc_insertion_point(class_scope:Qot_Common.SecurityStaticInfo)
   ))
-_sym_db.RegisterMessage(StockStaticInfo)
+_sym_db.RegisterMessage(SecurityStaticInfo)
 
 Broker = _reflection.GeneratedProtocolMessageType('Broker', (_message.Message,), dict(
   DESCRIPTOR = _BROKER,

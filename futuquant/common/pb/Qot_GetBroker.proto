@@ -6,14 +6,14 @@ import "Qot_Common.proto";
 
 message C2S
 {
-	required Qot_Common.Stock stock = 1; //股票
+	required Qot_Common.Security security = 1; //股票
 }
 
 message S2C
 {
-	required Qot_Common.Stock stock = 1; //股票
-	repeated Qot_Common.Broker brokerAsk = 2; //经纪Ask(卖)盘
-	repeated Qot_Common.Broker brokerBid = 3; //经纪Bid(买)盘
+	required Qot_Common.Security security = 1; //股票
+	repeated Qot_Common.Broker brokerAskList = 2; //经纪Ask(卖)盘
+	repeated Qot_Common.Broker brokerBidList = 3; //经纪Bid(买)盘
 }
 
 message Request

@@ -4,12 +4,12 @@ package Trd_UpdateOrder;
 import "Common.proto";
 import "Trd_Common.proto";
 
-//推送协议，无C2S内容和Request请求，retType始终是RetType_Succeed
+//推送协议，无C2S和Request结构，retType始终是RetType_Succeed
 
 message S2C
 {
 	required Trd_Common.TrdHeader header = 1; //交易公共参数头
-	required Trd_Common.Order order = 2; //订单最新信息
+	required Trd_Common.Order order = 2; //订单结构
 }
 
 message Response

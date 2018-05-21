@@ -1,14 +1,14 @@
 syntax = "proto2";
-package Qot_PushBroker;
+package Qot_UpdateBroker;
 
 import "Common.proto";
 import "Qot_Common.proto";
 
 message S2C
 {
-	required Qot_Common.Stock stock = 1; //股票
-	repeated Qot_Common.Broker brokerAsk = 2; //经纪Ask(卖)盘
-	repeated Qot_Common.Broker brokerBid = 3; //经纪Bid(买)盘
+	required Qot_Common.Security security = 1; //股票
+	repeated Qot_Common.Broker brokerAskList = 2; //经纪Ask(卖)盘
+	repeated Qot_Common.Broker brokerBidList = 3; //经纪Bid(买)盘
 }
 
 message Response

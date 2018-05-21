@@ -15,7 +15,7 @@ message C2S
 message S2C
 {
 	required Trd_Common.TrdHeader header = 1; //交易公共参数头
-	repeated Trd_Common.Position positionList = 2; //账户持仓列表
+	repeated Trd_Common.Position positionList = 2; //持仓列表
 }
 
 message Request

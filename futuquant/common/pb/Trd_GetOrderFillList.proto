@@ -13,7 +13,7 @@ message C2S
 message S2C
 {
 	required Trd_Common.TrdHeader header = 1; //交易公共参数头
-	repeated Trd_Common.OrderFill orderFillList = 2; //订单列表
+	repeated Trd_Common.OrderFill orderFillList = 2; //成交列表
 }
 
 message Request

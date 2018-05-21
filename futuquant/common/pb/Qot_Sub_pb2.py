@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_Sub.proto',
   package='Qot_Sub',
   syntax='proto2',
-  serialized_pb=_b('\n\rQot_Sub.proto\x12\x07Qot_Sub\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"\x82\x01\n\x03\x43\x32S\x12 \n\x05stock\x18\x01 \x03(\x0b\x32\x11.Qot_Common.Stock\x12\x0f\n\x07subType\x18\x02 \x03(\x05\x12\x14\n\x0cisSubOrUnSub\x18\x03 \x02(\x08\x12\x18\n\x10isRegOrUnRegPush\x18\x04 \x01(\x08\x12\x18\n\x10regPushRehabType\x18\x05 \x03(\x05\"\x05\n\x03S2C\"$\n\x07Request\x12\x19\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x0c.Qot_Sub.C2S\"]\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\x19\n\x03s2c\x18\x04 \x01(\x0b\x32\x0c.Qot_Sub.S2C')
+  serialized_pb=_b('\n\rQot_Sub.proto\x12\x07Qot_Sub\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"\x94\x01\n\x03\x43\x32S\x12*\n\x0csecurityList\x18\x01 \x03(\x0b\x32\x14.Qot_Common.Security\x12\x13\n\x0bsubTypeList\x18\x02 \x03(\x05\x12\x14\n\x0cisSubOrUnSub\x18\x03 \x02(\x08\x12\x18\n\x10isRegOrUnRegPush\x18\x04 \x01(\x08\x12\x1c\n\x14regPushRehabTypeList\x18\x05 \x03(\x05\"\x05\n\x03S2C\"$\n\x07Request\x12\x19\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x0c.Qot_Sub.C2S\"]\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\x19\n\x03s2c\x18\x04 \x01(\x0b\x32\x0c.Qot_Sub.S2C')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
 
@@ -36,14 +36,14 @@ _C2S = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='stock', full_name='Qot_Sub.C2S.stock', index=0,
+      name='securityList', full_name='Qot_Sub.C2S.securityList', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='subType', full_name='Qot_Sub.C2S.subType', index=1,
+      name='subTypeList', full_name='Qot_Sub.C2S.subTypeList', index=1,
       number=2, type=5, cpp_type=1, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -64,7 +64,7 @@ _C2S = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='regPushRehabType', full_name='Qot_Sub.C2S.regPushRehabType', index=4,
+      name='regPushRehabTypeList', full_name='Qot_Sub.C2S.regPushRehabTypeList', index=4,
       number=5, type=5, cpp_type=1, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -83,7 +83,7 @@ _C2S = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=59,
-  serialized_end=189,
+  serialized_end=207,
 )
 
 
@@ -106,8 +106,8 @@ _S2C = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=191,
-  serialized_end=196,
+  serialized_start=209,
+  serialized_end=214,
 )
 
 
@@ -137,8 +137,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=198,
-  serialized_end=234,
+  serialized_start=216,
+  serialized_end=252,
 )
 
 
@@ -189,11 +189,11 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=236,
-  serialized_end=329,
+  serialized_start=254,
+  serialized_end=347,
 )
 
-_C2S.fields_by_name['stock'].message_type = Qot__Common__pb2._STOCK
+_C2S.fields_by_name['securityList'].message_type = Qot__Common__pb2._SECURITY
 _REQUEST.fields_by_name['c2s'].message_type = _C2S
 _RESPONSE.fields_by_name['s2c'].message_type = _S2C
 DESCRIPTOR.message_types_by_name['C2S'] = _C2S

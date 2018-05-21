@@ -1,5 +1,5 @@
 syntax = "proto2";
-package Qot_HistoryKL;
+package Qot_GetHistoryKL;
 
 import "Common.proto";
 import "Qot_Common.proto";
@@ -8,7 +8,7 @@ message C2S
 {
 	required int32 rehabType = 1; //Qot_Common.RehabType,复权类型
 	required int32 klType = 2; //Qot_Common.KLType,K线类型
-	required Qot_Common.Stock stock = 3; //股票市场以及股票代码
+	required Qot_Common.Security security = 3; //股票市场以及股票代码
 	required string beginTime = 4; //开始时间字符串
 	required string endTime = 5; //结束时间字符串
 	optional int32 maxAckKLNum = 6; //最多返回多少根K线，如果未指定表示不限制
@@ -17,8 +17,8 @@ message C2S
 
 message S2C
 {
-	required Qot_Common.Stock stock = 1;
-	repeated Qot_Common.KLine kl = 2; //K线数据
+	required Qot_Common.Security security = 1;
+	repeated Qot_Common.KLine klList = 2; //K线数据
 	optional string nextKLTime = 3; //如请求不指定maxAckKLNum值，则不会返回该字段，该字段表示超过指定限制的下一K线时间字符串
 }
 

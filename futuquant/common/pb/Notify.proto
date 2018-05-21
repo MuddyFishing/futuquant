@@ -1,5 +1,5 @@
 syntax = "proto2";
-package PushNotify;
+package Notify;
 
 import "Common.proto";
 
@@ -26,6 +26,7 @@ enum GtwEventType
 	GtwEventType_AppDataNotExist = 12; //程序自带数据不存在
 	GtwEventType_NessaryDataMissing = 13; //缺少必要数据
 	GtwEventType_TradePwdChanged = 14; //交易密码被修改
+	GtwEventType_EnableDeviceLock = 15; //启用设备锁
 }
 
 message GtwEvent

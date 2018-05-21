@@ -1,5 +1,5 @@
 syntax = "proto2";
-package Qot_ReqStockList;
+package Qot_GetStaticInfo;
 
 import "Common.proto";
 import "Qot_Common.proto";
@@ -12,7 +12,7 @@ message C2S
 
 message S2C
 {
-	repeated Qot_Common.StockStaticInfo staticInfo = 1; //静态信息
+	repeated Qot_Common.SecurityStaticInfo staticInfoList = 1; //静态信息
 }
 
 message Request

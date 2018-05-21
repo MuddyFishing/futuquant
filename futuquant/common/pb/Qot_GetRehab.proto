@@ -1,12 +1,12 @@
 syntax = "proto2";
-package Qot_ReqRehab;
+package Qot_GetRehab;
 
 import "Common.proto";
 import "Qot_Common.proto";
 
 message C2S
 {
-	repeated Qot_Common.Stock stock = 1; //股票
+	repeated Qot_Common.Security securityList = 1; //股票
 }
 
 enum CompanyAct
@@ -45,18 +45,18 @@ message Rehab
 	optional int32 addErt = 19;	
 	optional double addPrice = 20;	
 	optional double dividend = 21; //现金分红(eg.每10股派现0.5元,则该字段值为0.05)
-	optional double spDivident = 22; //特别股息(eg.每10股派特别股息0.5元,则该字段值为0.05)
+	optional double spDividend = 22; //特别股息(eg.每10股派特别股息0.5元,则该字段值为0.05)
 }
 
-message StockRehab
+message SecurityRehab
 {
-	required Qot_Common.Stock stock = 1; //股票
-	repeated Rehab rehab = 2; //复权信息
+	required Qot_Common.Security security = 1; //股票
+	repeated Rehab rehabList = 2; //复权信息
 }
 
 message S2C
 {
-	repeated StockRehab stockRehab = 1; //多支股票的复权信息
+	repeated SecurityRehab securityRehabList = 1; //多支股票的复权信息
 }
 
 message Request

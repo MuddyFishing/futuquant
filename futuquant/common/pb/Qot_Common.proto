@@ -6,12 +6,12 @@ import "Common.proto";
 enum QotMarket
 {
     QotMarket_Unknown = 0; //未知市场
-    QotMarket_HK_Stock = 1; //港股
+    QotMarket_HK_Security = 1; //港股
     QotMarket_HK_Future = 2; //港期货(目前是恒指的当月、下月期货行情)
-    QotMarket_US_Stock = 11; //美股
+    QotMarket_US_Security = 11; //美股
     QotMarket_US_Option = 12; //美期权,暂时不支持期权
-    QotMarket_CNSH_Stock = 21; //沪股
-    QotMarket_CNSZ_Stock = 22; //深股
+    QotMarket_CNSH_Security = 21; //沪股
+    QotMarket_CNSZ_Security = 22; //深股
 }
 
 enum SecurityType
@@ -136,7 +136,7 @@ enum TickerDirection
 }
 
  //两个字段确定一支股票
-message Stock
+message Security
 {
 	required int32 market = 1; //QotMarket,股票市场
 	required string code = 2; //股票代码
@@ -158,9 +158,9 @@ message KLine
 	optional double changeRate = 12; //涨跌幅,3位小数精度
 }
 
-message StockBasic
+message BasicQot
 {
-	required Stock stock = 1; //股票
+	required Security security = 1; //股票
 	required bool isSuspended = 2; //是否停牌
 	required string listTime = 3; //上市日期字符串
 	required double priceSpread = 4; //价差
@@ -188,9 +188,9 @@ message TimeShare
 	optional double turnover = 8; //成交额,3位小数精度
 }
 
-message StockStaticBasic
+message SecurityStaticBasic
 {
-	required Qot_Common.Stock stock = 1; //股票
+	required Qot_Common.Security security = 1; //股票
 	required int64 id = 2; //股票ID
 	required int32 lotSize = 3; //每手数量
 	required int32 secType = 4; //Qot_Common.SecurityType,股票类型
@@ -201,12 +201,12 @@ message StockStaticBasic
 message WarrantStaticExData
 {
 	required int32 type = 1; //Qot_Common.WarrantType,涡轮类型
-	required Qot_Common.Stock ownerStock = 2; //所属正股
+	required Qot_Common.Security owner = 2; //所属正股
 }
 
-message StockStaticInfo
+message SecurityStaticInfo
 {
-	required StockStaticBasic basic = 1; //基本股票静态信息
+	required SecurityStaticBasic basic = 1; //基本股票静态信息
 	optional WarrantStaticExData warrantExData = 2; //窝轮额外股票静态信息
 }
 
@@ -237,12 +237,12 @@ message OrderBook
 message SubInfo
 {
 	required int32 subType = 1; //Qot_Common.SubType,订阅类型
-	repeated Qot_Common.Stock stock = 2; //订阅该类型行情的股票
+	repeated Qot_Common.Security securityList = 2; //订阅该类型行情的股票
 }
 
 message ConnSubInfo
 {
-	repeated SubInfo subInfo = 1; //该连接订阅信息
+	repeated SubInfo subInfoList = 1; //该连接订阅信息
 	required int32 usedQuota = 2; //该连接已经使用的订阅额度
 	required bool isOwnConnData = 3; //用于区分是否是自己连接的数据
 }

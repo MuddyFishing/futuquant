@@ -8,7 +8,7 @@ message C2S
 {
 	required Trd_Common.TrdHeader header = 1; //交易公共参数头
 	optional Trd_Common.TrdFilterConditions filterConditions = 2; //过滤条件
-	repeated int32 filterStatus = 3; //订单状态过滤
+	repeated int32 filterStatusList = 3; //需要过滤的订单状态列表
 }
 
 message S2C

@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Trd_SubAccPush.proto',
   package='Trd_SubAccPush',
   syntax='proto2',
-  serialized_pb=_b('\n\x14Trd_SubAccPush.proto\x12\x0eTrd_SubAccPush\x1a\x0c\x43ommon.proto\"\x14\n\x03\x43\x32S\x12\r\n\x05\x61\x63\x63ID\x18\x01 \x03(\x04\"\x05\n\x03S2C\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Trd_SubAccPush.C2S\"d\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12 \n\x03s2c\x18\x04 \x01(\x0b\x32\x13.Trd_SubAccPush.S2C')
+  serialized_pb=_b('\n\x14Trd_SubAccPush.proto\x12\x0eTrd_SubAccPush\x1a\x0c\x43ommon.proto\"\x18\n\x03\x43\x32S\x12\x11\n\taccIDList\x18\x01 \x03(\x04\"\x05\n\x03S2C\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Trd_SubAccPush.C2S\"d\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12 \n\x03s2c\x18\x04 \x01(\x0b\x32\x13.Trd_SubAccPush.S2C')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,])
 
@@ -35,7 +35,7 @@ _C2S = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='accID', full_name='Trd_SubAccPush.C2S.accID', index=0,
+      name='accIDList', full_name='Trd_SubAccPush.C2S.accIDList', index=0,
       number=1, type=4, cpp_type=4, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -54,7 +54,7 @@ _C2S = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=54,
-  serialized_end=74,
+  serialized_end=78,
 )
 
 
@@ -77,8 +77,8 @@ _S2C = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=76,
-  serialized_end=81,
+  serialized_start=80,
+  serialized_end=85,
 )
 
 
@@ -108,8 +108,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=83,
-  serialized_end=126,
+  serialized_start=87,
+  serialized_end=130,
 )
 
 
@@ -160,8 +160,8 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=128,
-  serialized_end=228,
+  serialized_start=132,
+  serialized_end=232,
 )
 
 _REQUEST.fields_by_name['c2s'].message_type = _C2S

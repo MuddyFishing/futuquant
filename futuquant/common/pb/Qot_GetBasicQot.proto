@@ -1,17 +1,17 @@
 syntax = "proto2";
-package Qot_ReqStockBasic;
+package Qot_GetBasicQot;
 
 import "Common.proto";
 import "Qot_Common.proto";
 
 message C2S
 {
-	repeated Qot_Common.Stock stock = 1; //股票
+	repeated Qot_Common.Security securityList = 1; //股票
 }
 
 message S2C
 {
-	repeated Qot_Common.StockBasic stockBasic = 1; //股票基本行情
+	repeated Qot_Common.BasicQot basicQotList = 1; //股票基本行情
 }
 
 message Request

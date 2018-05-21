@@ -1,14 +1,14 @@
 syntax = "proto2";
-package Qot_PushOrderBook;
+package Qot_UpdateOrderBook;
 
 import "Common.proto";
 import "Qot_Common.proto";
 
 message S2C
 {
-	required Qot_Common.Stock stock = 1; //股票
-	repeated Qot_Common.OrderBook orderBookAsk = 2; //卖盘
-	repeated Qot_Common.OrderBook orderBookBid = 3; //买盘
+	required Qot_Common.Security security = 1; //股票
+	repeated Qot_Common.OrderBook orderBookAskList = 2; //卖盘
+	repeated Qot_Common.OrderBook orderBookBidList = 3; //买盘
 }
 
 message Response

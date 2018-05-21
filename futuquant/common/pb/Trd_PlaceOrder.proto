@@ -11,11 +11,11 @@ message C2S
 	required int32 trdSide = 3; //交易方向, 参见Trd_Common.TrdSide的枚举定义
 	required int32 orderType = 4; //订单类型, 参见Trd_Common.OrderType的枚举定义
 	required string code = 5; //代码
-	required double qty = 6; //数量，港股2位小数精度
-	optional double price = 7; //价格，港股3位小数精度
-	//调整价格目前仅对港股有效，因为港股有价位，美股不需要
-	optional bool adjustPrice = 8; //调整价格，如果价格不合法，调整到合法价位，true调整，false不调整
-	optional double adjustSideAndLimit = 9; //调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，取值代表幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
+	required double qty = 6; //数量，2位精度，期权单位是"张"
+	optional double price = 7; //价格，3位精度(A股2位)
+	//以下为调整价格使用，目前仅对港、A股有效，因为港股有价位，A股2位精度，美股不需要
+	optional bool adjustPrice = 8; //是否调整价格，如果价格不合法，是否调整到合法价位，true调整，false不调整
+	optional double adjustSideAndLimit = 9; //调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
 }
 
 message S2C

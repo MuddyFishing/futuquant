@@ -5,8 +5,8 @@ import "Common.proto";
 
 message C2S
 {
-	required bool unlock = 1; //true解锁，false锁定
-	optional string pwdMD5 = 2; //交易密码的MD5转16进制小写，解锁必须要填密码，锁定忽略
+	required bool unlock = 1; //true解锁交易，false锁定交易
+	optional string pwdMD5 = 2; //交易密码的MD5转16进制(全小写)，解锁交易必须要填密码，锁定交易忽略
 }
 
 message S2C
