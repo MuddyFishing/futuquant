@@ -48,13 +48,20 @@ class OpenQuoteContext(OpenContextBase):
 
             is_need_sub = False
             if code_list == code_list_new:
-                subtype_list.append(subtype)   # 合并subtype请求
+                if subtype not in subtype_list:
+                    subtype_list.append(subtype)   # 合并subtype请求
             else:
-                is_need_sub = True
-
-            if is_need_sub or subtype_cur_cnt == subtype_all_cnt:
                 ret, msg = self.subscribe(code_list, subtype_list)
-                logger.debug("reconnect subscribe code_count={} ret={} msg={}".format(len(code_list), ret, msg))
+                logger.debug("reconnect subscribe code_count={} ret={} msg={} subtype_list={} code_list={}".format(
+                    len(code_list), ret, msg, subtype_list, code_list))
+                resub_count += len(code_list)
+                code_list = code_list_new
+                subtype_list = [subtype]
+
+            # 循环即将结束
+            if subtype_cur_cnt == subtype_all_cnt and len(code_list):
+                ret, msg = self.subscribe(code_list, subtype_list)
+                logger.debug("reconnect subscribe code_count={} ret={} msg={} subtype_list={} code_list={}".format(len(code_list), ret, msg, subtype_list, code_list))
                 resub_count += len(code_list)
                 code_list = []
                 subtype_list = []
@@ -481,6 +488,13 @@ class OpenQuoteContext(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
+        for subtype in subtype_list:
+            if subtype not in self._ctx_subscribe:
+                self._ctx_subscribe[subtype] = set()
+            code_set = self._ctx_subscribe[subtype]
+            for code in code_list:
+                code_set.add(code)
+
         query_processor = self._get_sync_query_processor(SubscriptionQuery.pack_subscribe_req,
                                                          SubscriptionQuery.unpack_subscribe_rsp)
 
@@ -490,13 +504,6 @@ class OpenQuoteContext(OpenContextBase):
             "conn_id": self.get_sync_conn_id()
         }
         ret_code, msg, _ = query_processor(**kargs)
-
-        for subtype in subtype_list:
-            if subtype not in self._ctx_subscribe:
-                self._ctx_subscribe[subtype] = set()
-            code_set = self._ctx_subscribe[subtype]
-            for code in code_list:
-                code_set.add(code)
 
         if ret_code != RET_OK:
             return RET_ERROR, msg
