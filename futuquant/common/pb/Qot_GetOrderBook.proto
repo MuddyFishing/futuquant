@@ -1,5 +1,5 @@
 syntax = "proto2";
-package Qot_ReqOrderBook;
+package Qot_GetOrderBook;
 
 import "Common.proto";
 import "Qot_Common.proto";

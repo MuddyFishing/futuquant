@@ -119,10 +119,10 @@ class BrokerHandlerBase(RspHandlerBase):
 
     def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
-        ret_code, bid_content, ask_content = BrokerQueueQuery.unpack_rsp(
+        ret_code, msg, (stock_code, bid_content, ask_content) = BrokerQueueQuery.unpack_rsp(
             rsp_pb)
-        if ret_code == RET_ERROR:
-            return ret_code, [bid_content, ask_content]
+        if ret_code != RET_OK:
+            return ret_code, msg, None
         else:
             bid_list = [
                 'code', 'bid_broker_id', 'bid_broker_name', 'bid_broker_pos'
@@ -133,7 +133,7 @@ class BrokerHandlerBase(RspHandlerBase):
             bid_frame_table = pd.DataFrame(bid_content, columns=bid_list)
             ask_frame_table = pd.DataFrame(ask_content, columns=ask_list)
 
-            return RET_OK, [bid_frame_table, ask_frame_table]
+            return RET_OK, stock_code, [bid_frame_table, ask_frame_table]
 
     def on_error(self, error_str):
         """error callback function"""

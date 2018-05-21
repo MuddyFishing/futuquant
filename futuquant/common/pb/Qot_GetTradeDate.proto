@@ -1,5 +1,5 @@
 syntax = "proto2";
-package Qot_ReqTradeDate;
+package Qot_GetTradeDate;
 
 import "Common.proto";
 import "Qot_Common.proto";

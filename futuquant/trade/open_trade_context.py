@@ -217,7 +217,7 @@ class OpenTradeContextBase(OpenContextBase):
             return RET_ERROR, msg
 
         col_list = [
-            'Power', 'ZCJZ', 'ZQSZ', 'XJJY', 'KQXJ', 'DJZJ'
+            'power', 'total_assets', 'cash', 'market_val', 'frozen_cash', 'avl_withdrawal_cash'
         ]
         accinfo_frame_table = pd.DataFrame(accinfo_list, columns=col_list)
 

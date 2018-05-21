@@ -78,10 +78,12 @@ class BrokerTest(BrokerHandlerBase):
     """ 获取经纪队列推送数据 """
     def on_recv_rsp(self, rsp_str):
         """数据响应回调函数"""
-        ret_code, content = super(BrokerTest, self).on_recv_rsp(rsp_str)
+        ret_code, stock_code, content = super(BrokerTest, self).on_recv_rsp(rsp_str)
         if ret_code != RET_OK:
             print("* BrokerTest: error, msg: %s " % content)
             return RET_ERROR, content
+
+		print("* BrokerTest code \n", stock_code)
         print("* BrokerTest bid \n", content[0])
         print("* BrokerTest ask \n", content[1])
         return RET_OK, content

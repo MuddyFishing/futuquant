@@ -44,7 +44,7 @@ class GetAccountList:
         acc_list = [{
             'acc_id': record.accID,
             'trd_env': TRADE.REV_TRD_ENV_MAP[record.trdEnv] if record.trdEnv in TRADE.REV_TRD_ENV_MAP else "",
-            'trdMarket_list': [(TRADE.REV_TRD_MKT_MAP[trdMkt] if trdMkt in TRADE.REV_TRD_MKT_MAP else TrdMarket.NONE) for trdMkt in record.trdMarketAuth]
+            'trdMarket_list': [(TRADE.REV_TRD_MKT_MAP[trdMkt] if trdMkt in TRADE.REV_TRD_MKT_MAP else TrdMarket.NONE) for trdMkt in record.trdMarketAuthList]
         } for record in raw_acc_list]
 
         return RET_OK, "", acc_list
@@ -84,7 +84,7 @@ class SubAccPush:
         from futuquant.common.pb.Trd_SubAccPush_pb2 import Request
         req = Request()
         for x in acc_id_list:
-            req.c2s.accID.append(x)
+            req.c2s.accIDList.append(x)
 
         return pack_pb_req(req, ProtoId.Trd_SubAccPush, conn_id)
 
@@ -121,12 +121,12 @@ class AccInfoQuery:
 
         raw_funds = rsp_pb.s2c.funds
         accinfo_list = [{
-            'Power': raw_funds.gml,
-            'ZCJZ': raw_funds.zcjz,
-            'ZQSZ': raw_funds.zqsz,
-            'XJJY': raw_funds.xj,
-            'KQXJ': raw_funds.ktje,
-            'DJZJ': raw_funds.djje,
+            'power': raw_funds.power,
+            'total_assets': raw_funds.totalAssets,
+            'cash': raw_funds.cash,
+            'market_val': raw_funds.marketVal,
+            'frozen_cash': raw_funds.frozenCash,
+            'avl_withdrawal_cash': raw_funds.avlWithdrawalCash,
         }]
         return RET_OK, "", accinfo_list
 
@@ -147,7 +147,7 @@ class PositionListQuery:
         req.c2s.header.accID = acc_id
         req.c2s.header.trdMarket = TRD_MKT_MAP[trd_mkt]
         if code:
-            req.c2s.filterConditions.code.append(code)
+            req.c2s.filterConditions.codeList.append(code)
         if pl_ratio_min:
             req.c2s.filterPLRatioMin = float(pl_ratio_min) / 100.0
         if pl_ratio_max:
@@ -203,9 +203,9 @@ class OrderListQuery:
         req.c2s.header.trdMarket = TRD_MKT_MAP[trd_mkt]
 
         if code:
-            req.c2s.filterConditions.code.append(code)
+            req.c2s.filterConditions.codeList.append(code)
         if order_id:
-            req.c2s.filterConditions.id.append(int(order_id))
+            req.c2s.filterConditions.idList.append(int(order_id))
 
         if start:
             req.c2s.filterConditions.beginTime = start
@@ -214,7 +214,7 @@ class OrderListQuery:
 
         if len(status_filter_list):
             for order_status in status_filter_list:
-                req.c2s.filterStatus.append(ORDER_STATUS_MAP[order_status])
+                req.c2s.filterStatusList.append(ORDER_STATUS_MAP[order_status])
 
         return pack_pb_req(req, ProtoId.Trd_GetOrderList, conn_id)
 
@@ -349,7 +349,7 @@ class DealListQuery:
         req.c2s.header.trdMarket = TRD_MKT_MAP[trd_mkt]
 
         if code:
-            req.c2s.filterConditions.code.append(code)
+            req.c2s.filterConditions.codeList.append(code)
 
         return pack_pb_req(req, ProtoId.Trd_GetOrderFillList, conn_id)
 
@@ -398,14 +398,14 @@ class HistoryOrderListQuery:
         req.c2s.header.trdMarket = TRD_MKT_MAP[trd_mkt]
 
         if code:
-            req.c2s.filterConditions.code.append(code)
+            req.c2s.filterConditions.codeList.append(code)
 
         req.c2s.filterConditions.beginTime = start
         req.c2s.filterConditions.endTime = end
 
         if status_filter_list:
             for order_status in status_filter_list:
-                req.c2s.filterStatus.append(ORDER_STATUS_MAP[order_status])
+                req.c2s.filterStatusList.append(ORDER_STATUS_MAP[order_status])
 
         return pack_pb_req(req, ProtoId.Trd_GetHistoryOrderList, conn_id)
 
@@ -450,7 +450,7 @@ class HistoryDealListQuery:
         req.c2s.header.trdMarket = TRD_MKT_MAP[trd_mkt]
 
         if code:
-            req.c2s.filterConditions.code.append(code)
+            req.c2s.filterConditions.codeList.append(code)
 
         req.c2s.filterConditions.beginTime = start
         req.c2s.filterConditions.endTime = end

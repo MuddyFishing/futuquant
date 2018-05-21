@@ -91,13 +91,13 @@ class TradeDayQuery:
 
         # pack to json
         mkt = MKT_MAP[market]
-        from futuquant.common.pb.Qot_ReqTradeDate_pb2 import Request
+        from futuquant.common.pb.Qot_GetTradeDate_pb2 import Request
         req = Request()
         req.c2s.market = mkt
         req.c2s.beginTime = start_date
         req.c2s.endTime = end_date
 
-        return pack_pb_req(req, ProtoId.Qot_ReqTradeDate, conn_id)
+        return pack_pb_req(req, ProtoId.Qot_GetTradeDate, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -109,7 +109,7 @@ class TradeDayQuery:
         if ret_type != RET_OK:
             return RET_ERROR, ret_msg, None
 
-        raw_trading_day_list = rsp_pb.s2c.tradeDate
+        raw_trading_day_list = rsp_pb.s2c.tradeDateList
         # convert to list format that we use
         trading_day_list = [x.time.split()[0] for x in raw_trading_day_list]
 
@@ -137,12 +137,12 @@ class StockBasicInfoQuery:
                                            % (stock_type, ",".join([x for x in SEC_TYPE_MAP]))
             return RET_ERROR, error_str, None
 
-        from futuquant.common.pb.Qot_ReqStockList_pb2 import Request
+        from futuquant.common.pb.Qot_GetStaticInfo_pb2 import Request
         req = Request()
         req.c2s.market = MKT_MAP[market]
         req.c2s.secType = SEC_TYPE_MAP[stock_type]
 
-        return pack_pb_req(req, ProtoId.Qot_ReqStockList, conn_id)
+        return pack_pb_req(req, ProtoId.Qot_GetStaticInfo, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -153,11 +153,11 @@ class StockBasicInfoQuery:
         if ret_type != RET_OK:
             return RET_ERROR, ret_msg, None
 
-        raw_basic_info_list = rsp_pb.s2c.staticInfo
+        raw_basic_info_list = rsp_pb.s2c.staticInfoList
 
         basic_info_list = [{
-            "code": merge_qot_mkt_stock_str(record.basic.stock.market,
-                                            record.basic.stock.code),
+            "code": merge_qot_mkt_stock_str(record.basic.security.market,
+                                            record.basic.security.code),
             "stock_id": record.basic.id,
             "name": record.basic.name,
             "lot_size": record.basic.lotSize,
@@ -166,8 +166,8 @@ class StockBasicInfoQuery:
             "stock_child_type": QUOTE.REV_WRT_TYPE_MAP[record.warrantExData.type]
                 if record.warrantExData.type in QUOTE.REV_WRT_TYPE_MAP else WrtType.NONE,
             "stock_owner":merge_qot_mkt_stock_str(
-                    record.warrantExData.ownerStock.market,
-                    record.warrantExData.ownerStock.code) if record.HasField('warrantExData') else "",
+                    record.warrantExData.owner.market,
+                    record.warrantExData.owner.code) if record.HasField('warrantExData') else "",
             "listing_date": record.basic.listTime,
         } for record in raw_basic_info_list]
         return RET_OK, "", basic_info_list
@@ -201,14 +201,14 @@ class MarketSnapshotQuery:
             error_str = '\n'.join([x[1] for x in failure_tuple_list])
             return RET_ERROR, error_str, None
 
-        from futuquant.common.pb.Qot_ReqStockSnapshot_pb2 import Request
+        from futuquant.common.pb.Qot_GetSecuritySnapshot_pb2 import Request
         req = Request()
         for market, code in stock_tuple_list:
-            stock_inst = req.c2s.stock.add()
+            stock_inst = req.c2s.securityList.add()
             stock_inst.market = market
             stock_inst.code = code
 
-        return pack_pb_req(req, ProtoId.Qot_ReqStockSnapshot, conn_id)
+        return pack_pb_req(req, ProtoId.Qot_GetSecuritySnapshot, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -219,12 +219,12 @@ class MarketSnapshotQuery:
         if ret_type != RET_OK:
             return RET_ERROR, ret_msg, None
 
-        raw_snapshot_list = rsp_pb.s2c.snapshot
+        raw_snapshot_list = rsp_pb.s2c.snapshotList
         snapshot_list = []
         for record in raw_snapshot_list:
             snapshot_tmp = {}
             snapshot_tmp['code'] = merge_qot_mkt_stock_str(
-                int(record.basic.stock.market), record.basic.stock.code)
+                int(record.basic.security.market), record.basic.security.code)
             snapshot_tmp['update_time'] = record.basic.updateTime
             snapshot_tmp['last_price'] = record.basic.curPrice
             snapshot_tmp['open_price'] = record.basic.openPrice
@@ -241,9 +241,9 @@ class MarketSnapshotQuery:
 
             # equityExData
             snapshot_tmp[
-                'circular_market_val'] = record.equityExData.outstandingMktVal
+                'circular_market_val'] = record.equityExData.outstandingMarketVal
             snapshot_tmp[
-                'total_market_val'] = record.equityExData.issuedMktVal
+                'total_market_val'] = record.equityExData.issuedMarketVal
             snapshot_tmp[
                 'issued_shares'] = record.equityExData.issuedShares
             snapshot_tmp['net_asset'] = record.equityExData.netAsset
@@ -272,8 +272,8 @@ class MarketSnapshotQuery:
                 snapshot_tmp[
                     'wrt_end_trade'] = record.warrantExData.endTradeTime
                 snapshot_tmp['wrt_code'] = merge_qot_mkt_stock_str(
-                    record.warrantExData.ownerStock.market,
-                    record.warrantExData.ownerStock.code)
+                    record.warrantExData.owner.market,
+                    record.warrantExData.owner.code)
                 snapshot_tmp[
                     'wrt_recovery_price'] = record.warrantExData.recoveryPrice
                 snapshot_tmp[
@@ -310,12 +310,12 @@ class RtDataQuery:
             return RET_ERROR, error_str, None
 
         market_code, stock_code = content
-        from futuquant.common.pb.Qot_ReqRT_pb2 import Request
+        from futuquant.common.pb.Qot_GetRT_pb2 import Request
         req = Request()
-        req.c2s.stock.market = market_code
-        req.c2s.stock.code = stock_code
+        req.c2s.security.market = market_code
+        req.c2s.security.code = stock_code
 
-        return pack_pb_req(req, ProtoId.Qot_ReqRT, conn_id)
+        return pack_pb_req(req, ProtoId.Qot_GetRT, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -326,10 +326,10 @@ class RtDataQuery:
         if ret_type != RET_OK:
             return RET_ERROR, ret_msg, None
 
-        raw_rt_data_list = rsp_pb.s2c.rt
+        raw_rt_data_list = rsp_pb.s2c.rtList
         rt_list = [
             {
-                "code": merge_qot_mkt_stock_str(rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code),
+                "code": merge_qot_mkt_stock_str(rsp_pb.s2c.security.market, rsp_pb.s2c.security.code),
                 "time": record.time,
                 "is_blank":  True if record.isBlank else False,
                 "opened_mins": record.minute,
@@ -354,12 +354,12 @@ class SubplateQuery:
     @classmethod
     def pack_req(cls, market, plate_class, conn_id):
 
-        from futuquant.common.pb.Qot_ReqPlateSet_pb2 import Request
+        from futuquant.common.pb.Qot_GetPlateSet_pb2 import Request
         req = Request()
         req.c2s.market = MKT_MAP[market]
         req.c2s.plateSetType = PLATE_CLASS_MAP[plate_class]
 
-        return pack_pb_req(req, ProtoId.Qot_ReqPlateSet, conn_id)
+        return pack_pb_req(req, ProtoId.Qot_GetPlateSet, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -402,12 +402,12 @@ class PlateStockQuery:
             error_str = ERROR_STR_PREFIX + "market is %s, which is not valid. (%s)" \
                                            % (market, ",".join([x for x in MKT_MAP]))
             return RET_ERROR, error_str, None
-        from futuquant.common.pb.Qot_ReqPlateStock_pb2 import Request
+        from futuquant.common.pb.Qot_GetPlateSecurity_pb2 import Request
         req = Request()
         req.c2s.plate.market = market
         req.c2s.plate.code = code
 
-        return pack_pb_req(req, ProtoId.Qot_ReqPlateStock, conn_id)
+        return pack_pb_req(req, ProtoId.Qot_GetPlateSecurity, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -415,7 +415,7 @@ class PlateStockQuery:
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
 
-        raw_stock_list = rsp_pb.s2c.staticInfo
+        raw_stock_list = rsp_pb.s2c.staticInfoList
 
         stock_list = []
         for record in raw_stock_list:
@@ -425,8 +425,8 @@ class PlateStockQuery:
             stock_tmp['code'] = merge_qot_mkt_stock_str(record.basic.stock.market, record.basic.stock.code)
             stock_tmp['stock_name'] = record.basic.name
             stock_tmp['stock_owner'] = merge_qot_mkt_stock_str(
-                record.warrantExData.ownerStock.market,
-                record.warrantExData.ownerStock.code) if record.HasField('warrantExData') else ""
+                record.warrantExData.owner.market,
+                record.warrantExData.owner.code) if record.HasField('warrantExData') else ""
             stock_tmp['list_time'] = record.basic.listTime
             stock_tmp['stock_child_type'] = QUOTE.REV_WRT_TYPE_MAP[
                 record.warrantExData.type] if record.HasField('warrantExData') else ""
@@ -453,40 +453,43 @@ class BrokerQueueQuery:
             return RET_ERROR, error_str, None
 
         market, code = content
-        from futuquant.common.pb.Qot_ReqBroker_pb2 import Request
+        from futuquant.common.pb.Qot_GetBroker_pb2 import Request
         req = Request()
-        req.c2s.stock.market = market
-        req.c2s.stock.code = code
+        req.c2s.security.market = market
+        req.c2s.security.code = code
 
-        return pack_pb_req(req, ProtoId.Qot_ReqBroker, conn_id)
+        return pack_pb_req(req, ProtoId.Qot_GetBroker, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
 
         if rsp_pb.retType != RET_OK:
-            return RET_ERROR, rsp_pb.retMsg, None
+            return RET_ERROR, rsp_pb.retMsg, (None, None, None)
 
-        raw_broker_bid = rsp_pb.s2c.brokerBid
+        stock_code = merge_qot_mkt_stock_str(rsp_pb.s2c.security.market,
+                                     rsp_pb.s2c.security.code)
+
+        raw_broker_bid = rsp_pb.s2c.brokerBidList
         bid_list = []
         if raw_broker_bid is not None:
             bid_list = [{
                 "bid_broker_id": record.id,
                 "bid_broker_name": record.name,
                 "bid_broker_pos": record.pos,
-                "code": merge_qot_mkt_stock_str(rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code)
+                "code": merge_qot_mkt_stock_str(rsp_pb.s2c.security.market, rsp_pb.s2c.security.code)
             } for record in raw_broker_bid]
 
-        raw_broker_ask = rsp_pb.s2c.brokerAsk
+        raw_broker_ask = rsp_pb.s2c.brokerAskList
         ask_list = []
         if raw_broker_ask is not None:
             ask_list = [{
                 "ask_broker_id": record.id,
                 "ask_broker_name": record.name,
                 "ask_broker_pos": record.pos,
-                "code": merge_qot_mkt_stock_str(rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code)
+                "code": merge_qot_mkt_stock_str(rsp_pb.s2c.security.market, rsp_pb.s2c.security.code)
             } for record in raw_broker_ask]
 
-        return RET_OK, bid_list, ask_list
+        return RET_OK, "", (stock_code, bid_list, ask_list)
 
 
 class HistoryKlineQuery:
@@ -519,13 +522,13 @@ class HistoryKlineQuery:
                                            % (autype, ", ".join([str(x) for x in AUTYPE_MAP]))
             return RET_ERROR, error_str, None
 
-        from futuquant.common.pb.Qot_HistoryKL_pb2 import Request
+        from futuquant.common.pb.Qot_GetHistoryKL_pb2 import Request
 
         req = Request()
         req.c2s.rehabType = AUTYPE_MAP[autype]
         req.c2s.klType = KTYPE_MAP[ktype]
-        req.c2s.stock.market = market_code
-        req.c2s.stock.code = stock_code
+        req.c2s.security.market = market_code
+        req.c2s.security.code = stock_code
         if start_date:
             req.c2s.beginTime = start_date
         if end_date:
@@ -533,7 +536,7 @@ class HistoryKlineQuery:
         req.c2s.maxAckKLNum = max_num
         req.c2s.needKLFieldsFlag = KL_FIELD.kl_fields_to_flag_val(fields)
 
-        return pack_pb_req(req, ProtoId.Qot_ReqHistoryKL, conn_id)
+        return pack_pb_req(req, ProtoId.Qot_GetHistoryKL, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -547,12 +550,12 @@ class HistoryKlineQuery:
             has_next = True
             next_time = rsp_pb.s2c.nextKLTime
 
-        stock_code = merge_qot_mkt_stock_str(rsp_pb.s2c.stock.market,
-                                     rsp_pb.s2c.stock.code)
+        stock_code = merge_qot_mkt_stock_str(rsp_pb.s2c.security.market,
+                                     rsp_pb.s2c.security.code)
 
         list_ret = []
         dict_data = {}
-        raw_kline_list = rsp_pb.s2c.kl
+        raw_kline_list = rsp_pb.s2c.klList
         for record in raw_kline_list:
             dict_data['code'] = stock_code
             dict_data['time_key'] = record.time
@@ -610,14 +613,14 @@ class ExrightQuery:
         if len(failure_tuple_list) > 0:
             error_str = '\n'.join([x[1] for x in failure_tuple_list])
             return RET_ERROR, error_str, None
-        from futuquant.common.pb.Qot_ReqRehab_pb2 import Request
+        from futuquant.common.pb.Qot_GetRehab_pb2 import Request
         req = Request()
         for market_code, stock_code in stock_tuple_list:
-            stock_inst = req.c2s.stock.add()
+            stock_inst = req.c2s.security.add()
             stock_inst.market = market_code
             stock_inst.code = stock_code
 
-        return pack_pb_req(req, ProtoId.Qot_ReqRehab, conn_id)
+        return pack_pb_req(req, ProtoId.Qot_GetRehab, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -635,11 +638,11 @@ class ExrightQuery:
             DIVIDED = 64
             SP_DIVIDED = 128
 
-        raw_exr_list = rsp_pb.s2c.stockRehab
+        raw_exr_list = rsp_pb.s2c.securityRehabList
         exr_list = []
         for stock_rehab in raw_exr_list:
-            code = merge_qot_mkt_stock_str(stock_rehab.stock.market,
-                                        stock_rehab.stock.code)
+            code = merge_qot_mkt_stock_str(stock_rehab.security.market,
+                                        stock_rehab.security.code)
             for rehab in stock_rehab.rehab:
                 stock_rehab_tmp = {}
                 stock_rehab_tmp['code'] = code
@@ -654,7 +657,7 @@ class ExrightQuery:
                     continue
 
                 if act_flag & KLRehabFlag.SP_DIVIDED:
-                    stock_rehab_tmp['special_dividend'] = rehab.spDivident
+                    stock_rehab_tmp['special_dividend'] = rehab.spDividend
                 if act_flag & KLRehabFlag.DIVIDED:
                     stock_rehab_tmp['per_cash_div'] = rehab.dividend
                 if act_flag & KLRehabFlag.ADD:
@@ -703,11 +706,11 @@ class SubscriptionQuery:
         from futuquant.common.pb.Qot_Sub_pb2 import Request
         req = Request()
         for market_code, stock_code in stock_tuple_list:
-            stock_inst = req.c2s.stock.add()
+            stock_inst = req.c2s.securityList.add()
             stock_inst.code = stock_code
             stock_inst.market = market_code
         for subtype in subtype_list:
-            req.c2s.subType.append(SUBTYPE_MAP[subtype])
+            req.c2s.subTypeList.append(SUBTYPE_MAP[subtype])
         req.c2s.isSubOrUnSub = is_sub
 
         return pack_pb_req(req, ProtoId.Qot_Sub, conn_id)
@@ -740,11 +743,11 @@ class SubscriptionQuery:
     @classmethod
     def pack_subscription_query_req(cls, is_all_conn, conn_id):
 
-        from futuquant.common.pb.Qot_ReqSubInfo_pb2 import Request
+        from futuquant.common.pb.Qot_GetSubInfo_pb2 import Request
         req = Request()
         req.c2s.isReqAllConn = is_all_conn
 
-        return pack_pb_req(req, ProtoId.Qot_ReqSubInfo, conn_id)
+        return pack_pb_req(req, ProtoId.Qot_GetSubInfo, conn_id)
 
     @classmethod
     def unpack_subscription_query_rsp(cls, rsp_pb):
@@ -756,12 +759,12 @@ class SubscriptionQuery:
         result['total_used'] = raw_sub_info.totalUsedQuota
         result['remain'] = raw_sub_info.remainQuota
         result['conn_sub_list'] = []
-        for conn_sub_info in raw_sub_info.connSubInfo:
+        for conn_sub_info in raw_sub_info.connSubInfoList:
             conn_sub_info_tmp = {}
             conn_sub_info_tmp['used'] = conn_sub_info.usedQuota
             conn_sub_info_tmp['is_own_conn'] = conn_sub_info.isOwnConnData
             conn_sub_info_tmp['sub_list'] = []
-            for sub_info in conn_sub_info.subInfo:
+            for sub_info in conn_sub_info.subInfoList:
                 sub_info_tmp = {}
                 if sub_info.subType not in QUOTE.REV_SUBTYPE_MAP:
                     logger.error("error subtype:{}".format(sub_info.subType))
@@ -791,11 +794,11 @@ class SubscriptionQuery:
         from futuquant.common.pb.Qot_RegQotPush_pb2 import Request
         req = Request()
         for market_code, stock_code in stock_tuple_list:
-            stock_inst = req.c2s.stock.add()
+            stock_inst = req.c2s.securityList.add()
             stock_inst.code = stock_code
             stock_inst.market = market_code
         for subtype in subtype_list:
-            req.c2s.subType.append(SUBTYPE_MAP[subtype])
+            req.c2s.subTypeList.append(SUBTYPE_MAP[subtype])
         req.c2s.isRegOrUnReg = is_push
 
         return pack_pb_req(req, ProtoId.Qot_RegQotPush, conn_id)
@@ -838,24 +841,24 @@ class StockQuoteQuery:
             error_str = '\n'.join([x[1] for x in failure_tuple_list])
             return RET_ERROR, error_str, None
 
-        from futuquant.common.pb.Qot_ReqStockBasic_pb2 import Request
+        from futuquant.common.pb.Qot_GetBasicQot_pb2 import Request
         req = Request()
         for market_code, stock_code in stock_tuple_list:
-            stock_inst = req.c2s.stock.add()
+            stock_inst = req.c2s.securityList.add()
             stock_inst.market = market_code
             stock_inst.code = stock_code
 
-        return pack_pb_req(req, ProtoId.Qot_ReqStockBasic, conn_id)
+        return pack_pb_req(req, ProtoId.Qot_GetBasicQot, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
 
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, []
-        raw_quote_list = rsp_pb.s2c.stockBasic
+        raw_quote_list = rsp_pb.s2c.basicQotList
 
         quote_list = [{
-            'code': merge_qot_mkt_stock_str(int(record.stock.market), record.stock.code),
+            'code': merge_qot_mkt_stock_str(int(record.security.market), record.security.code),
             'data_date': record.updateTime.split()[0],
             'data_time': record.updateTime.split()[1],
             'last_price': record.curPrice,
@@ -899,13 +902,13 @@ class TickerQuery:
             return RET_ERROR, error_str, None
 
         market_code, stock_code = content
-        from futuquant.common.pb.Qot_ReqTicker_pb2 import Request
+        from futuquant.common.pb.Qot_GetTicker_pb2 import Request
         req = Request()
-        req.c2s.stock.market = market_code
-        req.c2s.stock.code = stock_code
+        req.c2s.security.market = market_code
+        req.c2s.security.code = stock_code
         req.c2s.maxRetNum = num
 
-        return pack_pb_req(req, ProtoId.Qot_ReqTicker, conn_id)
+        return pack_pb_req(req, ProtoId.Qot_GetTicker, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -913,9 +916,9 @@ class TickerQuery:
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
 
-        stock_code = merge_qot_mkt_stock_str(rsp_pb.s2c.stock.market,
-                                     rsp_pb.s2c.stock.code)
-        raw_ticker_list = rsp_pb.s2c.ticker
+        stock_code = merge_qot_mkt_stock_str(rsp_pb.s2c.security.market,
+                                     rsp_pb.s2c.security.code)
+        raw_ticker_list = rsp_pb.s2c.tickerList
         ticker_list = [{
             "code": stock_code,
             "time": record.time,
@@ -962,15 +965,15 @@ class CurKlineQuery:
         if num < 0:
             error_str = ERROR_STR_PREFIX + "num is %s, which is less than 0" % num
             return RET_ERROR, error_str, None
-        from futuquant.common.pb.Qot_ReqKL_pb2 import Request
+        from futuquant.common.pb.Qot_GetKL_pb2 import Request
         req = Request()
-        req.c2s.stock.market = market_code
-        req.c2s.stock.code = stock_code
+        req.c2s.security.market = market_code
+        req.c2s.security.code = stock_code
         req.c2s.rehabType = AUTYPE_MAP[autype]
         req.c2s.reqNum = num
         req.c2s.klType = KTYPE_MAP[ktype]
 
-        return pack_pb_req(req, ProtoId.Qot_ReqKL, conn_id)
+        return pack_pb_req(req, ProtoId.Qot_GetKL, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -978,9 +981,9 @@ class CurKlineQuery:
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, []
 
-        stock_code = merge_qot_mkt_stock_str(rsp_pb.s2c.stock.market,
-                                     rsp_pb.s2c.stock.code)
-        raw_kline_list = rsp_pb.s2c.rt
+        stock_code = merge_qot_mkt_stock_str(rsp_pb.s2c.security.market,
+                                     rsp_pb.s2c.security.code)
+        raw_kline_list = rsp_pb.s2c.klList
         kline_list = [{
             "code": stock_code,
             "time_key": record.time,
@@ -1017,9 +1020,9 @@ class CurKlinePush:
         if not kl_type:
             return RET_ERROR, "kline push error kltype", None
 
-        stock_code = merge_qot_mkt_stock_str(rsp_pb.s2c.stock.market,
-                                     rsp_pb.s2c.stock.code)
-        raw_kline_list = rsp_pb.s2c.kl
+        stock_code = merge_qot_mkt_stock_str(rsp_pb.s2c.security.market,
+                                     rsp_pb.s2c.security.code)
+        raw_kline_list = rsp_pb.s2c.klList
         kline_list = [{
                           "k_type": kl_type,
                           "code": stock_code,
@@ -1055,13 +1058,13 @@ class OrderBookQuery:
             return RET_ERROR, error_str, None
 
         market_code, stock_code = content
-        from futuquant.common.pb.Qot_ReqOrderBook_pb2 import Request
+        from futuquant.common.pb.Qot_GetOrderBook_pb2 import Request
         req = Request()
-        req.c2s.stock.market = market_code
-        req.c2s.stock.code = stock_code
+        req.c2s.security.market = market_code
+        req.c2s.security.code = stock_code
         req.c2s.num = 10
 
-        return pack_pb_req(req, ProtoId.Qot_ReqOrderBook, conn_id)
+        return pack_pb_req(req, ProtoId.Qot_GetOrderBook, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -1069,11 +1072,11 @@ class OrderBookQuery:
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, []
 
-        raw_order_book_ask = rsp_pb.s2c.orderBookAsk
-        raw_order_book_bid = rsp_pb.s2c.orderBookBid
+        raw_order_book_ask = rsp_pb.s2c.orderBookAskList
+        raw_order_book_bid = rsp_pb.s2c.orderBookBidList
 
         order_book = {}
-        order_book['code'] = merge_qot_mkt_stock_str(rsp_pb.s2c.stock.market, rsp_pb.s2c.stock.code),
+        order_book['code'] = merge_qot_mkt_stock_str(rsp_pb.s2c.security.market, rsp_pb.s2c.security.code),
         order_book['Bid'] = []
         order_book['Ask'] = []
 
@@ -1106,18 +1109,18 @@ class SuspensionQuery:
             else:
                 list_req_stock.append(content)
 
-        from futuquant.common.pb.Qot_ReqSuspend_pb2 import Request
+        from futuquant.common.pb.Qot_GetSuspend_pb2 import Request
         req = Request()
         if start:
             req.c2s.beginTime = start
         if end:
             req.c2s.endTime = end
         for market, code in list_req_stock:
-            stock_inst = req.c2s.stock.add()
+            stock_inst = req.c2s.securityList.add()
             stock_inst.market = market
             stock_inst.code = code
 
-        return pack_pb_req(req, ProtoId.Qot_ReqSuspend, conn_id)
+        return pack_pb_req(req, ProtoId.Qot_GetSuspend, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -1126,9 +1129,9 @@ class SuspensionQuery:
             return RET_ERROR, rsp_pb.retMsg, None
 
         ret_susp_list = []
-        for record in rsp_pb.s2c.stockSuspendList:
+        for record in rsp_pb.s2c.SecuritySuspendList:
             suspend_info_tmp = {}
-            code = merge_qot_mkt_stock_str(record.stock.market, record.stock.code)
+            code = merge_qot_mkt_stock_str(record.security.market, record.security.code)
             for suspend_info in record.suspendList:
                 suspend_info_tmp['code'] = code
                 suspend_info_tmp['suspension_dates'] = suspend_info.time
@@ -1148,10 +1151,10 @@ class GlobalStateQuery:
     @classmethod
     def pack_req(cls,user_id, conn_id):
 
-        from futuquant.common.pb.GlobalState_pb2 import Request
+        from futuquant.common.pb.GetGlobalState_pb2 import Request
         req = Request()
         req.c2s.userID = user_id
-        return pack_pb_req(req, ProtoId.GlobalState, conn_id)
+        return pack_pb_req(req, ProtoId.GetGlobalState, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -1257,21 +1260,21 @@ class MultiPointsHisKLine:
                                            % (autype, ", ".join([str(x) for x in AUTYPE_MAP]))
             return RET_ERROR, error_str, None
 
-        from futuquant.common.pb.Qot_HistoryKLPoints_pb2 import Request
+        from futuquant.common.pb.Qot_GetHistoryKLPoints_pb2 import Request
         req = Request()
         req.c2s.needKLFieldsFlag = KL_FIELD.kl_fields_to_flag_val(fields)
         req.c2s.rehabType = AUTYPE_MAP[autype]
         req.c2s.klType = KTYPE_MAP[ktype]
         req.c2s.noDataMode = no_data_mode
-        req.c2s.maxReqStockNum = max_req
+        req.c2s.maxReqSecurityNum = max_req
         for market_code, code in list_req_stock:
-            stock_inst = req.c2s.stock.add()
+            stock_inst = req.c2s.securityList.add()
             stock_inst.market = market_code
             stock_inst.code = code
         for date_ in dates:
-            req.c2s.time.append(date_)
+            req.c2s.timeList.append(date_)
 
-        return pack_pb_req(req, ProtoId.Qot_ReqHistoryKLPoints, conn_id)
+        return pack_pb_req(req, ProtoId.Qot_GetHistoryKLPoints, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -1284,12 +1287,12 @@ class MultiPointsHisKLine:
 
         list_ret = []
         dict_data = {}
-        raw_kline_points = rsp_pb.s2c.klPoints
+        raw_kline_points = rsp_pb.s2c.klPointList
 
         for raw_kline in raw_kline_points:
-            code = merge_qot_mkt_stock_str(raw_kline.stock.market,
-                                         raw_kline.stock.code)
-            for raw_kl in raw_kline.kl:
+            code = merge_qot_mkt_stock_str(raw_kline.security.market,
+                                         raw_kline.security.code)
+            for raw_kl in raw_kline.klList:
                 dict_data['code'] = code
                 dict_data['time_point'] = raw_kl.reqTime
                 dict_data['data_status'] = QUOTE.REV_KLDATA_STATUS_MAP[raw_kl.status] if raw_kl.status in QUOTE.REV_KLDATA_STATUS_MAP else KLDataStatus.NONE
