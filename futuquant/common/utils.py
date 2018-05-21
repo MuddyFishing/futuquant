@@ -231,7 +231,7 @@ class ProtobufMap(dict):
         ProtobufMap.created_protobuf_map[ProtoId.GetGlobalState] = Response()
 
         """ Notify = 1003  # 通知推送 """
-        from futuquant.common.pb.Notify import Response
+        from futuquant.common.pb.Notify_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Notify] = Response()
 
         """ HeartBeat = 1004  # 通知推送 """

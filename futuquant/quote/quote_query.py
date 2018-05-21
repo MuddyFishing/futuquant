@@ -367,7 +367,7 @@ class SubplateQuery:
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
 
-        raw_plate_list = rsp_pb.s2c.plateInfo
+        raw_plate_list = rsp_pb.s2c.plateInfoList
 
         plate_list = [{
             "code": merge_qot_mkt_stock_str(record.plate.market, record.plate.code),
@@ -422,7 +422,7 @@ class PlateStockQuery:
             stock_tmp = {}
             stock_tmp['stock_id'] = record.basic.id
             stock_tmp['lot_size'] = record.basic.lotSize
-            stock_tmp['code'] = merge_qot_mkt_stock_str(record.basic.stock.market, record.basic.stock.code)
+            stock_tmp['code'] = merge_qot_mkt_stock_str(record.basic.security.market, record.basic.security.code)
             stock_tmp['stock_name'] = record.basic.name
             stock_tmp['stock_owner'] = merge_qot_mkt_stock_str(
                 record.warrantExData.owner.market,
@@ -616,7 +616,7 @@ class ExrightQuery:
         from futuquant.common.pb.Qot_GetRehab_pb2 import Request
         req = Request()
         for market_code, stock_code in stock_tuple_list:
-            stock_inst = req.c2s.security.add()
+            stock_inst = req.c2s.securityList.add()
             stock_inst.market = market_code
             stock_inst.code = stock_code
 

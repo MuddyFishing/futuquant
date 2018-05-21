@@ -345,7 +345,7 @@ class PriceRegularMode(object):
 
 class ProtoId(object):
     InitConnect = 1001  # 初始化连接
-    GlobalState = 1002  # 获取全局状态
+    GetGlobalState = 1002  # 获取全局状态
     Notify = 1003  # 通知推送
     HeartBeat = 1004  # 通知推送
 
