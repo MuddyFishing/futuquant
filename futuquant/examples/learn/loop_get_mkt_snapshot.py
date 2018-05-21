@@ -40,7 +40,7 @@ def loop_get_mkt_snapshot(api_svr_ip, api_svr_port, market):
         ret_code, ret_data = quote_ctx.get_market_snapshot(stock_codes[i:i + 200])
         if ret_code != 0:
             print(ret_data)
-        time.sleep(5)
+        time.sleep(3)
 
     quote_ctx.close()
 
@@ -49,5 +49,5 @@ if __name__ == "__main__":
     ip = '127.0.0.1'
     port = 11111
 
-    for mkt in [ ft.Market.US, ft.Market.HK,ft.Market.SZ, ft.Market.SH]:
+    for mkt in [ft.Market.HK, ft.Market.US, ft.Market.SZ, ft.Market.SH]:
         loop_get_mkt_snapshot(ip, port, mkt)

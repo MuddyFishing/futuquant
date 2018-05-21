@@ -141,8 +141,8 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                 else:
                     logger.error(msg_decrypt)
 
-            if len(self.__recv_buf):
-                logger.debug("left len = {} data={}".format(len(self.__recv_buf), self.__recv_buf))
+            # if len(self.__recv_buf):
+            #   logger.debug("left len = {} data={}".format(len(self.__recv_buf), self.__recv_buf))
 
         except Exception as e:
             if isinstance(e, IOError) and e.errno == 10035:
