@@ -643,7 +643,7 @@ class ExrightQuery:
         for stock_rehab in raw_exr_list:
             code = merge_qot_mkt_stock_str(stock_rehab.security.market,
                                         stock_rehab.security.code)
-            for rehab in stock_rehab.rehab:
+            for rehab in stock_rehab.rehabList:
                 stock_rehab_tmp = {}
                 stock_rehab_tmp['code'] = code
                 stock_rehab_tmp['ex_div_date'] = rehab.time.split()[0]
