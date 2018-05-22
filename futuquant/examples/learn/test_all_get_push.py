@@ -83,7 +83,7 @@ class BrokerTest(BrokerHandlerBase):
             print("* BrokerTest: error, msg: %s " % content)
             return RET_ERROR, content
 
-		print("* BrokerTest code \n", stock_code)
+        print("* BrokerTest code \n", stock_code)
         print("* BrokerTest bid \n", content[0])
         print("* BrokerTest ask \n", content[1])
         return RET_OK, content

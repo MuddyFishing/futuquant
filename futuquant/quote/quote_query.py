@@ -464,7 +464,7 @@ class BrokerQueueQuery:
     def unpack_rsp(cls, rsp_pb):
 
         if rsp_pb.retType != RET_OK:
-            return RET_ERROR, rsp_pb.retMsg, (None, None, None)
+            return RET_ERROR, rsp_pb.retMsg, None
 
         stock_code = merge_qot_mkt_stock_str(rsp_pb.s2c.security.market,
                                      rsp_pb.s2c.security.code)

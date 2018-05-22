@@ -436,10 +436,11 @@ class OpenQuoteContext(OpenContextBase):
             "conn_id": self.get_sync_conn_id()
         }
 
-        ret_code, ret_msg, (_, bid_list, ask_list) = query_processor(**kargs)
+        ret_code, ret_msg, content = query_processor(**kargs)
         if ret_code != RET_OK:
             return ret_code, ret_msg, ret_msg
 
+        (_, bid_list, ask_list) = content
         col_bid_list = [
             'code', 'bid_broker_id', 'bid_broker_name', 'bid_broker_pos'
         ]
