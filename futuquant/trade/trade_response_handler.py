@@ -22,10 +22,6 @@ class TradeOrderHandlerBase(RspHandlerBase):
             trade_frame_table = pd.DataFrame([order_dict], columns=col_list)
             return RET_OK, trade_frame_table
 
-    def on_error(self, error_str):
-        """error callback function"""
-        return error_str
-
 
 class TradeDealHandlerBase(RspHandlerBase):
     """sys notify"""
@@ -44,11 +40,6 @@ class TradeDealHandlerBase(RspHandlerBase):
 
             trade_frame_table = pd.DataFrame([deal_dict], columns=col_list)
             return RET_OK, trade_frame_table
-
-
-    def on_error(self, error_str):
-        """error callback function"""
-        return error_str
 
 
 class AsyncHandler_TrdSubAccPush(RspHandlerBase):

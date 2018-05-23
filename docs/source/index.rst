@@ -4,28 +4,28 @@
    contain the root `toctree` directive.
 
 =================================
-FutuQuant |version| Documentation
+FutuQuant |version| 指南
 =================================
 
-This futuquant documentation.
+futuquant documentation
 
 .. toctree::
 	:caption: 基础
-	:maxdepth: 2
+	:maxdepth: 4
 	:hidden:
 
 	intro/intro
 	setup/setup
 	setup/Hist_KLine_Download_Intro
-
+	
 .. toctree::
 	:caption: API
 	:maxdepth: 4
 	:hidden:
-
-	api/Market_API_Python_Doc
-	api/Trade_API_Python_Doc
-	api/PLS_API_Intro
+	
+	api/Base_API
+	api/Quote_API
+	api/Trade_API
 
 .. toctree::
 	:caption: Q&A

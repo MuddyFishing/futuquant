@@ -10,7 +10,4 @@ class RspHandlerBase(object):
         """receive response callback function"""
         return 0, None
 
-    def on_error(self, error_str):
-        """error callback function"""
-        pass
 

@@ -25,10 +25,6 @@ class StockQuoteHandlerBase(RspHandlerBase):
 
             return RET_OK, quote_frame_table
 
-    def on_error(self, error_str):
-        """error callback function"""
-        return error_str
-
 
 class OrderBookHandlerBase(RspHandlerBase):
     """Base class for handling order book data"""
@@ -40,10 +36,6 @@ class OrderBookHandlerBase(RspHandlerBase):
             return ret_code, msg
         else:
             return ret_code, order_book
-
-    def on_error(self, error_str):
-        """error callback function"""
-        return error_str
 
 
 class CurKlineHandlerBase(RspHandlerBase):
@@ -62,10 +54,6 @@ class CurKlineHandlerBase(RspHandlerBase):
             kline_frame_table = pd.DataFrame(kline_list, columns=col_list)
 
             return RET_OK, kline_frame_table
-
-    def on_error(self, error_str):
-        """error callback function"""
-        return error_str
 
 
 class TickerHandlerBase(RspHandlerBase):
@@ -86,10 +74,6 @@ class TickerHandlerBase(RspHandlerBase):
 
             return RET_OK, ticker_frame_table
 
-    def on_error(self, error_str):
-        """error callback function"""
-        return error_str
-
 
 class RTDataHandlerBase(RspHandlerBase):
     """Base class for handling real-time data"""
@@ -108,10 +92,6 @@ class RTDataHandlerBase(RspHandlerBase):
             rt_data_table = pd.DataFrame(rt_data_list, columns=col_list)
 
             return RET_OK, rt_data_table
-
-    def on_error(self, error_str):
-        """error callback function"""
-        return error_str
 
 
 class BrokerHandlerBase(RspHandlerBase):
@@ -135,10 +115,6 @@ class BrokerHandlerBase(RspHandlerBase):
 
             return RET_OK, stock_code, [bid_frame_table, ask_frame_table]
 
-    def on_error(self, error_str):
-        """error callback function"""
-        return error_str
-
 
 class HeartBeatHandlerBase(RspHandlerBase):
     """Base class for handling Heart Beat"""
@@ -149,10 +125,6 @@ class HeartBeatHandlerBase(RspHandlerBase):
 
         return ret_code, time
 
-    def on_error(self, error_str):
-        """error callback function"""
-        return error_str
-
 
 class SysNotifyHandlerBase(RspHandlerBase):
     """sys notify"""
@@ -161,10 +133,6 @@ class SysNotifyHandlerBase(RspHandlerBase):
         ret_code, content = SysNotifyPush.unpack_rsp(rsp_pb)
 
         return ret_code, content
-
-    def on_error(self, error_str):
-        """error callback function"""
-        return error_str
 
 
 class AsyncHandler_InitConnect(RspHandlerBase):

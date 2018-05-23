@@ -112,10 +112,7 @@ class HandlerContext:
         if pre_handler is not None:
             pre_handler.on_recv_rsp(rsp_pb)
 
-        ret, result = handler.on_recv_rsp(rsp_pb)
-        if ret != RET_OK:
-            error_str = result
-            handler.on_error(error_str)
+        handler.on_recv_rsp(rsp_pb)
 
     @staticmethod
     def error_func(err_str):

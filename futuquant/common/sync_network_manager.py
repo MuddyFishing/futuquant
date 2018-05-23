@@ -164,7 +164,7 @@ class _SyncNetworkQueryCtx:
                     self._socket_lock.acquire()
                 s = sock.socket()
                 s.setsockopt(sock.SOL_SOCKET, sock.SO_REUSEADDR, 0)
-                s.setsockopt(sock.SOL_SOCKET, sock.SO_LINGER, pack("ii", 0, 0))
+                s.setsockopt(sock.SOL_SOCKET, sock.SO_LINGER, pack("ii", 1, 0))
                 s.settimeout(10)
                 self.s = s
                 self.s.connect((self.__host, self.__port))
