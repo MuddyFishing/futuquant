@@ -89,16 +89,6 @@ class BrokerTest(BrokerHandlerBase):
         return RET_OK, content
 
 
-class HeartBeatTest(HeartBeatHandlerBase):
-    """ 心跳的推送 """
-    def on_recv_rsp(self, rsp_pb):
-        """数据响应回调函数"""
-        ret_code, time = super(HeartBeatTest, self).on_recv_rsp(rsp_pb)
-        if ret_code == RET_OK:
-            print("* heart beat server time = ", time)
-        return ret_code, time
-
-
 class SysNotifyTest(SysNotifyHandlerBase):
     """sys notify"""
     def on_recv_rsp(self, rsp_pb):
@@ -145,7 +135,6 @@ def quote_test():
     quote_ctx.set_handler(TickerTest())
     quote_ctx.set_handler(OrderBookTest())
     quote_ctx.set_handler(BrokerTest())
-    quote_ctx.set_handler(HeartBeatTest())
     quote_ctx.set_handler(SysNotifyTest())
     quote_ctx.start()
 

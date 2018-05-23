@@ -11,6 +11,7 @@ from futuquant.common.handler_context import HandlerContext
 from futuquant.quote.quote_query import InitConnect
 from futuquant.quote.quote_response_handler import AsyncHandler_InitConnect
 from futuquant.quote.quote_query import GlobalStateQuery
+from futuquant.quote.quote_query import HeartBeat
 from futuquant.common.conn_mng import FutuConnMng
 import threading
 
@@ -41,7 +42,10 @@ class OpenContextBase(object):
         self._sync_connect_info = {}
         self._sync_conn_id = 0
         self._async_conn_id = 0
-        self._event_async_close = threading.Event()
+        self._event_conn_close = threading.Event()
+
+        # 心跳保持连接
+        self.__thread_heart_beat = None
 
         self._socket_reconnect_and_wait_ready()
 
@@ -130,6 +134,8 @@ class OpenContextBase(object):
         self._is_obj_closed = True
         self.stop()
 
+        self._wait_heart_beat_thread_exit()
+
         if self._thread_check_sync_sock is not None:
             self._thread_check_sync_sock.join(timeout=10)
             self._thread_check_sync_sock = None
@@ -179,12 +185,12 @@ class OpenContextBase(object):
     def _is_proc_run(self):
         return self._proc_run
 
-    def _send_sync_req(self, req_str):
+    def _send_sync_req(self, req_str, is_create_socket=True):
         """
         send a synchronous request
         """
         if self._sync_net_ctx:
-            ret, msg, content = self._sync_net_ctx.network_query(req_str)
+            ret, msg, content = self._sync_net_ctx.network_query(req_str, is_create_socket)
             if ret != RET_OK:
                 return RET_ERROR, msg, None
             return RET_OK, msg, content
@@ -199,7 +205,7 @@ class OpenContextBase(object):
             return RET_OK, ''
         return RET_ERROR, 'async_ctx is None!'
 
-    def _get_sync_query_processor(self, pack_func, unpack_func):
+    def _get_sync_query_processor(self, pack_func, unpack_func, is_create_socket=True):
         """
         synchronize the query processor
         :param pack_func: back
@@ -223,7 +229,7 @@ class OpenContextBase(object):
                 if ret_code == RET_ERROR:
                     return ret_code, msg, None
 
-                ret_code, msg, rsp_str = send_req(req_str)
+                ret_code, msg, rsp_str = send_req(req_str, is_create_socket)
                 if ret_code == RET_ERROR:
                     return ret_code, msg, None
 
@@ -244,7 +250,6 @@ class OpenContextBase(object):
 
     def on_create_sync_session(self):
 
-        logger.debug("...")
         ret = RET_OK
         msg = ""
 
@@ -278,6 +283,9 @@ class OpenContextBase(object):
         try:
             self._sync_query_lock.acquire()
 
+            # close heart beat thread
+            self._wait_heart_beat_thread_exit()
+
             # create sync socket and loop wait to connect api server
             self._thread_check_sync_sock = None
             if self._sync_net_ctx is None:
@@ -286,13 +294,19 @@ class OpenContextBase(object):
 
             # sync socket reconnect
             self._sync_net_ctx.reconnect()
-            self._event_async_close.clear()
+            self._event_conn_close.clear()
 
             # run thread to check sync socket state
             self._thread_check_sync_sock = Thread(
                     target=self._thread_check_sync_sock_fun)
             self._thread_check_sync_sock.setDaemon(True)
             self._thread_check_sync_sock.start()
+
+            # create heart beat thread
+            self.__thread_heart_beat = Thread(
+                target=self._thread_heart_beat_fun)
+            self.__thread_heart_beat.setDaemon(True)
+            self.__thread_heart_beat.start()
 
             # notify reconnected
             self.on_api_socket_reconnected()
@@ -332,7 +346,7 @@ class OpenContextBase(object):
                 break
             cur_time = time.time()
             if cur_time - last_log >= 1:
-                last_log = cur_time
+                last_log = cur_ti
                 logger.debug("wait async init conn ...")
             if cur_time - last_time > timeout:
                 break
@@ -376,17 +390,37 @@ class OpenContextBase(object):
         """
          AsyncNetworkManager onclose callback
         """
-        # auto reconnect
-        if not self._event_async_close.is_set():
-            self._event_async_close.set()
+        if async_ctx is self._async_ctx:
+            self._notify_connect_close()
+
+    def _notify_connect_close(self):
+        if self._event_conn_close and not self._event_conn_close.is_set():
+            self._event_conn_close.set()
+
+    def _thread_heart_beat_fun(self):
+        heart_thread_handle = self.__thread_heart_beat
+        timer_heart = 9.0
+        while True:
+            sleep(timer_heart)
+            if self.__thread_heart_beat is not heart_thread_handle or self._is_obj_closed or \
+                    self._is_socket_reconnecting:
+                return
+
+            ret_code, ret_msg = self._do_heart_beat()
+            if ret_code != RET_OK:
+                logger.error("heart_beat fail :{} ".format(ret_msg))
+                self._notify_connect_close()
+                return
+            else:
+                logger.debug("heart beat ok")
 
     def _thread_check_sync_sock_fun(self):
         """
         thread fun : timer to check socket state
         """
-        thread_handle = self._thread_check_sync_sock
+        check_thread_handle = self._thread_check_sync_sock
         while True:
-            if self._thread_check_sync_sock is not thread_handle:
+            if self._thread_check_sync_sock is not check_thread_handle:
                 if self._thread_check_sync_sock is None:
                     self._thread_is_exit = True
                 logger.debug('check_sync_sock thread : exit by obj changed...')
@@ -399,10 +433,10 @@ class OpenContextBase(object):
                 self._thread_is_exit = True
                 return
             # select sock to get err state
-            is_async_close = self._event_async_close.wait(0.01)
+            is_async_close = self._event_conn_close.wait(0.01)
             if is_async_close or not sync_net_ctx.is_sock_ok(0.01):
                 self._thread_is_exit = True
-                if self._thread_check_sync_sock is thread_handle and not self._is_obj_closed:
+                if self._thread_check_sync_sock is check_thread_handle and not self._is_obj_closed:
                     logger.debug("check_sync_sock thread : reconnect !")
                     self._socket_reconnect_and_wait_ready()
                 return
@@ -414,7 +448,7 @@ class OpenContextBase(object):
                     None) or (cur_time - self._check_last_req_time > 15):
                 self._check_last_req_time = cur_time
                 id_cur = id(self._thread_check_sync_sock)
-                id_old = id(thread_handle)
+                id_old = id(check_thread_handle)
                 # if id_cur == id_old:
                 #    self.get_global_state()
 
@@ -435,3 +469,28 @@ class OpenContextBase(object):
             return ret_code, msg
 
         return RET_OK, state_dict
+
+    def _do_heart_beat(self):
+
+        query_processor = self._get_sync_query_processor(
+            HeartBeat.pack_req, HeartBeat.unpack_rsp, False)
+
+        kargs = {
+            'conn_id': self.get_sync_conn_id(),
+        }
+        ret_code, msg, _ = query_processor(**kargs)
+        if ret_code != RET_OK:
+            return ret_code, msg
+
+        # 异步连接心跳
+        ret_code, msg, req = HeartBeat.pack_req(self.get_async_conn_id())
+        if ret_code == RET_OK:
+            ret_code, msg = self._send_async_req(req)
+
+        return ret_code, msg
+
+    def _wait_heart_beat_thread_exit(self):
+        if self.__thread_heart_beat is not None:
+            tmp_thread_obj = self.__thread_heart_beat
+            self.__thread_heart_beat = None
+            tmp_thread_obj.join(timeout=10)

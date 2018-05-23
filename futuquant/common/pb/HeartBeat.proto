@@ -3,9 +3,19 @@ package HeartBeat;
 
 import "Common.proto";
 
+message C2S
+{
+	required int64 time = 10; //当前格林威治时间
+}
+
 message S2C
 {
 	required int64 time = 10; //当前格林威治时间
+}
+
+message Request
+{
+	required C2S c2s = 1;
 }
 
 message Response

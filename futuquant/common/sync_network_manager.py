@@ -65,17 +65,18 @@ class _SyncNetworkQueryCtx:
         logger.debug(" ****")
         self._socket_create_and_loop_connect()
 
-    def network_query(self, req_str):
+    def network_query(self, req_str, is_create_socket=True):
         """
         the function sends req_str to FUTU client and try to get response from the client.
         :param req_str
         :return: rsp_str
         """
         try:
-            ret, msg = self._create_session()
-            self._socket_lock.acquire()
+            ret, msg = self._create_session(is_create_socket)
             if ret != RET_OK:
                 return ret, msg, None
+
+            self._socket_lock.acquire()
 
             head_len = get_message_head_len()
             req_head_dict = parse_head(req_str[:head_len])
@@ -207,9 +208,12 @@ class _SyncNetworkQueryCtx:
         self.reconnect()
         return RET_OK, ""
 
-    def _create_session(self):
+    def _create_session(self, is_create_socket):
         if self.long_conn is True and self.s is not None:
             return RET_OK, ""
+
+        if not is_create_socket:
+            return RET_ERROR, "no exist connect session"
 
         if self._create_session_handler:
             ret, msg = self._create_session_handler.on_create_sync_session()

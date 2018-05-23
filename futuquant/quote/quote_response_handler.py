@@ -121,7 +121,7 @@ class HeartBeatHandlerBase(RspHandlerBase):
 
     def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
-        ret_code, msg, time = HeartBeatPush.unpack_rsp(rsp_pb)
+        ret_code, msg, time = HeartBeat.unpack_rsp(rsp_pb)
 
         return ret_code, time
 
