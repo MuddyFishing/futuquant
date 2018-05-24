@@ -48,7 +48,8 @@ class FutuConnMng(object):
             key = FutuConnMng.get_conn_key(conn_id)
             if not key:
                 return None
-            cryptor = AES.new(key, AES.MODE_ECB, key)
+            key_tmp = bytes(str(key), encoding='utf-8')
+            cryptor = AES.new(key_tmp, AES.MODE_ECB)
             conn_info['aes_cryptor'] = cryptor
             return cryptor
 
