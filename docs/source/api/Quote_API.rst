@@ -32,22 +32,28 @@ StockQuoteHandlerBase - 实时报价回调处理类
 on_recv_rsp
 ~~~~~~~~~~~
 
-on_recv_rsp(self, rsp_pb) - 实时报价回调处理函数
-
-**描述:**：
-
-行情上下文对象订阅实时报价，继承对象，在收到实时报价推送后会回调到该函数，注意该回调是在独立子线程中
-
-**参数:**
+..  py:function:: on_recv_rsp(self, rsp_pb)
 
 
-**返回值**:
+ 行情上下文对象订阅实时报价，继承对象，在收到实时报价推送后会回调到该函数，注意该回调是在独立子线程中
 
-(ret_code, content)
+ :param rsp_pb: 数据对象 common.pb.Qot_UpdateBasicQot_pb2中的Response
 
-**示例代码:**
+ :return: (ret_code, content) 
+ 
+  ret_code 等于RET_OK时，content为Pandas.DataFrame数据, 否则为错误原因字符串, 数据列格式如下
+ 
+  =========================   =========================   ==============================================================================
+     参数                         类型                        说明
+  =========================   =========================   ==============================================================================
+  open                        float                       开盘价
+  close                       float                       收盘价
+  high                        float                       最高价
+  =========================   =========================   ==============================================================================
 
-.. code:: python
+ :example:
+
+ .. code-block:: python
 
   from futuquant import *
 	quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
@@ -63,22 +69,28 @@ OrderBookHandlerBase - 实时摆盘回调处理类
 on_recv_rsp
 ~~~~~~~~~~~
 
-on_recv_rsp(self, rsp_pb) - 实时摆盘回调处理函数
-
-**描述:**：
-
-行情上下文对象会先设置回调对象，在收到实时摆盘推送后会回调到该函数，注意该回调是在独立子线程中
-
-**参数:**
+..  py:function:: on_recv_rsp(self, rsp_pb)
 
 
-**返回值**:
+ 行情上下文对象订阅实时报价，继承对象，在收到实时报价推送后会回调到该函数，注意该回调是在独立子线程中
 
-(ret_code, content)
+ :param rsp_pb: 数据对象 common.pb.Qot_UpdateBasicQot_pb2中的Response
 
-**示例代码:**
+ :return: (ret_code, content) 
+ 
+  ret_code 等于RET_OK时， content为Pandas.DataFrame数据, 否则为错误原因字符串, 数据列格式如下
+ 
+  =========================   =========================   ==============================================================================
+     参数                         类型                        说明
+  =========================   =========================   ==============================================================================
+  open                        float                       开盘价
+  close                       float                       收盘价
+  high                        float                       最高价
+  =========================   =========================   ==============================================================================
 
-.. code:: python
+ :example:
+
+ .. code-block:: python
 
   from futuquant import *
 	quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
@@ -94,41 +106,29 @@ OpenQuoteContext - 上下文对象类
 get_stock_basicinfo - 获取股票基列表
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-get_stock_basicinfo(self, market, stock_type):
-
-**描述**：
-
-得到指定市场，指定股票类型的股票列表
-
-**参数**
-
-+-------------+------------+------------+
-| 名称        | 类型       | 说明       |
-+=============+============+============+
-| market      | str        |            |
-+-------------+------------+------------+
-| stock_type  | str        |            |
-+-------------+------------+------------+
-
-**返回值**:
-
-(ret_code, content)
-
-ret_code为RET_OK 时, content为pandas.DataFrame,否则为错误字符串
+..  py:function:: get_stock_basicinfo(self, rsp_pb)
 
 
-+-------------+------------+------------+
-| df列名      | 类型       | 说明       |
-+=============+============+============+
-| code        | str        |            |
-+-------------+------------+------------+
-| name        | str        |            |
-+-------------+------------+------------+
+ 行情上下文对象订阅实时报价，继承对象，在收到实时报价推送后会回调到该函数，注意该回调是在独立子线程中
 
+ :param rsp_pb: 数据对象 common.pb.Qot_UpdateBasicQot_pb2中的Response
+ :param rsp_pb: 数据对象 common.pb.Qot_UpdateBasicQot_pb2中的Response
+ :param rsp_pb: 数据对象 common.pb.Qot_UpdateBasicQot_pb2中的Response
+ :return: (ret_code, content) 
+ 
+  ret_code 等于RET_OK时， content为Pandas.DataFrame数据, 否则为错误原因字符串, 数据列格式如下
+ 
+  ==============   ===========   ==============================================================================
+   参数              类型                        说明
+  ==============   ===========   ==============================================================================
+  open             float         开盘价
+  close            float         收盘价
+  high             float         最高价
+  ==============   ===========   ==============================================================================
 
-**示例代码:**
+ :example:
 
-.. code:: python
+ .. code-block:: python
 
   from futuquant import *
 	quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
