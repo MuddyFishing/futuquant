@@ -38,26 +38,28 @@ on_recv_rsp
  行情上下文对象订阅实时报价，继承对象，在收到实时报价推送后会回调到该函数，注意该回调是在独立子线程中
 
  :param rsp_pb: 数据对象 common.pb.Qot_UpdateBasicQot_pb2中的Response
-
+ :param rsp_pb: 数据对象 common.pb.Qot_UpdateBasicQot_pb2中的Response
+ :param rsp_pb: 数据对象 common.pb.Qot_UpdateBasicQot_pb2中的Response
  :return: (ret_code, content) 
  
-  ret_code 等于RET_OK时，content为Pandas.DataFrame数据, 否则为错误原因字符串, 数据列格式如下
+  ret_code 等于RET_OK时， content为Pandas.DataFrame数据, 否则为错误原因字符串, 数据列格式如下
  
-  =========================   =========================   ==============================================================================
-     参数                         类型                        说明
-  =========================   =========================   ==============================================================================
-  open                        float                       开盘价
-  close                       float                       收盘价
-  high                        float                       最高价
-  =========================   =========================   ==============================================================================
+  ==============   ===========   ==============================================================================
+   参数              类型                        说明
+  ==============   ===========   ==============================================================================
+  open             float         开盘价
+  close            float         收盘价
+  high             float         最高价
+  ==============   ===========   ==============================================================================
 
  :example:
 
- .. code-block:: python
+ .. code:: python
 
   from futuquant import *
-	quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.close()
+  quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+  quote_ctx.close()
+	
 	
 ----------------------------
 
@@ -70,44 +72,6 @@ on_recv_rsp
 ~~~~~~~~~~~
 
 ..  py:function:: on_recv_rsp(self, rsp_pb)
-
-
- 行情上下文对象订阅实时报价，继承对象，在收到实时报价推送后会回调到该函数，注意该回调是在独立子线程中
-
- :param rsp_pb: 数据对象 common.pb.Qot_UpdateBasicQot_pb2中的Response
-
- :return: (ret_code, content) 
- 
-  ret_code 等于RET_OK时， content为Pandas.DataFrame数据, 否则为错误原因字符串, 数据列格式如下
- 
-  =========================   =========================   ==============================================================================
-     参数                         类型                        说明
-  =========================   =========================   ==============================================================================
-  open                        float                       开盘价
-  close                       float                       收盘价
-  high                        float                       最高价
-  =========================   =========================   ==============================================================================
-
- :example:
-
- .. code-block:: python
-
-  from futuquant import *
-	quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.close()
-	
-----------------------------
-
-OpenQuoteContext - 上下文对象类
--------------------------------------------
-
-----------------------------
-
-get_stock_basicinfo - 获取股票基列表
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
- ..  py:function:: get_stock_basicinfo(self, rsp_pb)
-
 
  行情上下文对象订阅实时报价，继承对象，在收到实时报价推送后会回调到该函数，注意该回调是在独立子线程中
 
@@ -131,8 +95,45 @@ get_stock_basicinfo - 获取股票基列表
  .. code:: python
 
   from futuquant import *
-	quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.close()
+  quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+  quote_ctx.close()
+		
+----------------------------
+
+OpenQuoteContext - 上下文对象类
+-------------------------------------------
+
+----------------------------
+
+get_stock_basicinfo - 获取股票基列表
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: get_stock_basicinfo(self, rsp_pb)
+
+ 行情上下文对象订阅实时报价，继承对象，在收到实时报价推送后会回调到该函数，注意该回调是在独立子线程中
+
+ :param rsp_pb: 数据对象 common.pb.Qot_UpdateBasicQot_pb2中的Response
+ :param rsp_pb: 数据对象 common.pb.Qot_UpdateBasicQot_pb2中的Response
+ :param rsp_pb: 数据对象 common.pb.Qot_UpdateBasicQot_pb2中的Response
+ :return: (ret_code, content) 
+ 
+  ret_code 等于RET_OK时， content为Pandas.DataFrame数据, 否则为错误原因字符串, 数据列格式如下
+ 
+  ==============   ===========   ==============================================================================
+   参数              类型                        说明
+  ==============   ===========   ==============================================================================
+  open             float         开盘价
+  close            float         收盘价
+  high             float         最高价
+  ==============   ===========   ==============================================================================
+
+ :example:
+
+ .. code:: python
+
+  from futuquant import *
+  quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+  quote_ctx.close()
 	
 ---------------------------------------------------------------------
 	
