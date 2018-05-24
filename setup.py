@@ -47,5 +47,8 @@ setup(
 			"numpy",
 			"matplotlib",
 			"psutil",
+			"simplejson",
+			"protobuf",
+			"PyCryptodome"£¬
     ],
 )

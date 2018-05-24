@@ -6,5 +6,6 @@ matplotlib
 psutil
 simplejson
 protobuf
+PyCryptodome
 
 
