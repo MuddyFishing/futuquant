@@ -106,7 +106,7 @@ OpenQuoteContext - 上下文对象类
 get_stock_basicinfo - 获取股票基列表
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: get_stock_basicinfo(self, rsp_pb)
+ ..  py:function:: get_stock_basicinfo(self, rsp_pb)
 
 
  行情上下文对象订阅实时报价，继承对象，在收到实时报价推送后会回调到该函数，注意该回调是在独立子线程中
@@ -128,7 +128,7 @@ get_stock_basicinfo - 获取股票基列表
 
  :example:
 
- .. code-block:: python
+ .. code:: python
 
   from futuquant import *
 	quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
