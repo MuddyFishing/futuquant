@@ -72,11 +72,13 @@ class _SyncNetworkQueryCtx:
         :return: rsp_str
         """
         try:
+            is_socket_lock = False
             ret, msg = self._create_session(is_create_socket)
             if ret != RET_OK:
                 return ret, msg, None
 
             self._socket_lock.acquire()
+            is_socket_lock = True
 
             head_len = get_message_head_len()
             req_head_dict = parse_head(req_str[:head_len])
@@ -140,7 +142,8 @@ class _SyncNetworkQueryCtx:
             self._force_close_session()
             return RET_ERROR, error_str, None
         finally:
-            self._socket_lock.release()
+            if is_socket_lock:
+                self._socket_lock.release()
 
         return RET_OK, "", rsp_pb
 
@@ -199,7 +202,6 @@ class _SyncNetworkQueryCtx:
                     break
         self._is_loop_connecting = False
         if is_socket_lock:
-            # is_socket_lock = False
             self._socket_lock.release()
 
         return RET_OK, ''
