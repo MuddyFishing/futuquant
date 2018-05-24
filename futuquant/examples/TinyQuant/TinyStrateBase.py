@@ -5,11 +5,9 @@
 '''
 from abc import abstractmethod
 from datetime import datetime
-
 from .TinyDefine import *
 from .vnpyInc import *
-
-from futuquant.common.constant import PriceRegularMode
+import futuquant as ft
 
 
 class TinyStrateBase(object):
@@ -85,31 +83,33 @@ class TinyStrateBase(object):
         """日k线的array manager数据"""
         return self._quant_frame.get_kl_day_am(symbol)
 
-    def buy(self, price, volume, symbol, price_mode=PriceRegularMode.UPPER):
+    def buy(self, price, volume, symbol, order_type=ft.OrderType.NORMAL, adjust_limit=0, acc_id=0):
         """买入
         :param price: 报价，浮点数 精度0.001
         :param volume: 数量（股）
         :param symbol: 股票 eg: 'HK.00700'
-        :param price_mode: 价格依据价位表规整模式,如腾讯当前的价位差是0.2, price = 471.1, UPPER price = 471.2 LOWER price = 471.0
-        price_mode参数会调整price至符合价位的正确报价
+        :param order_type: 订单类型
+        :param adjust_limit: 当非0时，会自动调整报价，以符合价位表要求， 但不会超过指定的幅度, 为0时不调整报价
+        :param acc_id: int, 交易账户id, 为0时取第1个可交易账户
         :return: (ret, data)
         ret == 0 , data = order_id
         ret != 0 , data = 错误字符串
         """
-        return self._quant_frame.buy(price, volume, symbol, price_mode)
+        return self._quant_frame.buy(price, volume, symbol, order_type, adjust_limit, acc_id)
 
-    def sell(self, price, volume, symbol, price_mode=PriceRegularMode.LOWER):
+    def sell(self, price, volume, symbol, order_type=ft.OrderType.NORMAL, adjust_limit=0, acc_id=0):
         """卖出
         :param price: 报价，浮点数 精度0.001
         :param volume: 数量（股）
         :param symbol: 股票 eg: 'HK.00700'
-        :param price_mode: 价格依据价位表规整模式,如腾讯当前的价位差是0.2, price = 471.1, UPPER price = 471.2 LOWER price = 471.0
-        price_mode参数会调整price至符合价位的正确报价
+        :param order_type: 订单类型
+        :param adjust_limit: 当非0时，会自动调整报价，以符合价位表要求， 但不会超过指定的幅度, 为0时不调整报价
+        :param acc_id: int, 交易账户id, 为0时取第1个可交易账户
         :return: (ret, data)
         ret == 0 , data = order_id
         ret != 0 , data = 错误字符串
         """
-        return self._quant_frame.sell(price, volume, symbol, price_mode)
+        return self._quant_frame.sell(price, volume, symbol, order_type, adjust_limit, acc_id)
 
     def cancel_order(self, order_id):
         """取消订单

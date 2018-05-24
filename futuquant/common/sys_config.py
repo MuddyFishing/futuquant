@@ -16,6 +16,26 @@ class SysConfig(object):
 
     @classmethod
     def set_client_info(cls, client_id, client_ver):
+        """
+        ..  py:function:: set_client_info(cls, client_id, client_ver)
+
+        设置调用api的客户端信息, 非必调接口
+
+        :param client_id: str, 客户端标识
+        :param client_ver: int, 客户端版本号
+        :return: None
+
+        :example:
+
+        .. code:: python
+
+         from futuquant import *
+         SysConfig.set_client_info("MyFutuQuant", 0)
+         quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+         quote_ctx.close()
+
+        """
+
         SysConfig.CLINET_ID = client_id
         SysConfig.CLIENT_VER = client_ver
 
@@ -33,6 +53,25 @@ class SysConfig(object):
 
     @classmethod
     def set_proto_fmt(cls, proto_fmt):
+        """
+
+        ..  py:function:: set_proto_fmt(cls, proto_fmt)
+
+        设置通讯协议body格式, 目前支持Protobuf | Json两种格式, 非必调接口
+
+        :param proto_fmt: ProtoFMT
+        :return: None
+
+        :example:
+
+        .. code:: python
+
+         from futuquant import *
+         SysConfig.set_proto_fmt(ProtoFMT.Protobuf)
+         quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+         quote_ctx.close()
+
+        """
         fmt_list = [ProtoFMT.Protobuf, ProtoFMT.Json]
 
         if proto_fmt not in fmt_list:
@@ -40,10 +79,48 @@ class SysConfig(object):
         SysConfig.PROTO_FMT = proto_fmt
 
     @classmethod
+    def enable_proto_encrypt(cls, is_encrypt):
+        """
+        ..  py:function:: enable_proto_encrypt(cls, is_encrypt)
+
+        设置通讯协议是否加密, 网关客户端和api需配置相同的RSA私钥文件,在连接初始化成功后，网关会下发随机生成的AES 加密密钥
+
+        :param is_encrypt: bool
+        :return: None
+
+        :example:
+
+        .. code:: python
+
+         from futuquant import *
+         SysConfig.enable_proto_encrypt(True)
+         SysConfig.set_init_rsa_file("conn_key.txt")   # rsa 私钥文件路径
+         quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+         quote_ctx.close()
+
+        """
+        SysConfig.IS_PROTO_ENCRYPT = bool(is_encrypt)
+
+    @classmethod
     def set_init_rsa_file(cls, file):
         """
-        :param file:  file path for init rsa private key
-        :return:
+        ..  py:function:: set_init_rsa_file(cls, file)
+
+        设置RSA私钥文件, 要求1024位, 格式为PKCS#1
+
+        :param file:  str, 文件路径
+        :return: None
+
+        :example:
+
+        .. code:: python
+
+         from futuquant import *
+         SysConfig.enable_proto_encrypt(True)
+         SysConfig.set_init_rsa_file("conn_key.txt")   # rsa 私钥文件路径
+         quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+         quote_ctx.close()
+
         """
         SysConfig.INIT_RSA_FILE = str(file)
         pass
@@ -65,14 +142,6 @@ class SysConfig(object):
         :return: bool
         """
         return SysConfig.IS_PROTO_ENCRYPT
-
-    @classmethod
-    def enable_proto_encrypt(cls, is_encrypt):
-        """
-        :param is_encrypt: bool
-        :return:
-        """
-        SysConfig.IS_PROTO_ENCRYPT = bool(is_encrypt)
 
     @classmethod
     def _read_rsa_keys(cls):

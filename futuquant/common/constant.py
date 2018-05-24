@@ -47,6 +47,24 @@ API_PROTO_VER = int(0)
 
 # 市场标识字符串
 class Market(object):
+    """
+    标识不同的行情市场，股票名称的前缀复用该字符串,如 **'HK.00700'**, **'HK_FUTURE.999010'**
+    ..  py:class:: Market
+     ..  py:attribute:: HK
+      港股
+     ..  py:attribute:: US
+      美股
+     ..  py:attribute:: SH
+      沪市
+     ..  py:attribute:: SH
+      深市
+     ..  py:attribute:: HK_FUTURE
+      港股期货
+     ..  py:attribute:: US_OPTION
+      美股期权
+     ..  py:attribute:: NONE
+      未知
+    """
     HK = "HK"
     US = "US"
     SH = "SH"
@@ -67,6 +85,48 @@ MKT_MAP = {
 
 # 市场状态
 class MarketState:
+    """
+    行情市场状态定义
+    ..  py:class:: MarketState
+     ..  py:attribute:: NONE
+      无交易,美股未开盘
+     ..  py:attribute:: AUCTION
+      竞价
+     ..  py:attribute:: WAITING_OPEN
+      早盘前等待开盘
+     ..  py:attribute:: MORNING
+      早盘前等待开盘
+     ..  py:attribute:: REST
+      午间休市
+     ..  py:attribute:: AFTERNOON
+      午盘
+     ..  py:attribute:: CLOSED
+      收盘
+     ..  py:attribute:: PRE_MARKET_BEGIN
+      盘前开始
+     ..  py:attribute:: PRE_MARKET_END
+      盘前结束
+     ..  py:attribute:: AFTER_HOURS_BEGIN
+      盘后开始
+     ..  py:attribute:: AFTER_HOURS_END
+      盘后结束
+     ..  py:attribute:: AFTER_HOURS_END
+      盘后结束
+     ..  py:attribute:: NIGHT_OPEN
+      夜市开盘
+     ..  py:attribute:: NIGHT_END
+      夜市收盘
+     ..  py:attribute:: FUTURE_DAY_OPEN
+      期指日市开盘
+     ..  py:attribute:: FUTURE_DAY_BREAK
+      期指日市休市
+     ..  py:attribute:: FUTURE_DAY_CLOSE
+      期指日市收盘
+     ..  py:attribute:: FUTURE_DAY_WAIT_OPEN
+      期指日市等待开盘
+     ..  py:attribute:: HK_CAS
+      港股盘后竞价
+    """
     NONE = "NONE"                                   # 无交易,美股未开盘
     AUCTION = "AUCTION"                             # 竞价
     WAITING_OPEN = "WAITING_OPEN"                   # 早盘前等待开盘
@@ -111,6 +171,24 @@ MARKET_STATE_MAP = {
 
 # 股票类型
 class SecurityType(object):
+    """
+    证券类型定义
+    ..  py:class:: SecurityType
+     ..  py:attribute:: STOCK
+      股票
+     ..  py:attribute:: IDX
+      指数
+     ..  py:attribute:: ETF
+      交易所交易基金(Exchange Traded Funds)
+     ..  py:attribute:: WARRANT
+      港股涡轮牛熊证
+     ..  py:attribute:: BOND
+      债券
+     ..  py:attribute:: AFTERNOON
+      午盘
+     ..  py:attribute:: NONE
+      未知
+    """
     STOCK = "STOCK"
     IDX = "IDX"
     ETF = "ETF"
@@ -130,6 +208,20 @@ SEC_TYPE_MAP = {
 
 # 窝轮类型
 class WrtType(object):
+    """
+    港股窝轮类型
+    ..  py:class:: WrtType
+     ..  py:attribute:: CALL
+      认购
+     ..  py:attribute:: PUT
+      认沽
+     ..  py:attribute:: BULL
+      牛证
+     ..  py:attribute:: BEAR
+      熊证
+     ..  py:attribute:: NONE
+      未知
+    """
     CALL = "CALL"
     PUT = "PUT"
     BULL = "BULL"
@@ -139,8 +231,38 @@ class WrtType(object):
 WRT_TYPE_MAP = {WrtType.CALL: 1, WrtType.PUT: 2, WrtType.BULL: 3, WrtType.BEAR: 4, WrtType.NONE: 0}
 
 
-# 定阅类型
+# 实时数据定阅类型
 class SubType(object):
+    """
+    实时数据定阅类型定义
+    ..  py:class:: SubType
+     ..  py:attribute:: TICKER
+      逐笔
+     ..  py:attribute:: QUOTE
+      报价
+     ..  py:attribute:: ORDER_BOOK
+      买卖摆盘
+     ..  py:attribute:: K_1M
+      1分钟K线
+     ..  py:attribute:: K_5M
+      5分钟K线
+     ..  py:attribute:: K_15M
+      15分钟K线
+     ..  py:attribute:: K_30M
+      30分钟K线
+     ..  py:attribute:: K_60M
+      60分钟K线
+     ..  py:attribute:: K_DAY
+      日K线
+     ..  py:attribute:: K_WEEK
+      周K线
+     ..  py:attribute:: K_MON
+      月K线
+     ..  py:attribute:: RT_DATA
+      分时
+     ..  py:attribute:: BROKER
+      买卖经纪
+    """
     TICKER = "TICKER"
     QUOTE = "QUOTE"
     ORDER_BOOK = "ORDER_BOOK"
@@ -174,6 +296,26 @@ SUBTYPE_MAP = {
 
 # k线类型
 class KLType(object):
+    """
+    k线类型定义
+    ..  py:class:: KLType
+     ..  py:attribute:: K_1M
+      1分钟K线
+     ..  py:attribute:: K_5M
+      5分钟K线
+     ..  py:attribute:: K_15M
+      15分钟K线
+     ..  py:attribute:: K_30M
+      30分钟K线
+     ..  py:attribute:: K_60M
+      60分钟K线
+     ..  py:attribute:: K_DAY
+      日K线
+     ..  py:attribute:: K_WEEK
+      周K线
+     ..  py:attribute:: K_MON
+      月K线
+    """
     K_1M = "K_1M"
     K_5M = "K_5M"
     K_15M = "K_15M"
@@ -196,10 +338,23 @@ KTYPE_MAP = {
 
 
 class KLDataStatus(object):
+    """
+    指定时间点取历史k线， 获得数据的实际状态
+    ..  py:class:: KLDataStatus
+     ..  py:attribute:: NONE
+      无效数据
+     ..  py:attribute:: CURRENT
+      当前时间周期数据
+     ..  py:attribute:: PREVIOUS
+      前一时间周期数据
+     ..  py:attribute:: BACK
+      后一时间周期数据
+    """
     NONE = 'N/A'
     CURRENT = 'CURRENT'
     PREVIOUS = 'PREVIOUS'
     BACK = 'BACK'
+
 
 KLDATA_STATUS_MAP = {
     KLDataStatus.NONE: 0,
@@ -209,8 +364,18 @@ KLDATA_STATUS_MAP = {
 }
 
 
-# k线复权定义
+# k线复权
 class AuType(object):
+    """
+    k线复权类型定义
+    ..  py:class:: AuType
+     ..  py:attribute:: QFQ
+      前复权
+     ..  py:attribute:: HFQ
+      后复权
+     ..  py:attribute:: NONE
+      不复权
+    """
     QFQ = "qfq"
     HFQ = "hfq"
     NONE = "None"
@@ -220,6 +385,16 @@ AUTYPE_MAP = {AuType.NONE: 0, AuType.QFQ: 1, AuType.HFQ: 2}
 
 # 指定时间为非交易日时，对应的k线数据取值模式， get_multi_points_history_kline 参数用到
 class KLNoDataMode(object):
+    """
+    指定时间为非交易日时，对应的K线数据取值模式
+    ..  py:class:: KLNoDataMode
+     ..  py:attribute:: NONE
+      返回无数据
+     ..  py:attribute:: FORWARD
+      往前取数据
+     ..  py:attribute:: BACKWARD
+      往后取数据
+    """
     NONE = 0     # 返回无数据
     FORWARD = 1  # 往前取数据
     BACKWARD = 2  # 往后取数据
@@ -227,6 +402,34 @@ class KLNoDataMode(object):
 
 # k线数据字段
 class KL_FIELD(object):
+    """
+    获取K线数据, 可指定需返回的字段
+    ..  py:class:: KL_FIELD
+     ..  py:attribute:: ALL
+      所有字段
+     ..  py:attribute:: DATE_TIME
+      日期时间
+     ..  py:attribute:: OPEN
+      开盘价
+     ..  py:attribute:: CLOSE
+      收盘价
+     ..  py:attribute:: HIGH
+      最高价
+     ..  py:attribute:: LOW
+      最低价
+     ..  py:attribute:: PE_RATIO
+      市盈率
+     ..  py:attribute:: TURNOVER_RATE
+      换手率
+     ..  py:attribute:: TRADE_VOL
+      成交量
+     ..  py:attribute:: TRADE_VAL
+      成交额
+     ..  py:attribute:: CHANGE_RATE
+      涨跌比率
+     ..  py:attribute:: LAST_CLOSE
+      昨收价
+    """
     ALL = ''
     DATE_TIME = '1'
     OPEN = '2'
@@ -304,11 +507,23 @@ class KL_FIELD(object):
             ret_flags += KL_FIELD.FIELD_FLAG_VAL_MAP[x]
         return ret_flags
 
+
 # 成交逐笔的方向
 class TickerDirect(object):
+    """
+    逐笔方向定义
+    ..  py:class:: TickerDirect
+     ..  py:attribute:: BUY
+      买
+     ..  py:attribute:: SELL
+      卖
+     ..  py:attribute:: NEUTRAL
+      中性
+    """
     BUY = "BUY"
     SELL = "SELL"
     NEUTRAL = "NEUTRAL"
+
 
 TICKER_DIRECTION = {
     TickerDirect.BUY: 1,
@@ -318,6 +533,18 @@ TICKER_DIRECTION = {
 
 
 class Plate(object):
+    """
+    板块集合分类定义
+    ..  py:class:: Plate
+     ..  py:attribute:: ALL
+      所有板块
+     ..  py:attribute:: INDUSTRY
+      行业板块
+     ..  py:attribute:: REGION
+      地域板块
+     ..  py:attribute:: CONCEPT
+      概念板块
+    """
     ALL = "ALL"
     INDUSTRY = "INDUSTRY"
     REGION = "REGION"
@@ -329,18 +556,6 @@ PLATE_CLASS_MAP = {
     Plate.REGION: 2,
     Plate.CONCEPT: 3
 }
-
-
-# 交易报价调整类型
-class PriceRegularMode(object):
-    """
-    港股报价需符合价位表的要求， 详见https://www.futu5.com/faq/topic1683
-    价格依据价位表规整模式,如腾讯当前的价位差是0.2, price = 471.1, UPPER price = 471.2 LOWER price = 471.0
-        price_mode参数会调整price至符合价位的正确报价
-    """
-    IGNORE = '0'  # 不调整
-    UPPER = '1'  # 向上调整
-    LOWER = '2'  # 向下调整
 
 
 class ProtoId(object):
@@ -418,10 +633,20 @@ class QUOTE(object):
     REV_TICKER_DIRECTION = {TICKER_DIRECTION[x]: x for x in TICKER_DIRECTION}
     REV_MARKET_STATE_MAP = {MARKET_STATE_MAP[x]: x for x in MARKET_STATE_MAP}
 
+
 # sys notify info
 class SysNotifyType(object):
+    """
+    系统异步通知类型定义
+    ..  py:class:: SysNotifyType
+     ..  py:attribute:: NONE
+      未知
+     ..  py:attribute:: GTW_EVENT
+      网关事件
+    """
     NONE = "N/A"
     GTW_EVENT = "GTW_EVENT"
+
 
 SYS_EVENT_TYPE_MAP = {
     SysNotifyType.NONE: 0, SysNotifyType.GTW_EVENT: 1
@@ -429,6 +654,40 @@ SYS_EVENT_TYPE_MAP = {
 
 
 class GtwEventType(object):
+    """
+    网关异步通知类型定义
+    ..  py:class:: GtwEventType
+     ..  py:attribute:: LocalCfgLoadFailed
+      本地配置文件加载失败
+     ..  py:attribute:: APISvrRunFailed
+      网关监听服务运行失败
+     ..  py:attribute:: ForceUpdate
+      强制升级网关
+     ..  py:attribute:: LoginFailed
+      登录牛牛服务器失败
+     ..  py:attribute:: UnAgreeDisclaimer
+      未同意免责声明，无法加运行
+     ..  py:attribute:: NetCfgMissing
+      缺少网络连接配置
+     ..  py:attribute:: KickedOut
+      登录被踢下线
+     ..  py:attribute:: LoginPwdChanged
+      登陆密码变更
+     ..  py:attribute:: BanLogin
+      牛牛后台不允许该账号登陆
+     ..  py:attribute:: NeedPicVerifyCode
+      登录需要输入图形验证码
+     ..  py:attribute:: NeedPhoneVerifyCode
+      登录需要输入手机验证码
+     ..  py:attribute:: AppDataNotExist
+      程序打包数据丢失
+     ..  py:attribute:: NessaryDataMissing
+      必要的数据没同步成功
+     ..  py:attribute:: TradePwdChanged
+      交易密码变更通知
+     ..  py:attribute:: EnableDeviceLock
+      需启用设备锁
+    """
     NONE = "N/A"
     LocalCfgLoadFailed = "LocalCfgLoadFailed"
     APISvrRunFailed = "APISvrRunFailed"
@@ -474,6 +733,14 @@ class SysNoitfy(object):
 
 # 交易环境
 class TrdEnv(object):
+    """
+    交易环境类型定义
+    ..  py:class:: TrdEnv
+     ..  py:attribute:: REAL
+      真实环境
+     ..  py:attribute:: SIMULATE
+      模拟环境
+    """
     REAL = "REAL"
     SIMULATE = "SIMULATE"
 
@@ -482,6 +749,20 @@ TRD_ENV_MAP = {TrdEnv.REAL: 1, TrdEnv.SIMULATE: 0}
 
 # 交易大市场， 不是具体品种
 class TrdMarket(object):
+    """
+    交易市场类型定义
+    ..  py:class:: TrdMarket
+     ..  py:attribute:: NONE
+      未知
+     ..  py:attribute:: HK
+      港股交易
+     ..  py:attribute:: US
+      美股交易
+     ..  py:attribute:: CN
+      A股交易
+     ..  py:attribute:: HKCC
+      A股通交易
+    """
     NONE = "N/A"   # 未知
     HK = "HK"      # 香港市场
     US = "US"      # 美国市场
@@ -499,6 +780,16 @@ TRD_MKT_MAP = {
 
 # 持仓方向
 class PositionSide(object):
+    """
+    持仓方向类型定义
+    ..  py:class:: PositionSide
+     ..  py:attribute:: NONE
+      未知
+     ..  py:attribute:: LONG
+      多仓
+     ..  py:attribute:: SHORT
+      空仓
+    """
     NONE = "N/A"
     LONG = "LONG"    # 多仓
     SHORT = "SHORT"  # 空仓
@@ -512,6 +803,24 @@ POSITION_SIDE_MAP = {
 
 # 订单类型
 class OrderType(object):
+    """
+    订单类型定义
+    ..  py:class:: OrderType
+     ..  py:attribute:: NONE
+      未知
+     ..  py:attribute:: NORMAL
+      普通订单(港股的增强限价单、A股限价委托、美股的限价单)
+     ..  py:attribute:: MARKET
+      市价，目前仅美股
+     ..  py:attribute:: ABSOLUTE_LIMIT
+      港股限价单(只有价格完全匹配才成交)
+     ..  py:attribute:: AUCTION
+      港股竞价单
+     ..  py:attribute:: AUCTION_LIMIT
+      港股竞价限价单
+     ..  py:attribute:: SPECIAL_LIMIT
+      港股特别限价(即市价IOC, 订单到达交易所后，或全部成交， 或部分成交再撤单， 或下单失败)
+    """
     NONE = "N/A"
     NORMAL = "NORMAL"                         # 普通订单(港股的增强限价单、A股限价委托、美股的限价单)
     MARKET = "MARKET"                         # 市价，目前仅美股
@@ -533,6 +842,40 @@ ORDER_TYPE_MAP = {
 
 # 订单状态
 class OrderStatus(object):
+    """
+    订单状态定义
+    ..  py:class:: OrderStatus
+     ..  py:attribute:: NONE
+      未知
+     ..  py:attribute:: UNSUBMITTED
+      未提交
+     ..  py:attribute:: WAITING_SUBMIT
+      等待提交
+     ..  py:attribute:: SUBMITTING
+      提交中
+     ..  py:attribute:: SUBMIT_FAILED
+      提交失败，下单失败
+     ..  py:attribute:: SUBMITTED
+      已提交，等待成交
+     ..  py:attribute:: FILLED_PART
+      部分成交
+     ..  py:attribute:: FILLED_ALL
+      全部已成
+     ..  py:attribute:: CANCELLING_PART
+      正在撤单部分(部分已成交，正在撤销剩余部分)
+     ..  py:attribute:: CANCELLING_ALL
+      正在撤单全部
+     ..  py:attribute:: CANCELLED_PART
+      部分成交，剩余部分已撤单
+     ..  py:attribute:: CANCELLED_ALL
+      全部已撤单，无成交
+     ..  py:attribute:: FAILED
+      下单失败，服务拒绝
+     ..  py:attribute:: DISABLED
+      已失效
+     ..  py:attribute:: DELETED
+      已删除(无成交的订单才能删除)
+    """
     NONE = "N/A"                                # 未知状态
     UNSUBMITTED = "UNSUBMITTED"                 # 未提交
     WAITING_SUBMIT = "WAITING_SUBMIT"           # 等待提交
@@ -572,6 +915,22 @@ ORDER_STATUS_MAP = {
 
 # 修改订单操作
 class ModifyOrderOp(object):
+    """
+    修改订单操作类型定义
+    ..  py:class:: ModifyOrderOp
+     ..  py:attribute:: NONE
+      未知
+     ..  py:attribute:: NORMAL
+      修改订单的数量、价格
+     ..  py:attribute:: CANCEL
+      取消订单
+     ..  py:attribute:: DISABLE
+      使订单失效
+     ..  py:attribute:: ENABLE
+      使订单生效
+     ..  py:attribute:: DELETE
+      删除订单
+    """
     NONE = "N/A"
     NORMAL = "NORMAL"
     CANCEL = "CANCEL"
@@ -590,6 +949,20 @@ MODIFY_ORDER_OP_MAP = {
 
 # 交易方向 (客户端下单只传Buy或Sell即可，SELL_SHORT / BUY_BACK 服务器可能会传回
 class TrdSide(object):
+    """
+    交易方向类型定义(客户端下单只传Buy或Sell即可，SELL_SHORT / BUY_BACK 服务器可能会传回)
+    ..  py:class:: TrdSide
+     ..  py:attribute:: NONE
+      未知
+    ..  py:attribute:: BUY
+      买
+     ..  py:attribute:: SELL
+      卖
+     ..  py:attribute:: SELL_SHORT
+      卖空
+     ..  py:attribute:: BUY_BACK
+      买回
+    """
     NONE = "N/A"
     BUY = "BUY"
     SELL = "SELL"
