@@ -49,6 +49,6 @@ setup(
 			"psutil",
 			"simplejson",
 			"protobuf",
-			"PyCryptodome"£¬
+			"PyCryptodome",
     ],
 )
