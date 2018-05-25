@@ -148,9 +148,9 @@ class PositionListQuery:
         req.c2s.header.trdMarket = TRD_MKT_MAP[trd_mkt]
         if code:
             req.c2s.filterConditions.codeList.append(code)
-        if pl_ratio_min:
+        if pl_ratio_min is not None:
             req.c2s.filterPLRatioMin = float(pl_ratio_min) / 100.0
-        if pl_ratio_max:
+        if pl_ratio_max is not None:
             req.c2s.filterPLRatioMax = float(pl_ratio_max) / 100.0
 
         return pack_pb_req(req, ProtoId.Trd_GetPositionList, conn_id)

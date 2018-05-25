@@ -233,7 +233,7 @@ class OpenTradeContextBase(OpenContextBase):
                 stock_code = code
         return RET_OK, "", stock_code
 
-    def position_list_query(self, code='', pl_ratio_min='', pl_ratio_max='', trd_env=TrdEnv.REAL, acc_id=0):
+    def position_list_query(self, code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL, acc_id=0):
         """for querying the position list"""
         ret, msg = self._check_trd_env(trd_env)
         if ret != RET_OK:
@@ -251,8 +251,8 @@ class OpenTradeContextBase(OpenContextBase):
 
         kargs = {
             'code': str(stock_code),
-            'pl_ratio_min': str(pl_ratio_min),
-            'pl_ratio_max': str(pl_ratio_max),
+            'pl_ratio_min': pl_ratio_min,
+            'pl_ratio_max': pl_ratio_max,
             'trd_mkt': self.__trd_mkt,
             'trd_env': trd_env,
             'acc_id': acc_id,
