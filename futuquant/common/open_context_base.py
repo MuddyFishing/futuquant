@@ -346,7 +346,7 @@ class OpenContextBase(object):
                 break
             cur_time = time.time()
             if cur_time - last_log >= 1:
-                last_log = cur_ti
+                last_log = cur_time
                 logger.debug("wait async init conn ...")
             if cur_time - last_time > timeout:
                 break
