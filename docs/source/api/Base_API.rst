@@ -264,11 +264,7 @@ SecurityType - 证券类型
  ..  py:attribute:: BOND
  
   债券
-  
- ..  py:attribute:: AFTERNOON
- 
-  午盘
-  
+   
  ..  py:attribute:: NONE
  
   未知
@@ -584,7 +580,7 @@ Plate - 板块集合分类
 
 --------------------------------------
 
-Plate - 系统异步通知类型
+SysNotifyType - 系统异步通知类型
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 系统异步通知类型定义

@@ -184,8 +184,6 @@ class SecurityType(object):
       港股涡轮牛熊证
      ..  py:attribute:: BOND
       债券
-     ..  py:attribute:: AFTERNOON
-      午盘
      ..  py:attribute:: NONE
       未知
     """
