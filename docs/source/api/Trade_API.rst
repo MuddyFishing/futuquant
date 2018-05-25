@@ -238,10 +238,10 @@ order_list_query - 获取订单列表
  
   from futuquant import *
   pwd_unlock = '123456'
-	trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
-	print(trd_ctx.unlock_trade(pwd_unlock))
-	print(trd_ctx.order_list_query())
-	quote_ctx.close()
+  trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+  print(trd_ctx.unlock_trade(pwd_unlock))
+  print(trd_ctx.order_list_query())
+  quote_ctx.close()
   
 ----------------------------
 
@@ -274,11 +274,11 @@ modify_order - 修改订单
  
   from futuquant import *
   pwd_unlock = '123456'
-	trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
-	print(trd_ctx.unlock_trade(pwd_unlock))
-	order_id = "12345"
-	print(trd_ctx.modify_order(ModifyOrderOp.CANCEL, order_id))
-	quote_ctx.close()
+  trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+  print(trd_ctx.unlock_trade(pwd_unlock))
+  order_id = "12345"
+  print(trd_ctx.modify_order(ModifyOrderOp.CANCEL, order_id))
+  quote_ctx.close()
 
   modify_order
 
@@ -430,7 +430,25 @@ on_recv_rsp - 响应订单推送
  .. code:: python
  
   from futuquant import *
-  on_recv_rsp
+  from time import sleep
+  class TradeOrderTest(TradeOrderHandlerBase):
+    """ order update push"""
+    def on_recv_rsp(self, rsp_pb):
+        ret, content = super(TradeOrderTest, self).on_recv_rsp(rsp_pb)
+
+        if ret == RET_OK:
+            print("* TradeOrderTest content={}\n".format(content))
+
+        return ret, content
+  
+  pwd_unlock = '123456'
+  trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+  trd_ctx.set_handler(TradeOrderTest())
+  print(trd_ctx.unlock_trade(pwd_unlock))
+  print(trd_ctx.place_order(price=700.0, qyt=100, code="HK.00700", trd_side=TrdSide.SELL))
+  
+  sleep(15)
+  quote_ctx.close()
 	
 ----------------------------
 
@@ -452,7 +470,25 @@ on_recv_rsp - 响应成交推送
  .. code:: python
  
   from futuquant import *
-  on_recv_rsp
+  from time import sleep
+  class TradeDealTest(TradeDealHandlerBase):
+    """ order update push"""
+    def on_recv_rsp(self, rsp_pb):
+        ret, content = super(TradeDealTest, self).on_recv_rsp(rsp_pb)
+
+        if ret == RET_OK:
+            print("TradeDealTest content={}".format(content))
+
+        return ret, content
+  
+  pwd_unlock = '123456'
+  trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+  trd_ctx.set_handler(TradeDealTest())
+  print(trd_ctx.unlock_trade(pwd_unlock))
+  print(trd_ctx.place_order(price=700.0, qyt=100, code="HK.00700", trd_side=TrdSide.SELL))
+  
+  sleep(15)
+  quote_ctx.close()
 	
 ----------------------------
 
