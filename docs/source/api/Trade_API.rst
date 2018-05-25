@@ -2,7 +2,22 @@
 交易API
 ===========
 
-
+ .. _TrdEnv: Base_API.html#trdenv
+ 
+ .. _TrdMarket: Base_API.html#trdmarket
+ 
+ .. _PositionSide: Base_API.html#positionside
+ 
+ .. _OrderType : Base_API.html#ordertype
+ 
+ .. _OrderStatus: Base_API.html#orderstatus
+ 
+ .. _TrdSide: Base_API.html#trdside
+ 
+ .. _order-list-query: #id3
+ 
+ .. _deal-list-query: #id4
+ 
 
 一分钟上手
 ==============
@@ -15,7 +30,7 @@
 	pwd_unlock = '123456'
 	trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
 	print(trd_ctx.unlock_trade(pwd_unlock))
-	print(place_order(price=700.0, qyt=100, code="HK.00700", trd_side=TrdSide.SELL))
+	print(trd_ctx.place_order(price=700.0, qyt=100, code="HK.00700", trd_side=TrdSide.SELL))
 	quote_ctx.close()
 
 
@@ -46,8 +61,9 @@ get_acc_list - 获取交易业务账户列表
  
  .. code:: python
  
-  from futuquant import *
-  get_acc_list
+	trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+	print(trd_ctx.get_acc_list())
+	quote_ctx.close()
 	
 ----------------------------
 
@@ -56,7 +72,7 @@ unlock_trade - 解锁交易
 
 ..  py:function:: unlock_trade(self, password, password_md5=None, is_unlock=True)
 
- 解锁交易。要调用交易接口前，必须先拉业务账户列表，然后再解锁交易，才有权限调用交易接口。
+ 解锁交易。
 
  :param password: str，交易密码，如果password_md5不为空就使用传入的password_md5解锁，否则使用password转MD5得到password_md5再解锁
  :param password_md5: str，交易密码的MD5转16进制字符串(全小写)，解锁交易必须要填密码，锁定交易忽略
@@ -68,7 +84,10 @@ unlock_trade - 解锁交易
  .. code:: python
  
   from futuquant import *
-  unlock_trade
+  pwd_unlock = '123456'
+	trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+	print(trd_ctx.unlock_trade(pwd_unlock))
+	quote_ctx.close()
  
 ----------------------------
  
@@ -79,7 +98,7 @@ accinfo_query - 获取账户资金数据
 
  获取账户资金数据。获取账户的资产净值、证券市值、现金、购买力等资金数据。
 
- :param trd_env: str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
+ :param trd_env: str，交易环境 TrdEnv_ ，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
  :param acc_id: int，交易业务账户
  :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据如下：
 
@@ -164,14 +183,18 @@ place_order - 下单
  :param adjust_limit: folat，港股有价位表，订单价格必须在规定的价位上，OpenD会对传入价格自动调整到合法价位上，此参数指定价格调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
  :param trd_env: str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
  :param acc_id: int，交易业务账户
- :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟下面的order_list_query(获取订单列表)相同
+ :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟下面的 order-list-query_ (获取订单列表)相同
  
  :example:
  
  .. code:: python
  
-  from futuquant import *
-  place_order
+ 	from futuquant import *
+	pwd_unlock = '123456'
+	trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+	print(trd_ctx.unlock_trade(pwd_unlock))
+	print(trd_ctx.place_order(price=700.0, qyt=100, code="HK.00700", trd_side=TrdSide.SELL))
+	quote_ctx.close()
 
 ----------------------------
 
@@ -183,7 +206,7 @@ order_list_query - 获取订单列表
  获取订单列表。获取账户的交易订单列表。
 
  :param order_id: str，订单号过滤，只返回此订单号的数据，没传不过滤，返回所有
- :param status_filter_list: str数组，订单状态过滤，只返回这些状态的订单数据，没传不过滤，返回所有，参考OrderStatus类的定义
+ :param status_filter_list: str数组，订单状态过滤，只返回这些状态的订单数据，没传不过滤，返回所有，参考 OrderStatus_ 类的定义
  :param code: str，代码过滤，只返回包含这个代码的数据，没传不过滤，返回所有
  :param start: str，开始时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
  :param end: str，结束时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
@@ -194,9 +217,9 @@ order_list_query - 获取订单列表
  =====================        ===========   ===================================================================
  参数                         类型          说明
  =====================        ===========   ===================================================================
- trd_side                     str           交易方向，参考TrdSide类的定义
- order_type                   str           订单类型，参考OrderType类的定义
- order_status                 str           订单状态，参考OrderStatus类的定义
+ trd_side                     str           交易方向，参考 TrdSide_ 类的定义
+ order_type                   str           订单类型，参考 OrderType_ 类的定义
+ order_status                 str           订单状态，参考 OrderStatus_ 类的定义
  order_id                     str           订单号
  code                         str           代码
  stock_name                   str           名称
@@ -214,8 +237,12 @@ order_list_query - 获取订单列表
  .. code:: python
  
   from futuquant import *
-  order_list_query
-
+  pwd_unlock = '123456'
+	trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+	print(trd_ctx.unlock_trade(pwd_unlock))
+	print(trd_ctx.order_list_query())
+	quote_ctx.close()
+  
 ----------------------------
 
 modify_order - 修改订单
@@ -225,19 +252,19 @@ modify_order - 修改订单
 
  修改订单。修改订单，包括修改订单的价格和数量(即以前的改单)、撤单、失效、生效、删除等。
 
- :param modify_order_op: str，改单操作类型，参考ModifyOrderOp类的定义，有
+ :param modify_order_op: str，改单操作类型，参考 ModifyOrderOp_ 类的定义，有
  :param order_id: str，订单号
  :param qty: float，(改单有效)新的订单数量，2位精度，期权单位是"张"
  :param price: float，(改单有效)新的订单价格，3位精度(A股2位)
  :param adjust_limit: folat，(改单有效)港股有价位表，订单价格必须在规定的价位上，OpenD会对传入价格自动调整到合法价位上，此参数指定价格调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
- :param trd_env: str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
+ :param trd_env: str，交易环境 TrdEnv_ ，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
  :param acc_id: int，交易业务账户
  :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据如下：
  
  =====================        ===========   ===================================================================
  参数                         类型          说明
  =====================        ===========   ===================================================================
- trd_env                      str           交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
+ trd_env                      str           交易环境 TrdEnv_ ，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
  order_id                     str           str，订单号
  =====================        ===========   ===================================================================
  
@@ -246,6 +273,13 @@ modify_order - 修改订单
  .. code:: python
  
   from futuquant import *
+  pwd_unlock = '123456'
+	trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+	print(trd_ctx.unlock_trade(pwd_unlock))
+	order_id = "12345"
+	print(trd_ctx.modify_order(ModifyOrderOp.CANCEL, order_id))
+	quote_ctx.close()
+
   modify_order
 
 ----------------------------
@@ -261,7 +295,7 @@ change_order - 改单(老接口，兼容以前)
  :param qty: float，(改单有效)新的订单数量，2位精度，期权单位是"张"
  :param price: float，(改单有效)新的订单价格，3位精度(A股2位)
  :param adjust_limit: folat，(改单有效)港股有价位表，订单价格必须在规定的价位上，OpenD会对传入价格自动调整到合法价位上，此参数指定价格调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
- :param trd_env: str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
+ :param trd_env: str，交易环境 TrdEnv_ ，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
  :param acc_id: int，交易业务账户
  :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟下面的modify_order(修改订单)相同
  
@@ -270,6 +304,12 @@ change_order - 改单(老接口，兼容以前)
  .. code:: python
  
   from futuquant import *
+  pwd_unlock = '123456'
+  trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+  print(trd_ctx.unlock_trade(pwd_unlock))
+  order_id = "12345"
+  print(trd_ctx.change_order(order_id, 100.0, 1))
+  quote_ctx.close()
   modify_order
 
 ----------------------------
@@ -282,14 +322,14 @@ deal_list_query - 获取成交列表
  获取成交列表。获取账户的交易成交列表。
 
  :param code: str，代码过滤，只返回包含这个代码的数据，没传不过滤，返回所有
- :param trd_env: str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
+ :param trd_env: str，交易环境 TrdEnv_ ，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
  :param acc_id: int，交易业务账户
  :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据如下：
 
  =====================        ===========   ===================================================================
  参数                         类型          说明
  =====================        ===========   ===================================================================
- trd_side                     str           交易方向，参考TrdSide类的定义
+ trd_side                     str           交易方向，参考 TrdSide_ 类的定义
  deal_id                      str           成交号
  order_id                     str           订单号
  code                         str           代码
@@ -306,7 +346,12 @@ deal_list_query - 获取成交列表
  .. code:: python
  
   from futuquant import *
-  deal_list_query
+  pwd_unlock = '123456'
+  trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+  print(trd_ctx.unlock_trade(pwd_unlock))
+  order_id = "12345"
+  print(trd_ctx.deal_list_query(code='HK.00700'))
+  quote_ctx.close()
 
 ----------------------------
 
@@ -321,17 +366,22 @@ history_order_list_query - 获取历史订单列表
  :param code: str，代码过滤，只返回包含这个代码的数据，没传不过滤，返回所有
  :param start: str，开始时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
  :param end: str，结束时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
- :param trd_env: str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
+ :param trd_env: str，交易环境 TrdEnv_ ，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
  :param acc_id: int，交易业务账户
- :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟上面的order_list_query(获取订单列表)相同
+ :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟上面的 order-list-query_ (获取订单列表)相同
  
  :example:
  
  .. code:: python
  
   from futuquant import *
-  history_order_list_query
-
+  pwd_unlock = '123456'
+  trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+  print(trd_ctx.unlock_trade(pwd_unlock))
+  order_id = "12345"
+  print(trd_ctx.history_order_list_query([OrderStatus.FILLED_ALL, OrderStatus.FILLED_PART], 'HK.00700'))
+  quote_ctx.close()
+  
 ----------------------------
 
 history_deal_list_query - 获取历史成交列表
@@ -344,16 +394,21 @@ history_deal_list_query - 获取历史成交列表
  :param code: str，代码过滤，只返回包含这个代码的数据，没传不过滤，返回所有
  :param start: str，开始时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
  :param end: str，结束时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
- :param trd_env: str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
+ :param trd_env: str，交易环境 TrdEnv_ ，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
  :param acc_id: int，交易业务账户
- :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟上面的deal_list_query(获取成交列表)相同
+ :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟上面的 deal-list-query_ (获取成交列表)相同
  
  :example:
  
  .. code:: python
  
   from futuquant import *
-  history_deal_list_query
+  pwd_unlock = '123456'
+  trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+  print(trd_ctx.unlock_trade(pwd_unlock))
+  order_id = "12345"
+  print(trd_ctx.history_deal_list_query('HK.00700'))
+  quote_ctx.close()
 
 ----------------------------
 
@@ -368,7 +423,7 @@ on_recv_rsp - 响应订单推送
  响应订单推送。OpenD会主动推送订单的最新更新数据过来，需要客户端响应处理
  
  :param rsp_pb: class，订单推送协议pb对象
- :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟上面的order_list_query(获取订单列表)相同
+ :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟上面的 order-list-query_ (获取订单列表)相同
 
  :example:
  
@@ -390,7 +445,7 @@ on_recv_rsp - 响应成交推送
  响应成交推送。OpenD会主动推送新的成交数据过来，需要客户端响应处理
  
  :param rsp_pb: class，成交推送协议pb对象
- :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟上面的deal_list_query(获取成交列表)相同
+ :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟上面的 deal-list-query_ (获取成交列表)相同
 
  :example:
  
