@@ -1,11 +1,11 @@
-========
+===========
 交易API
-========
+===========
 
-----------------------------
+
 
 一分钟上手
-============
+==============
 
 如下范例，创建api交易对象，先调用unlock_trade对交易解锁，然后调用place_order下单，以700.0价格，买100股腾讯00700,最后关闭对象
 
@@ -17,80 +17,13 @@
 	print(trd_ctx.unlock_trade(pwd_unlock))
 	print(place_order(price=700.0, qyt=100, code="HK.00700", trd_side=TrdSide.SELL))
 	quote_ctx.close()
-	
-----------------------------
+
 
 
 接口类对象
-==========
+==============
 
--------------------------------------------
-
-TradeOrderHandlerBase - 订单状态变化回调处理基类
-------------------------------------------------
-
--------------------------------------------
-
-on_recv_rsp
-~~~~~~~~~~~
-
-on_recv_rsp(self, rsp_pb) - 订单状态变化回调处理函数
-
-**描述:**：
-
-这里增加文字
-
-**参数:**
-
-
-**返回值**:
-
-(ret_code, content)
-
-**示例代码:**
-
-.. code:: python
-
-  from futuquant import *
-  trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
-  ....
-	trd_ctx.close()
-	
-----------------------------
-
-TradeDealHandlerBase - 订单成交回调处理基类
--------------------------------------------
-
--------------------------------------------
-
-on_recv_rsp
-~~~~~~~~~~~~~~~
-
-on_recv_rsp(self, rsp_pb) - 订单成交回调处理函数
-
-**描述:**：
-
-这里增加文字
-
-**参数:**
-
-
-**返回值**:
-
-(ret_code, content)
-
-**示例代码:**
-
-.. code:: python
-  
-  from futuquant import *
-  trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
-  ....
-	trd_ctx.close()
-	
-----------------------------
-
-OpenHKTradeContext、OpenUSTradeContext - 交易请求对象类
+OpenHKTradeContext、OpenUSTradeContext - 交易接口类
 -----------------------------------------------------------
 
 get_acc_list - 获取交易业务账户列表
@@ -173,11 +106,11 @@ accinfo_query - 获取账户资金数据
 position_list_query - 获取账户持仓列表
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  position_list_query(self, code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL, acc_id=0)
+..  py:function:: position_list_query(self, code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL, acc_id=0)
 
  获取账户持仓列表。获取账户的证券持仓列表。
 
- :param code: str，代码过滤，只返回包含这些代码的数据，没传不过滤
+ :param code: str，代码过滤，只返回包含这个代码的数据，没传不过滤，返回所有
  :param pl_ratio_min: float，过滤盈亏比例下限，高于此比例的会返回，如0.1，返回盈亏比例大于10%的持仓
  :param pl_ratio_max: float，过滤盈亏比例上限，低于此比例的会返回，如0.2，返回盈亏比例小于20%的持仓
  :param trd_env: str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
@@ -215,22 +148,278 @@ position_list_query - 获取账户持仓列表
   position_list_query
 
 ----------------------------
-  
----------------------------------------------------------------------
+
+place_order - 下单
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: place_order(self, price, qty, code, trd_side=TrdSide.NONE, order_type=OrderType.NORMAL, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0)
+
+ 获取订单列表。获取账户的交易订单列表。
+
+ :param price: float，订单价格，3位精度(A股2位)
+ :param qty: float，订单数量，2位精度，期权单位是"张"
+ :param code: str，代码
+ :param trd_side: str，交易方向，参考TrdSide类的定义
+ :param order_type: str，订单类型，参考OrderType类的定义
+ :param adjust_limit: folat，港股有价位表，订单价格必须在规定的价位上，OpenD会对传入价格自动调整到合法价位上，此参数指定价格调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
+ :param trd_env: str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
+ :param acc_id: int，交易业务账户
+ :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟下面的order_list_query(获取订单列表)相同
+ 
+ :example:
+ 
+ .. code:: python
+ 
+  from futuquant import *
+  place_order
+
+----------------------------
+
+order_list_query - 获取订单列表
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: order_list_query(self, order_id="", status_filter_list=[], code='', start='', end='', trd_env=TrdEnv.REAL, acc_id=0)
+
+ 获取订单列表。获取账户的交易订单列表。
+
+ :param order_id: str，订单号过滤，只返回此订单号的数据，没传不过滤，返回所有
+ :param status_filter_list: str数组，订单状态过滤，只返回这些状态的订单数据，没传不过滤，返回所有，参考OrderStatus类的定义
+ :param code: str，代码过滤，只返回包含这个代码的数据，没传不过滤，返回所有
+ :param start: str，开始时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
+ :param end: str，结束时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
+ :param trd_env: str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
+ :param acc_id: int，交易业务账户
+ :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据如下：
+
+ =====================        ===========   ===================================================================
+ 参数                         类型          说明
+ =====================        ===========   ===================================================================
+ trd_side                     str           交易方向，参考TrdSide类的定义
+ order_type                   str           订单类型，参考OrderType类的定义
+ order_status                 str           订单状态，参考OrderStatus类的定义
+ order_id                     str           订单号
+ code                         str           代码
+ stock_name                   str           名称
+ qty                          float         订单数量，2位精度，期权单位是"张"
+ price                        float         订单价格，3位精度(A股2位)
+ create_time                  str           创建时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
+ updated_time                 str        	最后更新时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
+ dealt_qty                    float         成交数量，2位精度，期权单位是"张"
+ dealt_avg_price              float         成交均价，无精度限制
+ last_err_msg                 str           最后的错误描述，如果有错误，会有此描述最后一次错误的原因，无错误为空
+ =====================        ===========   ===================================================================
+ 
+ :example:
+ 
+ .. code:: python
+ 
+  from futuquant import *
+  order_list_query
+
+----------------------------
+
+modify_order - 修改订单
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: modify_order(self, modify_order_op, order_id, qty, price, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0)
+
+ 修改订单。修改订单，包括修改订单的价格和数量(即以前的改单)、撤单、失效、生效、删除等。
+
+ :param modify_order_op: str，改单操作类型，参考ModifyOrderOp类的定义，有
+ :param order_id: str，订单号
+ :param qty: float，(改单有效)新的订单数量，2位精度，期权单位是"张"
+ :param price: float，(改单有效)新的订单价格，3位精度(A股2位)
+ :param adjust_limit: folat，(改单有效)港股有价位表，订单价格必须在规定的价位上，OpenD会对传入价格自动调整到合法价位上，此参数指定价格调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
+ :param trd_env: str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
+ :param acc_id: int，交易业务账户
+ :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据如下：
+ 
+ =====================        ===========   ===================================================================
+ 参数                         类型          说明
+ =====================        ===========   ===================================================================
+ trd_env                      str           交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
+ order_id                     str           str，订单号
+ =====================        ===========   ===================================================================
+ 
+ :example:
+ 
+ .. code:: python
+ 
+  from futuquant import *
+  modify_order
+
+----------------------------
+
+change_order - 改单(老接口，兼容以前)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: change_order(self, order_id, price, qty, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0)
+
+ 改单(老接口，兼容以前)。改单，即修改订单的价格和数量，是modify_order修改订单的一种操作，为兼容以前，保留此接口，新写代码请使用modify_order。
+
+ :param order_id: str，订单号
+ :param qty: float，(改单有效)新的订单数量，2位精度，期权单位是"张"
+ :param price: float，(改单有效)新的订单价格，3位精度(A股2位)
+ :param adjust_limit: folat，(改单有效)港股有价位表，订单价格必须在规定的价位上，OpenD会对传入价格自动调整到合法价位上，此参数指定价格调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
+ :param trd_env: str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
+ :param acc_id: int，交易业务账户
+ :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟下面的modify_order(修改订单)相同
+ 
+ :example:
+ 
+ .. code:: python
+ 
+  from futuquant import *
+  modify_order
+
+----------------------------
+
+deal_list_query - 获取成交列表
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: deal_list_query(self, code="", trd_env=TrdEnv.REAL, acc_id=0)
+
+ 获取成交列表。获取账户的交易成交列表。
+
+ :param code: str，代码过滤，只返回包含这个代码的数据，没传不过滤，返回所有
+ :param trd_env: str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
+ :param acc_id: int，交易业务账户
+ :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据如下：
+
+ =====================        ===========   ===================================================================
+ 参数                         类型          说明
+ =====================        ===========   ===================================================================
+ trd_side                     str           交易方向，参考TrdSide类的定义
+ deal_id                      str           成交号
+ order_id                     str           订单号
+ code                         str           代码
+ stock_name                   str           名称
+ qty                          float         成交数量，2位精度，期权单位是"张"
+ price                        float         成交价格，3位精度(A股2位)
+ create_time                  str           创建时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
+ counter_broker_id            int           对手经纪号，港股有效
+ counter_broker_name          str         	对手经纪名称，港股有效
+ =====================        ===========   ===================================================================
+ 
+ :example:
+ 
+ .. code:: python
+ 
+  from futuquant import *
+  deal_list_query
+
+----------------------------
+
+history_order_list_query - 获取历史订单列表
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: history_order_list_query(self, status_filter_list=[], code='', start='', end='', trd_env=TrdEnv.REAL, acc_id=0)
+
+ 获取历史订单列表。获取账户的历史交易订单列表。
+
+ :param status_filter_list: str数组，订单状态过滤，只返回这些状态的订单数据，没传不过滤，返回所有，参考OrderStatus类的定义
+ :param code: str，代码过滤，只返回包含这个代码的数据，没传不过滤，返回所有
+ :param start: str，开始时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
+ :param end: str，结束时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
+ :param trd_env: str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
+ :param acc_id: int，交易业务账户
+ :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟上面的order_list_query(获取订单列表)相同
+ 
+ :example:
+ 
+ .. code:: python
+ 
+  from futuquant import *
+  history_order_list_query
+
+----------------------------
+
+history_deal_list_query - 获取历史成交列表
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: history_deal_list_query(self, code, start='', end='', trd_env=TrdEnv.REAL, acc_id=0)
+
+ 获取历史成交列表。获取账户的历史交易成交列表。
+
+ :param code: str，代码过滤，只返回包含这个代码的数据，没传不过滤，返回所有
+ :param start: str，开始时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
+ :param end: str，结束时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
+ :param trd_env: str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
+ :param acc_id: int，交易业务账户
+ :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟上面的deal_list_query(获取成交列表)相同
+ 
+ :example:
+ 
+ .. code:: python
+ 
+  from futuquant import *
+  history_deal_list_query
+
+----------------------------
+
+TradeOrderHandlerBase - 响应订单推送基类
+-----------------------------------------------------------
+
+on_recv_rsp - 响应订单推送
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: on_recv_rsp(self, rsp_pb)
+
+ 响应订单推送。OpenD会主动推送订单的最新更新数据过来，需要客户端响应处理
+ 
+ :param rsp_pb: class，订单推送协议pb对象
+ :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟上面的order_list_query(获取订单列表)相同
+
+ :example:
+ 
+ .. code:: python
+ 
+  from futuquant import *
+  on_recv_rsp
 	
-接口限频
-========
+----------------------------
 
----------------------------------------------------------------------
+TradeDealHandlerBase - 响应成交推送基类
+-----------------------------------------------------------
 
-交易相关请求到达网关客户端后， 会转发请求到futu后台服务器，为控制流量，会对请求频率加以控制，
-目前的控制频率为每30秒最多请求10次，相关接口如下:
+on_recv_rsp - 响应成交推送
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: on_recv_rsp(self, rsp_pb)
+
+ 响应成交推送。OpenD会主动推送新的成交数据过来，需要客户端响应处理
+ 
+ :param rsp_pb: class，成交推送协议pb对象
+ :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟上面的deal_list_query(获取成交列表)相同
+
+ :example:
+ 
+ .. code:: python
+ 
+  from futuquant import *
+  on_recv_rsp
+	
+----------------------------
 
 
-+ **history_order_list_query**
 
 
----------------------------------------------------------------------
+接口频率限制
+================
+
+交易相关请求到达网关客户端后， 会转发请求到futu后台服务器，为防止恶意频繁请求，保护服务器负载，会对一些交易接口进行请求频率限制，
+目前的频率限制是以连续30秒内，限制请求次数，具体那些接口有限制以及限制次数如下:
+
+ =====================        =====================
+ 接口名称                     连续30秒内次数限制
+ =====================        =====================
+ 解锁交易                     10
+ 下单                         30
+ 改单                         30
+ 获取历史订单列表             10
+ 获取历史成交列表             10
+ =====================        =====================
+
 
 
 
