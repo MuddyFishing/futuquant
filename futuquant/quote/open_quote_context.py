@@ -259,10 +259,10 @@ class OpenQuoteContext(OpenContextBase):
 
         .. code:: python
 
-        from futuquant import *
-        quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-        print(quote_ctx.get_history_kline('HK.00700', start='2017-06-20', end='2017-06-22'))
-        quote_ctx.close()
+            from futuquant import *
+            quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+            print(quote_ctx.get_history_kline('HK.00700', start='2017-06-20', end='2017-06-22'))
+            quote_ctx.close()
         """
 
         if start is not None and is_str(start) is False:
@@ -362,7 +362,7 @@ class OpenQuoteContext(OpenContextBase):
                 forward_adj_factorB     float          前复权因子B
                 backward_adj_factorA    float          后复权因子A
                 backward_adj_factorB    float          后复权因子B
-                =================   ===========   ==================================================================
+                =====================   ===========   ==============================================================
 
         """
         code_list = unique_and_normalize_list(code_list)
@@ -405,49 +405,49 @@ class OpenQuoteContext(OpenContextBase):
 
                 ret != RET_OK 返回错误字符串
 
-                =====================   ===========   ==============================================================
-                参数                      类型                        说明
-                =====================   ===========   ==============================================================
-                code                    str            股票代码
-                update_time             str            更新时间(yyyy-MM-dd HH:mm:ss)
-                last_price              float          最新价格
-                open_price              float          今日开盘价
-                high_price              float          最高价格
-                low_price               float          最低价格
-                prev_close_price        float          昨收盘价格
-                volume                  int            成交数量
-                turnover                float          成交金额
-                turnover_rate           float          换手率
-                suspension              bool           是否停牌(True表示停牌)
-                listing_date            str            上市日期 (yyyy-MM-dd)
-                circular_market_val     float          流通市值
-                total_market_val        float          总市值
-                wrt_valid               bool           是否是窝轮
-                wrt_conversion_ratio    float          换股比率
-                wrt_type                str            窝轮类型，参见WrtType
-                wrt_strike_price        float          行使价格
-                wrt_maturity_date       str            格式化窝轮到期时间
-                wrt_end_trade           str            格式化窝轮最后交易时间
-                wrt_code                str            窝轮对应的正股
-                wrt_recovery_price      float          窝轮回收价
-                wrt_street_vol          float          窝轮街货量
-                wrt_issue_vol           float          窝轮发行量
-                wrt_street_ratio        float          窝轮街货占比
-                wrt_delta               float          窝轮对冲值
-                wrt_implied_volatility  float          窝轮引伸波幅
-                wrt_premium             float          窝轮溢价
-                lot_size                int            每手股数
-                issued_shares           int            发行股本
-                net_asset               int            资产净值
-                net_profit              int            净利润
-                earning_per_share       float          每股盈利
-                outstanding_shares      int            流通股本
-                net_asset_per_share     float          每股净资产
-                ey_ratio                float          收益率
-                pe_ratio                float          市盈率
-                pb_ratio                float          市净率
-                price_spread            float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
-                =================   ===========   ==================================================================
+                =======================   =============   ==============================================================
+                参数                       类型                        说明
+                =======================   =============   ==============================================================
+                code                       str            股票代码
+                update_time                str            更新时间(yyyy-MM-dd HH:mm:ss)
+                last_price                 float          最新价格
+                open_price                 float          今日开盘价
+                high_price                 float          最高价格
+                low_price                  float          最低价格
+                prev_close_price           float          昨收盘价格
+                volume                     int            成交数量
+                turnover                   float          成交金额
+                turnover_rate              float          换手率
+                suspension                 bool           是否停牌(True表示停牌)
+                listing_date               str            上市日期 (yyyy-MM-dd)
+                circular_market_val        float          流通市值
+                total_market_val           float          总市值
+                wrt_valid                  bool           是否是窝轮
+                wrt_conversion_ratio       float          换股比率
+                wrt_type                   str            窝轮类型，参见WrtType
+                wrt_strike_price           float          行使价格
+                wrt_maturity_date          str            格式化窝轮到期时间
+                wrt_end_trade              str            格式化窝轮最后交易时间
+                wrt_code                   str            窝轮对应的正股
+                wrt_recovery_price         float          窝轮回收价
+                wrt_street_vol             float          窝轮街货量
+                wrt_issue_vol              float          窝轮发行量
+                wrt_street_ratio           float          窝轮街货占比
+                wrt_delta                  float          窝轮对冲值
+                wrt_implied_volatility     float          窝轮引伸波幅
+                wrt_premium                float          窝轮溢价
+                lot_size                   int            每手股数
+                issued_shares              int            发行股本
+                net_asset                  int            资产净值
+                net_profit                 int            净利润
+                earning_per_share          float          每股盈利
+                outstanding_shares         int            流通股本
+                net_asset_per_share        float          每股净资产
+                ey_ratio                   float          收益率
+                pe_ratio                   float          市盈率
+                pb_ratio                   float          市净率
+                price_spread               float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
+                =======================   =============   ==============================================================
         """
         code_list = unique_and_normalize_list(code_list)
         if not code_list:
@@ -529,13 +529,13 @@ class OpenQuoteContext(OpenContextBase):
                 =====================   ===========   ==============================================================
                 code                    str            股票代码
                 time                    str            时间(yyyy-MM-dd HH:mm:ss)
-                is_blank                bool           数据状态；正确为True，伪造为False
+                data_status             bool           数据状态；正确为True，伪造为False
                 opened_mins             int            零点到当前多少分钟
                 cur_price               float          当前价格
                 last_close              float          昨天收盘的价格
                 volume                  float          成交量
                 turnover                float          成交金额
-                =================   ===========   ==================================================================
+                =====================   ===========   ==============================================================
         """
         if code is None or is_str(code) is False:
             error_str = ERROR_STR_PREFIX + "the type of param in code is wrong"
@@ -580,7 +580,7 @@ class OpenQuoteContext(OpenContextBase):
                 code                    str            股票代码
                 plate_name              str            板块名字
                 plate_id                str            板块id
-                =================   ===========   ==================================================================
+                =====================   ===========   ==============================================================
         """
         param_table = {'market': market, 'plate_class': plate_class}
         for x in param_table:
@@ -799,7 +799,9 @@ class OpenQuoteContext(OpenContextBase):
         :param code_list: 取消订阅的股票代码列表
         :param subtype_list: 取消订阅的类型，参见SubType
         :return: (ret, err_message)
+
                 ret == RET_OK err_message为None
+
                 ret != RET_OK err_message为错误描述字符串
         """
 
@@ -845,14 +847,25 @@ class OpenQuoteContext(OpenContextBase):
         查询已订阅的实时信息
 
         :param is_all_conn: 是否返回所有连接的订阅状态,不传或者传False只返回当前连接数据
-        :return: (ret, data)  ret != RET_OK 返回错误字符串
-                              ret == RET_OK 返回 定阅信息的字典数据 ，格式如下:
-                {'total_used': 4,    # 所有连接已使用的定阅额度
-                'own_used': 0,       # 当前连接已使用的定阅额度
-                'remain': 496,       #  剩余的定阅额度
-                'sub_list':          #  每种定阅类型对应的股票列表
-                    {'BROKER': ['HK.00700', 'HK.02318'],
-                    'RT_DATA': ['HK.00700', 'HK.02318']
+        :return: (ret, data)
+
+                ret != RET_OK 返回错误字符串
+
+                ret == RET_OK 返回 定阅信息的字典数据 ，格式如下:
+
+                {
+                    'total_used': 4,    # 所有连接已使用的定阅额度
+
+                    'own_used': 0,       # 当前连接已使用的定阅额度
+
+                    'remain': 496,       #  剩余的定阅额度
+
+                    'sub_list':          #  每种定阅类型对应的股票列表
+
+                    {
+                        'BROKER': ['HK.00700', 'HK.02318'],
+
+                        'RT_DATA': ['HK.00700', 'HK.02318']
                     }
                 }
         """
@@ -1128,7 +1141,8 @@ class OpenQuoteContext(OpenContextBase):
         :return: (ret, data)
 
                 ret == RET_OK data为pd dataframe数据， 格式如下
-                         ret != 0 data为错误字符串
+
+                ret != 0 data为错误字符串
 
                 =====================   ===========   ==============================================================
                 参数                      类型                        说明
@@ -1177,9 +1191,9 @@ class OpenQuoteContext(OpenContextBase):
 
         :param code_list: 单个或多个股票 'HK.00700'  or  ['HK.00700', 'HK.00001']
         :param dates: 单个或多个日期 '2017-01-01' or ['2017-01-01', '2017-01-02']
-        :param fields:单个或多个数据列 KL_FIELD.ALL or [KL_FIELD.DATE_TIME, KL_FIELD.OPEN]
+        :param fields: 单个或多个数据列 KL_FIELD.ALL or [KL_FIELD.DATE_TIME, KL_FIELD.OPEN]
         :param ktype: K线类型
-        :param autype:复权类型
+        :param autype: 复权类型
         :param no_data_mode: 指定时间为非交易日时，对应的k线数据取值模式，参见KLNoDataMode
         :return: (ret, data)
 

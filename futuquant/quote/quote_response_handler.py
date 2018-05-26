@@ -10,6 +10,7 @@ class StockQuoteHandlerBase(RspHandlerBase):
     异步处理推送的订阅股票的报价。
 
     .. code:: python
+
         class StockQuoteTest(StockQuoteHandlerBase):
             def on_recv_rsp(self, rsp_str):
                 ret_code, content = super(StockQuoteTest,self).on_recv_rsp(rsp_str)
@@ -52,6 +53,7 @@ class OrderBookHandlerBase(RspHandlerBase):
     异步处理推送的实时摆盘。
 
     .. code:: python
+
         class OrderBookTest(OrderBookHandlerBase):
             def on_recv_rsp(self, rsp_str):
                 ret_code, data = super(OrderBookTest,self).on_recv_rsp(rsp_str)
@@ -85,6 +87,7 @@ class CurKlineHandlerBase(RspHandlerBase):
     异步处理推送的k线数据。
 
     .. code:: python
+
         class CurKlineTest(CurKlineHandlerBase):
             def on_recv_rsp(self, rsp_str):
                 ret_code, data = super(CurKlineTest,self).on_recv_rsp(rsp_str)
@@ -124,6 +127,7 @@ class TickerHandlerBase(RspHandlerBase):
     异步处理推送的逐笔数据。
 
     .. code:: python
+
         class TickerTest(TickerHandlerBase):
             def on_recv_rsp(self, rsp_str):
                 ret_code, data = super(TickerTest,self).on_recv_rsp(rsp_str)
@@ -164,6 +168,7 @@ class RTDataHandlerBase(RspHandlerBase):
     异步处理推送的分时数据。
 
     .. code:: python
+
         class RTDataTest(RTDataHandlerBase):
             def on_recv_rsp(self, rsp_str):
                 ret_code, data = super(RTDataTest,self).on_recv_rsp(rsp_str)
@@ -204,6 +209,7 @@ class BrokerHandlerBase(RspHandlerBase):
     异步处理推送的经纪数据。
 
     .. code:: python
+
         class BrokerTest(BrokerHandlerBase):
             def on_recv_rsp(self, rsp_str):
                 ret_code, data = super(BrokerTest,self).on_recv_rsp(rsp_str)
