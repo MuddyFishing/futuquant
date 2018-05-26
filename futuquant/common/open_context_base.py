@@ -156,21 +156,36 @@ class OpenContextBase(object):
 
     def start(self):
         """
-        start the receiving thread,asynchronously receive the data pushed by the client
+        启动异步接收推送数据
         """
         self._proc_run = True
 
     def stop(self):
         """
-        stop the receiving thread, no longer receive the data pushed by the client
+        停止异步接收推送数据
         """
         self._proc_run = False
 
     def set_handler(self, handler):
         """
-        set async push hander obj
-        :param handler: RspHandlerBase deviced obj
-        :return: ret_error or ret_ok
+        设置异步回调处理对象
+
+        :param handler: 回调处理对象，必须是以下类的子类实例
+
+                    ===============================    =========================
+                     类名                                 说明
+                    ===============================    =========================
+                    StockQuoteHandlerBase               报价处理基类
+                    OrderBookHandlerBase                摆盘处理基类
+                    CurKlineHandlerBase                 实时k线处理基类
+                    TickerHandlerBase                   逐笔处理基类
+                    RTDataHandlerBase                   分时数据处理基类
+                    BrokerHandlerBase                   经济队列处理基类
+                    ===============================    =========================
+
+        :return: RET_OK: 设置成功
+
+                RET_ERROR: 设置失败
         """
         if self._handlers_ctx is not None:
             return self._handlers_ctx.set_handler(handler)
