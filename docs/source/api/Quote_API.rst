@@ -47,7 +47,7 @@ StockQuoteHandlerBase - 实时报价回调处理类
 on_recv_rsp
 ~~~~~~~~~~~
 
-..  py:function:: on_recv_rsp(self, rsp_pb)
+..  py:function:: on_recv_rsp
 
 在收到实时报价推送后会回调到该函数，使用者需要在派生类中覆盖此方法
 
@@ -254,6 +254,48 @@ close
 	from futuquant import *
 	quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
 	quote_ctx.close()
+	
+	
+start
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: start
+
+启动异步接收推送数据
+
+
+stop
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: stop
+
+停止异步接收推送数据
+
+
+set_handler
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: set_handler
+
+设置异步回调处理对象
+
+:param handler: 回调处理对象，必须是以下类的子类实例
+
+			===============================    =========================
+			 类名                                 说明
+			===============================    =========================
+			StockQuoteHandlerBase               报价处理基类
+			OrderBookHandlerBase                摆盘处理基类
+			CurKlineHandlerBase                 实时k线处理基类
+			TickerHandlerBase                   逐笔处理基类
+			RTDataHandlerBase                   分时数据处理基类
+			BrokerHandlerBase                   经济队列处理基类
+			===============================    =========================
+
+:return: RET_OK: 设置成功
+
+		RET_ERROR: 设置失败
+
 
 
 get_stock_basicinfo
@@ -487,6 +529,7 @@ get_rt_data
 		opened_mins             int            零点到当前多少分钟
 		cur_price               float          当前价格
 		last_close              float          昨天收盘的价格
+		avg_price               float          平均价格
 		volume                  float          成交量
 		turnover                float          成交金额
 		=====================   ===========   ==============================================================

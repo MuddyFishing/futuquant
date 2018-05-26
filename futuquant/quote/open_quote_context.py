@@ -533,6 +533,7 @@ class OpenQuoteContext(OpenContextBase):
                 opened_mins             int            零点到当前多少分钟
                 cur_price               float          当前价格
                 last_close              float          昨天收盘的价格
+                avg_price               float          平均价格
                 volume                  float          成交量
                 turnover                float          成交金额
                 =====================   ===========   ==============================================================
@@ -671,7 +672,7 @@ class OpenQuoteContext(OpenContextBase):
 
                 ret == RET_OK 返回pd dataframe数据，数据列格式如下
 
-                ret != RET_OK 返回错误字符串
+                ret != RET_OK 后面两项为错误字符串
 
                 bid_frame_table 经纪买盘数据
                 =====================   ===========   ==============================================================
