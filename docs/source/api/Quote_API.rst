@@ -22,220 +22,6 @@
 接口类对象
 ==========
 
--------------------------------------------
-
-StockQuoteHandlerBase - 实时报价回调处理类
--------------------------------------------
-
-异步处理推送的订阅股票的报价。
-
-.. code:: python
-	
-	class StockQuoteTest(StockQuoteHandlerBase):
-		def on_recv_rsp(self, rsp_str):
-			ret_code, content = super(StockQuoteTest,self).on_recv_rsp(rsp_str)
-			if ret_code != RET_OK:
-				print("StockQuoteTest: error, msg: %s" % content)
-				return RET_ERROR, content
-
-			print("StockQuoteTest ", content) # StockQuoteTest自己的处理逻辑
-
-			return RET_OK, content
-				
--------------------------------------------
-
-on_recv_rsp
-~~~~~~~~~~~
-
-..  py:function:: on_recv_rsp
-
-在收到实时报价推送后会回调到该函数，使用者需要在派生类中覆盖此方法
-
-注意该回调是在独立子线程中
-
-:param rsp_pb: 派生类中不需要直接处理该参数
-:return: 参见get_stock_quote的返回值
-	
-----------------------------
-
-OrderBookHandlerBase - 实时摆盘回调处理类
--------------------------------------------
-
-异步处理推送的实时摆盘。
-
-.. code:: python
-	
-	class OrderBookTest(OrderBookHandlerBase):
-		def on_recv_rsp(self, rsp_str):
-			ret_code, data = super(OrderBookTest,self).on_recv_rsp(rsp_str)
-			if ret_code != RET_OK:
-				print("OrderBookTest: error, msg: %s" % data)
-				return RET_ERROR, data
-
-			print("OrderBookTest ", data) # OrderBookTest自己的处理逻辑
-
-			return RET_OK, content
-			
--------------------------------------------
-
-on_recv_rsp
-~~~~~~~~~~~
-
-..  py:function:: on_recv_rsp(self, rsp_pb)
-
-
- 在收到实摆盘数据推送后会回调到该函数，使用者需要在派生类中覆盖此方法
-
-注意该回调是在独立子线程中
-
-:param rsp_pb: 派生类中不需要直接处理该参数
-:return: 参见get_order_book的返回值
-	
-----------------------------
-
-CurKlineHandlerBase - 实时k线推送回调处理类
--------------------------------------------
-
-异步处理推送的k线数据。
-
-.. code:: python
-	
-	class CurKlineTest(CurKlineHandlerBase):
-		def on_recv_rsp(self, rsp_str):
-			ret_code, data = super(CurKlineTest,self).on_recv_rsp(rsp_str)
-			if ret_code != RET_OK:
-				print("CurKlineTest: error, msg: %s" % data)
-				return RET_ERROR, data
-
-			print("CurKlineTest ", data) # CurKlineTest自己的处理逻辑
-
-			return RET_OK, content
-				
--------------------------------------------
-
-on_recv_rsp
-~~~~~~~~~~~
-
-..  py:function:: on_recv_rsp(self, rsp_pb)
-
-
-在收到实时k线数据推送后会回调到该函数，使用者需要在派生类中覆盖此方法
-
-注意该回调是在独立子线程中
-
-:param rsp_pb: 派生类中不需要直接处理该参数
-:return: 参见get_cur_kline的返回值
-	
-----------------------------
-
-TickerHandlerBase - 实时逐笔推送回调处理类
--------------------------------------------
-
-异步处理推送的逐笔数据。
-
-.. code:: python
-	
-	class TickerTest(TickerHandlerBase):
-		def on_recv_rsp(self, rsp_str):
-			ret_code, data = super(TickerTest,self).on_recv_rsp(rsp_str)
-			if ret_code != RET_OK:
-				print("CurKlineTest: error, msg: %s" % data)
-				return RET_ERROR, data
-
-			print("TickerTest ", data) # TickerTest自己的处理逻辑
-
-			return RET_OK, content
-				
--------------------------------------------
-
-on_recv_rsp
-~~~~~~~~~~~
-
-..  py:function:: on_recv_rsp(self, rsp_pb)
-
-
-在收到实时逐笔数据推送后会回调到该函数，使用者需要在派生类中覆盖此方法
-
-注意该回调是在独立子线程中
-
-:param rsp_pb: 派生类中不需要直接处理该参数
-:return: 参见get_rt_ticker的返回值
-
-----------------------------
-
-RTDataHandlerBase - 实时分时推送回调处理类
--------------------------------------------
-
-异步处理推送的分时数据。
-
-.. code:: python
-	
-	class RTDataTest(RTDataHandlerBase):
-		def on_recv_rsp(self, rsp_str):
-			ret_code, data = super(RTDataTest,self).on_recv_rsp(rsp_str)
-			if ret_code != RET_OK:
-				print("RTDataTest: error, msg: %s" % data)
-				return RET_ERROR, data
-
-			print("RTDataTest ", data) # RTDataTest自己的处理逻辑
-
-			return RET_OK, content
-				
--------------------------------------------
-
-on_recv_rsp
-~~~~~~~~~~~
-
-..  py:function:: on_recv_rsp(self, rsp_pb)
-
-
-在收到实时逐笔数据推送后会回调到该函数，使用者需要在派生类中覆盖此方法
-
-注意该回调是在独立子线程中
-
-:param rsp_pb: 派生类中不需要直接处理该参数
-:return: 参见get_rt_data的返回值
-
-----------------------------
-
-BrokerHandlerBase - 实时经纪推送回调处理类
--------------------------------------------
-
-异步处理推送的分时数据。
-
-异步处理推送的经纪数据。
-
-.. code:: python
-	
-	class BrokerTest(BrokerHandlerBase):
-		def on_recv_rsp(self, rsp_str):
-			ret_code, data = super(BrokerTest,self).on_recv_rsp(rsp_str)
-			if ret_code != RET_OK:
-				print("BrokerTest: error, msg: %s" % data)
-				return RET_ERROR, data
-
-			print("BrokerTest ", data) # BrokerTest自己的处理逻辑
-
-			return RET_OK, content
-				
--------------------------------------------
-
-on_recv_rsp
-~~~~~~~~~~~
-
-..  py:function:: on_recv_rsp(self, rsp_pb)
-
-
-在收到实时经纪数据推送后会回调到该函数，使用者需要在派生类中覆盖此方法
-
-注意该回调是在独立子线程中
-
-:param rsp_pb: 派生类中不需要直接处理该参数
-:return: 参见get_broker_queue的返回值
-
-----------------------------
-
-
 OpenQuoteContext - 行情上下文对象类
 -------------------------------------------
 
@@ -857,6 +643,222 @@ get_multi_points_history_kline
 	=================   ===========   ==============================================================================
 	
 ---------------------------------------------------------------------
+	
+	
+
+-------------------------------------------
+
+StockQuoteHandlerBase - 实时报价回调处理类
+-------------------------------------------
+
+异步处理推送的订阅股票的报价。
+
+.. code:: python
+	
+	class StockQuoteTest(StockQuoteHandlerBase):
+		def on_recv_rsp(self, rsp_str):
+			ret_code, content = super(StockQuoteTest,self).on_recv_rsp(rsp_str)
+			if ret_code != RET_OK:
+				print("StockQuoteTest: error, msg: %s" % content)
+				return RET_ERROR, content
+
+			print("StockQuoteTest ", content) # StockQuoteTest自己的处理逻辑
+
+			return RET_OK, content
+				
+-------------------------------------------
+
+on_recv_rsp
+~~~~~~~~~~~
+
+..  py:function:: on_recv_rsp
+
+在收到实时报价推送后会回调到该函数，使用者需要在派生类中覆盖此方法
+
+注意该回调是在独立子线程中
+
+:param rsp_pb: 派生类中不需要直接处理该参数
+:return: 参见get_stock_quote的返回值
+	
+----------------------------
+
+OrderBookHandlerBase - 实时摆盘回调处理类
+-------------------------------------------
+
+异步处理推送的实时摆盘。
+
+.. code:: python
+	
+	class OrderBookTest(OrderBookHandlerBase):
+		def on_recv_rsp(self, rsp_str):
+			ret_code, data = super(OrderBookTest,self).on_recv_rsp(rsp_str)
+			if ret_code != RET_OK:
+				print("OrderBookTest: error, msg: %s" % data)
+				return RET_ERROR, data
+
+			print("OrderBookTest ", data) # OrderBookTest自己的处理逻辑
+
+			return RET_OK, content
+			
+-------------------------------------------
+
+on_recv_rsp
+~~~~~~~~~~~
+
+..  py:function:: on_recv_rsp(self, rsp_pb)
+
+
+ 在收到实摆盘数据推送后会回调到该函数，使用者需要在派生类中覆盖此方法
+
+注意该回调是在独立子线程中
+
+:param rsp_pb: 派生类中不需要直接处理该参数
+:return: 参见get_order_book的返回值
+	
+----------------------------
+
+CurKlineHandlerBase - 实时k线推送回调处理类
+-------------------------------------------
+
+异步处理推送的k线数据。
+
+.. code:: python
+	
+	class CurKlineTest(CurKlineHandlerBase):
+		def on_recv_rsp(self, rsp_str):
+			ret_code, data = super(CurKlineTest,self).on_recv_rsp(rsp_str)
+			if ret_code != RET_OK:
+				print("CurKlineTest: error, msg: %s" % data)
+				return RET_ERROR, data
+
+			print("CurKlineTest ", data) # CurKlineTest自己的处理逻辑
+
+			return RET_OK, content
+				
+-------------------------------------------
+
+on_recv_rsp
+~~~~~~~~~~~
+
+..  py:function:: on_recv_rsp(self, rsp_pb)
+
+
+在收到实时k线数据推送后会回调到该函数，使用者需要在派生类中覆盖此方法
+
+注意该回调是在独立子线程中
+
+:param rsp_pb: 派生类中不需要直接处理该参数
+:return: 参见get_cur_kline的返回值
+	
+----------------------------
+
+TickerHandlerBase - 实时逐笔推送回调处理类
+-------------------------------------------
+
+异步处理推送的逐笔数据。
+
+.. code:: python
+	
+	class TickerTest(TickerHandlerBase):
+		def on_recv_rsp(self, rsp_str):
+			ret_code, data = super(TickerTest,self).on_recv_rsp(rsp_str)
+			if ret_code != RET_OK:
+				print("CurKlineTest: error, msg: %s" % data)
+				return RET_ERROR, data
+
+			print("TickerTest ", data) # TickerTest自己的处理逻辑
+
+			return RET_OK, content
+				
+-------------------------------------------
+
+on_recv_rsp
+~~~~~~~~~~~
+
+..  py:function:: on_recv_rsp(self, rsp_pb)
+
+
+在收到实时逐笔数据推送后会回调到该函数，使用者需要在派生类中覆盖此方法
+
+注意该回调是在独立子线程中
+
+:param rsp_pb: 派生类中不需要直接处理该参数
+:return: 参见get_rt_ticker的返回值
+
+----------------------------
+
+RTDataHandlerBase - 实时分时推送回调处理类
+-------------------------------------------
+
+异步处理推送的分时数据。
+
+.. code:: python
+	
+	class RTDataTest(RTDataHandlerBase):
+		def on_recv_rsp(self, rsp_str):
+			ret_code, data = super(RTDataTest,self).on_recv_rsp(rsp_str)
+			if ret_code != RET_OK:
+				print("RTDataTest: error, msg: %s" % data)
+				return RET_ERROR, data
+
+			print("RTDataTest ", data) # RTDataTest自己的处理逻辑
+
+			return RET_OK, content
+				
+-------------------------------------------
+
+on_recv_rsp
+~~~~~~~~~~~
+
+..  py:function:: on_recv_rsp(self, rsp_pb)
+
+
+在收到实时逐笔数据推送后会回调到该函数，使用者需要在派生类中覆盖此方法
+
+注意该回调是在独立子线程中
+
+:param rsp_pb: 派生类中不需要直接处理该参数
+:return: 参见get_rt_data的返回值
+
+----------------------------
+
+BrokerHandlerBase - 实时经纪推送回调处理类
+-------------------------------------------
+
+异步处理推送的分时数据。
+
+异步处理推送的经纪数据。
+
+.. code:: python
+	
+	class BrokerTest(BrokerHandlerBase):
+		def on_recv_rsp(self, rsp_str):
+			ret_code, data = super(BrokerTest,self).on_recv_rsp(rsp_str)
+			if ret_code != RET_OK:
+				print("BrokerTest: error, msg: %s" % data)
+				return RET_ERROR, data
+
+			print("BrokerTest ", data) # BrokerTest自己的处理逻辑
+
+			return RET_OK, content
+				
+-------------------------------------------
+
+on_recv_rsp
+~~~~~~~~~~~
+
+..  py:function:: on_recv_rsp(self, rsp_pb)
+
+
+在收到实时经纪数据推送后会回调到该函数，使用者需要在派生类中覆盖此方法
+
+注意该回调是在独立子线程中
+
+:param rsp_pb: 派生类中不需要直接处理该参数
+:return: 参见get_broker_queue的返回值
+
+----------------------------	
+	
 	
 接口限频
 ========
