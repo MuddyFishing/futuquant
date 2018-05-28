@@ -17,6 +17,7 @@ futuquant documentation
 	intro/intro
 	setup/setup
 	setup/FutuOpenDGuide
+	setup/Hist_KLine_Download_Intro
 	
 .. toctree::
 	:caption: API
