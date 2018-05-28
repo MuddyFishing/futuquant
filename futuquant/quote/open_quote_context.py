@@ -196,7 +196,7 @@ class OpenQuoteContext(OpenContextBase):
             last_close          float          昨收价
             =================   ===========   ==============================================================================
 
-        :raise Exception: 失败时抛出异常
+            失败时返回(RET_ERROR, data)，其中data是错误描述字符串
 
         """
         if is_str(codelist):
@@ -204,15 +204,12 @@ class OpenQuoteContext(OpenContextBase):
         elif isinstance(codelist, list):
             pass
         else:
-            raise Exception(
-                "code list must be like ['HK.00001', 'HK.00700'] or 'HK.00001,HK.00700'"
-            )
+            return RET_ERROR, "code list must be like ['HK.00001', 'HK.00700'] or 'HK.00001,HK.00700'"
         result = []
         for code in codelist:
             ret, data = self.get_history_kline(code, start, end, ktype, autype)
             if ret != RET_OK:
-                raise Exception('get history kline error {},{},{},{}'.format(
-                    code, start, end, ktype))
+                return RET_ERROR, 'get history kline error {},{},{},{}'.format(code, start, end, ktype)
             result.append(data)
         return 0, result
 
@@ -675,6 +672,7 @@ class OpenQuoteContext(OpenContextBase):
                 ret != RET_OK 后面两项为错误字符串
 
                 bid_frame_table 经纪买盘数据
+
                 =====================   ===========   ==============================================================
                 参数                      类型                        说明
                 =====================   ===========   ==============================================================
@@ -685,6 +683,7 @@ class OpenQuoteContext(OpenContextBase):
                 =====================   ===========   ==============================================================
 
                 ask_frame_table 经纪卖盘数据
+
                 =====================   ===========   ==============================================================
                 参数                      类型                        说明
                 =====================   ===========   ==============================================================
@@ -755,7 +754,9 @@ class OpenQuoteContext(OpenContextBase):
         :param code_list: 需要订阅的股票代码列表
         :param subtype_list: 需要订阅的数据类型列表，参见SubType
         :return: (ret, err_message)
+
                 ret == RET_OK err_message为None
+
                 ret != RET_OK err_message为错误描述字符串
         """
         ret, msg, code_list, subtype_list = self._check_subscribe_param(code_list, subtype_list)
