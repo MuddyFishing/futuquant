@@ -75,6 +75,22 @@ FutuHistData配置
 
 --------------
 
+登录参数使用优先级
+--------------
+  1.命令行证书登录
+  
+  2.命令行帐号密码密文登录
+  
+  3.命令行帐号密码明文登录
+  
+  4.配置文件证书登录
+  
+  5.配置文件帐号密码密文登录
+  
+  6.配置文件帐号密码明文登录
+
+--------------
+
 运维命令
 --------------
   
@@ -85,7 +101,7 @@ FutuHistData配置
 exit - 退出程序
 ~~~~~~~~~~~~~~~~
 
-..  py:function:: exit 
+  exit 
 
   退出FutuOpenD程序
 
@@ -93,43 +109,44 @@ exit - 退出程序
 req_phone_verify_code - 请求手机验证码
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: req_phone_verify_code 
+  req_phone_verify_code 
 
   请求手机验证码，当启用设备锁并初次在该设备登录，要求做安全验证。
   
 input_phone_verify_code - 输入手机验证码
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: input_phone_verify_code -code=123456
+  input_phone_verify_code -code=123456
 
   输入手机验证码，并继续登录流程。
 
-  :param code: str，手机验证码
+  **Parameters: code** - str，手机验证码
  
 req_pic_verify_code - 请求图新验证码
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: req_pic_verify_code 
+  req_pic_verify_code 
 
   请求图形验证码，当多次输入错登录密码时，需要输入图形验证码。
   
 input_pic_verify_code - 输入手机验证码
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: input_pic_verify_code -code=1234
+  input_pic_verify_code -code=1234
 
   输入图形验证码，并继续登录流程。
 
-  :param code: str，图形验证码
+  **Paramters code:** str，图形验证码
   
 relogin - 重登录
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: relogin
+  relogin -login_pwd=123456
 
   当登录密码修改或中途打开设备锁等情况，要求用户重新登录时，可以使用该命令。只能重登当前帐号，不支持切换帐号。
   密码参数主要用于登录密码修改的情况，不指定密码则使用启动时登录密码。
 
-  :param login_pwd: str，登录密码明文
-  :param login_pwd_md5: str，登录密码密文（32位MD5加密16进制）
+  **Paramters login_pwd:** str，登录密码明文
+  
+  **Paramters login_pwd_md5:** str，登录密码密文（32位MD5加密16进制）
   

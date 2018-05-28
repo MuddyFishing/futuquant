@@ -44,8 +44,16 @@ futuquant安装
 
 技术架构
 --------
- 
+
+API与富途牛牛客户端架构
+~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. image:: ../_static/API.png
+
+FutuOpenD
+~~~~~~~~~~
+
+.. image:: ../_static/FutuOpenD.png
 
 --------------
 
