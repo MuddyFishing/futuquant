@@ -22,14 +22,15 @@ import futuquant as ft
 '''
 
 
-def make_order_and_cancel(api_svr_ip, api_svr_port, unlock_password, test_code, trade_env):
+def make_order_and_cancel(api_svr_ip, api_svr_port, unlock_password, test_code, trade_env, acc_id):
     """
     使用请先配置正确参数:
     :param api_svr_ip: (string) ip
     :param api_svr_port: (string) ip
     :param unlock_password: (string) 交易解锁密码, 必需修改!
     :param test_code: (string) 股票
-    :param trade_env:
+    :param trade_env:  参见 ft.TrdEnv的定义
+    :param acc_id:  交易子账号id
     """
     if unlock_password == "":
         raise Exception("请先配置交易解锁密码!")
@@ -98,7 +99,7 @@ def make_order_and_cancel(api_svr_ip, api_svr_port, unlock_password, test_code, 
         order_id = 0
         print("place order : price={} qty={} code={}".format(price, qty, test_code))
         ret_code, ret_data = trade_ctx.place_order(price=price, qty=qty, code=test_code, trd_side=ft.TrdSide.BUY,
-                                                   order_type=ft.OrderType.NORMAL, trd_env=trade_env)
+                                                   order_type=ft.OrderType.NORMAL, trd_env=trade_env, acc_id=acc_id)
         is_fire_trade = True
         print('下单ret={} data={}'.format(ret_code, ret_data))
         if ret_code == ft.RET_OK:
@@ -107,11 +108,24 @@ def make_order_and_cancel(api_svr_ip, api_svr_port, unlock_password, test_code, 
 
         # 循环撤单
         sleep(2)
+
+
         if order_id:
             while True:
+                ret_code, ret_data = trade_ctx.order_list_query(order_id=order_id, status_filter_list=[], code='',
+                                                                start='', end='', trd_env=trade_env, acc_id=acc_id)
+
+                if ret_code != ft.RET_OK:
+                    sleep(2)
+                    continue
+                order_status = ret_data.iloc[0]['order_status']
+                if order_status in [ft.OrderStatus.SUBMIT_FAILED, ft.OrderStatus.TIMEOUT, ft.OrderStatus.FILLED_ALL,
+                                    ft.OrderStatus.FAILED, ft.OrderStatus.DELETED]:
+                    break
+
                 print("cancel order...")
                 ret_code, ret_data = trade_ctx.modify_order(modify_order_op=ft.ModifyOrderOp.CANCEL, order_id=order_id,
-                                price=price, qty=qty, adjust_limit=0, trd_env=trade_env)
+                                price=price, qty=qty, adjust_limit=0, trd_env=trade_env, acc_id=acc_id)
                 print("撤单ret={} data={}".format(ret_code, ret_data))
                 if ret_code == ft.RET_OK:
                     break
@@ -125,8 +139,9 @@ def make_order_and_cancel(api_svr_ip, api_svr_port, unlock_password, test_code, 
 if __name__ == "__main__":
     ip = '127.0.0.1'
     port = 11111
-    unlock_pwd = "979899"
-    code = 'HK.00700'  # 'US.BABA' 'HK.00700'
-    trd_env = ft.TrdEnv.REAL
+    unlock_pwd = "123456"       # 交易密码
+    code = 'HK.69261'           # 'US.BABA' 'HK.00700'
+    trd_env = ft.TrdEnv.REAL    # 交易环境：真实或模拟
+    acc_id = 0                  # get_acc_list可查询交易子账号列表， 默认传0取列表中的第1个
 
-    make_order_and_cancel(ip, port, unlock_pwd, code, trd_env)
+    make_order_and_cancel(ip, port, unlock_pwd, code, trd_env, acc_id)
