@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='InitConnect.proto',
   package='InitConnect',
   syntax='proto2',
-  serialized_pb=_b('\n\x11InitConnect.proto\x12\x0bInitConnect\x1a\x0c\x43ommon.proto\">\n\x03\x43\x32S\x12\x11\n\tclientVer\x18\x01 \x02(\x05\x12\x10\n\x08\x63lientID\x18\x02 \x02(\t\x12\x12\n\nrecvNotify\x18\x03 \x01(\x08\"Q\n\x03S2C\x12\x11\n\tserverVer\x18\x01 \x02(\x05\x12\x13\n\x0bloginUserID\x18\x02 \x02(\x04\x12\x0e\n\x06\x63onnID\x18\x03 \x02(\x04\x12\x12\n\nconnAESKey\x18\x04 \x02(\t\"(\n\x07Request\x12\x1d\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x10.InitConnect.C2S\"a\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\x1d\n\x03s2c\x18\x04 \x01(\x0b\x32\x10.InitConnect.S2C')
+  serialized_pb=_b('\n\x11InitConnect.proto\x12\x0bInitConnect\x1a\x0c\x43ommon.proto\">\n\x03\x43\x32S\x12\x11\n\tclientVer\x18\x01 \x02(\x05\x12\x10\n\x08\x63lientID\x18\x02 \x02(\t\x12\x12\n\nrecvNotify\x18\x03 \x01(\x08\"l\n\x03S2C\x12\x11\n\tserverVer\x18\x01 \x02(\x05\x12\x13\n\x0bloginUserID\x18\x02 \x02(\x04\x12\x0e\n\x06\x63onnID\x18\x03 \x02(\x04\x12\x12\n\nconnAESKey\x18\x04 \x02(\t\x12\x19\n\x11keepAliveInterval\x18\x05 \x02(\x05\"(\n\x07Request\x12\x1d\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x10.InitConnect.C2S\"a\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12\x1d\n\x03s2c\x18\x04 \x01(\x0b\x32\x10.InitConnect.S2C')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,])
 
@@ -107,6 +107,13 @@ _S2C = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='keepAliveInterval', full_name='InitConnect.S2C.keepAliveInterval', index=4,
+      number=5, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -120,7 +127,7 @@ _S2C = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=112,
-  serialized_end=193,
+  serialized_end=220,
 )
 
 
@@ -150,8 +157,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=195,
-  serialized_end=235,
+  serialized_start=222,
+  serialized_end=262,
 )
 
 
@@ -202,8 +209,8 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=237,
-  serialized_end=334,
+  serialized_start=264,
+  serialized_end=361,
 )
 
 _REQUEST.fields_by_name['c2s'].message_type = _C2S

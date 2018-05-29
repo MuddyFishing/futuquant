@@ -47,6 +47,7 @@ class InitConnect:
             res['login_user_id'] = rsp_pb.s2c.loginUserID
             res['conn_id'] = rsp_pb.s2c.connID
             res['conn_key'] = rsp_pb.s2c.connAESKey
+            res['keep_alive_interval'] = rsp_pb.s2c.keepAliveInterval
         else:
             return RET_ERROR, "rsp_pb error", None
 

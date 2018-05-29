@@ -16,6 +16,7 @@ message S2C
 	required uint64 loginUserID = 2; //FutuOpenD登陆的牛牛用户ID
 	required uint64 connID = 3; //此连接的连接ID，连接的唯一标识
 	required string connAESKey = 4; //此连接后续AES加密通信的Key，固定为16字节长字符串
+	required int32 keepAliveInterval = 5; //心跳保活间隔
 }
 
 message Request

@@ -46,6 +46,7 @@ class OpenContextBase(object):
 
         # 心跳保持连接
         self.__thread_keep_alive = None
+        self._keep_alive_interval = 5.0
 
         self._socket_reconnect_and_wait_ready()
 
@@ -70,6 +71,7 @@ class OpenContextBase(object):
         else:
             conn_info = copy(content)
             self._sync_conn_id = conn_info['conn_id']
+            self._keep_alive_interval = conn_info['keep_alive_interval']
             self._sync_net_ctx.set_conn_id(self._sync_conn_id)
             FutuConnMng.add_conn(conn_info)
             logger.info("sync socket init_connect ok: {}".format(conn_info))
@@ -397,7 +399,9 @@ class OpenContextBase(object):
 
     def _thread_keep_alive_fun(self):
         alive_thread_handle = self.__thread_keep_alive
-        timer_alive = 9.0
+        timer_alive = self._keep_alive_interval
+        if timer_alive < 2.0:
+            timer_alive = 2.0
         while True:
             sleep(timer_alive)
             if self.__thread_keep_alive is not alive_thread_handle or self._is_obj_closed or \
