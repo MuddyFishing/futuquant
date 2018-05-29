@@ -79,11 +79,15 @@ class _SyncNetworkQueryCtx:
                 return ret, msg, None
 
             self._socket_lock.acquire()
+            if not self.s:
+                self._socket_lock.release()
+                return RET_ERROR, "socket is closed"
             is_socket_lock = True
 
             head_len = get_message_head_len()
             req_head_dict = parse_head(req_str[:head_len])
             req_proto_id = req_head_dict['proto_id']
+            req_serial_no = req_head_dict['serial_no']
             s_cnt = self.s.send(req_str)
 
             is_rsp_body = False
@@ -113,19 +117,13 @@ class _SyncNetworkQueryCtx:
                             err) + ' when receiving after sending %s bytes.' % s_cnt + ""
                         self._force_close_session()
                         return RET_ERROR, error_str, None
-                if head_dict["proto_id"] == req_head_dict['proto_id']:
+                if head_dict["proto_id"] == req_proto_id and head_dict["serial_no"] == req_serial_no:
                     is_rsp_body = True
                 else:
                     left_buf = rsp_body[head_dict['body_len']:]
-                    logger.debug("req protoID={}, recv protoID={}".format(req_head_dict["proto_id"], head_dict["proto_id"]))
+                    logger.debug("recv dirty response: req protoID={} serial={}, recv protoID={} serial={}".format(
+                                req_proto_id, req_serial_no, head_dict["proto_id"], head_dict["serial_no"]))
 
-            # 数据解密码校验
-            """
-            from binascii import b2a_hex, a2b_hex
-            import base64
-            if head_dict['proto_id'] == ProtoId.InitConnect:
-                print(base64.b64encode(rsp_body))
-            """
             ret_decrypt, msg_decrypt, rsp_body = decrypt_rsp_body(rsp_body, head_dict, self._conn_id)
 
             if ret_decrypt != RET_OK:
@@ -143,8 +141,6 @@ class _SyncNetworkQueryCtx:
             str_proto = ' when req proto:{}'.format(req_proto_id)
             error_str = ERROR_STR_PREFIX + str(err) + str_proto
             logger.error(error_str)
-
-            self._force_close_session()
 
             return RET_ERROR, error_str, None
         finally:
