@@ -32,14 +32,9 @@ class OpenTradeContextBase(OpenContextBase):
 
         # auto unlock trade
         if self._ctx_unlock is not None:
-            for i in range(3):
-                password, password_md5 = self._ctx_unlock
-                ret, data = self.unlock_trade(password, password_md5)
-                if ret == RET_OK:
-                    logger.debug('auto unlock trade ok!')
-                    break
-                sleep(1)
-
+            password, password_md5 = self._ctx_unlock
+            ret, data = self.unlock_trade(password, password_md5)
+            logger.debug('auto unlock trade ret={},data={}'.format(ret, data))
 
     def get_acc_list(self):
         """

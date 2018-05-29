@@ -46,6 +46,9 @@ class OpenQuoteContext(OpenContextBase):
         subtype_all_cnt = len(resub_dict.keys())
         subtype_cur_cnt = 0
 
+        ret_code = RET_OK
+        ret_msg = ''
+
         for subtype in resub_dict.keys():
             subtype_cur_cnt += 1
             code_set = resub_dict[subtype]
@@ -62,22 +65,27 @@ class OpenQuoteContext(OpenContextBase):
                 if subtype not in subtype_list:
                     subtype_list.append(subtype)   # 合并subtype请求
             else:
-                ret, msg = self.subscribe(code_list, subtype_list)
-                logger.debug("reconnect subscribe code_count={} ret={} msg={} subtype_list={} code_list={}".format(
-                    len(code_list), ret, msg, subtype_list, code_list))
+                ret_code, ret_msg = self.subscribe(code_list, subtype_list)
+                logger.debug("reconnect subscribe code_count={} ret_code={} ret_msg={} subtype_list={} code_list={}".format(
+                    len(code_list), ret_code, ret_msg, subtype_list, code_list))
+                if ret_code != RET_OK:
+                    break
+
                 resub_count += len(code_list)
                 code_list = code_list_new
                 subtype_list = [subtype]
 
             # 循环即将结束
             if subtype_cur_cnt == subtype_all_cnt and len(code_list):
-                ret, msg = self.subscribe(code_list, subtype_list)
-                logger.debug("reconnect subscribe code_count={} ret={} msg={} subtype_list={} code_list={}".format(len(code_list), ret, msg, subtype_list, code_list))
+                ret_code, ret_msg = self.subscribe(code_list, subtype_list)
+                logger.debug("reconnect subscribe code_count={} ret_code={} ret_msg={} subtype_list={} code_list={}".format(len(code_list), ret_code, ret_msg, subtype_list, code_list))
+                if ret_code != RET_OK:
+                    break
                 resub_count += len(code_list)
                 code_list = []
                 subtype_list = []
 
-        logger.debug("reconnect subscribe all code_count={}".format(resub_count))
+        logger.debug("reconnect subscribe all code_count={} ret_code={} ret_msg={}".format(resub_count, ret_code, ret_msg))
 
     def get_trading_days(self, market, start_date=None, end_date=None):
         """get the trading days"""
