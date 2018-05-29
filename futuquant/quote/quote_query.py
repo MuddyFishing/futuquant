@@ -1183,17 +1183,17 @@ class GlobalStateQuery:
         return RET_OK, "", state_dict
 
 
-class HeartBeat:
+class KeepAlive:
     def __init__(self):
         pass
 
     @classmethod
     def pack_req(cls, conn_id):
 
-        from futuquant.common.pb.HeartBeat_pb2 import Request
+        from futuquant.common.pb.KeepAlive_pb2 import Request
         req = Request()
         req.c2s.time = int(time.time())
-        return pack_pb_req(req, ProtoId.HeartBeat, conn_id)
+        return pack_pb_req(req, ProtoId.KeepAlive, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):

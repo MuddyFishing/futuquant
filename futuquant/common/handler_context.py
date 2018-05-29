@@ -15,8 +15,8 @@ class HandlerContext:
                 "obj": SysNotifyHandlerBase()
             },
             1004: {
-                "type": HeartBeatHandlerBase,
-                "obj": HeartBeatHandlerBase()
+                "type": KeepAliveHandlerBase,
+                "obj": KeepAliveHandlerBase()
             },
             2208: {
                 "type": TradeOrderHandlerBase,

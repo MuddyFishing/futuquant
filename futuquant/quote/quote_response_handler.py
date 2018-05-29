@@ -248,12 +248,12 @@ class BrokerHandlerBase(RspHandlerBase):
             return RET_OK, stock_code, [bid_frame_table, ask_frame_table]
 
 
-class HeartBeatHandlerBase(RspHandlerBase):
-    """Base class for handling Heart Beat"""
+class KeepAliveHandlerBase(RspHandlerBase):
+    """Base class for handling KeepAlive"""
 
     def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
-        ret_code, msg, time = HeartBeat.unpack_rsp(rsp_pb)
+        ret_code, msg, time = KeepAlive.unpack_rsp(rsp_pb)
 
         return ret_code, time
 

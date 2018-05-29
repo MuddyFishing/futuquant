@@ -560,7 +560,7 @@ class ProtoId(object):
     InitConnect = 1001  # 初始化连接
     GetGlobalState = 1002  # 获取全局状态
     Notify = 1003  # 通知推送
-    HeartBeat = 1004  # 通知推送
+    KeepAlive = 1004  # 通知推送
 
     Trd_GetAccList = 2001  # 获取业务账户列表
     Trd_UnlockTrade = 2005  # 解锁或锁定交易
@@ -610,7 +610,7 @@ class ProtoId(object):
     Qot_GetPlateSet = 3204  # 获取板块集合下的板块
     Qot_GetPlateSecurity = 3205  # 获取板块下的股票
 
-    All_PushId = [Notify, HeartBeat, Trd_UpdateOrder, Trd_UpdateOrderFill,Qot_UpdateBroker,
+    All_PushId = [Notify, KeepAlive, Trd_UpdateOrder, Trd_UpdateOrderFill, Qot_UpdateBroker,
                   Qot_UpdateOrderBook, Qot_UpdateKL, Qot_UpdateRT, Qot_UpdateBasicQot, Qot_UpdateTicker]
 
     @classmethod

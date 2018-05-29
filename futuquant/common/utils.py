@@ -234,9 +234,9 @@ class ProtobufMap(dict):
         from futuquant.common.pb.Notify_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Notify] = Response()
 
-        """ HeartBeat = 1004  # 通知推送 """
-        from futuquant.common.pb.HeartBeat_pb2 import Response
-        ProtobufMap.created_protobuf_map[ProtoId.HeartBeat] = Response()
+        """ KeepAlive = 1004  # 通知推送 """
+        from futuquant.common.pb.KeepAlive_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.KeepAlive] = Response()
 
         """ Trd_GetAccList = 2001  # 获取业务账户列表 """
         from futuquant.common.pb.Trd_GetAccList_pb2 import Response

@@ -1,16 +1,16 @@
 syntax = "proto2";
-package HeartBeat;
+package KeepAlive;
 
 import "Common.proto";
 
 message C2S
 {
-	required int64 time = 10; //当前格林威治时间
+	required int64 time = 1; //客户端发包时的格林威治时间戳，单位秒
 }
 
 message S2C
 {
-	required int64 time = 10; //当前格林威治时间
+	required int64 time = 1; //服务器回包时的格林威治时间戳，单位秒
 }
 
 message Request

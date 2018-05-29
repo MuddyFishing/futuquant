@@ -11,7 +11,7 @@ from futuquant.common.handler_context import HandlerContext
 from futuquant.quote.quote_query import InitConnect
 from futuquant.quote.quote_response_handler import AsyncHandler_InitConnect
 from futuquant.quote.quote_query import GlobalStateQuery
-from futuquant.quote.quote_query import HeartBeat
+from futuquant.quote.quote_query import KeepAlive
 from futuquant.common.conn_mng import FutuConnMng
 import threading
 
@@ -45,7 +45,7 @@ class OpenContextBase(object):
         self._event_conn_close = threading.Event()
 
         # 心跳保持连接
-        self.__thread_heart_beat = None
+        self.__thread_keep_alive = None
 
         self._socket_reconnect_and_wait_ready()
 
@@ -134,7 +134,7 @@ class OpenContextBase(object):
         self._is_obj_closed = True
         self.stop()
 
-        self._wait_heart_beat_thread_exit()
+        self._wait_keep_alive_thread_exit()
 
         if self._thread_check_sync_sock is not None:
             self._thread_check_sync_sock.join(timeout=10)
@@ -288,8 +288,8 @@ class OpenContextBase(object):
 
         with self._sync_query_lock:
 
-            # close heart beat thread
-            self._wait_heart_beat_thread_exit()
+            # close keep alive thread
+            self._wait_keep_alive_thread_exit()
 
             # create sync socket and loop wait to connect api server
             self._thread_check_sync_sock = None
@@ -310,11 +310,11 @@ class OpenContextBase(object):
             self._thread_check_sync_sock.setDaemon(True)
             self._thread_check_sync_sock.start()
 
-            # create heart beat thread
-            self.__thread_heart_beat = Thread(
-                target=self._thread_heart_beat_fun)
-            self.__thread_heart_beat.setDaemon(True)
-            self.__thread_heart_beat.start()
+            # create keep alive thread
+            self.__thread_keep_alive = Thread(
+                target=self._thread_keep_alive_fun)
+            self.__thread_keep_alive.setDaemon(True)
+            self.__thread_keep_alive.start()
 
         # notify reconnected
         self._is_socket_reconnecting = False
@@ -395,22 +395,22 @@ class OpenContextBase(object):
         if self._event_conn_close and not self._event_conn_close.is_set():
             self._event_conn_close.set()
 
-    def _thread_heart_beat_fun(self):
-        heart_thread_handle = self.__thread_heart_beat
-        timer_heart = 9.0
+    def _thread_keep_alive_fun(self):
+        alive_thread_handle = self.__thread_keep_alive
+        timer_alive = 9.0
         while True:
-            sleep(timer_heart)
-            if self.__thread_heart_beat is not heart_thread_handle or self._is_obj_closed or \
+            sleep(timer_alive)
+            if self.__thread_keep_alive is not alive_thread_handle or self._is_obj_closed or \
                     self._is_socket_reconnecting:
                 return
 
-            ret_code, ret_msg = self._do_heart_beat()
+            ret_code, ret_msg = self._do_keep_alive()
             if ret_code != RET_OK:
-                logger.error("heart_beat fail :{} ".format(ret_msg))
+                logger.error("keep_alive fail :{} ".format(ret_msg))
                 self._notify_connect_close()
                 return
             else:
-                logger.debug("heart beat ok")
+                logger.debug("keep_alive ok")
 
     def _thread_check_sync_sock_fun(self):
         """
@@ -468,10 +468,10 @@ class OpenContextBase(object):
 
         return RET_OK, state_dict
 
-    def _do_heart_beat(self):
+    def _do_keep_alive(self):
 
         query_processor = self._get_sync_query_processor(
-            HeartBeat.pack_req, HeartBeat.unpack_rsp, False)
+            KeepAlive.pack_req, KeepAlive.unpack_rsp, False)
 
         kargs = {
             'conn_id': self.get_sync_conn_id(),
@@ -481,14 +481,14 @@ class OpenContextBase(object):
             return ret_code, msg
 
         # 异步连接心跳
-        ret_code, msg, req = HeartBeat.pack_req(self.get_async_conn_id())
+        ret_code, msg, req = KeepAlive.pack_req(self.get_async_conn_id())
         if ret_code == RET_OK:
             ret_code, msg = self._send_async_req(req)
 
         return ret_code, msg
 
-    def _wait_heart_beat_thread_exit(self):
-        if self.__thread_heart_beat is not None:
-            tmp_thread_obj = self.__thread_heart_beat
-            self.__thread_heart_beat = None
+    def _wait_keep_alive_thread_exit(self):
+        if self.__thread_keep_alive is not None:
+            tmp_thread_obj = self.__thread_keep_alive
+            self.__thread_keep_alive = None
             tmp_thread_obj.join(timeout=10)
