@@ -71,6 +71,7 @@ class _SyncNetworkQueryCtx:
         :param req_str
         :return: rsp_str
         """
+        req_proto_id = 0
         try:
             is_socket_lock = False
             ret, msg = self._create_session(is_create_socket)
@@ -82,6 +83,7 @@ class _SyncNetworkQueryCtx:
 
             head_len = get_message_head_len()
             req_head_dict = parse_head(req_str[:head_len])
+            req_proto_id = req_head_dict['proto_id']
             s_cnt = self.s.send(req_str)
 
             is_rsp_body = False
@@ -134,12 +136,16 @@ class _SyncNetworkQueryCtx:
                 return RET_ERROR, "parse error", None
 
             self._close_session()
+
         except Exception as e:
             traceback.print_exc()
             err = sys.exc_info()[1]
-            error_str = ERROR_STR_PREFIX + str(err) + ' when sending.'
+            str_proto = ' when req proto:{}'.format(req_proto_id)
+            error_str = ERROR_STR_PREFIX + str(err) + str_proto
+            logger.error(error_str)
 
             self._force_close_session()
+
             return RET_ERROR, error_str, None
         finally:
             if is_socket_lock:
@@ -155,7 +161,8 @@ class _SyncNetworkQueryCtx:
         self._is_loop_connecting = True
 
         self._socket_lock.acquire()
-        is_socket_lock = True
+        ret_code = RET_OK
+        ret_msg = ''
 
         if self.s is not None:
             self._force_close_session()
@@ -163,9 +170,6 @@ class _SyncNetworkQueryCtx:
         conn_cnt = 0
         while True:
             try:
-                if not is_socket_lock:
-                    is_socket_lock = True
-                    self._socket_lock.acquire()
                 s = sock.socket()
                 s.setsockopt(sock.SOL_SOCKET, sock.SO_REUSEADDR, 0)
                 s.setsockopt(sock.SOL_SOCKET, sock.SO_LINGER, pack("ii", 1, 0))
@@ -176,7 +180,7 @@ class _SyncNetworkQueryCtx:
                 traceback.print_exc()
                 err = sys.exc_info()[1]
                 err_msg = ERROR_STR_PREFIX + str(err)
-                logger.debug("socket connect count:{} err:{}".format(conn_cnt, err_msg))
+                logger.error("socket connect count:{} err:{}".format(conn_cnt, err_msg))
                 conn_cnt += 1
                 self.s = None
                 if s:
@@ -186,25 +190,24 @@ class _SyncNetworkQueryCtx:
                 continue
 
             if self._connected_handler is not None:
-                is_socket_lock = False
-                self._socket_lock.release()
-
                 sock_ok, is_retry = self._connected_handler.notify_sync_socket_connected(self)
                 if not sock_ok:
                     self._force_close_session()
                     if is_retry:
-                        logger.debug("wait to connect futunn plugin server")
+                        logger.debug("wait to connect FutuOpenD")
                         sleep(1.5)
                         continue
                     else:
-                        return RET_ERROR, "obj is closed"
+                        ret_code = RET_ERROR
+                        ret_msg = "obj is closed"
+                        break
                 else:
                     break
-        self._is_loop_connecting = False
-        if is_socket_lock:
-            self._socket_lock.release()
 
-        return RET_OK, ''
+        self._is_loop_connecting = False
+        self._socket_lock.release()
+
+        return ret_code, ret_msg
 
     def on_create_sync_session(self):
         self.reconnect()

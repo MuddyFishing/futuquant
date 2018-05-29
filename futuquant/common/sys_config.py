@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
 from futuquant.common.constant import *
+from futuquant.common.ft_logger import logger
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5 as Cipher_pkcs1
 from Crypto import Random
-
 
 class SysConfig(object):
     IS_PROTO_ENCRYPT = False                # api通讯协议是否加密
@@ -164,7 +164,9 @@ class SysConfig(object):
         except Exception as e:
             traceback.print_exc()
             err = sys.exc_info()[1]
-            raise Exception("Fatal error occurred in getting proto key, detail:{}".format(err))
+            err_msg = "Fatal error occurred in getting proto key, detail:{}".format(err)
+            logger.error(err_msg)
+            raise Exception(err_msg)
 
 
 class RsaCrypt(object):
