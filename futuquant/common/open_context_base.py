@@ -402,11 +402,19 @@ class OpenContextBase(object):
         timer_alive = self._keep_alive_interval
         if timer_alive < 2.0:
             timer_alive = 2.0
+        time_count = 0
+        time_sleep = 0.1
         while True:
-            sleep(timer_alive)
             if self.__thread_keep_alive is not alive_thread_handle or self._is_obj_closed or \
                     self._is_socket_reconnecting:
                 return
+
+            sleep(time_sleep)
+            time_count += time_sleep
+
+            if time_count < timer_alive:
+                continue
+            time_count = 0
 
             ret_code, ret_msg = self._do_keep_alive()
             if ret_code != RET_OK:

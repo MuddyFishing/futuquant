@@ -57,7 +57,7 @@ def make_order_and_cancel(api_svr_ip, api_svr_port, unlock_password, test_code, 
             is_unlock_trade = (ret_code == ft.RET_OK)
             if not is_unlock_trade:
                 print("请求交易解锁失败：{}".format(ret_data))
-                continue
+                break
 
         if lot_size == 0:
             print("get lotsize...")
@@ -114,7 +114,6 @@ def make_order_and_cancel(api_svr_ip, api_svr_port, unlock_password, test_code, 
                                 price=price, qty=qty, adjust_limit=0, trd_env=trade_env)
                 print("撤单ret={} data={}".format(ret_code, ret_data))
                 if ret_code == ft.RET_OK:
-                    order_id = 0
                     break
                 else:
                     sleep(2)
@@ -128,6 +127,6 @@ if __name__ == "__main__":
     port = 11111
     unlock_pwd = "979899"
     code = 'HK.00700'  # 'US.BABA' 'HK.00700'
-    trd_env = ft.TrdEnv.SIMULATE
+    trd_env = ft.TrdEnv.REAL
 
     make_order_and_cancel(ip, port, unlock_pwd, code, trd_env)
