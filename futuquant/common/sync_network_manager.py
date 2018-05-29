@@ -63,7 +63,7 @@ class _SyncNetworkQueryCtx:
     def reconnect(self):
         """reconnect"""
         logger.debug(" ****")
-        self._socket_create_and_loop_connect()
+        return self._socket_create_and_loop_connect()
 
     def network_query(self, req_str, is_create_socket=True):
         """

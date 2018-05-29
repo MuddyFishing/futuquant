@@ -234,10 +234,8 @@ class OpenContextBase(object):
             msg_obj_del = "the object may have been deleted!"
             if self._is_obj_closed or self._sync_query_lock is None:
                 return RET_ERROR, msg_obj_del, None
-            try:
-                self._sync_query_lock.acquire()
-                if self._is_obj_closed:
-                    return RET_ERROR, msg_obj_del, None
+
+            with self._sync_query_lock:
 
                 ret_code, msg, req_str = pack_func(**kargs)
 
@@ -251,15 +249,8 @@ class OpenContextBase(object):
                 ret_code, msg, content = unpack_func(rsp_str)
                 if ret_code == RET_ERROR:
                     return ret_code, msg, None
+
                 return RET_OK, msg, content
-            finally:
-                try:
-                    if self._sync_query_lock:
-                        self._sync_query_lock.release()
-                except Exception as e:
-                    traceback.print_exc()
-                    err = sys.exc_info()[1]
-                    logger.debug(err)
 
         return sync_query_processor
 
@@ -295,8 +286,7 @@ class OpenContextBase(object):
         self._clear_conn_id()
         self._count_reconnect += 1
 
-        try:
-            self._sync_query_lock.acquire()
+        with self._sync_query_lock:
 
             # close heart beat thread
             self._wait_heart_beat_thread_exit()
@@ -308,7 +298,10 @@ class OpenContextBase(object):
                                     long_conn=True, connected_handler=self, create_session_handler=self)
 
             # sync socket reconnect
-            self._sync_net_ctx.reconnect()
+            ret_code, ret_msg = self._sync_net_ctx.reconnect()
+            if ret_code != RET_OK:
+                return ret_code, ret_msg
+
             self._event_conn_close.clear()
 
             # run thread to check sync socket state
@@ -323,19 +316,9 @@ class OpenContextBase(object):
             self.__thread_heart_beat.setDaemon(True)
             self.__thread_heart_beat.start()
 
-            # notify reconnected
-            self.on_api_socket_reconnected()
-
-        finally:
-            try:
-                self._is_socket_reconnecting = False
-                if self._sync_query_lock:
-                    self._sync_query_lock.release()
-            except Exception as e:
-                traceback.print_exc()
-                err = sys.exc_info()[1]
-                logger.debug(err)
-            logger.debug(" leave ...")
+        # notify reconnected
+        self._is_socket_reconnecting = False
+        self.on_api_socket_reconnected()
 
         return RET_OK, ""
 
