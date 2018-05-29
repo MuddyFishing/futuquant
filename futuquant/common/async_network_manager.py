@@ -151,7 +151,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
             traceback.print_exc()
             err = sys.exc_info()[1]
             self.handler_ctx.error_func(str(err))
-            logger.debug(rsp_pb)
+            logger.error(err)
             return
 
     def network_query(self, req_str):
@@ -185,7 +185,9 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
     def _socket_create_and_connect(self):
 
         if self.__host is None or self.__port is None:
-            raise Exception("_AsyncNetworkManager  host or port is None")
+            err_msg = "_AsyncNetworkManager  host or port is None"
+            logger.error(err_msg)
+            raise Exception(err_msg)
 
         if self.socket is not None:
             self.close()

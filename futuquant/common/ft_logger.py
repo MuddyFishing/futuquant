@@ -3,7 +3,7 @@ from datetime import datetime
 import os
 
 logger = logging.getLogger('FT')
-log_level = logging.debug
+log_level = logging.DEBUG
 is_file_log = False
 
 # 设置logger的level为DEBUG
