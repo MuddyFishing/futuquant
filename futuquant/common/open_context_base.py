@@ -405,12 +405,12 @@ class OpenContextBase(object):
         time_count = 0
         time_sleep = 0.1
         while True:
+            sleep(time_sleep)
+            time_count += time_sleep
+
             if self.__thread_keep_alive is not alive_thread_handle or self._is_obj_closed or \
                     self._is_socket_reconnecting:
                 return
-
-            sleep(time_sleep)
-            time_count += time_sleep
 
             if time_count < timer_alive:
                 continue
