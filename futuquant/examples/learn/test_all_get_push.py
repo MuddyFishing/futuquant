@@ -6,13 +6,6 @@ Examples for use the python functions: get push data
 from futuquant import *
 from time import sleep
 
-# 设置dataframe结构的显示------pandas display设置
-pd.set_option('display.height', 1000)
-pd.set_option('display.max_rows', None)         # pandas.set_option() 可以设置pandas相关的参数，从而改变默认参数。 打印pandas数据事，默认是输出100行，多的话会输出....省略号。
-pd.set_option('display.max_columns', 500)
-pd.set_option('display.width', 1000)
-pd.set_option('colheader_justify', 'right')     #value显示居右
-
 
 class StockQuoteTest(StockQuoteHandlerBase):
     """
