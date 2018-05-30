@@ -701,36 +701,7 @@ get_order_book
     print(quote_ctx.get_order_book('HK.00700'))
     quote_ctx.close()
 
-get_suspension_info
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: get_suspension_info(self, code_list, start='', end='')
-
- 指定时间段，获某指定股票列表的停牌日期
-
- :param code_list: 股票代码列表
- :param start: 开始时间 '%Y-%m-%d'
- :param end: 结束时间 '%Y-%m-%d'
- :return: (ret, data)
-
-        ret == RET_OK data为pd dataframe数据， 格式如下
-                 ret != 0 data为错误字符串
-
-        =====================   ===========   ==============================================================
-        参数                      类型                        说明
-        =====================   ===========   ==============================================================
-        code                     str            股票代码
-        syspension_dates         str            停牌日
-        =====================   ===========   ==============================================================
-        
- :example:
-
- .. code:: python
-
-    from futuquant import *
-    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-    print(quote_ctx.get_suspension_info(['SZ.300104'], '2010-02-01', '2018-05-20'))
-    quote_ctx.close()
         
 get_multi_points_history_kline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

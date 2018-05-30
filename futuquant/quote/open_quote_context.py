@@ -1141,54 +1141,6 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, orderbook
 
-    def get_suspension_info(self, code_list, start='', end=''):
-        '''
-        指定时间段，获某指定股票列表的停牌日期
-
-        :param code_list: 股票代码列表
-        :param start: 开始时间 '%Y-%m-%d'
-        :param end: 结束时间 '%Y-%m-%d'
-        :return: (ret, data)
-
-                ret == RET_OK data为pd dataframe数据， 格式如下
-
-                ret != 0 data为错误字符串
-
-                =====================   ===========   ==============================================================
-                参数                      类型                        说明
-                =====================   ===========   ==============================================================
-                code                     str            股票代码
-                syspension_dates         str            停牌日
-                =====================   ===========   ==============================================================
-        '''
-        req_codes = unique_and_normalize_list(code_list)
-        if not code_list:
-            error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
-            return RET_ERROR, error_str
-
-        ret, msg, start, end = normalize_start_end_date(start, end, 365)
-        if ret != RET_OK:
-            return ret, msg
-
-        query_processor = self._get_sync_query_processor(
-            SuspensionQuery.pack_req,
-            SuspensionQuery.unpack_rsp,
-        )
-
-        kargs = {
-            "code_list": req_codes,
-            "start": str(start),
-            "end": str(end),
-            "conn_id": self.get_sync_conn_id()
-        }
-        ret_code, msg, susp_list = query_processor(**kargs)
-        if ret_code == RET_ERROR:
-            return ret_code, msg
-        col_list = ['code', 'suspension_dates']
-        pd_frame = pd.DataFrame(susp_list, columns=col_list)
-
-        return RET_OK, pd_frame
-
     def get_multi_points_history_kline(self,
                                        code_list,
                                        dates,

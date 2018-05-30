@@ -182,7 +182,6 @@ def quote_test():
     print("* get_autype_list : {}\n".format(quote_ctx.get_autype_list("HK.00700")))
 
     print("* get_trading_days : {}\n".format(quote_ctx.get_trading_days(Market.HK, '2018-11-01', '2018-11-20')))
-    print("* get_suspension_info : {}\n".format(quote_ctx.get_suspension_info('SZ.300104', '2010-02-01', '2018-11-20')))
 
     print("* get_market_snapshot : {}\n".format(quote_ctx.get_market_snapshot('HK.21901')))
     print("* get_market_snapshot : {}\n".format(quote_ctx.get_market_snapshot(code_list)))
