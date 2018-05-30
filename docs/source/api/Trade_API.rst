@@ -30,8 +30,8 @@
 	pwd_unlock = '123456'
 	trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
 	print(trd_ctx.unlock_trade(pwd_unlock))
-	print(trd_ctx.place_order(price=700.0, qyt=100, code="HK.00700", trd_side=TrdSide.SELL))
-	quote_ctx.close()
+	print(trd_ctx.place_order(price=700.0, qty=100, code="HK.00700", trd_side=TrdSide.SELL))
+	trd_ctx.close()
 
 
 
@@ -63,7 +63,7 @@ get_acc_list - 获取交易业务账户列表
  
 	trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
 	print(trd_ctx.get_acc_list())
-	quote_ctx.close()
+	trd_ctx.close()
 	
 ----------------------------
 
@@ -87,7 +87,7 @@ unlock_trade - 解锁交易
   pwd_unlock = '123456'
   trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
   print(trd_ctx.unlock_trade(pwd_unlock))
-  quote_ctx.close()
+  trd_ctx.close()
  
 ----------------------------
  
@@ -194,7 +194,7 @@ place_order - 下单
 	trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
 	print(trd_ctx.unlock_trade(pwd_unlock))
 	print(trd_ctx.place_order(price=700.0, qyt=100, code="HK.00700", trd_side=TrdSide.SELL))
-	quote_ctx.close()
+	trd_ctx.close()
 
 ----------------------------
 
@@ -241,7 +241,7 @@ order_list_query - 获取订单列表
   trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
   print(trd_ctx.unlock_trade(pwd_unlock))
   print(trd_ctx.order_list_query())
-  quote_ctx.close()
+  trd_ctx.close()
   
 ----------------------------
 
@@ -278,7 +278,7 @@ modify_order - 修改订单
   print(trd_ctx.unlock_trade(pwd_unlock))
   order_id = "12345"
   print(trd_ctx.modify_order(ModifyOrderOp.CANCEL, order_id))
-  quote_ctx.close()
+  trd_ctx.close()
 
   modify_order
 
@@ -309,7 +309,7 @@ change_order - 改单(老接口，兼容以前)
   print(trd_ctx.unlock_trade(pwd_unlock))
   order_id = "12345"
   print(trd_ctx.change_order(order_id, 100.0, 1))
-  quote_ctx.close()
+  trd_ctx.close()
   modify_order
 
 ----------------------------
@@ -351,7 +351,7 @@ deal_list_query - 获取成交列表
   print(trd_ctx.unlock_trade(pwd_unlock))
   order_id = "12345"
   print(trd_ctx.deal_list_query(code='HK.00700'))
-  quote_ctx.close()
+  trd_ctx.close()
 
 ----------------------------
 
@@ -380,7 +380,7 @@ history_order_list_query - 获取历史订单列表
   print(trd_ctx.unlock_trade(pwd_unlock))
   order_id = "12345"
   print(trd_ctx.history_order_list_query([OrderStatus.FILLED_ALL, OrderStatus.FILLED_PART], 'HK.00700'))
-  quote_ctx.close()
+  trd_ctx.close()
   
 ----------------------------
 
@@ -408,7 +408,7 @@ history_deal_list_query - 获取历史成交列表
   print(trd_ctx.unlock_trade(pwd_unlock))
   order_id = "12345"
   print(trd_ctx.history_deal_list_query('HK.00700'))
-  quote_ctx.close()
+  trd_ctx.close()
 
 ----------------------------
 
@@ -448,7 +448,7 @@ on_recv_rsp - 响应订单推送
   print(trd_ctx.place_order(price=700.0, qyt=100, code="HK.00700", trd_side=TrdSide.SELL))
   
   sleep(15)
-  quote_ctx.close()
+  trd_ctx.close()
 	
 ----------------------------
 
@@ -488,7 +488,7 @@ on_recv_rsp - 响应成交推送
   print(trd_ctx.place_order(price=700.0, qyt=100, code="HK.00700", trd_side=TrdSide.SELL))
   
   sleep(15)
-  quote_ctx.close()
+  trd_ctx.close()
 	
 ----------------------------
 
