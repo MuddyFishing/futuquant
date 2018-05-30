@@ -305,6 +305,7 @@ class OpenContextBase(object):
                 return ret_code, ret_msg
 
             self._event_conn_close.clear()
+            self._is_socket_reconnecting = False
 
             # run thread to check sync socket state
             self._thread_check_sync_sock = Thread(
@@ -319,7 +320,6 @@ class OpenContextBase(object):
             self.__thread_keep_alive.start()
 
         # notify reconnected
-        self._is_socket_reconnecting = False
         self.on_api_socket_reconnected()
 
         return RET_OK, ""
