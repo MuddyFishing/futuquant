@@ -121,8 +121,8 @@ class _SyncNetworkQueryCtx:
                     is_rsp_body = True
                 else:
                     left_buf = rsp_body[head_dict['body_len']:]
-                    logger.debug("recv dirty response: req protoID={} serial={}, recv protoID={} serial={}".format(
-                                req_proto_id, req_serial_no, head_dict["proto_id"], head_dict["serial_no"]))
+                    logger.debug("recv dirty response: req protoID={} serial={}, recv protoID={} serial={} conn_id={}".format(
+                            req_proto_id, req_serial_no, head_dict["proto_id"], head_dict["serial_no"], self._conn_id))
 
             ret_decrypt, msg_decrypt, rsp_body = decrypt_rsp_body(rsp_body, head_dict, self._conn_id)
 
@@ -138,7 +138,7 @@ class _SyncNetworkQueryCtx:
         except Exception as e:
             traceback.print_exc()
             err = sys.exc_info()[1]
-            str_proto = ' when req proto:{}'.format(req_proto_id)
+            str_proto = ' when req proto:{} conn_id:{}'.format(req_proto_id, self._conn_id)
             error_str = ERROR_STR_PREFIX + str(err) + str_proto
             logger.error(error_str)
 

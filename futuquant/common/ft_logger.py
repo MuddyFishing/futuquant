@@ -4,7 +4,7 @@ import os
 
 logger = logging.getLogger('FT')
 log_level = logging.DEBUG
-is_file_log = False
+is_file_log = True
 
 # 设置logger的level为DEBUG
 logger.setLevel(log_level)

@@ -400,6 +400,9 @@ class OpenContextBase(object):
     def _thread_keep_alive_fun(self):
         alive_thread_handle = self.__thread_keep_alive
         timer_alive = self._keep_alive_interval
+        sync_conn_id = self.get_sync_conn_id()
+        async_conn_id = self.get_async_conn_id()
+
         if timer_alive < 2.0:
             timer_alive = 2.0
         time_count = 0
@@ -418,11 +421,11 @@ class OpenContextBase(object):
 
             ret_code, ret_msg = self._do_keep_alive()
             if ret_code != RET_OK:
-                logger.error("keep_alive fail :{} ".format(ret_msg))
+                logger.error("keep_alive fail :{} sync_id:{} async_id:{}".format(ret_msg, sync_conn_id, async_conn_id))
                 self._notify_connect_close()
                 return
             else:
-                logger.debug("keep_alive ok")
+                logger.debug("keep_alive ok sync_id:{} async_id:{}".format(sync_conn_id, async_conn_id))
 
     def _thread_check_sync_sock_fun(self):
         """

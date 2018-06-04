@@ -135,7 +135,8 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                 if ret_decrypt == RET_OK:
                     rsp_pb = binary2pb(rsp_body, head_dict['proto_id'], head_dict['proto_fmt_type'])
                     if rsp_pb is None:
-                        logger.error("async handle_read not support proto:{}".format(head_dict['proto_id']))
+                        logger.error("async handle_read not support proto:{} conn_id:{}".format(head_dict['proto_id'],
+                                                                                                self._conn_id))
                     else:
                         self.handler_ctx.recv_func(rsp_pb, head_dict['proto_id'])
                 else:
@@ -149,7 +150,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                 return
             self.__recv_buf = b''
             traceback.print_exc()
-            err = sys.exc_info()[1]
+            err = sys.exc_info()[1] + " conn_id:{}".format(self._conn_id)
             self.handler_ctx.error_func(str(err))
             logger.error(err)
             return
@@ -166,7 +167,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         """handle close"""
         # reduce close log info
         if not self.__is_log_handle_close:
-            logger.debug("async socket err!")
+            logger.debug("async socket err! conn_id:{}".format(self._conn_id))
             self.__is_log_handle_close = True
 
         if self.connected:

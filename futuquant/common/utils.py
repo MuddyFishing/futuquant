@@ -511,7 +511,7 @@ def decrypt_rsp_body(rsp_body, head_dict, conn_id):
         sha20_check = hashlib.sha1(rsp_body).digest()
         if sha20_check != sha20:
             ret_code = RET_ERROR
-            msg = "proto id:{} check sha error!".format(proto_id)
+            msg = "proto id:{} conn_id:{} check sha error!".format(proto_id, conn_id)
 
     return ret_code, msg, rsp_body
 

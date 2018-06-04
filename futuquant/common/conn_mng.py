@@ -103,7 +103,7 @@ class FutuConnMng(object):
 
             return RET_OK, '', de_data
 
-        return RET_ERROR, 'AES decrypt error', data
+        return RET_ERROR, 'AES decrypt error, conn_id:{}'.format(conn_id), data
 
 
 
