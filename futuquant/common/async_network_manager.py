@@ -5,6 +5,7 @@ import time
 from time import sleep
 from threading import Thread, RLock
 from multiprocessing import Queue
+import errno
 import traceback
 from futuquant.common.utils import *
 from futuquant.quote.quote_query import parse_head
@@ -146,13 +147,13 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
             #   logger.debug("left len = {} data={}".format(len(self.__recv_buf), self.__recv_buf))
 
         except Exception as e:
-            if isinstance(e, IOError) and e.errno == 10035:
+            if isinstance(e, IOError) and e.errno in [errno.EINTR, errno.EWOULDBLOCK, errno.EAGAIN]:
                 return
             self.__recv_buf = b''
             traceback.print_exc()
             err = sys.exc_info()[1] + " conn_id:{}".format(self._conn_id)
             self.handler_ctx.error_func(str(err))
-            logger.error(err)
+            logger.debug(err)
             return
 
     def network_query(self, req_str):
