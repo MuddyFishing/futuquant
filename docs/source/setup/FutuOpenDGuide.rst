@@ -83,7 +83,7 @@ FutuHistData配置
   
   传参格式：-key=value
   
-  例如FutuOpenD.exe -login_account=100000 -login_pwd=123456
+  例如FutuOpenD.exe -login_account=100000 -login_pwd=123456 -lang=en
   
   **参数项：**
   
@@ -97,6 +97,7 @@ FutuHistData配置
   cfg_file                   FutuOpenD配置文件绝对路径                                                                            是，不设置则使用程序所在目录下的FutuOpenD.xml
   hist_data_cfg_file         FutuHistData配置文件绝对路径 	                                                                      是，不设置则使用程序所在目录下的FutuHistData.xml
   console                    是否显示控制台，后台运行：0，控制台运行：1                                                           是，不设置则默认控制台运行
+  lang						 FutuOpenD语言，en：英文，chs：简体中文                                                               是，不设置则默认简体中文
   ========================   ==================================================================================================   ================================================
 
 --------------
