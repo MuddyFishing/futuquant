@@ -65,7 +65,7 @@ class OpenQuoteContext(OpenContextBase):
                 if subtype not in subtype_list:
                     subtype_list.append(subtype)   # 合并subtype请求
             else:
-                ret_code, ret_msg = self.subscribe(code_list, subtype_list)
+                ret_code, ret_msg = self._subscribe_impl(code_list, subtype_list, True)
                 logger.debug("reconnect subscribe code_count={} ret_code={} ret_msg={} subtype_list={} code_list={}".format(
                     len(code_list), ret_code, ret_msg, subtype_list, code_list))
                 if ret_code != RET_OK:
@@ -77,7 +77,7 @@ class OpenQuoteContext(OpenContextBase):
 
             # 循环即将结束
             if subtype_cur_cnt == subtype_all_cnt and len(code_list):
-                ret_code, ret_msg = self.subscribe(code_list, subtype_list)
+                ret_code, ret_msg = self._subscribe_impl(code_list, subtype_list, True)
                 logger.debug("reconnect subscribe code_count={} ret_code={} ret_msg={} subtype_list={} code_list={}".format(len(code_list), ret_code, ret_msg, subtype_list, code_list))
                 if ret_code != RET_OK:
                     break
@@ -767,16 +767,13 @@ class OpenQuoteContext(OpenContextBase):
 
                 ret != RET_OK err_message为错误描述字符串
         """
+        return self._subscribe_impl(code_list, subtype_list, False)
+
+    def _subscribe_impl(self, code_list, subtype_list, is_reconnect):
+
         ret, msg, code_list, subtype_list = self._check_subscribe_param(code_list, subtype_list)
         if ret != RET_OK:
             return ret, msg
-
-        for subtype in subtype_list:
-            if subtype not in self._ctx_subscribe:
-                self._ctx_subscribe[subtype] = set()
-            code_set = self._ctx_subscribe[subtype]
-            for code in code_list:
-                code_set.add(code)
 
         query_processor = self._get_sync_query_processor(SubscriptionQuery.pack_subscribe_req,
                                                          SubscriptionQuery.unpack_subscribe_rsp)
@@ -791,8 +788,15 @@ class OpenQuoteContext(OpenContextBase):
         if ret_code != RET_OK:
             return RET_ERROR, msg
 
+        for subtype in subtype_list:
+            if subtype not in self._ctx_subscribe:
+                self._ctx_subscribe[subtype] = set()
+            code_set = self._ctx_subscribe[subtype]
+            for code in code_list:
+                code_set.add(code)
+
         ret_code, msg, push_req_str = SubscriptionQuery.pack_push_req(
-            code_list, subtype_list, self.get_async_conn_id())
+            code_list, subtype_list, self.get_async_conn_id(), is_reconnect)
 
         if ret_code != RET_OK:
             return RET_ERROR, msg

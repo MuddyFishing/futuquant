@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_RegQotPush.proto',
   package='Qot_RegQotPush',
   syntax='proto2',
-  serialized_pb=_b('\n\x14Qot_RegQotPush.proto\x12\x0eQot_RegQotPush\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"s\n\x03\x43\x32S\x12*\n\x0csecurityList\x18\x01 \x03(\x0b\x32\x14.Qot_Common.Security\x12\x13\n\x0bsubTypeList\x18\x02 \x03(\x05\x12\x15\n\rrehabTypeList\x18\x03 \x03(\x05\x12\x14\n\x0cisRegOrUnReg\x18\x04 \x02(\x08\"\x05\n\x03S2C\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Qot_RegQotPush.C2S\"d\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12 \n\x03s2c\x18\x04 \x01(\x0b\x32\x13.Qot_RegQotPush.S2C')
+  serialized_pb=_b('\n\x14Qot_RegQotPush.proto\x12\x0eQot_RegQotPush\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"\x88\x01\n\x03\x43\x32S\x12*\n\x0csecurityList\x18\x01 \x03(\x0b\x32\x14.Qot_Common.Security\x12\x13\n\x0bsubTypeList\x18\x02 \x03(\x05\x12\x15\n\rrehabTypeList\x18\x03 \x03(\x05\x12\x14\n\x0cisRegOrUnReg\x18\x04 \x02(\x08\x12\x13\n\x0bisFirstPush\x18\x05 \x01(\x08\"\x05\n\x03S2C\"+\n\x07Request\x12 \n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x13.Qot_RegQotPush.C2S\"d\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12 \n\x03s2c\x18\x04 \x01(\x0b\x32\x13.Qot_RegQotPush.S2C')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
 
@@ -63,6 +63,13 @@ _C2S = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='isFirstPush', full_name='Qot_RegQotPush.C2S.isFirstPush', index=4,
+      number=5, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -75,8 +82,8 @@ _C2S = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=72,
-  serialized_end=187,
+  serialized_start=73,
+  serialized_end=209,
 )
 
 
@@ -99,8 +106,8 @@ _S2C = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=189,
-  serialized_end=194,
+  serialized_start=211,
+  serialized_end=216,
 )
 
 
@@ -130,8 +137,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=196,
-  serialized_end=239,
+  serialized_start=218,
+  serialized_end=261,
 )
 
 
@@ -182,8 +189,8 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=241,
-  serialized_end=341,
+  serialized_start=263,
+  serialized_end=363,
 )
 
 _C2S.fields_by_name['securityList'].message_type = Qot__Common__pb2._SECURITY

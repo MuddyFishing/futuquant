@@ -783,7 +783,7 @@ class SubscriptionQuery:
         return RET_OK, "", result
 
     @classmethod
-    def pack_push_or_unpush_req(cls, code_list, subtype_list, is_push, conn_id):
+    def pack_push_or_unpush_req(cls, code_list, subtype_list, is_push, conn_id, is_reconnect):
         stock_tuple_list = []
         for code in code_list:
             ret_code, content = split_stock_str(code)
@@ -801,18 +801,19 @@ class SubscriptionQuery:
         for subtype in subtype_list:
             req.c2s.subTypeList.append(SUBTYPE_MAP[subtype])
         req.c2s.isRegOrUnReg = is_push
+        req.c2s.isFirstPush = False if is_reconnect else True
 
         return pack_pb_req(req, ProtoId.Qot_RegQotPush, conn_id)
 
     @classmethod
-    def pack_push_req(cls, code_list, subtype_list, conn_id):
+    def pack_push_req(cls, code_list, subtype_list, conn_id, is_reconnect):
 
-        return SubscriptionQuery.pack_push_or_unpush_req(code_list, subtype_list, True, conn_id)
+        return SubscriptionQuery.pack_push_or_unpush_req(code_list, subtype_list, True, conn_id, is_reconnect)
 
     @classmethod
-    def pack_unpush_req(cls, code_list, subtype_list, conn_id):
+    def pack_unpush_req(cls, code_list, subtype_list, conn_id, is_reconnect=False):
 
-        return SubscriptionQuery.pack_push_or_unpush_req(code_list, subtype_list, False, conn_id)
+        return SubscriptionQuery.pack_push_or_unpush_req(code_list, subtype_list, False, conn_id, is_reconnect)
 
 
 class StockQuoteQuery:
