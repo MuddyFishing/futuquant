@@ -65,7 +65,7 @@ class OpenQuoteContext(OpenContextBase):
                 if subtype not in subtype_list:
                     subtype_list.append(subtype)   # 合并subtype请求
             else:
-                ret_code, ret_msg = self._subscribe_impl(code_list, subtype_list, True)
+                ret_code, ret_msg = self._reconnect_subscribe(code_list, subtype_list)
                 logger.debug("reconnect subscribe code_count={} ret_code={} ret_msg={} subtype_list={} code_list={}".format(
                     len(code_list), ret_code, ret_msg, subtype_list, code_list))
                 if ret_code != RET_OK:
@@ -77,7 +77,7 @@ class OpenQuoteContext(OpenContextBase):
 
             # 循环即将结束
             if subtype_cur_cnt == subtype_all_cnt and len(code_list):
-                ret_code, ret_msg = self._subscribe_impl(code_list, subtype_list, True)
+                ret_code, ret_msg = self._reconnect_subscribe(code_list, subtype_list)
                 logger.debug("reconnect subscribe code_count={} ret_code={} ret_msg={} subtype_list={} code_list={}".format(len(code_list), ret_code, ret_msg, subtype_list, code_list))
                 if ret_code != RET_OK:
                     break
@@ -86,6 +86,7 @@ class OpenQuoteContext(OpenContextBase):
                 subtype_list = []
 
         logger.debug("reconnect subscribe all code_count={} ret_code={} ret_msg={}".format(resub_count, ret_code, ret_msg))
+
 
     def get_trading_days(self, market, start_date=None, end_date=None):
         """get the trading days"""
@@ -806,6 +807,22 @@ class OpenQuoteContext(OpenContextBase):
             return RET_ERROR, msg
 
         return RET_OK, None
+
+    def _reconnect_subscribe(self, code_list, subtype_list):
+
+        all_count = len(code_list)
+        one_size = 50
+        start_idx = 0
+        while start_idx < all_count:
+            sub_count = one_size if start_idx + one_size <= all_count else (all_count - start_idx)
+            sub_codes = code_list[start_idx: start_idx + sub_count]
+            start_idx += sub_count
+
+            ret_code, ret_data = self._subscribe_impl(sub_codes, subtype_list, True)
+            if ret_code != RET_OK:
+                return ret_code, ret_data
+
+        return RET_OK, ""
 
     def unsubscribe(self, code_list, subtype_list):
         """
