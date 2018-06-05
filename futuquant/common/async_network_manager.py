@@ -116,10 +116,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
             pass
 
     def handle_read(self):
-        """
-                    deal with package
-                    :return:
-                    """
+
         try:
             # handle_read要控制一下处理时长，避免一直阻塞处理
             last_tm = time.time()
@@ -136,11 +133,9 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                 head_dict = parse_head(self.__recv_buf[:get_message_head_len()])
                 body_len = head_dict['body_len']
 
-                while (body_len + head_len) > len(self.__recv_buf):
-                    recv_tmp = self.recv(5 * 1024 * 1024)
-                    if recv_tmp == b'':
-                        return
-                    self.__recv_buf += recv_tmp
+                # 处理完已读数据或者处理时间片超过指定时间
+                if (body_len + head_len) > len(self.__recv_buf) or (time.time() - last_tm > max_tm):
+                    return
 
                 rsp_body = self.__recv_buf[head_len: head_len + body_len]
                 self.__recv_buf = self.__recv_buf[head_len + body_len:]
@@ -166,12 +161,6 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                         self.handler_ctx.recv_func(rsp_pb, head_dict['proto_id'])
                 else:
                     logger.error(msg_decrypt)
-
-                if time.time() - last_tm > max_tm:
-                    return
-
-            # if len(self.__recv_buf):
-            #   logger.debug("left len = {} data={}".format(len(self.__recv_buf), self.__recv_buf))
 
         except Exception as e:
             if isinstance(e, IOError) and e.errno in [errno.EINTR, errno.EWOULDBLOCK, errno.EAGAIN]:
