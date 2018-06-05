@@ -16,6 +16,7 @@ class _AsyncThreadCtrl(object):
     def __init__(self):
         self.__list_aync = []
         self.__net_proc = None
+        self.__net_proc_hold = None
         self.__stop = False
         self.__list_lock = RLock()
 
@@ -26,9 +27,17 @@ class _AsyncThreadCtrl(object):
             self.__list_aync.append(async_obj)
             if self.__net_proc is None:
                 self.__stop = False
+
+                # work thread
                 self.__net_proc = Thread(
                     target=self._thread_aysnc_net_proc, args=())
+                self.__net_proc.setDaemon(True)
                 self.__net_proc.start()
+
+                # main hold thread
+                self.__net_proc_hold = Thread(
+                    target=self._thread_aysnc_net_proc_hold, args=())
+                self.__net_proc_hold.start()
 
     def remove_async(self, async_obj):
         with self.__list_lock:
@@ -37,18 +46,27 @@ class _AsyncThreadCtrl(object):
             self.__list_aync.remove(async_obj)
             if len(self.__list_aync) == 0:
                 self.__stop = True
+
                 self.__net_proc.join(timeout=5)
                 self.__net_proc = None
 
+                self.__net_proc_hold.join(timeout=5)
+                self.__net_proc_hold = None
+
     def _thread_aysnc_net_proc(self):
         while not self.__stop:
+
             with self.__list_lock:
                 for obj in self.__list_aync:
                     obj.thread_proc_async_req()
-                asyncore.loop(timeout=0.001, count=5)
+                asyncore.loop(timeout=0.01, count=1)
+
             if not asyncore.socket_map:
                 sleep(0.01)
 
+    def _thread_aysnc_net_proc_hold(self):
+        while not self.__stop:
+            sleep(0.1)
 
 
 class _AsyncNetworkManager(asyncore.dispatcher_with_send):
@@ -91,6 +109,8 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
             if self.connected and self.__req_queue.empty() is False:
                 req_str = self.__req_queue.get(timeout=0.001)
                 self.send(req_str)
+                # logger.debug("async conn_id:{}".format(self._conn_id))
+
         except Exception as e:
             traceback.print_exc()
             pass
@@ -101,6 +121,10 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                     :return:
                     """
         try:
+            # handle_read要控制一下处理时长，避免一直阻塞处理
+            last_tm = time.time()
+            max_tm = 0.2
+
             head_len = get_message_head_len()
             recv_tmp = self.recv(5 * 1024 * 1024)
             # logger.debug("async handle_read len={} head_len={}".format(len(recv_tmp), head_len))
@@ -143,6 +167,9 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                 else:
                     logger.error(msg_decrypt)
 
+                if time.time() - last_tm > max_tm:
+                    return
+
             # if len(self.__recv_buf):
             #   logger.debug("left len = {} data={}".format(len(self.__recv_buf), self.__recv_buf))
 
@@ -173,8 +200,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
 
         if self.connected:
             self.close()
-
-        self._clear_req_recv_cache()
+            self._clear_req_recv_cache()
 
         if self.__close_handler is not None:
             self.__close_handler.notify_async_socket_close(self)

@@ -219,6 +219,8 @@ class OpenContextBase(object):
         """
         if self._async_ctx:
             self._async_ctx.async_req(req_str)
+            # sleep 让异步线程有机会及时处理
+            sleep(0.02)
             return RET_OK, ''
         return RET_ERROR, 'async_ctx is None!'
 
@@ -399,25 +401,29 @@ class OpenContextBase(object):
 
     def _thread_keep_alive_fun(self):
         alive_thread_handle = self.__thread_keep_alive
-        timer_alive = self._keep_alive_interval
+        timer_alive = self._keep_alive_interval if self._keep_alive_interval >= 2.0 else 2.0
         sync_conn_id = self.get_sync_conn_id()
         async_conn_id = self.get_async_conn_id()
 
-        if timer_alive < 2.0:
-            timer_alive = 2.0
-        time_count = 0
+        time_second = 0
         time_sleep = 0.1
+        last_tm = time.time()
         while True:
             sleep(time_sleep)
-            time_count += time_sleep
+            time_second += time_sleep
 
             if self.__thread_keep_alive is not alive_thread_handle or self._is_obj_closed or \
                     self._is_socket_reconnecting:
                 return
 
-            if time_count < timer_alive:
+            if time_second < 0.5:
                 continue
-            time_count = 0
+            time_second = 0
+
+            cur_tm = time.time()
+            if cur_tm - last_tm < timer_alive:
+                continue
+            last_tm = cur_tm
 
             ret_code, ret_msg = self._do_keep_alive()
             if ret_code != RET_OK:
@@ -485,6 +491,15 @@ class OpenContextBase(object):
 
     def _do_keep_alive(self):
 
+        # 异步连接心跳
+        ret_code, msg, req = KeepAlive.pack_req(self.get_async_conn_id())
+        if ret_code == RET_OK:
+            ret_code, msg = self._send_async_req(req)
+
+        if ret_code != RET_OK:
+            return ret_code, msg
+
+        # 同步连接心跳
         query_processor = self._get_sync_query_processor(
             KeepAlive.pack_req, KeepAlive.unpack_rsp, False)
 
@@ -492,13 +507,6 @@ class OpenContextBase(object):
             'conn_id': self.get_sync_conn_id(),
         }
         ret_code, msg, _ = query_processor(**kargs)
-        if ret_code != RET_OK:
-            return ret_code, msg
-
-        # 异步连接心跳
-        ret_code, msg, req = KeepAlive.pack_req(self.get_async_conn_id())
-        if ret_code == RET_OK:
-            ret_code, msg = self._send_async_req(req)
 
         return ret_code, msg
 
