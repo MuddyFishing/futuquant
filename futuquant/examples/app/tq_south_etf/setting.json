@@ -1,0 +1,102 @@
+{
+    "help":
+    {
+      "1" :"frame 中设置框架础信息",
+        "1.1":"_api_ip - futu api socket ip",
+        "1.2":"_api_port - futu api socket port",
+        "1.3":"_market - 下单交易的市场 'HK'-港股 'US'-美股",
+        "1.4":"_env_type - REAL=真实环境 SIMULATE=模拟环境 (模拟环境3.0后续支持",
+        "1.5":"_trade_password - 交易密码，港股模拟环境不需要",
+
+        "1.6":"logLevel - log的级别，一般不用修改",
+        "1.7":"logConsole - log是否输出到控制台",
+        "1.8":"logFile - log是否输出到文件（在当前目录的'temp'子目录下)",
+
+       "2": "tiny_strate_base基类策略设置， 暂无用",
+        "2.1":"tiny_strate_sample - TinyStrateSample.py中的策略类参数设置",
+
+       "3": "实现自己的策略类",
+        "3.1": "请参考TinyStrateSample, 修改'name'名称，并在该配置文件中增加'name'对应的配置项",
+        "3.2": "continue",
+
+       "x": "常见配置问题:",
+        "x.1":"由于json格式的限制，主键（如frame)对应的最后一个配置项key(如logfile)最后不要添加逗号!",
+        "x.1":"由于json格式的限制, 配置项中不支持注释，且key,val信息必须用双引号包含",
+        "x.2":"continue"
+    },
+    "frame":
+    {
+        "_api_ip": "127.0.0.1",
+        "_api_port": 11111,
+        "_market": "HK",
+        "_env_type": "SIMULATE",
+        "_trade_password":"000000",
+
+        "logLevel": "info",
+        "logConsole": 1,
+        "logFile": 1
+    },
+    "tiny_strate_base":
+    {
+    },
+    "tiny_strate_south_etf":
+    {
+      "cta_info": "南方东英杠反ETF策略，回测数据见https://act.futunn.com/south-etf ",
+
+      "symbol_ref__": "看哪个指数参数 HK.800100:国企指数, HK.800000恒生指数",
+      "symbol_ref": "HK.800000",
+
+      "ref_idx__": "看什么指标参数 0:涨跌幅 1:移动平均线",
+      "ref_idx": 1,
+
+      "trade_qty__": "买卖交易的数量(测试股票一手是100)",
+      "trade_qty": 100,
+
+      "trade_price_idx__": "类似滑点设置，为了尽可能成交，交易下单时，设置在第几个档位买卖 范围:1 - 5",
+      "trade_price_idx": 3,
+
+      "cta_call__": "看多策略配置",
+      "cta_call":
+      {
+        "enable__": "0:不启用 1:启用",
+        "enable": 1,
+
+        "trigger_per__": "当涨 x 的时候买入",
+        "trigger_per": 0.01,
+
+        "trigger_ema_short__": "短的移动平均线",
+        "trigger_ema_short": 5,
+        "trigger_ema_long__": "长的移动平均线",
+        "trigger_ema_long": 10,
+
+        "symbol__": "HK.07200:南方两倍看多, HK.07300:南方一倍看空",
+        "symbol": "HK.07200",
+
+        "days_sell__": "买入后过 x 天卖掉",
+        "days_sell": 5
+      },
+
+      "cta_put__": "看空策略配置",
+      "cta_put":
+      {
+        "enable__": "0:不启用 1:启用",
+        "enable": 1,
+
+        "trigger_per__": "当跌 x 的时候买入",
+        "trigger_per": 0.01,
+
+        "trigger_ema_short__": "短的移动平均线",
+        "trigger_ema_short": 5,
+        "trigger_ema_long__": "长的移动平均线",
+        "trigger_ema_long": 10,
+
+        "symbol__": "HK.07200:南方两倍看多, HK.07300:南方一倍看空",
+        "symbol": "HK.07300",
+
+        "days_sell__": "买入后过 x 天后卖掉",
+        "days_sell": 5
+      },
+
+      "that's all, good luck!": ""
+    }
+}

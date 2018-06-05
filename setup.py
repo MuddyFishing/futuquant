@@ -39,7 +39,6 @@ setup(
     packages=find_packages(exclude=[]),
     package_data={'': ['*.*']},
     include_package_data=True,
-    zip_safe=True,
     install_requires=[
     	"future",
 			"vnpy >= 1.7.3",
@@ -47,5 +46,8 @@ setup(
 			"numpy",
 			"matplotlib",
 			"psutil",
+			"simplejson",
+			"protobuf",
+			"PyCryptodome",
     ],
 )

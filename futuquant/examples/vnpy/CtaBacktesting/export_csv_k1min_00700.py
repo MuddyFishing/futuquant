@@ -4,7 +4,7 @@
     从futu api中导出vnpy需要的1分k回测数据csv文件
 """
 
-from futuquant.open_context import *
+from futuquant import *
 
 
 def export_csv_k1m_file(quote_context, code, start='2017-11-01', end=None):

@@ -6,7 +6,7 @@
 
 from __future__ import division
 import threading
-
+import futuquant as ft
 
 EVENT_TINY_LOG = 'tiny_quant_log'
 EVENT_INI_FUTU_API = 'init futu api'
@@ -21,21 +21,21 @@ EVENT_QUOTE_CHANGE ='tiny quote data change'
 EVENT_CUR_KLINE_PUSH = 'cur kline push'
 EVENT_CUR_KLINE_BAR = 'kline min1 bar'
 
-MARKET_HK = 'HK'
-MARKET_US = 'US'
-MARKET_SH = 'SH'
-MARKET_SZ = 'SZ'
+MARKET_HK = ft.Market.HK
+MARKET_US = ft.Market.US
+MARKET_SH = ft.Market.SH
+MARKET_SZ = ft.Market.SZ
 
 # futu api k线定阅类型转定义
-KTYPE_DAY = 'K_DAY'
-KTYPE_MIN1 = 'K_1M'
-KTYPE_MIN5 = 'K_5M'
-KTYPE_MIN15 = 'K_15M'
-KTYPE_MIN30 = 'K_30M'
-KTYPE_MIN60 = 'K_60M'
+KTYPE_DAY = ft.KLType.K_DAY
+KTYPE_MIN1 = ft.KLType.K_1M
+KTYPE_MIN5 = ft.KLType.K_5M
+KTYPE_MIN15 = ft.KLType.K_15M
+KTYPE_MIN30 = ft.KLType.K_30M
+KTYPE_MIN60 = ft.KLType.K_60M
 
-TRADE_DIRECT_BUY = 'buy'
-TRADE_DIRECT_SELL = 'sell'
+TRADE_DIRECT_BUY = ft.TrdSide.BUY
+TRADE_DIRECT_SELL = ft.TrdSide.SELL
 
 # 定义array_manager中的kline数据最大个数
 MAP_KLINE_SIZE = {KTYPE_DAY: 200,
@@ -127,7 +127,7 @@ class TinyTradeOrder(object):
         self.price = 0            # 报价
         self.total_volume = 0     # 总数量
         self.trade_volume = 0     # 成交数量
-        self.submit_time = ''     # 提交时间
+        self.create_time = ''     # 创建时间
         self.updated_time = ''    # 更新时间
         self.trade_avg_price = 0  # 成交均价
         self.order_status = 0     # 订单状态 0=服务器处理中 1=等待成交 2=部分成交 3=全部成交 4=已失效 5=下单失败 6=已撤单 7=已删除 8=等待开盘
