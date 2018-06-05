@@ -112,7 +112,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                 # logger.debug("async conn_id:{}".format(self._conn_id))
 
         except Exception as e:
-            traceback.print_exc()
+            # traceback.print_exc()
             pass
 
     def handle_read(self):
