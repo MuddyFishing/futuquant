@@ -766,6 +766,8 @@ class OpenQuoteContext(OpenContextBase):
         """
         订阅注册需要的实时信息，指定股票和订阅的数据类型即可
 
+        注意：len(code_list) * 订阅的K线类型的数量 <= 100
+
         :param code_list: 需要订阅的股票代码列表
         :param subtype_list: 需要订阅的数据类型列表，参见SubType
         :return: (ret, err_message)
@@ -773,6 +775,14 @@ class OpenQuoteContext(OpenContextBase):
                 ret == RET_OK err_message为None
 
                 ret != RET_OK err_message为错误描述字符串
+        :example:
+
+        .. code:: python
+
+        from futuquant import *
+        quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+        print(quote_ctx.subscribe(['HK.00700'], [SubType.QUOTE)])
+        quote_ctx.close()
         """
         return self._subscribe_impl(code_list, subtype_list, False)
 
