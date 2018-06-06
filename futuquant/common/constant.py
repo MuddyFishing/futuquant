@@ -275,6 +275,13 @@ class SubType(object):
     RT_DATA = "RT_DATA"
     BROKER = "BROKER"
 
+
+KLINE_SUBTYPE_LIST = [SubType.K_DAY, SubType.K_MON, SubType.K_WEEK,
+                      SubType.K_1M, SubType.K_5M, SubType.K_15M,
+                      SubType.K_30M, SubType.K_60M
+                      ]
+
+
 SUBTYPE_MAP = {
     SubType.QUOTE: 1,
     SubType.ORDER_BOOK: 2,

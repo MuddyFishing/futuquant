@@ -465,6 +465,8 @@ subscribe
 ..  py:function:: subscribe(self, code_list, subtype_list)
 
  订阅注册需要的实时信息，指定股票和订阅的数据类型即可
+ 
+ 注意：len(code_list) * 订阅的K线类型的数量 <= 100
 
  :param code_list: 需要订阅的股票代码列表
  :param subtype_list: 需要订阅的数据类型列表，参见SubType
@@ -480,7 +482,7 @@ subscribe
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-    print(quote_ctx.subscribe(['HK.00700'], [SubType.QUOTE)])
+    print(quote_ctx.subscribe(['HK.00700'], [SubType.QUOTE]))
     quote_ctx.close()
 		
 		
@@ -773,7 +775,7 @@ StockQuoteHandlerBase - 实时报价回调处理类
 
 			print("StockQuoteTest ", content) # StockQuoteTest自己的处理逻辑
 
-			return RET_OK, content
+			return RET_OK, data
 			
 	quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
 	handler = StockQuoteTest()
@@ -818,8 +820,8 @@ OrderBookHandlerBase - 实时摆盘回调处理类
 
 			return RET_OK, content
 			
-	quote_ctx = OrderBookTest(host='127.0.0.1', port=11111)
-	handler = StockQuoteTest()
+	quote_ctx = OpenQuoteContex(host='127.0.0.1', port=11111)
+	handler = OrderBookTest()
 	quote_ctx.set_handler(handler)
 	time.sleep(15)  
 	quote_ctx.close()
@@ -860,10 +862,10 @@ CurKlineHandlerBase - 实时k线推送回调处理类
 
 			print("CurKlineTest ", data) # CurKlineTest自己的处理逻辑
 
-			return RET_OK, content
+			return RET_OK, data
 
-	quote_ctx = OrderBookTest(host='127.0.0.1', port=11111)
-	handler = StockQuoteTest()
+	quote_ctx = OpenQuoteContex(host='127.0.0.1', port=11111)
+	handler = CurKlineTest()
 	quote_ctx.set_handler(handler)
 	time.sleep(15)  
 	quote_ctx.close()			
@@ -904,10 +906,10 @@ TickerHandlerBase - 实时逐笔推送回调处理类
 
 			print("TickerTest ", data) # TickerTest自己的处理逻辑
 
-			return RET_OK, content
+			return RET_OK, data
                 
-	quote_ctx = OrderBookTest(host='127.0.0.1', port=11111)
-	handler = StockQuoteTest()
+	quote_ctx = OpenQuoteContex(host='127.0.0.1', port=11111)
+	handler = TickerTest()
 	quote_ctx.set_handler(handler)
 	time.sleep(15)  
 	quote_ctx.close()
@@ -948,10 +950,10 @@ RTDataHandlerBase - 实时分时推送回调处理类
 
 			print("RTDataTest ", data) # RTDataTest自己的处理逻辑
 
-			return RET_OK, content
+			return RET_OK, data
                 
-	quote_ctx = OrderBookTest(host='127.0.0.1', port=11111)
-	handler = StockQuoteTest()
+	quote_ctx = OpenQuoteContex(host='127.0.0.1', port=11111)
+	handler = RTDataTest()
 	quote_ctx.set_handler(handler)
 	time.sleep(15)  
 	quote_ctx.close()
@@ -994,10 +996,10 @@ BrokerHandlerBase - 实时经纪推送回调处理类
 
 			print("BrokerTest ", data) # BrokerTest自己的处理逻辑
 
-			return RET_OK, content
+			return RET_OK, data
                 
-	quote_ctx = OrderBookTest(host='127.0.0.1', port=11111)
-	handler = StockQuoteTest()
+	quote_ctx = OpenQuoteContex(host='127.0.0.1', port=11111)
+	handler = BrokerTest()
 	quote_ctx.set_handler(handler)
 	time.sleep(15)  
 	quote_ctx.close()
@@ -1048,7 +1050,7 @@ on_recv_rsp
 
  用户额度 >= 订阅K线股票数 * K线权重 + 订阅逐笔股票数 * 逐笔权重 + 订阅报价股票数 * 报价权重 + 订阅摆盘股票数 * 摆盘权重
  
-2.订阅不同的类型，会消耗不同的额度，当总额度超过上限后，目前用户总额度上限为500
+2.订阅不同的类型，会消耗不同的额度，当总额度超过上限后，目前用户总额度上限为500。
 
 3.订阅至少一分钟才可以反订阅
 

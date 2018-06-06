@@ -4,12 +4,14 @@
 """
 
 import datetime
+import math
 from time import sleep
 
 import pandas as pd
 from futuquant.common.open_context_base import OpenContextBase
 from futuquant.quote.quote_query import *
 
+MAX_KLINE_SUB_COUNT = 100
 
 class OpenQuoteContext(OpenContextBase):
     """行情上下文对象类"""
@@ -65,7 +67,7 @@ class OpenQuoteContext(OpenContextBase):
                 if subtype not in subtype_list:
                     subtype_list.append(subtype)   # 合并subtype请求
             else:
-                ret_code, ret_msg = self._subscribe_impl(code_list, subtype_list, True)
+                ret_code, ret_msg = self._reconnect_subscribe(code_list, subtype_list)
                 logger.debug("reconnect subscribe code_count={} ret_code={} ret_msg={} subtype_list={} code_list={}".format(
                     len(code_list), ret_code, ret_msg, subtype_list, code_list))
                 if ret_code != RET_OK:
@@ -77,7 +79,7 @@ class OpenQuoteContext(OpenContextBase):
 
             # 循环即将结束
             if subtype_cur_cnt == subtype_all_cnt and len(code_list):
-                ret_code, ret_msg = self._subscribe_impl(code_list, subtype_list, True)
+                ret_code, ret_msg = self._reconnect_subscribe(code_list, subtype_list)
                 logger.debug("reconnect subscribe code_count={} ret_code={} ret_msg={} subtype_list={} code_list={}".format(len(code_list), ret_code, ret_msg, subtype_list, code_list))
                 if ret_code != RET_OK:
                     break
@@ -86,6 +88,11 @@ class OpenQuoteContext(OpenContextBase):
                 subtype_list = []
 
         logger.debug("reconnect subscribe all code_count={} ret_code={} ret_msg={}".format(resub_count, ret_code, ret_msg))
+
+        # 重定阅失败，重连
+        if ret_code != RET_OK:
+            logger.error("reconnect subscribe error, close connect and retry!!")
+            self._notify_connect_close()
 
     def get_trading_days(self, market, start_date=None, end_date=None):
         """get the trading days"""
@@ -759,6 +766,8 @@ class OpenQuoteContext(OpenContextBase):
         """
         订阅注册需要的实时信息，指定股票和订阅的数据类型即可
 
+        注意：len(code_list) * 订阅的K线类型的数量 <= 100
+
         :param code_list: 需要订阅的股票代码列表
         :param subtype_list: 需要订阅的数据类型列表，参见SubType
         :return: (ret, err_message)
@@ -766,6 +775,14 @@ class OpenQuoteContext(OpenContextBase):
                 ret == RET_OK err_message为None
 
                 ret != RET_OK err_message为错误描述字符串
+        :example:
+
+        .. code:: python
+
+        from futuquant import *
+        quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+        print(quote_ctx.subscribe(['HK.00700'], [SubType.QUOTE)])
+        quote_ctx.close()
         """
         return self._subscribe_impl(code_list, subtype_list, False)
 
@@ -774,6 +791,14 @@ class OpenQuoteContext(OpenContextBase):
         ret, msg, code_list, subtype_list = self._check_subscribe_param(code_list, subtype_list)
         if ret != RET_OK:
             return ret, msg
+
+        kline_sub_count = 0
+        for sub_type in subtype_list:
+            if sub_type in KLINE_SUBTYPE_LIST:
+                kline_sub_count += 1
+
+        if kline_sub_count * len(code_list) > MAX_KLINE_SUB_COUNT:
+            return RET_ERROR, 'Too many subscription'
 
         query_processor = self._get_sync_query_processor(SubscriptionQuery.pack_subscribe_req,
                                                          SubscriptionQuery.unpack_subscribe_rsp)
@@ -806,6 +831,49 @@ class OpenQuoteContext(OpenContextBase):
             return RET_ERROR, msg
 
         return RET_OK, None
+
+    def _reconnect_subscribe(self, code_list, subtype_list):
+
+        # 将k线定阅和其它定阅区分开来
+        kline_sub_list = []
+        other_sub_list = []
+        for sub in subtype_list:
+            if sub in KLINE_SUBTYPE_LIST:
+                kline_sub_list.append(sub)
+            else:
+                other_sub_list.append(sub)
+
+        # 连接断开时，可能会有大批股票需要重定阅，分次定阅，提高成功率
+        kline_sub_one_size = 1
+        if len(kline_sub_list) > 0:
+            kline_sub_one_size = math.floor(MAX_KLINE_SUB_COUNT / len(kline_sub_list))
+
+        sub_info_list = [
+            {"sub_list": kline_sub_list, "one_size":  kline_sub_one_size},
+            {"sub_list": other_sub_list, "one_size": 100},
+        ]
+
+        ret_code = RET_OK
+        ret_data = None
+
+        for info in sub_info_list:
+            sub_list = info["sub_list"]
+            one_size = info["one_size"]
+            all_count = len(code_list)
+            start_idx = 0
+
+            while start_idx < all_count and len(sub_list):
+                sub_count = one_size if start_idx + one_size <= all_count else (all_count - start_idx)
+                sub_codes = code_list[start_idx: start_idx + sub_count]
+                start_idx += sub_count
+
+                ret_code, ret_data = self._subscribe_impl(sub_codes, sub_list, True)
+                if ret_code != RET_OK:
+                    break
+            if ret_code != RET_OK:
+                break
+
+        return ret_code, ret_data
 
     def unsubscribe(self, code_list, subtype_list):
         """

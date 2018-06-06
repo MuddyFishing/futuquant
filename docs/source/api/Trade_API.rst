@@ -118,7 +118,11 @@ accinfo_query - 获取账户资金数据
  .. code:: python
  
   from futuquant import *
-  accinfo_query
+  pwd_unlock = '123456'
+  trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+  print(trd_ctx.accinfo_query())
+  trd_ctx.close()
+  
 
 ----------------------------
 
@@ -164,7 +168,10 @@ position_list_query - 获取账户持仓列表
  .. code:: python
  
   from futuquant import *
-  position_list_query
+  pwd_unlock = '123456'
+  trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+  print(trd_ctx.position_list_query())
+  trd_ctx.close()
 
 ----------------------------
 

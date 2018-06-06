@@ -47,7 +47,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'futuquant'
-copyright = '2017, futu'
+copyright = '2018, futu'
 author = 'futu'
 
 # The version info for the project you're documenting, acts as replacement for
