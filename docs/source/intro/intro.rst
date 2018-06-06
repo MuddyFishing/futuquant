@@ -33,7 +33,7 @@ futuquant安装
 
 .. note::
 
-    *   我们强烈建议您使用Anaconda python 3，要求python3.5及以上版本, 必要的基础库包括 talib 等
+    *   我们强烈建议您使用Anaconda python 3，要求python3.5及以上版本, 必要的基础库包括 talib,protobuf,simplejson,pycryptodome 等
     *   FutuOpenD网关客户端 `下载 <https://www.futunn.com/download/index>`_
     *   FutuOpenD可依据业务需要运行在本机或云端服务器上 
     *   如您安装遇到问题请访问 :ref:`setup-setup`  

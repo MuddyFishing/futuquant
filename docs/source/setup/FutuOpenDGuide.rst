@@ -149,14 +149,14 @@ input_phone_verify_code - 输入手机验证码
 
   **Parameters: code** - str，手机验证码
  
-req_pic_verify_code - 请求图新验证码
+req_pic_verify_code - 请求图形验证码
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   req_pic_verify_code 
 
   请求图形验证码，当多次输入错登录密码时，需要输入图形验证码。
   
-input_pic_verify_code - 输入手机验证码
+input_pic_verify_code - 输入图形验证码
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   input_pic_verify_code -code=1234
