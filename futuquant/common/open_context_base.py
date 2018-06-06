@@ -209,7 +209,7 @@ class OpenContextBase(object):
         if self._sync_net_ctx:
             ret, msg, content = self._sync_net_ctx.network_query(req_str, is_create_socket)
             if ret != RET_OK:
-                return RET_ERROR, msg, None
+                return ret, msg, None
             return RET_OK, msg, content
         return RET_ERROR, "sync_ctx is None!", None
 
@@ -243,15 +243,15 @@ class OpenContextBase(object):
 
                 ret_code, msg, req_str = pack_func(**kargs)
 
-                if ret_code == RET_ERROR:
+                if ret_code != RET_OK:
                     return ret_code, msg, None
 
                 ret_code, msg, rsp_str = send_req(req_str, is_create_socket)
-                if ret_code == RET_ERROR:
+                if ret_code != RET_OK:
                     return ret_code, msg, None
 
                 ret_code, msg, content = unpack_func(rsp_str)
-                if ret_code == RET_ERROR:
+                if ret_code != RET_OK:
                     return ret_code, msg, None
 
                 return RET_OK, msg, content
