@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>介绍 &mdash; futuquant 2.3 documentation</title>
+  <title>介绍 &mdash; futuquant 3.0 documentation</title>
   
 
   
@@ -32,9 +32,9 @@
   
 
   
-    <link rel="top" title="futuquant 2.3 documentation" href="../index.html"/>
-        <link rel="next" title="安装" href="../setup/setup.html"/>
-        <link rel="prev" title="FutuQuant 2.3 Documentation" href="../index.html"/> 
+    <link rel="top" title="futuquant 3.0 documentation" href="../index.html"/>
+        <link rel="next" title="安装指南" href="../setup/setup.html"/>
+        <link rel="prev" title="FutuQuant 3.0 指南" href="../index.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                2.3
+                3.0
               </div>
             
           
@@ -90,26 +90,25 @@
               <p class="caption"><span class="caption-text">基础</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">介绍</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">简介</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">简易安装与更新</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">快速上手</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">示例策略</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id9">组织结构</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">API与富途牛牛客户端架构</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id10">使用须知</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id11">历史数据及除权除息下载问题</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id12">客户端下载及交流方式</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id13">使用说明</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">特点</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#futuquant">futuquant安装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">技术架构</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id6">简介</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#python-apifutuopend">Python API与FutuOpenD通讯架构</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#futuopendfutu">FutuOpenD与Futu后台通讯架构</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../setup/setup.html">安装</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../setup/Hist_KLine_Download_Intro.html">下载数据</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../setup/setup.html">安装指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setup/FutuOpenDGuide.html">FutuOpenD使用说明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setup/Hist_KLine_Download_Intro.html">下载历史数据</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../api/Market_API_Python_Doc.html">行情API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/Trade_API_Python_Doc.html">交易API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/PLS_API_Intro.html">PLS API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/Base_API.html">基础API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/Quote_API.html">行情API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/Trade_API.html">交易API</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Q&amp;A</span></p>
 <ul>
@@ -179,135 +178,69 @@
             
   <div class="section" id="id1">
 <h1>介绍<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id2">
-<h2>简介<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="https://futunnopen.github.io/futuquant/">FutuQuant</a> 开源项目可以满足使用 <a class="reference external" href="http://www.futunn.com/">富途牛牛</a> 软件进行量化投资的需求,
-提供包括Python接口、Json接口的行情及交易的API。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://futunnopen.github.io/futuquant/">官方在线文档</a></li>
+<p><a class="reference external" href="https://futunnopen.github.io/futuquant/">富途开放接口</a> 提供了基于Python的交易和行情API接口，可以满足您使用富途牛牛软件进行量化投资的需求。</p>
+<p>Futu Open API 项目，涵盖了常规交易品种（证券、衍生品）：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>1.港股：正股、涡轮、牛熊证
+2.美股：正股、ETF
+</pre></div>
+</div>
+<p>您可获取对应行情权限级别的报价、K线数据，拥有高级行情权限的客户可获取逐笔、买卖档、买卖经纪等深度数据。</p>
+<hr class="docutils" />
+<div class="section" id="id3">
+<h2>特点<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="79%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>高效的执行</td>
+<td>配合FutuOpenD，一行简单的命令就可以执行您的策略</td>
+</tr>
+<tr class="row-even"><td>活跃的社区</td>
+<td>富途牛牛圈、QQ群和众多牛人一起分享心得</td>
+</tr>
+<tr class="row-odd"><td>丰富的接口</td>
+<td>港美股、A股数据获取、实盘交易、模拟交易（即将支持）</td>
+</tr>
+<tr class="row-even"><td>跨平台支持</td>
+<td>兼容 Windows / Mac OS / Linux</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr class="docutils" />
+<div class="section" id="futuquant">
+<h2>futuquant安装<a class="headerlink" href="#futuquant" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ pip install futuquant
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>我们强烈建议您使用Anaconda python 3，要求python3.5及以上版本, 必要的基础库包括 talib,protobuf,simplejson,pycryptodome 等</li>
+<li>FutuOpenD网关客户端 <a class="reference external" href="https://www.futunn.com/download/index">下载</a></li>
+<li>FutuOpenD可依据业务需要运行在本机或云端服务器上</li>
+<li>如您安装遇到问题请访问 <span class="xref std std-ref">setup-setup</span></li>
 </ul>
+</div>
 </div>
 <hr class="docutils" />
 <div class="section" id="id5">
-<h2>简易安装与更新<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<p>安装</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">futuquant</span>
-</pre></div>
-</div>
-<p>更新</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">futuquant</span> <span class="o">--</span><span class="n">upgrade</span>
-</pre></div>
-</div>
-<p><strong>注: 本API支持python&gt;=3.5, 推荐安装anaconda环境，方便快捷。</strong></p>
-</div>
-<hr class="docutils" />
+<h2>技术架构<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id6">
-<h2>快速上手<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="c1"># 导入futuquant api</span>
-<span class="kn">import</span> <span class="nn">futuquant</span> <span class="k">as</span> <span class="nn">ft</span>
-
-<span class="c1"># 实例化行情上下文对象</span>
-<span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-
-<span class="c1"># 上下文控制</span>
-<span class="n">quote_ctx</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>              <span class="c1"># 开启异步数据接收</span>
-<span class="n">quote_ctx</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>               <span class="c1"># 停止异步数据接收</span>
-<span class="n">quote_ctx</span><span class="o">.</span><span class="n">set_handler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span> <span class="c1"># 设置用于异步处理数据的回调对象</span>
-
-<span class="c1"># 低频数据接口</span>
-<span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_trading_days</span><span class="p">(</span><span class="n">market</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>    <span class="c1"># 获取交易日</span>
-<span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_stock_basicinfo</span><span class="p">(</span><span class="n">market</span><span class="p">,</span> <span class="n">stock_type</span><span class="o">=</span><span class="s1">&#39;STOCK&#39;</span><span class="p">)</span>             <span class="c1"># 获取股票信息</span>
-<span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_history_kline</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ktype</span><span class="o">=</span><span class="s1">&#39;K_DAY&#39;</span><span class="p">,</span> <span class="n">autype</span><span class="o">=</span><span class="s1">&#39;qfq&#39;</span><span class="p">)</span>  <span class="c1"># 获取历史K线</span>
-<span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_autype_list</span><span class="p">(</span><span class="n">code_list</span><span class="p">)</span>                                  <span class="c1"># 获取复权因子</span>
-<span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_market_snapshot</span><span class="p">(</span><span class="n">code_list</span><span class="p">)</span>                              <span class="c1"># 获取市场快照</span>
-<span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_plate_list</span><span class="p">(</span><span class="n">market</span><span class="p">,</span> <span class="n">plate_class</span><span class="p">)</span>                         <span class="c1"># 获取板块集合下的子板块列表</span>
-<span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_plate_stock</span><span class="p">(</span><span class="n">market</span><span class="p">,</span> <span class="n">stock_code</span><span class="p">)</span>                         <span class="c1"># 获取板块下的股票列表</span>
-
-<span class="c1"># 高频数据接口</span>
-<span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_stock_quote</span><span class="p">(</span><span class="n">code_list</span><span class="p">)</span> <span class="c1"># 获取报价</span>
-<span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_rt_ticker</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>   <span class="c1"># 获取逐笔</span>
-<span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_cur_kline</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">ktype</span><span class="o">=</span><span class="s1">&#39; K_DAY&#39;</span><span class="p">,</span> <span class="n">autype</span><span class="o">=</span><span class="s1">&#39;qfq&#39;</span><span class="p">)</span> <span class="c1"># 获取当前K线</span>
-<span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_order_book</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>       <span class="c1"># 获取摆盘</span>
-<span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_rt_data</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>          <span class="c1"># 获取分时数据</span>
-<span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_broker_queue</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>     <span class="c1"># 获取经纪队列</span>
-
-
-<span class="c1"># 实例化港股交易上下文对象</span>
-<span class="n">trade_hk_ctx</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-
-<span class="c1"># 实例化美股交易上下文对象</span>
-<span class="n">trade_us_ctx</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">OpenUSTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-
-<span class="c1"># 交易接口列表</span>
-<span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">trade_hk_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">password</span><span class="o">=</span><span class="s1">&#39;123456&#39;</span><span class="p">)</span>                <span class="c1"># 解锁接口</span>
-<span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">trade_hk_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">qty</span><span class="p">,</span> <span class="n">strcode</span><span class="p">,</span> <span class="n">orderside</span><span class="p">,</span> <span class="n">ordertype</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># 下单接口</span>
-<span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">trade_hk_ctx</span><span class="o">.</span><span class="n">set_order_status</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">orderid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># 设置订单状态</span>
-<span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">trade_hk_ctx</span><span class="o">.</span><span class="n">change_order</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">qty</span><span class="p">,</span> <span class="n">orderid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># 修改订单</span>
-<span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">trade_hk_ctx</span><span class="o">.</span><span class="n">accinfo_query</span><span class="p">(</span><span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>                       <span class="c1"># 查询账户信息</span>
-<span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">trade_hk_ctx</span><span class="o">.</span><span class="n">order_list_query</span><span class="p">(</span><span class="n">statusfilter</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>   <span class="c1"># 查询订单列表</span>
-<span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">trade_hk_ctx</span><span class="o">.</span><span class="n">position_list_query</span><span class="p">(</span><span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>                 <span class="c1"># 查询持仓列表</span>
-<span class="n">ret_code</span><span class="p">,</span> <span class="n">ret_data</span> <span class="o">=</span> <span class="n">trade_hk_ctx</span><span class="o">.</span><span class="n">deal_list_query</span><span class="p">(</span><span class="n">envtype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>                     <span class="c1"># 查询成交列表</span>
-</pre></div>
+<h3>简介<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>FutuOpenD是指富途开放API网关程序，以TCP协议接口的方式，对外开放了富途行情交易基础接, 由用户自行在本地或云端部署运行。</p>
 </div>
-</div>
-<hr class="docutils" />
-<div class="section" id="id7">
-<h2>示例策略<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>示例策略文件位于目录: (futuquant包安装目录)/futuquant/examples
-下，用户可参考实例策略来学习API的使用。</li>
-<li>另外，可参考API相对应的 <a class="reference external" href="https://live.futunn.com/course/1056">视频课程</a> 学习API的使用。</li>
-</ul>
-</div>
-<hr class="docutils" />
-<div class="section" id="id9">
-<h2>组织结构<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
-<img alt="../_images/Structure.png" src="../_images/Structure.png" />
-<p>最新版本在master分支。之前各版本在其他分支上。</p>
-</div>
-<hr class="docutils" />
-<div class="section" id="api">
-<h2>API与富途牛牛客户端架构<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="python-apifutuopend">
+<h3>Python API与FutuOpenD通讯架构<a class="headerlink" href="#python-apifutuopend" title="Permalink to this headline">¶</a></h3>
 <img alt="../_images/API.png" src="../_images/API.png" />
 </div>
+<div class="section" id="futuopendfutu">
+<h3>FutuOpenD与Futu后台通讯架构<a class="headerlink" href="#futuopendfutu" title="Permalink to this headline">¶</a></h3>
+<img alt="../_images/FutuOpenD.png" src="../_images/FutuOpenD.png" />
 <hr class="docutils" />
-<div class="section" id="id10">
-<h2>使用须知<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>限定使用有API后缀的安装包。不要去掉勾选“安装量化交易插件API”选项。</li>
-<li>无需拷贝对应的dll插件。</li>
-<li>安装成功后直接使用接口进行行情获取或者交易操作。</li>
-</ul>
 </div>
-<hr class="docutils" />
-<div class="section" id="id11">
-<h2>历史数据及除权除息下载问题<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="../setup/Hist_KLine_Download_Intro.html">历史K线下载指引</a></p>
-<ul class="simple">
-<li>在富途牛牛安装目录的plugin文件夹内有历史数据下载配置文件(ftplugin.ini)，请先详细阅读再进行操作。</li>
-<li>如果不想下载新数据、可以将开始时间和暂停下载时间设置为相同时间。</li>
-<li>如果选择下载的数据越大，下载所需时间越长。如果中途退出，下次开启时将重新下载。请勿在下载过程中关闭牛牛客户端。</li>
-</ul>
-</div>
-<hr class="docutils" />
-<div class="section" id="id12">
-<h2>客户端下载及交流方式<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>富途开放API群(108534288) 群文件 &gt;富途牛牛客户端(API接口专用版本)</li>
-</ul>
-<img alt="../_images/Download.png" src="../_images/Download.png" />
-<ul class="simple">
-<li><a class="reference external" href="https://github.com/FutunnOpen/futuquant/issues">https://github.com/FutunnOpen/futuquant/issues</a></li>
-</ul>
-</div>
-<hr class="docutils" />
-<div class="section" id="id13">
-<h2>使用说明<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>有任何问题可以到 issues 处提出，我们会及时进行解答。</li>
-<li>使用新版本时请先仔细阅读接口文档，大部分问题都可以在接口文档中找到你想要的答案。</li>
-<li>欢迎大家提出建议、也可以提出各种需求，我们一定会尽量满足大家的需求。</li>
-</ul>
 </div>
 </div>
 
@@ -321,10 +254,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../setup/setup.html" class="btn btn-neutral float-right" title="安装" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../setup/setup.html" class="btn btn-neutral float-right" title="安装指南" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../index.html" class="btn btn-neutral" title="FutuQuant 2.3 Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../index.html" class="btn btn-neutral" title="FutuQuant 3.0 指南" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -333,7 +266,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, futu.
+        &copy; Copyright 2018, futu.
 
     </p>
   </div>
@@ -355,7 +288,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'2.3',
+            VERSION:'3.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
