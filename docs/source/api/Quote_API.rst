@@ -480,7 +480,7 @@ subscribe
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-    print(quote_ctx.subscribe(['HK.00700'], [SubType.QUOTE)])
+    print(quote_ctx.subscribe(['HK.00700'], [SubType.QUOTE]))
     quote_ctx.close()
 		
 		
@@ -773,7 +773,7 @@ StockQuoteHandlerBase - 实时报价回调处理类
 
 			print("StockQuoteTest ", content) # StockQuoteTest自己的处理逻辑
 
-			return RET_OK, content
+			return RET_OK, data
 			
 	quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
 	handler = StockQuoteTest()
@@ -818,8 +818,8 @@ OrderBookHandlerBase - 实时摆盘回调处理类
 
 			return RET_OK, content
 			
-	quote_ctx = OrderBookTest(host='127.0.0.1', port=11111)
-	handler = StockQuoteTest()
+	quote_ctx = OpenQuoteContex(host='127.0.0.1', port=11111)
+	handler = OrderBookTest()
 	quote_ctx.set_handler(handler)
 	time.sleep(15)  
 	quote_ctx.close()
@@ -860,10 +860,10 @@ CurKlineHandlerBase - 实时k线推送回调处理类
 
 			print("CurKlineTest ", data) # CurKlineTest自己的处理逻辑
 
-			return RET_OK, content
+			return RET_OK, data
 
-	quote_ctx = OrderBookTest(host='127.0.0.1', port=11111)
-	handler = StockQuoteTest()
+	quote_ctx = OpenQuoteContex(host='127.0.0.1', port=11111)
+	handler = CurKlineTest()
 	quote_ctx.set_handler(handler)
 	time.sleep(15)  
 	quote_ctx.close()			
@@ -904,10 +904,10 @@ TickerHandlerBase - 实时逐笔推送回调处理类
 
 			print("TickerTest ", data) # TickerTest自己的处理逻辑
 
-			return RET_OK, content
+			return RET_OK, data
                 
-	quote_ctx = OrderBookTest(host='127.0.0.1', port=11111)
-	handler = StockQuoteTest()
+	quote_ctx = OpenQuoteContex(host='127.0.0.1', port=11111)
+	handler = TickerTest()
 	quote_ctx.set_handler(handler)
 	time.sleep(15)  
 	quote_ctx.close()
@@ -948,10 +948,10 @@ RTDataHandlerBase - 实时分时推送回调处理类
 
 			print("RTDataTest ", data) # RTDataTest自己的处理逻辑
 
-			return RET_OK, content
+			return RET_OK, data
                 
-	quote_ctx = OrderBookTest(host='127.0.0.1', port=11111)
-	handler = StockQuoteTest()
+	quote_ctx = OpenQuoteContex(host='127.0.0.1', port=11111)
+	handler = RTDataTest()
 	quote_ctx.set_handler(handler)
 	time.sleep(15)  
 	quote_ctx.close()
@@ -994,10 +994,10 @@ BrokerHandlerBase - 实时经纪推送回调处理类
 
 			print("BrokerTest ", data) # BrokerTest自己的处理逻辑
 
-			return RET_OK, content
+			return RET_OK, data
                 
-	quote_ctx = OrderBookTest(host='127.0.0.1', port=11111)
-	handler = StockQuoteTest()
+	quote_ctx = OpenQuoteContex(host='127.0.0.1', port=11111)
+	handler = BrokerTest()
 	quote_ctx.set_handler(handler)
 	time.sleep(15)  
 	quote_ctx.close()
