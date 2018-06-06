@@ -549,6 +549,43 @@ query_subscription
     print(quote_ctx.query_subscription())
     quote_ctx.close()
         
+		
+get_global_state
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: get_global_state(self)
+
+ 获取全局状态
+
+ :return: (ret, data)
+
+		ret == RET_OK data为包含全局状态的字典，含义如下
+
+		ret != RET_OK data为错误描述字符串
+
+		=====================   ===========   ==============================================================
+		key                      value类型                        说明
+		=====================   ===========   ==============================================================
+		market_sz               str            深圳市场状态，参见MarketState
+		market_us               str            美国市场状态，参见MarketState
+		market_sh               str            上海市场状态，参见MarketState
+		market_hk               str            香港市场状态，参见MarketState
+		market_future           str            香港期货市场状态，参见MarketState
+		server_ver              str            FutuOpenD版本号
+		trd_logined             str            '1'：已登录交易服务器，'0': 未登录交易服务器
+		qot_logined             str            '1'：已登录行情服务器，'0': 未登录行情服务器
+		timestamp               str            当前格林威治时间戳
+		=====================   ===========   ==============================================================
+ 
+ :example:
+
+ .. code:: python
+
+    from futuquant import *
+    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+    print(quote_ctx.get_global_state())
+    quote_ctx.close()
+
 get_stock_quote
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
