@@ -825,7 +825,7 @@ class OpenQuoteContext(OpenContextBase):
 
         # 连接断开时，可能会有大批股票需要重定阅，分次定阅，提高成功率
         sub_info_list = [
-            {"sub_list": kline_sub_list, "one_size": 1},
+            {"sub_list": kline_sub_list, "one_size": 20},
             {"sub_list": other_sub_list, "one_size": 100},
         ]
 
