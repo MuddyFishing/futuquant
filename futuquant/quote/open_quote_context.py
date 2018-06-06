@@ -4,12 +4,14 @@
 """
 
 import datetime
+import math
 from time import sleep
 
 import pandas as pd
 from futuquant.common.open_context_base import OpenContextBase
 from futuquant.quote.quote_query import *
 
+MAX_KLINE_SUB_COUNT = 100
 
 class OpenQuoteContext(OpenContextBase):
     """行情上下文对象类"""
@@ -780,6 +782,14 @@ class OpenQuoteContext(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
+        kline_sub_count = 0
+        for sub_type in subtype_list:
+            if sub_type in KLINE_SUBTYPE_LIST:
+                kline_sub_count += 1
+
+        if kline_sub_count * len(code_list) > MAX_KLINE_SUB_COUNT:
+            return RET_ERROR, 'Too many subscription'
+
         query_processor = self._get_sync_query_processor(SubscriptionQuery.pack_subscribe_req,
                                                          SubscriptionQuery.unpack_subscribe_rsp)
 
@@ -824,8 +834,12 @@ class OpenQuoteContext(OpenContextBase):
                 other_sub_list.append(sub)
 
         # 连接断开时，可能会有大批股票需要重定阅，分次定阅，提高成功率
+        kline_sub_one_size = 1
+        if len(kline_sub_list) > 0:
+            kline_sub_one_size = math.floor(MAX_KLINE_SUB_COUNT / len(kline_sub_list))
+
         sub_info_list = [
-            {"sub_list": kline_sub_list, "one_size": 20},
+            {"sub_list": kline_sub_list, "one_size":  kline_sub_one_size},
             {"sub_list": other_sub_list, "one_size": 100},
         ]
 
