@@ -138,7 +138,7 @@ class _SyncNetworkQueryCtx:
         except Exception as e:
             traceback.print_exc()
             err = sys.exc_info()[1]
-            str_proto = ' when req proto:{} conn_id:{}'.format(req_proto_id, self._conn_id)
+            str_proto = ' when req proto:{} conn_id:{}, host:{} port:{}'.format(req_proto_id, self._conn_id, self.__host, self.__port)
             error_str = ERROR_STR_PREFIX + str(err) + str_proto
             logger.error(error_str)
 
