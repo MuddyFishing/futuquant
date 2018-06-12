@@ -119,8 +119,8 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
 
         try:
             # handle_read要控制一下处理时长，避免一直阻塞处理
-            last_tm = time.time()
-            max_tm = 0.2
+            # last_tm = time.time()
+            # max_tm = 0.2
 
             head_len = get_message_head_len()
             recv_tmp = self.recv(5 * 1024 * 1024)
@@ -134,7 +134,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                 body_len = head_dict['body_len']
 
                 # 处理完已读数据或者处理时间片超过指定时间
-                if (body_len + head_len) > len(self.__recv_buf) or (time.time() - last_tm > max_tm):
+                if (body_len + head_len) > len(self.__recv_buf):  # or (time.time() - last_tm > max_tm):
                     return
 
                 rsp_body = self.__recv_buf[head_len: head_len + body_len]
@@ -151,14 +151,23 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                 else:
                     ret_decrypt, msg_decrypt, rsp_body = -1, "only for debug", None
                 """
-
                 if ret_decrypt == RET_OK:
-                    rsp_pb = binary2pb(rsp_body, head_dict['proto_id'], head_dict['proto_fmt_type'])
+                    proto_id = head_dict['proto_id']
+                    rsp_pb = binary2pb(rsp_body, proto_id, head_dict['proto_fmt_type'])
                     if rsp_pb is None:
-                        logger.error("async handle_read not support proto:{} conn_id:{}".format(head_dict['proto_id'],
+                        logger.error("async handle_read not support proto:{} conn_id:{}".format(proto_id,
                                                                                                 self._conn_id))
                     else:
-                        self.handler_ctx.recv_func(rsp_pb, head_dict['proto_id'])
+                        if proto_id == ProtoId.Qot_UpdateTicker:  # 逐笔分析性能
+                            serial_no = head_dict['serial_no']
+                            tm_s = time.time()
+                            self.handler_ctx.recv_func(rsp_pb, proto_id)
+                            tm_e = time.time()
+                            logger.debug("async_conn_id={} serial_no={} callback_time={} ".format(self._conn_id, serial_no, tm_e - tm_s))
+
+                        else:
+                            self.handler_ctx.recv_func(rsp_pb, proto_id)
+
                 else:
                     logger.error(msg_decrypt)
 
