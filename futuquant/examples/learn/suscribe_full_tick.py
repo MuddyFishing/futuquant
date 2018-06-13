@@ -63,13 +63,15 @@ class TickerTest(TickerHandlerBase):
 
 
 def cal_timstamp_adjust(quote_ctx):
+    global timestamp_adjust
     # 计算本地时间与futu 时间的偏差
     ret = RET_ERROR
     while ret != RET_OK:
         ret, data = quote_ctx.get_global_state()
         if ret != RET_OK:
             sleep(0.1)
-        return (int(time.time()) - int(data['timestamp']))
+        timestamp_adjust = (int(time.time()) - int(data['timestamp']))
+        return timestamp_adjust
 
 
 def cal_all_codes(quote_ctx, market_list, stock_type_list):
@@ -220,8 +222,6 @@ def close_all():
 
 
 if __name__ =="__main__":
-
-    global all_quote_ctx, all_sub_codes, timestamp_adjust
 
     # 向多个futuOpenD定阅ticker数据
     full_subscribe_tick()
