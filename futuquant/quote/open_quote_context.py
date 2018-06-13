@@ -785,9 +785,9 @@ class OpenQuoteContext(OpenContextBase):
         print(quote_ctx.subscribe(['HK.00700'], [SubType.QUOTE)])
         quote_ctx.close()
         """
-        return self._subscribe_impl(code_list, subtype_list, False, is_first_push)
+        return self._subscribe_impl(code_list, subtype_list, is_first_push)
 
-    def _subscribe_impl(self, code_list, subtype_list, is_reconnect, is_first_push):
+    def _subscribe_impl(self, code_list, subtype_list, is_first_push):
 
         ret, msg, code_list, subtype_list = self._check_subscribe_param(code_list, subtype_list)
         if ret != RET_OK:
@@ -823,7 +823,7 @@ class OpenQuoteContext(OpenContextBase):
                 code_set.add(code)
 
         ret_code, msg, push_req_str = SubscriptionQuery.pack_push_req(
-            code_list, subtype_list, self.get_async_conn_id(), is_reconnect)
+            code_list, subtype_list, self.get_async_conn_id(), is_first_push)
 
         if ret_code != RET_OK:
             return RET_ERROR, msg
@@ -869,7 +869,7 @@ class OpenQuoteContext(OpenContextBase):
                 sub_codes = code_list[start_idx: start_idx + sub_count]
                 start_idx += sub_count
 
-                ret_code, ret_data = self._subscribe_impl(sub_codes, sub_list, True)
+                ret_code, ret_data = self._subscribe_impl(sub_codes, sub_list, False)
                 if ret_code != RET_OK:
                     break
             if ret_code != RET_OK:
