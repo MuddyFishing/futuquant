@@ -21,12 +21,12 @@ TICK_WEIGHT = 5
 
 # 配置信息
 sub_config = {
-    "sub_max": 4000,                                            # 最多定阅多少支股票(需要依据定阅额度和进程数作一个合理预估）
+    "sub_max": 800,                                            # 最多定阅多少支股票(需要依据定阅额度和进程数作一个合理预估）
     "sub_stock_type_list": [SecurityType.STOCK],                # 选择要定阅的股票类型
     "sub_market_list": [Market.US],                             # 要定阅的市场
-    "ip": "127.0.0.1",                                          # ip
-    "port_begin": 11111,                                        # port FutuOpenD开放的第一个端口号
-    "port_count": 40,                                            # 启动了多少个FutuOPenD进程，每个进程的port在port_begin上递增
+    "ip": "127.0.0.1",                                    # FutuOpenD运行IP
+    "port_begin": 11113,                                        # port FutuOpenD开放的第一个端口号
+    "port_count": 8,                                            # 启动了多少个FutuOPenD进程，每个进程的port在port_begin上递增
     "sub_one_size": 100,                                        # 最多向一个FutuOpenD定阅多少支股票
     "is_adjust_sub_one_size": True                             # 依据当前剩余定阅量动态调整一次的定阅量(测试白名单不受定阅额度限制可置Flase)
 }
@@ -107,6 +107,8 @@ def loop_get_subscription(quote_ctx):
 
 
 def create_new_quote_ctx(host, port):
+    global all_quote_ctx
+
     obj = OpenQuoteContext(host=host, port=port)
     all_quote_ctx.append(obj)
     obj.set_handler(TickerTest())
@@ -115,6 +117,8 @@ def create_new_quote_ctx(host, port):
 
 
 def full_subscribe_tick():
+    global all_sub_codes, timestamp_adjust
+
     # 读取配置参数
     sub_max = sub_config['sub_max']
     sub_stock_type_list = sub_config['sub_stock_type_list']
@@ -166,6 +170,7 @@ def full_subscribe_tick():
         if cur_sub_one_size > 0:
             codes = all_codes[0: cur_sub_one_size]
             all_codes = all_codes[cur_sub_one_size:]
+            [all_sub_codes.append(x) for x in codes]
             loop_subscribe_codes(quote_ctx, codes)
 
         if len(all_codes) == 0:
@@ -205,6 +210,7 @@ def main_thread_do_something(quote_ctx, timeout=None):
 
 
 def close_all():
+    global all_quote_ctx, all_sub_codes, timestamp_adjust
     for quote_ctx in all_quote_ctx:
         quote_ctx.close()
     all_quote_ctx = []
