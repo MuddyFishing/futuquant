@@ -85,6 +85,9 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         self.handler_ctx = handler_ctx
         self.async_thread_ctrl.add_async(self)
 
+        self.__last_recv_len = 0
+        self.__last_recv_time = time.time()
+
     def set_conn_id(self, conn_id):
         self._conn_id = conn_id
 
@@ -116,7 +119,8 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
             pass
 
     def handle_read(self):
-
+        logger.debug("read enter - last_recv_len:{} last_recv_time:{}".format(self.__last_recv_len, self.__last_recv_time))
+        self.__last_recv_time = time.time()
         try:
             # handle_read要控制一下处理时长，避免一直阻塞处理
             # last_tm = time.time()
@@ -124,6 +128,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
 
             head_len = get_message_head_len()
             recv_tmp = self.recv(5 * 1024 * 1024)
+            self.__last_recv_len = len(recv_tmp)
             # logger.debug("async handle_read len={} head_len={}".format(len(recv_tmp), head_len))
             if recv_tmp == b'':
                 return
@@ -179,6 +184,8 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
             err = sys.exc_info()[1] + " conn_id:{}".format(self._conn_id)
             self.handler_ctx.error_func(str(err))
             logger.debug(err)
+        finally:
+            logger.debug("read end - time:{}".format(time.time() - self.__last_recv_time))
             return
 
     def network_query(self, req_str):
