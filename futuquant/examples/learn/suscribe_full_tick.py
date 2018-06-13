@@ -21,13 +21,13 @@ TICK_WEIGHT = 5
 
 # 配置信息
 sub_config = {
-    "sub_max": 800,                                            # 最多定阅多少支股票(需要依据定阅额度和进程数作一个合理预估）
+    "sub_max": 4000,                                            # 最多定阅多少支股票(需要依据定阅额度和进程数作一个合理预估）
     "sub_stock_type_list": [SecurityType.STOCK],                # 选择要定阅的股票类型
     "sub_market_list": [Market.US],                             # 要定阅的市场
-    "ip": "127.0.0.1",                                    # FutuOpenD运行IP
+    "ip": "127.0.0.1",                                          # FutuOpenD运行IP
     "port_begin": 11113,                                        # port FutuOpenD开放的第一个端口号
     "port_count": 8,                                            # 启动了多少个FutuOPenD进程，每个进程的port在port_begin上递增
-    "sub_one_size": 100,                                        # 最多向一个FutuOpenD定阅多少支股票
+    "sub_one_size": 500,                                        # 最多向一个FutuOpenD定阅多少支股票
     "is_adjust_sub_one_size": True                             # 依据当前剩余定阅量动态调整一次的定阅量(测试白名单不受定阅额度限制可置Flase)
 }
 
@@ -39,6 +39,7 @@ timestamp_adjust = 0         # 时间与futu server时间校准偏差 : (本地�
 
 
 class TickerTest(TickerHandlerBase):
+    global timestamp_adjust
     """ 获取逐笔推送数据 """
     def on_recv_rsp(self, rsp_pb):
         """数据响应回调函数"""
@@ -219,6 +220,8 @@ def close_all():
 
 
 if __name__ =="__main__":
+
+    global all_quote_ctx, all_sub_codes, timestamp_adjust
 
     # 向多个futuOpenD定阅ticker数据
     full_subscribe_tick()
