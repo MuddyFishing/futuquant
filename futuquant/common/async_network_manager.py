@@ -175,7 +175,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
             traceback.print_exc()
             err = sys.exc_info()[1] + " conn_id:{}".format(self._conn_id)
             self.handler_ctx.error_func(str(err))
-            logger.debug(err)
+            logger.error(err)
         finally:
             # logger.debug("read end - time:{}".format(time.time() - self.__last_recv_time))
             return
@@ -192,7 +192,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         """handle close"""
         # reduce close log info
         if not self.__is_log_handle_close:
-            logger.debug("async socket err! conn_id:{}".format(self._conn_id))
+            logger.error("async socket err! conn_id:{}".format(self._conn_id))
             self.__is_log_handle_close = True
 
         if self.connected:
