@@ -445,6 +445,8 @@ class OpenContextBase(object):
         thread fun : timer to check socket state
         """
         check_thread_handle = self._thread_check_sync_sock
+        sync_conn_id_rec = self.get_sync_conn_id()
+        async_conn_id_rec = self.get_async_conn_id()
         while True:
             if self._thread_check_sync_sock is not check_thread_handle:
                 if self._thread_check_sync_sock is None:
@@ -463,7 +465,7 @@ class OpenContextBase(object):
             if is_async_close or not sync_net_ctx.is_sock_ok(0.01):
                 self._thread_is_exit = True
                 if self._thread_check_sync_sock is check_thread_handle and not self._is_obj_closed:
-                    logger.debug("check_sync_sock thread : reconnect !")
+                    logger.debug("check_sync_sock thread : reconnect ! sync_conn_id:{} async_conn_id:{}".format(sync_conn_id_rec, async_conn_id_rec))
                     self._socket_reconnect_and_wait_ready()
                 return
             else:
