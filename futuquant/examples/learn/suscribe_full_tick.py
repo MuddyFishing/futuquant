@@ -32,15 +32,15 @@ class SubscribeFullTick(object):
     TICK_WEIGHT = 5
     # 配置信息
     DEFAULT_SUB_CONFIG = {
-        "sub_max": 3000,                                            # 最多定阅多少支股票(需要依据定阅额度和进程数作一个合理预估）
+        "sub_max": 4000,                                            # 最多定阅多少支股票(需要依据定阅额度和进程数作一个合理预估）
         "sub_stock_type_list": [SecurityType.STOCK],                # 选择要定阅的股票类型
         "sub_market_list": [Market.US],                             # 要定阅的市场
         "ip": "127.0.0.1",                                          # FutuOpenD运行IP
         "port_begin": 11113,                                        # port FutuOpenD开放的第一个端口号
         "port_count": 30,                                            # 启动了多少个FutuOPenD进程，每个进程的port在port_begin上递增
-        "sub_one_size": 100,                                        # 最多向一个FutuOpenD定阅多少支股票
+        "sub_one_size": 150,                                        # 最多向一个FutuOpenD定阅多少支股票
         "is_adjust_sub_one_size": True,                             # 依据当前剩余定阅量动态调整一次的定阅量(测试白名单不受定阅额度限制可置Flase)
-        'one_process_ports': 3,                                     # 用多进程提高性能，一个进程处理多少个端口
+        'one_process_ports': 2,                                     # 用多进程提高性能，一个进程处理多少个端口
     }
     def __init__(self):
         self.__sub_config = copy(self.DEFAULT_SUB_CONFIG)
@@ -135,7 +135,7 @@ class SubscribeFullTick(object):
             raise Exception("codes pool is empty")
 
         # 共享记录剩余的要定阅的股票
-        self.__share_left_codes = []
+        self.__share_left_codes = self.__mp_manage.list()
         [self.__share_left_codes.append(code) for code in self.__codes_pool]
 
         self.__timestamp_adjust = self.cal_timstamp_adjust(quote_ctx)
@@ -176,6 +176,7 @@ class SubscribeFullTick(object):
         # 创建tick 处理线程
         self.__tick_thread = Thread(
                 target=self._thread_tick_check, args=())
+        self.__tick_thread.setDaemon(True)
         self.__tick_thread.start()
 
         # 创建loop 线程
@@ -258,7 +259,7 @@ class SubscribeFullTick(object):
         port_index = 0
         all_sub_codes = []
         while len(share_left_codes) > 0 and port_index < port_count:
-            quote_ctx = create_new_quote_ctx(ip, port)
+            quote_ctx = create_new_quote_ctx(ip, port + port_index)
             cur_sub_one_size = sub_one_size
             data = cls.loop_get_subscription(quote_ctx)
 
@@ -277,7 +278,6 @@ class SubscribeFullTick(object):
                 cur_sub_one_size -= len(codes_to_sub)
 
             # 依据剩余额度，调整要定阅的数量
-            data = cls.loop_get_subscription(quote_ctx)
             if is_adjust_sub_one_size:
                 size_remain = int(data['remain'] / cls.TICK_WEIGHT)
                 cur_sub_one_size = cur_sub_one_size if cur_sub_one_size < size_remain else size_remain
@@ -286,7 +286,8 @@ class SubscribeFullTick(object):
             cur_sub_one_size = cur_sub_one_size if cur_sub_one_size < len(share_left_codes) else len(share_left_codes)
             if cur_sub_one_size > 0:
                 codes = share_left_codes[0: cur_sub_one_size]
-                share_left_codes = share_left_codes[cur_sub_one_size:]
+                [share_left_codes.remove(x) for x in codes]
+                # share_left_codes = share_left_codes[cur_sub_one_size:]
                 [all_sub_codes.append(x) for x in codes]
                 cls.loop_subscribe_codes(quote_ctx, codes)
 
@@ -312,7 +313,7 @@ if __name__ =="__main__":
     tick_subcrible.start()
 
     # 运行24小时后退出
-    sleep(10)
+    sleep(24 * 3600)
     tick_subcrible.close()
 
 
