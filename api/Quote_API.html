@@ -730,7 +730,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">param code_list:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">股票列表</p>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">股票列表，限制最多200只股票</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">return:</th><td class="field-body"><p class="first">(ret, data)</p>
@@ -1550,7 +1550,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>code</strong> &#8211; 股票代码</li>
-<li><strong>num</strong> &#8211; 最近ticker个数(有最大个数限制，最近500个）</li>
+<li><strong>num</strong> &#8211; 最近ticker个数，最多可获取1000个</li>
 </ul>
 </td>
 </tr>
@@ -1621,14 +1621,14 @@
 <dl class="function">
 <dt id="get_cur_kline">
 <code class="descname">get_cur_kline</code><span class="sig-paren">(</span><em>self</em>, <em>code</em>, <em>num</em>, <em>ktype=SubType.K_DAY</em>, <em>autype=AuType.QFQ</em><span class="sig-paren">)</span><a class="headerlink" href="#get_cur_kline" title="Permalink to this definition">¶</a></dt>
-<dd><p>实时获取指定股票最近num个K线数据，最多1000根</p>
+<dd><p>实时获取指定股票最近num个K线数据</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>code</strong> &#8211; 股票代码</li>
-<li><strong>num</strong> &#8211; k线数据个数</li>
+<li><strong>num</strong> &#8211; k线数据个数，最多1000根</li>
 <li><strong>ktype</strong> &#8211; k线类型，参见KLType</li>
 <li><strong>autype</strong> &#8211; 复权类型，参见AuType</li>
 </ul>
@@ -1768,7 +1768,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>code_list</strong> &#8211; 单个或多个股票 &#8216;HK.00700&#8217;  or  [&#8216;HK.00700&#8217;, &#8216;HK.00001&#8217;]</li>
-<li><strong>dates</strong> &#8211; 单个或多个日期 &#8216;2017-01-01&#8217; or [&#8216;2017-01-01&#8217;, &#8216;2017-01-02&#8217;]</li>
+<li><strong>dates</strong> &#8211; 单个或多个日期 &#8216;2017-01-01&#8217; or [&#8216;2017-01-01&#8217;, &#8216;2017-01-02&#8217;]，最多5个时间点</li>
 <li><strong>fields</strong> &#8211; 单个或多个数据列 KL_FIELD.ALL or [KL_FIELD.DATE_TIME, KL_FIELD.OPEN]</li>
 <li><strong>ktype</strong> &#8211; K线类型</li>
 <li><strong>autype</strong> &#8211; 复权类型</li>

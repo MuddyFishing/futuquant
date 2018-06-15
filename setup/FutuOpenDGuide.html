@@ -94,13 +94,13 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">FutuOpenD使用说明</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id1">基本介绍</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id2">免责声明</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">配置文件</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id5">FutuOpenD配置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">登录参数使用优先级</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">配置文件</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id6">FutuOpenD配置</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#futuhistdata">FutuHistData配置</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">启动命令行参数</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">登录参数使用优先级</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">启动命令行参数</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id8">运维命令</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#exit">exit - 退出程序</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#req-phone-verify-code">req_phone_verify_code - 请求手机验证码</a></li>
@@ -204,9 +204,20 @@
 <div>已开户用户需要同意 <a class="reference external" href="https://www.futunn.com/about/api-disclaimer/">免责声明</a> 才可以使用FutuOpenD。</div></blockquote>
 </div>
 <div class="section" id="id4">
-<h2>配置文件<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<h2>登录参数使用优先级<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>1.命令行证书登录</p>
+<p>2.命令行帐号密码密文登录</p>
+<p>3.命令行帐号密码明文登录</p>
+<p>4.配置文件证书登录</p>
+<p>5.配置文件帐号密码密文登录</p>
+<p>6.配置文件帐号密码明文登录</p>
+</div></blockquote>
+</div>
 <div class="section" id="id5">
-<h3>FutuOpenD配置<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<h2>配置文件<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3>FutuOpenD配置<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p>FutuOpenD启动配置文件使用XML格式，如下图所示：</p>
 <img alt="../_images/FTOpenDConfig.png" src="../_images/FTOpenDConfig.png" />
@@ -288,19 +299,22 @@
 <tr class="row-even"><td>enable</td>
 <td>是否启用下载工具</td>
 </tr>
-<tr class="row-odd"><td>begin_time</td>
+<tr class="row-odd"><td>nnid</td>
+<td>指定用于下载历史数据的牛牛号，需要先在FueuOpenD中登录该牛牛号，才能下载历史数据</td>
+</tr>
+<tr class="row-even"><td>begin_time</td>
 <td>下载起始时间，时间格式为HHMM，每天到当地这个时间点开始下载</td>
 </tr>
-<tr class="row-even"><td>end_time</td>
+<tr class="row-odd"><td>end_time</td>
 <td>下载结束时间，时间格式为HHMM，每天到当地这个时间点暂停下载，end小于start时表示end为第二天</td>
 </tr>
-<tr class="row-odd"><td>market</td>
+<tr class="row-even"><td>market</td>
 <td>下载数据市场，可选市场类型为hk、us、cn，多个市用|连接，如hk|cn|us</td>
 </tr>
-<tr class="row-even"><td>kline_type</td>
+<tr class="row-odd"><td>kline_type</td>
 <td>下载K线数据类型，可选的K线类型为day、week、month、year、min1、min5、min15、min30、min60，多个类型用|连接</td>
 </tr>
-<tr class="row-odd"><td>hist_data_dir</td>
+<tr class="row-even"><td>hist_data_dir</td>
 <td>历史数据存放位置绝对路径,修改后重启程序才生效</td>
 </tr>
 </tbody>
@@ -309,10 +323,11 @@
 </div>
 </div>
 <hr class="docutils" />
-<div class="section" id="id6">
-<h2>启动命令行参数<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h2>启动命令行参数<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><p>命令行部分参数与配置文件相同，同样参数若存在于命令行与配置文件，使用命令行参数。</p>
+<div><p>命令行部分参数与配置文件相同，同样参数若存在于命令行与配置文件，使用命令行参数。
+.. image:: ../_static/login-command.png</p>
 <p>传参格式：-key=value</p>
 <p>例如FutuOpenD.exe -login_account=100000 -login_pwd=123456 -lang=en</p>
 <p><strong>参数项：</strong></p>
@@ -363,18 +378,6 @@
 </tr>
 </tbody>
 </table>
-</div></blockquote>
-</div>
-<hr class="docutils" />
-<div class="section" id="id7">
-<h2>登录参数使用优先级<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div><p>1.命令行证书登录</p>
-<p>2.命令行帐号密码密文登录</p>
-<p>3.命令行帐号密码明文登录</p>
-<p>4.配置文件证书登录</p>
-<p>5.配置文件帐号密码密文登录</p>
-<p>6.配置文件帐号密码明文登录</p>
 </div></blockquote>
 </div>
 <hr class="docutils" />
@@ -430,6 +433,13 @@
 <p><strong>Paramters login_pwd:</strong> str，登录密码明文</p>
 <p><strong>Paramters login_pwd_md5:</strong> str，登录密码密文（32位MD5加密16进制）</p>
 </div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="simple">
+<li>运维代码在Telnet窗口或命令控制台输入</li>
+</ul>
+<img alt="../_images/req-verify.png" class="last" src="../_images/req-verify.png" />
+</div>
 </div>
 </div>
 </div>

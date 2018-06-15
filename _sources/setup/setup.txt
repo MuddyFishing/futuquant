@@ -1,4 +1,4 @@
-====
+﻿====
 安装指南
 ====
 
@@ -10,8 +10,8 @@
 
 .. note::
 
-    *   Windows 7/10 64位操作系统
-    *   我们强烈建议您使用Anaconda python 3，以避免因为环境问题出现安装失败
+    *   Windows 7/10 ，64位操作系统
+    *   安装要求使用Anaconda python 3编程环境，以避免因为环境问题出现运行失败的情况
     *   如果安装过程中遇到了问题，先阅读该文档下面的 :ref:`q&a-Q&A` 章节来尝试着解决
 
 * 安装 Annacoda
@@ -22,7 +22,29 @@ Anaconda python是Python科学技术包的合集，提供了很多用于科学�
 
 .. note::
 
-    *   如果已经安装了Anaconda python2，也可直接使用。
+    *   如果已经安装了Anaconda python2，也可安装Anaconda python3，在运行时切换环境。
+    如下内容提供了两种方式切换为Anaconda3环境：
+	
+    *   方式一
+    从path环境变量配置anaconda3环境。
+    Step1、进入环境变量配置界面，创建变量ANACONDA3_HOME，变量值就是anaconda3的安装目录，如下图：
+	
+    .. image:: ../_static/version-Switching-path.png
+	
+    Step2、编辑path变量的值，删掉原python安装目录的路径并添加如下字符，保存即可：
+    %ANACONDA3_HOME%;%ANACONDA3_HOME%\Lib;%ANACONDA3_HOME%\Library\mingw-w64\bin;%ANACONDA3_HOME%\Library\usr\bin;%ANACONDA3_HOME%\Library
+    \bin;%ANACONDA3_HOME%\Scripts;
+	
+    .. image:: ../_static/version-Switching-paste.png
+	
+    Step3、再次验证anaconda3环境是否生效。
+    .. image:: ../_static/version-Switching-verification.png   
+	
+    *   方式二
+    配置pyChram使用的环境为anaconda3。
+    .. image:: ../_static/version-Switching-pycharm.png
+
+
 
     
 

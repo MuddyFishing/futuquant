@@ -178,8 +178,8 @@
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
-<li>Windows 7/10 64位操作系统</li>
-<li>我们强烈建议您使用Anaconda python 3，以避免因为环境问题出现安装失败</li>
+<li>Windows 7/10 ，64位操作系统</li>
+<li>安装要求使用Anaconda python 3编程环境，以避免因为环境问题出现运行失败的情况</li>
 <li>如果安装过程中遇到了问题，先阅读该文档下面的 <span class="xref std std-ref">q&amp;a-Q&amp;A</span> 章节来尝试着解决</li>
 </ul>
 </div>
@@ -190,9 +190,27 @@
 <p>下载地址：<a class="reference external" href="https://www.anaconda.com/download/">https://www.anaconda.com/download/</a></p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<ul class="last simple">
-<li>如果已经安装了Anaconda python2，也可直接使用。</li>
+<ul class="simple">
+<li>如果已经安装了Anaconda python2，也可安装Anaconda python3，在运行时切换环境。</li>
 </ul>
+<p>如下内容提供了两种方式切换为Anaconda3环境：</p>
+<ul class="simple">
+<li>方式一</li>
+</ul>
+<p>从path环境变量配置anaconda3环境。
+Step1、进入环境变量配置界面，创建变量ANACONDA3_HOME，变量值就是anaconda3的安装目录，如下图：</p>
+<img alt="../_images/version-Switching-path.png" src="../_images/version-Switching-path.png" />
+<p>Step2、编辑path变量的值，删掉原python安装目录的路径并添加如下字符，保存即可：
+%ANACONDA3_HOME%;%ANACONDA3_HOME%Lib;%ANACONDA3_HOME%Librarymingw-w64bin;%ANACONDA3_HOME%Libraryusrbin;%ANACONDA3_HOME%Library
+bin;%ANACONDA3_HOME%Scripts;</p>
+<img alt="../_images/version-Switching-paste.png" src="../_images/version-Switching-paste.png" />
+<p>Step3、再次验证anaconda3环境是否生效。
+.. image:: ../_static/version-Switching-verification.png</p>
+<ul class="simple">
+<li>方式二</li>
+</ul>
+<p class="last">配置pyChram使用的环境为anaconda3。
+.. image:: ../_static/version-Switching-pycharm.png</p>
 </div>
 <p>当安装成功后，执行如下命令来查看是否安装成功:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>conda -V
