@@ -192,7 +192,7 @@ class OpenQuoteContext(OpenContextBase):
         :param end: 结束时间
         :param ktype: k线类型，参见KLType
         :param autype: 复权类型，参见AuType
-        :return: 成功时返回(RET_OK, data)，data.DataFrame数据, 数据列格式如下
+        :return: 成功时返回(RET_OK, [data])，data是DataFrame数据, 数据列格式如下
 
             =================   ===========   ==============================================================================
             参数                  类型                        说明
