@@ -255,7 +255,7 @@ get_market_snapshot
 
 获取市场快照
 
- :param code_list: 股票列表
+ :param code_list: 股票列表，限制最多200只股票
  :return: (ret, data)
 
         ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
@@ -637,7 +637,7 @@ get_rt_ticker
  获取指定股票的实时逐笔。取最近num个逐笔
 
  :param code: 股票代码
- :param num: 最近ticker个数(有最大个数限制，最近500个）
+ :param num: 最近ticker个数，最多可获取1000个
  :return: (ret, data)
 
         ret == RET_OK 返回pd dataframe数据，数据列格式如下
@@ -670,10 +670,10 @@ get_cur_kline
 
 ..  py:function:: get_cur_kline(self, code, num, ktype=SubType.K_DAY, autype=AuType.QFQ)
 
- 实时获取指定股票最近num个K线数据，最多1000根
+ 实时获取指定股票最近num个K线数据
 
  :param code: 股票代码
- :param num:  k线数据个数
+ :param num:  k线数据个数，最多1000根
  :param ktype: k线类型，参见KLType
  :param autype: 复权类型，参见AuType
  :return: (ret, data)
@@ -750,7 +750,7 @@ get_multi_points_history_kline
  获取多支股票多个时间点的指定数据列
 
  :param code_list: 单个或多个股票 'HK.00700'  or  ['HK.00700', 'HK.00001']
- :param dates: 单个或多个日期 '2017-01-01' or ['2017-01-01', '2017-01-02']
+ :param dates: 单个或多个日期 '2017-01-01' or ['2017-01-01', '2017-01-02']，最多5个时间点
  :param fields: 单个或多个数据列 KL_FIELD.ALL or [KL_FIELD.DATE_TIME, KL_FIELD.OPEN]
  :param ktype: K线类型
  :param autype: 复权类型
