@@ -20,10 +20,11 @@ from threading import Thread, RLock
         1. property: timestamp_adjust 得到本地与futu server的时间差（local - futu) 秒
         2. property: codes_pool 指定股票池，如果不指定，将读取config配置从股票列表中顺序取一批数量股票
         3. property: config 配置信息，具体参考 SubscribeFullQuote.DEFAULT_SUB_CONFIG中说明
-        4. start 启动运行，注意正确配置config参数，否则程序将无法正常运行
-        5. close 结束运行
-        6. set_handler 指定接收回调的实例 ，必须是FullQuoteHandleBase的派生对象
-        7. 调用范例参考class下的main
+        4. property: success_sub_codes 成功定阅的股票
+        5. start 启动运行，注意正确配置config参数，否则程序将无法正常运行
+        6. close 结束运行
+        7. set_handler 指定接收回调的实例 ，必须是FullQuoteHandleBase的派生对象
+        8.范例参考class下的main
 """
 
 
@@ -57,12 +58,12 @@ class SubscribeFullQuote(object):
     # 配置信息
     DEFAULT_SUB_CONFIG = {
         "ip": "127.0.0.1",                      # FutuOpenD运行IP
-        "port_begin": 11113,                    # port FutuOpenD开放的第一个端口号
+        "port_begin": 11111,                    # port FutuOpenD开放的第一个端口号
 
-        "port_count": 30,                       # 启动了多少个FutuOPenD进程，每个进程的port在port_begin上递增
+        "port_count": 1,                       # 启动了多少个FutuOPenD进程，每个进程的port在port_begin上递增
         "sub_one_size": 100,                    # 最多向一个FutuOpenD定阅多少支股票
         "is_adjust_sub_one_size": True,         # 依据当前剩余定阅量动态调整一次的定阅量(测试白名单不受定阅额度限制可置Flase)
-        'one_process_ports': 2,                 # 用多进程提高性能，一个进程处理多少个端口
+        'one_process_ports': 1,                 # 用多进程提高性能，一个进程处理多少个端口
 
         # 若使用property接口 "codes_pool" 指定了定阅股票， 以下配置无效
         "sub_max": 4000,                                            # 最多定阅多少支股票(需要依据定阅额度和进程数作一个合理预估）
@@ -107,6 +108,10 @@ class SubscribeFullQuote(object):
         if type(codes) is not list:
             codes = [codes]
         self.__codes_pool = copy(codes)
+
+    @property
+    def success_sub_codes(self):
+        return [code for code in self.__share_sub_codes]
 
     @property
     def config(self):
@@ -439,24 +444,29 @@ if __name__ =="__main__":
     # 若指定codes_pool,  配置中 sub_max / sub_stock_type_list / sub_market_list 将忽略
     sub_obj.codes_pool = ['HK.00700', 'HK.00772']
 
-    # 指定config
+    # 指定config, 不指定使用默认配置数据 : SubscribeFullQuote.DEFAULT_SUB_CONFIG
     my_config = {
-        "ip": "127.0.0.1",
-        "port_begin": 11111,
+        "ip": "127.0.0.1",                      # FutuOpenD运行IP
+        "port_begin": 11111,                    # port FutuOpenD开放的第一个端口号
 
-        "port_count": 1,
-        "sub_one_size": 100,
-        "is_adjust_sub_one_size": True,
-        'one_process_ports': 1,
+        "port_count": 1,                        # 启动了多少个FutuOPenD进程，每个进程的port在port_begin上递增
+        "sub_one_size": 100,                    # 最多向一个FutuOpenD定阅多少支股票
+        "is_adjust_sub_one_size": True,         # 依据当前剩余定阅量动态调整一次的定阅量(测试白名单不受定阅额度限制可置Flase)
+        'one_process_ports': 1,                 # 用多进程提高性能，一个进程处理多少个端口
 
-        "sub_max": 4000,
-        "sub_stock_type_list": [SecurityType.STOCK],
-        "sub_market_list": [Market.HK],
+        # 若使用property接口 "codes_pool" 指定了定阅股票， 以下配置无效
+        "sub_max": 4000,                                            # 最多定阅多少支股票(需要依据定阅额度和进程数作一个合理预估）
+        "sub_stock_type_list": [SecurityType.STOCK],                # 选择要定阅的股票类型
+        "sub_market_list": [Market.HK],                             # 要定阅的市场
     }
     sub_obj.config = my_config
 
     # 启动运行
+    print("* begin run ...")
     sub_obj.start()
+    all_sub_codes = sub_obj.success_sub_codes
+    print("* all sub count:{}, codes:{}".format(len(all_sub_codes), all_sub_codes))
+    print("* all is ready and running ...")
 
     # 运行24小时后退出
     sleep(24 * 3600)
