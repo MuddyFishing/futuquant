@@ -63,6 +63,16 @@ class SubscribeFullTick(object):
         self.__all_process_ready = False
 
     @property
+    def codes_pool(self):
+        return self.__codes_pool
+
+    @codes_pool.setter
+    def codes_pool(self, codes):
+        if type(codes) is not list:
+            codes = [codes]
+        self.__codes_pool = copy(codes)
+
+    @property
     def timestamp_adjust(self):
         return self.__timestamp_adjust
 
@@ -331,6 +341,7 @@ class CheckDelayTickerHandle(FullTickerHandleBase):
 if __name__ =="__main__":
 
     tick_subcrible = SubscribeFullTick()
+    tick_subcrible.codes_pool = ['HK.00700']
     tick_subcrible.set_handler(CheckDelayTickerHandle(tick_subcrible))
     tick_subcrible.start()
 
