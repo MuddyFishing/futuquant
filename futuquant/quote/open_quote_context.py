@@ -762,7 +762,7 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, "", code_list, subtype_list
 
-    def subscribe(self, code_list, subtype_list):
+    def subscribe(self, code_list, subtype_list, is_first_push=True):
         """
         订阅注册需要的实时信息，指定股票和订阅的数据类型即可
 
@@ -770,6 +770,7 @@ class OpenQuoteContext(OpenContextBase):
 
         :param code_list: 需要订阅的股票代码列表
         :param subtype_list: 需要订阅的数据类型列表，参见SubType
+        :param is_first_push: 订阅成功后是否马上推送一次数据
         :return: (ret, err_message)
 
                 ret == RET_OK err_message为None
@@ -784,9 +785,9 @@ class OpenQuoteContext(OpenContextBase):
         print(quote_ctx.subscribe(['HK.00700'], [SubType.QUOTE)])
         quote_ctx.close()
         """
-        return self._subscribe_impl(code_list, subtype_list, False)
+        return self._subscribe_impl(code_list, subtype_list, is_first_push)
 
-    def _subscribe_impl(self, code_list, subtype_list, is_reconnect):
+    def _subscribe_impl(self, code_list, subtype_list, is_first_push):
 
         ret, msg, code_list, subtype_list = self._check_subscribe_param(code_list, subtype_list)
         if ret != RET_OK:
@@ -806,7 +807,8 @@ class OpenQuoteContext(OpenContextBase):
         kargs = {
             'code_list': code_list,
             'subtype_list': subtype_list,
-            "conn_id": self.get_sync_conn_id()
+            'conn_id': self.get_sync_conn_id(),
+            'is_first_push': is_first_push
         }
         ret_code, msg, _ = query_processor(**kargs)
 
@@ -821,7 +823,7 @@ class OpenQuoteContext(OpenContextBase):
                 code_set.add(code)
 
         ret_code, msg, push_req_str = SubscriptionQuery.pack_push_req(
-            code_list, subtype_list, self.get_async_conn_id(), is_reconnect)
+            code_list, subtype_list, self.get_async_conn_id(), is_first_push)
 
         if ret_code != RET_OK:
             return RET_ERROR, msg
@@ -867,7 +869,7 @@ class OpenQuoteContext(OpenContextBase):
                 sub_codes = code_list[start_idx: start_idx + sub_count]
                 start_idx += sub_count
 
-                ret_code, ret_data = self._subscribe_impl(sub_codes, sub_list, True)
+                ret_code, ret_data = self._subscribe_impl(sub_codes, sub_list, False)
                 if ret_code != RET_OK:
                     break
             if ret_code != RET_OK:

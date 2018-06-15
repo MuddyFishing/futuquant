@@ -255,7 +255,7 @@ get_market_snapshot
 
 获取市场快照
 
- :param code_list: 股票列表
+ :param code_list: 股票列表，限制最多200只股票
  :return: (ret, data)
 
         ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
@@ -464,7 +464,7 @@ subscribe
 
 ..  py:function:: subscribe(self, code_list, subtype_list)
 
- 订阅注册需要的实时信息，指定股票和订阅的数据类型即可
+ 订阅注册需要的实时信息，指定股票和订阅的数据类型即可，港股订阅需要Lv2行情。
  
  注意：len(code_list) * 订阅的K线类型的数量 <= 100
 
@@ -549,6 +549,43 @@ query_subscription
     print(quote_ctx.query_subscription())
     quote_ctx.close()
         
+		
+get_global_state
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: get_global_state(self)
+
+ 获取全局状态
+
+ :return: (ret, data)
+
+		ret == RET_OK data为包含全局状态的字典，含义如下
+
+		ret != RET_OK data为错误描述字符串
+
+		=====================   ===========   ==============================================================
+		key                      value类型                        说明
+		=====================   ===========   ==============================================================
+		market_sz               str            深圳市场状态，参见MarketState
+		market_us               str            美国市场状态，参见MarketState
+		market_sh               str            上海市场状态，参见MarketState
+		market_hk               str            香港市场状态，参见MarketState
+		market_future           str            香港期货市场状态，参见MarketState
+		server_ver              str            FutuOpenD版本号
+		trd_logined             str            '1'：已登录交易服务器，'0': 未登录交易服务器
+		qot_logined             str            '1'：已登录行情服务器，'0': 未登录行情服务器
+		timestamp               str            当前格林威治时间戳
+		=====================   ===========   ==============================================================
+ 
+ :example:
+
+ .. code:: python
+
+    from futuquant import *
+    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+    print(quote_ctx.get_global_state())
+    quote_ctx.close()
+
 get_stock_quote
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -600,7 +637,7 @@ get_rt_ticker
  获取指定股票的实时逐笔。取最近num个逐笔
 
  :param code: 股票代码
- :param num: 最近ticker个数(有最大个数限制，最近500个）
+ :param num: 最近ticker个数，最多可获取1000个
  :return: (ret, data)
 
         ret == RET_OK 返回pd dataframe数据，数据列格式如下
@@ -633,10 +670,10 @@ get_cur_kline
 
 ..  py:function:: get_cur_kline(self, code, num, ktype=SubType.K_DAY, autype=AuType.QFQ)
 
- 实时获取指定股票最近num个K线数据，最多1000根
+ 实时获取指定股票最近num个K线数据
 
  :param code: 股票代码
- :param num:  k线数据个数
+ :param num:  k线数据个数，最多1000根
  :param ktype: k线类型，参见KLType
  :param autype: 复权类型，参见AuType
  :return: (ret, data)
@@ -713,7 +750,7 @@ get_multi_points_history_kline
  获取多支股票多个时间点的指定数据列
 
  :param code_list: 单个或多个股票 'HK.00700'  or  ['HK.00700', 'HK.00001']
- :param dates: 单个或多个日期 '2017-01-01' or ['2017-01-01', '2017-01-02']
+ :param dates: 单个或多个日期 '2017-01-01' or ['2017-01-01', '2017-01-02']，最多5个时间点
  :param fields: 单个或多个数据列 KL_FIELD.ALL or [KL_FIELD.DATE_TIME, KL_FIELD.OPEN]
  :param ktype: K线类型
  :param autype: 复权类型
@@ -1060,8 +1097,8 @@ on_recv_rsp
  K线						2
  分时						2
  逐笔						5（牛熊证为1）
- 报价						5（牛熊证为1）
- 摆盘						1
+ 报价						1
+ 摆盘						5（牛熊证为1）
  经纪队列					5（牛熊证为1）
  =====================    ===============================
 

@@ -4,7 +4,7 @@ import socket as sock
 import time
 from time import sleep
 from threading import Thread, RLock
-from multiprocessing import Queue
+import queue
 import errno
 import traceback
 from futuquant.common.utils import *
@@ -76,7 +76,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         self.__host = host
         self.__port = port
         self.__close_handler = close_handler
-        self.__req_queue = Queue()
+        self.__req_queue = queue.Queue()
         self.__is_log_handle_close = False
         self.__recv_buf = b''
         self._conn_id = 0
@@ -84,6 +84,9 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
 
         self.handler_ctx = handler_ctx
         self.async_thread_ctrl.add_async(self)
+
+        # self.__last_recv_len = 0
+        # self.__last_recv_time = time.time()
 
     def set_conn_id(self, conn_id):
         self._conn_id = conn_id
@@ -116,14 +119,13 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
             pass
 
     def handle_read(self):
-
+        # logger.debug("read enter - last_recv_len:{} last_recv_time:{}".format(self.__last_recv_len, self.__last_recv_time))
+        # self.__last_recv_time = time.time()
         try:
-            # handle_read要控制一下处理时长，避免一直阻塞处理
-            last_tm = time.time()
-            max_tm = 0.2
 
             head_len = get_message_head_len()
             recv_tmp = self.recv(5 * 1024 * 1024)
+            # self.__last_recv_len = len(recv_tmp)
             # logger.debug("async handle_read len={} head_len={}".format(len(recv_tmp), head_len))
             if recv_tmp == b'':
                 return
@@ -134,7 +136,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                 body_len = head_dict['body_len']
 
                 # 处理完已读数据或者处理时间片超过指定时间
-                if (body_len + head_len) > len(self.__recv_buf) or (time.time() - last_tm > max_tm):
+                if (body_len + head_len) > len(self.__recv_buf):
                     return
 
                 rsp_body = self.__recv_buf[head_len: head_len + body_len]
@@ -144,21 +146,25 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
                 # 数据解密码校验
                 ret_decrypt, msg_decrypt, rsp_body = decrypt_rsp_body(rsp_body, head_dict, self._conn_id)
 
-                # debug 时可打开，避免异步推送影响同步请求的调试
-                """
-                if head_dict['proto_id'] == ProtoId.InitConnect:
-                    ret_decrypt, msg_decrypt, rsp_body = decrypt_rsp_body(rsp_body, head_dict, self._conn_id)
-                else:
-                    ret_decrypt, msg_decrypt, rsp_body = -1, "only for debug", None
-                """
-
                 if ret_decrypt == RET_OK:
-                    rsp_pb = binary2pb(rsp_body, head_dict['proto_id'], head_dict['proto_fmt_type'])
+                    proto_id = head_dict['proto_id']
+                    rsp_pb = binary2pb(rsp_body, proto_id, head_dict['proto_fmt_type'])
                     if rsp_pb is None:
-                        logger.error("async handle_read not support proto:{} conn_id:{}".format(head_dict['proto_id'],
+                        logger.error("async handle_read not support proto:{} conn_id:{}".format(proto_id,
                                                                                                 self._conn_id))
                     else:
-                        self.handler_ctx.recv_func(rsp_pb, head_dict['proto_id'])
+                        self.handler_ctx.recv_func(rsp_pb, proto_id)
+                        """
+                        if proto_id == ProtoId.Qot_UpdateTicker:  # 逐笔分析性能
+                            serial_no = head_dict['serial_no']
+                            tm_s = time.time()
+                            self.handler_ctx.recv_func(rsp_pb, proto_id)
+                            tm_e = time.time()
+                            # logger.debug("async_conn_id={} serial_no={} callback_time={} ".format(self._conn_id, serial_no, tm_e - tm_s))
+                        else:
+                            self.handler_ctx.recv_func(rsp_pb, proto_id)
+                        """
+
                 else:
                     logger.error(msg_decrypt)
 
@@ -169,7 +175,9 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
             traceback.print_exc()
             err = sys.exc_info()[1] + " conn_id:{}".format(self._conn_id)
             self.handler_ctx.error_func(str(err))
-            logger.debug(err)
+            logger.error(err)
+        finally:
+            # logger.debug("read end - time:{}".format(time.time() - self.__last_recv_time))
             return
 
     def network_query(self, req_str):
@@ -184,7 +192,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         """handle close"""
         # reduce close log info
         if not self.__is_log_handle_close:
-            logger.debug("async socket err! conn_id:{}".format(self._conn_id))
+            logger.error("async socket err! conn_id:{}".format(self._conn_id))
             self.__is_log_handle_close = True
 
         if self.connected:
