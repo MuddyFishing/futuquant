@@ -4,7 +4,7 @@ import socket as sock
 import time
 from time import sleep
 from threading import Thread, RLock
-from multiprocessing import Queue
+import queue
 import errno
 import traceback
 from futuquant.common.utils import *
@@ -76,7 +76,7 @@ class _AsyncNetworkManager(asyncore.dispatcher_with_send):
         self.__host = host
         self.__port = port
         self.__close_handler = close_handler
-        self.__req_queue = Queue()
+        self.__req_queue = queue.Queue()
         self.__is_log_handle_close = False
         self.__recv_buf = b''
         self._conn_id = 0

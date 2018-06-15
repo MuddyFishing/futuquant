@@ -35,7 +35,7 @@ class SubscribeFullTick(object):
         "sub_max": 4000,                                            # 最多定阅多少支股票(需要依据定阅额度和进程数作一个合理预估）
         "sub_stock_type_list": [SecurityType.STOCK],                # 选择要定阅的股票类型
         "sub_market_list": [Market.SZ],                             # 要定阅的市场
-        "ip": "193.112.189.131",                                          # FutuOpenD运行IP
+        "ip": "lim.app",                                          # FutuOpenD运行IP
         "port_begin": 11113,                                        # port FutuOpenD开放的第一个端口号
         "port_count": 30,                                            # 启动了多少个FutuOPenD进程，每个进程的port在port_begin上递增
         "sub_one_size": 150,                                        # 最多向一个FutuOpenD定阅多少支股票
@@ -215,10 +215,11 @@ class SubscribeFullTick(object):
     def _thread_tick_check(self):
         while self.__is_start_run:
             try:
-                if self.__share_queue_tick.empty() is False:
+                while self.__share_queue_tick.empty() is False:
                     dict_data = self.__share_queue_tick.get_nowait()
                     if self._tick_handler:
                         self._tick_handler.on_recv_rsp(dict_data)
+                sleep(0.01)
             except Exception as e:
                 pass
 
