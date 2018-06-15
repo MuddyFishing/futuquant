@@ -324,7 +324,7 @@ class CheckDelayTickerHandle(FullTickerHandleBase):
         delay_sec = (dt_cur.minute * 60 + dt_cur.second) - adjust_secs - (dt_tick.minute * 60 + dt_tick.second)
 
         if delay_sec >= 3:
-            logger.critical("* Ticker cirtical :{}".format(data_dict))
+            logger.critical("* local time adjust: {} Ticker cirtical :{}".format(adjust_secs, data_dict))
 
 
 if __name__ =="__main__":
