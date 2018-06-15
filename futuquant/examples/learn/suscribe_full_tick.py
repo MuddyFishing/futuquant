@@ -34,8 +34,8 @@ class SubscribeFullTick(object):
     DEFAULT_SUB_CONFIG = {
         "sub_max": 4000,                                            # 最多定阅多少支股票(需要依据定阅额度和进程数作一个合理预估）
         "sub_stock_type_list": [SecurityType.STOCK],                # 选择要定阅的股票类型
-        "sub_market_list": [Market.US],                             # 要定阅的市场
-        "ip": "127.0.0.1",                                          # FutuOpenD运行IP
+        "sub_market_list": [Market.SZ],                             # 要定阅的市场
+        "ip": "193.112.189.131",                                          # FutuOpenD运行IP
         "port_begin": 11113,                                        # port FutuOpenD开放的第一个端口号
         "port_count": 30,                                            # 启动了多少个FutuOPenD进程，每个进程的port在port_begin上递增
         "sub_one_size": 150,                                        # 最多向一个FutuOpenD定阅多少支股票
@@ -60,6 +60,11 @@ class SubscribeFullTick(object):
         self.__tick_thread = None
         self.__is_start_run = False
         self._tick_handler = FullTickerHandleBase()
+        self.__all_process_ready = False
+
+    @property
+    def timestamp_adjust(self):
+        return self.__timestamp_adjust
 
     @classmethod
     def cal_timstamp_adjust(cls, quote_ctx):
@@ -306,10 +311,26 @@ class SubscribeFullTick(object):
         quote_ctx_list = []
 
 
+class CheckDelayTickerHandle(FullTickerHandleBase):
+    def __init__(self, sub_full_obj):
+        self.__sub_full = sub_full_obj
+
+    def on_recv_rsp(self, data_dict):
+
+        time_data = data_dict['time']
+        dt_tick = datetime.strptime(time_data, "%Y-%m-%d %H:%M:%S")
+        dt_cur = datetime.now()
+        adjust_secs = self.__sub_full.timestamp_adjust
+        delay_sec = (dt_cur.minute * 60 + dt_cur.second) - adjust_secs - (dt_tick.minute * 60 + dt_tick.second)
+
+        if delay_sec >= 3:
+            logger.critical("* Ticker cirtical :{}".format(data_dict))
+
+
 if __name__ =="__main__":
 
     tick_subcrible = SubscribeFullTick()
-    tick_subcrible.set_handler(FullTickerHandleBase())
+    tick_subcrible.set_handler(CheckDelayTickerHandle(tick_subcrible))
     tick_subcrible.start()
 
     # 运行24小时后退出
