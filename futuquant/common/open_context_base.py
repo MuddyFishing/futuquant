@@ -47,6 +47,7 @@ class OpenContextBase(object):
         # 心跳保持连接
         self.__thread_keep_alive = None
         self._keep_alive_interval = 5.0
+        self._keep_alive_errs = 0
 
         self._socket_reconnect_and_wait_ready()
 
@@ -71,7 +72,7 @@ class OpenContextBase(object):
         else:
             conn_info = copy(content)
             self._sync_conn_id = conn_info['conn_id']
-            self._keep_alive_interval = conn_info['keep_alive_interval']
+            self._keep_alive_interval = conn_info['keep_alive_interval'] * 4 // 5
             self._sync_net_ctx.set_conn_id(self._sync_conn_id)
             FutuConnMng.add_conn(conn_info)
             logger.info("sync socket init_connect ok: {}".format(conn_info))
@@ -316,6 +317,7 @@ class OpenContextBase(object):
             self._thread_check_sync_sock.start()
 
             # create keep alive thread
+            self._keep_alive_errs = 0
             self.__thread_keep_alive = Thread(
                 target=self._thread_keep_alive_fun)
             self.__thread_keep_alive.setDaemon(True)
@@ -427,10 +429,15 @@ class OpenContextBase(object):
 
             ret_code, ret_msg = self._do_keep_alive()
             if ret_code != RET_OK:
-                logger.error("keep_alive fail :{} sync_id:{} async_id:{}".format(ret_msg, sync_conn_id, async_conn_id))
-                self._notify_connect_close()
-                return
+                if self.__thread_keep_alive is alive_thread_handle:
+                    self._keep_alive_errs += 1
+                logger.error("keep_alive fail :{} sync_id:{} async_id:{} error_count:{}".format(ret_msg, sync_conn_id, async_conn_id, self._keep_alive_errs))
+
+                if self._keep_alive_errs >= 3:
+                    self._notify_connect_close()
+                    return
             else:
+                self._keep_alive_errs = 0
                 logger.debug("keep_alive ok sync_id:{} async_id:{}".format(sync_conn_id, async_conn_id))
 
     def _thread_check_sync_sock_fun(self):
@@ -438,6 +445,8 @@ class OpenContextBase(object):
         thread fun : timer to check socket state
         """
         check_thread_handle = self._thread_check_sync_sock
+        sync_conn_id_rec = self.get_sync_conn_id()
+        async_conn_id_rec = self.get_async_conn_id()
         while True:
             if self._thread_check_sync_sock is not check_thread_handle:
                 if self._thread_check_sync_sock is None:
@@ -456,7 +465,7 @@ class OpenContextBase(object):
             if is_async_close or not sync_net_ctx.is_sock_ok(0.01):
                 self._thread_is_exit = True
                 if self._thread_check_sync_sock is check_thread_handle and not self._is_obj_closed:
-                    logger.debug("check_sync_sock thread : reconnect !")
+                    logger.debug("check_sync_sock thread : reconnect ! sync_conn_id:{} async_conn_id:{}".format(sync_conn_id_rec, async_conn_id_rec))
                     self._socket_reconnect_and_wait_ready()
                 return
             else:
@@ -542,3 +551,4 @@ class OpenContextBase(object):
             tmp_thread_obj = self.__thread_keep_alive
             self.__thread_keep_alive = None
             tmp_thread_obj.join(timeout=10)
+            self._keep_alive_errs = 0

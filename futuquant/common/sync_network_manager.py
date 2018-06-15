@@ -190,7 +190,7 @@ class _SyncNetworkQueryCtx:
                 if not sock_ok:
                     self._force_close_session()
                     if is_retry:
-                        logger.debug("wait to connect FutuOpenD")
+                        logger.error("wait to connect FutuOpenD")
                         sleep(1.5)
                         continue
                     else:
