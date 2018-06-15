@@ -23,7 +23,7 @@ from threading import Thread, RLock
         4. start 启动运行，注意正确配置config参数，否则程序将无法正常运行
         5. close 结束运行
         6. set_handler 指定接收回调的实例 ，必须是FullQuoteHandleBase的派生对象
-        4. 调用范例参考class下的main
+        7. 调用范例参考class下的main
 """
 
 
@@ -40,7 +40,7 @@ class FullQuoteHandleBase(object):
 
 class SubscribeFullQuote(object):
     # 逐笔的权重
-    DICT_QUOTE_WAIGHT = {
+    DICT_QUOTE_WEIGHT = {
         SubType.TICKER: 5,
         SubType.ORDER_BOOK: 5,
         SubType.BROKER: 5,
@@ -73,7 +73,7 @@ class SubscribeFullQuote(object):
         self.__sub_config = copy(self.DEFAULT_SUB_CONFIG)
         self.__subtype = subtype
 
-        if subtype not in self.DICT_QUOTE_WAIGHT.keys():
+        if subtype not in self.DICT_QUOTE_WEIGHT.keys():
             raise Exception("invalid subtype!")
 
         self.__mp_manage = mp.Manager()
@@ -363,7 +363,7 @@ class SubscribeFullQuote(object):
 
         port_index = 0
         all_sub_codes = []
-        quote_weight = cls.DICT_QUOTE_WAIGHT[subtype]
+        quote_weight = cls.DICT_QUOTE_WEIGHT[subtype]
         while len(share_left_codes) > 0 and port_index < port_count:
             quote_ctx = create_new_quote_ctx(ip, port + port_index)
             cur_sub_one_size = sub_one_size
