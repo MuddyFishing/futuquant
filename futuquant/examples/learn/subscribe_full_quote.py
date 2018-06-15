@@ -234,7 +234,7 @@ class SubscribeFullQuote(object):
                 port_idx += one_process_ports
                 self.__process_list.append(process)
             else:
-                self.__share_left_codes.clear()
+                self.__share_left_codes = self.__mp_manage.list()
                 [self.__share_left_codes.append(code) for code in left_codes]
 
         #log info
