@@ -179,11 +179,7 @@ class SubscribeFullQuote(object):
     def set_handler(self, handler):
         self._tick_handler = handler
 
-    def start(self, create_loop_run=True):
-        """
-        :param create_loop_run: 是否创建一个非deamon线程，以便调用完start后程序不会立即退出
-        :return: None
-        """
+    def start(self):
 
         if self.__is_start_run:
             return
@@ -244,14 +240,16 @@ class SubscribeFullQuote(object):
         # 创建tick 处理线程
         self.__tick_thread = Thread(
                 target=self._thread_tick_check, args=())
-        self.__tick_thread.setDaemon(True)
+        # self.__tick_thread.setDaemon(True)
         self.__tick_thread.start()
 
         # 创建loop 线程
+        """
         if create_loop_run:
             self.__loop_thread = Thread(
                 target=self._thread_loop_hold, args=())
             self.__loop_thread.start()
+        """
 
     def close(self):
         if not self.__is_start_run:
@@ -423,14 +421,17 @@ class CheckDelayTickerHandle(FullQuoteHandleBase):
 
     def on_recv_rsp(self, data_dict):
 
+        dt_cur = datetime.now()
         time_data = data_dict['time']
         dt_tick = datetime.strptime(time_data, "%Y-%m-%d %H:%M:%S")
-        dt_cur = datetime.now()
         adjust_secs = self.__sub_full.timestamp_adjust
-        delay_sec = (dt_cur.minute * 60 + dt_cur.second) - adjust_secs - (dt_tick.minute * 60 + dt_tick.second)
 
-        if delay_sec >= 3:
-            logger.critical("* Ticker cirtical :{}".format(data_dict))
+        # 美股时区问题, 只保留分钟、秒
+        dt_tick = datetime(dt_cur.year, dt_cur.month, dt_cur.day, dt_cur.hour, dt_tick.minute, dt_tick.second)
+        delay_sec = (dt_cur - dt_tick).seconds - adjust_secs
+
+        if abs(delay_sec) >= 3:
+            logger.critical("* adjust:{} Ticker cirtical :{}".format(adjust_secs, data_dict))
 
 
 if __name__ =="__main__":
@@ -442,22 +443,22 @@ if __name__ =="__main__":
     sub_obj.set_handler(CheckDelayTickerHandle(sub_obj))
 
     # 若指定codes_pool,  配置中 sub_max / sub_stock_type_list / sub_market_list 将忽略
-    sub_obj.codes_pool = ['HK.00700', 'HK.00772']
+    # sub_obj.codes_pool = ['HK.00700', 'HK.00772']
 
     # 指定config, 不指定使用默认配置数据 : SubscribeFullQuote.DEFAULT_SUB_CONFIG
     my_config = {
-        "ip": "127.0.0.1",                      # FutuOpenD运行IP
-        "port_begin": 11111,                    # port FutuOpenD开放的第一个端口号
+        "ip": "193.112.189.131",                      # FutuOpenD运行IP
+        "port_begin": 11113,                    # port FutuOpenD开放的第一个端口号
 
-        "port_count": 1,                        # 启动了多少个FutuOPenD进程，每个进程的port在port_begin上递增
-        "sub_one_size": 100,                    # 最多向一个FutuOpenD定阅多少支股票
+        "port_count": 30,                        # 启动了多少个FutuOPenD进程，每个进程的port在port_begin上递增
+        "sub_one_size": 150,                    # 最多向一个FutuOpenD定阅多少支股票
         "is_adjust_sub_one_size": True,         # 依据当前剩余定阅量动态调整一次的定阅量(测试白名单不受定阅额度限制可置Flase)
-        'one_process_ports': 1,                 # 用多进程提高性能，一个进程处理多少个端口
+        'one_process_ports': 2,                 # 用多进程提高性能，一个进程处理多少个端口
 
         # 若使用property接口 "codes_pool" 指定了定阅股票， 以下配置无效
         "sub_max": 4000,                                            # 最多定阅多少支股票(需要依据定阅额度和进程数作一个合理预估）
         "sub_stock_type_list": [SecurityType.STOCK],                # 选择要定阅的股票类型
-        "sub_market_list": [Market.HK],                             # 要定阅的市场
+        "sub_market_list": [Market.US],                             # 要定阅的市场
     }
     sub_obj.config = my_config
 

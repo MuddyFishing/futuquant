@@ -16,7 +16,6 @@ class _AsyncThreadCtrl(object):
     def __init__(self):
         self.__list_aync = []
         self.__net_proc = None
-        self.__net_proc_hold = None
         self.__stop = False
         self.__list_lock = RLock()
 
@@ -31,13 +30,7 @@ class _AsyncThreadCtrl(object):
                 # work thread
                 self.__net_proc = Thread(
                     target=self._thread_aysnc_net_proc, args=())
-                self.__net_proc.setDaemon(True)
                 self.__net_proc.start()
-
-                # main hold thread
-                self.__net_proc_hold = Thread(
-                    target=self._thread_aysnc_net_proc_hold, args=())
-                self.__net_proc_hold.start()
 
     def remove_async(self, async_obj):
         with self.__list_lock:
@@ -49,9 +42,6 @@ class _AsyncThreadCtrl(object):
 
                 self.__net_proc.join(timeout=5)
                 self.__net_proc = None
-
-                self.__net_proc_hold.join(timeout=5)
-                self.__net_proc_hold = None
 
     def _thread_aysnc_net_proc(self):
         while not self.__stop:

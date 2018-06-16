@@ -313,14 +313,14 @@ class OpenContextBase(object):
             # run thread to check sync socket state
             self._thread_check_sync_sock = Thread(
                     target=self._thread_check_sync_sock_fun)
-            self._thread_check_sync_sock.setDaemon(True)
+            # self._thread_check_sync_sock.setDaemon(True)
             self._thread_check_sync_sock.start()
 
             # create keep alive thread
             self._keep_alive_errs = 0
             self.__thread_keep_alive = Thread(
                 target=self._thread_keep_alive_fun)
-            self.__thread_keep_alive.setDaemon(True)
+            # self.__thread_keep_alive.setDaemon(True)
             self.__thread_keep_alive.start()
 
         # notify reconnected
