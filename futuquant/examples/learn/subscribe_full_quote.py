@@ -428,7 +428,7 @@ class CheckDelayTickerHandle(FullQuoteHandleBase):
 
         # 美股时区问题, 只保留分钟、秒
         dt_tick = datetime(dt_cur.year, dt_cur.month, dt_cur.day, dt_cur.hour, dt_tick.minute, dt_tick.second)
-        delay_sec = (dt_cur - dt_tick).seconds - adjust_secs
+        delay_sec = (dt_cur - dt_tick).total_seconds() - adjust_secs
 
         if abs(delay_sec) >= 3:
             logger.critical("* adjust:{} Ticker cirtical :{}".format(adjust_secs, data_dict))
@@ -458,7 +458,7 @@ if __name__ =="__main__":
         # 若使用property接口 "codes_pool" 指定了定阅股票， 以下配置无效
         "sub_max": 4000,                                            # 最多定阅多少支股票(需要依据定阅额度和进程数作一个合理预估）
         "sub_stock_type_list": [SecurityType.STOCK],                # 选择要定阅的股票类型
-        "sub_market_list": [Market.US],                             # 要定阅的市场
+        "sub_market_list": [Market.HK],                             # 要定阅的市场
     }
     sub_obj.config = my_config
 
