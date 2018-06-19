@@ -930,6 +930,7 @@ class TickerQuery:
             "turnover": record.turnover,
             "ticker_direction": str(QUOTE.REV_TICKER_DIRECTION[record.dir]) if record.dir in QUOTE.REV_TICKER_DIRECTION else "",
             "sequence": record.sequence,
+            "recv_time":record.recvTime,
         } for record in raw_ticker_list]
         return RET_OK, "", ticker_list
 

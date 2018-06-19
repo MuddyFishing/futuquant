@@ -40,7 +40,7 @@ class FullQuoteHandleBase(object):
 
 
 class SubscribeFullQuote(object):
-    # 逐笔的权重
+    # 定阅权重
     DICT_QUOTE_WEIGHT = {
         SubType.TICKER: 5,
         SubType.ORDER_BOOK: 5,
@@ -55,7 +55,7 @@ class SubscribeFullQuote(object):
         SubType.RT_DATA: 2,
         SubType.QUOTE: 1,
     }
-    # 配置信息
+    # 默认配置信息
     DEFAULT_SUB_CONFIG = {
         "ip": "127.0.0.1",                      # FutuOpenD运行IP
         "port_begin": 11111,                    # port FutuOpenD开放的第一个端口号
@@ -422,7 +422,8 @@ class CheckDelayTickerHandle(FullQuoteHandleBase):
     def on_recv_rsp(self, data_dict):
 
         dt_cur = datetime.now()
-        time_data = data_dict['time']
+        time_data = data_dict['recv_time'] if ('recv_time' in data_dict.keys() and data_dict['recv_time']) else data_dict['time']
+
         dt_tick = datetime.strptime(time_data, "%Y-%m-%d %H:%M:%S")
         adjust_secs = self.__sub_full.timestamp_adjust
 
@@ -453,7 +454,7 @@ if __name__ =="__main__":
         "port_count": 30,                        # 启动了多少个FutuOPenD进程，每个进程的port在port_begin上递增
         "sub_one_size": 150,                    # 最多向一个FutuOpenD定阅多少支股票
         "is_adjust_sub_one_size": True,         # 依据当前剩余定阅量动态调整一次的定阅量(测试白名单不受定阅额度限制可置Flase)
-        'one_process_ports': 2,                 # 用多进程提高性能，一个进程处理多少个端口
+        'one_process_ports': 1,                 # 用多进程提高性能，一个进程处理多少个端口
 
         # 若使用property接口 "codes_pool" 指定了定阅股票， 以下配置无效
         "sub_max": 4000,                                            # 最多定阅多少支股票(需要依据定阅额度和进程数作一个合理预估）

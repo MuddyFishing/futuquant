@@ -156,7 +156,7 @@ class TickerHandlerBase(RspHandlerBase):
 
             col_list = [
                 'code', 'time', 'price', 'volume', 'turnover',
-                "ticker_direction", 'sequence'
+                "ticker_direction", 'sequence', 'recv_time',
             ]
             ticker_frame_table = pd.DataFrame(ticker_list, columns=col_list)
 
