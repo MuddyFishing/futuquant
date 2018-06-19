@@ -423,13 +423,15 @@ class CheckDelayTickerHandle(FullQuoteHandleBase):
 
         dt_cur = datetime.now()
         time_data = data_dict['recv_time'] if ('recv_time' in data_dict.keys() and data_dict['recv_time']) else data_dict['time']
+        code = data_dict['code']
 
         dt_tick = datetime.strptime(time_data, "%Y-%m-%d %H:%M:%S")
         adjust_secs = self.__sub_full.timestamp_adjust
-
-        # 美股时区问题, 只保留分钟、秒
-        dt_tick = datetime(dt_cur.year, dt_cur.month, dt_cur.day, dt_cur.hour, dt_tick.minute, dt_tick.second)
         delay_sec = (dt_cur - dt_tick).total_seconds() - adjust_secs
+
+        # 美股时间比本地CN时间延迟12小时
+        if code[:2] == 'US':
+            delay_sec -= 12 * 3600
 
         if abs(delay_sec) >= 3:
             logger.critical("* adjust:{} Ticker cirtical :{}".format(adjust_secs, data_dict))
@@ -454,7 +456,7 @@ if __name__ =="__main__":
         "port_count": 30,                        # 启动了多少个FutuOPenD进程，每个进程的port在port_begin上递增
         "sub_one_size": 150,                    # 最多向一个FutuOpenD定阅多少支股票
         "is_adjust_sub_one_size": True,         # 依据当前剩余定阅量动态调整一次的定阅量(测试白名单不受定阅额度限制可置Flase)
-        'one_process_ports': 1,                 # 用多进程提高性能，一个进程处理多少个端口
+        'one_process_ports': 2,                 # 用多进程提高性能，一个进程处理多少个端口
 
         # 若使用property接口 "codes_pool" 指定了定阅股票， 以下配置无效
         "sub_max": 4000,                                            # 最多定阅多少支股票(需要依据定阅额度和进程数作一个合理预估）
