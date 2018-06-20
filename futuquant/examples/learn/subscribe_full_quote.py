@@ -306,11 +306,14 @@ class SubscribeFullQuote(object):
             if ret_code != RET_OK or content is None:
                 return RET_ERROR, content
 
+            time.time()
             if is_dateframe:
                 data_tmp = content.to_dict(orient='index')
                 for dict_data in data_tmp.values():
+                    dict_data['process_timestamp'] = time.time()
                     share_queue_tick.put(dict_data)
             else:
+                dict_data['process_timestamp'] = time.time()
                 share_queue_tick.put(content)
 
             return RET_OK, content
@@ -424,6 +427,7 @@ class CheckDelayTickerHandle(FullQuoteHandleBase):
         dt_cur = datetime.now()
         time_data = data_dict['recv_time'] if ('recv_time' in data_dict.keys() and data_dict['recv_time']) else data_dict['time']
         code = data_dict['code']
+        process_delay = time.time() - data_dict['process_timestamp']
 
         dt_tick = datetime.strptime(time_data, "%Y-%m-%d %H:%M:%S")
         adjust_secs = self.__sub_full.timestamp_adjust
@@ -434,7 +438,9 @@ class CheckDelayTickerHandle(FullQuoteHandleBase):
             delay_sec -= 12 * 3600
 
         if abs(delay_sec) >= 3:
-            logger.critical("* adjust:{} Ticker cirtical :{}".format(adjust_secs, data_dict))
+            is_process_delay = abs(process_delay) >= 3
+            logger.critical("* adjust:{} delay:{}  p_delay:({}, {}) Ticker cirtical :{}".format(adjust_secs, delay_sec,
+                                                                    is_process_delay, process_delay, data_dict))
 
 
 if __name__ =="__main__":
