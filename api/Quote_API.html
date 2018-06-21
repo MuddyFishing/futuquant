@@ -105,6 +105,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#start">start</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#stop">stop</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#set-handler">set_handler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-trading-days">get_trading_days</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-stock-basicinfo">get_stock_basicinfo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-multiple-history-kline">get_multiple_history_kline</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-history-kline">get_history_kline</a></li>
@@ -159,6 +160,11 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Trade_API.html">交易API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">PROTOCOL</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../protocol/intro.html">协议接口指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../protocol/base_define.html">基础定义</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Q&amp;A</span></p>
 <ul>
@@ -326,6 +332,39 @@
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+</div>
+<div class="section" id="get-trading-days">
+<h4>get_trading_days<a class="headerlink" href="#get-trading-days" title="Permalink to this headline">¶</a></h4>
+<dl class="function">
+<dt id="get_trading_days">
+<code class="descname">get_trading_days</code><span class="sig-paren">(</span><em>self</em>, <em>market</em>, <em>start_date=None</em>, <em>end_date=None</em><span class="sig-paren">)</span><a class="headerlink" href="#get_trading_days" title="Permalink to this definition">¶</a></dt>
+<dd><p>获取交易日</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>market</strong> &#8211; 市场类型，futuquant.common.constsnt.Market</li>
+<li><strong>start_date</strong> &#8211; 起始日期</li>
+<li><strong>end_date</strong> &#8211; 结束日期</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">成功时返回(RET_OK, data)，data是字符串数组；失败时返回(RET_ERROR, data)，其中data是错误描述字符串</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
+<span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_trading_days</span><span class="p">(</span><span class="n">market</span><span class="o">=</span><span class="n">Market</span><span class="o">.</span><span class="n">HK</span><span class="p">))</span>
+<span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
