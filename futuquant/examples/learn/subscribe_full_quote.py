@@ -437,8 +437,9 @@ class CheckDelayTickerHandle(FullQuoteHandleBase):
         if code[:2] == 'US':
             delay_sec -= 12 * 3600
 
-        if abs(delay_sec) >= 3:
-            is_process_delay = abs(process_delay) >= 3
+        delay_secs_check = 1.5
+        if abs(delay_sec) >= delay_secs_check:
+            is_process_delay = abs(process_delay) >= delay_secs_check
             logger.critical("* adjust:{} delay:{}  p_delay:({}, {}) Ticker cirtical :{}".format(adjust_secs, delay_sec,
                                                                     is_process_delay, process_delay, data_dict))
 
