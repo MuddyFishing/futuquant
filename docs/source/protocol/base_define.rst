@@ -2,14 +2,19 @@
 ==========
 	这里对FutuOpenD开放协议接口中用到基本数据结构作出归档说明, 所有类型都是通过Protobuf文本定义，请通过protobuf自带工具转成对应语言的接口类对象
 
---------------
+.. note::
 
+*   为避免增删导致的版本兼容问题，所有enum枚举类型只用于值的定义，在protobuf结构体中声明类型时使用int32类型
+*   所有类型定义使用protobuf格式声明，不同语言对接时请自行通过相关工具转换成对应的头文件
+*   *.proto表示协议文件名, `FutuQuant <https://github.com/FutunnOpen/futuquant/tree/master/futuquant/common/pb>`_ 开源项目中可获取所有文件
+
+--------------
 
 Common.proto
 -------------
 
 RetType - 协议返回值
-~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: protobuf
 
@@ -29,8 +34,8 @@ RetType - 协议返回值
  
 -------------------------------------
 
-PacketID
-~~~~~~~~~~~
+PacketID - 请求包标识
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: protobuf
 
@@ -53,7 +58,7 @@ Qot_Common.proto
 --------------------------
 
 QotMarket - 行情市场
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
  .. code-block:: protobuf
 
@@ -135,32 +140,32 @@ WarrantType - 窝轮子类型
 -----------------------------------------------
 
 QotMarketState - 行情市场状态
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  .. code-block:: protobuf
-
+	
 	enum QotMarketState
 	{
-		QotMarketState_None = 0; 									// 无交易,美股未开盘
-		QotMarketState_Auction = 1; 							// 竞价 
-		QotMarketState_WaitingOpen = 2; 					// 早盘前等待开盘
-		QotMarketState_Morning = 3; 							// 早盘 
-		QotMarketState_Rest = 4; 									// 午间休市 
-		QotMarketState_Afternoon = 5; 						// 午盘 
-		QotMarketState_Closed = 6; 								// 收盘
-		QotMarketState_PreMarketBegin = 8; 				// 盘前
-		QotMarketState_PreMarketEnd = 9; 					// 盘前结束 
-		QotMarketState_AfterHoursBegin = 10; 			// 盘后
-		QotMarketState_AfterHoursEnd = 11; 				// 盘后结束 
-		QotMarketState_NightOpen = 13; 						// 夜市开盘 
-		QotMarketState_NightEnd = 14; 						// 夜市收盘 
-		QotMarketState_FutureDayOpen = 15; 				// 期指日市开盘 
-		QotMarketState_FutureDayBreak = 16; 			// 期指日市休市 
-		QotMarketState_FutureDayClose = 17; 			// 期指日市收盘 
+		QotMarketState_None = 0; // 无交易,美股未开盘
+		QotMarketState_Auction = 1; // 竞价 
+		QotMarketState_WaitingOpen = 2; // 早盘前等待开盘
+		QotMarketState_Morning = 3; // 早盘 
+		QotMarketState_Rest = 4; // 午间休市 
+		QotMarketState_Afternoon = 5; // 午盘 
+		QotMarketState_Closed = 6; // 收盘
+		QotMarketState_PreMarketBegin = 8; // 盘前
+		QotMarketState_PreMarketEnd = 9; // 盘前结束 
+		QotMarketState_AfterHoursBegin = 10; // 盘后
+		QotMarketState_AfterHoursEnd = 11; // 盘后结束 
+		QotMarketState_NightOpen = 13; // 夜市开盘 
+		QotMarketState_NightEnd = 14; // 夜市收盘 
+		QotMarketState_FutureDayOpen = 15; // 期指日市开盘 
+		QotMarketState_FutureDayBreak = 16; // 期指日市休市 
+		QotMarketState_FutureDayClose = 17; // 期指日市收盘 
 		QotMarketState_FutureDayWaitForOpen = 18; // 期指日市等待开盘 
-		QotMarketState_HkCas = 19; 								// 盘后竞价,港股市场增加CAS机制对应的市场状态
+		QotMarketState_HkCas = 19; // 盘后竞价,港股市场增加CAS机制对应的市场状态
 	}
-
+	
 -----------------------------------------------
 
 RehabType - K线复权类型
@@ -290,11 +295,11 @@ KLine - K线数据点
 	{
 		required string time = 1; //时间戳字符串
 		required bool isBlank = 2; //是否是空内容的点,若为ture则只有时间信息
-		optional double highPrice = 3; //最高价,9位小数精度
-		optional double openPrice = 4; //开盘价,9位小数精度
-		optional double lowPrice = 5; //最低价,9位小数精度
-		optional double closePrice = 6; //收盘价,9位小数精度
-		optional double lastClosePrice = 7; //昨收价,9位小数精度
+		optional double highPrice = 3; //最高价,3位小数精度
+		optional double openPrice = 4; //开盘价,3位小数精度
+		optional double lowPrice = 5; //最低价,3位小数精度
+		optional double closePrice = 6; //收盘价,3位小数精度
+		optional double lastClosePrice = 7; //昨收价,3位小数精度
 		optional int64 volume = 8; //成交量
 		optional double turnover = 9; //成交额,3位小数精度
 		optional double turnoverRate = 10; //换手率,3位小数精度
@@ -316,11 +321,11 @@ BasicQot - 基础报价
 		required string listTime = 3; //上市日期字符串
 		required double priceSpread = 4; //价差
 		required string updateTime = 5; //更新时间字符串
-		required double highPrice = 6; //最高价,9位小数精度
-		required double openPrice = 7; //开盘价,9位小数精度
-		required double lowPrice = 8; //最低价,9位小数精度
-		required double curPrice = 9; //最新价,9位小数精度
-		required double lastClosePrice = 10; //昨收价,9位小数精度
+		required double highPrice = 6; //最高价,3位小数精度
+		required double openPrice = 7; //开盘价,3位小数精度
+		required double lowPrice = 8; //最低价,3位小数精度
+		required double curPrice = 9; //最新价,3位小数精度
+		required double lastClosePrice = 10; //昨收价,3位小数精度
 		required int64 volume = 11; //成交量
 		required double turnover = 12; //成交额,3位小数精度
 		required double turnoverRate = 13; //换手率,3位小数精度
@@ -339,23 +344,17 @@ TimeShare - 分时数据点
 		required string time = 1; //时间字符串
 		required int32 minute = 2; //距离0点过了多少分钟
 		required bool isBlank = 3; //是否是空内容的点,若为ture则只有时间信息
-		optional double price = 4; //当前价,9位小数精度
-		optional double lastClosePrice = 5; //昨收价,9位小数精度
-		optional double avgPrice = 6; //均价,9位小数精度
+		optional double price = 4; //当前价,3位小数精度
+		optional double lastClosePrice = 5; //昨收价,3位小数精度
+		optional double avgPrice = 6; //均价,3位小数精度
 		optional int64 volume = 7; //成交量
 		optional double turnover = 8; //成交额,3位小数精度
 	}
-		
- .. note::
 
-    *   1
-    *   2
-    *   3
-	
 -----------------------------------------------
 
 SecurityStaticBasic - 证券基本静态信息
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  .. code-block:: protobuf
 
@@ -368,17 +367,11 @@ SecurityStaticBasic - 证券基本静态信息
 		required string name = 5; //股票名字
 		required string listTime = 6; //上市时间字符串
 	}
-		
- .. note::
 
-    *   1
-    *   2
-    *   3
-	
 -----------------------------------------------
 
 WarrantStaticExData - 窝轮静态信息
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  .. code-block:: protobuf
 
@@ -388,16 +381,10 @@ WarrantStaticExData - 窝轮静态信息
 		required Qot_Common.Security owner = 2; //所属正股
 	}
 			
- .. note::
-
-    *   1
-    *   2
-    *   3
-	
 -----------------------------------------------
 
 SecurityStaticInfo - 证券静态信息
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  .. code-block:: protobuf
 
@@ -406,12 +393,6 @@ SecurityStaticInfo - 证券静态信息
 		required SecurityStaticBasic basic = 1; //基本股票静态信息
 		optional WarrantStaticExData warrantExData = 2; //窝轮额外股票静态信息
 	}
-
- .. note::
-
-    *   1
-    *   2
-    *   3
 	
 -----------------------------------------------
 
@@ -422,16 +403,10 @@ Broker - 买卖经纪摆盘
 
 	message Broker
 	{
-		required int64 id = 1; //经纪ID
-		required string name = 2; //经纪名称
-		required int32 pos = 3; //经纪档位
+		required int64 id = 1;   //经纪ID
+		required string name = 2;  //经纪名称
+		required int32 pos = 3;   //经纪档位
 	}
-
- .. note::
-
-    *   1
-    *   2
-    *   3
 	
 -----------------------------------------------
 
@@ -443,19 +418,13 @@ Ticker - 逐笔成交
 
 	message Ticker
 	{
-		required string time = 1; //时间字符串
-		required int64 sequence = 2; // 唯一标识
-		required int32 dir = 3; //TickerDirection, 买卖方向
-		required double price = 4; //价格
-		required int64 volume = 5; //成交量
+		required string time = 1; 		//时间字符串
+		required int64 sequence = 2; 	// 唯一标识
+		required int32 dir = 3; 			//TickerDirection, 买卖方向
+		required double price = 4; 		//价格
+		required int64 volume = 5; 		//成交量
 		required double turnover = 6; //成交额
 	}
-
- .. note::
-
-    *   1
-    *   2
-    *   3
 	
 -----------------------------------------------
 
@@ -467,16 +436,10 @@ OrderBook - 买卖十档摆盘
 
 	message OrderBook
 	{
-		required double price = 1; //委托价格
-		required int64 volume = 2; //委托数量
+		required double price = 1; 			//委托价格
+		required int64 volume = 2; 			//委托数量
 		required int32 orederCount = 3; //委托订单个数
 	}
-
- .. note::
-
-    *   1
-    *   2
-    *   3
 	
 -----------------------------------------------
 
@@ -487,39 +450,347 @@ SubInfo - 单个定阅类型信息
 
 	message SubInfo
 	{
-		required int32 subType = 1; //Qot_Common.SubType,订阅类型
-		repeated Qot_Common.Security securityList = 2; //订阅该类型行情的股票
+		required int32 subType = 1;  //Qot_Common.SubType,订阅类型
+		repeated Qot_Common.Security securityList = 2; 	//订阅该类型行情的证券
 	}
-
- .. note::
-
-    *   1
-    *   2
-    *   3
 	
 -----------------------------------------------
 
 ConnSubInfo - 单条连接定阅信息
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  .. code-block:: protobuf
 
 	message ConnSubInfo
 	{
-		repeated SubInfo subInfoList = 1; //该连接订阅信息
-		required int32 usedQuota = 2; //该连接已经使用的订阅额度
-		required bool isOwnConnData = 3; //用于区分是否是自己连接的数据
+		repeated SubInfo subInfoList = 1; 		//该连接订阅信息
+		required int32 usedQuota = 2; 				//该连接已经使用的订阅额度
+		required bool isOwnConnData = 3; 			//用于区分是否是自己连接的数据
 	}
 
  .. note::
 
-    *   1
-    *   2
-    *   3
+    *   一条连接重复定阅其它连接已经订阅过的，不会额外消耗订阅额度
+  
 	
 -----------------------------------------------
 
 
+Trd_Common.proto
+-------------------------
+
+OrderStatus - 订单状态
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+
+	enum OrderStatus
+	{
+		OrderStatus_Unsubmitted = 0; //未提交
+		OrderStatus_Unknown = -1; //未知状态
+		OrderStatus_WaitingSubmit = 1; //等待提交
+		OrderStatus_Submitting = 2; //提交中
+		OrderStatus_SubmitFailed = 3; //提交失败，下单失败
+		OrderStatus_TimeOut = 4; //处理超时，结果未知
+		OrderStatus_Submitted = 5; //已提交，等待成交
+		OrderStatus_Filled_Part = 10; //部分成交
+		OrderStatus_Filled_All = 11; //全部已成
+		OrderStatus_Cancelling_Part = 12; //正在撤单_部分(部分已成交，正在撤销剩余部分)
+		OrderStatus_Cancelling_All = 13; //正在撤单_全部
+		OrderStatus_Cancelled_Part = 14; //部分成交，剩余部分已撤单
+		OrderStatus_Cancelled_All = 15; //全部已撤单，无成交
+		OrderStatus_Failed = 21; //下单失败，服务拒绝
+		OrderStatus_Disabled = 22; //已失效
+		OrderStatus_Deleted = 23; //已删除，无成交的订单才能删除
+	};
+
+-----------------------------------------------
+
+TrdEnv - 交易环境
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+ 
+	enum TrdEnv
+	{
+		TrdEnv_Simulate = 0; //仿真环境(模拟环境)
+		TrdEnv_Real = 1; //真实环境
+	}
+	
+-----------------------------------------------
+
+TrdMarket - 交易市场
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+ 
+	//交易市场，是大的市场，不是具体品种
+	enum TrdMarket
+	{
+		TrdMarket_Unknown = 0; //未知市场
+		TrdMarket_HK = 1; //香港市场
+		TrdMarket_US = 2; //美国市场
+		TrdMarket_CN = 3; //大陆市场
+		TrdMarket_HKCC = 4; //香港A股通市场
+	}
+
+-----------------------------------------------
+
+TrdMarket - 交易方向
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+ 
+	enum TrdSide
+	{
+		//客户端下单只传Buy或Sell即可，SellShort是服务器返回有此方向，BuyBack目前不存在，但也不排除服务器会传
+		TrdSide_Unknown = 0; //未知方向
+		TrdSide_Buy = 1; //买入
+		TrdSide_Sell = 2; //卖出
+		TrdSide_SellShort = 3; //卖空
+		TrdSide_BuyBack = 4; //买回
+	}
+
+
+-----------------------------------------------
+
+TrdMarket - 订单类型
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+ 
+	enum OrderType
+	{
+		OrderType_Unknown = 0; //未知类型
+		OrderType_Normal = 1; //普通订单(港股的增强限价单、A股的限价委托、美股的限价单)
+		OrderType_Market = 2; //市价订单(目前仅美股)
+		
+		OrderType_AbsoluteLimit = 5; //绝对限价订单(目前仅港股)，只有价格完全匹配才成交，比如你下价格为5元的买单，卖单价格必须也要是5元才能成交，低于5元也不能成交。卖出同理
+		OrderType_Auction = 6; //竞价订单(目前仅港股)，A股的早盘竞价订单类型不变还是OrderType_Normal
+		OrderType_AuctionLimit = 7; //竞价限价订单(目前仅港股)
+		OrderType_SpecialLimit = 8; //特别限价订单(目前仅港股)，成交规则同OrderType_AbsoluteLimit，且如果当前没有对手可成交，不能立即成交，交易所自动撤销订单
+	}
+
+
+-----------------------------------------------
+
+
+OrderStatus - 订单状态
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+ 
+	enum OrderStatus
+	{
+		OrderStatus_Unknown = -1; //未知状态
+		OrderStatus_Unsubmitted = 0; //未提交
+		OrderStatus_WaitingSubmit = 1; //等待提交
+		OrderStatus_Submitting = 2; //提交中
+		OrderStatus_SubmitFailed = 3; //提交失败，下单失败
+		OrderStatus_TimeOut = 4; //处理超时，结果未知
+		OrderStatus_Submitted = 5; //已提交，等待成交
+		OrderStatus_Filled_Part = 10; //部分成交
+		OrderStatus_Filled_All = 11; //全部已成
+		OrderStatus_Cancelling_Part = 12; //正在撤单_部分(部分已成交，正在撤销剩余部分)
+		OrderStatus_Cancelling_All = 13; //正在撤单_全部
+		OrderStatus_Cancelled_Part = 14; //部分成交，剩余部分已撤单
+		OrderStatus_Cancelled_All = 15; //全部已撤单，无成交
+		OrderStatus_Failed = 21; //下单失败，服务拒绝
+		OrderStatus_Disabled = 22; //已失效
+		OrderStatus_Deleted = 23; //已删除，无成交的订单才能删除
+	};
+
+
+-----------------------------------------------
+
+
+PositionSide - 持仓方向类型
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+
+	enum PositionSide
+	{
+		PositionSide_Unknown = -1; //未知方向
+		PositionSide_Long = 0; //多仓，默认情况是多仓
+		PositionSide_Short = 1; //空仓
+	};
+
+
+-----------------------------------------------
+
+
+ModifyOrderOp - 修改订单操作类型
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+
+	enum ModifyOrderOp
+	{
+		//港股支持全部操作，美股目前仅支持ModifyOrderOp_Normal和ModifyOrderOp_Cancel
+		ModifyOrderOp_Unknown = 0; //未知操作
+		ModifyOrderOp_Normal = 1; //修改订单的价格、数量等，即以前的改单
+		ModifyOrderOp_Cancel = 2; //撤单
+		ModifyOrderOp_Disable = 3; //失效
+		ModifyOrderOp_Enable = 4; //生效
+		ModifyOrderOp_Delete = 5; //删除
+	};
+
+-----------------------------------------------
+
+ReconfirmOrderReason - 确认订单类型
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+ 
+	enum ReconfirmOrderReason
+	{
+		ReconfirmOrderReason_Unknown = 0; //未知原因
+		ReconfirmOrderReason_QtyTooLarge = 1; //订单数量太大，确认继续下单并否拆分成多个小订单
+		ReconfirmOrderReason_PriceAbnormal = 2; //价格异常，偏离当前价太大，确认继续下单
+	};
+
+-----------------------------------------------	
+
+TrdHeader - 交易公共参数头
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+
+	message TrdHeader
+	{
+		required int32 trdEnv = 1; //交易环境, 参见TrdEnv的枚举定义
+		required uint64 accID = 2; //业务账号, 业务账号与交易环境、市场权限需要匹配，否则会返回错误
+		required int32 trdMarket = 3; //交易市场, 参见TrdMarket的枚举定义
+	}
+	
+-----------------------------------------------
+
+TrdAcc - 交易账户
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+
+	message TrdAcc
+	{
+		required int32 trdEnv = 1; //交易环境，参见TrdEnv的枚举定义
+		required uint64 accID = 2; //业务账号
+		repeated int32 trdMarketAuthList = 3; //业务账户支持的交易市场权限，即此账户能交易那些市场, 可拥有多个交易市场权限，目前仅单个，取值参见TrdMarket的枚举定义
+	}
+
+-----------------------------------------------
+
+Funds - 账户资金
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+ 
+	message Funds
+	{
+		required double power = 1; //购买力，3位精度(A股2位)，下同
+		required double totalAssets = 2; //资产净值
+		required double cash = 3; //现金
+		required double marketVal = 4; //证券市值
+		required double frozenCash = 5; //冻结金额
+		required double debtCash = 6; //欠款金额
+		required double avlWithdrawalCash = 7; //可提金额
+	}
+
+-----------------------------------------------
+
+Position - 账户持仓 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+ 
+	message Position
+	{
+		required uint64 positionID = 1; //持仓ID，一条持仓的唯一标识
+		required int32 positionSide = 2; //持仓方向，参见PositionSide的枚举定义
+	  required string code = 3; //代码
+		required string name = 4; //名称
+	  required double qty = 5; //持有数量，2位精度，期权单位是"张"，下同
+	  required double canSellQty = 6; //可卖数量
+	  required double price = 7; //市价，3位精度(A股2位)
+	  optional double costPrice = 8; //成本价，无精度限制，如果没传，代表此时此值无效
+		required double val = 9; //市值，3位精度(A股2位)
+	  required double plVal = 10; //盈亏金额，3位精度(A股2位)
+	  optional double plRatio = 11; //盈亏比例，无精度限制，如果没传，代表此时此值无效
+	  
+		//以下是此持仓今日统计
+		optional double td_plVal = 21; //今日盈亏金额，3位精度(A股2位)，下同
+		optional double td_trdVal = 22; //今日交易额
+		optional double td_buyVal = 23; //今日买入总额
+		optional double td_buyQty = 24; //今日买入总量
+		optional double td_sellVal = 25; //今日卖出总额
+		optional double td_sellQty = 26; //今日卖出总量
+	}
+
+-----------------------------------------------
+
+Order - 订单
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+ 
+	message Order
+	{
+		required int32 trdSide = 1; //交易方向, 参见TrdSide的枚举定义
+		required int32 orderType = 2; //订单类型, 参见OrderType的枚举定义
+		required int32 orderStatus = 3; //订单状态, 参见OrderStatus的枚举定义
+		required uint64 orderID = 4; //订单号
+		required string orderIDEx = 5; //扩展订单号
+		required string code = 6; //代码
+		required string name = 7; //名称
+		required double qty = 8; //订单数量，2位精度，期权单位是"张"
+		optional double price = 9; //订单价格，3位精度(A股2位)
+		required string createTime = 10; //创建时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
+		required string updateTime = 11; //最后更新时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
+		optional double fillQty = 12; //成交数量，2位精度，期权单位是"张"
+		optional double fillAvgPrice = 13; //成交均价，无精度限制
+		optional string lastErrMsg = 14; //最后的错误描述，如果有错误，会有此描述最后一次错误的原因，无错误为空
+	}
+
+-----------------------------------------------
+
+OrderFill - 成交
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+
+	message OrderFill
+	{
+		required int32 trdSide = 1; //交易方向, 参见TrdSide的枚举定义
+		required uint64 fillID = 2; //成交号
+		required string fillIDEx = 3; //扩展成交号
+		optional uint64 orderID = 4; //订单号
+		optional string orderIDEx = 5; //扩展订单号
+		required string code = 6; //代码
+		required string name = 7; //名称
+		required double qty = 8; //成交数量，2位精度，期权单位是"张"
+		required double price = 9; //成交价格，3位精度(A股2位)
+		required string createTime = 10; //创建时间（成交时间），严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
+		optional int32 counterBrokerID = 11; //对手经纪号，港股有效
+		optional string counterBrokerName = 12; //对手经纪名称，港股有效
+	}
+
+-----------------------------------------------
+
+TrdFilterConditions - 过滤条件
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+ 
+	//过滤条件，条件组合是"与"不是"或"，用于获取订单、成交、持仓等时二次过滤
+	message TrdFilterConditions
+	{
+		repeated string codeList = 1; //代码过滤，只返回包含这些代码的数据，没传不过滤
+		repeated uint64 idList = 2; //ID主键过滤，只返回包含这些ID的数据，没传不过滤，订单是orderID、成交是fillID、持仓是positionID
+		optional string beginTime = 3; //开始时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传，对持仓无效，拉历史数据必须填
+		optional string endTime = 4; //结束时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传，对持仓无效，拉历史数据必须填
+	}
+	 
+-----------------------------------------------
 
 
 
