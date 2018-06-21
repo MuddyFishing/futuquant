@@ -155,18 +155,21 @@ class OpenContextBase(object):
                 else:
                     net_mgr = self._net_mgr
                     conn_id = self._conn_id
+            try:
+                ret_code, msg, req_str = pack_func(**kargs)
+                if ret_code != RET_OK:
+                    return ret_code, msg, None
 
-            ret_code, msg, req_str = pack_func(**kargs)
-            if ret_code != RET_OK:
-                return ret_code, msg, None
+                ret_code, msg, rsp_str = net_mgr.sync_query(conn_id, req_str)
+                if ret_code != RET_OK:
+                    return ret_code, msg, None
 
-            ret_code, msg, rsp_str = net_mgr.sync_query(conn_id, req_str)
-            if ret_code != RET_OK:
-                return ret_code, msg, None
-
-            ret_code, msg, content = unpack_func(rsp_str)
-            if ret_code != RET_OK:
-                return ret_code, msg, None
+                ret_code, msg, content = unpack_func(rsp_str)
+                if ret_code != RET_OK:
+                    return ret_code, msg, None
+            except Exception as e:
+                logger.error(traceback.format_exc())
+                return RET_ERROR, str(e), None
 
             return RET_OK, msg, content
 
@@ -274,15 +277,18 @@ class OpenContextBase(object):
             with self._lock:
                 self._sync_req_ret = (ret, msg, None)
 
-    def on_error(self, conn_id):
+    def on_error(self, conn_id, err):
+        logger.warning('Connect timeout: conn_id={0}; err={1};'.format(conn_id, err))
         with self._lock:
             self._close()
 
     def on_closed(self, conn_id):
+        logger.warning('Connect timeout: conn_id={0}'.format(conn_id))
         with self._lock:
             self._close()
 
     def on_connect_timeout(self, conn_id):
+        logger.warning('Connect timeout: conn_id={0}'.format(conn_id))
         with self._lock:
             self._close()
 

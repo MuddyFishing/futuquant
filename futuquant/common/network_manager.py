@@ -234,7 +234,7 @@ class NetManager:
         with self._lock:
             rsp = conn.sync_rsp_data
             conn.sync_req_data = None
-            conn.sync_req_data = None
+            conn.sync_rsp_data = None
         if rsp is not None:
             if rsp[0] == RET_OK:
                 return RET_OK, '', rsp[2]
