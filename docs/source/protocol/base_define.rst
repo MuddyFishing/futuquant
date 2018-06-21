@@ -1,12 +1,12 @@
 基础定义
 ==========
-	这里对FutuOpenD开放协议接口中用到基本数据结构作出归档说明, 所有类型都是通过Protobuf文本定义，请通过protobuf自带工具转成对应语言的接口类对象
+	这里对FutuOpenD开放协议接口中用到基本数据结构作出归档说明。
 
 .. note::
 
-*   为避免增删导致的版本兼容问题，所有enum枚举类型只用于值的定义，在protobuf结构体中声明类型时使用int32类型
-*   所有类型定义使用protobuf格式声明，不同语言对接时请自行通过相关工具转换成对应的头文件
-*   *.proto表示协议文件名, `FutuQuant <https://github.com/FutunnOpen/futuquant/tree/master/futuquant/common/pb>`_ 开源项目中可获取所有文件
+    *   为避免增删导致的版本兼容问题，所有enum枚举类型只用于值的定义，在protobuf结构体中声明类型时使用int32类型
+    *   所有类型定义使用protobuf格式声明，不同语言对接时请自行通过相关工具转换成对应的头文件
+    *   *.proto表示协议文件名, `FutuQuant <https://github.com/FutunnOpen/futuquant/tree/master/futuquant/common/pb>`_ 开源项目中可获取所有文件
 
 --------------
 
