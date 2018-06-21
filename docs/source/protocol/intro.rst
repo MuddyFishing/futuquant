@@ -187,8 +187,8 @@ Json协议回应包体结构
 	    "Response":
 	    {
 	        "retType" : 0
-			"retMsg" : ""
-			"errCode" : 0
+	        "retMsg" : ""
+	        "errCode" : 0
 	        "s2c": 
 	        {
 	            "data": 0
@@ -249,15 +249,7 @@ RSA私钥文件
 加密操作流程
 ~~~~~~~~~~~~~~~
 
-时序图: 用户  --> FutuOpenD配置密钥文件及加密码选项 
-
-        API --> FutuOPenD 1001(InitConnect) 协议body 使用RSA公钥加密 
-		
-		FutuOpenD --> API 返回1001，协议body使用RSA私钥解密，pb定义中的 s2c.connAESKey 即为后续协议请求的对称加密AES密钥
-		
-		API -> FutuOpenD 其它协议body使用"connAESKey" AES加密
-		
-		FutuOpenD ->API 其它协议body使用 "connAESKey" AES解密
+.. image:: ../_static/encrypt.png
 				
 ---------------------------------------------------
 
