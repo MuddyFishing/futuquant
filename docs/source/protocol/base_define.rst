@@ -113,9 +113,7 @@ PlateSetType - 板块集合类型
 
  .. note::
 
-    *   1
-    *   2
-    *   3
+    *   Qot_GetPlateSet 请求参数类型
 	
 -----------------------------------------------
  
@@ -133,12 +131,7 @@ WarrantType - 窝轮子类型
 		WarrantType_Bear = 4; //熊
 	};
 
- .. note::
-
-    *   1
-    *   2
-    *   3
-	
+ 
 -----------------------------------------------
 
 QotMarketState - 行情市场状态
@@ -148,32 +141,26 @@ QotMarketState - 行情市场状态
 
 	enum QotMarketState
 	{
-		QotMarketState_None = 0; // 无交易,美股未开盘
-		QotMarketState_Auction = 1; // 竞价 
-		QotMarketState_WaitingOpen = 2; // 早盘前等待开盘
-		QotMarketState_Morning = 3; // 早盘 
-		QotMarketState_Rest = 4; // 午间休市 
-		QotMarketState_Afternoon = 5; // 午盘 
-		QotMarketState_Closed = 6; // 收盘
-		QotMarketState_PreMarketBegin = 8; // 盘前
-		QotMarketState_PreMarketEnd = 9; // 盘前结束 
-		QotMarketState_AfterHoursBegin = 10; // 盘后
-		QotMarketState_AfterHoursEnd = 11; // 盘后结束 
-		QotMarketState_NightOpen = 13; // 夜市开盘 
-		QotMarketState_NightEnd = 14; // 夜市收盘 
-		QotMarketState_FutureDayOpen = 15; // 期指日市开盘 
-		QotMarketState_FutureDayBreak = 16; // 期指日市休市 
-		QotMarketState_FutureDayClose = 17; // 期指日市收盘 
+		QotMarketState_None = 0; 									// 无交易,美股未开盘
+		QotMarketState_Auction = 1; 							// 竞价 
+		QotMarketState_WaitingOpen = 2; 					// 早盘前等待开盘
+		QotMarketState_Morning = 3; 							// 早盘 
+		QotMarketState_Rest = 4; 									// 午间休市 
+		QotMarketState_Afternoon = 5; 						// 午盘 
+		QotMarketState_Closed = 6; 								// 收盘
+		QotMarketState_PreMarketBegin = 8; 				// 盘前
+		QotMarketState_PreMarketEnd = 9; 					// 盘前结束 
+		QotMarketState_AfterHoursBegin = 10; 			// 盘后
+		QotMarketState_AfterHoursEnd = 11; 				// 盘后结束 
+		QotMarketState_NightOpen = 13; 						// 夜市开盘 
+		QotMarketState_NightEnd = 14; 						// 夜市收盘 
+		QotMarketState_FutureDayOpen = 15; 				// 期指日市开盘 
+		QotMarketState_FutureDayBreak = 16; 			// 期指日市休市 
+		QotMarketState_FutureDayClose = 17; 			// 期指日市收盘 
 		QotMarketState_FutureDayWaitForOpen = 18; // 期指日市等待开盘 
-		QotMarketState_HkCas = 19; // 盘后竞价,港股市场增加CAS机制对应的市场状态
+		QotMarketState_HkCas = 19; 								// 盘后竞价,港股市场增加CAS机制对应的市场状态
 	}
 
- .. note::
-
-    *   1
-    *   2
-    *   3
-	
 -----------------------------------------------
 
 RehabType - K线复权类型
@@ -187,12 +174,6 @@ RehabType - K线复权类型
 		RehabType_Forward = 1; //前复权
 		RehabType_Backward = 2; //后复权
 	}
-
- .. note::
-
-    *   1
-    *   2
-    *   3
 	
 -----------------------------------------------
 
@@ -217,12 +198,6 @@ KLType - K线类型
 		KLType_3Min = 10; //3分K
 		KLType_Quarter = 11; //季K
 	}
-
- .. note::
-
-    *   1
-    *   2
-    *   3
 	
 -----------------------------------------------
 
@@ -244,13 +219,7 @@ KLFields - K线数据字段
 		KLFields_PE = 256; //市盈率
 		KLFields_ChangeRate = 512; //涨跌幅
 	}
-	
- .. note::
-
-    *   1
-    *   2
-    *   3
-	
+		
 -----------------------------------------------
 
 SubType - 行情定阅类型
@@ -281,12 +250,6 @@ SubType - 行情定阅类型
 		SubType_KL_3Min = 17; //3分K
 	}
 	
- .. note::
-
-    *   1
-    *   2
-    *   3
-	
 -----------------------------------------------
 
 TickerDirection - 逐笔方向
@@ -303,12 +266,6 @@ TickerDirection - 逐笔方向
 		TickerDirection_Neutral = 3; //中性盘
 	}
 		
- .. note::
-
-    *   1
-    *   2
-    *   3
-	
 -----------------------------------------------
 
 Security - 证券标识
@@ -321,13 +278,7 @@ Security - 证券标识
 		required int32 market = 1; //QotMarket,股票市场
 		required string code = 2; //股票代码
 	}
-	
- .. note::
 
-    *   1
-    *   2
-    *   3
-	
 -----------------------------------------------
 
 KLine - K线数据点
@@ -350,13 +301,7 @@ KLine - K线数据点
 		optional double pe = 11; //市盈率,3位小数精度
 		optional double changeRate = 12; //涨跌幅,3位小数精度
 	}
-	
- .. note::
-
-    *   1
-    *   2
-    *   3
-	
+		
 -----------------------------------------------
 
 BasicQot - 基础报价
@@ -382,12 +327,6 @@ BasicQot - 基础报价
 		required double amplitude = 14; //振幅,3位小数精度
 	}
 		
- .. note::
-
-    *   1
-    *   2
-    *   3
-	
 -----------------------------------------------
 
 TimeShare - 分时数据点
