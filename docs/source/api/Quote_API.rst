@@ -78,7 +78,26 @@ set_handler
 
         其它: 设置失败
 
+get_trading_days
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+..  py:function:: get_trading_days(self, market, start_date=None, end_date=None)
+
+ 获取交易日
+
+ :param market: 市场类型，futuquant.common.constsnt.Market
+ :param start_date: 起始日期
+ :param end_date: 结束日期
+ :return: 成功时返回(RET_OK, data)，data是字符串数组；失败时返回(RET_ERROR, data)，其中data是错误描述字符串
+        
+ :example:
+
+ .. code:: python
+
+    from futuquant import *
+    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+    print(quote_ctx.get_trading_days(market=Market.HK))
+    quote_ctx.close()
 
 get_stock_basicinfo
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
