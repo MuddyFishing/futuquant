@@ -8,7 +8,7 @@ import math
 from time import sleep
 
 import pandas as pd
-from futuquant.common.open_context_base import OpenContextBase
+from futuquant.common.open_context_base import OpenContextBase, ContextStatus
 from futuquant.quote.quote_query import *
 
 MAX_KLINE_SUB_COUNT = 100
@@ -92,7 +92,9 @@ class OpenQuoteContext(OpenContextBase):
         # 重定阅失败，重连
         if ret_code != RET_OK:
             logger.error("reconnect subscribe error, close connect and retry!!")
-            self._notify_connect_close()
+            self._status = ContextStatus.Start
+            self._wait_reconnect()
+        return ret_code, ret_msg
 
     def get_trading_days(self, market, start_date=None, end_date=None):
         """get the trading days"""

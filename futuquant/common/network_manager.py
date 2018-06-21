@@ -103,6 +103,10 @@ class NetManager:
 
     def poll(self):
         with self._lock:
+            for conn in self._closing_list:
+                self.close(conn.conn_id)
+            self._closing_list.clear()
+
             self._is_polling = True
             rlist = None
             wlist = None
@@ -135,9 +139,6 @@ class NetManager:
                 conn.socket_event = SocketEvent.NoEvent
 
             self._is_polling = False
-            for conn in self._closing_list:
-                self.close(conn.conn_id)
-            self._closing_list.clear()
 
     def _thread_func(self):
         while True:
@@ -188,11 +189,11 @@ class NetManager:
             else:
                 self._watch_read(conn, False)
                 self._watch_write(conn, False)
-            conn.sock.close()
-            conn.sock = None
-            conn.status = ConnStatus.Closed
-            if conn.sync_req_data is not None:
-                conn.sync_req_evt.set()
+                conn.sock.close()
+                conn.sock = None
+                conn.status = ConnStatus.Closed
+                if conn.sync_req_data is not None:
+                    conn.sync_req_evt.set()
 
     def _watch_read(self, conn, is_watch):
         self._watch(conn, self._rlist, is_watch)
@@ -312,7 +313,7 @@ class NetManager:
             return
         elif conn.status == ConnStatus.Connecting:
             conn.status = ConnStatus.Connected
-            self._watch_write(self, False)
+            self._watch_write(conn, False)
             conn.handler.on_connected(conn.conn_id)
             return
 
@@ -327,7 +328,7 @@ class NetManager:
                 err = e
 
         if len(conn.writebuf) == 0:
-            self._watch_write(self, False)
+            self._watch_write(conn, False)
 
         if err:
             conn.handler.on_error(conn.conn_id, err)
