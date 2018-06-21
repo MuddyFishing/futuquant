@@ -154,12 +154,14 @@ class OpenContextBase(object):
 
         def sync_query_processor(**kargs):
             """sync query processor"""
-            with self._lock:
-                if self._status != ContextStatus.Ready:
-                    return RET_ERROR, 'Context is not ready', None
-                else:
-                    net_mgr = self._net_mgr
-                    conn_id = self._conn_id
+            while True:
+                with self._lock:
+                    if self._status == ContextStatus.Ready:
+                        net_mgr = self._net_mgr
+                        conn_id = self._conn_id
+                        break
+                sleep(0.01)
+
             try:
                 ret_code, msg, req_str = pack_func(**kargs)
                 if ret_code != RET_OK:
