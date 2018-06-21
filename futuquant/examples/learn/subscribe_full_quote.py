@@ -174,6 +174,8 @@ class SubscribeFullQuote(object):
             ret, data = quote_ctx.query_subscription(True)
             if ret == RET_OK:
                 return data
+            else:
+                print("loop_get_subscription:{}".format(data))
             sleep(0.1)
 
     def set_handler(self, handler):
@@ -224,7 +226,8 @@ class SubscribeFullQuote(object):
                                 self.__share_sub_codes, self.__share_left_codes, self.__ns_share))
             process.start()
             while process.is_alive() and not self.__ns_share.is_process_ready:
-                sleep(0.1)
+                print("wait process to subscribe ...")
+                sleep(1)
 
             if process.is_alive():
                 port_idx += one_process_ports
@@ -460,8 +463,8 @@ if __name__ =="__main__":
         "ip": "193.112.189.131",                      # FutuOpenD运行IP
         "port_begin": 11113,                    # port FutuOpenD开放的第一个端口号
 
-        "port_count": 2,                        # 启动了多少个FutuOPenD进程，每个进程的port在port_begin上递增
-        "sub_one_size": 50,                    # 最多向一个FutuOpenD定阅多少支股票
+        "port_count": 30,                        # 启动了多少个FutuOPenD进程，每个进程的port在port_begin上递增
+        "sub_one_size": 150,                    # 最多向一个FutuOpenD定阅多少支股票
         "is_adjust_sub_one_size": True,         # 依据当前剩余定阅量动态调整一次的定阅量(测试白名单不受定阅额度限制可置Flase)
         'one_process_ports': 2,                 # 用多进程提高性能，一个进程处理多少个端口
 
