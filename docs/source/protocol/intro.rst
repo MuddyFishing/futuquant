@@ -4,10 +4,58 @@
 
 --------------
 
-FutuOpenD
-
-	.. _FutuOpenD: ../setup/FutuOpenDGuide.html#id5
-	
+  .. _InitConnect.proto: base_define.html#id2
+  .. _GetGlobalState.proto:  base_define.html#id3
+  .. _Notify.proto:  base_define.html#id4
+  .. _KeepAlive.proto:  base_define.html#id5
+  
+  .. _Trd_GetAccList.proto:  trade_protocol.html#trd-getacclist-proto-2001
+  .. _Trd_UnlockTrade.proto:  trade_protocol.html#trd-unlocktrade-proto-2005
+  .. _Trd_SubAccPush.proto:  trade_protocol.html#trd-subaccpush-proto-2008
+  .. _Trd_GetFunds.proto:  trade_protocol.html#trd-getfunds-proto-2101
+  .. _Trd_GetPositionList.proto:  trade_protocol.html#trd-getpositionlist-proto-2102
+  
+  .. _Trd_GetOrderList.proto:  trade_protocol.html#trd-getorderlist-proto-2201
+  .. _Trd_PlaceOrder.proto:  trade_protocol.html#trd-placeorder-proto-2202
+  .. _Trd_ModifyOrder.proto:  trade_protocol.html#trd-modifyorder-proto-2205
+  .. _Trd_UpdateOrder.proto:  trade_protocol.html#trd-updateorder-proto-2208
+  
+  .. _Trd_GetOrderFillList.proto:  trade_protocol.html#trd-getorderfilllist-proto-2211
+  .. _Trd_UpdateOrderFill.proto:  trade_protocol.html#trd-updateorderfill-proto-2218
+  
+  .. _Trd_GetHistoryOrderList.proto:  trade_protocol.html#trd-gethistoryorderlist-proto-2221
+  .. _Trd_GetHistoryOrderFillList.proto:  trade_protocol.html#trd-gethistoryorderfilllist-proto-2221
+  
+  .. _Qot_Sub.proto:  quote_protocol.html#id4
+  .. _Qot_RegQotPush.proto:  quote_protocol.html#id5
+  .. _Qot_GetSubInfo.proto:  quote_protocol.html#id6
+  .. _Qot_GetBasicQot.proto:  quote_protocol.html#id7
+  .. _Qot_UpdateBasicQot.proto:  quote_protocol.html#id8
+  
+  .. _Qot_GetKL.proto:  quote_protocol.html#qot-getkl-proto-k
+  .. _Qot_UpdateKL.proto:  quote_protocol.html#qot-updatekl-proto-k
+  .. _Qot_GetRT.proto:  quote_protocol.html#id9
+  .. _Qot_UpdateRT.proto:  quote_protocol.html#id10
+  .. _Qot_GetTicker.proto:  quote_protocol.html#id11
+  
+  .. _Qot_UpdateTicker.proto:  quote_protocol.html#id12
+  .. _Qot_GetOrderBook.proto:  quote_protocol.html#id13
+  .. _Qot_UpdateOrderBook.proto:  quote_protocol.html#id14
+  .. _Qot_GetBroker.proto:  quote_protocol.html#id15
+  .. _Qot_UpdateBroker.proto:  quote_protocol.html#id16
+  
+  
+  .. _Qot_GetHistoryKL.proto:  quote_protocol.html#qot-gethistorykl-proto-k
+  .. _Qot_GetHistoryKLPoints.proto:  quote_protocol.html#qot-gethistoryklpoints-proto-k
+  .. _Qot_GetRehab.proto:  quote_protocol.html#id19
+  .. _Qot_GetTradeDate.proto:  quote_protocol.html#id20
+  .. _Qot_GetSuspend.proto:  quote_protocol.html#id20
+  
+  .. _Qot_GetStaticInfo.proto:  quote_protocol.html#id21
+  .. _Qot_GetSecuritySnapshot.proto:  quote_protocol.html#id22
+  .. _Qot_GetPlateSet.proto:  quote_protocol.html#id23
+  .. _Qot_GetPlateSecurity.proto:  quote_protocol.html#id24
+  
 	
 特点
 -------
@@ -32,53 +80,53 @@ FutuOpenD
 协议清单
 ----------
 
- ==============   =============================================================================================================================================================    ==================================================================
- 协议ID           Protobuf文件                                                                                                                                                     说明
- ==============   =============================================================================================================================================================    ==================================================================
- 1001        	  `InitConnect.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/InitConnect.proto>`_                                                  初始化连接
- 1002             `GetGlobalState.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/GetGlobalState.proto>`_                                            获取全局状态 
- 1003             `Notify.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Notify.proto>`_                                                            系统通知推送
- 1004			  `KeepAlive.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/KeepAlive.proto>`_  	    	                                        保活心跳
- 2001             `Trd_GetAccList.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_GetAccList.proto>`_                                            获取业务账户列表
- 2005             `Trd_UnlockTrade.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_UnlockTrade.proto>`_                                          解锁或锁定交易
- 2008             `Trd_SubAccPush.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_SubAccPush.proto>`_                                            订阅业务账户的交易推送数据
- 2101             `Trd_GetFunds.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_GetFunds.proto>`_                                                获取账户资金
- 2102             `Trd_GetPositionList.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_GetPositionList.proto>`_                                  获取账户持仓
- 2201             `Trd_GetOrderList.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_GetOrderList.proto>`_                                        获取订单列表
- 2202             `Trd_PlaceOrder.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_PlaceOrder.proto>`_                                            下单
- 2205             `Trd_ModifyOrder.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_ModifyOrder.proto>`_                                          修改订单
- 2208             `Trd_UpdateOrder.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_UpdateOrder.proto>`_                                          推送订单状态变动通知
- 2211             `Trd_GetOrderFillList.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_GetOrderFillList.proto>`_                                获取成交列表
- 2222             `Trd_UpdateOrderFill.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_UpdateOrderFill.proto>`_                                  推送成交通知
- 2221             `Trd_GetHistoryOrderList.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_GetHistoryOrderList.proto>`_                          获取历史订单列表
- 2222             `Trd_GetHistoryOrderFillList.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_GetHistoryOrderFillList.proto>`_                  获取历史成交列表
- 3001             `Qot_Sub.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_Sub.proto>`_                                                          订阅或者反订阅
- 3002             `Qot_RegQotPush.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_RegQotPush.proto>`_                                            注册推送
- 3003             `Qot_GetSubInfo.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetSubInfo.proto>`_                                            获取订阅信息
- 3004             `Qot_GetBasicQot.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetBasicQot.proto>`_                                          获取股票基本行情
- 3005             `Qot_UpdateBasicQot.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_UpdateBasicQot.proto>`_                                    推送股票基本行情
- 3006             `Qot_GetKL.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetKL.proto>`_                                                      获取K线
- 3007             `Qot_UpdateKL.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_UpdateKL.proto>`_                                                推送K线
- 3008             `Qot_GetRT.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetRT.proto>`_                                                      获取分时
- 3009             `Qot_UpdateRT.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_UpdateRT.proto>`_                                                推送分时
- 3010             `Qot_GetTicker.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetTicker.proto>`_                                              获取逐笔
- 3011             `Qot_UpdateTicker.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_UpdateTicker.proto>`_                                        推送逐笔
- 3012             `Qot_GetOrderBook.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetOrderBook.proto>`_                                        获取买卖盘
- 3013             `Qot_UpdateOrderBook.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_UpdateOrderBook.proto>`_                                  推送买卖盘
- 3014             `Qot_GetBroker.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetBroker.proto>`_                                              获取经纪队列
- 3015             `Qot_UpdateBroker.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_UpdateBroker.proto>`_                                        推送经纪队列
- 3100             `Qot_GetHistoryKL.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetHistoryKL.proto>`_                                        获取单只股票一段历史K线
- 3101             `Qot_GetHistoryKLPoints.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetHistoryKLPoints.proto>`_                            获取多只股票多点历史K线
- 3102             `Qot_GetRehab.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetRehab.proto>`_                                                获取复权信息
- 3200             `Qot_GetTradeDate.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetTradeDate.proto>`_                                        获取市场交易日
- 3201             `Qot_GetSuspend.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetSuspend.proto>`_                                            获取股票停牌信息（暂时数据不全）
- 3202             `Qot_GetStaticInfo.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetStaticInfo.proto>`_                                      获取股票静态信息
- 3203             `Qot_GetSecuritySnapshot.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetSecuritySnapshot.proto>`_                          获取股票快照
- 3204             `Qot_GetPlateSet.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetPlateSet.proto>`_                                          获取板块集合下的板块
- 3205             `Qot_GetPlateSecurity.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetPlateSecurity.proto>`_                                获取板块下的股票
- ==============   =============================================================================================================================================================    ==================================================================
+ ==============   ==================================     ==================================================================
+ 协议ID           Protobuf文件                           说明
+ ==============   ==================================     ==================================================================
+ 1001        	  InitConnect.proto_                      初始化连接
+ 1002             GetGlobalState.proto_                   获取全局状态 
+ 1003             Notify.proto_                           系统通知推送
+ 1004             KeepAlive.proto_                        保活心跳
+ 2001             Trd_GetAccList.proto_                   获取业务账户列表
+ 2005             Trd_UnlockTrade.proto_                  解锁或锁定交易
+ 2008             Trd_SubAccPush.proto_                   订阅业务账户的交易推送数据
+ 2101             Trd_GetFunds.proto_                     获取账户资金
+ 2102             Trd_GetPositionList.proto_              获取账户持仓
+ 2201             Trd_GetOrderList.proto_                 获取订单列表
+ 2202             Trd_PlaceOrder.proto_                   下单
+ 2205             Trd_ModifyOrder.proto_                  修改订单
+ 2208             Trd_UpdateOrder.proto_                  推送订单状态变动通知
+ 2211             Trd_GetOrderFillList.proto_             获取成交列表
+ 2218             Trd_UpdateOrderFill.proto_              推送成交通知
+ 2221             Trd_GetHistoryOrderList.proto_          获取历史订单列表
+ 2222             Trd_GetHistoryOrderFillList.proto_      获取历史成交列表
+ 3001             Qot_Sub.proto_                          订阅或者反订阅
+ 3002             Qot_RegQotPush.proto_                   注册推送
+ 3003             Qot_GetSubInfo.proto_                   获取订阅信息
+ 3004             Qot_GetBasicQot.proto_                  获取股票基本行情
+ 3005             Qot_UpdateBasicQot.proto_               推送股票基本行情
+ 3006             Qot_GetKL.proto_                        获取K线
+ 3007             Qot_UpdateKL.proto_                     推送K线
+ 3008             Qot_GetRT.proto_                        获取分时
+ 3009             Qot_UpdateRT.proto_                     推送分时
+ 3010             Qot_GetTicker.proto_                    获取逐笔
+ 3011             Qot_UpdateTicker.proto_                 推送逐笔
+ 3012             Qot_GetOrderBook.proto_                 获取买卖盘
+ 3013             Qot_UpdateOrderBook.proto_              推送买卖盘
+ 3014             Qot_GetBroker.proto_                    获取经纪队列
+ 3015             Qot_UpdateBroker.proto_                 推送经纪队列
+ 3100             Qot_GetHistoryKL.proto_                 获取单只股票一段历史K线
+ 3101             Qot_GetHistoryKLPoints.proto_           获取多只股票多点历史K线
+ 3102             Qot_GetRehab.proto_                     获取复权信息
+ 3200             Qot_GetTradeDate.proto_                 获取市场交易日
+ 3201             Qot_GetSuspend.proto_                   获取股票停牌信息（暂时数据不全）
+ 3202             Qot_GetStaticInfo.proto_                获取股票静态信息
+ 3203             Qot_GetSecuritySnapshot.proto_          获取股票快照
+ 3204             Qot_GetPlateSet.proto_                  获取板块集合下的板块
+ 3205             Qot_GetPlateSecurity.proto_             获取板块下的股票 
+ ==============   ==================================     ==================================================================
 
- 
+
 .. note::
 
     * 所有 Protobuf 文件可从 `FutuQuant <https://github.com/FutunnOpen/futuquant/tree/master/futuquant/common/pb>`_ Python开源项目下获取
@@ -221,7 +269,7 @@ data             回应数据，实际根据协议定义
  
 .. note::
 
-	*  包体格式类型设置参见 FutuOpenD_ 配置说明
+	*  包体格式类型设置参见 `FutuOpenD配置 <https://futunnopen.github.io/futuquant/setup/FutuOpenDGuide.html#id5>`_ 约定的 “push_proto_type“ 配置项
 	*  枚举值字段定义使用有符号整形，注释指明对应枚举，枚举一般定义于Common.proto，Qot_Common.proto，Trd_Common.proto文件中
 	*  原始协议文件格式是以Protobuf格式定义，若需要json格式传输，建议使用protobuf3人接口直接转换成json
 	
@@ -235,7 +283,7 @@ data             回应数据，实际根据协议定义
 .. image:: ../_static/encrypt.png
 
 .. note::
-	* RSA密钥配置参考 `FutuOpenD配置 <https://futunnopen.github.io/futuquant/setup/FutuOpenDGuide.html#id5>`_ rsa_private_key配置项
+	* RSA密钥配置参考 `FutuOpenD配置 <https://futunnopen.github.io/futuquant/setup/FutuOpenDGuide.html#id5>`_ 约定的 “rsa_private_key“ 配置项
 	
 ---------------------------------------------------
 

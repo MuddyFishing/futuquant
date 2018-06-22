@@ -169,7 +169,7 @@
 ---------------------------------------------
 	
 	
-`KeepAlive.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/KeepAlive.proto>`_ - 保持心跳
+`KeepAlive.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/KeepAlive.proto>`_ - 保活心跳
 --------------------------------------------------------------------------------------------------------------------------------------------
 
 .. code-block:: protobuf
