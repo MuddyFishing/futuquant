@@ -3,16 +3,16 @@
 	这里对FutuOpenD开放协议接口中用到基本数据结构作出归档说明。
 
 .. note::
+    *xxx.proto表示协议文件名, 可点击链接跳转到对应文件
 
     *   为避免增删导致的版本兼容问题，所有enum枚举类型只用于值的定义，在protobuf结构体中声明类型时使用int32类型
-    *   所有类型定义使用protobuf格式声明，不同语言对接时请自行通过相关工具转换成对应的头文件
-    *   *.proto表示协议文件名, `FutuQuant/common/pb <https://github.com/FutunnOpen/futuquant/tree/master/futuquant/common/pb>`_ 开源项目中可获取所有文件
-
+    *   所有类型定义使用protobuf格式声明，不同语言对接时请自行通过相关工具转换成对应的接口头文件
+    
 --------------
 
 
-InitConnect.proto
-------------------------
+`InitConnect.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/InitConnect.proto>`_ - 初始化连接
+--------------------------------------------------------------------------------------------------------------------------------------------
 
 .. code-block:: protobuf
  
@@ -55,9 +55,9 @@ InitConnect.proto
 
 ------------------------------------------------------
 
-	
-GetGlobalState.proto
-------------------------
+
+`GetGlobalState.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/GetGlobalState.proto>`_ - 获取全局状态
+--------------------------------------------------------------------------------------------------------------------------------------------
 
 .. code-block:: protobuf
 
@@ -99,8 +99,9 @@ GetGlobalState.proto
 
 --------------------------------------------------
 
-Notify.proto
-------------------------
+
+`Notify.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Notify.proto>`_ - 系统推送通知
+--------------------------------------------------------------------------------------------------------------------------------------------
 
 .. code-block:: protobuf
 
@@ -159,8 +160,9 @@ Notify.proto
 
 ---------------------------------------------
 	
-KeepAlive.proto
-------------------------
+	
+`KeepAlive.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/KeepAlive.proto>`_ - 保持心跳
+--------------------------------------------------------------------------------------------------------------------------------------------
 
 .. code-block:: protobuf
 
@@ -191,8 +193,9 @@ KeepAlive.proto
 
 -----------------------------------
 
-Common.proto
--------------
+
+`Common.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Common.proto>`_ - 通用定义
+--------------------------------------------------------------------------------------------------------------------------------------------
 
 RetType - 协议返回值
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -235,8 +238,8 @@ PacketID - 请求包标识
 -------------------------------------
 
 
-Qot_Common.proto
---------------------------
+`Qot_Common.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_Common.proto>`_ - 行情通用定义
+--------------------------------------------------------------------------------------------------------------------------------------------
 
 QotMarket - 行情市场
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -657,8 +660,8 @@ ConnSubInfo - 单条连接定阅信息
 -----------------------------------------------
 
 
-Trd_Common.proto
--------------------------
+`Trd_Common.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_Common.proto>`_ - 交易通用定义
+--------------------------------------------------------------------------------------------------------------------------------------------
 
 OrderStatus - 订单状态
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
