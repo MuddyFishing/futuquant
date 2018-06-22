@@ -28,7 +28,7 @@
 		required bool isSubOrUnSub = 3; //ture表示订阅,false表示反订阅
 		optional bool isRegOrUnRegPush = 4; //是否注册或反注册该连接上面行情的推送,该参数不指定不做注册反注册操作
 		repeated int32 regPushRehabTypeList = 5; //Qot_Common.RehabType,复权类型,注册推送并且是K线类型才生效,其他订阅类型忽略该参数,注册K线推送时该参数不指定默认前复权
-		optional bool isFirstPush = 6; //注册后是否首推一次数据,该参数不指定则默认true
+		optional bool isFirstPush = 6; //注册后如果本地已有数据是否首推一次已存在数据,该参数不指定则默认true
 	}
 
 	message S2C
@@ -51,8 +51,11 @@
 	
 .. note::
 	
-	* 1
-	* 2
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* 订阅数据类型参考 `SubType <base_define.html#subtype>`_
+	* 复权类型参考 `RehabType <base_define.html#rehabtype-k>`_
+	* 为控制定阅产生推送数据流量，股票定阅总量有额度控制，订阅规则参考 `高频数据接口 <../api/Quote_API.html#id10>`_
+	* 高频数据接口需要订阅之后才能使用，注册推送并且 `初始化连接 <base_define.html#id2>`_ 时recvNotify参数为true才可以收到数据更新推送。
 	
 -------------------------------------
 
@@ -73,7 +76,7 @@
 		repeated int32 subTypeList = 2; //Qot_Common.SubType,要注册到该连接的订阅类型
 		repeated int32 rehabTypeList = 3; //Qot_Common.RehabType,复权类型,注册K线类型才生效,其他订阅类型忽略该参数,注册K线时该参数不指定默认前复权
 		required bool isRegOrUnReg = 4; //注册或取消
-		optional bool isFirstPush = 5; //注册后是否首推一次数据,该参数不指定则默认true
+		optional bool isFirstPush = 5; //注册后如果本地已有数据是否首推一次已存在数据,该参数不指定则默认true
 	}
 
 	message S2C
@@ -96,8 +99,10 @@
 	
 .. note::
 	
-	* 1
-	* 2
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* 订阅数据类型参考 `SubType <base_define.html#subtype>`_
+	* 复权类型参考 `RehabType <base_define.html#rehabtype-k>`_
+	* 行情需要订阅成功才能注册推送
 	
 -------------------------------------
 
@@ -120,8 +125,8 @@
 	message S2C
 	{
 		repeated Qot_Common.ConnSubInfo connSubInfoList = 1; //订阅订阅信息
-		required int32 totalUsedQuota = 2; //Gateway已使用的订阅额度
-		required int32 remainQuota = 3; //Gateway剩余订阅额度
+		required int32 totalUsedQuota = 2; //FutuOpenD已使用的订阅额度
+		required int32 remainQuota = 3; //FutuOpenD剩余订阅额度
 	}
 
 	message Request
@@ -140,8 +145,7 @@
 	
 .. note::
 	
-	* 1
-	* 2
+	* 订阅信息结构参考 `ConnSubInfo <base_define.html#connsubinfo>`_
 	
 -------------------------------------
 
@@ -163,7 +167,7 @@
 
 	message S2C
 	{
-		repeated Qot_Common.BasicQot basicQotList = 1; //股票基本行情
+		repeated Qot_Common.BasicQot basicQotList = 1; //股票基本报价
 	}
 
 	message Request
@@ -182,8 +186,8 @@
 	
 .. note::
 	
-	* 1
-	* 2
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* 基本报价结构参考 `BasicQot <base_define.html#basicqot>`_
 	
 -------------------------------------
 
@@ -214,8 +218,7 @@
 	
 .. note::
 	
-	* 1
-	* 2
+	* 基本报价结构参考 `BasicQot <base_define.html#basicqot>`_
 	
 -------------------------------------
 
@@ -225,14 +228,28 @@
 .. code-block:: protobuf
 
 	syntax = "proto2";
-	package Qot_UpdateBasicQot;
+	package Qot_GetKL;
 
 	import "Common.proto";
 	import "Qot_Common.proto";
 
+	message C2S
+	{
+		required int32 rehabType = 1; //Qot_Common.RehabType,复权类型
+		required int32 klType = 2; //Qot_Common.KLType,K线类型
+		required Qot_Common.Security security = 3; //股票
+		required int32 reqNum = 4; //请求K线根数
+	}
+
 	message S2C
 	{
-		repeated Qot_Common.BasicQot basicQotList = 1; //股票基本行情
+		required Qot_Common.Security security = 1; //股票
+		repeated Qot_Common.KLine klList = 2; //k线点
+	}
+
+	message Request
+	{
+		required C2S c2s = 1;
 	}
 
 	message Response
@@ -240,14 +257,17 @@
 		required int32 retType = 1 [default = -400]; //RetType,返回结果
 		optional string retMsg = 2;
 		optional int32 errCode = 3;
-		
+
 		optional S2C s2c = 4;
 	}
 	
 .. note::
 	
-	* 1
-	* 2
+	* 复权类型参考 `RehabType <base_define.html#rehabtype-k>`_
+	* K线类型参考 `KLType <base_define.html#kltype-k>`_
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* K线结构参考 `KLine <base_define.html#kline-k>`_
+	* 请求K线目前最多最近1000根
 	
 -------------------------------------
 
@@ -281,8 +301,10 @@
 	
 .. note::
 	
-	* 1
-	* 2
+	* 复权类型参考 `RehabType <base_define.html#rehabtype-k>`_
+	* K线类型参考 `KLType <base_define.html#kltype-k>`_
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* K线结构参考 `KLine <base_define.html#kline-k>`_
 	
 -------------------------------------
 
@@ -324,8 +346,8 @@
 	
 .. note::
 	
-	* 1
-	* 2
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* 分时结构参考 `TimeShare <base_define.html#timeshare>`_
 	
 -------------------------------------
 
@@ -354,11 +376,6 @@
 		
 		optional S2C s2c = 4;
 	}
-	
-.. note::
-	
-	* 1
-	* 2
 	
 -------------------------------------
 
@@ -398,11 +415,6 @@
 		optional S2C s2c = 4;
 	}
 	
-.. note::
-	
-	* 1
-	* 2
-	
 -------------------------------------
 
 `Qot_UpdateTicker.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_UpdateTicker.proto>`_ - 3011推送逐笔
@@ -430,11 +442,6 @@
 		
 		optional S2C s2c = 4;
 	}
-	
-.. note::
-	
-	* 1
-	* 2
 	
 -------------------------------------
 
@@ -474,12 +481,7 @@
 		optional int32 errCode = 3;
 		optional S2C s2c = 4;
 	}
-	
-.. note::
-	
-	* 1
-	* 2
-	
+
 -------------------------------------
 
 `Qot_UpdateOrderBook.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_UpdateOrderBook.proto>`_ - 3013推送买卖盘
@@ -508,11 +510,6 @@
 		
 		optional S2C s2c = 4;
 	}
-	
-.. note::
-	
-	* 1
-	* 2
 	
 -------------------------------------
 
@@ -552,11 +549,6 @@
 		optional S2C s2c = 4;
 	}
 	
-.. note::
-	
-	* 1
-	* 2
-	
 -------------------------------------
 
 `Qot_UpdateBroker.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_UpdateBroker.proto>`_ - 3015推送经纪队列
@@ -586,11 +578,6 @@
 		optional S2C s2c = 4;
 	}
 	
-.. note::
-	
-	* 1
-	* 2
-	
 -------------------------------------
 
 `Qot_GetHistoryKL.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetHistoryKL.proto>`_ - 3100获取单只股票一段历史K线
@@ -635,61 +622,6 @@
 		
 		optional S2C s2c = 4;
 	}
-	
-.. note::
-	
-	* 1
-	* 2
-	
--------------------------------------
-
-`Qot_GetHistoryKL.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetHistoryKL.proto>`_ - 3100获取单只股票一段历史K线
-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-.. code-block:: protobuf
-
-	syntax = "proto2";
-	package Qot_GetHistoryKL;
-
-	import "Common.proto";
-	import "Qot_Common.proto";
-
-	message C2S
-	{
-		required int32 rehabType = 1; //Qot_Common.RehabType,复权类型
-		required int32 klType = 2; //Qot_Common.KLType,K线类型
-		required Qot_Common.Security security = 3; //股票市场以及股票代码
-		required string beginTime = 4; //开始时间字符串
-		required string endTime = 5; //结束时间字符串
-		optional int32 maxAckKLNum = 6; //最多返回多少根K线，如果未指定表示不限制
-		optional int64 needKLFieldsFlag = 7; //指定返回K线结构体特定某几项数据，KLFields枚举值或组合，如果未指定返回全部字段
-	}
-
-	message S2C
-	{
-		required Qot_Common.Security security = 1;
-		repeated Qot_Common.KLine klList = 2; //K线数据
-		optional string nextKLTime = 3; //如请求不指定maxAckKLNum值，则不会返回该字段，该字段表示超过指定限制的下一K线时间字符串
-	}
-
-	message Request
-	{
-		required C2S c2s = 1;
-	}
-
-	message Response
-	{
-		required int32 retType = 1 [default = -400]; //RetType,返回结果
-		optional string retMsg = 2;
-		optional int32 errCode = 3;
-		
-		optional S2C s2c = 4;
-	}
-	
-.. note::
-	
-	* 1
-	* 2
 	
 -------------------------------------
 
@@ -765,11 +697,6 @@
 		
 		optional S2C s2c = 4;
 	}
-	
-.. note::
-	
-	* 1
-	* 2
 	
 -------------------------------------
 
@@ -853,11 +780,6 @@
 		optional S2C s2c = 4;
 	}
 	
-.. note::
-	
-	* 1
-	* 2
-	
 -------------------------------------
 
 `Qot_GetTradeDate.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetTradeDate.proto>`_ - 3200获取市场交易日
@@ -901,12 +823,7 @@
 		
 		optional S2C s2c = 4;
 	}
-	
-.. note::
-	
-	* 1
-	* 2
-	
+
 -------------------------------------
 
 `Qot_GetStaticInfo.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetStaticInfo.proto>`_ - 3202获取股票静态信息
@@ -944,11 +861,6 @@
 		
 		optional S2C s2c = 4;
 	}
-	
-.. note::
-	
-	* 1
-	* 2
 	
 -------------------------------------
 
@@ -1046,12 +958,7 @@
 		
 		optional S2C s2c = 4;
 	}
-	
-.. note::
-	
-	* 1
-	* 2
-	
+
 -------------------------------------
 
 `Qot_GetPlateSet.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetPlateSet.proto>`_ - 3204获取板块集合下的板块
@@ -1096,11 +1003,6 @@
 		optional S2C s2c = 4;
 	}
 	
-.. note::
-	
-	* 1
-	* 2
-	
 -------------------------------------
 
 `Qot_GetPlateSecurity.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetPlateSecurity.proto>`_ - 3205获取板块下的股票
@@ -1137,11 +1039,6 @@
 		
 		optional S2C s2c = 4;
 	}
-	
-.. note::
-	
-	* 1
-	* 2
 	
 -------------------------------------
 
