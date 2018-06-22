@@ -10,6 +10,187 @@
 
 --------------
 
+
+InitConnect.proto
+------------------------
+
+.. code-block:: protobuf
+ 
+	import "Common.proto";
+	message C2S
+	{
+		required int32 clientVer = 1; //客户端版本号，clientVer = "."以前的数 * 100 + "."以后的，举例：1.1版本的clientVer为1 * 100 + 1 = 101，2.21版本为2 * 100 + 21 = 221
+		required string clientID = 2; //客户端唯一标识，无生具体生成规则，客户端自己保证唯一性即可
+		optional bool recvNotify = 3; //此连接是否接收市场状态、交易需要重新解锁等等事件通知，true代表接收，FutuOpenD就会向此连接推送这些通知，反之false代表不接收不推送
+	}
+	
+	message S2C
+	{
+		required int32 serverVer = 1; //FutuOpenD的版本号
+		required uint64 loginUserID = 2; //FutuOpenD登陆的牛牛用户ID
+		required uint64 connID = 3; //此连接的连接ID，连接的唯一标识
+		required string connAESKey = 4; //此连接后续AES加密通信的Key，固定为16字节长字符串
+		required int32 keepAliveInterval = 5; //心跳保活间隔
+	}
+	
+	message Request
+	{
+		required C2S c2s = 1;
+	}
+	
+	message Response
+	{
+		required int32 retType = 1 [default = -400]; //返回结果，参见Common.RetType的枚举定义
+		optional string retMsg = 2; //返回结果描述
+		optional int32 errCode = 3; //错误码，客户端一般通过retType和retMsg来判断结果和详情，errCode只做日志记录，仅在个别协议失败时对账用
+		
+		optional S2C s2c = 4;
+	}
+
+.. note::
+
+    *   请求其它协议前必须等InitConnect协议先完成
+    *   若FutuOpenD配置了加密， "connAESKey"将用于后续协议加密
+    *   keepAliveInterval 指定client发起心跳 KeepAlive 的间隔，若FutuOpenD连续3次未收到心跳，将主动断开连接
+
+------------------------------------------------------
+
+	
+GetGlobalState.proto
+------------------------
+
+.. code-block:: protobuf
+
+	import "Common.proto";
+	import "Qot_Common.proto";
+
+	message C2S
+	{
+		required uint64 userID = 1; //需要跟FutuOpenD登陆的牛牛用户ID一致，否则会返回失败
+	}
+
+	message S2C
+	{
+		required int32 marketHK = 1; //Qot_Common.QotMarketState,港股主板市场状态 
+		required int32 marketUS = 2; //Qot_Common.QotMarketState,美股Nasdaq市场状态 
+		required int32 marketSH = 3; //Qot_Common.QotMarketState,沪市状态 
+		required int32 marketSZ = 4; //Qot_Common.QotMarketState,深市状态 
+		required int32 marketHKFuture = 5; 	//Qot_Common.QotMarketState,港股期货市场状态 
+		required bool qotLogined = 6; //是否登陆行情服务器
+		required bool trdLogined = 7; //是否登陆交易服务器
+		required int32 serverVer = 8; //版本号
+		required int32 serverBuildNo = 9; //buildNo
+		required int64 time = 10; //当前格林威治时间
+	}
+
+	message Request
+	{
+		required C2S c2s = 1;
+	}
+
+	message Response
+	{
+		required int32 retType = 1 [default = -400]; //RetType,返回结果
+		optional string retMsg = 2;
+		optional int32 errCode = 3;
+		
+		optional S2C s2c = 4;
+	}
+
+--------------------------------------------------
+
+Notify.proto
+------------------------
+
+.. code-block:: protobuf
+
+	enum NotifyType
+	{
+		NotifyType_None = 0; //无
+		NotifyType_GtwEvent = 1; //Gateway运行事件通知
+	}
+
+	enum GtwEventType
+	{
+		GtwEventType_None = 0; //正常无错
+		GtwEventType_LocalCfgLoadFailed	= 1; //加载本地配置失败
+		GtwEventType_APISvrRunFailed = 2; //服务器启动失败
+		GtwEventType_ForceUpdate = 3; //客户端版本过低
+		GtwEventType_LoginFailed = 4; //登录失败
+		GtwEventType_UnAgreeDisclaimer = 5; //未同意免责声明
+		GtwEventType_NetCfgMissing = 6; //缺少必要网络配置信息;例如控制订阅额度
+		GtwEventType_KickedOut = 7; //牛牛帐号在别处登录
+		GtwEventType_LoginPwdChanged = 8; //登录密码被修改
+		GtwEventType_BanLogin = 9; //用户被禁止登录
+		GtwEventType_NeedPicVerifyCode = 10; //需要图形验证码
+		GtwEventType_NeedPhoneVerifyCode = 11; //需要手机验证码
+		GtwEventType_AppDataNotExist = 12; //程序自带数据不存在
+		GtwEventType_NessaryDataMissing = 13; //缺少必要数据
+		GtwEventType_TradePwdChanged = 14; //交易密码被修改
+		GtwEventType_EnableDeviceLock = 15; //启用设备锁
+	}
+
+	message GtwEvent
+	{
+		required int32 eventType = 1; //GtwEventType,事件类型
+		required string desc = 2; //事件描述
+	}
+
+	message S2C
+	{
+		required int32 type = 1; //通知类型 
+		optional GtwEvent event = 2; //事件通息
+	}
+
+	message Response
+	{
+		required int32 retType = 1 [default = -400]; //RetType,返回结果
+		optional string retMsg = 2;
+		optional int32 errCode = 3;
+		
+		optional S2C s2c = 4;
+	}
+	
+.. note::
+
+    *   Notify是系统推送协议，目前仅支持NotifyType_GtwEvent类型推送  
+    *   FutuOpenD将内部的一些重要运行状态通知到client前端，可用于前端的管理平台监控处理
+   
+
+---------------------------------------------
+	
+KeepAlive.proto
+------------------------
+
+.. code-block:: protobuf
+
+	import "Common.proto";
+	message C2S
+	{
+		required int64 time = 1; //客户端发包时的格林威治时间戳，单位秒
+	}
+
+	message S2C
+	{
+		required int64 time = 1; //服务器回包时的格林威治时间戳，单位秒
+	}
+
+	message Request
+	{
+		required C2S c2s = 1;
+	}
+
+	message Response
+	{
+		required int32 retType = 1 [default = -400]; //RetType,返回结果
+		optional string retMsg = 2;
+		optional int32 errCode = 3;
+		
+		optional S2C s2c = 4;
+	}
+
+-----------------------------------
+
 Common.proto
 -------------
 
@@ -795,3 +976,4 @@ TrdFilterConditions - 过滤条件
 
 
 
+    
