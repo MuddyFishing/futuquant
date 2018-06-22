@@ -49,7 +49,6 @@
   .. _Qot_GetHistoryKLPoints.proto:  quote_protocol.html#qot-gethistoryklpoints-proto-k
   .. _Qot_GetRehab.proto:  quote_protocol.html#id19
   .. _Qot_GetTradeDate.proto:  quote_protocol.html#id20
-  .. _Qot_GetSuspend.proto:  quote_protocol.html#id20
   
   .. _Qot_GetStaticInfo.proto:  quote_protocol.html#id21
   .. _Qot_GetSecuritySnapshot.proto:  quote_protocol.html#id22
@@ -119,7 +118,6 @@
  3101             Qot_GetHistoryKLPoints.proto_           获取多只股票多点历史K线
  3102             Qot_GetRehab.proto_                     获取复权信息
  3200             Qot_GetTradeDate.proto_                 获取市场交易日
- 3201             Qot_GetSuspend.proto_                   获取股票停牌信息（暂时数据不全）
  3202             Qot_GetStaticInfo.proto_                获取股票静态信息
  3203             Qot_GetSecuritySnapshot.proto_          获取股票快照
  3204             Qot_GetPlateSet.proto_                  获取板块集合下的板块
