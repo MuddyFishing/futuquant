@@ -25,23 +25,17 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-    <link rel="top" title="futuquant 3.0 documentation" href="../index.html"/>
-        <link rel="next" title="下载历史数据" href="Hist_KLine_Download_Intro.html"/>
-        <link rel="prev" title="安装指南" href="setup.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="next" title="下载历史数据" href="Hist_KLine_Download_Intro.html" />
+    <link rel="prev" title="安装指南" href="setup.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -97,6 +91,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#id4">登录参数使用优先级</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id5">配置文件</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id6">FutuOpenD配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rsa">RSA私钥文件</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#futuhistdata">FutuHistData配置</a></li>
 </ul>
 </li>
@@ -120,6 +115,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../api/Quote_API.html">行情API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api/Trade_API.html">交易API</a></li>
 </ul>
+<p class="caption"><span class="caption-text">PROTOCOL</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../protocol/intro.html">协议接口指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../protocol/base_define.html">基础定义</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../protocol/quote_protocol.html">行情协议</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../protocol/trade_protocol.html">交易协议</a></li>
+</ul>
 <p class="caption"><span class="caption-text">Q&amp;A</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../q&amp;a/Q&amp;A.html">Q&amp;A</a></li>
@@ -134,7 +136,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">futuquant</a>
@@ -142,9 +144,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -273,10 +276,43 @@
 </tr>
 </tbody>
 </table>
-<p><strong>备注：</strong>
-密文是明文经过32位MD5加密后用16进制表示的数据，搜索在线MD5加密可找到生成密文的网站，例如：<a class="reference external" href="http://www.cmd5.com">http://www.cmd5.com</a>。</p>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>密文是明文经过32位MD5加密后用16进制表示的数据，搜索在线MD5加密可找到生成密文的网站，例如：<a class="reference external" href="http://www.cmd5.com">http://www.cmd5.com</a>。</p>
 <p>32位MD5密文如下图红框区域（e10adc3949ba59abbe56e057f20f883e）：</p>
-<img alt="../_images/MD5.png" src="../_images/MD5.png" />
+<img alt="../_images/MD5.png" class="last" src="../_images/MD5.png" />
+</div>
+</div>
+<div class="section" id="rsa">
+<h3>RSA私钥文件<a class="headerlink" href="#rsa" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>参考文件格式：</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>        -----BEGIN RSA PRIVATE KEY-----
+MIICXAIBAAKBgQCx3W78hx5dQxg47hGMEj02JAJYP+HdKGWD8QilzeK4eL6QJ9QP
++uVYGA5Jp0Ed2AaV+zQrT/BCe6z5j/Qd5B0eY2cFlgk+/hbAt7A4wcSAbby8nONw
+0fZTglU78FhLUih84Int5HO0Fr3WLUDvpE+TgS3l/2u5ym6H6fvsdrdNCwIDAQAB
+AoGAHep/s2vKmKcjWNf6DZQ3xXZzCoLcK4WS5YlSCglCHAL7EmYQjguGLbYGGS9P
+jYR7Pxi8YpiUcao5otQqnCh1GRFouU397D3h+bf/bQXINZcv3sxKFrXm9MNVaBJD
+W4BcC3HGfnlaIVTKU+qGkeA1BydP5AQyxsGOq00IUeGK4uECQQD/5xHLDwhwYFyc
+MK4xMnlrvne8TSlPBciWfrxQ7V/X0eP/HQ20VkVxc0tFD91aLrCap6OYcNV9jwJN
+wTQLt5wbAkEAse7C75LKW0+cMcROvAR3qLV2LbGjLW+cH6WmEP9CEGxi0aJg4Gs3
+oSRYfaC/RLI87sSb0DC5+mTswXduLGpB0QJAJk0ec6cHW1KA6fu7Rq/ITqEOaMef
+xC0YbbYAV5h/vNy0ZE2j7HbxI97eyDJsrf/I/QzURo+01HsgHCUrtglAOwJBAKiW
+cA7sh1zS5kxlErCkjvfDz1BmIhT3zfZSTjGGmYLUHyE/eAjKra+5rzqA5xjgxEj6
+8iLlOCFeJND+Jt5gYzECQH+HtFilF1SxGS4AHrJomHaMhk/IazjtUnLuFM/DuZ/h
+sxTqXpBBCtTqcAotMlx4ZJQYL3f2PmI2Q/o0NUMt40w<span class="o">=</span>
+-----END RSA PRIVATE KEY-----
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>RSA 密钥的填充方式为 PKCS1, 位数1024</li>
+<li>密钥文件可通过第三方web平台自动生成， 请在baidu或google上搜索&#8221;RSA 在线生成&#8221;</li>
+<li>将私钥保存成文件，并在将文件路径配置在FutuOpenD.xml的rsa_private_key配置项</li>
+</ul>
+</div>
 </div></blockquote>
 </div>
 <div class="section" id="futuhistdata">
@@ -427,6 +463,7 @@
 <div class="section" id="relogin">
 <h3>relogin - 重登录<a class="headerlink" href="#relogin" title="Permalink to this headline">¶</a></h3>
 <blockquote>
+<div><blockquote>
 <div><p>relogin -login_pwd=123456</p>
 <p>当登录密码修改或中途打开设备锁等情况，要求用户重新登录时，可以使用该命令。只能重登当前帐号，不支持切换帐号。
 密码参数主要用于登录密码修改的情况，不指定密码则使用启动时登录密码。</p>
@@ -440,15 +477,14 @@
 </ul>
 <img alt="../_images/req-verify.png" class="last" src="../_images/req-verify.png" />
 </div>
+</div></blockquote>
 </div>
 </div>
 </div>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -470,7 +506,7 @@
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -489,6 +525,7 @@
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'3.0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -506,14 +543,11 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

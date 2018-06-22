@@ -135,7 +135,7 @@ Market - 行情市场
     
   沪市
   
- ..  py:attribute:: SH
+ ..  py:attribute:: SZ
     
   深市
   
