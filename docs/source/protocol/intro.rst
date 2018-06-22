@@ -8,7 +8,8 @@
   .. _InitConnect.proto: base_define.html#id2
   .. _GetGlobalState.proto:  base_define.html#id3
   .. _Notify.proto:  base_define.html#id4
-  .. _KeepAlive.proto:  base_define.html#id5
+  .. _KeepAlive.proto:  base_define.html#keepalive-proto-1004
+  .. _KeepAlive:  base_define.html#keepalive-proto-1004
   
   .. _Trd_GetAccList.proto:  trade_protocol.html#trd-getacclist-proto-2001
   .. _Trd_UnlockTrade.proto:  trade_protocol.html#trd-unlocktrade-proto-2005
@@ -137,6 +138,7 @@
 	* 建立连接
 	* 初始化连接
 	* 请求数据或接收推送数据
+	* 定时发送 KeepAlive_ 保持连接
 	
 .. image:: ../_static/proto.png
 
