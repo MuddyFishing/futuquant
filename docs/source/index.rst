@@ -35,6 +35,8 @@ futuquant documentation
 	
 	protocol/intro
 	protocol/base_define
+	protocol/quote_protocol
+	protocol/trade_protocol
 	
 	
 .. toctree::
