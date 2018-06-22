@@ -49,10 +49,10 @@
  2221             Trd_GetHistoryOrderList.proto         获取历史订单列表
  2222             Trd_GetHistoryOrderFillList.proto     获取历史成交列表
  3001             Qot_Sub.proto                         订阅或者反订阅
- 3002             Qot_RegQotPush.proto                  注册推送
+ 3002             Qot_RegQotPush.proto                  注册行情推送
  3003             Qot_GetSubInfo.proto                  获取订阅信息
- 3004             Qot_GetBasicQot.proto                 获取股票基本行情
- 3005             Qot_UpdateBasicQot.proto              推送股票基本行情
+ 3004             Qot_GetBasicQot.proto                 获取股票基本报价
+ 3005             Qot_UpdateBasicQot.proto              推送股票基本报价
  3006             Qot_GetKL.proto                       获取K线
  3007             Qot_UpdateKL.proto                    推送K线
  3008             Qot_GetRT.proto                       获取分时
@@ -67,7 +67,6 @@
  3101             Qot_GetHistoryKLPoints.proto          获取多只股票多点历史K线
  3102             Qot_GetRehab.proto                    获取复权信息
  3200             Qot_GetTradeDate.proto                获取市场交易日
- 3201             Qot_GetSuspend.proto                  获取股票停牌信息（暂时数据不全）
  3202             Qot_GetStaticInfo.proto               获取股票静态信息
  3203             Qot_GetSecuritySnapshot.proto         获取股票快照
  3204             Qot_GetPlateSet.proto                 获取板块集合下的板块
@@ -82,9 +81,11 @@
 
 协议请求流程 
 -------------
-
-图表： 建立连接 -》 初始化连接 -》 请求操作 -》 返回   +  数据推送 
-
+	* 建立连接
+	* 初始化连接
+	* 请求数据或接收推送数据
+	
+.. image:: ../_static/proto.png
 
 --------------
 
@@ -218,11 +219,12 @@ Json协议回应包体结构
 	
 ---------------------------------------------------
 
-获取通信密钥流程
+加密通信流程
 ~~~~~~~~~~~~~~~
 
-.. image:: ../_static/encrypt.png
+  * 通过RSA密钥加密1001协议获得随机密钥，后续使用随机密钥进行AES加密通信。
 
+.. image:: ../_static/encrypt.png
 
 .. note::
 	* RSA密钥配置参考 `FutuOpenD配置 <https://futunnopen.github.io/futuquant/setup/FutuOpenDGuide.html#id5>`_ rsa_private_key配置项
