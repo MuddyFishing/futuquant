@@ -37,6 +37,7 @@ class Connection:
         self.sync_req_data = None   # internal use
         self.sync_rsp_data = None   # internal use
         self.sync_req_evt = threading.Event()     # internal use
+        self.sync_req_sent = False
         self.socket_event = SocketEvent.NoEvent
 
     @property
@@ -130,11 +131,12 @@ class NetManager:
                     time_delta = now - conn.start_time
                     if conn.timeout is not None and conn.timeout > 0 and time_delta.seconds >= conn.timeout:
                         self._on_connect_timeout(conn)
-                if conn.sync_req_data is not None and conn.status == ConnStatus.Connected:
-                    ret, msg = self.send(conn.conn_id, conn.sync_req_data[1])
-                    if ret != RET_OK:
-                        conn.sync_rsp_data = (ret, msg, None)
-                        conn.sync_req_evt.set()
+                # if conn.sync_req_data is not None and conn.status == ConnStatus.Connected:
+                #     ret, msg = self.send(conn.conn_id, conn.sync_req_data[1])
+                #     if ret != RET_OK:
+                #         conn.sync_rsp_data = (ret, msg, None)
+                #         conn.sync_req_evt.set()
+                #         logger.debug('event set')
                 conn.handler.on_activate(conn.conn_id, now)
                 conn.socket_event = SocketEvent.NoEvent
 
@@ -165,13 +167,15 @@ class NetManager:
         with self._lock:
             conn = self._get_conn(conn_id)
             if not conn:
-                return RET_ERROR, Err.ConnectionLost
-
+                return RET_ERROR, Err.ConnectionLost.text
             try:
-                size = conn.sock.send(data)
+                if len(conn.writebuf) > 0:
+                    conn.writebuf.extend(data)
+                else:
+                    size = conn.sock.send(data)
             except socket.error as e:
                 if e.errno == errno.EAGAIN or e.errno == errno.EWOULDBLOCK:
-                    conn.writebuf.append(data[size:])
+                    conn.writebuf.extend(data[size:])
                     self._watch_write(conn, True)
                 else:
                     return RET_ERROR, e.strerror()
@@ -223,9 +227,10 @@ class NetManager:
                 conn = self._get_conn(conn_id)
                 if not conn:
                     return RET_ERROR, Err.ConnectionLost.text, None
-                if conn.sync_req_data is None:
+                if conn.sync_req_data is None and conn.status == ConnStatus.Connected:
                     conn.sync_req_data = (head_dict, req_str)
                     sync_req_evt = conn.sync_req_evt
+                    self.send(conn_id, req_str)
                     break
             sleep(0.01)
 
@@ -294,8 +299,7 @@ class NetManager:
             is_sync_rsp = False
             if conn.sync_req_data is not None:
                 sync_req_head = conn.sync_req_data[0]
-                if head_dict['proto_id'] == sync_req_head['proto_id'] and \
-                        head_dict['serial_no'] == sync_req_head['serial_no']:
+                if head_dict['proto_id'] == sync_req_head['proto_id'] and head_dict['serial_no'] == sync_req_head['serial_no']:
                     conn.sync_rsp_data = (ret_decrypt, msg_decrypt, rsp_pb)
                     conn.sync_req_evt.set()
                     is_sync_rsp = True
@@ -352,7 +356,7 @@ class NetManager:
                 conn.opend_conn_id = info.get('conn_id', conn.opend_conn_id)
                 conn.keep_alive_interval = info.get('keep_alive_interval', conn.keep_alive_interval)
             else:
-                return RET_ERROR, Err.ConnectionLost
+                return RET_ERROR, Err.ConnectionLost.text
         return RET_OK, ''
 
 g_net_manager = NetManager()
