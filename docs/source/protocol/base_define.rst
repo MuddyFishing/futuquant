@@ -1,12 +1,16 @@
 基础定义
 ==========
+	.. _KeepAlive: #id5
+	.. _QotMarketState: #id8
+	
 	这里对FutuOpenD开放协议接口中用到基本数据结构作出归档说明。
 
 .. note::
-    *xxx.proto表示协议文件名, 可点击链接跳转到对应文件
 
+    *   x.proto表示协议文件名, 可点击链接跳转到对应文件
     *   为避免增删导致的版本兼容问题，所有enum枚举类型只用于值的定义，在protobuf结构体中声明类型时使用int32类型
     *   所有类型定义使用protobuf格式声明，不同语言对接时请自行通过相关工具转换成对应的接口头文件
+    
     
 --------------
 
@@ -51,7 +55,7 @@
 
     *   请求其它协议前必须等InitConnect协议先完成
     *   若FutuOpenD配置了加密， "connAESKey"将用于后续协议加密
-    *   keepAliveInterval 指定client发起心跳 KeepAlive 的间隔，若FutuOpenD连续3次未收到心跳，将主动断开连接
+    *   keepAliveInterval 指定client发起心跳 KeepAlive_ 的间隔，若FutuOpenD连续3次未收到心跳，将主动断开连接
 
 ------------------------------------------------------
 
@@ -97,6 +101,10 @@
 		optional S2C s2c = 4;
 	}
 
+.. note::
+
+    *   市场状态参考 QotMarketState_
+    
 --------------------------------------------------
 
 
