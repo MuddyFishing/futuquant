@@ -61,13 +61,40 @@ FutuOpenD配置
   login_cert_file    证书文件绝对路径，除帐号密码外的另一种登录方式输入，若同时存在帐号密码登录配置项，只使用证书登录     是，可以使用帐号密码登录或命令行输入
   ================   ==================================================================================================   ===========================================
 
-  **备注：**
+.. note::
   密文是明文经过32位MD5加密后用16进制表示的数据，搜索在线MD5加密可找到生成密文的网站，例如：http://www.cmd5.com。
   
   32位MD5密文如下图红框区域（e10adc3949ba59abbe56e057f20f883e）：
   
   .. image:: ../_static/MD5.png
+ 
   
+RSA私钥文件
+~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+		-----BEGIN RSA PRIVATE KEY-----
+	MIICXAIBAAKBgQCx3W78hx5dQxg47hGMEj02JAJYP+HdKGWD8QilzeK4eL6QJ9QP
+	+uVYGA5Jp0Ed2AaV+zQrT/BCe6z5j/Qd5B0eY2cFlgk+/hbAt7A4wcSAbby8nONw
+	0fZTglU78FhLUih84Int5HO0Fr3WLUDvpE+TgS3l/2u5ym6H6fvsdrdNCwIDAQAB
+	AoGAHep/s2vKmKcjWNf6DZQ3xXZzCoLcK4WS5YlSCglCHAL7EmYQjguGLbYGGS9P
+	jYR7Pxi8YpiUcao5otQqnCh1GRFouU397D3h+bf/bQXINZcv3sxKFrXm9MNVaBJD
+	W4BcC3HGfnlaIVTKU+qGkeA1BydP5AQyxsGOq00IUeGK4uECQQD/5xHLDwhwYFyc
+	MK4xMnlrvne8TSlPBciWfrxQ7V/X0eP/HQ20VkVxc0tFD91aLrCap6OYcNV9jwJN
+	wTQLt5wbAkEAse7C75LKW0+cMcROvAR3qLV2LbGjLW+cH6WmEP9CEGxi0aJg4Gs3
+	oSRYfaC/RLI87sSb0DC5+mTswXduLGpB0QJAJk0ec6cHW1KA6fu7Rq/ITqEOaMef
+	xC0YbbYAV5h/vNy0ZE2j7HbxI97eyDJsrf/I/QzURo+01HsgHCUrtglAOwJBAKiW
+	cA7sh1zS5kxlErCkjvfDz1BmIhT3zfZSTjGGmYLUHyE/eAjKra+5rzqA5xjgxEj6
+	8iLlOCFeJND+Jt5gYzECQH+HtFilF1SxGS4AHrJomHaMhk/IazjtUnLuFM/DuZ/h
+	sxTqXpBBCtTqcAotMlx4ZJQYL3f2PmI2Q/o0NUMt40w=
+	-----END RSA PRIVATE KEY-----
+	
+.. note::
+
+  *  RSA 密钥的填充方式为 PKCS1, 位数1024
+  *  密钥文件可通过第三方web平台自动生成， 请在baidu或google上搜索"RSA 在线生成"
+  *  将私钥保存成文件，并在将文件路径配置在FutuOpenD.xml的rsa_private_key配置项
   
   
 FutuHistData配置

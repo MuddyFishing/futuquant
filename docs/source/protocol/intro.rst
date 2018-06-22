@@ -217,40 +217,16 @@ Json协议回应包体结构
     *  枚举值字段定义使用有符号整形，注释指明对应枚举，枚举一般定义于Common.proto，Qot_Common.proto，Trd_Common.proto文件中
 	
 ---------------------------------------------------
-	
-RSA私钥文件
-~~~~~~~~~~~~~~
 
-.. code-block:: bash
-
-		-----BEGIN RSA PRIVATE KEY-----
-	MIICXAIBAAKBgQCx3W78hx5dQxg47hGMEj02JAJYP+HdKGWD8QilzeK4eL6QJ9QP
-	+uVYGA5Jp0Ed2AaV+zQrT/BCe6z5j/Qd5B0eY2cFlgk+/hbAt7A4wcSAbby8nONw
-	0fZTglU78FhLUih84Int5HO0Fr3WLUDvpE+TgS3l/2u5ym6H6fvsdrdNCwIDAQAB
-	AoGAHep/s2vKmKcjWNf6DZQ3xXZzCoLcK4WS5YlSCglCHAL7EmYQjguGLbYGGS9P
-	jYR7Pxi8YpiUcao5otQqnCh1GRFouU397D3h+bf/bQXINZcv3sxKFrXm9MNVaBJD
-	W4BcC3HGfnlaIVTKU+qGkeA1BydP5AQyxsGOq00IUeGK4uECQQD/5xHLDwhwYFyc
-	MK4xMnlrvne8TSlPBciWfrxQ7V/X0eP/HQ20VkVxc0tFD91aLrCap6OYcNV9jwJN
-	wTQLt5wbAkEAse7C75LKW0+cMcROvAR3qLV2LbGjLW+cH6WmEP9CEGxi0aJg4Gs3
-	oSRYfaC/RLI87sSb0DC5+mTswXduLGpB0QJAJk0ec6cHW1KA6fu7Rq/ITqEOaMef
-	xC0YbbYAV5h/vNy0ZE2j7HbxI97eyDJsrf/I/QzURo+01HsgHCUrtglAOwJBAKiW
-	cA7sh1zS5kxlErCkjvfDz1BmIhT3zfZSTjGGmYLUHyE/eAjKra+5rzqA5xjgxEj6
-	8iLlOCFeJND+Jt5gYzECQH+HtFilF1SxGS4AHrJomHaMhk/IazjtUnLuFM/DuZ/h
-	sxTqXpBBCtTqcAotMlx4ZJQYL3f2PmI2Q/o0NUMt40w=
-	-----END RSA PRIVATE KEY-----
-	
-.. note::
-
-  *  RSA 密钥的填充方式为 PKCS1, 位数1024
-  *  密钥文件可通过第三方web平台自动生成， 请在baidu或google上搜索"RSA 在线生成"
-	
----------------------------------------------------
-	
-加密操作流程
+获取通信密钥流程
 ~~~~~~~~~~~~~~~
 
 .. image:: ../_static/encrypt.png
-				
+
+
+.. note::
+	* RSA密钥配置参考 `FutuOpenD配置 <https://futunnopen.github.io/futuquant/setup/FutuOpenDGuide.html#id5>`_ rsa_private_key配置项
+	
 ---------------------------------------------------
 
 AES加解密
@@ -270,6 +246,8 @@ AES加解密
 
   * mod_len 为0时，上述解密后的数据即为协议返回的body数据, 否则需截掉尾部(16 - mod_len)长度的用于填充对齐的数据
 
+  .. image:: ../_static/AES.png
+  
 ---------------------------------------------------
 
 
