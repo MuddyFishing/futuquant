@@ -17,7 +17,7 @@ from futuquant.quote.quote_response_handler import AsyncHandler_InitConnect
 from futuquant.quote.quote_query import GlobalStateQuery
 from futuquant.quote.quote_query import KeepAlive
 from futuquant.common.conn_mng import FutuConnMng
-from futuquant.common.network_manager import g_net_manager
+from futuquant.common.network_manager import NetManager
 from .err import Err
 
 _SyncReqRet = namedtuple('_SyncReqRet', ('ret', 'msg'))
@@ -36,7 +36,7 @@ class OpenContextBase(object):
         self.__host = host
         self.__port = port
         self.__async_socket_enable = async_enable
-        self._net_mgr = g_net_manager
+        self._net_mgr = NetManager.default()
         self._handler_ctx = HandlerContext(self._is_proc_run)
         self._lock = RLock()
         self._status = ContextStatus.Start
@@ -48,10 +48,13 @@ class OpenContextBase(object):
         self._last_keep_alive_time = datetime.now()
         self._reconnect_timer = None
 
-        # init connect info
-        self._sync_connect_info = {}
-
+        self._net_mgr.start()
         self._socket_reconnect_and_wait_ready()
+        while True:
+            with self._lock:
+                if self._status == ContextStatus.Ready:
+                    break
+            sleep(0.02)
 
     def get_login_user_id(self):
         """
@@ -196,6 +199,7 @@ class OpenContextBase(object):
         logger.info("Start connecting: host={}; port={};".format(self.__host, self.__port))
         with self._lock:
             self._status = ContextStatus.Connecting
+            logger.info("try connecting: host={}; port={};".format(self.__host, self.__port))
             ret, msg, conn_id = self._net_mgr.connect((self.__host, self.__port), self, 5)
             if ret != RET_OK:
                 return ret, msg

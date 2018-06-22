@@ -54,6 +54,18 @@ class Connection:
 
 
 class NetManager:
+    _default_inst = None
+
+    @classmethod
+    def start_net(cls):
+        cls.default().start()
+
+    @classmethod
+    def default(cls):
+        if cls._default_inst is None:
+            cls._default_inst = NetManager()
+        return cls._default_inst
+
     def __init__(self):
         self._rlist = []
         self._wlist = []
@@ -143,6 +155,7 @@ class NetManager:
             self._is_polling = False
 
     def _thread_func(self):
+        count = 0
         while True:
             start_time = datetime.now()
             with self._lock:
@@ -154,6 +167,9 @@ class NetManager:
             elapsed_msec = (end_time - start_time).total_seconds() * 1000000
             sleep_time = max(20 * 1000 - elapsed_msec, 0)
             sleep(sleep_time / 1000000)
+            if count < 2:
+                logger.debug('[{}] run {}'.format(os.getpid(), count))
+            count += 1
 
     def start(self):
         self._thread = threading.Thread(target=self._thread_func)
@@ -358,6 +374,3 @@ class NetManager:
             else:
                 return RET_ERROR, Err.ConnectionLost.text
         return RET_OK, ''
-
-g_net_manager = NetManager()
-g_net_manager.start()
