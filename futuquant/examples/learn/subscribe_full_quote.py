@@ -133,6 +133,7 @@ class SubscribeFullQuote(object):
                 ret, data = quote_ctx.get_global_state()
                 if ret != RET_OK:
                     sleep(0.1)
+                    continue
                 one_diff = (int(time.time()) - int(data['timestamp']))
             diff_ret = min(diff_ret, one_diff) if diff_ret is not None else one_diff
 
@@ -148,6 +149,7 @@ class SubscribeFullQuote(object):
                     ret, data = quote_ctx.get_stock_basicinfo(market, stock_type)
                     if ret != RET_OK:
                         sleep(0.1)
+                        continue
                     codes = list(data['code'])
                     [all_codes.append(code) for code in codes]
                     break
