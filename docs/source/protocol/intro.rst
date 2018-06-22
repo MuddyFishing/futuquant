@@ -1,5 +1,5 @@
 协议接口指南
-====
+====================
 `FutuQuant <https://github.com/FutunnOpen/futuquant/>`_ 开源项目是基于FutuOpenD开放协议实现的Python交易和行情接口，如果对接口的执行效率和灵活性有更高要求，您也可以选择用其它语言直接对接原始协议。
 
 --------------
@@ -279,17 +279,17 @@ data             回应数据，实际根据协议定义
 ~~~~~~~~~~~~~~~
 
   * 通过RSA密钥加密1001协议获得随机密钥，后续使用随机密钥进行AES加密通信。
+  * 可到"http://web.chacuo.net/netrsakeypair"这个网址在线生成随机RSA密钥对，密钥格式必须为PCKS#1，密钥长度512，1024都可以，不要设置密码，将生成的私钥复制保存到文件中，然后将私钥文件路径配置到 `FutuOpenD配置 <https://futunnopen.github.io/futuquant/setup/FutuOpenDGuide.html#id5>`_ 约定的 “rsa_private_key“ 配置项中
 
 .. image:: ../_static/encrypt.png
-
-.. note::
-	* RSA密钥配置参考 `FutuOpenD配置 <https://futunnopen.github.io/futuquant/setup/FutuOpenDGuide.html#id5>`_ 约定的 “rsa_private_key“ 配置项
 	
 ---------------------------------------------------
 
 AES加解密
 ~~~~~~~~~~~~~~~~~~~
 
+	* 使用的是AES的ecb加密模式。
+	
 **发送数据加密**
 
   * AES加密要求源数据长度必须是16的整数倍,  故需补‘\0'对齐后再加密，记录mod_len为源数据长度与16取模值
