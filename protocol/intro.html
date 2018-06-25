@@ -25,17 +25,23 @@
   
 
   
+  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="next" title="基础定义" href="base_define.html" />
-    <link rel="prev" title="交易API" href="../api/Trade_API.html" /> 
+  
+
+  
+
+  
+    <link rel="top" title="futuquant 3.0 documentation" href="../index.html"/>
+        <link rel="next" title="基础定义" href="base_define.html"/>
+        <link rel="prev" title="交易API" href="../api/Trade_API.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav">
+<body class="wy-body-for-nav" role="document">
 
    
   <div class="wy-grid-for-nav">
@@ -129,7 +135,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" aria-label="top navigation">
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">futuquant</a>
@@ -137,10 +143,9 @@
       </nav>
 
 
+      
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           
 
 
@@ -601,8 +606,9 @@ message Response
 <blockquote>
 <div><ul class="simple">
 <li>若FutuOpenD配置了加密, <a class="reference external" href="base_define.html#initconnect-proto-1001">InitConnect</a> 初始化连接协议必须使用RSA公钥加密，后续其他协议使用 <a class="reference external" href="base_define.html#initconnect-proto-1001">InitConnect</a> 返回的随机密钥进行AES加密通信。</li>
-<li>FutuOpenD的加密流程借鉴了SSL协议，但考虑到一般是本地部署服务和应用，简化了相关流程, FutuOpenD与接入Client共用了同一个RSA 私钥文件, 请妥善保存和分发私钥文件。</li>
-<li>可到&#8221;<a class="reference external" href="http://web.chacuo.net/netrsakeypair">http://web.chacuo.net/netrsakeypair</a>&#8220;这个网址在线生成随机RSA密钥对，密钥格式必须为PCKS#1，密钥长度512，1024都可以，不要设置密码，将生成的私钥复制保存到文件中，然后将私钥文件路径配置到 <a class="reference external" href="https://futunnopen.github.io/futuquant/setup/FutuOpenDGuide.html#id5">FutuOpenD配置</a> 约定的 “rsa_private_key“ 配置项中</li>
+<li>FutuOpenD的加密流程借鉴了SSL协议，但考虑到一般是本地部署服务和应用，简化了相关流程，FutuOpenD与接入Client共用了同一个RSA 私钥文件，请妥善保存和分发私钥文件。</li>
+<li>可到&#8221;<a class="reference external" href="http://web.chacuo.net/netrsakeypair">http://web.chacuo.net/netrsakeypair</a>&#8220;这个网址在线生成随机RSA密钥对，密钥格式必须为PCKS#1，密钥长度512，1024都可以，不要设置密码，将生成的私钥复制保存到文件中，然后将私钥文件路径配置到 <a class="reference external" href="https://futunnopen.github.io/futuquant/setup/FutuOpenDGuide.html#id5">FutuOpenD配置</a> 约定的 “rsa_private_key”配置项中</li>
+<li></li>
 <li><strong>强烈建议有实盘交易的用户配置加密，避免账户和交易信息泄露</strong></li>
 </ul>
 <img alt="../_images/encrypt.png" src="../_images/encrypt.png" />
@@ -671,7 +677,9 @@ message Response
 
 
            </div>
-           
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
@@ -693,7 +701,7 @@ message Response
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -712,7 +720,6 @@ message Response
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'3.0',
-            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -730,11 +737,14 @@ message Response
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
+  
+  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
+          SphinxRtdTheme.StickyNav.enable();
       });
-  </script> 
+  </script>
+   
 
 </body>
 </html>

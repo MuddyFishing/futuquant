@@ -94,9 +94,10 @@ RSA私钥文件
 	
  .. note::
 
-  *  RSA 密钥的填充方式为 PKCS1, 位数1024
-  *  密钥文件可通过第三方web平台自动生成， 请在baidu或google上搜索"RSA 在线生成"
-  *  将私钥保存成文件，并在将文件路径配置在FutuOpenD.xml的rsa_private_key配置项
+  * RSA 密钥的填充方式为 PKCS1, 位数1024
+  * 密钥文件可通过第三方web平台自动生成， 请在baidu或google上搜索"RSA 在线生成"
+  * 将私钥保存成文件，并在将文件路径配置在FutuOpenD.xml的rsa_private_key配置项
+  * 公钥可通过私钥计算得到，但生成私钥时不要设置密码
   
   
 FutuHistData配置
