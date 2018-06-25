@@ -377,7 +377,7 @@
 		optional S2C s2c = 4;
 	}
 	
-	.. note::
+.. note::
 	
 	* 股票结构参考 `Security <base_define.html#security>`_
 	* 分时结构参考 `TimeShare <base_define.html#timeshare>`_
@@ -420,7 +420,7 @@
 		optional S2C s2c = 4;
 	}
 	
-	.. note::
+.. note::
 	
 	* 股票结构参考 `Security <base_define.html#security>`_
 	* 逐笔结构参考 `Ticker <base_define.html#ticker>`_
@@ -454,7 +454,7 @@
 		optional S2C s2c = 4;
 	}
 	
-	.. note::
+.. note::
 	
 	* 股票结构参考 `Security <base_define.html#security>`_
 	* 逐笔结构参考 `Ticker <base_define.html#ticker>`_

@@ -29,34 +29,34 @@
   .. _Trd_GetHistoryOrderList.proto:  trade_protocol.html#trd-gethistoryorderlist-proto-2221
   .. _Trd_GetHistoryOrderFillList.proto:  trade_protocol.html#trd-gethistoryorderfilllist-proto-2222
   
-  .. _Qot_Sub.proto:  quote_protocol.html#id4
-  .. _Qot_RegQotPush.proto:  quote_protocol.html#id5
-  .. _Qot_GetSubInfo.proto:  quote_protocol.html#id6
-  .. _Qot_GetBasicQot.proto:  quote_protocol.html#id7
-  .. _Qot_UpdateBasicQot.proto:  quote_protocol.html#id8
+  .. _Qot_Sub.proto:  quote_protocol.html#qot-sub-proto-3001
+  .. _Qot_RegQotPush.proto:  quote_protocol.html#qot-regqotpush-proto-3002
+  .. _Qot_GetSubInfo.proto:  quote_protocol.html#qot-getsubinfo-proto-3003
+  .. _Qot_GetBasicQot.proto:  quote_protocol.html#qot-getbasicqot-proto-3004
+  .. _Qot_UpdateBasicQot.proto:  quote_protocol.html#qot-updatebasicqot-proto-3005
   
-  .. _Qot_GetKL.proto:  quote_protocol.html#qot-getkl-proto-k
-  .. _Qot_UpdateKL.proto:  quote_protocol.html#qot-updatekl-proto-k
-  .. _Qot_GetRT.proto:  quote_protocol.html#id9
-  .. _Qot_UpdateRT.proto:  quote_protocol.html#id10
-  .. _Qot_GetTicker.proto:  quote_protocol.html#id11
+  .. _Qot_GetKL.proto:  quote_protocol.html#qot-getkl-proto-3006k
+  .. _Qot_UpdateKL.proto:  quote_protocol.html#qot-updatekl-proto-3007k
+  .. _Qot_GetRT.proto:  quote_protocol.html#qot-getrt-proto-3008
+  .. _Qot_UpdateRT.proto:  quote_protocol.html#qot-updatert-proto-3009
+  .. _Qot_GetTicker.proto:  quote_protocol.html#qot-getticker-proto-3010
   
-  .. _Qot_UpdateTicker.proto:  quote_protocol.html#id12
-  .. _Qot_GetOrderBook.proto:  quote_protocol.html#id13
-  .. _Qot_UpdateOrderBook.proto:  quote_protocol.html#id14
-  .. _Qot_GetBroker.proto:  quote_protocol.html#id15
-  .. _Qot_UpdateBroker.proto:  quote_protocol.html#id16
+  .. _Qot_UpdateTicker.proto:  quote_protocol.html#qot-updateticker-proto-3011
+  .. _Qot_GetOrderBook.proto:  quote_protocol.html#qot-getorderbook-proto-3012
+  .. _Qot_UpdateOrderBook.proto:  quote_protocol.html#qot-updateorderbook-proto-3013
+  .. _Qot_GetBroker.proto:  quote_protocol.html#qot-getbroker-proto-3014
+  .. _Qot_UpdateBroker.proto:  quote_protocol.html#qot-updatebroker-proto-3015
   
   
-  .. _Qot_GetHistoryKL.proto:  quote_protocol.html#qot-gethistorykl-proto-k
+  .. _Qot_GetHistoryKL.proto:  quote_protocol.html#qot-gethistorykl-proto-3100k
   .. _Qot_GetHistoryKLPoints.proto:  quote_protocol.html#qot-gethistoryklpoints-proto-k
-  .. _Qot_GetRehab.proto:  quote_protocol.html#id19
-  .. _Qot_GetTradeDate.proto:  quote_protocol.html#id20
+  .. _Qot_GetRehab.proto:  quote_protocol.html#qot-getrehab-proto-3102
+  .. _Qot_GetTradeDate.proto:  quote_protocol.html#qot-gettradedate-proto-3200
   
-  .. _Qot_GetStaticInfo.proto:  quote_protocol.html#id21
-  .. _Qot_GetSecuritySnapshot.proto:  quote_protocol.html#id22
-  .. _Qot_GetPlateSet.proto:  quote_protocol.html#id23
-  .. _Qot_GetPlateSecurity.proto:  quote_protocol.html#id24
+  .. _Qot_GetStaticInfo.proto:  quote_protocol.html#qot-getstaticinfo-proto-3202
+  .. _Qot_GetSecuritySnapshot.proto:  quote_protocol.html#qot-getsecuritysnapshot-proto-3203
+  .. _Qot_GetPlateSet.proto:  quote_protocol.html#qot-getplateset-proto-3204
+  .. _Qot_GetPlateSecurity.proto:  quote_protocol.html#qot-getplatesecurity-proto-3205
   
 	
 特点
