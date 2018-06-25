@@ -71,8 +71,10 @@ FutuOpenD配置
   
 RSA私钥文件
 ~~~~~~~~~~~~~~
-
-.. code-block:: bash
+  
+ 参考文件格式：
+  
+ .. code-block:: bash
 
 		-----BEGIN RSA PRIVATE KEY-----
 	MIICXAIBAAKBgQCx3W78hx5dQxg47hGMEj02JAJYP+HdKGWD8QilzeK4eL6QJ9QP
@@ -90,7 +92,7 @@ RSA私钥文件
 	sxTqXpBBCtTqcAotMlx4ZJQYL3f2PmI2Q/o0NUMt40w=
 	-----END RSA PRIVATE KEY-----
 	
-.. note::
+ .. note::
 
   *  RSA 密钥的填充方式为 PKCS1, 位数1024
   *  密钥文件可通过第三方web平台自动生成， 请在baidu或google上搜索"RSA 在线生成"
@@ -208,7 +210,7 @@ relogin - 重登录
   
   **Paramters login_pwd_md5:** str，登录密码密文（32位MD5加密16进制）
 
-.. note::
+ .. note::
 
       *   运维代码在Telnet窗口或命令控制台输入
       .. image:: ../_static/req-verify.png

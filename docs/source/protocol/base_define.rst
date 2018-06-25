@@ -1,7 +1,8 @@
 基础定义
 ==========
-	.. _KeepAlive: #id5
-	.. _QotMarketState: #id8
+	.. _KeepAlive: #keepalive-proto-1004
+	.. _QotMarketState: #qotmarket
+	.. _InitConnect: #initconnect-proto-1001
 	
 	这里对FutuOpenD开放协议接口中用到基本数据结构作出归档说明。
 
@@ -55,7 +56,7 @@
 
     *   请求其它协议前必须等InitConnect协议先完成
     *   若FutuOpenD配置了加密， "connAESKey"将用于后续协议加密
-    *   keepAliveInterval 指定client发起心跳 KeepAlive_ 的间隔，若FutuOpenD连续3次未收到心跳，将主动断开连接
+    *   keepAliveInterval 为建议client发起心跳 KeepAlive_ 的间隔
 
 ------------------------------------------------------
 
@@ -199,6 +200,10 @@
 		optional S2C s2c = 4;
 	}
 
+.. note::
+
+    *   心跳时间间隔由 InitConnect_ 协议返回，若FutuOpenD在30秒内未收到一次心跳，将主动断开连接
+	
 -----------------------------------
 
 

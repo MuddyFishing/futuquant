@@ -488,7 +488,7 @@
  
 -------------------------------------
 
-`Trd_GetHistoryOrderFillList.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_GetHistoryOrderFillList.proto>`_ - 2221获取历史成交列表
+`Trd_GetHistoryOrderFillList.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_GetHistoryOrderFillList.proto>`_ - 2222获取历史成交列表
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 .. code-block:: protobuf
