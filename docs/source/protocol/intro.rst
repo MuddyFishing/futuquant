@@ -292,18 +292,44 @@ data             回应数据，实际根据协议定义
 	
 ---------------------------------------------------
 
+RSA加解密
+~~~~~~~~~~~~~~~~~~~
+	* `FutuOpenD配置 <https://futunnopen.github.io/futuquant/setup/FutuOpenDGuide.html#id5>`_ 约定"rsa_private_key"为私钥文件路径
+	* FutuOpenD 与接入客户端共用相同的私钥文件
+	* RSA加解密仅用于 InitConnect_ 请求，用于安全获取其它请求协议的对称加密Key
+	* FutuOpenD的RSA密钥为1024位, 填充方式PKCS1, 公钥加密，私钥解密，公钥可通过私钥生成
+	* Python API 参考实现: `RsaCrypt <https://github.com/FutunnOpen/futuquant/tree/master/futuquant/common/sys_config.py>`_  类的encrypt / decrypt 接口
+	
+
+ **发送数据加密**
+
+  * RSA加密规则:若密钥位数是key_size, 单次加密串的最大长度为 (key_size)/8 - 11, 目前位数1024, 一次加密长度可定为100
+  
+  * 将明文数据分成一个或数个最长100字节的小段进行加密，拼接分段加密数据即为最终的Body加密数据
+  
+ **接收数据解密** 
+
+	* RSA解密同样遵循分段规则，对于1024位密钥, 每小段待解密数据长度为128字节
+	
+	* 将密文数据分成一个或数个128字节长的小段进行解密，拼接分段解密数据即为最终的Body解密数据
+	
+	
+-------------------------------------------------------------
+
+
 AES加解密
 ~~~~~~~~~~~~~~~~~~~
-
+	* 加密key由 InitConnect_ 协议返回
 	* 使用的是AES的ecb加密模式。
+	* Python API 参考实现: `FutuConnMng <https://github.com/FutunnOpen/futuquant/tree/master/futuquant/common/conn_mng.py>`_  类的encrypt_conn_data / decrypt_conn_data 接口
 	
-**发送数据加密**
+ **发送数据加密**
 
   * AES加密要求源数据长度必须是16的整数倍,  故需补‘\0'对齐后再加密，记录mod_len为源数据长度与16取模值
 
   * 因加密前有可能对源数据作修改， 故需在加密后的数据尾再增加一个16字节的填充数据块，其最后一个字节赋值mod_len, 其余字节赋值'\0'， 将加密数据和额外的填充数据块拼接作为最终要发送协议的body数据
 
-**接收数据解密**
+ **接收数据解密**
 
   * 协议body数据, 先将最后一个字节取出，记为mod_len， 然后将body截掉尾部16字节填充数据块后再解密（与加密填充额外数据块逻辑对应）
 
