@@ -173,8 +173,8 @@
 szHeaderFlag     包头起始标志，固定为“FT”
 nProtoID         协议ID
 nProtoFmtType    协议格式类型，0为Protobuf格式，1为Json格式
-nProtoVer        协议版本，用于迭代兼容
-nSerialNo        包序列号，用于对应请求包和回包
+nProtoVer        协议版本，用于迭代兼容, 目前填0
+nSerialNo        包序列号，用于对应请求包和回包, 要求递增
 nBodyLen         包体长度
 arrBodySHA1      包体原始数据(解密后)的SHA1哈希值
 arrReserved      保留8字节扩展
