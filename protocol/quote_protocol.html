@@ -25,23 +25,17 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-    <link rel="top" title="futuquant 3.0 documentation" href="../index.html"/>
-        <link rel="next" title="交易协议" href="trade_protocol.html"/>
-        <link rel="prev" title="基础定义" href="base_define.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="next" title="交易协议" href="trade_protocol.html" />
+    <link rel="prev" title="基础定义" href="base_define.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -146,7 +140,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">futuquant</a>
@@ -154,9 +148,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -554,105 +549,111 @@
 <hr class="docutils" />
 <div class="section" id="qot-updatert-proto-3009">
 <h2><a class="reference external" href="https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_UpdateRT.proto">Qot_UpdateRT.proto</a> - 3009推送分时<a class="headerlink" href="#qot-updatert-proto-3009" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-protobuf"><div class="highlight"><pre><span></span>syntax = &quot;proto2&quot;;
-package Qot_UpdateRT;
+<div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="na">syntax</span> <span class="o">=</span> <span class="s">&quot;proto2&quot;</span><span class="p">;</span>
+<span class="kn">package</span> <span class="nn">Qot_UpdateRT</span><span class="p">;</span>
 
-import &quot;Common.proto&quot;;
-import &quot;Qot_Common.proto&quot;;
+<span class="k">import</span> <span class="s">&quot;Common.proto&quot;</span><span class="p">;</span>
+<span class="k">import</span> <span class="s">&quot;Qot_Common.proto&quot;</span><span class="p">;</span>
 
-message S2C
-{
-        required Qot_Common.Security security = 1;
-        repeated Qot_Common.TimeShare rtList = 2; //推送的分时点
-}
+<span class="kd">message</span> <span class="nc">S2C</span>
+<span class="p">{</span>
+        <span class="k">required</span> <span class="n">Qot_Common.Security</span> <span class="na">security</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">repeated</span> <span class="n">Qot_Common.TimeShare</span> <span class="na">rtList</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//推送的分时点</span>
+<span class="p">}</span>
 
-message Response
-{
-        required int32 retType = 1 [default = -400]; //RetType,返回结果
-        optional string retMsg = 2;
-        optional int32 errCode = 3;
+<span class="kd">message</span> <span class="nc">Response</span>
+<span class="p">{</span>
+        <span class="k">required</span> <span class="kt">int32</span> <span class="na">retType</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">[</span><span class="k">default</span> <span class="o">=</span> <span class="o">-</span><span class="mi">400</span><span class="p">];</span> <span class="c1">//RetType,返回结果</span>
+        <span class="k">optional</span> <span class="kt">string</span> <span class="na">retMsg</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="k">optional</span> <span class="kt">int32</span> <span class="na">errCode</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
 
-        optional S2C s2c = 4;
-}
-
-.. note::
-
-* 股票结构参考 `Security &lt;base_define.html#security&gt;`_
-* 分时结构参考 `TimeShare &lt;base_define.html#timeshare&gt;`_
+        <span class="k">optional</span> <span class="n">S2C</span> <span class="na">s2c</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>股票结构参考 <a class="reference external" href="base_define.html#security">Security</a></li>
+<li>分时结构参考 <a class="reference external" href="base_define.html#timeshare">TimeShare</a></li>
+</ul>
 </div>
 </div>
 <hr class="docutils" />
 <div class="section" id="qot-getticker-proto-3010">
 <h2><a class="reference external" href="https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetTicker.proto">Qot_GetTicker.proto</a> - 3010获取逐笔<a class="headerlink" href="#qot-getticker-proto-3010" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-protobuf"><div class="highlight"><pre><span></span>syntax = &quot;proto2&quot;;
-package Qot_GetTicker;
+<div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="na">syntax</span> <span class="o">=</span> <span class="s">&quot;proto2&quot;</span><span class="p">;</span>
+<span class="kn">package</span> <span class="nn">Qot_GetTicker</span><span class="p">;</span>
 
-import &quot;Common.proto&quot;;
-import &quot;Qot_Common.proto&quot;;
+<span class="k">import</span> <span class="s">&quot;Common.proto&quot;</span><span class="p">;</span>
+<span class="k">import</span> <span class="s">&quot;Qot_Common.proto&quot;</span><span class="p">;</span>
 
-message C2S
-{
-        required Qot_Common.Security security = 1; //股票
-        required int32 maxRetNum = 2; //最多返回的逐笔个数,实际返回数量不一定会返回这么多,最多返回1000个
-}
+<span class="kd">message</span> <span class="nc">C2S</span>
+<span class="p">{</span>
+        <span class="k">required</span> <span class="n">Qot_Common.Security</span> <span class="na">security</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//股票</span>
+        <span class="k">required</span> <span class="kt">int32</span> <span class="na">maxRetNum</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//最多返回的逐笔个数,实际返回数量不一定会返回这么多,最多返回1000个</span>
+<span class="p">}</span>
 
-message S2C
-{
-        required Qot_Common.Security security = 1; //股票
-        repeated Qot_Common.Ticker tickerList = 2; //逐笔
-}
+<span class="kd">message</span> <span class="nc">S2C</span>
+<span class="p">{</span>
+        <span class="k">required</span> <span class="n">Qot_Common.Security</span> <span class="na">security</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//股票</span>
+        <span class="k">repeated</span> <span class="n">Qot_Common.Ticker</span> <span class="na">tickerList</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//逐笔</span>
+<span class="p">}</span>
 
-message Request
-{
-        required C2S c2s = 1;
-}
+<span class="kd">message</span> <span class="nc">Request</span>
+<span class="p">{</span>
+        <span class="k">required</span> <span class="n">C2S</span> <span class="na">c2s</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
 
-message Response
-{
-        required int32 retType = 1 [default = -400]; //RetType,返回结果
-        optional string retMsg = 2;
-        optional int32 errCode = 3;
-        optional S2C s2c = 4;
-}
-
-.. note::
-
-* 股票结构参考 `Security &lt;base_define.html#security&gt;`_
-* 逐笔结构参考 `Ticker &lt;base_define.html#ticker&gt;`_
-* 请求逐笔目前最多最近1000个
+<span class="kd">message</span> <span class="nc">Response</span>
+<span class="p">{</span>
+        <span class="k">required</span> <span class="kt">int32</span> <span class="na">retType</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">[</span><span class="k">default</span> <span class="o">=</span> <span class="o">-</span><span class="mi">400</span><span class="p">];</span> <span class="c1">//RetType,返回结果</span>
+        <span class="k">optional</span> <span class="kt">string</span> <span class="na">retMsg</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="k">optional</span> <span class="kt">int32</span> <span class="na">errCode</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+        <span class="k">optional</span> <span class="n">S2C</span> <span class="na">s2c</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>股票结构参考 <a class="reference external" href="base_define.html#security">Security</a></li>
+<li>逐笔结构参考 <a class="reference external" href="base_define.html#ticker">Ticker</a></li>
+<li>请求逐笔目前最多最近1000个</li>
+</ul>
 </div>
 </div>
 <hr class="docutils" />
 <div class="section" id="qot-updateticker-proto-3011">
 <h2><a class="reference external" href="https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_UpdateTicker.proto">Qot_UpdateTicker.proto</a> - 3011推送逐笔<a class="headerlink" href="#qot-updateticker-proto-3011" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-protobuf"><div class="highlight"><pre><span></span>syntax = &quot;proto2&quot;;
-package Qot_UpdateTicker;
+<div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="na">syntax</span> <span class="o">=</span> <span class="s">&quot;proto2&quot;</span><span class="p">;</span>
+<span class="kn">package</span> <span class="nn">Qot_UpdateTicker</span><span class="p">;</span>
 
-import &quot;Common.proto&quot;;
-import &quot;Qot_Common.proto&quot;;
+<span class="k">import</span> <span class="s">&quot;Common.proto&quot;</span><span class="p">;</span>
+<span class="k">import</span> <span class="s">&quot;Qot_Common.proto&quot;</span><span class="p">;</span>
 
-message S2C
-{
-        required Qot_Common.Security security = 1; //股票
-        repeated Qot_Common.Ticker tickerList = 2; //逐笔
-}
+<span class="kd">message</span> <span class="nc">S2C</span>
+<span class="p">{</span>
+        <span class="k">required</span> <span class="n">Qot_Common.Security</span> <span class="na">security</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//股票</span>
+        <span class="k">repeated</span> <span class="n">Qot_Common.Ticker</span> <span class="na">tickerList</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//逐笔</span>
+<span class="p">}</span>
 
-message Response
-{
-        required int32 retType = 1 [default = -400]; //RetType,返回结果
-        optional string retMsg = 2;
-        optional int32 errCode = 3;
+<span class="kd">message</span> <span class="nc">Response</span>
+<span class="p">{</span>
+        <span class="k">required</span> <span class="kt">int32</span> <span class="na">retType</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">[</span><span class="k">default</span> <span class="o">=</span> <span class="o">-</span><span class="mi">400</span><span class="p">];</span> <span class="c1">//RetType,返回结果</span>
+        <span class="k">optional</span> <span class="kt">string</span> <span class="na">retMsg</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="k">optional</span> <span class="kt">int32</span> <span class="na">errCode</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
 
-        optional S2C s2c = 4;
-}
-
-.. note::
-
-* 股票结构参考 `Security &lt;base_define.html#security&gt;`_
-* 逐笔结构参考 `Ticker &lt;base_define.html#ticker&gt;`_
+        <span class="k">optional</span> <span class="n">S2C</span> <span class="na">s2c</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>股票结构参考 <a class="reference external" href="base_define.html#security">Security</a></li>
+<li>逐笔结构参考 <a class="reference external" href="base_define.html#ticker">Ticker</a></li>
+</ul>
 </div>
 </div>
 <hr class="docutils" />
@@ -1233,9 +1234,7 @@ message Response
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -1257,7 +1256,7 @@ message Response
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1276,6 +1275,7 @@ message Response
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'3.0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1293,14 +1293,11 @@ message Response
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>
