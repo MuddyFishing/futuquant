@@ -139,6 +139,13 @@ class TickerHandlerBase(RspHandlerBase):
 
                 return RET_OK, content
     """
+    @classmethod
+    def parse_rsp_pb(cls, rsp_pb):
+        ret_code, msg, ticker_list = TickerQuery.unpack_rsp(rsp_pb)
+        if ret_code != RET_OK:
+            return ret_code, msg
+        else:
+            return RET_OK, ticker_list
 
     def on_recv_rsp(self, rsp_pb):
         """
@@ -149,16 +156,16 @@ class TickerHandlerBase(RspHandlerBase):
         :param rsp_pb: 派生类中不需要直接处理该参数
         :return: 参见get_rt_ticker的返回值
         """
-        ret_code, msg, ticker_list = TickerQuery.unpack_rsp(rsp_pb)
-        if ret_code == RET_ERROR:
-            return ret_code, msg
+        ret_code, content = self.parse_rsp_pb(rsp_pb)
+        if ret_code != RET_OK:
+            return ret_code, content
         else:
 
             col_list = [
                 'code', 'time', 'price', 'volume', 'turnover',
                 "ticker_direction", 'sequence', 'recv_time',
             ]
-            ticker_frame_table = pd.DataFrame(ticker_list, columns=col_list)
+            ticker_frame_table = pd.DataFrame(content, columns=col_list)
 
             return RET_OK, ticker_frame_table
 

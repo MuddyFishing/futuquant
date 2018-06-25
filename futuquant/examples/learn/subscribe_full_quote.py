@@ -8,6 +8,7 @@ from time import sleep
 from futuquant.common.ft_logger import logger
 import multiprocessing as mp
 from threading import Thread, RLock
+import pandas as pd
 
 
 """
@@ -212,11 +213,13 @@ class SubscribeFullQuote(object):
         port_idx = 0
         sub_one_size = self.__sub_config['sub_one_size']
         is_adjust_sub_one_size = self.__sub_config['is_adjust_sub_one_size']
+        all_port_count = self.__sub_config['port_count']
         one_process_ports = self.__sub_config['one_process_ports']
+        one_process_ports = min(one_process_ports, all_port_count)
 
         self.__ns_share.is_main_exit = False
         # 创建多个进程定阅ticker
-        while len(self.__share_left_codes) > 0 and port_idx < self.__sub_config['port_count']:
+        while len(self.__share_left_codes) > 0 and port_idx < all_port_count:
 
             # 备份下遗留定阅股票
             left_codes = []
@@ -307,18 +310,24 @@ class SubscribeFullQuote(object):
         if not port or sub_one_size <= 0:
             return
 
-        def ProcessPushData(ret_code, content, is_dateframe=True):
+        def ProcessPushData(ret_code, content):
             if ret_code != RET_OK or content is None:
                 return RET_ERROR, content
 
-            time.time()
-            if is_dateframe:
+            if type(content) is pd.DataFrame:
                 data_tmp = content.to_dict(orient='index')
-                for dict_data in data_tmp.values():
-                    dict_data['process_timestamp'] = time.time()
-                    share_queue_tick.put(dict_data)
+                for x in data_tmp.values():
+                    if type(x) is dict:
+                        x['process_timestamp'] = time.time()
+                    share_queue_tick.put(x)
+            elif type(content) is list:
+                for x in content:
+                    if type(x) is dict:
+                        x['process_timestamp'] = time.time()
+                    share_queue_tick.put(x)
             else:
-                dict_data['process_timestamp'] = time.time()
+                if type(content) is dict:
+                    content['process_timestamp'] = time.time()
                 share_queue_tick.put(content)
 
             return RET_OK, content
@@ -326,7 +335,8 @@ class SubscribeFullQuote(object):
         class ProcessTickerHandle(TickerHandlerBase):
             def on_recv_rsp(self, rsp_pb):
                 """数据响应回调函数"""
-                ret_code, content = super(ProcessTickerHandle, self).on_recv_rsp(rsp_pb)
+                ret_code, content = super(ProcessTickerHandle, self).parse_rsp_pb(rsp_pb)
+
                 return ProcessPushData(ret_code, content)
 
         class ProcessQuoteHandle(StockQuoteHandlerBase):
@@ -339,7 +349,7 @@ class SubscribeFullQuote(object):
             def on_recv_rsp(self, rsp_pb):
                 """数据响应回调函数"""
                 ret_code, content = super(ProcessOrderBookHandle, self).on_recv_rsp(rsp_pb)
-                return ProcessPushData(ret_code, content, False)
+                return ProcessPushData(ret_code, content)
 
         class ProcessKlineHandle(CurKlineHandlerBase):
             def on_recv_rsp(self, rsp_pb):
@@ -357,7 +367,7 @@ class SubscribeFullQuote(object):
             def on_recv_rsp(self, rsp_pb):
                 """数据响应回调函数"""
                 ret_code, broker_code, broker_data = super(ProcessBrokerHandle, self).on_recv_rsp(rsp_pb)
-                return ProcessPushData(ret_code, (broker_code, broker_data), False)
+                return ProcessPushData(ret_code, (broker_code, broker_data))
 
         quote_ctx_list  = []
         def create_new_quote_ctx(host, port):
@@ -458,7 +468,7 @@ if __name__ =="__main__":
     sub_obj.set_handler(CheckDelayTickerHandle(sub_obj))
 
     # 若指定codes_pool,  配置中 sub_max / sub_stock_type_list / sub_market_list 将忽略
-    # sub_obj.codes_pool = ['HK.00700', 'HK.00772']
+    # sub_obj.codes_pool = ['US.AAPL', 'HK.00700', 'HK.00772']
 
     # 指定config, 不指定使用默认配置数据 : SubscribeFullQuote.DEFAULT_SUB_CONFIG
     my_config = {
@@ -473,7 +483,7 @@ if __name__ =="__main__":
         # 若使用property接口 "codes_pool" 指定了定阅股票， 以下配置无效
         "sub_max": 4000,                                            # 最多定阅多少支股票(需要依据定阅额度和进程数作一个合理预估）
         "sub_stock_type_list": [SecurityType.STOCK],                # 选择要定阅的股票类型
-        "sub_market_list": [Market.HK],                             # 要定阅的市场
+        "sub_market_list": [Market.US],                             # 要定阅的市场
     }
     sub_obj.config = my_config
 
