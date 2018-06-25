@@ -497,6 +497,11 @@
 		optional S2C s2c = 4;
 	}
 
+.. note::
+
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* 买卖盘结构参考 `OrderBook <base_define.html#orderbook>`_
+	
 -------------------------------------
 
 `Qot_UpdateOrderBook.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_UpdateOrderBook.proto>`_ - 3013推送买卖盘
@@ -525,6 +530,11 @@
 		
 		optional S2C s2c = 4;
 	}
+
+.. note::
+
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* 买卖盘结构参考 `OrderBook <base_define.html#orderbook>`_
 	
 -------------------------------------
 
@@ -564,6 +574,10 @@
 		optional S2C s2c = 4;
 	}
 	
+.. note::
+
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* 经纪队列结构参考 `Broker <base_define.html#broker>`_
 -------------------------------------
 
 `Qot_UpdateBroker.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_UpdateBroker.proto>`_ - 3015推送经纪队列
@@ -593,6 +607,10 @@
 		optional S2C s2c = 4;
 	}
 	
+.. note::
+
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* 经纪队列结构参考 `Broker <base_define.html#broker>`_	
 -------------------------------------
 
 `Qot_GetHistoryKL.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetHistoryKL.proto>`_ - 3100获取单只股票一段历史K线
@@ -637,6 +655,14 @@
 		
 		optional S2C s2c = 4;
 	}
+
+.. note::
+	
+	* 复权类型参考 `RehabType <base_define.html#rehabtype-k>`_
+	* K线类型参考 `KLType <base_define.html#kltype-k>`_
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* K线结构参考 `KLine <base_define.html#kline-k>`_
+	* K线字段类型参考 `KLFields <base_define.html#klfields-k>`_
 	
 -------------------------------------
 
@@ -712,6 +738,15 @@
 		
 		optional S2C s2c = 4;
 	}
+
+.. note::
+	
+	* 复权类型参考 `RehabType <base_define.html#rehabtype-k>`_
+	* K线类型参考 `KLType <base_define.html#kltype-k>`_
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* K线结构参考 `KLine <base_define.html#kline-k>`_
+	* K线字段类型参考 `KLFields <base_define.html#klfields-k>`_
+	* 目前限制最多5个时间点，股票个数不做限制，但不建议传入过多股票，查询耗时过多会导致协议返回超时。
 	
 -------------------------------------
 
@@ -794,7 +829,10 @@
 		
 		optional S2C s2c = 4;
 	}
+
+.. note::
 	
+	* 股票结构参考 `Security <base_define.html#security>`_
 -------------------------------------
 
 `Qot_GetTradeDate.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetTradeDate.proto>`_ - 3200获取市场交易日
@@ -876,6 +914,12 @@
 		
 		optional S2C s2c = 4;
 	}
+	
+.. note::
+
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* 市场类型参考 `QotMarket <base_define.html#qotmarket>`_
+	* 股票静态信息结构参考 `SecurityStaticInfo <base_define.html#securitystaticbasic>`_
 	
 -------------------------------------
 
@@ -974,6 +1018,11 @@
 		optional S2C s2c = 4;
 	}
 
+.. note::
+
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* 限频接口：30秒内最多10次
+	
 -------------------------------------
 
 `Qot_GetPlateSet.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetPlateSet.proto>`_ - 3204获取板块集合下的板块
@@ -1018,6 +1067,13 @@
 		optional S2C s2c = 4;
 	}
 	
+.. note::
+
+	* 市场类型参考 `QotMarket <base_define.html#qotmarket>`_
+	* 板块集合类型参考 `PlateSetType <base_define.html#platesettype>`_
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* 限频接口：30秒内最多10次	
+	
 -------------------------------------
 
 `Qot_GetPlateSecurity.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetPlateSecurity.proto>`_ - 3205获取板块下的股票
@@ -1054,6 +1110,12 @@
 		
 		optional S2C s2c = 4;
 	}
+
+.. note::
+	
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* 股票静态信息结构参考 `SecurityStaticInfo <base_define.html#securitystaticbasic>`_
+	* 限频接口：30秒内最多10次
 	
 -------------------------------------
 

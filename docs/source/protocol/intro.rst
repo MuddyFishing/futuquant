@@ -283,8 +283,9 @@ data             回应数据，实际根据协议定义
 ~~~~~~~~~~~~~~~
 
   * 若FutuOpenD配置了加密, InitConnect_ 初始化连接协议必须使用RSA公钥加密，后续其他协议使用 InitConnect_ 返回的随机密钥进行AES加密通信。
-  * FutuOpenD的加密流程借鉴了SSL协议，但考虑到一般是本地部署服务和应用，简化了相关流程, FutuOpenD与接入Client共用了同一个RSA 私钥文件, 请妥善保存和分发私钥文件。
-  * 可到"http://web.chacuo.net/netrsakeypair"这个网址在线生成随机RSA密钥对，密钥格式必须为PCKS#1，密钥长度512，1024都可以，不要设置密码，将生成的私钥复制保存到文件中，然后将私钥文件路径配置到 `FutuOpenD配置 <https://futunnopen.github.io/futuquant/setup/FutuOpenDGuide.html#id5>`_ 约定的 “rsa_private_key“ 配置项中 
+  * FutuOpenD的加密流程借鉴了SSL协议，但考虑到一般是本地部署服务和应用，简化了相关流程，FutuOpenD与接入Client共用了同一个RSA 私钥文件，请妥善保存和分发私钥文件。
+  * 可到"http://web.chacuo.net/netrsakeypair"这个网址在线生成随机RSA密钥对，密钥格式必须为PCKS#1，密钥长度512，1024都可以，不要设置密码，将生成的私钥复制保存到文件中，然后将私钥文件路径配置到 `FutuOpenD配置 <https://futunnopen.github.io/futuquant/setup/FutuOpenDGuide.html#id5>`_ 约定的 “rsa_private_key”配置项中 
+  * 
   * **强烈建议有实盘交易的用户配置加密，避免账户和交易信息泄露**
   
   .. image:: ../_static/encrypt.png
