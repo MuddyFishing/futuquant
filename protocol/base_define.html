@@ -25,17 +25,23 @@
   
 
   
+  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="next" title="行情协议" href="quote_protocol.html" />
-    <link rel="prev" title="协议接口指南" href="intro.html" /> 
+  
+
+  
+
+  
+    <link rel="top" title="futuquant 3.0 documentation" href="../index.html"/>
+        <link rel="next" title="行情协议" href="quote_protocol.html"/>
+        <link rel="prev" title="协议接口指南" href="intro.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav">
+<body class="wy-body-for-nav" role="document">
 
    
   <div class="wy-grid-for-nav">
@@ -136,9 +142,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#orderstatus">OrderStatus - 订单状态</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#trdenv">TrdEnv - 交易环境</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#trdmarket">TrdMarket - 交易市场</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">TrdMarket - 交易方向</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">TrdMarket - 订单类型</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">OrderStatus - 订单状态</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#trdside">TrdSide - 交易方向</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ordertype">OrderType - 订单类型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">OrderStatus - 订单状态</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#positionside">PositionSide - 持仓方向类型</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#modifyorderop">ModifyOrderOp - 修改订单操作类型</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reconfirmorderreason">ReconfirmOrderReason - 确认订单类型</a></li>
@@ -170,7 +176,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" aria-label="top navigation">
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">futuquant</a>
@@ -178,10 +184,9 @@
       </nav>
 
 
+      
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           
 
 
@@ -946,8 +951,8 @@
 </div></blockquote>
 </div>
 <hr class="docutils" />
-<div class="section" id="id6">
-<h3>TrdMarket - 交易方向<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="trdside">
+<h3>TrdSide - 交易方向<a class="headerlink" href="#trdside" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">enum</span> <span class="n">TrdSide</span>
 <span class="p">{</span>
@@ -963,8 +968,8 @@
 </div></blockquote>
 </div>
 <hr class="docutils" />
-<div class="section" id="id7">
-<h3>TrdMarket - 订单类型<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="ordertype">
+<h3>OrderType - 订单类型<a class="headerlink" href="#ordertype" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">enum</span> <span class="n">OrderType</span>
 <span class="p">{</span>
@@ -982,8 +987,8 @@
 </div></blockquote>
 </div>
 <hr class="docutils" />
-<div class="section" id="id8">
-<h3>OrderStatus - 订单状态<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3>OrderStatus - 订单状态<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">enum</span> <span class="n">OrderStatus</span>
 <span class="p">{</span>
@@ -1108,15 +1113,15 @@
 <span class="p">{</span>
         <span class="k">required</span> <span class="kt">uint64</span> <span class="na">positionID</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//持仓ID，一条持仓的唯一标识</span>
         <span class="k">required</span> <span class="kt">int32</span> <span class="na">positionSide</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//持仓方向，参见PositionSide的枚举定义</span>
-  <span class="k">required</span> <span class="kt">string</span> <span class="na">code</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//代码</span>
+        <span class="k">required</span> <span class="kt">string</span> <span class="na">code</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//代码</span>
         <span class="k">required</span> <span class="kt">string</span> <span class="na">name</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//名称</span>
-  <span class="k">required</span> <span class="kt">double</span> <span class="na">qty</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//持有数量，2位精度，期权单位是&quot;张&quot;，下同</span>
-  <span class="k">required</span> <span class="kt">double</span> <span class="na">canSellQty</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//可卖数量</span>
-  <span class="k">required</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//市价，3位精度(A股2位)</span>
-  <span class="k">optional</span> <span class="kt">double</span> <span class="na">costPrice</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">//成本价，无精度限制，如果没传，代表此时此值无效</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">qty</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//持有数量，2位精度，期权单位是&quot;张&quot;，下同</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">canSellQty</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//可卖数量</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//市价，3位精度(A股2位)</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">costPrice</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">//成本价，无精度限制，如果没传，代表此时此值无效</span>
         <span class="k">required</span> <span class="kt">double</span> <span class="na">val</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span> <span class="c1">//市值，3位精度(A股2位)</span>
-  <span class="k">required</span> <span class="kt">double</span> <span class="na">plVal</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="c1">//盈亏金额，3位精度(A股2位)</span>
-  <span class="k">optional</span> <span class="kt">double</span> <span class="na">plRatio</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span> <span class="c1">//盈亏比例，无精度限制，如果没传，代表此时此值无效</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">plVal</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="c1">//盈亏金额，3位精度(A股2位)</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">plRatio</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span> <span class="c1">//盈亏比例，无精度限制，如果没传，代表此时此值无效</span>
 
         <span class="c1">//以下是此持仓今日统计</span>
         <span class="k">optional</span> <span class="kt">double</span> <span class="na">td_plVal</span> <span class="o">=</span> <span class="mi">21</span><span class="p">;</span> <span class="c1">//今日盈亏金额，3位精度(A股2位)，下同</span>
@@ -1200,7 +1205,9 @@
 
 
            </div>
-           
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
@@ -1222,7 +1229,7 @@
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1241,7 +1248,6 @@
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'3.0',
-            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1259,11 +1265,14 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
+  
+  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
+          SphinxRtdTheme.StickyNav.enable();
       });
-  </script> 
+  </script>
+   
 
 </body>
 </html>
