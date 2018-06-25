@@ -728,7 +728,7 @@ TrdMarket - 交易市场
 
 -----------------------------------------------
 
-TrdMarket - 交易方向
+TrdSide - 交易方向
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  .. code-block:: protobuf
@@ -746,7 +746,7 @@ TrdMarket - 交易方向
 
 -----------------------------------------------
 
-TrdMarket - 订单类型
+OrderType - 订单类型
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  .. code-block:: protobuf
@@ -899,15 +899,15 @@ Position - 账户持仓
 	{
 		required uint64 positionID = 1; //持仓ID，一条持仓的唯一标识
 		required int32 positionSide = 2; //持仓方向，参见PositionSide的枚举定义
-	  required string code = 3; //代码
+		required string code = 3; //代码
 		required string name = 4; //名称
-	  required double qty = 5; //持有数量，2位精度，期权单位是"张"，下同
-	  required double canSellQty = 6; //可卖数量
-	  required double price = 7; //市价，3位精度(A股2位)
-	  optional double costPrice = 8; //成本价，无精度限制，如果没传，代表此时此值无效
+		required double qty = 5; //持有数量，2位精度，期权单位是"张"，下同
+		required double canSellQty = 6; //可卖数量
+		required double price = 7; //市价，3位精度(A股2位)
+		optional double costPrice = 8; //成本价，无精度限制，如果没传，代表此时此值无效
 		required double val = 9; //市值，3位精度(A股2位)
-	  required double plVal = 10; //盈亏金额，3位精度(A股2位)
-	  optional double plRatio = 11; //盈亏比例，无精度限制，如果没传，代表此时此值无效
+		required double plVal = 10; //盈亏金额，3位精度(A股2位)
+		optional double plRatio = 11; //盈亏比例，无精度限制，如果没传，代表此时此值无效
 	  
 		//以下是此持仓今日统计
 		optional double td_plVal = 21; //今日盈亏金额，3位精度(A股2位)，下同

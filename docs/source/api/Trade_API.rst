@@ -183,7 +183,7 @@ place_order - 下单
 
 ..  py:function:: place_order(self, price, qty, code, trd_side=TrdSide.NONE, order_type=OrderType.NORMAL, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0)
 
- 获取订单列表。获取账户的交易订单列表。
+ 下单交易。
 
  :param price: float，订单价格，3位精度(A股2位)，当订单是市价单或竞价单类型，忽略该参数传值
  :param qty: float，订单数量，2位精度，期权单位是"张"

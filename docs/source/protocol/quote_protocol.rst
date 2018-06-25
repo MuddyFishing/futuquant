@@ -377,6 +377,11 @@
 		optional S2C s2c = 4;
 	}
 	
+	.. note::
+	
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* 分时结构参考 `TimeShare <base_define.html#timeshare>`_
+	
 -------------------------------------
 
 `Qot_GetTicker.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetTicker.proto>`_ - 3010获取逐笔
@@ -415,6 +420,12 @@
 		optional S2C s2c = 4;
 	}
 	
+	.. note::
+	
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* 逐笔结构参考 `Ticker <base_define.html#ticker>`_
+	* 请求逐笔目前最多最近1000个
+	
 -------------------------------------
 
 `Qot_UpdateTicker.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_UpdateTicker.proto>`_ - 3011推送逐笔
@@ -443,6 +454,10 @@
 		optional S2C s2c = 4;
 	}
 	
+	.. note::
+	
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* 逐笔结构参考 `Ticker <base_define.html#ticker>`_
 -------------------------------------
 
 `Qot_GetOrderBook.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetOrderBook.proto>`_ - 3012获取买卖盘
