@@ -34,11 +34,6 @@ class FutuConnMng(object):
         return conn_info['login_user_id'] if conn_info else 0
 
     @classmethod
-    def is_conn_encrypt(cls, conn_id):
-        # 连接暂时未启用加密
-        return False
-
-    @classmethod
     def get_conn_aes_cryptor(cls, conn_id):
         conn_info = FutuConnMng.get_conn_info(conn_id)
         if not conn_info:
