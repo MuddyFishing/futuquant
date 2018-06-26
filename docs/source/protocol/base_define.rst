@@ -148,7 +148,7 @@
 
 	message S2C
 	{
-		required int32 type = 1; //通知类型 
+		required int32 type = 1; //NotifyType,通知类型 
 		optional GtwEvent event = 2; //事件通息
 	}
 

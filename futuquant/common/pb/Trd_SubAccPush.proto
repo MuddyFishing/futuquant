@@ -5,7 +5,7 @@ import "Common.proto";
 
 message C2S
 {
-	repeated uint64 accIDList = 1; //要接受推送的业务账号列表，全量非增量，即使用者请每次传需要接受推送的全量业务账号
+	repeated uint64 accIDList = 1; //要接收推送数据的业务账号列表，全量非增量，即使用者请每次传需要接收推送数据的所有业务账号
 }
 
 message S2C
