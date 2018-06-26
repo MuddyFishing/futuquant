@@ -174,7 +174,7 @@ MarketState - 行情市场状态
   
  ..  py:attribute:: MORNING
  
-  早盘前等待开盘
+  早盘
   
  ..  py:attribute:: REST
  
