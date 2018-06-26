@@ -342,32 +342,32 @@ class SubscribeFullQuote(object):
         class ProcessQuoteHandle(StockQuoteHandlerBase):
             def on_recv_rsp(self, rsp_pb):
                 """数据响应回调函数"""
-                ret_code, content = super(ProcessQuoteHandle, self).on_recv_rsp(rsp_pb)
+                ret_code, content = super(ProcessQuoteHandle, self).parse_rsp_pb(rsp_pb)
                 return ProcessPushData(ret_code, content)
 
         class ProcessOrderBookHandle(OrderBookHandlerBase):
             def on_recv_rsp(self, rsp_pb):
                 """数据响应回调函数"""
-                ret_code, content = super(ProcessOrderBookHandle, self).on_recv_rsp(rsp_pb)
+                ret_code, content = super(ProcessOrderBookHandle, self).parse_rsp_pb(rsp_pb)
                 return ProcessPushData(ret_code, content)
 
         class ProcessKlineHandle(CurKlineHandlerBase):
             def on_recv_rsp(self, rsp_pb):
                 """数据响应回调函数"""
-                ret_code, content = super(ProcessKlineHandle, self).on_recv_rsp(rsp_pb)
+                ret_code, content = super(ProcessKlineHandle, self).parse_rsp_pb(rsp_pb)
                 return ProcessPushData(ret_code, content)
 
         class ProcessRTDataHandle(RTDataHandlerBase):
             def on_recv_rsp(self, rsp_pb):
                 """数据响应回调函数"""
-                ret_code, content = super(ProcessRTDataHandle, self).on_recv_rsp(rsp_pb)
+                ret_code, content = super(ProcessRTDataHandle, self).parse_rsp_pb(rsp_pb)
                 return ProcessPushData(ret_code, content)
 
         class ProcessBrokerHandle(BrokerHandlerBase):
             def on_recv_rsp(self, rsp_pb):
                 """数据响应回调函数"""
-                ret_code, broker_code, broker_data = super(ProcessBrokerHandle, self).on_recv_rsp(rsp_pb)
-                return ProcessPushData(ret_code, (broker_code, broker_data))
+                ret_code, content = super(ProcessBrokerHandle, self).parse_rsp_pb(rsp_pb)
+                return ProcessPushData(ret_code, content)
 
         quote_ctx_list  = []
         def create_new_quote_ctx(host, port):
@@ -464,7 +464,7 @@ if __name__ =="__main__":
     # 创建逐笔定阅对象
     sub_obj = SubscribeFullQuote(SubType.TICKER)
 
-    # 指定回调处理对象类
+    # 指定回调处理对象类: 当前是逐笔， 如果是其它类型定阅，请自行定义函数实现
     sub_obj.set_handler(CheckDelayTickerHandle(sub_obj))
 
     # 若指定codes_pool,  配置中 sub_max / sub_stock_type_list / sub_market_list 将忽略
@@ -483,7 +483,7 @@ if __name__ =="__main__":
         # 若使用property接口 "codes_pool" 指定了定阅股票， 以下配置无效
         "sub_max": 4000,                                            # 最多定阅多少支股票(需要依据定阅额度和进程数作一个合理预估）
         "sub_stock_type_list": [SecurityType.STOCK],                # 选择要定阅的股票类型
-        "sub_market_list": [Market.US],                             # 要定阅的市场
+        "sub_market_list": [Market.HK],                             # 要定阅的市场
     }
     sub_obj.config = my_config
 
