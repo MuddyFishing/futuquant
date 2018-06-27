@@ -232,9 +232,9 @@
 <p><strong>配置项：</strong></p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="8%" />
+<col width="9%" />
 <col width="46%" />
-<col width="46%" />
+<col width="45%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">键值</th>
@@ -255,27 +255,31 @@
 <td>API协议支持PB以及Json格式，PB：0，Json：1，推送类协议通过该配置决定包体格式</td>
 <td>是，不设置则默认Json格式</td>
 </tr>
-<tr class="row-odd"><td>rsa_private_key</td>
+<tr class="row-odd"><td>qot_push_frequency</td>
+<td>API订阅数据推送频率控制，单位毫秒，目前不包括K线和分时</td>
+<td>是，不设置则不限制频率</td>
+</tr>
+<tr class="row-even"><td>rsa_private_key</td>
 <td>API协议RSA加密私钥（PKCS#1）文件绝对路径</td>
 <td>是，不设置则协议不加密</td>
 </tr>
-<tr class="row-even"><td>telnet_port</td>
+<tr class="row-odd"><td>telnet_port</td>
 <td>远程操作命令监听端口</td>
 <td>是，不设置则启用远程命令</td>
 </tr>
-<tr class="row-odd"><td>login_account</td>
+<tr class="row-even"><td>login_account</td>
 <td>登录帐号</td>
 <td>是，可以使用证书登录或命令行输入</td>
 </tr>
-<tr class="row-even"><td>login_pwd</td>
+<tr class="row-odd"><td>login_pwd</td>
 <td>登录密码明文</td>
 <td>是，可以使用密文、证书登录或命令行输入</td>
 </tr>
-<tr class="row-odd"><td>login_pwd_md5</td>
+<tr class="row-even"><td>login_pwd_md5</td>
 <td>登录密码密文（32位MD5加密16进制），密文明文都存在情况下，只使用密文</td>
 <td>是，可以使用明文、证书登录或命令行输入</td>
 </tr>
-<tr class="row-even"><td>login_cert_file</td>
+<tr class="row-odd"><td>login_cert_file</td>
 <td>证书文件绝对路径，除帐号密码外的另一种登录方式输入，若同时存在帐号密码登录配置项，只使用证书登录</td>
 <td>是，可以使用帐号密码登录或命令行输入</td>
 </tr>
@@ -402,19 +406,23 @@ sxTqXpBBCtTqcAotMlx4ZJQYL3f2PmI2Q/o0NUMt40w<span class="o">=</span>
 <td>证书文件绝对路径，除帐号密码外的另一种登录方式输入，若同时存在帐号密码登录配置项，只使用证书登录</td>
 <td>是，可以使用明文、证书登录或配置文件配置项</td>
 </tr>
-<tr class="row-even"><td>cfg_file</td>
+<tr class="row-even"><td>login_region</td>
+<td>优先连接点区域，但不一定能连接上该区域连接点</td>
+<td>是，不设置则自动选择</td>
+</tr>
+<tr class="row-odd"><td>cfg_file</td>
 <td>FutuOpenD配置文件绝对路径</td>
 <td>是，不设置则使用程序所在目录下的FutuOpenD.xml</td>
 </tr>
-<tr class="row-odd"><td>hist_data_cfg_file</td>
+<tr class="row-even"><td>hist_data_cfg_file</td>
 <td>FutuHistData配置文件绝对路径</td>
 <td>是，不设置则使用程序所在目录下的FutuHistData.xml</td>
 </tr>
-<tr class="row-even"><td>console</td>
+<tr class="row-odd"><td>console</td>
 <td>是否显示控制台，后台运行：0，控制台运行：1</td>
 <td>是，不设置则默认控制台运行</td>
 </tr>
-<tr class="row-odd"><td>lang</td>
+<tr class="row-even"><td>lang</td>
 <td>FutuOpenD语言，en：英文，chs：简体中文</td>
 <td>是，不设置则默认简体中文</td>
 </tr>

@@ -47,6 +47,10 @@
 		optional S2C s2c = 4;
 	}
  
+.. note::
+
+	* 业务账户结构参考 `TrdAcc <base_define.html#trdacc>`_
+	
 -------------------------------------
 
 `Trd_UnlockTrade.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_UnlockTrade.proto>`_ - 2005解锁或锁定交易
@@ -84,7 +88,15 @@
 		
 		optional S2C s2c = 4;
 	}
- 
+	
+.. note::
+
+	* 除2001协议外，所有交易协议请求都需要FutuOpenD先解锁交易。
+	* 密码MD5方式获取请参考 `FutuOpenD配置 <../setup/FutuOpenDGuide.html#id6>`_ 内的login_pwd_md5字段
+	* 解锁或锁定交易针对与FutuOpenD，只要有一个连接解锁，其他连接都可以调用交易接口
+	* 强烈建议有实盘交易的用户使用加密通道，参考 `加密通信流程 <intro.html#id10>`_ 
+	* 限频接口：30秒内最多10次
+	
 -------------------------------------
 
 
@@ -122,7 +134,11 @@
 		
 		optional S2C s2c = 4;
 	}
- 
+	
+.. note::
+	* 指定发送该协议的连接接收交易数据（订单状态，成交状态等）推送
+	* `初始化连接 <base_define.html#id2>`_ 时recvNotify参数为true才可以收到数据更新推送
+
 -------------------------------------
 
 `Trd_GetFunds.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_GetFunds.proto>`_ - 2101获取账户资金
@@ -161,7 +177,11 @@
 		
 		optional S2C s2c = 4;
 	}
- 
+
+.. note::
+	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
+	* 账户资金结构参考 `Funds <base_define.html#funds>`_
+	
 -------------------------------------
 
 `Trd_GetPositionList.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_GetPositionList.proto>`_ - 2102获取持仓列表
@@ -203,7 +223,12 @@
 		
 		optional S2C s2c = 4;
 	}
- 
+
+.. note::
+	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
+	* 持仓资金结构参考 `Position <base_define.html#position>`_
+	* 过滤条件结构参考 `TrdFilterConditions <base_define.html#trdfilterconditions>`_
+	
 -------------------------------------
 
 `Trd_GetOrderList.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_GetOrderList.proto>`_ - 2201获取订单列表
@@ -244,7 +269,12 @@
 		
 		optional S2C s2c = 4;
 	}
- 
+	
+.. note::
+	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
+	* 订单结构参考 `Order <base_define.html#order>`_
+	* 过滤条件结构参考 `TrdFilterConditions <base_define.html#trdfilterconditions>`_
+	
 -------------------------------------
 
 `Trd_PlaceOrder.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_PlaceOrder.proto>`_ - 2202下单
@@ -292,7 +322,14 @@
 		
 		optional S2C s2c = 4;
 	}
- 
+	
+.. note::
+	* 请求包标识结构参考 `PacketID <base_define.html#packetid>`_
+	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
+	* 交易方向枚举参考 `TrdSide <base_define.html#trdside>`_
+	* 订单类型枚举参考 `OrderType <base_define.html#ordertype>`_
+	* 限频接口：30秒内最多30次
+	
 -------------------------------------
 
 `Trd_ModifyOrder.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_ModifyOrder.proto>`_ - 2205修改订单(改价、改量、改状态等)
@@ -342,7 +379,13 @@
 		
 		optional S2C s2c = 4;
 	}
- 
+
+.. note::
+	* 请求包标识结构参考 `PacketID <base_define.html#packetid>`_
+	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
+	* 修改操作枚举参考 `ModifyOrderOp <base_define.html#modifyorderop>`_
+	* 限频接口：30秒内最多30次
+	
 -------------------------------------
 
 `Trd_UpdateOrder.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_UpdateOrder.proto>`_ - 2208推送订单更新
@@ -373,7 +416,11 @@
 		
 		optional S2C s2c = 4;
 	}
- 
+
+.. note::
+	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
+	* 订单结构参考 `Order <base_define.html#order>`_
+	
 -------------------------------------
 
 `Trd_GetOrderFillList.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_GetOrderFillList.proto>`_ - 2211获取成交列表
@@ -413,7 +460,12 @@
 		
 		optional S2C s2c = 4;
 	}
- 
+
+.. note::
+	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
+	* 订单结构参考 `OrderFill <base_define.html#orderfill>`_
+	* 过滤条件结构参考 `TrdFilterConditions <base_define.html#trdfilterconditions>`_
+	
 -------------------------------------
 
 `Trd_UpdateOrderFill.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_UpdateOrderFill.proto>`_ - 2218推送新成交
@@ -444,7 +496,11 @@
 		
 		optional S2C s2c = 4;
 	}
- 
+
+.. note::
+	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
+	* 订单结构参考 `OrderFill <base_define.html#orderfill>`_
+	
 -------------------------------------
 
 `Trd_GetHistoryOrderList.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_GetHistoryOrderList.proto>`_ - 2221获取历史订单列表
@@ -462,7 +518,7 @@
 	{
 		required Trd_Common.TrdHeader header = 1; //交易公共参数头
 		required Trd_Common.TrdFilterConditions filterConditions = 2; //过滤条件
-		repeated int32 filterStatusList = 3; //需要过滤的订单状态列表
+		repeated int32 filterStatusList = 3; //OrderStatus, 需要过滤的订单状态列表
 	}
 
 	message S2C
@@ -485,7 +541,14 @@
 		
 		optional S2C s2c = 4;
 	}
- 
+
+.. note::
+	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
+	* 订单结构参考 `Order <base_define.html#order>`_
+	* 过滤条件结构参考 `TrdFilterConditions <base_define.html#trdfilterconditions>`_
+	* 订单状态枚举参考 `OrderStatus <base_define.html#id6>`_
+	* 限频接口：30秒内最多10次
+	
 -------------------------------------
 
 `Trd_GetHistoryOrderFillList.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_GetHistoryOrderFillList.proto>`_ - 2222获取历史成交列表
@@ -525,5 +588,11 @@
 		
 		optional S2C s2c = 4;
 	}
- 
+
+.. note::
+	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
+	* 成交结构参考 `OrderFill <base_define.html#orderfill>`_
+	* 过滤条件结构参考 `TrdFilterConditions <base_define.html#trdfilterconditions>`_
+	* 限频接口：30秒内最多10次
+	
 -------------------------------------

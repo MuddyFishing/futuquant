@@ -236,6 +236,12 @@
 <span class="p">}</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>业务账户结构参考 <a class="reference external" href="base_define.html#trdacc">TrdAcc</a></li>
+</ul>
+</div>
 </div>
 <hr class="docutils" />
 <div class="section" id="trd-unlocktrade-proto-2005">
@@ -272,6 +278,16 @@
 <span class="p">}</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>除2001协议外，所有交易协议请求都需要FutuOpenD先解锁交易。</li>
+<li>密码MD5方式获取请参考 <a class="reference external" href="../setup/FutuOpenDGuide.html#id6">FutuOpenD配置</a> 内的login_pwd_md5字段</li>
+<li>解锁或锁定交易针对与FutuOpenD，只要有一个连接解锁，其他连接都可以调用交易接口</li>
+<li>强烈建议有实盘交易的用户使用加密通道，参考 <a class="reference external" href="intro.html#id10">加密通信流程</a></li>
+<li>限频接口：30秒内最多10次</li>
+</ul>
+</div>
 </div>
 <hr class="docutils" />
 <div class="section" id="trd-subaccpush-proto-2008">
@@ -306,6 +322,13 @@
         <span class="k">optional</span> <span class="n">S2C</span> <span class="na">s2c</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>指定发送该协议的连接接收交易数据（订单状态，成交状态等）推送</li>
+<li><a class="reference external" href="base_define.html#id2">初始化连接</a> 时recvNotify参数为true才可以收到数据更新推送</li>
+</ul>
 </div>
 </div>
 <hr class="docutils" />
@@ -343,6 +366,13 @@
         <span class="k">optional</span> <span class="n">S2C</span> <span class="na">s2c</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>交易公共参数头结构参考 <a class="reference external" href="base_define.html#trdheader">TrdHeader</a></li>
+<li>账户资金结构参考 <a class="reference external" href="base_define.html#funds">Funds</a></li>
+</ul>
 </div>
 </div>
 <hr class="docutils" />
@@ -384,6 +414,14 @@
 <span class="p">}</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>交易公共参数头结构参考 <a class="reference external" href="base_define.html#trdheader">TrdHeader</a></li>
+<li>持仓资金结构参考 <a class="reference external" href="base_define.html#position">Position</a></li>
+<li>过滤条件结构参考 <a class="reference external" href="base_define.html#trdfilterconditions">TrdFilterConditions</a></li>
+</ul>
+</div>
 </div>
 <hr class="docutils" />
 <div class="section" id="trd-getorderlist-proto-2201">
@@ -422,6 +460,14 @@
         <span class="k">optional</span> <span class="n">S2C</span> <span class="na">s2c</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>交易公共参数头结构参考 <a class="reference external" href="base_define.html#trdheader">TrdHeader</a></li>
+<li>订单结构参考 <a class="reference external" href="base_define.html#order">Order</a></li>
+<li>过滤条件结构参考 <a class="reference external" href="base_define.html#trdfilterconditions">TrdFilterConditions</a></li>
+</ul>
 </div>
 </div>
 <hr class="docutils" />
@@ -468,6 +514,16 @@
         <span class="k">optional</span> <span class="n">S2C</span> <span class="na">s2c</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>请求包标识结构参考 <a class="reference external" href="base_define.html#packetid">PacketID</a></li>
+<li>交易公共参数头结构参考 <a class="reference external" href="base_define.html#trdheader">TrdHeader</a></li>
+<li>交易方向枚举参考 <a class="reference external" href="base_define.html#trdside">TrdSide</a></li>
+<li>订单类型枚举参考 <a class="reference external" href="base_define.html#ordertype">OrderType</a></li>
+<li>限频接口：30秒内最多30次</li>
+</ul>
 </div>
 </div>
 <hr class="docutils" />
@@ -517,6 +573,15 @@
 <span class="p">}</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>请求包标识结构参考 <a class="reference external" href="base_define.html#packetid">PacketID</a></li>
+<li>交易公共参数头结构参考 <a class="reference external" href="base_define.html#trdheader">TrdHeader</a></li>
+<li>修改操作枚举参考 <a class="reference external" href="base_define.html#modifyorderop">ModifyOrderOp</a></li>
+<li>限频接口：30秒内最多30次</li>
+</ul>
+</div>
 </div>
 <hr class="docutils" />
 <div class="section" id="trd-updateorder-proto-2208">
@@ -545,6 +610,13 @@
         <span class="k">optional</span> <span class="n">S2C</span> <span class="na">s2c</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>交易公共参数头结构参考 <a class="reference external" href="base_define.html#trdheader">TrdHeader</a></li>
+<li>订单结构参考 <a class="reference external" href="base_define.html#order">Order</a></li>
+</ul>
 </div>
 </div>
 <hr class="docutils" />
@@ -584,6 +656,14 @@
 <span class="p">}</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>交易公共参数头结构参考 <a class="reference external" href="base_define.html#trdheader">TrdHeader</a></li>
+<li>订单结构参考 <a class="reference external" href="base_define.html#orderfill">OrderFill</a></li>
+<li>过滤条件结构参考 <a class="reference external" href="base_define.html#trdfilterconditions">TrdFilterConditions</a></li>
+</ul>
+</div>
 </div>
 <hr class="docutils" />
 <div class="section" id="trd-updateorderfill-proto-2218">
@@ -613,6 +693,13 @@
 <span class="p">}</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>交易公共参数头结构参考 <a class="reference external" href="base_define.html#trdheader">TrdHeader</a></li>
+<li>订单结构参考 <a class="reference external" href="base_define.html#orderfill">OrderFill</a></li>
+</ul>
+</div>
 </div>
 <hr class="docutils" />
 <div class="section" id="trd-gethistoryorderlist-proto-2221">
@@ -627,7 +714,7 @@
 <span class="p">{</span>
         <span class="k">required</span> <span class="n">Trd_Common.TrdHeader</span> <span class="na">header</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//交易公共参数头</span>
         <span class="k">required</span> <span class="n">Trd_Common.TrdFilterConditions</span> <span class="na">filterConditions</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//过滤条件</span>
-        <span class="k">repeated</span> <span class="kt">int32</span> <span class="na">filterStatusList</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//需要过滤的订单状态列表</span>
+        <span class="k">repeated</span> <span class="kt">int32</span> <span class="na">filterStatusList</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//OrderStatus, 需要过滤的订单状态列表</span>
 <span class="p">}</span>
 
 <span class="kd">message</span> <span class="nc">S2C</span>
@@ -651,6 +738,16 @@
         <span class="k">optional</span> <span class="n">S2C</span> <span class="na">s2c</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>交易公共参数头结构参考 <a class="reference external" href="base_define.html#trdheader">TrdHeader</a></li>
+<li>订单结构参考 <a class="reference external" href="base_define.html#order">Order</a></li>
+<li>过滤条件结构参考 <a class="reference external" href="base_define.html#trdfilterconditions">TrdFilterConditions</a></li>
+<li>订单状态枚举参考 <a class="reference external" href="base_define.html#id6">OrderStatus</a></li>
+<li>限频接口：30秒内最多10次</li>
+</ul>
 </div>
 </div>
 <hr class="docutils" />
@@ -689,6 +786,15 @@
         <span class="k">optional</span> <span class="n">S2C</span> <span class="na">s2c</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>交易公共参数头结构参考 <a class="reference external" href="base_define.html#trdheader">TrdHeader</a></li>
+<li>成交结构参考 <a class="reference external" href="base_define.html#orderfill">OrderFill</a></li>
+<li>过滤条件结构参考 <a class="reference external" href="base_define.html#trdfilterconditions">TrdFilterConditions</a></li>
+<li>限频接口：30秒内最多10次</li>
+</ul>
 </div>
 <hr class="docutils" />
 </div>

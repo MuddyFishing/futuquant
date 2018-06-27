@@ -55,7 +55,7 @@
 	* 订阅数据类型参考 `SubType <base_define.html#subtype>`_
 	* 复权类型参考 `RehabType <base_define.html#rehabtype-k>`_
 	* 为控制定阅产生推送数据流量，股票定阅总量有额度控制，订阅规则参考 `高频数据接口 <../api/Quote_API.html#id10>`_
-	* 高频数据接口需要订阅之后才能使用，注册推送并且 `初始化连接 <base_define.html#id2>`_ 时recvNotify参数为true才可以收到数据更新推送。
+	* 高频数据接口需要订阅之后才能使用，注册推送并且 `初始化连接 <base_define.html#id2>`_ 时recvNotify参数为true才可以收到数据更新推送
 	
 -------------------------------------
 
@@ -942,34 +942,34 @@
 	message EquitySnapshotExData
 	{
 		required int64 issuedShares = 1; // 发行股本,即总股本
-		required double issuedMarketVal = 2; // 总市值 =总股本*当前价格,9位小数精度
-		required double netAsset = 3; // 资产净值,3位小数精度
-		required double netProfit = 4; // 盈利（亏损）,3位小数精度
-		required double earningsPershare = 5; // 每股盈利,9位小数精度
+		required double issuedMarketVal = 2; // 总市值 =总股本*当前价格
+		required double netAsset = 3; // 资产净值
+		required double netProfit = 4; // 盈利（亏损）
+		required double earningsPershare = 5; // 每股盈利
 		required int64 outstandingShares = 6; // 流通股本
-		required double outstandingMarketVal = 7; // 流通市值 =流通股本*当前价格,9位小数精度
-		required double netAssetPershare = 8; // 每股净资产,9位小数精度
-		required double eyRate = 9; // 收益率,3位小数精度
-		required double peRate = 10; // 市盈率,3位小数精度
-		required double pbRate = 11; // 市净率,3位小数精度
+		required double outstandingMarketVal = 7; // 流通市值 =流通股本*当前价格
+		required double netAssetPershare = 8; // 每股净资产
+		required double eyRate = 9; // 收益率
+		required double peRate = 10; // 市盈率
+		required double pbRate = 11; // 市净率
 	}
 
 	 // 涡轮类型额外数据
 	message WarrantSnapshotExData
 	{
-		required double conversionRate = 1; //换股比率,3位小数精度
+		required double conversionRate = 1; //换股比率
 		required int32 warrantType = 2; //Qot_Common.WarrantType,涡轮类型
-		required double strikePrice = 3; //行使价,9位小数精度
+		required double strikePrice = 3; //行使价
 		required string maturityTime = 4; //到期日时间字符串
 		required string endTradeTime = 5; //最后交易日时间字符串
 		required Qot_Common.Security owner = 6; //所属正股 
-		required double recoveryPrice = 7; //回收价,9位小数精度
+		required double recoveryPrice = 7; //回收价
 		required int64 streetVolumn = 8; //街货量
 		required int64 issueVolumn = 9; //发行量
-		required double streetRate = 10; //街货占比,3位小数精度
-		required double delta = 11; //对冲值,3位小数精度
-		required double impliedVolatility = 12; //引申波幅,3位小数精度
-		required double premium = 13; //溢价,3位小数精度
+		required double streetRate = 10; //街货占比
+		required double delta = 11; //对冲值
+		required double impliedVolatility = 12; //引申波幅
+		required double premium = 13; //溢价
 	}
 
 	 //基本快照数据
@@ -982,14 +982,14 @@
 		required int32 lotSize = 5; //每手数量
 		required double priceSpread = 6; //价差
 		required string updateTime = 7; //更新时间字符串
-		required double highPrice = 8; //最新价,9位小数精度
-		required double openPrice = 9; //开盘价,9位小数精度
-		required double lowPrice = 10; //最低价,9位小数精度
-		required double lastClosePrice = 11; //昨收价,9位小数精度
-		required double curPrice = 12; //最新价,9位小数精度
+		required double highPrice = 8; //最新价
+		required double openPrice = 9; //开盘价
+		required double lowPrice = 10; //最低价
+		required double lastClosePrice = 11; //昨收价
+		required double curPrice = 12; //最新价
 		required int64 volume = 13; //成交量
-		required double turnover = 14; //成交额,3位小数精度
-		required double turnoverRate = 15; //换手率,3位小数精度
+		required double turnover = 14; //成交额
+		required double turnoverRate = 15; //换手率
 	}
 
 	message Snapshot
@@ -1022,6 +1022,7 @@
 
 	* 股票结构参考 `Security <base_define.html#security>`_
 	* 限频接口：30秒内最多10次
+	* 最多可传入200只股票
 	
 -------------------------------------
 
