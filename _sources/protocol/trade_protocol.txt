@@ -138,7 +138,6 @@
 .. note::
 
 	* 指定发送该协议的连接接收交易数据（订单状态，成交状态等）推送
-	* `初始化连接 <base_define.html#initconnect-proto-1001>`_ 时recvNotify参数为true才可以收到数据更新推送
 
 -------------------------------------
 
@@ -556,7 +555,7 @@
 	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
 	* 订单结构参考 `Order <base_define.html#order>`_
 	* 过滤条件结构参考 `TrdFilterConditions <base_define.html#trdfilterconditions>`_
-	* 订单状态枚举参考 `OrderStatus <base_define.html#id6>`_
+	* 订单状态枚举参考 `OrderStatus <base_define.html#orderstatus>`_
 	* 限频接口：30秒内最多10次
 	
 -------------------------------------

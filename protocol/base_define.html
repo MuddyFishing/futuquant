@@ -144,7 +144,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#trdmarket">TrdMarket - 交易市场</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#trdside">TrdSide - 交易方向</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ordertype">OrderType - 订单类型</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">OrderStatus - 订单状态</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#positionside">PositionSide - 持仓方向类型</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#modifyorderop">ModifyOrderOp - 修改订单操作类型</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reconfirmorderreason">ReconfirmOrderReason - 确认订单类型</a></li>
@@ -982,33 +981,6 @@
         <span class="na">OrderType_AuctionLimit</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//竞价限价订单(目前仅港股)</span>
         <span class="na">OrderType_SpecialLimit</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">//特别限价订单(目前仅港股)，成交规则同OrderType_AbsoluteLimit，且如果当前没有对手可成交，不能立即成交，交易所自动撤销订单</span>
 <span class="p">}</span>
-</pre></div>
-</div>
-</div></blockquote>
-</div>
-<hr class="docutils" />
-<div class="section" id="id6">
-<h3>OrderStatus - 订单状态<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">enum</span> <span class="n">OrderStatus</span>
-<span class="p">{</span>
-        <span class="na">OrderStatus_Unknown</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="c1">//未知状态</span>
-        <span class="na">OrderStatus_Unsubmitted</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//未提交</span>
-        <span class="na">OrderStatus_WaitingSubmit</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//等待提交</span>
-        <span class="na">OrderStatus_Submitting</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//提交中</span>
-        <span class="na">OrderStatus_SubmitFailed</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//提交失败，下单失败</span>
-        <span class="na">OrderStatus_TimeOut</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//处理超时，结果未知</span>
-        <span class="na">OrderStatus_Submitted</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//已提交，等待成交</span>
-        <span class="na">OrderStatus_Filled_Part</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="c1">//部分成交</span>
-        <span class="na">OrderStatus_Filled_All</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span> <span class="c1">//全部已成</span>
-        <span class="na">OrderStatus_Cancelling_Part</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span> <span class="c1">//正在撤单_部分(部分已成交，正在撤销剩余部分)</span>
-        <span class="na">OrderStatus_Cancelling_All</span> <span class="o">=</span> <span class="mi">13</span><span class="p">;</span> <span class="c1">//正在撤单_全部</span>
-        <span class="na">OrderStatus_Cancelled_Part</span> <span class="o">=</span> <span class="mi">14</span><span class="p">;</span> <span class="c1">//部分成交，剩余部分已撤单</span>
-        <span class="na">OrderStatus_Cancelled_All</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span> <span class="c1">//全部已撤单，无成交</span>
-        <span class="na">OrderStatus_Failed</span> <span class="o">=</span> <span class="mi">21</span><span class="p">;</span> <span class="c1">//下单失败，服务拒绝</span>
-        <span class="na">OrderStatus_Disabled</span> <span class="o">=</span> <span class="mi">22</span><span class="p">;</span> <span class="c1">//已失效</span>
-        <span class="na">OrderStatus_Deleted</span> <span class="o">=</span> <span class="mi">23</span><span class="p">;</span> <span class="c1">//已删除，无成交的订单才能删除</span>
-<span class="p">};</span>
 </pre></div>
 </div>
 </div></blockquote>
