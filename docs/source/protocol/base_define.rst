@@ -771,36 +771,6 @@ OrderType - 订单类型
 
 -----------------------------------------------
 
-
-OrderStatus - 订单状态
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
- .. code-block:: protobuf
- 
-	enum OrderStatus
-	{
-		OrderStatus_Unknown = -1; //未知状态
-		OrderStatus_Unsubmitted = 0; //未提交
-		OrderStatus_WaitingSubmit = 1; //等待提交
-		OrderStatus_Submitting = 2; //提交中
-		OrderStatus_SubmitFailed = 3; //提交失败，下单失败
-		OrderStatus_TimeOut = 4; //处理超时，结果未知
-		OrderStatus_Submitted = 5; //已提交，等待成交
-		OrderStatus_Filled_Part = 10; //部分成交
-		OrderStatus_Filled_All = 11; //全部已成
-		OrderStatus_Cancelling_Part = 12; //正在撤单_部分(部分已成交，正在撤销剩余部分)
-		OrderStatus_Cancelling_All = 13; //正在撤单_全部
-		OrderStatus_Cancelled_Part = 14; //部分成交，剩余部分已撤单
-		OrderStatus_Cancelled_All = 15; //全部已撤单，无成交
-		OrderStatus_Failed = 21; //下单失败，服务拒绝
-		OrderStatus_Disabled = 22; //已失效
-		OrderStatus_Deleted = 23; //已删除，无成交的订单才能删除
-	};
-
-
------------------------------------------------
-
-
 PositionSide - 持仓方向类型
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

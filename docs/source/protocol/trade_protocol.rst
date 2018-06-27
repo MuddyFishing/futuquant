@@ -556,7 +556,7 @@
 	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
 	* 订单结构参考 `Order <base_define.html#order>`_
 	* 过滤条件结构参考 `TrdFilterConditions <base_define.html#trdfilterconditions>`_
-	* 订单状态枚举参考 `OrderStatus <base_define.html#id6>`_
+	* 订单状态枚举参考 `OrderStatus <base_define.html#orderstatus>`_
 	* 限频接口：30秒内最多10次
 	
 -------------------------------------
