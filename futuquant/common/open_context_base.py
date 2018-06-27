@@ -357,6 +357,8 @@ class OpenContextBase(object):
                 self._last_keep_alive_time = datetime.now()
                 FutuConnMng.add_conn(conn_info)
                 logger.info("sync socket init_connect ok: {}".format(conn_info))
+            else:
+                logger.error("sync socket init_connect error: {}".format(msg))
 
     def _wait_reconnect(self):
         wait_reconnect_interval = 5
