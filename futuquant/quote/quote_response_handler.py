@@ -22,6 +22,13 @@ class StockQuoteHandlerBase(RspHandlerBase):
 
                 return RET_OK, content
     """
+    @classmethod
+    def parse_rsp_pb(cls, rsp_pb):
+        ret_code, msg, quote_list = StockQuoteQuery.unpack_rsp(rsp_pb)
+        if ret_code != RET_OK:
+            return ret_code, msg
+        else:
+            return RET_OK, quote_list
 
     def on_recv_rsp(self, rsp_pb):
         """
@@ -32,8 +39,8 @@ class StockQuoteHandlerBase(RspHandlerBase):
         :param rsp_pb: 派生类中不需要直接处理该参数
         :return: 参见get_stock_quote的返回值
         """
-        ret_code, msg, quote_list = StockQuoteQuery.unpack_rsp(rsp_pb)
-        if ret_code == RET_ERROR:
+        ret_code, content = self.parse_rsp_pb(rsp_pb)
+        if ret_code != RET_OK:
             return ret_code, msg
         else:
             col_list = [
@@ -43,7 +50,7 @@ class StockQuoteHandlerBase(RspHandlerBase):
                 'listing_date', 'price_spread'
             ]
 
-            quote_frame_table = pd.DataFrame(quote_list, columns=col_list)
+            quote_frame_table = pd.DataFrame(content, columns=col_list)
 
             return RET_OK, quote_frame_table
 
@@ -65,6 +72,13 @@ class OrderBookHandlerBase(RspHandlerBase):
 
                 return RET_OK, content
     """
+    @classmethod
+    def parse_rsp_pb(cls, rsp_pb):
+        ret_code, msg, order_book = OrderBookQuery.unpack_rsp(rsp_pb)
+        if ret_code != RET_OK:
+            return ret_code, msg
+        else:
+            return RET_OK, order_book
 
     def on_recv_rsp(self, rsp_pb):
         """
@@ -75,12 +89,9 @@ class OrderBookHandlerBase(RspHandlerBase):
         :param rsp_pb: 派生类中不需要直接处理该参数
         :return: 参见get_order_book的返回值
         """
-        ret_code, msg, order_book = OrderBookQuery.unpack_rsp(rsp_pb)
-        if ret_code == RET_ERROR:
-            return ret_code, msg
-        else:
-            return ret_code, order_book
+        ret_code, content = self.parse_rsp_pb(rsp_pb)
 
+        return ret_code, content
 
 class CurKlineHandlerBase(RspHandlerBase):
     """
@@ -99,6 +110,13 @@ class CurKlineHandlerBase(RspHandlerBase):
 
                 return RET_OK, content
     """
+    @classmethod
+    def parse_rsp_pb(cls, rsp_pb):
+        ret_code, msg, kline_list = CurKlinePush.unpack_rsp(rsp_pb)
+        if ret_code != RET_OK:
+            return ret_code, msg
+        else:
+            return RET_OK, kline_list
 
     def on_recv_rsp(self, rsp_pb):
         """
@@ -109,15 +127,15 @@ class CurKlineHandlerBase(RspHandlerBase):
         :param rsp_pb: 派生类中不需要直接处理该参数
         :return: 参见get_cur_kline的返回值
         """
-        ret_code, msg, kline_list = CurKlinePush.unpack_rsp(rsp_pb)
-        if ret_code == RET_ERROR:
-            return ret_code, msg
+        ret_code, content = self.parse_rsp_pb(rsp_pb)
+        if ret_code != RET_OK:
+            return ret_code, content
         else:
             col_list = [
                 'code', 'time_key', 'open', 'close', 'high', 'low', 'volume',
                 'turnover', 'k_type', 'last_close'
             ]
-            kline_frame_table = pd.DataFrame(kline_list, columns=col_list)
+            kline_frame_table = pd.DataFrame(content, columns=col_list)
 
             return RET_OK, kline_frame_table
 
@@ -139,6 +157,13 @@ class TickerHandlerBase(RspHandlerBase):
 
                 return RET_OK, content
     """
+    @classmethod
+    def parse_rsp_pb(cls, rsp_pb):
+        ret_code, msg, ticker_list = TickerQuery.unpack_rsp(rsp_pb)
+        if ret_code != RET_OK:
+            return ret_code, msg
+        else:
+            return RET_OK, ticker_list
 
     def on_recv_rsp(self, rsp_pb):
         """
@@ -149,16 +174,16 @@ class TickerHandlerBase(RspHandlerBase):
         :param rsp_pb: 派生类中不需要直接处理该参数
         :return: 参见get_rt_ticker的返回值
         """
-        ret_code, msg, ticker_list = TickerQuery.unpack_rsp(rsp_pb)
-        if ret_code == RET_ERROR:
-            return ret_code, msg
+        ret_code, content = self.parse_rsp_pb(rsp_pb)
+        if ret_code != RET_OK:
+            return ret_code, content
         else:
 
             col_list = [
                 'code', 'time', 'price', 'volume', 'turnover',
                 "ticker_direction", 'sequence', 'recv_time',
             ]
-            ticker_frame_table = pd.DataFrame(ticker_list, columns=col_list)
+            ticker_frame_table = pd.DataFrame(content, columns=col_list)
 
             return RET_OK, ticker_frame_table
 
@@ -180,6 +205,13 @@ class RTDataHandlerBase(RspHandlerBase):
 
                 return RET_OK, content
     """
+    @classmethod
+    def parse_rsp_pb(cls, rsp_pb):
+        ret_code, msg, rt_data_list = RtDataQuery.unpack_rsp(rsp_pb)
+        if ret_code != RET_OK:
+            return ret_code, msg
+        else:
+            return RET_OK, rt_data_list
 
     def on_recv_rsp(self, rsp_pb):
         """
@@ -190,16 +222,16 @@ class RTDataHandlerBase(RspHandlerBase):
         :param rsp_pb: 派生类中不需要直接处理该参数
         :return: 参见get_rt_data的返回值
         """
-        ret_code, msg, rt_data_list = RtDataQuery.unpack_rsp(rsp_pb)
-        if ret_code == RET_ERROR:
-            return ret_code, msg
+        ret_code, content = self.parse_rsp_pb(rsp_pb)
+        if ret_code != RET_OK:
+            return ret_code, content
         else:
 
             col_list = [
                 'code', 'time', 'is_blank', 'opened_mins', 'cur_price',
                 "last_close", 'avg_price', 'turnover', 'volume'
             ]
-            rt_data_table = pd.DataFrame(rt_data_list, columns=col_list)
+            rt_data_table = pd.DataFrame(content, columns=col_list)
 
             return RET_OK, rt_data_table
 
@@ -221,6 +253,13 @@ class BrokerHandlerBase(RspHandlerBase):
 
                 return RET_OK, content
     """
+    @classmethod
+    def parse_rsp_pb(cls, rsp_pb):
+        ret_code, msg, (stock_code, bid_content, ask_content) = BrokerQueueQuery.unpack_rsp(rsp_pb)
+        if ret_code != RET_OK:
+            return ret_code, msg
+        else:
+            return RET_OK, (stock_code, bid_content, ask_content)
 
     def on_recv_rsp(self, rsp_pb):
         """
@@ -231,11 +270,11 @@ class BrokerHandlerBase(RspHandlerBase):
         :param rsp_pb: 派生类中不需要直接处理该参数
         :return: 参见get_broker_queue的返回值
         """
-        ret_code, msg, (stock_code, bid_content, ask_content) = BrokerQueueQuery.unpack_rsp(
-            rsp_pb)
+        ret_code, content = self.parse_rsp_pb(rsp_pb)
         if ret_code != RET_OK:
-            return ret_code, msg, None
+            return ret_code, content, None
         else:
+            stock_code, bid_content, ask_content = content
             bid_list = [
                 'code', 'bid_broker_id', 'bid_broker_name', 'bid_broker_pos'
             ]
@@ -251,18 +290,38 @@ class BrokerHandlerBase(RspHandlerBase):
 class KeepAliveHandlerBase(RspHandlerBase):
     """Base class for handling KeepAlive"""
 
+    @classmethod
+    def parse_rsp_pb(cls, rsp_pb):
+        ret_code, msg, alive_time = KeepAlive.unpack_rsp(rsp_pb)
+        if ret_code != RET_OK:
+            return ret_code, msg
+        else:
+            return RET_OK, alive_time
+
     def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
-        ret_code, msg, time = KeepAlive.unpack_rsp(rsp_pb)
 
-        return ret_code, time
+        ret_code, content = self.parse_rsp_pb(rsp_pb)
+
+        return ret_code, content
 
 
 class SysNotifyHandlerBase(RspHandlerBase):
     """sys notify"""
+
+    @classmethod
+    def parse_rsp_pb(cls, rsp_pb):
+        ret_code, content = SysNotifyPush.unpack_rsp(rsp_pb)
+
+        if ret_code != RET_OK:
+            return ret_code, content
+        else:
+            notify_type, sub_type, msg = content
+            return RET_OK, (notify_type, sub_type, msg)
+
     def on_recv_rsp(self, rsp_pb):
         """receive response callback function"""
-        ret_code, content = SysNotifyPush.unpack_rsp(rsp_pb)
+        ret_code, content = self.parse_rsp_pb(rsp_pb)
 
         return ret_code, content
 
