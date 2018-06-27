@@ -57,10 +57,6 @@ class NetManager:
     _default_inst = None
 
     @classmethod
-    def start_net(cls):
-        cls.default().start()
-
-    @classmethod
     def default(cls):
         if cls._default_inst is None:
             cls._default_inst = NetManager()
@@ -77,9 +73,11 @@ class NetManager:
         self._sync_req_timeout = 5
         self._stop = False
         self._thread = None
+        self._use_count = 0
 
     def connect(self, addr, handler, timeout):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM, socket.IPPROTO_TCP)
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 1024*1024)
         with self._lock:
             conn = Connection(self._next_conn_id, sock, addr, handler)
             conn.status = ConnStatus.Connecting
@@ -155,7 +153,6 @@ class NetManager:
             self._is_polling = False
 
     def _thread_func(self):
-        count = 0
         while True:
             start_time = datetime.now()
             with self._lock:
@@ -167,17 +164,20 @@ class NetManager:
             elapsed_msec = (end_time - start_time).total_seconds() * 1000000
             sleep_time = max(20 * 1000 - elapsed_msec, 0)
             sleep(sleep_time / 1000000)
-            if count < 2:
-                logger.debug('[{}] run {}'.format(os.getpid(), count))
-            count += 1
 
     def start(self):
+        self._use_count += 1
+        if self._thread is not None:
+            return
         self._thread = threading.Thread(target=self._thread_func)
         self._thread.start()
 
     def stop(self):
         with self._lock:
-            self._stop = True
+            self._use_count -= 1
+            if self._use_count <= 0:
+                self._use_count = 0
+                self._stop = True
 
     def send(self, conn_id, data):
         with self._lock:
@@ -194,7 +194,7 @@ class NetManager:
                     conn.writebuf.extend(data[size:])
                     self._watch_write(conn, True)
                 else:
-                    return RET_ERROR, e.strerror()
+                    return RET_ERROR, e.strerror
         return RET_OK, ''
 
     def close(self, conn_id):
@@ -282,7 +282,7 @@ class NetManager:
         is_closed = False
         while True:
             try:
-                data = conn.sock.recv(8192)
+                data = conn.sock.recv(1024 * 1024)
                 if data == b'':
                     is_closed = True
                     break

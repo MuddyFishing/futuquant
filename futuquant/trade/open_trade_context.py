@@ -30,11 +30,15 @@ class OpenTradeContextBase(OpenContextBase):
         self.__is_acc_sub_push = False
         self.__last_acc_list = []
 
+        ret, msg = RET_OK, ''
         # auto unlock trade
         if self._ctx_unlock is not None:
             password, password_md5 = self._ctx_unlock
             ret, data = self.unlock_trade(password, password_md5)
             logger.debug('auto unlock trade ret={},data={}'.format(ret, data))
+            if ret != RET_OK:
+                msg = data
+        return ret, msg
 
     def get_acc_list(self):
         """

@@ -40,7 +40,7 @@ class OpenContextBase(object):
         self._handler_ctx = HandlerContext(self._is_proc_run)
         self._lock = RLock()
         self._status = ContextStatus.Start
-        self._proc_run = False
+        self._proc_run = True
         self._sync_req_ret = None   # type: Optional[_SyncReqRet]
         self._sync_conn_id = 0
         self._conn_id = 0
@@ -93,8 +93,12 @@ class OpenContextBase(object):
             self._net_mgr = None
             self.stop()
             self._handlers_ctx = None
+            if self._reconnect_timer is not None:
+                self._reconnect_timer.cancel()
+                self._reconnect_timer = None
         if conn_id > 0:
             net_mgr.close(conn_id)
+        net_mgr.stop()
 
     def start(self):
         """
@@ -289,7 +293,7 @@ class OpenContextBase(object):
 
         if ret != RET_OK:
             with self._lock:
-                self._sync_req_ret = (ret, msg, None)
+                self._sync_req_ret = _SyncReqRet(ret, msg)
 
     def on_error(self, conn_id, err):
         logger.warning('Connect timeout: conn_id={0}; err={1};'.format(conn_id, err))
@@ -335,7 +339,7 @@ class OpenContextBase(object):
             if ret != RET_OK:
                 logger.warning("send fail: err={0}; conn_id={1}; proto_id={2}".format(msg, conn_id, ProtoId.KeepAlive))
                 return
-            logger.debug("Keepalive: conn_id={}; time={};".format(conn_id, now))
+            logger.debug("Keepalive: conn_id={};".format(conn_id))
             self._last_keep_alive_time = now
 
     def _handle_init_connect(self, conn_id, proto_id, ret, msg, rsp_pb):
@@ -358,7 +362,7 @@ class OpenContextBase(object):
         wait_reconnect_interval = 5
         logger.info('Wait reconnect in {0} seconds'.format(wait_reconnect_interval))
         with self._lock:
-            if self._status != ContextStatus.Start:
+            if self._status != ContextStatus.Start or self._reconnect_timer is not None:
                 return
             self._net_mgr.close(self._conn_id)
             self._status = ContextStatus.Connecting
@@ -370,6 +374,7 @@ class OpenContextBase(object):
     def _reconnect(self):
         with self._lock:
             self._reconnect_timer.cancel()
+            self._reconnect_timer = None
             if self._status != ContextStatus.Connecting:
                 return
 
