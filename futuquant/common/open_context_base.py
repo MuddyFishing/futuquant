@@ -8,8 +8,6 @@ from typing import Optional
 from threading import Timer
 from datetime import datetime
 from threading import RLock, Thread
-from futuquant.common.async_network_manager import _AsyncNetworkManager
-from futuquant.common.sync_network_manager import _SyncNetworkQueryCtx
 from futuquant.common.utils import *
 from futuquant.common.handler_context import HandlerContext
 from futuquant.quote.quote_query import InitConnect
