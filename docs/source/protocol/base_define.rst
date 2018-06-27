@@ -492,16 +492,16 @@ KLine - K线数据点
 	{
 		required string time = 1; //时间戳字符串
 		required bool isBlank = 2; //是否是空内容的点,若为ture则只有时间信息
-		optional double highPrice = 3; //最高价,3位小数精度
-		optional double openPrice = 4; //开盘价,3位小数精度
-		optional double lowPrice = 5; //最低价,3位小数精度
-		optional double closePrice = 6; //收盘价,3位小数精度
-		optional double lastClosePrice = 7; //昨收价,3位小数精度
+		optional double highPrice = 3; //最高价
+		optional double openPrice = 4; //开盘价
+		optional double lowPrice = 5; //最低价
+		optional double closePrice = 6; //收盘价
+		optional double lastClosePrice = 7; //昨收价
 		optional int64 volume = 8; //成交量
-		optional double turnover = 9; //成交额,3位小数精度
-		optional double turnoverRate = 10; //换手率,3位小数精度
-		optional double pe = 11; //市盈率,3位小数精度
-		optional double changeRate = 12; //涨跌幅,3位小数精度
+		optional double turnover = 9; //成交额
+		optional double turnoverRate = 10; //换手率
+		optional double pe = 11; //市盈率
+		optional double changeRate = 12; //涨跌幅
 	}
 		
 -----------------------------------------------
@@ -518,15 +518,15 @@ BasicQot - 基础报价
 		required string listTime = 3; //上市日期字符串
 		required double priceSpread = 4; //价差
 		required string updateTime = 5; //更新时间字符串
-		required double highPrice = 6; //最高价,3位小数精度
-		required double openPrice = 7; //开盘价,3位小数精度
-		required double lowPrice = 8; //最低价,3位小数精度
-		required double curPrice = 9; //最新价,3位小数精度
-		required double lastClosePrice = 10; //昨收价,3位小数精度
+		required double highPrice = 6; //最高价
+		required double openPrice = 7; //开盘价
+		required double lowPrice = 8; //最低价
+		required double curPrice = 9; //最新价
+		required double lastClosePrice = 10; //昨收价
 		required int64 volume = 11; //成交量
-		required double turnover = 12; //成交额,3位小数精度
-		required double turnoverRate = 13; //换手率,3位小数精度
-		required double amplitude = 14; //振幅,3位小数精度
+		required double turnover = 12; //成交额
+		required double turnoverRate = 13; //换手率
+		required double amplitude = 14; //振幅
 	}
 		
 -----------------------------------------------
@@ -541,11 +541,11 @@ TimeShare - 分时数据点
 		required string time = 1; //时间字符串
 		required int32 minute = 2; //距离0点过了多少分钟
 		required bool isBlank = 3; //是否是空内容的点,若为ture则只有时间信息
-		optional double price = 4; //当前价,3位小数精度
-		optional double lastClosePrice = 5; //昨收价,3位小数精度
-		optional double avgPrice = 6; //均价,3位小数精度
+		optional double price = 4; //当前价
+		optional double lastClosePrice = 5; //昨收价
+		optional double avgPrice = 6; //均价
 		optional int64 volume = 7; //成交量
-		optional double turnover = 8; //成交额,3位小数精度
+		optional double turnover = 8; //成交额
 	}
 
 -----------------------------------------------
@@ -600,9 +600,9 @@ Broker - 买卖经纪摆盘
 
 	message Broker
 	{
-		required int64 id = 1;   //经纪ID
-		required string name = 2;  //经纪名称
-		required int32 pos = 3;   //经纪档位
+		required int64 id = 1; //经纪ID
+		required string name = 2; //经纪名称
+		required int32 pos = 3; //经纪档位
 	}
 	
 -----------------------------------------------
@@ -615,11 +615,11 @@ Ticker - 逐笔成交
 
 	message Ticker
 	{
-		required string time = 1; 		//时间字符串
-		required int64 sequence = 2; 	// 唯一标识
-		required int32 dir = 3; 			//TickerDirection, 买卖方向
-		required double price = 4; 		//价格
-		required int64 volume = 5; 		//成交量
+		required string time = 1; //时间字符串
+		required int64 sequence = 2; // 唯一标识
+		required int32 dir = 3; //TickerDirection, 买卖方向
+		required double price = 4; //价格
+		required int64 volume = 5; //成交量
 		required double turnover = 6; //成交额
 	}
 	
@@ -633,8 +633,8 @@ OrderBook - 买卖十档摆盘
 
 	message OrderBook
 	{
-		required double price = 1; 			//委托价格
-		required int64 volume = 2; 			//委托数量
+		required double price = 1; //委托价格
+		required int64 volume = 2; //委托数量
 		required int32 orederCount = 3; //委托订单个数
 	}
 	
@@ -660,9 +660,9 @@ ConnSubInfo - 单条连接定阅信息
 
 	message ConnSubInfo
 	{
-		repeated SubInfo subInfoList = 1; 		//该连接订阅信息
-		required int32 usedQuota = 2; 				//该连接已经使用的订阅额度
-		required bool isOwnConnData = 3; 			//用于区分是否是自己连接的数据
+		repeated SubInfo subInfoList = 1; //该连接订阅信息
+		required int32 usedQuota = 2; //该连接已经使用的订阅额度
+		required bool isOwnConnData = 3; //用于区分是否是自己连接的数据
 	}
 
  .. note::
