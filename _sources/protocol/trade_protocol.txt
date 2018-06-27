@@ -91,7 +91,7 @@
 	
 .. note::
 
-	* 除2001协议外，所有交易协议请求都需要FutuOpenD先解锁交易。
+	* 除2001协议外，所有交易协议请求都需要FutuOpenD先解锁交易
 	* 密码MD5方式获取请参考 `FutuOpenD配置 <../setup/FutuOpenDGuide.html#id6>`_ 内的login_pwd_md5字段
 	* 解锁或锁定交易针对与FutuOpenD，只要有一个连接解锁，其他连接都可以调用交易接口
 	* 强烈建议有实盘交易的用户使用加密通道，参考 `加密通信流程 <intro.html#id10>`_ 
@@ -136,8 +136,9 @@
 	}
 	
 .. note::
+
 	* 指定发送该协议的连接接收交易数据（订单状态，成交状态等）推送
-	* `初始化连接 <base_define.html#id2>`_ 时recvNotify参数为true才可以收到数据更新推送
+	* `初始化连接 <base_define.html#initconnect-proto-1001>`_ 时recvNotify参数为true才可以收到数据更新推送
 
 -------------------------------------
 
@@ -179,6 +180,7 @@
 	}
 
 .. note::
+
 	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
 	* 账户资金结构参考 `Funds <base_define.html#funds>`_
 	
@@ -225,6 +227,7 @@
 	}
 
 .. note::
+
 	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
 	* 持仓资金结构参考 `Position <base_define.html#position>`_
 	* 过滤条件结构参考 `TrdFilterConditions <base_define.html#trdfilterconditions>`_
@@ -271,6 +274,7 @@
 	}
 	
 .. note::
+
 	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
 	* 订单结构参考 `Order <base_define.html#order>`_
 	* 过滤条件结构参考 `TrdFilterConditions <base_define.html#trdfilterconditions>`_
@@ -324,6 +328,7 @@
 	}
 	
 .. note::
+
 	* 请求包标识结构参考 `PacketID <base_define.html#packetid>`_
 	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
 	* 交易方向枚举参考 `TrdSide <base_define.html#trdside>`_
@@ -381,6 +386,7 @@
 	}
 
 .. note::
+
 	* 请求包标识结构参考 `PacketID <base_define.html#packetid>`_
 	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
 	* 修改操作枚举参考 `ModifyOrderOp <base_define.html#modifyorderop>`_
@@ -418,6 +424,7 @@
 	}
 
 .. note::
+
 	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
 	* 订单结构参考 `Order <base_define.html#order>`_
 	
@@ -462,6 +469,7 @@
 	}
 
 .. note::
+
 	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
 	* 订单结构参考 `OrderFill <base_define.html#orderfill>`_
 	* 过滤条件结构参考 `TrdFilterConditions <base_define.html#trdfilterconditions>`_
@@ -498,6 +506,7 @@
 	}
 
 .. note::
+
 	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
 	* 订单结构参考 `OrderFill <base_define.html#orderfill>`_
 	
@@ -543,6 +552,7 @@
 	}
 
 .. note::
+
 	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
 	* 订单结构参考 `Order <base_define.html#order>`_
 	* 过滤条件结构参考 `TrdFilterConditions <base_define.html#trdfilterconditions>`_
@@ -590,6 +600,7 @@
 	}
 
 .. note::
+
 	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
 	* 成交结构参考 `OrderFill <base_define.html#orderfill>`_
 	* 过滤条件结构参考 `TrdFilterConditions <base_define.html#trdfilterconditions>`_

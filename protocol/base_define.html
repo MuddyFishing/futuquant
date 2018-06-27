@@ -710,16 +710,16 @@
 <span class="p">{</span>
         <span class="k">required</span> <span class="kt">string</span> <span class="na">time</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//时间戳字符串</span>
         <span class="k">required</span> <span class="kt">bool</span> <span class="na">isBlank</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//是否是空内容的点,若为ture则只有时间信息</span>
-        <span class="k">optional</span> <span class="kt">double</span> <span class="na">highPrice</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//最高价,3位小数精度</span>
-        <span class="k">optional</span> <span class="kt">double</span> <span class="na">openPrice</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//开盘价,3位小数精度</span>
-        <span class="k">optional</span> <span class="kt">double</span> <span class="na">lowPrice</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//最低价,3位小数精度</span>
-        <span class="k">optional</span> <span class="kt">double</span> <span class="na">closePrice</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//收盘价,3位小数精度</span>
-        <span class="k">optional</span> <span class="kt">double</span> <span class="na">lastClosePrice</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//昨收价,3位小数精度</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">highPrice</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//最高价</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">openPrice</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//开盘价</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">lowPrice</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//最低价</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">closePrice</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//收盘价</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">lastClosePrice</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//昨收价</span>
         <span class="k">optional</span> <span class="kt">int64</span> <span class="na">volume</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">//成交量</span>
-        <span class="k">optional</span> <span class="kt">double</span> <span class="na">turnover</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span> <span class="c1">//成交额,3位小数精度</span>
-        <span class="k">optional</span> <span class="kt">double</span> <span class="na">turnoverRate</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="c1">//换手率,3位小数精度</span>
-        <span class="k">optional</span> <span class="kt">double</span> <span class="na">pe</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span> <span class="c1">//市盈率,3位小数精度</span>
-        <span class="k">optional</span> <span class="kt">double</span> <span class="na">changeRate</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span> <span class="c1">//涨跌幅,3位小数精度</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">turnover</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span> <span class="c1">//成交额</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">turnoverRate</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="c1">//换手率</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">pe</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span> <span class="c1">//市盈率</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">changeRate</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span> <span class="c1">//涨跌幅</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -736,15 +736,15 @@
         <span class="k">required</span> <span class="kt">string</span> <span class="na">listTime</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//上市日期字符串</span>
         <span class="k">required</span> <span class="kt">double</span> <span class="na">priceSpread</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//价差</span>
         <span class="k">required</span> <span class="kt">string</span> <span class="na">updateTime</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//更新时间字符串</span>
-        <span class="k">required</span> <span class="kt">double</span> <span class="na">highPrice</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//最高价,3位小数精度</span>
-        <span class="k">required</span> <span class="kt">double</span> <span class="na">openPrice</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//开盘价,3位小数精度</span>
-        <span class="k">required</span> <span class="kt">double</span> <span class="na">lowPrice</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">//最低价,3位小数精度</span>
-        <span class="k">required</span> <span class="kt">double</span> <span class="na">curPrice</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span> <span class="c1">//最新价,3位小数精度</span>
-        <span class="k">required</span> <span class="kt">double</span> <span class="na">lastClosePrice</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="c1">//昨收价,3位小数精度</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">highPrice</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//最高价</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">openPrice</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//开盘价</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">lowPrice</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">//最低价</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">curPrice</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span> <span class="c1">//最新价</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">lastClosePrice</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="c1">//昨收价</span>
         <span class="k">required</span> <span class="kt">int64</span> <span class="na">volume</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span> <span class="c1">//成交量</span>
-        <span class="k">required</span> <span class="kt">double</span> <span class="na">turnover</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span> <span class="c1">//成交额,3位小数精度</span>
-        <span class="k">required</span> <span class="kt">double</span> <span class="na">turnoverRate</span> <span class="o">=</span> <span class="mi">13</span><span class="p">;</span> <span class="c1">//换手率,3位小数精度</span>
-        <span class="k">required</span> <span class="kt">double</span> <span class="na">amplitude</span> <span class="o">=</span> <span class="mi">14</span><span class="p">;</span> <span class="c1">//振幅,3位小数精度</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">turnover</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span> <span class="c1">//成交额</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">turnoverRate</span> <span class="o">=</span> <span class="mi">13</span><span class="p">;</span> <span class="c1">//换手率</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">amplitude</span> <span class="o">=</span> <span class="mi">14</span><span class="p">;</span> <span class="c1">//振幅</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -759,11 +759,11 @@
         <span class="k">required</span> <span class="kt">string</span> <span class="na">time</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//时间字符串</span>
         <span class="k">required</span> <span class="kt">int32</span> <span class="na">minute</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//距离0点过了多少分钟</span>
         <span class="k">required</span> <span class="kt">bool</span> <span class="na">isBlank</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//是否是空内容的点,若为ture则只有时间信息</span>
-        <span class="k">optional</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//当前价,3位小数精度</span>
-        <span class="k">optional</span> <span class="kt">double</span> <span class="na">lastClosePrice</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//昨收价,3位小数精度</span>
-        <span class="k">optional</span> <span class="kt">double</span> <span class="na">avgPrice</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//均价,3位小数精度</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//当前价</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">lastClosePrice</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//昨收价</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">avgPrice</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//均价</span>
         <span class="k">optional</span> <span class="kt">int64</span> <span class="na">volume</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//成交量</span>
-        <span class="k">optional</span> <span class="kt">double</span> <span class="na">turnover</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">//成交额,3位小数精度</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">turnover</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">//成交额</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -818,9 +818,9 @@
 <blockquote>
 <div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">message</span> <span class="nc">Broker</span>
 <span class="p">{</span>
-        <span class="k">required</span> <span class="kt">int64</span> <span class="na">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>   <span class="c1">//经纪ID</span>
-        <span class="k">required</span> <span class="kt">string</span> <span class="na">name</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>  <span class="c1">//经纪名称</span>
-        <span class="k">required</span> <span class="kt">int32</span> <span class="na">pos</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>   <span class="c1">//经纪档位</span>
+        <span class="k">required</span> <span class="kt">int64</span> <span class="na">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//经纪ID</span>
+        <span class="k">required</span> <span class="kt">string</span> <span class="na">name</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//经纪名称</span>
+        <span class="k">required</span> <span class="kt">int32</span> <span class="na">pos</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//经纪档位</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -832,11 +832,11 @@
 <blockquote>
 <div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">message</span> <span class="nc">Ticker</span>
 <span class="p">{</span>
-        <span class="k">required</span> <span class="kt">string</span> <span class="na">time</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>               <span class="c1">//时间字符串</span>
-        <span class="k">required</span> <span class="kt">int64</span> <span class="na">sequence</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>    <span class="c1">// 唯一标识</span>
-        <span class="k">required</span> <span class="kt">int32</span> <span class="na">dir</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>                         <span class="c1">//TickerDirection, 买卖方向</span>
-        <span class="k">required</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>              <span class="c1">//价格</span>
-        <span class="k">required</span> <span class="kt">int64</span> <span class="na">volume</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>              <span class="c1">//成交量</span>
+        <span class="k">required</span> <span class="kt">string</span> <span class="na">time</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//时间字符串</span>
+        <span class="k">required</span> <span class="kt">int64</span> <span class="na">sequence</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// 唯一标识</span>
+        <span class="k">required</span> <span class="kt">int32</span> <span class="na">dir</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//TickerDirection, 买卖方向</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//价格</span>
+        <span class="k">required</span> <span class="kt">int64</span> <span class="na">volume</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//成交量</span>
         <span class="k">required</span> <span class="kt">double</span> <span class="na">turnover</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//成交额</span>
 <span class="p">}</span>
 </pre></div>
@@ -849,8 +849,8 @@
 <blockquote>
 <div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">message</span> <span class="nc">OrderBook</span>
 <span class="p">{</span>
-        <span class="k">required</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>                      <span class="c1">//委托价格</span>
-        <span class="k">required</span> <span class="kt">int64</span> <span class="na">volume</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>                      <span class="c1">//委托数量</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//委托价格</span>
+        <span class="k">required</span> <span class="kt">int64</span> <span class="na">volume</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//委托数量</span>
         <span class="k">required</span> <span class="kt">int32</span> <span class="na">orederCount</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//委托订单个数</span>
 <span class="p">}</span>
 </pre></div>
@@ -876,9 +876,9 @@
 <blockquote>
 <div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">message</span> <span class="nc">ConnSubInfo</span>
 <span class="p">{</span>
-        <span class="k">repeated</span> <span class="n">SubInfo</span> <span class="na">subInfoList</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>               <span class="c1">//该连接订阅信息</span>
-        <span class="k">required</span> <span class="kt">int32</span> <span class="na">usedQuota</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>                           <span class="c1">//该连接已经使用的订阅额度</span>
-        <span class="k">required</span> <span class="kt">bool</span> <span class="na">isOwnConnData</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>                        <span class="c1">//用于区分是否是自己连接的数据</span>
+        <span class="k">repeated</span> <span class="n">SubInfo</span> <span class="na">subInfoList</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//该连接订阅信息</span>
+        <span class="k">required</span> <span class="kt">int32</span> <span class="na">usedQuota</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//该连接已经使用的订阅额度</span>
+        <span class="k">required</span> <span class="kt">bool</span> <span class="na">isOwnConnData</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//用于区分是否是自己连接的数据</span>
 <span class="p">}</span>
 </pre></div>
 </div>
