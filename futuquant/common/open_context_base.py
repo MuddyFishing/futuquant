@@ -207,7 +207,7 @@ class OpenContextBase(object):
                 return ret, msg
             self._conn_id = conn_id
 
-        start_time = datetime.now()
+        # start_time = datetime.now()
         while True:
             with self._lock:
                 if self._sync_req_ret is not None:
@@ -217,13 +217,15 @@ class OpenContextBase(object):
                         ret, msg = self._sync_req_ret.ret, self._sync_req_ret.msg
                     self._sync_req_ret = None
                     break
-            elapsed_time = datetime.now() - start_time
-            if elapsed_time.seconds >= 8:
-                ret, msg = RET_ERROR, Err.Timeout.text
-                break
+            # elapsed_time = datetime.now() - start_time
+            # if elapsed_time.seconds >= 6:
+            #     ret, msg = RET_ERROR, Err.Timeout.text
+            #     break
             sleep(0.01)
         if ret == RET_OK:
             ret, msg = self.on_api_socket_reconnected()
+        else:
+            self._wait_reconnect()
         return ret, msg
 
     def get_sync_conn_id(self):
@@ -294,22 +296,25 @@ class OpenContextBase(object):
                 self._sync_req_ret = _SyncReqRet(ret, msg)
 
     def on_error(self, conn_id, err):
-        logger.warning('Connect timeout: conn_id={0}; err={1};'.format(conn_id, err))
+        logger.warning('Connect error: conn_id={0}; err={1};'.format(conn_id, err))
         with self._lock:
-            self._status = ContextStatus.Start
-            self._wait_reconnect()
+            if self._status != ContextStatus.Connecting:
+                self._wait_reconnect()
+            else:
+                self._sync_req_ret = _SyncReqRet(RET_ERROR, str(err))
 
     def on_closed(self, conn_id):
         logger.warning('Connect closed: conn_id={0}'.format(conn_id))
         with self._lock:
-            self._status = ContextStatus.Start
-            self._wait_reconnect()
+            if self._status != ContextStatus.Connecting:
+                self._wait_reconnect()
+            else:
+                self._sync_req_ret = _SyncReqRet(RET_ERROR, 'Connection closed')
 
     def on_connect_timeout(self, conn_id):
         logger.warning('Connect timeout: conn_id={0}'.format(conn_id))
         with self._lock:
-            self._status = ContextStatus.Start
-            self._wait_reconnect()
+            self._sync_req_ret = _SyncReqRet(RET_ERROR, Err.Timeout.text)
 
     def on_packet(self, conn_id, proto_id, ret, msg, rsp_pb):
         if proto_id == ProtoId.InitConnect:
@@ -359,11 +364,11 @@ class OpenContextBase(object):
                 logger.error("sync socket init_connect error: {}".format(msg))
 
     def _wait_reconnect(self):
-        wait_reconnect_interval = 5
-        logger.info('Wait reconnect in {0} seconds'.format(wait_reconnect_interval))
+        wait_reconnect_interval = 8
         with self._lock:
             if self._status == ContextStatus.Closed or self._reconnect_timer is not None:
                 return
+            logger.info('Wait reconnect in {0} seconds'.format(wait_reconnect_interval))
             self._net_mgr.close(self._conn_id)
             self._status = ContextStatus.Connecting
             self._sync_conn_id = 0
