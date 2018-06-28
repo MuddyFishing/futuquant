@@ -11,7 +11,7 @@ message C2S
 
 message S2C
 {
-	repeated Trd_Common.TrdAcc accList = 1; //业务账户列表
+	repeated Trd_Common.TrdAcc accList = 1; //交易业务账户列表
 }
 
 message Request

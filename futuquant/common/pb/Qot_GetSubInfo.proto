@@ -12,8 +12,8 @@ message C2S
 message S2C
 {
 	repeated Qot_Common.ConnSubInfo connSubInfoList = 1; //订阅订阅信息
-	required int32 totalUsedQuota = 2; //Gateway已使用的订阅额度
-	required int32 remainQuota = 3; //Gateway剩余订阅额度
+	required int32 totalUsedQuota = 2; //FutuOpenD已使用的订阅额度
+	required int32 remainQuota = 3; //FutuOpenD剩余订阅额度
 }
 
 message Request

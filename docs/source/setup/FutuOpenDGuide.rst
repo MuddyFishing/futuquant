@@ -47,27 +47,58 @@ FutuOpenD配置
 
   **配置项：**
   
-  ================   ==================================================================================================   ===========================================
-  键值               说明						                                                                          是否可选配置项
-  ================   ==================================================================================================   ===========================================
-  ip                 监听地址																			                  是，不设置则默认0.0.0.0	
-  api_port           API协议接收端口                                                                                      否，不设置则启动失败
-  push_proto_type    API协议支持PB以及Json格式，PB：0，Json：1，推送类协议通过该配置决定包体格式                          是，不设置则默认Json格式
-  rsa_private_key    API协议RSA加密私钥（PKCS#1）文件绝对路径                                                             是，不设置则协议不加密
-  telnet_port        远程操作命令监听端口                                                                                 是，不设置则启用远程命令
-  login_account      登录帐号                                                                                             是，可以使用证书登录或命令行输入
-  login_pwd          登录密码明文                                                                                         是，可以使用密文、证书登录或命令行输入
-  login_pwd_md5      登录密码密文（32位MD5加密16进制），密文明文都存在情况下，只使用密文                                  是，可以使用明文、证书登录或命令行输入
-  login_cert_file    证书文件绝对路径，除帐号密码外的另一种登录方式输入，若同时存在帐号密码登录配置项，只使用证书登录     是，可以使用帐号密码登录或命令行输入
-  ================   ==================================================================================================   ===========================================
+  ====================   ==================================================================================================   ===========================================
+  键值                   说明						                                                                          是否可选配置项
+  ====================   ==================================================================================================   ===========================================
+  ip                     监听地址																			                  是，不设置则默认0.0.0.0	
+  api_port               API协议接收端口                                                                                      否，不设置则启动失败
+  push_proto_type        API协议支持PB以及Json格式，PB：0，Json：1，推送类协议通过该配置决定包体格式                          是，不设置则默认Json格式
+  qot_push_frequency     API订阅数据推送频率控制，单位毫秒，目前不包括K线和分时                                               是，不设置则不限制频率
+  rsa_private_key        API协议RSA加密私钥（PKCS#1）文件绝对路径                                                             是，不设置则协议不加密
+  telnet_port            远程操作命令监听端口                                                                                 是，不设置则启用远程命令
+  login_account          登录帐号                                                                                             是，可以使用证书登录或命令行输入
+  login_pwd              登录密码明文                                                                                         是，可以使用密文、证书登录或命令行输入
+  login_pwd_md5          登录密码密文（32位MD5加密16进制），密文明文都存在情况下，只使用密文                                  是，可以使用明文、证书登录或命令行输入
+  login_cert_file        证书文件绝对路径，除帐号密码外的另一种登录方式输入，若同时存在帐号密码登录配置项，只使用证书登录     是，可以使用帐号密码登录或命令行输入
+  ====================   ==================================================================================================   ===========================================
 
-  **备注：**
+.. note::
   密文是明文经过32位MD5加密后用16进制表示的数据，搜索在线MD5加密可找到生成密文的网站，例如：http://www.cmd5.com。
   
   32位MD5密文如下图红框区域（e10adc3949ba59abbe56e057f20f883e）：
   
   .. image:: ../_static/MD5.png
+ 
   
+RSA私钥文件
+~~~~~~~~~~~~~~
+  
+ 参考文件格式：
+  
+ .. code-block:: bash
+
+		-----BEGIN RSA PRIVATE KEY-----
+	MIICXAIBAAKBgQCx3W78hx5dQxg47hGMEj02JAJYP+HdKGWD8QilzeK4eL6QJ9QP
+	+uVYGA5Jp0Ed2AaV+zQrT/BCe6z5j/Qd5B0eY2cFlgk+/hbAt7A4wcSAbby8nONw
+	0fZTglU78FhLUih84Int5HO0Fr3WLUDvpE+TgS3l/2u5ym6H6fvsdrdNCwIDAQAB
+	AoGAHep/s2vKmKcjWNf6DZQ3xXZzCoLcK4WS5YlSCglCHAL7EmYQjguGLbYGGS9P
+	jYR7Pxi8YpiUcao5otQqnCh1GRFouU397D3h+bf/bQXINZcv3sxKFrXm9MNVaBJD
+	W4BcC3HGfnlaIVTKU+qGkeA1BydP5AQyxsGOq00IUeGK4uECQQD/5xHLDwhwYFyc
+	MK4xMnlrvne8TSlPBciWfrxQ7V/X0eP/HQ20VkVxc0tFD91aLrCap6OYcNV9jwJN
+	wTQLt5wbAkEAse7C75LKW0+cMcROvAR3qLV2LbGjLW+cH6WmEP9CEGxi0aJg4Gs3
+	oSRYfaC/RLI87sSb0DC5+mTswXduLGpB0QJAJk0ec6cHW1KA6fu7Rq/ITqEOaMef
+	xC0YbbYAV5h/vNy0ZE2j7HbxI97eyDJsrf/I/QzURo+01HsgHCUrtglAOwJBAKiW
+	cA7sh1zS5kxlErCkjvfDz1BmIhT3zfZSTjGGmYLUHyE/eAjKra+5rzqA5xjgxEj6
+	8iLlOCFeJND+Jt5gYzECQH+HtFilF1SxGS4AHrJomHaMhk/IazjtUnLuFM/DuZ/h
+	sxTqXpBBCtTqcAotMlx4ZJQYL3f2PmI2Q/o0NUMt40w=
+	-----END RSA PRIVATE KEY-----
+	
+ .. note::
+
+  * RSA 密钥的填充方式为 PKCS1, 位数1024
+  * 密钥文件可通过第三方web平台自动生成， 请在baidu或google上搜索"RSA 在线生成"
+  * 将私钥保存成文件，并在将文件路径配置在FutuOpenD.xml的rsa_private_key配置项
+  * 公钥可通过私钥计算得到，但生成私钥时不要设置密码
   
   
 FutuHistData配置
@@ -113,7 +144,8 @@ FutuHistData配置
   login_account              登录帐号																		                      是，可以使用证书登录或配置文件配置项
   login_pwd                  登录密码明文                                                                                         是，可以使用证书登录或配置文件配置项
   login_pwd_md5              登录密码密文（32位MD5加密16进制），密文明文都存在情况下，只使用密文                                  是，可以使用密文、证书登录或配置文件配置项
-  login_cert_file            证书文件绝对路径，除帐号密码外的另一种登录方式输入，若同时存在帐号密码登录配置项，只使用证书登录     是，可以使用明文、证书登录或配置文件配置项        
+  login_cert_file            证书文件绝对路径，除帐号密码外的另一种登录方式输入，若同时存在帐号密码登录配置项，只使用证书登录     是，可以使用明文、证书登录或配置文件配置项   
+  login_region               优先连接点区域，但不一定能连接上该区域连接点                                                         是，不设置则自动选择
   cfg_file                   FutuOpenD配置文件绝对路径                                                                            是，不设置则使用程序所在目录下的FutuOpenD.xml
   hist_data_cfg_file         FutuHistData配置文件绝对路径 	                                                                      是，不设置则使用程序所在目录下的FutuHistData.xml
   console                    是否显示控制台，后台运行：0，控制台运行：1                                                           是，不设置则默认控制台运行
@@ -181,7 +213,7 @@ relogin - 重登录
   
   **Paramters login_pwd_md5:** str，登录密码密文（32位MD5加密16进制）
 
-.. note::
+ .. note::
 
       *   运维代码在Telnet窗口或命令控制台输入
       .. image:: ../_static/req-verify.png
