@@ -74,6 +74,7 @@ class NetManager:
         self._stop = False
         self._thread = None
         self._use_count = 0
+        self._owner_pid = 0
 
     def connect(self, addr, handler, timeout):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM, socket.IPPROTO_TCP)
@@ -166,6 +167,26 @@ class NetManager:
             sleep(sleep_time / 1000000)
 
     def start(self):
+        """
+        Should be called from main thread
+        :return:
+        """
+        if self._owner_pid != os.getpid():
+            self._stop = True
+            self._use_count = 0
+            while self._thread and self._thread.is_alive():
+                sleep(0.01)
+            self._close_all()
+            self._thread = None
+            self._rlist.clear()
+            self._wlist.clear()
+            self._owner_pid = os.getpid()
+            self._closing_list.clear()
+            self._next_conn_id = 1
+            self._lock = threading.RLock()
+            self._is_polling = False
+
+        self._stop = False
         self._use_count += 1
         if self._thread is not None:
             return
@@ -190,6 +211,8 @@ class NetManager:
                     conn.writebuf.extend(data)
                 else:
                     size = conn.sock.send(data)
+                    # logger.debug('send: total_len={}; sent_len={};'.format(len(data), size))
+                    # logger.debug(data[:size])
             except socket.error as e:
                 if e.errno == errno.EAGAIN or e.errno == errno.EWOULDBLOCK:
                     pass
@@ -347,6 +370,8 @@ class NetManager:
         try:
             if len(conn.writebuf) > 0:
                 size = conn.sock.send(conn.writebuf)
+                # logger.debug('send: total_len={}; sent_len={};'.format(len(conn.writebuf), size))
+                # logger.debug(conn.writebuf[:size])
         except socket.error as e:
             if e.errno != errno.EAGAIN and e.errno != errno.EWOULDBLOCK:
                 err = e
