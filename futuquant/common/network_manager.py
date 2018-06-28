@@ -185,16 +185,20 @@ class NetManager:
             if not conn:
                 return RET_ERROR, Err.ConnectionLost.text
             try:
+                size = 0
                 if len(conn.writebuf) > 0:
                     conn.writebuf.extend(data)
                 else:
                     size = conn.sock.send(data)
             except socket.error as e:
                 if e.errno == errno.EAGAIN or e.errno == errno.EWOULDBLOCK:
-                    conn.writebuf.extend(data[size:])
-                    self._watch_write(conn, True)
+                    pass
                 else:
                     return RET_ERROR, e.strerror
+
+            if size > 0 and size < len(data):
+                conn.writebuf.extend(data[size:])
+                self._watch_write(conn, True)
         return RET_OK, ''
 
     def close(self, conn_id):
@@ -339,13 +343,16 @@ class NetManager:
 
         err = None
 
+        size = 0
         try:
-            size = conn.sock.send(conn.writebuf)
-            if size > 0:
-                del conn.writebuf[:size]
+            if len(conn.writebuf) > 0:
+                size = conn.sock.send(conn.writebuf)
         except socket.error as e:
             if e.errno != errno.EAGAIN and e.errno != errno.EWOULDBLOCK:
                 err = e
+
+        if size > 0:
+            del conn.writebuf[:size]
 
         if len(conn.writebuf) == 0:
             self._watch_write(conn, False)
