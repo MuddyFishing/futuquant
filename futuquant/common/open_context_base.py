@@ -38,7 +38,7 @@ class OpenContextBase(object):
         self._handler_ctx = HandlerContext(self._is_proc_run)
         self._lock = RLock()
         self._status = ContextStatus.Start
-        self._proc_run = False
+        self._proc_run = True
         self._sync_req_ret = None   # type: Optional[_SyncReqRet]
         self._sync_conn_id = 0
         self._conn_id = 0
@@ -46,7 +46,7 @@ class OpenContextBase(object):
         self._last_keep_alive_time = datetime.now()
         self._reconnect_timer = None
 
-        NetManager.start_net()
+        self._net_mgr.start()
         self._socket_reconnect_and_wait_ready()
         while True:
             with self._lock:
@@ -91,8 +91,12 @@ class OpenContextBase(object):
             self._net_mgr = None
             self.stop()
             self._handlers_ctx = None
+            if self._reconnect_timer is not None:
+                self._reconnect_timer.cancel()
+                self._reconnect_timer = None
         if conn_id > 0:
             net_mgr.close(conn_id)
+        net_mgr.stop()
 
     def start(self):
         """
@@ -333,9 +337,8 @@ class OpenContextBase(object):
             if ret != RET_OK:
                 logger.warning("send fail: err={0}; conn_id={1}; proto_id={2}".format(msg, conn_id, ProtoId.KeepAlive))
                 return
-            logger.debug("Keepalive: conn_id={}; time={};".format(conn_id, now))
+            logger.debug("Keepalive: conn_id={};".format(conn_id))
             self._last_keep_alive_time = now
-            self._net_mgr.save_packet_fo.flush()
 
     def _handle_init_connect(self, conn_id, proto_id, ret, msg, rsp_pb):
         data = None
