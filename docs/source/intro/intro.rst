@@ -12,6 +12,10 @@ Futu Open API 项目，涵盖了常规交易品种（证券、衍生品）：
 
 --------------
 
+  .. _安装指南: ../setup/setup.html
+  
+
+
 
 特点
 -----
@@ -36,7 +40,7 @@ futuquant安装
     *   我们强烈建议您使用Anaconda python 3，要求python3.5及以上版本, 必要的基础库包括 talib,protobuf,simplejson,pycryptodome 等
     *   FutuOpenD网关客户端 `下载 <https://www.futunn.com/download/index>`_
     *   FutuOpenD可依据业务需要运行在本机或云端服务器上 
-    *   如您安装遇到问题请访问 :ref:`setup-setup`  
+    *   如您安装遇到问题请访问 : 安装指南_  
 
 
 

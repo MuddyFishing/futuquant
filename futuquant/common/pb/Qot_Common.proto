@@ -78,6 +78,7 @@ enum RehabType
  //新类型季K,年K,3分K暂时没有支持历史K线
 enum KLType
 {
+	KLType_Unknown = 0; //未知
 	KLType_1Min = 1; //1分K
 	KLType_Day = 2; //日K
 	KLType_Week = 3; //周K
@@ -93,6 +94,7 @@ enum KLType
 
 enum KLFields
 {
+	KLFields_None = 0; //
 	KLFields_High = 1; //最高价
 	KLFields_Open = 2; //开盘价
 	KLFields_Low = 4; //最低价
@@ -130,6 +132,7 @@ enum SubType
 
 enum TickerDirection
 {
+	TickerDirection_Unknown = 0; //未知
 	TickerDirection_Bid = 1; //外盘
 	TickerDirection_Ask = 2; //内盘
 	TickerDirection_Neutral = 3; //中性盘
@@ -146,16 +149,16 @@ message KLine
 {
 	required string time = 1; //时间戳字符串
 	required bool isBlank = 2; //是否是空内容的点,若为ture则只有时间信息
-	optional double highPrice = 3; //最高价,9位小数精度
-	optional double openPrice = 4; //开盘价,9位小数精度
-	optional double lowPrice = 5; //最低价,9位小数精度
-	optional double closePrice = 6; //收盘价,9位小数精度
-	optional double lastClosePrice = 7; //昨收价,9位小数精度
+	optional double highPrice = 3; //最高价
+	optional double openPrice = 4; //开盘价
+	optional double lowPrice = 5; //最低价
+	optional double closePrice = 6; //收盘价
+	optional double lastClosePrice = 7; //昨收价
 	optional int64 volume = 8; //成交量
-	optional double turnover = 9; //成交额,3位小数精度
-	optional double turnoverRate = 10; //换手率,3位小数精度
-	optional double pe = 11; //市盈率,3位小数精度
-	optional double changeRate = 12; //涨跌幅,3位小数精度
+	optional double turnover = 9; //成交额
+	optional double turnoverRate = 10; //换手率
+	optional double pe = 11; //市盈率
+	optional double changeRate = 12; //涨跌幅
 }
 
 message BasicQot
@@ -165,15 +168,15 @@ message BasicQot
 	required string listTime = 3; //上市日期字符串
 	required double priceSpread = 4; //价差
 	required string updateTime = 5; //更新时间字符串
-	required double highPrice = 6; //最高价,9位小数精度
-	required double openPrice = 7; //开盘价,9位小数精度
-	required double lowPrice = 8; //最低价,9位小数精度
-	required double curPrice = 9; //最新价,9位小数精度
-	required double lastClosePrice = 10; //昨收价,9位小数精度
+	required double highPrice = 6; //最高价
+	required double openPrice = 7; //开盘价
+	required double lowPrice = 8; //最低价
+	required double curPrice = 9; //最新价
+	required double lastClosePrice = 10; //昨收价
 	required int64 volume = 11; //成交量
-	required double turnover = 12; //成交额,3位小数精度
-	required double turnoverRate = 13; //换手率,3位小数精度
-	required double amplitude = 14; //振幅,3位小数精度
+	required double turnover = 12; //成交额
+	required double turnoverRate = 13; //换手率
+	required double amplitude = 14; //振幅
 }
 
 message TimeShare
@@ -181,11 +184,11 @@ message TimeShare
 	required string time = 1; //时间字符串
 	required int32 minute = 2; //距离0点过了多少分钟
 	required bool isBlank = 3; //是否是空内容的点,若为ture则只有时间信息
-	optional double price = 4; //当前价,9位小数精度
-	optional double lastClosePrice = 5; //昨收价,9位小数精度
-	optional double avgPrice = 6; //均价,9位小数精度
+	optional double price = 4; //当前价
+	optional double lastClosePrice = 5; //昨收价
+	optional double avgPrice = 6; //均价
 	optional int64 volume = 7; //成交量
-	optional double turnover = 8; //成交额,3位小数精度
+	optional double turnover = 8; //成交额
 }
 
 message SecurityStaticBasic

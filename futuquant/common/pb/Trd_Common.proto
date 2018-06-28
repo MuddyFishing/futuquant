@@ -47,8 +47,8 @@ enum OrderType
 //订单状态
 enum OrderStatus
 {
-	OrderStatus_Unknown = -1; //未知状态
 	OrderStatus_Unsubmitted = 0; //未提交
+	OrderStatus_Unknown = -1; //未知状态
 	OrderStatus_WaitingSubmit = 1; //等待提交
 	OrderStatus_Submitting = 2; //提交中
 	OrderStatus_SubmitFailed = 3; //提交失败，下单失败
@@ -68,8 +68,8 @@ enum OrderStatus
 //持仓方向类型
 enum PositionSide
 {
-	PositionSide_Unknown = -1; //未知方向
 	PositionSide_Long = 0; //多仓，默认情况是多仓
+	PositionSide_Unknown = -1; //未知方向
 	PositionSide_Short = 1; //空仓
 };
 
