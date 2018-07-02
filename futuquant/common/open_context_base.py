@@ -365,16 +365,21 @@ class OpenContextBase(object):
 
     def _wait_reconnect(self):
         wait_reconnect_interval = 8
+        net_mgr = None
+        conn_id = self._conn_id
         with self._lock:
             if self._status == ContextStatus.Closed or self._reconnect_timer is not None:
                 return
             logger.info('Wait reconnect in {0} seconds'.format(wait_reconnect_interval))
-            self._net_mgr.close(self._conn_id)
+            net_mgr = self._net_mgr
+            conn_id = self._conn_id
             self._status = ContextStatus.Connecting
             self._sync_conn_id = 0
             self._conn_id = 0
             self._reconnect_timer = Timer(wait_reconnect_interval, self._reconnect)
             self._reconnect_timer.start()
+
+        net_mgr.close(conn_id)
 
     def _reconnect(self):
         with self._lock:
