@@ -284,7 +284,7 @@ class OpenContextBase(object):
         kargs = {
             'client_ver': int(SysConfig.get_client_ver()),
             'client_id': str(SysConfig.get_client_id()),
-            'recv_notify': False,
+            'recv_notify': True,
         }
 
         ret, msg, req_str = InitConnect.pack_req(**kargs)
