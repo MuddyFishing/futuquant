@@ -930,7 +930,7 @@ class TickerQuery:
             "turnover": record.turnover,
             "ticker_direction": str(QUOTE.REV_TICKER_DIRECTION[record.dir]) if record.dir in QUOTE.REV_TICKER_DIRECTION else "",
             "sequence": record.sequence,
-            "recv_time":record.recvTime,
+            "recv_timestamp":record.recvTime,
         } for record in raw_ticker_list]
         return RET_OK, "", ticker_list
 
@@ -1183,6 +1183,7 @@ class GlobalStateQuery:
             'trd_logined': "1" if state.trdLogined else "0",
             'timestamp': str(state.time),
             'qot_logined': "1" if state.qotLogined else "0",
+            'local_timestamp': state.localTime if state.HasField('localTime') else time.time(),
         }
         return RET_OK, "", state_dict
 

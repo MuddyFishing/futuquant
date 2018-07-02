@@ -228,7 +228,7 @@ message Ticker
 	required double price = 4; //价格
 	required int64 volume = 5; //成交量
 	required double turnover = 6; //成交额
-	optional string recvTime = 7; //收到推送数据的时间，用于定位延迟
+	optional double recvTime = 7; //收到推送数据的本地时间戳，用于定位延迟
 }
 
 message OrderBook
