@@ -79,7 +79,9 @@ unlock_trade - 解锁交易
  :param password: str，交易密码，如果password_md5不为空就使用传入的password_md5解锁，否则使用password转MD5得到password_md5再解锁
  :param password_md5: str，交易密码的MD5转16进制字符串(全小写)，解锁交易必须要填密码，锁定交易忽略
  :param is_unlock: bool，解锁或锁定，True解锁，False锁定
- :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为None，否则为错误原因字符串
+ :return(ret_code, ret_data): 	ret == RET_OK时, data为None，如果之前已经解锁过了，data为提示字符串，指示出已经解锁
+ 
+								ret != RET_OK时， data为错误字符串
 
  :example:
  

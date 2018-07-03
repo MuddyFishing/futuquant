@@ -78,8 +78,8 @@ class OpenTradeContextBase(OpenContextBase):
         :param password: 明文密码字符串 (二选一）
         :param password_md5: 密码的md5字符串（二选一）
         :param is_unlock: 解锁 = True, 锁定 = False
-        :return:(ret, data) ret == 0 时, data为None
-                            ret != 0 时， data为错误字符串
+        :return:(ret, data) ret == RET_OK时, data为None，如果之前已经解锁过了，data为提示字符串，指示出已经解锁
+                            ret != RET_OK时， data为错误字符串
         '''
         # 解锁要求先拉一次帐户列表, 目前仅真实环境需要解锁
         ret, msg, acc_id = self._check_acc_id(TrdEnv.REAL, 0)
@@ -104,20 +104,12 @@ class OpenTradeContextBase(OpenContextBase):
         if RET_OK == ret_code:
             self._ctx_unlock = (password, password_md5) if is_unlock else None
 
-        # unlock push socket
-        kargs_async = {
-            'is_unlock': is_unlock,
-            'password_md5': str(md5_val),
-            'conn_id': self.get_async_conn_id(),
-        }
-        ret_code, msg, push_req_str = UnlockTrade.pack_req(**kargs_async)
-        if ret_code == RET_OK:
-            self._send_async_req(push_req_str)
-
         # 定阅交易帐号推送
         if is_unlock and ret_code == RET_OK:
             self.__check_acc_sub_push()
 
+        if msg is not None and len(msg) > 0:
+            return RET_OK, msg
         return RET_OK, None
 
     def _async_sub_acc_push(self, acc_id_list):

@@ -71,6 +71,8 @@ class UnlockTrade:
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, None
 
+        if rsp_pb.HasField('retMsg'):
+            return RET_OK, rsp_pb.retMsg, None
         return RET_OK, "", None
 
 
