@@ -41,11 +41,7 @@ setup(
     include_package_data=True,
     install_requires=[
     	"future",
-			"vnpy >= 1.7.3",
 			"pandas",
-			"numpy",
-			"matplotlib",
-			"psutil",
 			"simplejson",
 			"protobuf",
 			"PyCryptodome",
