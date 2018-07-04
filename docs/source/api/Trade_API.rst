@@ -264,7 +264,7 @@ modify_order - 修改订单
 
  修改订单。修改订单，包括修改订单的价格和数量(即以前的改单)、撤单、失效、生效、删除等。
 
- :param modify_order_op: str，改单操作类型，参考 ModifyOrderOp_ 类的定义，有
+ :param modify_order_op: str，改单操作类型，参考 ModifyOrderOp_ 类的定义
  :param order_id: str，订单号
  :param qty: float，(改单有效)新的订单数量，2位精度，期权单位是"张"
  :param price: float，(改单有效)新的订单价格，3位精度(A股2位)
