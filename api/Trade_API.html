@@ -296,7 +296,8 @@
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Return(ret_code, ret_data):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first">ret_code为RET_OK时，ret_data为None，否则为错误原因字符串</p>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first">ret == RET_OK时, data为None，如果之前已经解锁过了，data为提示字符串，指示出已经解锁</p>
+<p>ret != RET_OK时， data为错误字符串</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
@@ -693,7 +694,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>modify_order_op</strong> &#8211; str，改单操作类型，参考 <a href="#id7"><span class="problematic" id="id8">ModifyOrderOp_</span></a> 类的定义，有</li>
+<li><strong>modify_order_op</strong> &#8211; str，改单操作类型，参考 <a href="#id7"><span class="problematic" id="id8">ModifyOrderOp_</span></a> 类的定义</li>
 <li><strong>order_id</strong> &#8211; str，订单号</li>
 <li><strong>qty</strong> &#8211; float，(改单有效)新的订单数量，2位精度，期权单位是&#8221;张&#8221;</li>
 <li><strong>price</strong> &#8211; float，(改单有效)新的订单价格，3位精度(A股2位)</li>

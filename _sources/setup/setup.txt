@@ -14,6 +14,9 @@
     *   安装要求使用Anaconda python 3编程环境，以避免因为环境问题出现运行失败的情况
     *   如果安装过程中遇到了问题，先阅读该文档下面的 :ref:`q&a-Q&A` 章节来尝试着解决
 
+Annacoda
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 * 安装 Annacoda
 
 Anaconda python是Python科学技术包的合集，提供了很多用于科学计算的模块。
@@ -38,10 +41,12 @@ Anaconda python是Python科学技术包的合集，提供了很多用于科学�
     .. image:: ../_static/version-Switching-paste.png
 	
     Step3、再次验证anaconda3环境是否生效。
+	
     .. image:: ../_static/version-Switching-verification.png   
 	
     *   方式二
     配置pyChram使用的环境为anaconda3。
+	
     .. image:: ../_static/version-Switching-pycharm.png
 
 
@@ -53,7 +58,11 @@ Anaconda python是Python科学技术包的合集，提供了很多用于科学�
 .. code-block:: bash
 
     conda -V
-    
+   
+--------------
+ 
+futuquant
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * 安装 futuquant 库
 
@@ -74,6 +83,10 @@ Anaconda python是Python科学技术包的合集，提供了很多用于科学�
     *   解压，在解压文件夹按住Shift右键打开PowerShell或命令窗口，执行 :code:`pip install .` 进行安装
        .. image:: ../_static/powershell-install-futuquant.png
 
+--------------
+
+TA-Lib
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * 安装 TA-Lib
 
@@ -91,9 +104,51 @@ TA-Lib 用中文可以称作技术分析库，是一种广泛用在程序化交�
 
     *   下载地址：https://www.lfd.uci.edu/~gohlke/pythonlibs/
     *   安装TA-Lib非必须，可先跳过该步骤
-    
+
+--------------
+
+protobuf
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+* 安装 protobuf
+
+protobuf是google旗下的一款平台无关，语言无关，可扩展的序列化结构数据格式。
+
+.. code-block:: bash
+
+    $ pip install protobuf
+
+--------------
 
 
+simplejson
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* 安装 simplejson
+
+simplejson主要用于将Python数据类型和json类型互相转换。
+
+.. code-block:: bash
+
+    $ pip install simplejson
+
+--------------
+
+pycryptodome
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+* 安装 pycryptodome
+
+pycryptodome主要用于协议加密通道。
+
+.. code-block:: bash
+
+    $ pip install pycryptodome
+
+--------------
+	
+PyCharm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * 安装 PyCharm
 
@@ -104,15 +159,11 @@ TA-Lib 用中文可以称作技术分析库，是一种广泛用在程序化交�
 
     *   有众多Python IDE（集成开发环境）可以供您选择，但我们强烈推荐您使用PyCharm
     *   选择community版本即可，如您有需要也可以购买专业版（可免费试用）
-  
-    
-
 
 --------------
 
---------
 安装 FutuOpenD
---------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 方式1：`富途官网下载 <https://www.futunn.com/download/index/>`_ 
 
