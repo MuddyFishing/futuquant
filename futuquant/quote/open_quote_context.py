@@ -543,7 +543,7 @@ class OpenQuoteContext(OpenContextBase):
                 =====================   ===========   ==============================================================
                 code                    str            股票代码
                 time                    str            时间(yyyy-MM-dd HH:mm:ss)
-                data_status             bool           数据状态；正确为True，伪造为False
+                is_blank                bool           数据状态；正常数据为False，伪造数据为True
                 opened_mins             int            零点到当前多少分钟
                 cur_price               float          当前价格
                 last_close              float          昨天收盘的价格
