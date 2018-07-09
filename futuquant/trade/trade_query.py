@@ -515,3 +515,48 @@ class UpdateDealPush:
         deal_dict['trd_market'] = TRADE.REV_TRD_MKT_MAP[rsp_pb.s2c.header.trdMarket]
 
         return RET_OK, deal_dict
+
+
+class AccTradingInfoQuery:
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pack_req(cls, order_type, code, price, order_id, adjust_limit, trd_env, acc_id, trd_mkt, conn_id):
+
+        from futuquant.common.pb.Trd_GetMaxTrdQtys_pb2 import Request
+        req = Request()
+        req.c2s.header.trdEnv = TRD_ENV_MAP[trd_env]
+        req.c2s.header.accID = acc_id
+        req.c2s.header.trdMarket = TRD_MKT_MAP[trd_mkt]
+
+        req.c2s.orderType = order_type
+        req.c2s.code = code
+        req.c2s.price = price
+        req.c2s.orderID = order_id
+        if adjust_limit == 0:
+            req.c2s.adjustPrice = False
+        else:
+            req.c2s.adjustPrice = True
+
+        req.c2s.adjustSideAndLimit = adjust_limit
+
+        return pack_pb_req(req, ProtoId.Trd_GetAccTradingInfo, conn_id)
+
+    @classmethod
+    def unpack_rsp(cls, rsp_pb):
+        from futuquant.common.pb.Trd_Common_pb2 import MaxTrdQtys
+
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
+
+        info = rsp_pb.s2c.maxTrdQtys    # type: MaxTrdQtys
+        data = [{
+            'max_cash_buy': info.maxCashBuy,
+            'max_cash_and_marginBuy': info.maxCashAndMarginBuy if info.HasField('maxCashAndMarginBuy') else 0,
+            'max_position_sell': info.maxPositionSell,
+            'max_sell_short': info.maxSellShort if info.HasField('maxSellShort') else 0,
+            'max_buy_back': info.maxBuyBack if info.HasField('maxBuyBack') else 0
+        }]
+
+        return RET_OK, "", data

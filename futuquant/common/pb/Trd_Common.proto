@@ -181,6 +181,17 @@ message OrderFill
 	optional string counterBrokerName = 12; //对手经纪名称，港股有效
 }
 
+//最大可交易数量
+message MaxTrdQtys
+{
+	//因目前服务器实现的问题，卖空需要先卖掉持仓才能再卖空，是分开两步卖的，买回来同样是逆向两步；而看多的买是可以现金加融资一起一步买的，请注意这个差异
+	required double maxCashBuy = 1; //不使用融资，仅自己的现金最大可买整手股数
+	optional double maxCashAndMarginBuy = 2; //使用融资，自己的现金 + 融资资金总共的最大可买整手股数
+	required double maxPositionSell = 3; //不使用融券(卖空)，仅自己的持仓最大可卖整手股数
+	optional double maxSellShort = 4; //使用融券(卖空)，最大可卖空整手股数，不包括多仓
+	optional double maxBuyBack = 5; //卖空后，需要买回的最大整手股数。因为卖空后，必须先买回已卖空的股数，还掉股票，才能再继续买多。
+}
+
 //过滤条件，条件组合是"与"不是"或"，用于获取订单、成交、持仓等时二次过滤
 message TrdFilterConditions
 {

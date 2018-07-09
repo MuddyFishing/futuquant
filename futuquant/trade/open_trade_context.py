@@ -561,6 +561,42 @@ class OpenTradeContextBase(OpenContextBase):
 
         return RET_OK, deal_list_table
 
+    def acctradinginfo_query(self, order_type, code, price, order_id, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0):
+        ret, msg = self._check_trd_env(trd_env)
+        if ret != RET_OK:
+            return ret, msg
+        ret, msg, acc_id = self._check_acc_id(trd_env, acc_id)
+        if ret != RET_OK:
+            return ret, msg
+
+        ret, msg, stock_code = self._check_stock_code(code)
+        if ret != RET_OK:
+            return ret, msg
+
+        query_processor = self._get_sync_query_processor(
+            AccInfoQuery.pack_req,
+            AccInfoQuery.unpack_rsp)
+
+        kargs = {
+            'order_type': order_type,
+            'code': code,
+            'price': price,
+            'order_id': order_id,
+            'adjust_limit': adjust_limit,
+            'trd_mkt': self.__trd_mkt,
+            'trd_env': trd_env,
+            'acc_id': acc_id,
+            'conn_id': self.get_sync_conn_id()
+        }
+
+        ret_code, msg, data = query_processor(**kargs)
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
+
+        col_list = ['max_cash_buy', 'max_cash_and_marginBuy', 'max_position_sell', 'max_sell_short', 'max_buy_back']
+        acctradinginfo_table = pd.DataFrame(data, columns=col_list)
+        return RET_OK, acctradinginfo_table
+
 
 # 港股交易接口
 class OpenHKTradeContext(OpenTradeContextBase):
