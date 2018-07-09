@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Examples for use the python functions: get push data
-"""
+
 
 from futuquant import *
 from time import sleep
@@ -27,7 +25,6 @@ import pandas as pd
         7. set_handler 指定接收回调的实例 ，必须是FullQuoteHandleBase的派生对象
         8.范例参考class下的main
 """
-
 
 class FullQuoteHandleBase(object):
     def on_recv_rsp(self, data_dict):
@@ -163,6 +160,7 @@ class SubscribeFullQuote(object):
     def loop_subscribe_codes(cls, quote_ctx, codes, subtype):
         ret = RET_ERROR
         while ret != RET_OK:
+            logger.debug('sub: {};'.format(len(codes)))
             ret, data = quote_ctx.subscribe(codes, subtype)
             if ret == RET_OK:
                 break
@@ -251,13 +249,7 @@ class SubscribeFullQuote(object):
         # self.__tick_thread.setDaemon(True)
         self.__tick_thread.start()
 
-        # 创建loop 线程
-        """
-        if create_loop_run:
-            self.__loop_thread = Thread(
-                target=self._thread_loop_hold, args=())
-            self.__loop_thread.start()
-        """
+
 
     def close(self):
         if not self.__is_start_run:
@@ -437,9 +429,15 @@ class CheckDelayTickerHandle(FullQuoteHandleBase):
     def __init__(self, sub_full_obj):
         self.__sub_full = sub_full_obj
 
-    def on_recv_rsp(self, data_dict):
+    START_TIME = None
+    LAST_TIME_SPEED = None
+    LAST_TIME_LOG = None
+    REC_ONE_SIZE = 0
+    REC_TOTAL_SIZE = 0
 
-        code = data_dict['code']
+    CACHE_LOG = ""
+
+    def on_recv_rsp(self, data_dict):
 
         tm_now = time.time()
         adjust_secs = self.__sub_full.timestamp_adjust
@@ -447,11 +445,33 @@ class CheckDelayTickerHandle(FullQuoteHandleBase):
         delay_sec = tm_now - tm_recv - adjust_secs
         process_delay = tm_now - data_dict['process_timestamp']
 
-        delay_secs_check = 1.5
-        if abs(delay_sec) >= delay_secs_check:
+        delay_secs_check = 0.4
+        if delay_sec >= delay_secs_check:
             is_process_delay = abs(process_delay) >= delay_secs_check
-            logger.critical("* adjust:{} delay:{}  p_delay:({}, {}) Ticker cirtical :{}".format(adjust_secs, delay_sec,
-                                                                    is_process_delay, process_delay, data_dict))
+            self.CACHE_LOG += "* adjust:{} delay:{}  p_delay:({}, {}) Ticker cirtical :{}\n".format(adjust_secs, delay_sec,
+                                                                    is_process_delay, process_delay, data_dict)
+
+        cur_time = time.time()
+
+        if self.LAST_TIME_SPEED is None:
+            self.START_TIME = cur_time
+            self.LAST_TIME_SPEED = cur_time
+            self.REC_ONE_SIZE = 0
+            self.REC_TOTAL_SIZE = 0
+
+        self.REC_ONE_SIZE += 1
+        self.REC_TOTAL_SIZE += 1
+
+        if cur_time - self.LAST_TIME_SPEED >= 1:
+            self.LAST_TIME_SPEED = cur_time
+            speed = self.REC_TOTAL_SIZE / (cur_time - self.START_TIME)
+            self.CACHE_LOG += "one sec size = {} total size = {} avg speed={}/s \n".format(self.REC_ONE_SIZE, self.REC_TOTAL_SIZE, speed)
+            self.REC_ONE_SIZE = 0
+
+        if self.CACHE_LOG and (self.LAST_TIME_LOG is None or cur_time - self.LAST_TIME_LOG >= 30):
+            self.LAST_TIME_LOG = cur_time
+            logger.critical(self.CACHE_LOG)
+            self.CACHE_LOG = ''
 
 
 if __name__ =="__main__":

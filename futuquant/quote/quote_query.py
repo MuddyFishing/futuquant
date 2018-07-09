@@ -1080,7 +1080,7 @@ class OrderBookQuery:
         raw_order_book_bid = rsp_pb.s2c.orderBookBidList
 
         order_book = {}
-        order_book['code'] = merge_qot_mkt_stock_str(rsp_pb.s2c.security.market, rsp_pb.s2c.security.code),
+        order_book['code'] = merge_qot_mkt_stock_str(rsp_pb.s2c.security.market, rsp_pb.s2c.security.code)
         order_book['Bid'] = []
         order_book['Ask'] = []
 

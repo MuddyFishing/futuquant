@@ -11,7 +11,7 @@ class TinyStrateSample(TinyStrateBase):
     name = 'tiny_strate_sample'
 
     """策略需要用到行情数据的股票池"""
-    symbol_pools = ['HK.00700', 'HK.00001']
+    symbol_pools = ['HK_FUTURE.999010', 'HK.00700']
 
     def __init__(self):
        super(TinyStrateSample, self).__init__()

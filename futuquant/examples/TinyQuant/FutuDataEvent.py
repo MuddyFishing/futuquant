@@ -338,7 +338,6 @@ class FutuDataEvent(object):
             if not tick:
                 tick = TinyQuoteData()
                 tick.symbol = symbol
-                self._tick_dict[symbol] = tick
 
             tick.date = row['data_date'].replace('-', '')
             tick.time = row['data_time']
@@ -360,6 +359,7 @@ class FutuDataEvent(object):
             tick.volume = row['volume']
 
             new_tick = copy(tick)
+            self._tick_dict[symbol] = new_tick
             self._notify_new_tick_event(new_tick)
 
     def process_orderbook(self, data):
@@ -383,7 +383,9 @@ class FutuDataEvent(object):
             d['askPrice%s' % n] = ask_data[0]
             d['askVolume%s' % n] = ask_data[1]
 
-            new_tick = copy(tick)
+        new_tick = copy(tick)
+        self._tick_dict[symbol] = new_tick
+
         self._notify_new_tick_event(new_tick)
 
     def process_curkline(self, data):
