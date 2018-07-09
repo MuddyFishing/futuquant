@@ -586,6 +586,7 @@ class ProtoId(object):
 
     Trd_GetHistoryOrderList = 2221  # 获取历史订单列表
     Trd_GetHistoryOrderFillList = 2222  # 获取历史成交列表
+    Trd_GetAccTradingInfo = 2111    # 查询最大买卖数量
 
     # 订阅数据
     Qot_Sub = 3001  # 订阅或者反订阅
