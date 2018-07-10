@@ -574,8 +574,8 @@ class OpenTradeContextBase(OpenContextBase):
             return ret, msg
 
         query_processor = self._get_sync_query_processor(
-            AccInfoQuery.pack_req,
-            AccInfoQuery.unpack_rsp)
+            AccTradingInfoQuery.pack_req,
+            AccTradingInfoQuery.unpack_rsp)
 
         kargs = {
             'order_type': order_type,

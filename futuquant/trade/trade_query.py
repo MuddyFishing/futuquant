@@ -530,16 +530,16 @@ class AccTradingInfoQuery:
         req.c2s.header.accID = acc_id
         req.c2s.header.trdMarket = TRD_MKT_MAP[trd_mkt]
 
-        req.c2s.orderType = order_type
+        req.c2s.orderType = ORDER_TYPE_MAP[order_type]
         req.c2s.code = code
         req.c2s.price = price
-        req.c2s.orderID = order_id
+        if order_id is not None:
+            req.c2s.orderID = order_id
         if adjust_limit == 0:
             req.c2s.adjustPrice = False
         else:
             req.c2s.adjustPrice = True
-
-        req.c2s.adjustSideAndLimit = adjust_limit
+            req.c2s.adjustSideAndLimit = adjust_limit
 
         return pack_pb_req(req, ProtoId.Trd_GetAccTradingInfo, conn_id)
 
