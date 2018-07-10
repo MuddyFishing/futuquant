@@ -70,7 +70,7 @@ class NetManager:
         self._is_polling = False
         self._next_conn_id = 1
         self._lock = threading.RLock()
-        self._sync_req_timeout = 5
+        self._sync_req_timeout = 10
         self._stop = False
         self._thread = None
         self._use_count = 0
@@ -194,11 +194,20 @@ class NetManager:
         self._thread.start()
 
     def stop(self):
+        will_stop = False
         with self._lock:
             self._use_count -= 1
             if self._use_count <= 0:
                 self._use_count = 0
                 self._stop = True
+                will_stop = True
+
+        if will_stop:
+            while True:
+                with self._lock:
+                    if self._thread is None or not self._stop:
+                        break
+                    sleep(0.01)
 
     def send(self, conn_id, data):
         with self._lock:
