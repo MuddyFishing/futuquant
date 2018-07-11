@@ -1,0 +1,4 @@
+
+# wechat
+appid = ''
+secrect = ''
