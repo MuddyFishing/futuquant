@@ -553,7 +553,7 @@ class AccTradingInfoQuery:
         info = rsp_pb.s2c.maxTrdQtys    # type: MaxTrdQtys
         data = [{
             'max_cash_buy': info.maxCashBuy,
-            'max_cash_and_marginBuy': info.maxCashAndMarginBuy if info.HasField('maxCashAndMarginBuy') else 0,
+            'max_cash_and_margin_buy': info.maxCashAndMarginBuy if info.HasField('maxCashAndMarginBuy') else 0,
             'max_position_sell': info.maxPositionSell,
             'max_sell_short': info.maxSellShort if info.HasField('maxSellShort') else 0,
             'max_buy_back': info.maxBuyBack if info.HasField('maxBuyBack') else 0

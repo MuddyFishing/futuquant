@@ -562,6 +562,31 @@ class OpenTradeContextBase(OpenContextBase):
         return RET_OK, deal_list_table
 
     def acctradinginfo_query(self, order_type, code, price, order_id, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0):
+        """
+        查询账户下最大可买卖数量
+        :param order_type: 订单类型，参见OrderType
+        :param code: 证券代码，例如'HK.00700'
+        :param price: 报价，3位精度
+        :param order_id: 订单号
+        :param adjust_limit: 调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%。默认0表示不调整
+        :param trd_env: 交易环境，参见TrdEnv
+        :param acc_id: 业务账号，默认0表示第1个
+        :return: (ret, data)
+
+                ret == RET_OK, data为pd.DataFrame，数据列如下
+
+                ret != RET_OK, data为错误信息
+
+                =======================   ===========   ======================================================================================
+                参数                       类型                        说明
+                =======================   ===========   ======================================================================================
+                max_cash_buy               float            不使用融资，仅自己的现金最大可买整手股数
+                max_cash_and_margin_buy    float            使用融资，自己的现金 + 融资资金总共的最大可买整手股数
+                max_position_sell          float            不使用融券(卖空)，仅自己的持仓最大可卖整手股数
+                max_sell_short             float            使用融券(卖空)，最大可卖空整手股数，不包括多仓
+                max_buy_back               float            卖空后，需要买回的最大整手股数。因为卖空后，必须先买回已卖空的股数，还掉股票，才能再继续买多。
+                =======================   ===========   ======================================================================================
+        """
         ret, msg = self._check_trd_env(trd_env)
         if ret != RET_OK:
             return ret, msg
@@ -593,7 +618,7 @@ class OpenTradeContextBase(OpenContextBase):
         if ret_code != RET_OK:
             return RET_ERROR, msg
 
-        col_list = ['max_cash_buy', 'max_cash_and_marginBuy', 'max_position_sell', 'max_sell_short', 'max_buy_back']
+        col_list = ['max_cash_buy', 'max_cash_and_margin_buy', 'max_position_sell', 'max_sell_short', 'max_buy_back']
         acctradinginfo_table = pd.DataFrame(data, columns=col_list)
         return RET_OK, acctradinginfo_table
 
