@@ -561,7 +561,7 @@
 <span class="n">pwd_unlock</span> <span class="o">=</span> <span class="s1">&#39;123456&#39;</span>
 <span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">700.0</span><span class="p">,</span> <span class="n">qyt</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s2">&quot;HK.00700&quot;</span><span class="p">,</span> <span class="n">trd_side</span><span class="o">=</span><span class="n">TrdSide</span><span class="o">.</span><span class="n">SELL</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">700.0</span><span class="p">,</span> <span class="n">qty</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s2">&quot;HK.00700&quot;</span><span class="p">,</span> <span class="n">trd_side</span><span class="o">=</span><span class="n">TrdSide</span><span class="o">.</span><span class="n">SELL</span><span class="p">))</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -694,7 +694,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>modify_order_op</strong> &#8211; str，改单操作类型，参考 <a href="#id7"><span class="problematic" id="id8">ModifyOrderOp_</span></a> 类的定义</li>
+<li><strong>modify_order_op</strong> &#8211; str，改单操作类型，参考 <a href="#id7"><span class="problematic" id="id8">ModifyOrderOp_</span></a> 类的定义，有</li>
 <li><strong>order_id</strong> &#8211; str，订单号</li>
 <li><strong>qty</strong> &#8211; float，(改单有效)新的订单数量，2位精度，期权单位是&#8221;张&#8221;</li>
 <li><strong>price</strong> &#8211; float，(改单有效)新的订单价格，3位精度(A股2位)</li>
@@ -746,10 +746,8 @@
 <span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
 <span class="n">order_id</span> <span class="o">=</span> <span class="s2">&quot;12345&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">modify_order</span><span class="p">(</span><span class="n">ModifyOrderOp</span><span class="o">.</span><span class="n">CANCEL</span><span class="p">,</span> <span class="n">order_id</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">modify_order</span><span class="p">(</span><span class="n">ModifyOrderOp</span><span class="o">.</span><span class="n">CANCEL</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
-<span class="n">modify_order</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -791,7 +789,6 @@
 <span class="n">order_id</span> <span class="o">=</span> <span class="s2">&quot;12345&quot;</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">change_order</span><span class="p">(</span><span class="n">order_id</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-<span class="n">modify_order</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1016,7 +1013,7 @@
 <span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">set_handler</span><span class="p">(</span><span class="n">TradeOrderTest</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">700.0</span><span class="p">,</span> <span class="n">qyt</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s2">&quot;HK.00700&quot;</span><span class="p">,</span> <span class="n">trd_side</span><span class="o">=</span><span class="n">TrdSide</span><span class="o">.</span><span class="n">SELL</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">700.0</span><span class="p">,</span> <span class="n">qty</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s2">&quot;HK.00700&quot;</span><span class="p">,</span> <span class="n">trd_side</span><span class="o">=</span><span class="n">TrdSide</span><span class="o">.</span><span class="n">SELL</span><span class="p">))</span>
 
 <span class="n">sleep</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -1064,7 +1061,7 @@
 <span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">set_handler</span><span class="p">(</span><span class="n">TradeDealTest</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">700.0</span><span class="p">,</span> <span class="n">qyt</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s2">&quot;HK.00700&quot;</span><span class="p">,</span> <span class="n">trd_side</span><span class="o">=</span><span class="n">TrdSide</span><span class="o">.</span><span class="n">SELL</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">700.0</span><span class="p">,</span> <span class="n">qty</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s2">&quot;HK.00700&quot;</span><span class="p">,</span> <span class="n">trd_side</span><span class="o">=</span><span class="n">TrdSide</span><span class="o">.</span><span class="n">SELL</span><span class="p">))</span>
 
 <span class="n">sleep</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
