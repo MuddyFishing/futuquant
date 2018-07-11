@@ -1438,7 +1438,7 @@
 <td>str</td>
 <td>香港市场状态，参见MarketState</td>
 </tr>
-<tr class="row-even"><td>market_future</td>
+<tr class="row-even"><td>market_hkfuture</td>
 <td>str</td>
 <td>香港期货市场状态，参见MarketState</td>
 </tr>
@@ -1902,7 +1902,7 @@
 </table>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_multiple_history_kline</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="s1">&#39;2017-06-20&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-06-25&#39;</span><span class="p">,</span> <span class="n">KL_FIELD</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="n">KLType</span><span class="o">.</span><span class="n">K_DAY</span><span class="p">,</span> <span class="n">AuType</span><span class="o">.</span><span class="n">QFQ</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_multi_points_history_kline</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="s1">&#39;2017-06-20&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-06-25&#39;</span><span class="p">,</span> <span class="n">KL_FIELD</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="n">KLType</span><span class="o">.</span><span class="n">K_DAY</span><span class="p">,</span> <span class="n">AuType</span><span class="o">.</span><span class="n">QFQ</span><span class="p">))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1919,12 +1919,12 @@
 
 <span class="k">class</span> <span class="nc">StockQuoteTest</span><span class="p">(</span><span class="n">StockQuoteHandlerBase</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">on_recv_rsp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rsp_str</span><span class="p">):</span>
-                <span class="n">ret_code</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">StockQuoteTest</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">on_recv_rsp</span><span class="p">(</span><span class="n">rsp_str</span><span class="p">)</span>
+                <span class="n">ret_code</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">StockQuoteTest</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">on_recv_rsp</span><span class="p">(</span><span class="n">rsp_str</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">ret_code</span> <span class="o">!=</span> <span class="n">RET_OK</span><span class="p">:</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;StockQuoteTest: error, msg: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">content</span><span class="p">)</span>
-                        <span class="k">return</span> <span class="n">RET_ERROR</span><span class="p">,</span> <span class="n">content</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;StockQuoteTest: error, msg: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">data</span><span class="p">)</span>
+                        <span class="k">return</span> <span class="n">RET_ERROR</span><span class="p">,</span> <span class="n">data</span>
 
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;StockQuoteTest &quot;</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span> <span class="c1"># StockQuoteTest自己的处理逻辑</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;StockQuoteTest &quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="c1"># StockQuoteTest自己的处理逻辑</span>
 
                 <span class="k">return</span> <span class="n">RET_OK</span><span class="p">,</span> <span class="n">data</span>
 
@@ -1973,7 +1973,7 @@
 
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;OrderBookTest &quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="c1"># OrderBookTest自己的处理逻辑</span>
 
-                <span class="k">return</span> <span class="n">RET_OK</span><span class="p">,</span> <span class="n">content</span>
+                <span class="k">return</span> <span class="n">RET_OK</span><span class="p">,</span> <span class="n">data</span>
 
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContex</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="n">handler</span> <span class="o">=</span> <span class="n">OrderBookTest</span><span class="p">()</span>
