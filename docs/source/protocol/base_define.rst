@@ -740,7 +740,7 @@ TrdSide - 交易方向
  
 	enum TrdSide
 	{
-		//客户端下单只传Buy或Sell即可，SellShort是服务器返回有此方向，BuyBack目前不存在，但也不排除服务器会传
+		//客户端下单只传Buy或Sell即可，SellShort是美股订单时服务器返回有此方向，BuyBack目前不存在，但也不排除服务器会传
 		TrdSide_Unknown = 0; //未知方向
 		TrdSide_Buy = 1; //买入
 		TrdSide_Sell = 2; //卖出
@@ -759,7 +759,7 @@ OrderType - 订单类型
 	enum OrderType
 	{
 		OrderType_Unknown = 0; //未知类型
-		OrderType_Normal = 1; //普通订单(港股的增强限价单、A股的限价委托、美股的限价单)
+		OrderType_Normal = 1; //普通订单(港股的增强限价订单、A股的限价委托、美股的限价订单)
 		OrderType_Market = 2; //市价订单(目前仅美股)
 		
 		OrderType_AbsoluteLimit = 5; //绝对限价订单(目前仅港股)，只有价格完全匹配才成交，比如你下价格为5元的买单，卖单价格必须也要是5元才能成交，低于5元也不能成交。卖出同理
@@ -854,7 +854,7 @@ Funds - 账户资金
  
 	message Funds
 	{
-		required double power = 1; //购买力，3位精度(A股2位)，下同
+		required double power = 1; //购买力，3位精度，下同
 		required double totalAssets = 2; //资产净值
 		required double cash = 3; //现金
 		required double marketVal = 4; //证券市值
@@ -878,14 +878,14 @@ Position - 账户持仓
 		required string name = 4; //名称
 		required double qty = 5; //持有数量，2位精度，期权单位是"张"，下同
 		required double canSellQty = 6; //可卖数量
-		required double price = 7; //市价，3位精度(A股2位)
+		required double price = 7; //市价，3位精度
 		optional double costPrice = 8; //成本价，无精度限制，如果没传，代表此时此值无效
-		required double val = 9; //市值，3位精度(A股2位)
-		required double plVal = 10; //盈亏金额，3位精度(A股2位)
+		required double val = 9; //市值，3位精度
+		required double plVal = 10; //盈亏金额，3位精度
 		optional double plRatio = 11; //盈亏比例，无精度限制，如果没传，代表此时此值无效
 	  
 		//以下是此持仓今日统计
-		optional double td_plVal = 21; //今日盈亏金额，3位精度(A股2位)，下同
+		optional double td_plVal = 21; //今日盈亏金额，3位精度，下同
 		optional double td_trdVal = 22; //今日交易额
 		optional double td_buyVal = 23; //今日买入总额
 		optional double td_buyQty = 24; //今日买入总量
@@ -906,11 +906,11 @@ Order - 订单
 		required int32 orderType = 2; //订单类型, 参见OrderType的枚举定义
 		required int32 orderStatus = 3; //订单状态, 参见OrderStatus的枚举定义
 		required uint64 orderID = 4; //订单号
-		required string orderIDEx = 5; //扩展订单号
+		required string orderIDEx = 5; //扩展订单号(仅查问题时备用)
 		required string code = 6; //代码
 		required string name = 7; //名称
 		required double qty = 8; //订单数量，2位精度，期权单位是"张"
-		optional double price = 9; //订单价格，3位精度(A股2位)
+		optional double price = 9; //订单价格，3位精度
 		required string createTime = 10; //创建时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
 		required string updateTime = 11; //最后更新时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
 		optional double fillQty = 12; //成交数量，2位精度，期权单位是"张"
@@ -929,13 +929,13 @@ OrderFill - 成交
 	{
 		required int32 trdSide = 1; //交易方向, 参见TrdSide的枚举定义
 		required uint64 fillID = 2; //成交号
-		required string fillIDEx = 3; //扩展成交号
+		required string fillIDEx = 3; //扩展成交号(仅查问题时备用)
 		optional uint64 orderID = 4; //订单号
-		optional string orderIDEx = 5; //扩展订单号
+		optional string orderIDEx = 5; //扩展订单号(仅查问题时备用)
 		required string code = 6; //代码
 		required string name = 7; //名称
 		required double qty = 8; //成交数量，2位精度，期权单位是"张"
-		required double price = 9; //成交价格，3位精度(A股2位)
+		required double price = 9; //成交价格，3位精度
 		required string createTime = 10; //创建时间（成交时间），严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
 		optional int32 counterBrokerID = 11; //对手经纪号，港股有效
 		optional string counterBrokerName = 12; //对手经纪名称，港股有效
@@ -943,8 +943,25 @@ OrderFill - 成交
 
 -----------------------------------------------
 
+MaxTrdQtys - 最大交易数量
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+ 
+	message MaxTrdQtys
+	{
+		//因目前服务器实现的问题，卖空需要先卖掉持仓才能再卖空，是分开两步卖的，买回来同样是逆向两步；而看多的买是可以现金加融资一起一步买的，请注意这个差异
+		required double maxCashBuy = 1; //不使用融资，仅自己的现金最大可买整手股数
+		optional double maxCashAndMarginBuy = 2; //使用融资，自己的现金 + 融资资金总共的最大可买整手股数
+		required double maxPositionSell = 3; //不使用融券(卖空)，仅自己的持仓最大可卖整手股数
+		optional double maxSellShort = 4; //使用融券(卖空)，最大可卖空整手股数，不包括多仓
+		optional double maxBuyBack = 5; //卖空后，需要买回的最大整手股数。因为卖空后，必须先买回已卖空的股数，还掉股票，才能再继续买多。
+	}
+	 
+-----------------------------------------------
+
 TrdFilterConditions - 过滤条件
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  .. code-block:: protobuf
  
