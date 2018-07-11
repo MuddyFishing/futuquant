@@ -126,7 +126,7 @@ class StockBasicInfoQuery:
         pass
 
     @classmethod
-    def pack_req(cls, market, conn_id, stock_type='STOCK'):
+    def pack_req(cls, market, conn_id, stock_type='STOCK', code_list=None):
 
         if market not in MKT_MAP:
             error_str = ERROR_STR_PREFIX + " market is %s, which is not valid. (%s)" \
@@ -142,6 +142,14 @@ class StockBasicInfoQuery:
         req = Request()
         req.c2s.market = MKT_MAP[market]
         req.c2s.secType = SEC_TYPE_MAP[stock_type]
+        if code_list is not None:
+            for code in code_list:
+                sec = req.c2s.securityList.add()
+                ret, data = split_stock_str(code)
+                if ret == RET_OK:
+                    sec.market, sec.code = data
+                else:
+                    return RET_ERROR, data, None
 
         return pack_pb_req(req, ProtoId.Qot_GetStaticInfo, conn_id)
 

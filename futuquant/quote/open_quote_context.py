@@ -123,11 +123,12 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, trade_day_list
 
-    def get_stock_basicinfo(self, market, stock_type=SecurityType.STOCK):
+    def get_stock_basicinfo(self, market, stock_type=SecurityType.STOCK, code_list=None):
         """
         获取指定市场中特定类型的股票基本信息
         :param market: 市场类型，futuquant.common.constsnt.Market
         :param stock_type: 股票类型， futuquant.common.constsnt.SecurityType
+        :param code_list: 如果不为None，应该是股票code的iterable类型，将只返回指定的股票信息
         :return: (ret_code, content)
                 ret_code 等于RET_OK时， content为Pandas.DataFrame数据, 否则为错误原因字符串, 数据列格式如下
             =================   ===========   ==============================================================================
@@ -164,6 +165,7 @@ class OpenQuoteContext(OpenContextBase):
         kargs = {
             "market": market,
             'stock_type': stock_type,
+            'code_list': code_list,
             'conn_id': self.get_sync_conn_id()
         }
 
