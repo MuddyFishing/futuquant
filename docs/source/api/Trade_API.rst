@@ -40,8 +40,8 @@
 接口类对象
 ==============
 
-OpenHKTradeContext、OpenUSTradeContext - 交易接口类
------------------------------------------------------------
+OpenHKTradeContext、OpenUSTradeContext、OpenHKCCTradeContext(A股通) - 交易接口类
+-------------------------------------------------------------------------
 
 get_acc_list - 获取交易业务账户列表
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -195,7 +195,9 @@ place_order - 下单
  :param adjust_limit: folat，港股有价位表，订单价格必须在规定的价位上，OpenD会对传入价格自动调整到合法价位上，此参数指定价格调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
  :param trd_env: str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
  :param acc_id: int，交易业务账户ID，传0默认第一个账户
- :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟下面的 order-list-query_ (获取订单列表)相同
+ :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟下面的 order-list-query_ (获取订单列表)相同。
+ 
+	如果是OpenHKCCTradeContext，返回数据中order_type仅有OrderType.NORMAL
  
  :example:
  
@@ -226,12 +228,12 @@ order_list_query - 获取订单列表
  :param acc_id: int，交易业务账户ID，传0默认第一个账户
  :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据如下：
 
- =====================        ===========   ===================================================================
+ =====================        ===========   =======================================================================
  参数                         类型          说明
- =====================        ===========   ===================================================================
+ =====================        ===========   =======================================================================
  trd_side                     str           交易方向，参考 TrdSide_ 类的定义
- order_type                   str           订单类型，参考 OrderType_ 类的定义
- order_status                 str           订单状态，参考 OrderStatus_ 类的定义
+ order_type                   str           订单类型，参考 OrderType_ 类的定义。OpenHKCCTradeContext仅返回NORMAL
+ order_status                 str           订单状态，参考 OrderStatus_ 类的定义。OpenHKCCTradeContext没有DISABLED
  order_id                     str           订单号
  code                         str           代码
  stock_name                   str           名称
@@ -242,7 +244,7 @@ order_list_query - 获取订单列表
  dealt_qty                    float         成交数量，2位精度，期权单位是"张"
  dealt_avg_price              float         成交均价，无精度限制
  last_err_msg                 str           最后的错误描述，如果有错误，会有此描述最后一次错误的原因，无错误为空
- =====================        ===========   ===================================================================
+ =====================        ===========   =======================================================================
  
  :example:
  
@@ -263,6 +265,8 @@ modify_order - 修改订单
 ..  py:function:: modify_order(self, modify_order_op, order_id, qty, price, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0)
 
  修改订单。修改订单，包括修改订单的价格和数量(即以前的改单)、撤单、失效、生效、删除等。
+ 
+ 如果是OpenHKCCTradeContext，将不支持改单。可撤单。删除订单是本地操作。
 
  :param modify_order_op: str，改单操作类型，参考 ModifyOrderOp_ 类的定义，有
  :param order_id: str，订单号
@@ -309,7 +313,9 @@ change_order - 改单(老接口，兼容以前)
  :param adjust_limit: folat，(改单有效)港股有价位表，订单价格必须在规定的价位上，OpenD会对传入价格自动调整到合法价位上，此参数指定价格调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
  :param trd_env: str，交易环境 TrdEnv_ ，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
  :param acc_id: int，交易业务账户ID，传0默认第一个账户
- :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟下面的modify_order(修改订单)相同
+ :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟下面的modify_order(修改订单)相同。
+	
+	如果是OpenHKCCTradeContext，将直接返回(RET_ERROR, msg)
  
  :example:
  
@@ -349,8 +355,8 @@ deal_list_query - 获取成交列表
  qty                          float         成交数量，2位精度，期权单位是"张"
  price                        float         成交价格，3位精度(A股2位)
  create_time                  str           创建时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
- counter_broker_id            int           对手经纪号，港股有效
- counter_broker_name          str         	对手经纪名称，港股有效
+ counter_broker_id            int           对手经纪号，港股有效。OpenHKCCTradeContext无此字段
+ counter_broker_name          str         	对手经纪名称，港股有效。OpenHKCCTradeContext无此字段
  =====================        ===========   ===================================================================
  
  :example:

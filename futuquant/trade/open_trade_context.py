@@ -636,5 +636,92 @@ class OpenUSTradeContext(OpenTradeContextBase):
 
 
 
+# A股通交易接口
+class OpenHKCCTradeContext(OpenTradeContextBase):
+    def __init__(self, host="127.0.0.1", port=11111):
+        super().__init__(TrdMarket.HKCC, host, port)
 
+    def order_list_query(self, order_id="", status_filter_list=[], code='', start='', end='',
+                         trd_env=TrdEnv.REAL, acc_id=0):
+        """
+        :param order_id:
+        :param status_filter_list:
+        :param code:
+        :param start:
+        :param end:
+        :param trd_env:
+        :param acc_id:
+        :return: 返回值见基类及接口文档，但order_type仅有OrderType.NORMAL, order_status没有OrderStatus.DISABLED
+        """
+        return super().order_list_query(order_id, status_filter_list, code, start, end, trd_env, acc_id)
 
+    def place_order(self, price, qty, code, trd_side=TrdSide.NONE, order_type=OrderType.NORMAL,
+                    adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0):
+        """
+
+        :param price:
+        :param qty:
+        :param code:
+        :param trd_side:
+        :param order_type:
+        :param adjust_limit:
+        :param trd_env:
+        :param acc_id:
+        :return: 返回值见基类接口注释，但order_type仅有OrderType.NORMAL
+        """
+        return super().place_order(price=price, qty=qty, code=code, trd_side=trd_side,
+                                   order_type=order_type, adjust_limit=adjust_limit,
+                                   trd_env=trd_env, acc_id=acc_id)
+
+    def modify_order(self, modify_order_op, order_id, qty, price, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0):
+        """
+        详细说明见基类接口说明，但有以下不同：不支持改单。 可撤单。删除订单是本地操作。
+        :param modify_order_op:
+        :param order_id:
+        :param qty:
+        :param price:
+        :param adjust_limit:
+        :param trd_env:
+        :param acc_id:
+        :return:
+        """
+        return super().modify_order(modify_order_op=modify_order_op,
+                                    order_id=order_id,
+                                    qty=qty,
+                                    price=price,
+                                    adjust_limit=adjust_limit,
+                                    trd_env=trd_env,
+                                    acc_id=acc_id)
+
+    def change_orde(self, *args, **kwargs):
+        """不支持此接口"""
+        return RET_ERROR, 'API not supported'
+
+    def deal_list_query(self, code="", trd_env=TrdEnv.REAL, acc_id=0):
+        """
+
+        :param code:
+        :param trd_env:
+        :param acc_id:
+        :return: 详细说明见基类接口文档，但有以下不同：返回值没有counter_broker_id、counter_broker_name字段
+        """
+        return super().deal_list_query(code=code, trd_env=trd_env, acc_id=acc_id)
+
+    def history_order_list_query(self, status_filter_list=[], code='', start='', end='',
+                                 trd_env=TrdEnv.REAL, acc_id=0):
+        """
+
+        :param status_filter_list:
+        :param code:
+        :param start:
+        :param end:
+        :param trd_env:
+        :param acc_id:
+        :return: 返回值见基类及接口文档，但order_type仅有OrderType.NORMAL, order_status没有OrderStatus.DISABLED
+        """
+        return super().history_order_list_query(status_filter_list=status_filter_list,
+                                                code=code,
+                                                start=start,
+                                                end=end,
+                                                trd_env=trd_env,
+                                                acc_id=acc_id)
