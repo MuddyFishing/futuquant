@@ -1324,5 +1324,51 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, pd_frame
 
+    def get_referencestock_list(self, code, reference_type):
+        """
+        获取证券的关联数据
+        :param code: 证券id，str，例如HK.00700
+        :param reference_type: 要获得的相关数据，参见SecurityReferenceType。例如WARRANT，表示获取正股相关的涡轮
+        :return: (ret, data)
 
+                ret == RET_OK 返回pd dataframe数据，数据列格式如下
 
+                ret != RET_OK 返回错误字符串
+                =================   ===========   ==============================================================================
+                参数                  类型                        说明
+                =================   ===========   ==============================================================================
+                code                str            证券代码
+                lot_size            int            每手数量
+                stock_type          str            证券类型，参见SecurityType
+                stock_name          str            证券名字
+                list_time           str            上市时间
+                wrt_valid           bool           是否是涡轮，如果为True，下面wrt开头的字段有效
+                wrt_type            str            涡轮类型，参见WrtType
+                wrt_code            str            所属正股
+                =================   ===========   ==============================================================================
+
+        """
+        if code is None or is_str(code) is False:
+            error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
+            return RET_ERROR, error_str
+
+        query_processor = self._get_sync_query_processor(
+            StockReferenceList.pack_req,
+            StockReferenceList.unpack_rsp,
+        )
+
+        kargs = {
+            "code": code,
+            'ref_type': reference_type,
+            "conn_id": self.get_sync_conn_id()
+        }
+        ret_code, msg, data_list = query_processor(**kargs)
+        if ret_code == RET_ERROR:
+            return ret_code, msg
+
+        col_list = [
+            'code', 'lot_size', 'stock_type', 'stock_name', 'list_time', 'wrt_valid', 'wrt_type', 'wrt_code'
+        ]
+
+        pd_frame = pd.DataFrame(data_list, columns=col_list)
+        return RET_OK, pd_frame

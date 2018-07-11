@@ -1336,3 +1336,52 @@ class MultiPointsHisKLine:
                 list_ret.append(dict_data.copy())
 
         return RET_OK, "", (list_ret, has_next)
+
+
+class StockReferenceList:
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pack_req(cls, code, ref_type, conn_id):
+        from futuquant.common.pb.Qot_GetReference_pb2 import Request
+
+        ret, content = split_stock_str(code)
+        if ret != RET_OK:
+            return ret, content, None
+
+        req = Request()
+        req.c2s.security.market = content[0]
+        req.c2s.security.code = content[1]
+        req.c2s.referenceType = STOCK_REFERENCE_TYPE_MAP[ref_type]
+
+        return pack_pb_req(req, ProtoId.Qot_GetReference, conn_id)
+
+    @classmethod
+    def unpack_rsp(cls, rsp_pb):
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
+
+        if not rsp_pb.HasField('s2c'):
+            return RET_OK, '', None
+
+        data_list = []
+        for info in rsp_pb.s2c.staticInfoList:
+            data = {}
+            data['code'] = merge_qot_mkt_stock_str(info.basic.security.market, info.basic.security.code)
+            # item['stock_id'] = info.basic.id
+            data['lot_size'] = info.basic.lotSize
+            data['stock_type'] = QUOTE.REV_SEC_TYPE_MAP[info.basic.secType] if info.basic.secType in QUOTE.REV_SEC_TYPE_MAP else SecurityType.NONE
+            data['stock_name'] = info.basic.name
+            data['list_time'] = info.basic.listTime
+            if info.HasField('warrantExData'):
+                data['wrt_valid'] = True
+                data['wrt_type'] = QUOTE.REV_WRT_TYPE_MAP[info.warrantExData.type]
+                data['wrt_code'] = merge_qot_mkt_stock_str(info.warrantExData.owner.market,
+                                                           info.warrantExData.owner.code)
+            else:
+                data['wrt_valid'] = False
+
+            data_list.append(data)
+
+        return RET_OK, '', data_list

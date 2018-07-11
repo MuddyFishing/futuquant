@@ -807,9 +807,48 @@ get_multi_points_history_kline
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
     print(quote_ctx.get_multiple_history_kline(['HK.00700'], '2017-06-20', '2017-06-25', KL_FIELD.ALL, KLType.K_DAY, AuType.QFQ))
     quote_ctx.close()	
+	
+	
+	
+get_referencestock_list
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
----------------------------------------------------------------------
-    
+..  py:function:: get_referencestock_list(self, code, reference_type)
+
+
+ 获取证券的关联数据
+ 
+ :param code: 证券id，str，例如HK.00700
+ :param reference_type: 要获得的相关数据，参见SecurityReferenceType。例如WARRANT，表示获取正股相关的涡轮
+ :return: (ret, data)
+
+		ret == RET_OK 返回pd dataframe数据，数据列格式如下
+
+		ret != RET_OK 返回错误字符串
+		
+		=================   ===========   ==============================================================================
+		参数                  类型                        说明
+		=================   ===========   ==============================================================================
+		code                str            证券代码
+		lot_size            int            每手数量
+		stock_type          str            证券类型，参见SecurityType
+		stock_name          str            证券名字
+		list_time           str            上市时间
+		wrt_valid           bool           是否是涡轮，如果为True，下面wrt开头的字段有效
+		wrt_type            str            涡轮类型，参见WrtType
+		wrt_code            str            所属正股
+		=================   ===========   ==============================================================================
+		
+ :example:
+
+ .. code:: python
+
+    from futuquant import *
+    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+    print(quote_ctx.get_referencestock_list('HK.00700', SecurityReferenceType.WARRANT))
+    quote_ctx.close()	
+
+---------------------------------------------------------------------    
 
 
 StockQuoteHandlerBase - 实时报价回调处理类

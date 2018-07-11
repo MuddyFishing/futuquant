@@ -386,9 +386,13 @@ class ProtobufMap(dict):
         from futuquant.common.pb.Qot_GetPlateSecurity_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_GetPlateSecurity] = Response()
 
-        """ # Trd_GetMaxTrdQtys = 2111 查询最大买卖数量 """
+        """ Trd_GetMaxTrdQtys = 2111 查询最大买卖数量 """
         from futuquant.common.pb.Trd_GetMaxTrdQtys_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Trd_GetAccTradingInfo] = Response()
+
+        """ Qot_GetReference = 3206  获取正股相关股票，暂时只有窝轮"""
+        from futuquant.common.pb.Qot_GetReference_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_GetReference] = Response()
 
     def __getitem__(self, key):
         return ProtobufMap.created_protobuf_map[key] if key in ProtobufMap.created_protobuf_map else None

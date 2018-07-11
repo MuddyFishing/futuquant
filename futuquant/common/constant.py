@@ -617,6 +617,7 @@ class ProtoId(object):
     Qot_GetSecuritySnapshot = 3203  # 获取股票快照
     Qot_GetPlateSet = 3204  # 获取板块集合下的板块
     Qot_GetPlateSecurity = 3205  # 获取板块下的股票
+    Qot_GetReference = 3206  # 获取正股相关股票，暂时只有窝轮
 
     All_PushId = [Notify, KeepAlive, Trd_UpdateOrder, Trd_UpdateOrderFill, Qot_UpdateBroker,
                   Qot_UpdateOrderBook, Qot_UpdateKL, Qot_UpdateRT, Qot_UpdateBasicQot, Qot_UpdateTicker]
@@ -1015,3 +1016,15 @@ class TRADE(object):
         return False
 
 
+class SecurityReferenceType:
+    NONE = 'N/A'
+    WARRANT = 'WARRANT'
+
+
+from .pb import Qot_GetReference_pb2
+
+
+STOCK_REFERENCE_TYPE_MAP = {
+    SecurityReferenceType.NONE: Qot_GetReference_pb2.ReferenceType_Unknow,
+    SecurityReferenceType.WARRANT: Qot_GetReference_pb2.ReferenceType_Warrant
+}
