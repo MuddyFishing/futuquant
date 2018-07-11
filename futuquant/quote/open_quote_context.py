@@ -1082,6 +1082,7 @@ class OpenQuoteContext(OpenContextBase):
                 volume                   int            成交数量（股数）
                 turnover                 float          成交金额
                 ticker_direction         str            逐笔方向
+                type                    str             逐笔类型，参见TickerType
                 =====================   ===========   ==============================================================
         """
 

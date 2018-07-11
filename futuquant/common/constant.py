@@ -639,6 +639,28 @@ DARK_STATUS_MAP = {
     DarkStatus.END: Qot_Common_pb2.NN_QotSecDarkStatus_End
 }
 
+class TickerType:
+    UNKNOWN = 'UNKNOWN'
+    AUTO_MATCH = 'AUTO_MATCH'
+    LATE = 'LATE'
+    NON_AUTO_MATCH = 'NON_AUTO_MATCH'
+    INTER_AUTO_MATCH = 'INTER_AUTO_MATCH'
+    INTER_NON_AUTO_MATCH = 'INTER_NON_AUTO_MATCH'
+    ODD_LOT = 'ODD_LOT'
+    AUCTION = 'AUCTION'
+
+TICKER_TYPE_MAP = {
+    TickerType.UNKNOWN: Qot_Common_pb2.TickerType_Unknown,
+    TickerType.AUTO_MATCH: Qot_Common_pb2.TickerType_Automatch,
+    TickerType.LATE: Qot_Common_pb2.TickerType_Late,
+    TickerType.NON_AUTO_MATCH: Qot_Common_pb2.TickerType_NoneAutomatch,
+    TickerType.INTER_AUTO_MATCH: Qot_Common_pb2.TickerType_InterAutomatch,
+    TickerType.INTER_NON_AUTO_MATCH: Qot_Common_pb2.TickerType_InterNoneAutomatch,
+    TickerType.ODD_LOT: Qot_Common_pb2.TickerType_OddLot,
+    TickerType.AUCTION: Qot_Common_pb2.TickerType_Auction
+}
+
+
 # noinspection PyPep8Naming
 class QUOTE(object):
     REV_MKT_MAP = {MKT_MAP[x]: x for x in MKT_MAP}
@@ -652,6 +674,7 @@ class QUOTE(object):
     REV_TICKER_DIRECTION = {TICKER_DIRECTION[x]: x for x in TICKER_DIRECTION}
     REV_MARKET_STATE_MAP = {MARKET_STATE_MAP[x]: x for x in MARKET_STATE_MAP}
     REV_DARK_STATUS_MAP = {DARK_STATUS_MAP[x]: x for x in DARK_STATUS_MAP}
+    REV_TICKER_TYPE_MAP = {TICKER_TYPE_MAP[x]: x for x in TICKER_TYPE_MAP}
 
 # sys notify info
 class SysNotifyType(object):

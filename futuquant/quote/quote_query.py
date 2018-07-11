@@ -940,6 +940,7 @@ class TickerQuery:
             "ticker_direction": str(QUOTE.REV_TICKER_DIRECTION[record.dir]) if record.dir in QUOTE.REV_TICKER_DIRECTION else "",
             "sequence": record.sequence,
             "recv_timestamp":record.recvTime,
+            "type": QUOTE.REV_TICKER_TYPE_MAP[record.type] if record.type in QUOTE.REV_TICKER_TYPE_MAP else TickerType.UNKNOWN
         } for record in raw_ticker_list]
         return RET_OK, "", ticker_list
 
