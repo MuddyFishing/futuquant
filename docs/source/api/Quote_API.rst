@@ -638,6 +638,7 @@ get_stock_quote
         suspension              bool           是否停牌(True表示停牌)
         listing_date            str            上市日期 (yyyy-MM-dd)
         price_spread            float          当前价差，亦即摆盘数据的买档或卖档的相邻档位的报价差
+		dark_status             str            暗盘交易状态，见DarkStatus
         =====================   ===========   ==============================================================
 		
  :example:

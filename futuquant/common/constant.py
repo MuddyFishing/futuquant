@@ -627,6 +627,18 @@ class ProtoId(object):
         return id in ProtoId.All_PushId
 
 
+class DarkStatus:
+    NONE = 'N/A'
+    TRADING = 'TRADING'
+    END = 'END'
+
+from .pb import Qot_Common_pb2
+DARK_STATUS_MAP = {
+    DarkStatus.NONE: Qot_Common_pb2.NN_QotSecDarkStatus_None,
+    DarkStatus.TRADING: Qot_Common_pb2.NN_QotSecDarkStatus_Trading,
+    DarkStatus.END: Qot_Common_pb2.NN_QotSecDarkStatus_End
+}
+
 # noinspection PyPep8Naming
 class QUOTE(object):
     REV_MKT_MAP = {MKT_MAP[x]: x for x in MKT_MAP}
@@ -639,7 +651,7 @@ class QUOTE(object):
     REV_KLDATA_STATUS_MAP = {KLDATA_STATUS_MAP[x]: x for x in KLDATA_STATUS_MAP}
     REV_TICKER_DIRECTION = {TICKER_DIRECTION[x]: x for x in TICKER_DIRECTION}
     REV_MARKET_STATE_MAP = {MARKET_STATE_MAP[x]: x for x in MARKET_STATE_MAP}
-
+    REV_DARK_STATUS_MAP = {DARK_STATUS_MAP[x]: x for x in DARK_STATUS_MAP}
 
 # sys notify info
 class SysNotifyType(object):

@@ -884,6 +884,7 @@ class StockQuoteQuery:
             'suspension': record.isSuspended,
             'listing_date': record.listTime,
             'price_spread': record.priceSpread if record.HasField('priceSpread') else 0,
+            'dark_status': QUOTE.REV_DARK_STATUS_MAP[record.darkStatus] if record.HasField('darkStatus') else DarkStatus.NONE
         } for record in raw_quote_list]
 
         return RET_OK, "", quote_list
