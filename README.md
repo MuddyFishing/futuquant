@@ -13,7 +13,7 @@
 pip install futuquant
 ```
 
-###### 注: 本API同时兼容Python2和Python3, 推荐安装anaconda环境，方便快捷。
+###### 注: 本API同时仅支持Python3, 推荐安装anaconda3环境，方便快捷。
 
 ---
 
