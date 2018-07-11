@@ -894,6 +894,7 @@
 	{
 		optional int32 market = 1; //Qot_Common.QotMarket,股票市场
 		optional int32 secType = 2; //Qot_Common.SecurityType,股票类型
+		repeated Qot_Common.Security securityList = 3; //股票，若该字段存在，忽略其他字段，只返回该字段股票的静态信息
 	}
 
 	message S2C
@@ -1120,7 +1121,52 @@
 	
 -------------------------------------
 
+`Qot_GetReference.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetReference.proto>`_ - 3206 获取正股相关股票
+---------------------------------------------------------------------------------------------------------------------------------------
 
+.. code-block:: protobuf
+
+	syntax = "proto2";
+	package Qot_GetReference;
+
+	import "Common.proto";
+	import "Qot_Common.proto";
+
+	enum ReferenceType
+	{
+		ReferenceType_Unknow = 0; 
+		ReferenceType_Warrant = 1; //正股相关的窝轮
+	}
+
+	message C2S
+	{
+		required Qot_Common.Security security = 1; //股票
+		required int32 referenceType = 2; // ReferenceType, 相关类型
+	}
+
+	message S2C
+	{
+		repeated Qot_Common.SecurityStaticInfo staticInfoList = 2; //相关股票列表
+	}
+
+	message Request
+	{
+		required C2S c2s = 1;
+	}
+
+	message Response
+	{
+		required int32 retType = 1 [default = -400]; //RetType,返回结果
+		optional string retMsg = 2;
+		optional int32 errCode = 3;
+		
+		optional S2C s2c = 4;
+	}
+	
+.. note::
+	
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* 股票静态信息结构参考 `SecurityStaticInfo <base_define.html#securitystaticbasic>`_
 
 
 

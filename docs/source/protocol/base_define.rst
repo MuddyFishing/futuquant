@@ -459,15 +459,48 @@ TickerDirection - 逐笔方向
 
  .. code-block:: protobuf
 
-	 //订阅类型
-	 //枚举值兼容旧协议定义
-	 enum TickerDirection
+	enum TickerDirection
 	{
 		TickerDirection_Bid = 1; //外盘
 		TickerDirection_Ask = 2; //内盘
 		TickerDirection_Neutral = 3; //中性盘
 	}
-		
+	
+-----------------------------------------------
+
+TickerType - 逐笔类型
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+
+	 //逐笔类型
+	enum TickerType
+	{
+		TickerType_Unknown = 0; //未知
+		TickerType_Automatch = 1; //自动对盘
+		TickerType_Late = 2; //开市前成交盘
+		TickerType_NoneAutomatch = 3; //非自动对盘
+		TickerType_InterAutomatch = 4; //同一证券商自动对盘
+		TickerType_InterNoneAutomatch = 5; //同一证券商非自动对盘
+		TickerType_OddLot = 6; //碎股交易
+		TickerType_Auction = 7; //竞价交易
+	}
+	
+-----------------------------------------------
+
+DarkStatus - 暗盘交易状态
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+
+	 //暗盘交易状态
+	enum DarkStatus
+	{
+		NN_QotSecDarkStatus_None = 0; //无暗盘交易
+		NN_QotSecDarkStatus_Trading = 1; //暗盘交易中
+		NN_QotSecDarkStatus_End = 2; //暗盘交易结束
+	}
+	
 -----------------------------------------------
 
 Security - 证券标识
@@ -527,6 +560,7 @@ BasicQot - 基础报价
 		required double turnover = 12; //成交额
 		required double turnoverRate = 13; //换手率
 		required double amplitude = 14; //振幅
+		optional int32 darkStatus = 15; //DarkStatus, 暗盘交易状态
 	}
 		
 -----------------------------------------------
@@ -621,6 +655,8 @@ Ticker - 逐笔成交
 		required double price = 4; //价格
 		required int64 volume = 5; //成交量
 		required double turnover = 6; //成交额
+		optional double recvTime = 7; //收到推送数据的本地时间戳，用于定位延迟
+		optional int32 type = 8; //TickerType, 逐笔类型
 	}
 	
 -----------------------------------------------
