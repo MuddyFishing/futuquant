@@ -1027,7 +1027,7 @@ MKT_ENV_ENABLE_MAP = {
     (TrdMarket.US, TrdEnv.REAL): True,
     (TrdMarket.US, TrdEnv.SIMULATE): False,
 
-    (TrdMarket.HKCC, TrdEnv.REAL): False,
+    (TrdMarket.HKCC, TrdEnv.REAL): True,
     (TrdMarket.HKCC, TrdEnv.SIMULATE): False,
 
     (TrdMarket.CN, TrdEnv.REAL): False,
