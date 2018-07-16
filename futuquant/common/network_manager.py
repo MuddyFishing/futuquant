@@ -159,6 +159,7 @@ class NetManager:
             with self._lock:
                 if self._stop:
                     self._close_all()
+                    self._thread = None
                     break
                 self.poll()
             end_time = datetime.now()
