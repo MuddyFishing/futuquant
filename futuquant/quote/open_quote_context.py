@@ -1109,7 +1109,7 @@ class OpenQuoteContext(OpenContextBase):
 
         col_list = [
             'code', 'time', 'price', 'volume', 'turnover', "ticker_direction",
-            'sequence'
+            'sequence', 'type'
         ]
         ticker_frame_table = pd.DataFrame(ticker_list, columns=col_list)
 
