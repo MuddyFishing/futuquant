@@ -367,6 +367,7 @@ get_rt_data
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+	quote_ctx.subscribee(['HK.00700'], [SubType.RT_DATA])
     print(quote_ctx.get_rt_data('HK.00700'))
     quote_ctx.close()
 	
@@ -476,6 +477,7 @@ get_broker_queue
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+	quote_ctx.subscribee(['HK.00700'], [SubType.BROKER])
     print(quote_ctx.get_broker_queue('HK.00700'))
     quote_ctx.close()
 		
@@ -590,7 +592,7 @@ get_global_state
 		market_us               str            美国市场状态，参见MarketState
 		market_sh               str            上海市场状态，参见MarketState
 		market_hk               str            香港市场状态，参见MarketState
-		market_future           str            香港期货市场状态，参见MarketState
+		market_hkfuture           str            香港期货市场状态，参见MarketState
 		server_ver              str            FutuOpenD版本号
 		trd_logined             str            '1'：已登录交易服务器，'0': 未登录交易服务器
 		qot_logined             str            '1'：已登录行情服务器，'0': 未登录行情服务器
@@ -668,7 +670,7 @@ get_rt_ticker
         =====================   ===========   ==============================================================
         参数                      类型                        说明
         =====================   ===========   ==============================================================
-        stock_code               str            股票代码
+        code                     str            股票代码
         sequence                 int            逐笔序号
         time                     str            成交时间
         price                    float          成交价格
@@ -684,6 +686,7 @@ get_rt_ticker
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+	quote_ctx.subscribee(['HK.00700'], [SubType.TICKER])
     print(quote_ctx.get_rt_ticker('HK.00700', 10))
     quote_ctx.close()
 
@@ -726,6 +729,7 @@ get_cur_kline
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+	quote_ctx.subscribee(['HK.00700'], [SubType.K_DAY])
     print(quote_ctx.get_cur_kline('HK.00700', 10, SubType.K_DAY, AuType.QFQ))
     quote_ctx.close()
         
@@ -759,6 +763,7 @@ get_order_book
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+	quote_ctx.subscribee(['HK.00700'], [SubType.ORDER_BOOK])
     print(quote_ctx.get_order_book('HK.00700'))
     quote_ctx.close()
 
@@ -808,7 +813,7 @@ get_multi_points_history_kline
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-    print(quote_ctx.get_multiple_history_kline(['HK.00700'], '2017-06-20', '2017-06-25', KL_FIELD.ALL, KLType.K_DAY, AuType.QFQ))
+    print(quote_ctx.get_multi_points_history_kline(['HK.00700'], '2017-06-20', '2017-06-25', KL_FIELD.ALL, KLType.K_DAY, AuType.QFQ))
     quote_ctx.close()	
 	
 	
@@ -866,12 +871,12 @@ StockQuoteHandlerBase - 实时报价回调处理类
 	
 	class StockQuoteTest(StockQuoteHandlerBase):
 		def on_recv_rsp(self, rsp_str):
-			ret_code, content = super(StockQuoteTest,self).on_recv_rsp(rsp_str)
+			ret_code, data = super(StockQuoteTest,self).on_recv_rsp(rsp_str)
 			if ret_code != RET_OK:
-				print("StockQuoteTest: error, msg: %s" % content)
-				return RET_ERROR, content
+				print("StockQuoteTest: error, msg: %s" % data)
+				return RET_ERROR, data
 
-			print("StockQuoteTest ", content) # StockQuoteTest自己的处理逻辑
+			print("StockQuoteTest ", data) # StockQuoteTest自己的处理逻辑
 
 			return RET_OK, data
 			
@@ -916,7 +921,7 @@ OrderBookHandlerBase - 实时摆盘回调处理类
 
 			print("OrderBookTest ", data) # OrderBookTest自己的处理逻辑
 
-			return RET_OK, content
+			return RET_OK, data
 			
 	quote_ctx = OpenQuoteContex(host='127.0.0.1', port=11111)
 	handler = OrderBookTest()
