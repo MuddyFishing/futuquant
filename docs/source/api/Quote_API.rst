@@ -367,6 +367,7 @@ get_rt_data
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+	quote_ctx.subscribee(['HK.00700'], [SubType.RT_DATA])
     print(quote_ctx.get_rt_data('HK.00700'))
     quote_ctx.close()
 	
@@ -476,6 +477,7 @@ get_broker_queue
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+	quote_ctx.subscribee(['HK.00700'], [SubType.BROKER])
     print(quote_ctx.get_broker_queue('HK.00700'))
     quote_ctx.close()
 		
@@ -668,7 +670,7 @@ get_rt_ticker
         =====================   ===========   ==============================================================
         参数                      类型                        说明
         =====================   ===========   ==============================================================
-        stock_code               str            股票代码
+        code                     str            股票代码
         sequence                 int            逐笔序号
         time                     str            成交时间
         price                    float          成交价格
@@ -684,6 +686,7 @@ get_rt_ticker
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+	quote_ctx.subscribee(['HK.00700'], [SubType.TICKER])
     print(quote_ctx.get_rt_ticker('HK.00700', 10))
     quote_ctx.close()
 
@@ -726,6 +729,7 @@ get_cur_kline
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+	quote_ctx.subscribee(['HK.00700'], [SubType.K_DAY])
     print(quote_ctx.get_cur_kline('HK.00700', 10, SubType.K_DAY, AuType.QFQ))
     quote_ctx.close()
         
@@ -759,6 +763,7 @@ get_order_book
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+	quote_ctx.subscribee(['HK.00700'], [SubType.ORDER_BOOK])
     print(quote_ctx.get_order_book('HK.00700'))
     quote_ctx.close()
 
