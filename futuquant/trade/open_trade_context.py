@@ -604,7 +604,7 @@ class OpenTradeContextBase(OpenContextBase):
 
         kargs = {
             'order_type': order_type,
-            'code': code,
+            'code': str(stock_code),
             'price': price,
             'order_id': order_id,
             'adjust_limit': adjust_limit,
