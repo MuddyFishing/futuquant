@@ -329,7 +329,7 @@ class ModifyOrder:
 
         order_id = str(rsp_pb.s2c.orderID)
         modify_order_list = [{
-            'trd_env': TRADE.REV_TRD_MKT_MAP[rsp_pb.s2c.header.trdEnv],
+            'trd_env': TRADE.REV_TRD_ENV_MAP[rsp_pb.s2c.header.trdEnv],
             'order_id': order_id
         }]
 
