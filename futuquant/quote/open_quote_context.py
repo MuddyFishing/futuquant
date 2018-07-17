@@ -1065,7 +1065,7 @@ class OpenQuoteContext(OpenContextBase):
         获取指定股票的实时逐笔。取最近num个逐笔
 
         :param code: 股票代码
-        :param num: 最近ticker个数(有最大个数限制，最近500个）
+        :param num: 最近ticker个数(有最大个数限制，最近1000个）
         :return: (ret, data)
 
                 ret == RET_OK 返回pd dataframe数据，数据列格式如下
