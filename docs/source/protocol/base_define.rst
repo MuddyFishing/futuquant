@@ -496,9 +496,9 @@ DarkStatus - 暗盘交易状态
 	 //暗盘交易状态
 	enum DarkStatus
 	{
-		NN_QotSecDarkStatus_None = 0; //无暗盘交易
-		NN_QotSecDarkStatus_Trading = 1; //暗盘交易中
-		NN_QotSecDarkStatus_End = 2; //暗盘交易结束
+		DarkStatus_None = 0; //无暗盘交易
+		DarkStatus_Trading = 1; //暗盘交易中
+		DarkStatus_End = 2; //暗盘交易结束
 	}
 	
 -----------------------------------------------
