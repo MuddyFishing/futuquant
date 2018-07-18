@@ -634,9 +634,9 @@ class DarkStatus:
 
 from .pb import Qot_Common_pb2
 DARK_STATUS_MAP = {
-    DarkStatus.NONE: Qot_Common_pb2.NN_QotSecDarkStatus_None,
-    DarkStatus.TRADING: Qot_Common_pb2.NN_QotSecDarkStatus_Trading,
-    DarkStatus.END: Qot_Common_pb2.NN_QotSecDarkStatus_End
+    DarkStatus.NONE: Qot_Common_pb2.DarkStatus_None,
+    DarkStatus.TRADING: Qot_Common_pb2.DarkStatus_Trading,
+    DarkStatus.END: Qot_Common_pb2.DarkStatus_End
 }
 
 class TickerType:
