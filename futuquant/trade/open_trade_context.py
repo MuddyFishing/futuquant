@@ -224,6 +224,24 @@ class OpenTradeContextBase(OpenContextBase):
                 stock_code = code
         return RET_OK, "", stock_code
 
+    def _split_stock_code(self, code):
+        stock_str = str(code)
+
+        split_loc = stock_str.find(".")
+        '''do not use the built-in split function in python.
+        The built-in function cannot handle some stock strings correctly.
+        for instance, US..DJI, where the dot . itself is a part of original code'''
+        if 0 <= split_loc < len(
+                stock_str) - 1 and stock_str[0:split_loc] in MKT_MAP:
+            market_str = stock_str[0:split_loc]
+            partial_stock_str = stock_str[split_loc + 1:]
+            return RET_OK, (market_str, partial_stock_str)
+
+        else:
+            error_str = ERROR_STR_PREFIX + "format of %s is wrong. (US.AAPL, HK.00700, SZ.000001)" % stock_str
+            return RET_ERROR, error_str
+
+
     def position_list_query(self, code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL, acc_id=0):
         """for querying the position list"""
         ret, msg = self._check_trd_env(trd_env)
@@ -346,9 +364,11 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        ret, msg, stock_code = self._check_stock_code(code)
+        ret, content = self._split_stock_code(code)
         if ret != RET_OK:
-            return ret, msg
+            return ret, content
+
+        market_str, stock_code = content
 
         query_processor = self._get_sync_query_processor(
             PlaceOrder.pack_req, PlaceOrder.unpack_rsp)
@@ -359,9 +379,10 @@ class OpenTradeContextBase(OpenContextBase):
             'order_type': order_type,
             'price': float(price),
             'qty': float(qty),
-            'code': str(stock_code),
+            'code': stock_code,
             'adjust_limit': float(adjust_limit),
             'trd_mkt': self.__trd_mkt,
+            'sec_mkt_str': market_str,
             'trd_env': trd_env,
             'acc_id': acc_id,
             'conn_id': self.get_sync_conn_id()
@@ -594,9 +615,11 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        ret, msg, stock_code = self._check_stock_code(code)
+        ret, content = self._split_stock_code(code)
         if ret != RET_OK:
             return ret, msg
+
+        market_str, stock_code = content
 
         query_processor = self._get_sync_query_processor(
             AccTradingInfoQuery.pack_req,
@@ -609,6 +632,7 @@ class OpenTradeContextBase(OpenContextBase):
             'order_id': order_id,
             'adjust_limit': adjust_limit,
             'trd_mkt': self.__trd_mkt,
+            'sec_mkt_str': market_str,
             'trd_env': trd_env,
             'acc_id': acc_id,
             'conn_id': self.get_sync_conn_id()

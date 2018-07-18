@@ -257,7 +257,7 @@ class PlaceOrder:
 
     @classmethod
     def pack_req(cls, trd_side, order_type, price, qty,
-                 code, adjust_limit, trd_env, acc_id, trd_mkt, conn_id):
+                 code, adjust_limit, trd_env, sec_mkt_str, acc_id, trd_mkt, conn_id):
         """Convert from user request for place order to PLS request"""
         from futuquant.common.pb.Trd_PlaceOrder_pb2 import Request
         req = Request()
@@ -276,6 +276,10 @@ class PlaceOrder:
         req.c2s.price = price
         req.c2s.adjustPrice = adjust_limit != 0
         req.c2s.adjustSideAndLimit = adjust_limit
+        proto_qot_mkt = MKT_MAP.get(sec_mkt_str, Qot_Common_pb2.QotMarket_Unknown)
+        proto_trd_sec_mkt = QOT_MARKET_TO_TRD_SEC_MARKET_MAP.get(proto_qot_mkt,
+                                                                 Trd_Common_pb2.TrdSecMarket_Unknown)
+        req.c2s.secMarket = proto_trd_sec_mkt
 
         return pack_pb_req(req, ProtoId.Trd_PlaceOrder, conn_id, serial_no)
 
@@ -522,7 +526,7 @@ class AccTradingInfoQuery:
         pass
 
     @classmethod
-    def pack_req(cls, order_type, code, price, order_id, adjust_limit, trd_env, acc_id, trd_mkt, conn_id):
+    def pack_req(cls, order_type, code, price, order_id, adjust_limit, sec_mkt_str, trd_env, acc_id, trd_mkt, conn_id):
 
         from futuquant.common.pb.Trd_GetMaxTrdQtys_pb2 import Request
         req = Request()
@@ -540,6 +544,11 @@ class AccTradingInfoQuery:
         else:
             req.c2s.adjustPrice = True
             req.c2s.adjustSideAndLimit = adjust_limit
+
+        proto_qot_mkt = MKT_MAP.get(sec_mkt_str, Qot_Common_pb2.QotMarket_Unknown)
+        proto_trd_sec_mkt = QOT_MARKET_TO_TRD_SEC_MARKET_MAP.get(proto_qot_mkt,
+                                                                 Trd_Common_pb2.TrdSecMarket_Unknown)
+        req.c2s.secMarket = proto_trd_sec_mkt
 
         return pack_pb_req(req, ProtoId.Trd_GetAccTradingInfo, conn_id)
 
