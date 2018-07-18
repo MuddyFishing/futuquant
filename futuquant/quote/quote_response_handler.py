@@ -47,7 +47,7 @@ class StockQuoteHandlerBase(RspHandlerBase):
                 'code', 'data_date', 'data_time', 'last_price', 'open_price',
                 'high_price', 'low_price', 'prev_close_price', 'volume',
                 'turnover', 'turnover_rate', 'amplitude', 'suspension',
-                'listing_date', 'price_spread, dark_status'
+                'listing_date', 'price_spread', 'dark_status'
             ]
 
             quote_frame_table = pd.DataFrame(content, columns=col_list)
