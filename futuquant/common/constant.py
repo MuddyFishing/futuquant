@@ -1022,16 +1022,16 @@ TRD_SIDE_MAP = {
 # 交易的支持能力，持续更新中
 MKT_ENV_ENABLE_MAP = {
     (TrdMarket.HK, TrdEnv.REAL): True,
-    (TrdMarket.HK, TrdEnv.SIMULATE): False,
+    (TrdMarket.HK, TrdEnv.SIMULATE): True,
 
     (TrdMarket.US, TrdEnv.REAL): True,
-    (TrdMarket.US, TrdEnv.SIMULATE): False,
+    (TrdMarket.US, TrdEnv.SIMULATE): True,
 
     (TrdMarket.HKCC, TrdEnv.REAL): True,
     (TrdMarket.HKCC, TrdEnv.SIMULATE): False,
 
     (TrdMarket.CN, TrdEnv.REAL): False,
-    (TrdMarket.CN, TrdEnv.SIMULATE): False,
+    (TrdMarket.CN, TrdEnv.SIMULATE): True,
 }
 
 
