@@ -749,3 +749,8 @@ class OpenHKCCTradeContext(OpenTradeContextBase):
                                                 end=end,
                                                 trd_env=trd_env,
                                                 acc_id=acc_id)
+
+# A股交易接口
+class OpenCNTradeContext(OpenTradeContextBase):
+    def __init__(self, host="127.0.0.1", port=11111):
+        super(OpenCNTradeContext, self).__init__(TrdMarket.CN, host, port)

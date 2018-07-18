@@ -23,6 +23,7 @@ from futuquant.trade.trade_response_handler import *
 from futuquant.trade.open_trade_context import OpenHKTradeContext
 from futuquant.trade.open_trade_context import OpenUSTradeContext
 from futuquant.trade.open_trade_context import OpenHKCCTradeContext
+from futuquant.trade.open_trade_context import OpenCNTradeContext
 
 #import constant values
 from futuquant.common.constant import *
