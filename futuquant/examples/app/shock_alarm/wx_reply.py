@@ -5,7 +5,7 @@ import time, hashlib
 from receive_and_reply import reply
 from receive_and_reply import receive
 from mysql_interface import mysql_interface
-
+import common_parameter
 
 mi = mysql_interface()
 
@@ -15,7 +15,7 @@ app = Flask(__name__)
 def wechat():
     # 微信验证token
     if request.method == 'GET':
-        token = 'luopengting'
+        token = common_parameter.token
         query = request.args
         signature = query.get('signature', '')
         timestamp = query.get('timestamp', '')
@@ -36,7 +36,7 @@ def wechat():
                 rep_text_msg = reply.TextMsg(rec_msg.FromUserName, rec_msg.ToUserName,("设置成功 \n %s"%getTime()))
                 return rep_text_msg.send()
             elif content.startswith(u"订阅", 0, 3):
-                mi.update_shockid()    # 未设置
+                mi.update_stockid()    # 未设置
                 rep_text_msg = reply.TextMsg(rec_msg.FromUserName, rec_msg.ToUserName, ("订阅成功 \n %s" % getTime()))
                 return rep_text_msg.send()
             else:
