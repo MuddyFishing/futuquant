@@ -258,9 +258,9 @@ if __name__ == '__main__':
     # 全局参数配置
     ip = '127.0.0.1'
     port = 11111
-    unlock_pwd = "979899"
-    code = 'HK.00700'  # 'US.BABA' #'HK.00700'
-    trd_env = ft.TrdEnv.REAL
+    unlock_pwd = "123456"
+    code = 'HK.00123'  # 'US.BABA' #'HK.00700'
+    trd_env = ft.TrdEnv.SIMULATE
 
     trailing_method = TrailingMethod.DROP_PER
     trailing_drop = 0.03   # 3%

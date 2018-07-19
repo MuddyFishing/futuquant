@@ -159,7 +159,7 @@ if __name__ == "__main__":
     SMOOTH_PERIOD = 9
     OBSERVATION = 100
 
-    STOCK = "HK.00700"
+    STOCK = "HK.00123"
 
     test = MACD(STOCK, SHORT_PERIOD, LONG_PERIOD, SMOOTH_PERIOD, OBSERVATION)
     test.handle_data()

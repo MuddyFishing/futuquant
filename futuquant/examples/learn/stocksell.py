@@ -67,7 +67,7 @@ if __name__ =="__main__":
     ip = '127.0.0.1'
     port = 11111
 
-    code = 'HK.00700'
+    code = 'HK.00123'
     unlock_pwd = '123456'
     trd_env = ft.TrdEnv.SIMULATE
     order_type = ft.OrderType.SPECIAL_LIMIT
