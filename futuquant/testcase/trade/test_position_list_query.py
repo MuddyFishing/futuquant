@@ -1,0 +1,41 @@
+#-*-coding:utf-8-*-
+from futuquant.trade.open_trade_context import *
+import pandas
+
+class PositionListQuery(object):
+    # 查询持仓列表 position_list_query
+
+    def __init__(self):
+        pandas.set_option('max_columns', 100)
+        pandas.set_option('display.width', 1000)
+
+    def test1(self):
+        host = '127.0.0.1'
+        port = 11112
+        tradehk_ctx = OpenHKTradeContext(host, port)
+        # self.tradehk_ctx = OpenUSTradeContext(host, port)
+        ret_code_unlock_trade, ret_data_unlock_trade = tradehk_ctx.unlock_trade(password='123123')
+        print('unlock_trade  ret_code= %d, ret_data= %s' % (ret_code_unlock_trade, ret_data_unlock_trade))
+
+        ret_code,ret_data = tradehk_ctx.position_list_query(code='', pl_ratio_min= None, pl_ratio_max= None, trd_env=TrdEnv.REAL, acc_id=281756455983056107)
+        #281756455982434220 现金0268
+        #281756457982434020  现金0178
+        #281756455982434020  融资0068
+        print(ret_code)
+        print(ret_data)
+
+    def test_sh(self):
+        host = '127.0.0.1'
+        port = 11112
+        tradehk_ctx_sh = OpenHKCCTradeContext(host, port)
+        tradehk_ctx_sh.unlock_trade('123123')
+
+        ret_code, ret_data = tradehk_ctx_sh.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=0.5, trd_env=TrdEnv.REAL, acc_id=0)
+
+        print(ret_code)
+        print(ret_data)
+
+
+if __name__ == '__main__':
+    plq = PositionListQuery()
+    plq.test_sh()
