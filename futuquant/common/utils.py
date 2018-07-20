@@ -150,12 +150,12 @@ def merge_trd_mkt_stock_str(trd_mkt, partial_stock_str):
         mkt_qot = Market.HK
     elif mkt == TrdMarket.US:
         mkt_qot = Market.US
-    elif mkt == TrdMarket.HKCC:
+    elif mkt == TrdMarket.HKCC or mkt == TrdMarket.CN:
         if partial_stock_str.startswith('6') or partial_stock_str.startswith('9'):
             mkt_qot = Market.SH
         else:
             mkt_qot = Market.SZ
-    else: # mkt == TrdMarket.CN or mt == TrdMarket.HKCC: 暂时不支持
+    else:
         raise Exception("merge_trd_mkt_stock_str: unknown trd_mkt.")
 
     return merge_qot_mkt_stock_str(MKT_MAP[mkt_qot], partial_stock_str)
