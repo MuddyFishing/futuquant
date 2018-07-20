@@ -8,7 +8,10 @@ from time import sleep
 from futuquant.common.ft_logger import logger
 import multiprocessing as mp
 from threading import Thread, RLock
+import logging
 import pandas as pd
+import simple_logger
+import collect_stock
 
 
 """
@@ -139,6 +142,11 @@ class SubscribeFullQuote(object):
             diff_ret = min(diff_ret, one_diff) if diff_ret is not None else one_diff
 
         return diff_ret
+
+    # @classmethod
+    # def cal_all_codes(cls, quote_ctx, market_list, stock_type_list, max_count):
+    #     all_codes = collect_stock.load_stock_code('stock-us-vol.csv')
+    #     return all_codes
 
     @classmethod
     def cal_all_codes(cls, quote_ctx, market_list, stock_type_list, max_count):
@@ -339,6 +347,36 @@ class SubscribeFullQuote(object):
 
                 return ProcessPushData(ret_code, content)
 
+        class ProcessTickHandler2(TickerHandlerBase):
+            def __init__(self, time_adjust):
+                super().__init__()
+                self.time_adjust = time_adjust
+                self.logger = logging.getLogger('FT')
+                self.logger.setLevel(logging.INFO)
+                log_path = os.path.join('log', 'ft_' + datetime.now().strftime('%Y%m%d') + '-' + str(os.getpid()) + '.log')
+                file_log_handler = logging.FileHandler(log_path)
+                formatter = logging.Formatter(
+                    '%(asctime)s [%(filename)s] %(funcName)s:%(lineno)d: %(message)s')
+                file_log_handler.setFormatter(formatter)
+                self.logger.addHandler(file_log_handler)
+
+            def on_recv_rsp(self, rsp_pb):
+                ret_code, content = super().parse_rsp_pb(rsp_pb)
+
+                tm_now = time.time()
+                adjust_secs = self.time_adjust
+                tm_recv = content[0]['recv_timestamp']
+                delay_sec = tm_now - tm_recv - adjust_secs
+
+                delay_secs_check = 1.5
+                if abs(delay_sec) >= delay_secs_check:
+                    self.logger.warning(
+                        "* adjust:{} delay:{}  Ticker cirtical :{}".format(adjust_secs, delay_sec, content[0]))
+                else:
+                    self.logger.info('adjust:{} delay:{}'.format(adjust_secs, delay_sec))
+
+                return ret_code, content
+
         class ProcessQuoteHandle(StockQuoteHandlerBase):
             def on_recv_rsp(self, rsp_pb):
                 """数据响应回调函数"""
@@ -373,15 +411,18 @@ class SubscribeFullQuote(object):
         def create_new_quote_ctx(host, port):
             obj = OpenQuoteContext(host=host, port=port)
             quote_ctx_list.append(obj)
-            obj.set_handler(ProcessTickerHandle())
-            obj.set_handler(ProcessQuoteHandle())
-            obj.set_handler(ProcessOrderBookHandle())
-            obj.set_handler(ProcessKlineHandle())
-            obj.set_handler(ProcessRTDataHandle())
-            obj.set_handler(ProcessBrokerHandle())
+            time_adjust = SubscribeFullQuote.cal_timstamp_adjust(obj)
+            obj.set_handler(ProcessTickHandler2(time_adjust))
+            # obj.set_handler(ProcessQuoteHandle())
+            # obj.set_handler(ProcessOrderBookHandle())
+            # obj.set_handler(ProcessKlineHandle())
+            # obj.set_handler(ProcessRTDataHandle())
+            # obj.set_handler(ProcessBrokerHandle())
             obj.start()
+
             return obj
 
+        time_adjust = None
         port_index = 0
         all_sub_codes = []
         quote_weight = cls.DICT_QUOTE_WEIGHT[subtype]
@@ -473,10 +514,10 @@ if __name__ =="__main__":
         "port_count": 1,                        # 启动了多少个FutuOPenD进程，每个进程的port在port_begin上递增
         "sub_one_size": 100,                    # 最多向一个FutuOpenD定阅多少支股票
         "is_adjust_sub_one_size": True,         # 依据当前剩余定阅量动态调整一次的定阅量(测试白名单不受定阅额度限制可置Flase)
-        'one_process_ports': 2,                 # 用多进程提高性能，一个进程处理多少个端口
+        'one_process_ports': 1,                 # 用多进程提高性能，一个进程处理多少个端口
 
         # 若使用property接口 "codes_pool" 指定了定阅股票， 以下配置无效
-        "sub_max": 4000,                                            # 最多定阅多少支股票(需要依据定阅额度和进程数作一个合理预估）
+        "sub_max": 100,                                            # 最多定阅多少支股票(需要依据定阅额度和进程数作一个合理预估）
         "sub_stock_type_list": [SecurityType.STOCK],                # 选择要定阅的股票类型
         "sub_market_list": [Market.US],                             # 要定阅的市场
     }
@@ -493,10 +534,4 @@ if __name__ =="__main__":
     sleep(24 * 3600)
 
     sub_obj.close()
-
-
-
-
-
-
 
