@@ -10,8 +10,6 @@ import multiprocessing as mp
 from threading import Thread, RLock
 import logging
 import pandas as pd
-import simple_logger
-import collect_stock
 
 
 """
