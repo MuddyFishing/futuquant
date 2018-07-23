@@ -370,7 +370,9 @@ class OpenContextBase(object):
         with self._lock:
             if self._status == ContextStatus.Closed or self._reconnect_timer is not None:
                 return
-            logger.info('Wait reconnect in {0} seconds'.format(wait_reconnect_interval))
+            logger.info('Wait reconnect in {} seconds: host={}; port={};'.format(wait_reconnect_interval,
+                                                                                 self.__host,
+                                                                                 self.__port))
             net_mgr = self._net_mgr
             conn_id = self._conn_id
             self._status = ContextStatus.Connecting
