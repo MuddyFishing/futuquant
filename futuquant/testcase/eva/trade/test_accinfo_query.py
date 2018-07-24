@@ -11,7 +11,7 @@ class AccinfoQuery(object):
 
     def test1(self):
         host = '127.0.0.1'
-        port = 11113
+        port = 11112
         # tradehk_ctx = OpenHKTradeContext(host, port)
         tradehk_ctx = OpenUSTradeContext(host, port)
         ret_code_unlock_trade, ret_data_unlock_trade = tradehk_ctx.unlock_trade(password='123123')
@@ -37,8 +37,20 @@ class AccinfoQuery(object):
         print(ret_code_accinfo)
         print(ret_data_accinfo)
 
+    def test2(self):
+        host = '127.0.0.1'
+        port = 11112
+
+        trade_hk = OpenHKTradeContext(host, port)
+        trade_us = OpenUSTradeContext(host, port)
+        trade_sh_m = OpenCNTradeContext(host, port)
+
+        print(trade_hk.accinfo_query(trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print(trade_us.accinfo_query(trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print(trade_sh_m.accinfo_query(trd_env=TrdEnv.SIMULATE, acc_id=0))
+
 
 
 if __name__ == '__main__':
     aq = AccinfoQuery()
-    aq.test1()
+    aq.test2()
