@@ -11,11 +11,13 @@ class ModifyOrder(object):
 
     def test_hk(self):
         trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+        trd_ctx.unlock_trade('123123')
         ret_code, ret_data = trd_ctx.order_list_query(trd_env=TrdEnv.SIMULATE, acc_id=0)
         print(ret_data)
         # 1改单，修改数量
         ret_code, ret_data = trd_ctx.modify_order(modify_order_op=ModifyOrderOp.NORMAL,
-                                                  order_id=3610164318728786903, qty=2000, price=2)
+                                                  order_id=3610190749957526613, qty=2000, price=2.2,
+                                                  trd_env=TrdEnv.SIMULATE,)
         print('改单：', ret_data)
         # 2改单，修改价格
 
