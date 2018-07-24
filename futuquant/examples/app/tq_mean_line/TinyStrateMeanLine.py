@@ -88,7 +88,7 @@ class TinyStrateMeanLine(TinyStrateBase):
         accinfo_market_val = accinfo.market_val.values[0]
         trade_ctx.close()
 
-        pwd_unlock = '201791' #交易密码
+        pwd_unlock = '123456' #交易密码
         trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11122)
         trd_ctx.unlock_trade(pwd_unlock)
 
@@ -102,7 +102,7 @@ class TinyStrateMeanLine(TinyStrateBase):
 
 
     def test(self):
-        pwd_unlock = '201791' #输入交易密码
+        pwd_unlock = '123456' #输入交易密码
         trade_ctx = OpenHKTradeContext(host='127.0.0.1', port=11122)
         _, lock_message = trade_ctx.unlock_trade(pwd_unlock)
         print(lock_message)
