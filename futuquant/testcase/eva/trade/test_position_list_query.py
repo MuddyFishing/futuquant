@@ -9,7 +9,7 @@ class PositionListQuery(object):
         pandas.set_option('max_columns', 100)
         pandas.set_option('display.width', 1000)
 
-    def test1(self):
+    def test_hk(self):
         host = '127.0.0.1'
         port = 11112
         tradehk_ctx = OpenHKTradeContext(host, port)
@@ -35,7 +35,19 @@ class PositionListQuery(object):
         print(ret_code)
         print(ret_data)
 
+    def test1(self):
+        host = '127.0.0.1'
+        port = 11112
+
+        trade_hk = OpenHKTradeContext(host, port)
+        trade_us = OpenUSTradeContext(host, port)
+        trade_sh_m = OpenCNTradeContext(host, port)
+
+        print(trade_hk.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print(trade_us.position_list_query(code='AAPL', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print(trade_sh_m.position_list_query(code='000700', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.SIMULATE, acc_id=0))
+
 
 if __name__ == '__main__':
     plq = PositionListQuery()
-    plq.test_sh()
+    plq.test1()
