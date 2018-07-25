@@ -120,6 +120,10 @@ class TradeDealTest(TradeDealHandlerBase):
 
 
 def quote_test():
+    '''
+    行情接口调用测试
+    :return:
+    '''
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
 
     # 设置异步回调接口
@@ -141,6 +145,7 @@ def quote_test():
                      'HK.00857', 'HK.01177',  'HK.02601', 'HK.02628', 'HK_FUTURE.999010']
     big_sub_codes = []
     subtype_list = [SubType.QUOTE, SubType.ORDER_BOOK, SubType.TICKER, SubType.K_DAY, SubType.RT_DATA, SubType.BROKER]
+
     code_list = ['HK.00700', 'HK.00388']
 
     # 测试大量数据定阅
@@ -190,7 +195,47 @@ def quote_test():
     # """
 
 
+def trade_hkcc_test():
+    """
+    A股通交易测试
+    :return:
+    """
+    trd_ctx = OpenHKCCTradeContext(host='127.0.0.1', port=11111)
+    trd_ctx.set_handler(TradeOrderTest())
+    trd_ctx.set_handler(TradeDealTest())
+    trd_ctx.start()
+
+    # 交易请求必须先解锁 !!!
+    pwd_unlock = '979899'
+    print("* unlock_trade : {}\n".format(trd_ctx.unlock_trade(pwd_unlock)))
+
+    print("* accinfo_query : {}\n".format(trd_ctx.accinfo_query()))
+    print("* position_list_query : {}\n".format(trd_ctx.position_list_query(pl_ratio_min=-50, pl_ratio_max=50)))
+    print("* order_list_query : {}\n".format(trd_ctx.order_list_query(status_filter_list=[OrderStatus.DISABLED])))
+    print("* get_acc_list : {}\n".format(trd_ctx.get_acc_list()))
+    print("* order_list_query : {}\n".format(trd_ctx.order_list_query(status_filter_list=[OrderStatus.SUBMITTED])))
+
+    ret_code, ret_data = trd_ctx.place_order(0.1, 100, "SZ.000979", TrdSide.BUY)
+    print("* place_order : {}\n".format(ret_data))
+    if ret_code == RET_OK:
+        order_id = ret_data['order_id'][0]
+        print("* modify_order : {}\n".format(trd_ctx.modify_order(ModifyOrderOp.CANCEL, order_id, 0, 0)))
+
+    print("* deal_list_query : {}\n".format(trd_ctx.deal_list_query(code="000979")))
+    print("* history_order_list_query : {}\n".format(trd_ctx.history_order_list_query(status_filter_list=[OrderStatus.FILLED_ALL, OrderStatus.FILLED_PART],
+                                           code="512310", start="", end="2018-2-1")))
+
+    print("* history_deal_list_query : {}\n".format(trd_ctx.history_deal_list_query(code="", start="", end="2018-6-1")))
+
+    sleep(10)
+    trd_ctx.close()
+
+
 def trade_hk_test():
+    '''
+    港股交易测试
+    :return:
+    '''
     trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
     trd_ctx.set_handler(TradeOrderTest())
     trd_ctx.set_handler(TradeDealTest())
@@ -207,9 +252,11 @@ def trade_hk_test():
     print("* get_acc_list : {}\n".format(trd_ctx.get_acc_list()))
     print("* order_list_query : {}\n".format(trd_ctx.order_list_query(status_filter_list=[OrderStatus.SUBMITTED])))
 
-    order_id = 8418297869332751056
-    print("* place_order : {}\n".format(trd_ctx.place_order(700.0, 100, "HK.00700", TrdSide.SELL)))
-    print("* modify_order : {}\n".format(trd_ctx.modify_order(ModifyOrderOp.NORMAL, order_id, 380.0, 200)))
+    ret_code, ret_data = trd_ctx.place_order(700.0, 100, "HK.00700", TrdSide.SELL)
+    print("* place_order : {}\n".format(ret_data))
+    if ret_code == RET_OK:
+        order_id = ret_data['order_id'][0]
+        print("* modify_order : {}\n".format(trd_ctx.modify_order(ModifyOrderOp.CANCEL, order_id, 0, 0)))
 
     print("* deal_list_query : {}\n".format(trd_ctx.deal_list_query(code="00700")))
     print("* history_order_list_query : {}\n".format(trd_ctx.history_order_list_query(status_filter_list=[OrderStatus.FILLED_ALL, OrderStatus.FILLED_PART],
@@ -243,6 +290,8 @@ if __name__ =="__main__":
 
     ''' 交易api测试 '''
     # trade_hk_test()
+
+    # trade_hkcc_test()
 
 
 
