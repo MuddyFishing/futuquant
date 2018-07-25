@@ -9,7 +9,7 @@ class OrderListQuery(object):
         pandas.set_option('max_columns', 100)
         pandas.set_option('display.width', 1000)
 
-    def test1(self):
+    def test_hk(self):
         host = '127.0.0.1'
         port = 11112
         self.tradehk_ctx = OpenHKTradeContext(host, port)
@@ -33,6 +33,17 @@ class OrderListQuery(object):
         pandas.set_option('display.width', 3000)
         pandas.set_option('max_columns', 100)
         print(trade_ctx_sh.order_list_query())
+
+    def test1(self):
+        host = '127.0.0.1'
+        port = 11112
+
+        trade_hk = OpenHKTradeContext(host, port)
+        trade_us = OpenUSTradeContext(host, port)
+        trade_sh_m = OpenCNTradeContext(host, port)
+
+        print(trade_hk.order_list_query(order_id="", status_filter_list=[], code='', start='', end='',
+                         trd_env=TrdEnv.SIMULATE, acc_id=0))
 
 
 if __name__ == '__main__':

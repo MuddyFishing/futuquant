@@ -1,7 +1,7 @@
 #-*-coding:utf-8-*-
-import futuquant
+from futuquant import *
 from futuquant.trade.open_trade_context import *
-from evatest.trade.Handler import *
+from futuquant.testcase.eva.trade.Handler import *
 import pandas
 
 class PlaceOrder(object):
@@ -16,7 +16,7 @@ class PlaceOrder(object):
 
     def test_sh(self):
         host = '127.0.0.1'  # mac-kathy:172.18.6.144
-        port = 11113
+        port = 11112
         trade_ctx_sh = OpenHKCCTradeContext(host, port)
 
         #解锁交易
@@ -108,42 +108,34 @@ class PlaceOrder(object):
         ret_code, ret_data = self.tradeus_ctx.place_order(price, qty, code, trd_side, order_type, adjust_limit, trd_env,acc_id)
         print('place_order  ret_code= %d ,ret_data =\n%s' % (ret_code, str(ret_data)))
 
-    def test2(self):
-        code = ''#'HK.00799'
-        self.quote_ctx.subscribe([code], SubType.ORDER_BOOK)
-        ret_code_orderBook,ret_data_orderBook = self.quote_ctx.get_order_book(code)
-        print(ret_data_orderBook)
-        ask_list = ret_data_orderBook['Ask']     #取 Ask-卖档，1-第2档，0-价格
-        price = ask_list[1][0]
-        ret_code_snapshot, ret_data_snapshot = self.quote_ctx.get_market_snapshot([code])
-        lot_size_list = ret_data_snapshot['lot_size']
-        qty = lot_size_list[0]
-        trd_side = TrdSide.BUY
-        order_type = OrderType.NORMAL
-        adjust_limit = 0
-        trd_env = TrdEnv.REAL
-        acc_id = 0
-        ret_code,ret_data = self.tradehk_ctx.place_order( price, qty, code, trd_side, order_type,adjust_limit, trd_env, acc_id)
-        print(ret_code)
-        print(ret_data)
 
-    def test100(self):
-        code = 'HK.00799'
-        self.quote_ctx.subscribe([code],SubType.ORDER_BOOK)
-        ret_code_orderBook, ret_data_orderBook = self.quote_ctx.get_order_book(code)
-        print(ret_data_orderBook['Ask'][0][0])
-        print(ret_data_orderBook)
+    def test1(self):
+        host = '127.0.0.1'
+        port = 11112
 
-    def test101(self):
-        # 市价单
-        tradehk_ctx = OpenHKTradeContext( host='127.0.0.1', port=11111)
-        # tradehk_ctx.unlock_trade('123123')
-        ret_code, ret_data = tradehk_ctx.place_order(price=0, qty=100, code="HK.00700",order_type=OrderType.MARKET,trd_side=TrdSide.BUY)  # 调用place_order下单
-        print(ret_code)  # 打印响应码，0表示成功，-1表示失败
-        print(ret_data)  # 打印订单信息
+        trade_hk = OpenHKTradeContext(host, port)
+        trade_us = OpenUSTradeContext(host, port)
+        trade_sh_m = OpenCNTradeContext(host, port)
+
+        print(trade_hk.place_order(price = 2.27, qty = 1000, code = 'HK.00434', trd_side=TrdSide.BUY, order_type=OrderType.NORMAL,
+                    adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
+
+        # price = 3.04, qty = 10, code = 'US.DDE'
+        # price = 192, qty = 10, code = 'US.AAPL'
+        # print(trade_us.place_order(price = 190, qty = 1, code = 'US.AAPL', trd_side=TrdSide.BUY,
+        #                            order_type=OrderType.NORMAL,
+        #                            adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
+
+        # price = 9.62, qty = 200, code = 'SZ.002078'
+        # price=10.2, qty=200, code='SH.601007'
+        # print(trade_sh_m.place_order(price=9.37, qty=100, code='SH', trd_side=TrdSide.BUY,
+        #                            order_type=OrderType.NORMAL,
+        #                            adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
+
+
 
 
 
 if __name__ == '__main__':
     po = PlaceOrder()
-    po.test_sh()
+    po.test1()

@@ -5,7 +5,7 @@ from futuquant.quote.open_quote_context import *
 
 class ModifyOrder(object):
 
-    def test1(self):
+    def test_hk(self):
         host = '127.0.0.1'   #mac-kathy:172.18.6.144
         port = 11112
         self.trade_ctx_hk = OpenHKTradeContext(host, port)
@@ -32,6 +32,16 @@ class ModifyOrder(object):
 
         print(trade_ctx_sh.modify_order(modify_order_op= ModifyOrderOp.CANCEL, order_id= '4781797335570056618', qty = 0, price = 0.123, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0))
 
+    def test1(self):
+        host = '127.0.0.1'
+        port = 11112
+
+        trade_hk = OpenHKTradeContext(host, port)
+        trade_us = OpenUSTradeContext(host, port)
+        trade_sh_m = OpenCNTradeContext(host, port)
+
+        print(trade_hk.modify_order(modify_order_op = ModifyOrderOp.NORMAL, order_id = 3611264418767099084, qty = 2000, price = 2.24, adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
+
 if __name__ == '__main__':
     mo = ModifyOrder()
-    mo.test_sh()
+    mo.test1()

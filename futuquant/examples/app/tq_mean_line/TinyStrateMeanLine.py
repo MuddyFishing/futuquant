@@ -15,6 +15,7 @@ import datetime
 class TinyStrateMeanLine(TinyStrateBase):
     name = 'tiny_strate_mean_line'
     symbol_pools = ['HK.00700']
+    pwd_unlock = '123456'
 
     def __init__(self):
         super(TinyStrateMeanLine, self).__init__()
@@ -82,15 +83,14 @@ class TinyStrateMeanLine(TinyStrateBase):
 
     def do_trade(self, symbol, price, trd_side):
         # 获取账户信息
-        trade_ctx = OpenTradeContextBase(host='127.0.0.1', port=11122)
-        _, accinfo = trade_ctx.accinfo_query()
+        trd_ctx = OpenHKTradeContext(host='172.24.31.139', port=11111)
+        trd_ctx.unlock_trade(self.pwd_unlock)
+        result, accinfo = trd_ctx.accinfo_query()
+        if result != 0:
+            return
         accinfo_cash = accinfo.cash.values[0]
         accinfo_market_val = accinfo.market_val.values[0]
-        trade_ctx.close()
 
-        pwd_unlock = '201791' #交易密码
-        trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11122)
-        trd_ctx.unlock_trade(pwd_unlock)
 
         if trd_side == 'buy':
             qty = int(accinfo_cash / price)
@@ -98,11 +98,12 @@ class TinyStrateMeanLine(TinyStrateBase):
         elif trd_side == 'sell':
             qty = int(accinfo_market_val / price)
             trd_ctx.place_order(price=price, qty=qty, code=symbol, trd_side=TrdSide.SELL)
+
         trd_ctx.close()
 
 
     def test(self):
-        pwd_unlock = '201791' #输入交易密码
+        pwd_unlock = '123456' #输入交易密码
         trade_ctx = OpenHKTradeContext(host='127.0.0.1', port=11122)
         _, lock_message = trade_ctx.unlock_trade(pwd_unlock)
         print(lock_message)
