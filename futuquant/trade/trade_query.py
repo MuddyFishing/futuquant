@@ -176,7 +176,7 @@ class PositionListQuery:
                              "nominal_price": position.price,
                              "pl_ratio": 100 * position.plRatio if position.HasField('plRatio') else 0,
                              "pl_ratio_valid": 1 if position.HasField('plRatio') else 0,
-                             "pl_val": position.td_plVal if position.HasField('plVal') else 0,
+                             "pl_val": position.plVal if position.HasField('plVal') else 0,
                              "pl_val_valid": 1 if position.HasField('plVal') else 0,
                              "today_buy_qty": position.td_buyQty if position.HasField('td_buyQty') else 0,
                              "today_buy_val": position.td_buyVal if position.HasField('td_buyVal') else 0,
