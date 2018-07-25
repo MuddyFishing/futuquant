@@ -117,18 +117,18 @@ class PlaceOrder(object):
         trade_us = OpenUSTradeContext(host, port)
         trade_sh_m = OpenCNTradeContext(host, port)
 
-        print(trade_hk.place_order(price = 375.8, qty = 100, code = 'HK.00700', trd_side=TrdSide.BUY, order_type=OrderType.NORMAL,
+        print(trade_hk.place_order(price = 2.27, qty = 1000, code = 'HK.00434', trd_side=TrdSide.BUY, order_type=OrderType.NORMAL,
                     adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
         # price = 3.04, qty = 10, code = 'US.DDE'
         # price = 192, qty = 10, code = 'US.AAPL'
-        # print(trade_us.place_order(price = 3.1, qty = 9, code = 'US.DDE', trd_side=TrdSide.BUY,
+        # print(trade_us.place_order(price = 190, qty = 1, code = 'US.AAPL', trd_side=TrdSide.BUY,
         #                            order_type=OrderType.NORMAL,
         #                            adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
         # price = 9.62, qty = 200, code = 'SZ.002078'
         # price=10.2, qty=200, code='SH.601007'
-        # print(trade_sh_m.place_order(price=2.89, qty=500, code='SZ.000428', trd_side=TrdSide.BUY,
+        # print(trade_sh_m.place_order(price=9.37, qty=100, code='SH', trd_side=TrdSide.BUY,
         #                            order_type=OrderType.NORMAL,
         #                            adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
