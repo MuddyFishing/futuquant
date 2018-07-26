@@ -1,10 +1,5 @@
 # encoding: UTF-8
 
-# 重载sys模块，设置默认字符串编码方式为utf8
-import sys
-reload(sys)
-sys.setdefaultencoding('utf8')
-
 import multiprocessing
 from time import sleep
 from datetime import datetime, time
@@ -20,7 +15,7 @@ from vnpy.trader.app.ctaStrategy.ctaBase import EVENT_CTA_LOG
 #----------------------------------------------------------------------
 def runChildProcess():
     """子进程运行函数"""
-    print '-'*20
+    print('-'*20)
     
     # 创建日志引擎
     le = LogEngine()
