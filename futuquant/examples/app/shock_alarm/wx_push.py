@@ -24,6 +24,7 @@ class wechat_push(object):
         if(access_token_json):
             self.access_token = access_token_json['access_token']
         else:
+            print(access_token_json)
             self.access_token = None
         return self.access_token
 
@@ -65,7 +66,7 @@ class wechat_push(object):
         ).json()
         return template_id
 
-    def send_msg_to_users_template_news(self, openid, msg):
+    def send_template_msg(self, openid, msg):
 
         access_token = self.get_access_token()
         body = {
@@ -141,8 +142,6 @@ class wechat_push(object):
         # print(user_info_json['openid'], user_info_json['nickname'])
         return user_nickname
 
-    def send_template_msg(self, openid, msg):
-        self.send_msg_to_users_template_news(openid, msg)
 
     def send_text_msg(self, msg):
         user_openid_list = self.get_user_openid_list()
@@ -183,6 +182,6 @@ if __name__ == '__main__':
     # wp.send_template_msg(msg)
 
     # 输出所有用户nickname
-    all_user_openid =wp.get_user_openid_list()
-    for user in all_user_openid:
-        wp.get_user_nickname(user)
+    # all_user_openid =wp.get_user_openid_list()
+    # for user in all_user_openid:
+    #     print(wp.get_user_nickname(user), user)

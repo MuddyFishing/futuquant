@@ -24,7 +24,7 @@ def wechat():
         s = [timestamp, nonce, token]
         s.sort()
         s = ''.join(s)
-        if hashlib.sha1(s).hexdigest() == signature:
+        if hashlib.sha1(s.encode('utf-8')).hexdigest() == signature:
             return make_response(echostr)
     else:
         rec_msg = receive.parse_xml(request.stream.read())
@@ -35,13 +35,10 @@ def wechat():
                 mi.update_threshold(rec_msg.FromUserName, content)
                 rep_text_msg = reply.TextMsg(rec_msg.FromUserName, rec_msg.ToUserName,("设置成功 \n %s"%getTime()))
                 return rep_text_msg.send()
-            elif content.startswith(u"订阅", 0, 3):
-                mi.update_stockid()    # 未设置
-                rep_text_msg = reply.TextMsg(rec_msg.FromUserName, rec_msg.ToUserName, ("订阅成功 \n %s" % getTime()))
-                return rep_text_msg.send()
             else:
-                rep_text_msg = reply.TextMsg(rec_msg.FromUserName,rec_msg.ToUserName,"我来学你说：%s \n %s"%(content,getTime()))
+                rep_text_msg = reply.TextMsg(rec_msg.FromUserName, rec_msg.ToUserName, ("回复格式（设置 越价率 越价大单值 大单值 一分钟内提醒次数上限），如：\n设置 0.005 1000000 4000000 10\n\n %s" % getTime()))
                 return rep_text_msg.send()
+
         elif  rec_msg.MsgType =="image":
             rep_img_msg = reply.ImageMsg(rec_msg.FromUserName,rec_msg.ToUserName,rec_msg.MediaId)
             return rep_img_msg.send()
