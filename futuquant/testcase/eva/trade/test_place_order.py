@@ -44,7 +44,7 @@ class PlaceOrder(object):
         host = '127.0.0.1'
         port = 11112
         tradehk_ctx = OpenHKTradeContext(host, port)
-        tradehk_ctx.set_handler(SysNotifyTest())
+
         ret_code_unlock_trade, ret_data_unlock_trade = tradehk_ctx.unlock_trade(password='123123')
         print('unlock_trade  ret_code= %d, ret_data= %s' % (ret_code_unlock_trade, ret_data_unlock_trade))
         # 设置监听
@@ -116,9 +116,36 @@ class PlaceOrder(object):
         #                            order_type=OrderType.NORMAL,
         #                            adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
+    def test2(self):
+        host = '127.0.0.1'
+        port = 11112
+        trade_hk_real = OpenHKTradeContext(host, port)
+        #结果交易
+        ret_code_unlock_trade, ret_data_unlock_trade = trade_hk_real.unlock_trade(password='123123')
+        print('unlock_trade  ret_code= %d, ret_data= %s' % (ret_code_unlock_trade, ret_data_unlock_trade))
+        # 设置监听
+        handler_tradeOrder = TradeOrderTest()
+        handler_tradeDealtrade = TradeDealTest()
+        trade_hk_real.set_handler(handler_tradeOrder)
+        trade_hk_real.set_handler(handler_tradeDealtrade)
+        # 开启异步
+        trade_hk_real.start()
+        # 下单
+        ret_code, ret_data = trade_hk_real.place_order(price=0.2, qty=1000, code='HK.00700', trd_side=TrdSide.BUY,
+                                                     order_type=OrderType.NORMAL, adjust_limit=0, trd_env=TrdEnv.REAL,
+                                                     acc_id=0)
+        print('真实环境', ret_code)
+        print('真实环境', ret_data)
+        #-------------------------------------------------------
+        trade_hk_simulate = OpenHKTradeContext(host, port)
+        ret_code_hk, ret_data_hk = trade_hk_simulate.place_order(price=0.111, qty=10000, code='HK.61162', trd_side=TrdSide.BUY,
+                                                        order_type=OrderType.NORMAL,
+                                                        adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0)
+        print('模拟交易', ret_code_hk)
+        print('模拟交易', ret_data_hk)
+
 
 
 if __name__ == '__main__':
     po = PlaceOrder()
-    po.test_hk()
-    po.test1()
+    po.test2()
