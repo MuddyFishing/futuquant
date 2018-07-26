@@ -38,6 +38,11 @@ class OpenTradeContextBase(OpenContextBase):
             logger.debug('auto unlock trade ret={},data={}'.format(ret, data))
             if ret != RET_OK:
                 msg = data
+
+        # 定阅交易帐号推送
+        if ret == RET_OK:
+            self.__check_acc_sub_push()
+            
         return ret, msg
 
     def get_acc_list(self):
