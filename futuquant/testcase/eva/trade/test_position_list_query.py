@@ -11,13 +11,13 @@ class PositionListQuery(object):
 
     def test_hk(self):
         host = '127.0.0.1'
-        port = 11112
+        port = 11111
         tradehk_ctx = OpenHKTradeContext(host, port)
         # self.tradehk_ctx = OpenUSTradeContext(host, port)
-        ret_code_unlock_trade, ret_data_unlock_trade = tradehk_ctx.unlock_trade(password='123123')
+        ret_code_unlock_trade, ret_data_unlock_trade = tradehk_ctx.unlock_trade(password='321321')
         print('unlock_trade  ret_code= %d, ret_data= %s' % (ret_code_unlock_trade, ret_data_unlock_trade))
 
-        ret_code,ret_data = tradehk_ctx.position_list_query(code='', pl_ratio_min= None, pl_ratio_max= None, trd_env=TrdEnv.REAL, acc_id=281756455983056107)
+        ret_code,ret_data = tradehk_ctx.position_list_query(code='', pl_ratio_min= None, pl_ratio_max= None, trd_env=TrdEnv.REAL, acc_id=0)
         #281756455982434220 现金0268
         #281756457982434020  现金0178
         #281756455982434020  融资0068
@@ -50,4 +50,5 @@ class PositionListQuery(object):
 
 if __name__ == '__main__':
     plq = PositionListQuery()
-    plq.test1()
+    plq.test_hk()
+    # plq.test1()

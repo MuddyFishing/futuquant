@@ -40,14 +40,12 @@ class PlaceOrder(object):
         print(ret_data_place_order)
 
 
-
-
     def test_hk(self):
-        host = '127.0.0.1'   #mac-kathy:172.18.6.144
+        host = '127.0.0.1'
         port = 11112
         tradehk_ctx = OpenHKTradeContext(host, port)
         tradehk_ctx.set_handler(SysNotifyTest())
-        ret_code_unlock_trade, ret_data_unlock_trade = tradehk_ctx.unlock_trade(password='123124')
+        ret_code_unlock_trade, ret_data_unlock_trade = tradehk_ctx.unlock_trade(password='123123')
         print('unlock_trade  ret_code= %d, ret_data= %s' % (ret_code_unlock_trade, ret_data_unlock_trade))
         # 设置监听
         handler_tradeOrder = TradeOrderTest()
@@ -56,26 +54,10 @@ class PlaceOrder(object):
         tradehk_ctx.set_handler(handler_tradeDealtrade)
         # 开启异步
         tradehk_ctx.start()
-
-        code = 'HK.00700'
-        price = 0.2
-        qty = 1000
-        trd_side = TrdSide.BUY
-        order_type = OrderType.NORMAL
-        # NORMAL = "NORMAL"  # 普通订单(港股的增强限价单、A股限价委托、美股的限单)
-        # MARKET = "MARKET"  # 市价，目前仅美股
-        # ABSOLUTE_LIMIT = "ABSOLUTE_LIMIT"  # 港股_限价(只有价格完全匹配才成交)
-        # AUCTION = "AUCTION"  # 港股_竞价
-        # AUCTION_LIMIT = "AUCTION_LIMIT"  # 港股_竞价限价
-        # SPECIAL_LIMIT = "SPECIAL_LIMIT"  # 港股_特别限价(即市价IOC, 订单到达交易所后，或全部成交， 或部分成交再撤单， 或下单失败)
-        adjust_limit = 0
-        trd_env = TrdEnv.REAL
-        acc_id = 0 #港股融资账号 281756455982434020
-        ret_code, ret_data = tradehk_ctx.place_order(price, qty, code, trd_side, order_type, adjust_limit, trd_env,acc_id)
-        print(ret_code)
-        print(ret_data)
-        # print(ret_data.columns.tolist())
-        # print('\nplace_order  ret_code= %d ,ret_data =\n%s'%(ret_code,str(ret_data)))
+        #下单
+        ret_code, ret_data = tradehk_ctx.place_order(price = 0.2, qty= 1000, code= 'HK.00700', trd_side= TrdSide.BUY, order_type= OrderType.NORMAL, adjust_limit=0, trd_env= TrdEnv.REAL,acc_id=0)
+        print('真实环境',ret_code)
+        print('真实环境',ret_data)
 
     def test_us(self):
         host = '127.0.0.1'
@@ -117,8 +99,10 @@ class PlaceOrder(object):
         trade_us = OpenUSTradeContext(host, port)
         trade_sh_m = OpenCNTradeContext(host, port)
 
-        print(trade_hk.place_order(price = 2.27, qty = 1000, code = 'HK.00434', trd_side=TrdSide.BUY, order_type=OrderType.NORMAL,
-                    adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
+        ret_code_hk ,ret_data_hk = trade_hk.place_order(price = 0.111, qty = 10000, code = 'HK.61162', trd_side=TrdSide.BUY, order_type=OrderType.NORMAL,
+                    adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0)
+        print('模拟交易',ret_code_hk)
+        print('模拟交易',ret_data_hk)
 
         # price = 3.04, qty = 10, code = 'US.DDE'
         # price = 192, qty = 10, code = 'US.AAPL'
@@ -128,14 +112,13 @@ class PlaceOrder(object):
 
         # price = 9.62, qty = 200, code = 'SZ.002078'
         # price=10.2, qty=200, code='SH.601007'
-        # print(trade_sh_m.place_order(price=9.37, qty=100, code='SH', trd_side=TrdSide.BUY,
+        # print(trade_sh_m.place_order(price=9.37, qty=100, code='SH.000001', trd_side=TrdSide.BUY,
         #                            order_type=OrderType.NORMAL,
         #                            adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
 
 
-
-
 if __name__ == '__main__':
     po = PlaceOrder()
+    po.test_hk()
     po.test1()

@@ -40,7 +40,7 @@ class ModifyOrder(object):
         trade_us = OpenUSTradeContext(host, port)
         trade_sh_m = OpenCNTradeContext(host, port)
 
-        print(trade_hk.modify_order(modify_order_op = ModifyOrderOp.NORMAL, order_id = 3611264418767099084, qty = 2000, price = 2.24, adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print(trade_hk.modify_order(modify_order_op = ModifyOrderOp.NORMAL, order_id = 3611264380112393427, qty = 90000, price = 0.021, adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
 if __name__ == '__main__':
     mo = ModifyOrder()
