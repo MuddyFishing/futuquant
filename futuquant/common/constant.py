@@ -660,6 +660,29 @@ class TickerType:
     INTER_NON_AUTO_MATCH = 'INTER_NON_AUTO_MATCH'
     ODD_LOT = 'ODD_LOT'
     AUCTION = 'AUCTION'
+    BULK = 'BULK'
+    CRASH = 'CRASH'
+    CROSS_MARKET = 'CROSS_MARKET'
+    BULK_SOLD = 'BULK_SOLD'
+    FREE_ON_BOARD = 'FREE_ON_BOARD'
+    RULE127_OR_155 = 'RULE127_OR_155'
+    DELAY = 'DELAY'
+    MARKET_CENTER_CLOSE_PRICE = 'MARKET_CENTER_CLOSE_PRICE'
+    NEXT_DAY = 'NEXT_DAY'
+    MARKET_CENTER_OPENING = 'MARKET_CENTER_OPENING'
+    PRIOR_REFERENCE_PRICE = 'PRIOR_REFERENCE_PRICE'
+    MARKET_CENTER_OPEN_PRICE = 'MARKET_CENTER_OPEN_PRICE'
+    SELLER = 'SELLER'
+    T = 'T'
+    EXTENDED_TRADING_HOURS = 'EXTENDED_TRADING_HOURS'
+    CONTINGENT = 'CONTINGENT'
+    AVERAGE_PRICE = 'AVERAGE_PRICE'
+    OTC_SOLD = 'OTC_SOLD'
+    ODD_LOT_CROSS_MARKET = 'ODD_LOT_CROSS_MARKET'
+    DERIVATIVELY_PRICED = 'DERIVATIVELY_PRICED'
+    REOPENINGP_RICED = 'REOPENINGP_RICED'
+    CLOSING_PRICED = 'CLOSING_PRICED'
+    COMPREHENSIVE_DELAY_PRICE = 'COMPREHENSIVE_DELAY_PRICE'
 
 TICKER_TYPE_MAP = {
     TickerType.UNKNOWN: Qot_Common_pb2.TickerType_Unknown,
@@ -669,7 +692,30 @@ TICKER_TYPE_MAP = {
     TickerType.INTER_AUTO_MATCH: Qot_Common_pb2.TickerType_InterAutomatch,
     TickerType.INTER_NON_AUTO_MATCH: Qot_Common_pb2.TickerType_InterNoneAutomatch,
     TickerType.ODD_LOT: Qot_Common_pb2.TickerType_OddLot,
-    TickerType.AUCTION: Qot_Common_pb2.TickerType_Auction
+    TickerType.AUCTION: Qot_Common_pb2.TickerType_Auction,
+    TickerType.BULK: Qot_Common_pb2.TickerType_Bulk,
+    TickerType.CRASH: Qot_Common_pb2.TickerType_Crash,
+    TickerType.CROSS_MARKET: Qot_Common_pb2.TickerType_CrossMarket,
+    TickerType.BULK_SOLD: Qot_Common_pb2.TickerType_BulkSold,
+    TickerType.FREE_ON_BOARD: Qot_Common_pb2.TickerType_FreeOnBoard,
+    TickerType.RULE127_OR_155: Qot_Common_pb2.TickerType_Rule127Or155,
+    TickerType.DELAY: Qot_Common_pb2.TickerType_Delay,
+    TickerType.MARKET_CENTER_CLOSE_PRICE: Qot_Common_pb2.TickerType_MarketCenterClosePrice,
+    TickerType.NEXT_DAY: Qot_Common_pb2.TickerType_NextDay,
+    TickerType.MARKET_CENTER_OPENING: Qot_Common_pb2.TickerType_MarketCenterOpening,
+    TickerType.PRIOR_REFERENCE_PRICE: Qot_Common_pb2.TickerType_PriorReferencePrice,
+    TickerType.MARKET_CENTER_OPEN_PRICE: Qot_Common_pb2.TickerType_MarketCenterOpenPrice,
+    TickerType.SELLER: Qot_Common_pb2.TickerType_Seller,
+    TickerType.T: Qot_Common_pb2.TickerType_T,
+    TickerType.EXTENDED_TRADING_HOURS: Qot_Common_pb2.TickerType_ExtendedTradingHours,
+    TickerType.CONTINGENT: Qot_Common_pb2.TickerType_Contingent,
+    TickerType.AVERAGE_PRICE: Qot_Common_pb2.TickerType_AveragePrice,
+    TickerType.OTC_SOLD: Qot_Common_pb2.TickerType_OTCSold,
+    TickerType.ODD_LOT_CROSS_MARKET: Qot_Common_pb2.TickerType_OddLotCrossMarket,
+    TickerType.DERIVATIVELY_PRICED: Qot_Common_pb2.TickerType_DerivativelyPriced,
+    TickerType.REOPENINGP_RICED: Qot_Common_pb2.TickerType_ReOpeningPriced,
+    TickerType.CLOSING_PRICED: Qot_Common_pb2.TickerType_ClosingPriced,
+    TickerType.COMPREHENSIVE_DELAY_PRICE: Qot_Common_pb2.TickerType_ComprehensiveDelayPrice
 }
 
 
