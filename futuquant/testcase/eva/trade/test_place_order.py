@@ -55,7 +55,7 @@ class PlaceOrder(object):
         # 开启异步
         tradehk_ctx.start()
         #下单
-        ret_code, ret_data = tradehk_ctx.place_order(price = 0.2, qty= 1000, code= 'HK.00700', trd_side= TrdSide.BUY, order_type= OrderType.NORMAL, adjust_limit=0, trd_env= TrdEnv.REAL,acc_id=0)
+        ret_code, ret_data = tradehk_ctx.place_order(price = 375, qty= 2400, code= 'HK.00700', trd_side= TrdSide.BUY, order_type= OrderType.NORMAL, adjust_limit=0, trd_env= TrdEnv.REAL,acc_id=0)
         print('真实环境',ret_code)
         print('真实环境',ret_data)
 
@@ -99,7 +99,7 @@ class PlaceOrder(object):
         trade_us = OpenUSTradeContext(host, port)
         trade_sh_m = OpenCNTradeContext(host, port)
 
-        ret_code_hk ,ret_data_hk = trade_hk.place_order(price = 0.111, qty = 10000, code = 'HK.61162', trd_side=TrdSide.BUY, order_type=OrderType.NORMAL,
+        ret_code_hk ,ret_data_hk = trade_hk.place_order(price = 0.023, qty = 10000, code = 'HK.61162', trd_side=TrdSide.BUY, order_type=OrderType.NORMAL,
                     adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0)
         print('模拟交易',ret_code_hk)
         print('模拟交易',ret_data_hk)
@@ -148,4 +148,4 @@ class PlaceOrder(object):
 
 if __name__ == '__main__':
     po = PlaceOrder()
-    po.test2()
+    po.test_hk()

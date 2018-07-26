@@ -14,8 +14,8 @@ class AccTradeInfoQuery(object):
         trade_us = OpenUSTradeContext(host='127.0.0.1', port=11112)
         trade_hk = OpenHKTradeContext(host='127.0.0.1', port=11112)
         print(trade_us.unlock_trade('123123'))
-        print('US',trade_us.acctradinginfo_query(order_type = OrderType.NORMAL, code='US.BABA', price=192.67, order_id=0, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=281756460277401516))
-        print('HK',trade_hk.acctradinginfo_query(order_type = OrderType.NORMAL, code='HK.00700', price=386.8, order_id=0, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=281756455982434020))
+        print(trade_us.acctradinginfo_query(order_type = OrderType.NORMAL, code='BABA', price=192.67, order_id=0, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=281756460277401516))
+        print(trade_hk.acctradinginfo_query(order_type = OrderType.NORMAL, code='HK.00700', price=386.8, order_id=0, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=281756455982434020))
 
     def test2(self):
         host = '127.0.0.1'
