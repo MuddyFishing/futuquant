@@ -586,8 +586,8 @@ on_recv_rsp - 响应成交推送
  接口名称                          连续30秒内次数限制
  ==========================        =====================
  unlock_trade                      10
- place_order                       30
- modify_order，change_order        30
+ place_order                       15
+ modify_order，change_order        20
  history_order_list_query          10
  history_deal_list_query           10
  ==========================        =====================
