@@ -71,7 +71,7 @@ class wechat_push(object):
         access_token = self.get_access_token()
         body = {
             "touser": openid,
-            "template_id":"jr67sFJ5w4ln_ty6e0BHSBLZNOUOgMXOC-ph9u6xWwQ",
+            "template_id":common_parameter.template_id,
              "data":{
                     "first": {
                        "value":(msg['echo_type']),
@@ -147,15 +147,15 @@ class wechat_push(object):
         user_openid_list = self.get_user_openid_list()
         if user_openid_list:
             for openid in user_openid_list:
-                if (self.get_user_nickname(openid) in common_parameter.test_user_list):
-                    self.send_msg_to_users_template_news(openid, msg)
+                if (self.get_user_nickname(openid) in common_parameter.test_user_nickname):
+                    self.send_msg_to_users_customer_service_news(openid, msg)
 
-    def sent_template_msg_to_users(self):
+    def sent_template_msg_to_users(self, msg):
         user_openid_list = self.get_user_openid_list()
         if user_openid_list:
             for openid in user_openid_list:
-                if (self.get_user_nickname(openid) in common_parameter.test_user_list):
-                    self.send_msg_to_users_template_news(openid, msg)
+                if (self.get_user_nickname(openid) in common_parameter.test_user_nickname):
+                    self.send_template_msg(openid, msg)
         
 
 
@@ -166,10 +166,9 @@ if __name__ == '__main__':
     msg = {
         'echo_type': 'Warning',
         'code':str(10000),
-        'direction': 'SELL',
-        'prev_price': str(100.2),
         'price': str(101.1),
         'total_deal_price':str(200),
+        'quantity': str(20000),
         'time': str(123)
     }
     text_msg = 'Hello'
@@ -178,8 +177,8 @@ if __name__ == '__main__':
     wp = wechat_push()  # test号
     # wp = wechat_push('wxbe3ec6c53ff67a31', '')
     # print(wp.get_access_token())
-    # wp.send_text_msg(text_msg)
-    # wp.send_template_msg(msg)
+    wp.send_text_msg(text_msg)
+    wp.sent_template_msg_to_users(msg)
 
     # 输出所有用户nickname
     # all_user_openid =wp.get_user_openid_list()

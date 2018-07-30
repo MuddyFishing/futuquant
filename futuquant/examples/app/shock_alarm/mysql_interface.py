@@ -2,15 +2,16 @@
 import pymysql
 import sys
 import re
+import common_parameter
 
 
 class mysql_interface:
     def __init__(self):
-        self.host = '127.0.0.1'
-        self.port = 3306
-        self.user = 'root'
-        self.passwd = 'hackch'
-        self.database = 'stock_alarm'
+        self.host = common_parameter.host
+        self.port = common_parameter.port
+        self.user = common_parameter.user
+        self.passwd = common_parameter.passwd
+        self.database = common_parameter.database
 
     def mysql_connect(self):
         conn = pymysql.connect(host=self.host, port=self.port, user=self.user, passwd=self.passwd, db=self.database)
@@ -29,7 +30,7 @@ class mysql_interface:
         # con.commit()
         con.close()
 
-    def print_table(self):
+    def print_setting_table(self):
         con = pymysql.connect(host=self.host, port=self.port, user=self.user, passwd=self.passwd, db=self.database)
         cur = con.cursor()
         cur.execute("select * from setting")
@@ -153,32 +154,45 @@ class mysql_interface:
         finally:
             con.close()
 
+    def create_table_warning_list(self):
+        con = pymysql.connect(host=self.host, port=self.port, user=self.user, passwd=self.passwd, db=self.database)
+        cur = con.cursor()
+        cur.execute("CREATE TABLE IF NOT EXISTS warning_list(openid VARCHAR(25) PRIMARY KEY, time_list VARCHAR(200))")
+        con.close()
 
+    def update_warning_list(self, openid, time_list):
+        con = pymysql.connect(host=self.host, port=self.port, user=self.user, passwd=self.passwd, db=self.database)
+        cur = con.cursor()
+        sql_update_threshold = 'insert into warning_list set stockid = "%s", time_list = "%s" on duplicate key update time_list = "%s"'
 
-# test code
-# myopenid = "kdhfskgadfvbsdvkjgkaghsdzfkigv_dgfjsdzfvbjazsgdcfvgh"
-# p1 = 0.005
-# p2 = 1000000.0
-# p3 = 4000000.0
-# p4 = 4
-# stockid = ""
-# user_setting = '设置' + ' ' + str(p1) + ' ' + str(p2) + ' ' + str(p3) + ' ' + str(p4)
-# mi = mysql_interface()
-# mi.mysql_connect()
-# mi.create_table_setting()
-# mi.update_threshold(myopenid, user_setting)
-# mi.print_table()
-# mi.delete_user_setting(myopenid)
-# mi.print_table()
-# mi.get_setting_by_openid(myopenid)
-#
-# mi = mysql_interface()
-# mi.create_table_price()
-# mi.update_price("test", 12.1)
-# print(mi.get_preprice_by_stockid("test"))
-# result = mi.get_preprice_by_stockid("tes")
-# if not result:
-#     print("None")
-# else:
-#     print(result)
-# mi.delete_price("test")
+        try:
+            cur.execute(sql_update_threshold % (openid, time_list, time_list))
+            # 提交
+            con.commit()
+        except Exception as e:
+            # 错误回滚
+            con.rollback()
+        finally:
+            con.close()
+
+    def delete_warning_list(self, openid):
+        con = pymysql.connect(host=self.host, port=self.port, user=self.user, passwd=self.passwd, db=self.database)
+        cur = con.cursor()
+
+        sql_delete = 'delete from warning_list where openid = "%s"'
+        try:
+            cur.execute(sql_delete % (openid))
+            con.commit()
+        except Exception as e:
+            # 错误回滚
+            con.rollback()
+        finally:
+            con.close()
+
+    def get_time_list_by_openid(self, openid):
+        con = pymysql.connect(host=self.host, port=self.port, user=self.user, passwd=self.passwd, db=self.database)
+        cur = con.cursor()
+        cur.execute('select * from warning_list where openid = "%s"' % openid)
+        results = cur.fetchall()
+        con.close()
+        return results

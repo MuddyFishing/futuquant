@@ -4,16 +4,42 @@ from wx_push import wechat_push
 import logging
 from mysql_interface import mysql_interface
 import common_parameter
-import collections
+import time
 
 mi = mysql_interface()
 wp = wechat_push()
-echo_queue = collections.deque()
 
-def detect(content, prev_price, openid, premium_rate, warning_threshold, large_threshold):
+def detect_warning_times(openid, warning_limit):
+    sent_msg_sig = 1
+    now_time = time.time()
+    result = mi.get_time_list_by_openid(openid)
+    new_time_list = ''
+    cnt = 0
+    if result:
+        time_str = result[0][1]
+        time_list = time_str.split(',')
+        if (time_list.__len__ == 1 and time_list[0] == ''):  # 当warning_time_list为“”时
+            pass
+        else:
+            first_flag = 1
+            for tmp_time in time_list:
+                if (now_time - float(tmp_time) < 60):
+                    if not first_flag:  # 如果不是第一个，就需要添加','符号
+                        new_time_list += ','
+                    new_time_list += tmp_time
+                    cnt += 1
 
+    if cnt <= warning_limit:
+        new_time_list = new_time_list + ',' + now_time
+    else:
+        sent_msg_sig = 0
+        print("The number of warning is exceeded. %d, %d" % (cnt, warning_limit))
+    mi.update_warning_list(openid, new_time_list)
+    return sent_msg_sig
+
+def detect(content, prev_price, openid, premium_rate, warning_threshold, large_threshold, warning_limit):
     code = content[0]['code']
-    time = content[0]['time']
+    ttime = content[0]['time']
     price = content[0]['price']
     vol = content[0]['volume']
     direction = content[0]['ticker_direction']
@@ -33,13 +59,14 @@ def detect(content, prev_price, openid, premium_rate, warning_threshold, large_t
         sent_msg_sig = 1
         msg.update({'echo_type': '单笔大额成交'})
 
-    # 检测是否超过一分钟预警次数
+    if(sent_msg_sig):
+        sent_msg_sig = detect_warning_times(openid, warning_limit)
 
     if(sent_msg_sig):
         # print("+------------------------------------+")
         # print(openid, warning_threshold, large_threshold)
         # print("+------------------------------------+")
-        msg.update({'code':str(code), 'price': str(price), 'total_deal_price':str(int(vol)*price/10000), 'quantity': str(vol), 'time': str(time)})
+        msg.update({'code':str(code), 'price': str(price), 'total_deal_price':str(int(vol)*price/10000), 'quantity': str(vol), 'time': str(ttime)})
         wp.send_template_msg(openid, msg)
         logging.info("Send a message.")
 
@@ -57,40 +84,15 @@ def update_price(content):
     # 更新 逐笔成交信息
     mi.update_price(code, price)
 
-
 def detect_and_send(content):
-    # setting_list = mi.get_all_user_setting()
-    # for usr_setting in setting_list:
-    #     detect(content, usr_setting[0], usr_setting[1], usr_setting[2])
-
-    # user_list = wp.get_user_openid_list()
-
     prev_price = get_preprice(content)
-
-    # 检测已经预警的次数
-    now_time = time.time()
-    while echo_queue.__len__() > 0:
-        tmp = echo_queue.popleft()
-        print(tmp)
-        if(now_time - tmp < 60):   # 在1分钟内的压回队首
-            echo_queue.appendleft(tmp)
-            break;
-    echo_queue.append(now_time)
-    already_warning_times = echo_queue.__len__()
-
 
     user_list = common_parameter.test_user_list
     for openid in user_list:
         usr_setting = mi.get_setting_by_openid(openid)
         if usr_setting:
-            if(already_warning_times > usr_setting[0][4]):
-                print("The number of warning is exceeded. %d, %d" %(already_warning_times, usr_setting[0][4]))
-                continue
-            detect(content, prev_price, usr_setting[0][0], usr_setting[0][1], usr_setting[0][2], usr_setting[0][3])
+            detect(content, prev_price, usr_setting[0][0], usr_setting[0][1], usr_setting[0][2], usr_setting[0][3], usr_setting[0][4])
         else:
-            if(already_warning_times > common_parameter.warning_limit):
-                print("The number of warning is exceeded. %d, %d" %(already_warning_times, common_parameter.warning_limit))
-                continue
-            detect(content, prev_price, openid, common_parameter.premium_rate, common_parameter.warning_threshold, common_parameter.large_threshold)
+            detect(content, prev_price, openid, common_parameter.premium_rate, common_parameter.warning_threshold, common_parameter.large_threshold, common_parameter.warning_limit)
 
     update_price(content)
