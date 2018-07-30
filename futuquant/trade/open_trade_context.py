@@ -622,7 +622,7 @@ class OpenTradeContextBase(OpenContextBase):
 
         ret, content = self._split_stock_code(code)
         if ret != RET_OK:
-            return ret, msg
+            return ret, content
 
         market_str, stock_code = content
 
