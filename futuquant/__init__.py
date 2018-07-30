@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os.path
+
 #import data querying APIs and response handle base class
 from futuquant.quote.open_quote_context import OpenQuoteContext
 from futuquant.quote.quote_response_handler import *
@@ -29,3 +31,5 @@ from futuquant.trade.open_trade_context import OpenCNTradeContext
 from futuquant.common.constant import *
 from futuquant.common.sys_config import SysConfig
 
+with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'VERSION.txt'), 'rb') as f:
+    __version__ = f.read().decode('ascii').strip()

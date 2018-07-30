@@ -39,11 +39,9 @@ setup(
     packages=find_packages(exclude=[]),
     package_data={'': ['*.*']},
     include_package_data=True,
-    install_requires=[
-    	"future",
-			"pandas",
-			"simplejson",
-			"protobuf",
-			"PyCryptodome",
-    ],
+    install_requires=["pandas",
+                      "simplejson",
+                      "protobuf",
+                      "PyCryptodome",
+                      ],
 )
