@@ -2,7 +2,7 @@
 
 ### 简介
 
-[​**FutuQuant**](https://futunnopen.github.io/futuquant/intro/intro.html)开源项目可以满足使用[**富途牛牛**](http://www.futunn.com/)软件进行量化投资的需求, 提供包括Python接口、Json接口的行情及交易的API。 
+[​**FutuQuant**](https://futunnopen.github.io/futuquant/intro/intro.html)开源项目可以满足使用[**富途Open API**](https://www.futunn.com/)软件进行量化投资的需求, 提供包括Python接口、Json和Protobuf接口的行情及交易的API。
 
 - [官方在线文档](https://futunnopen.github.io/futuquant/intro/intro.html)
 
@@ -57,7 +57,6 @@ trade_us_ctx = ft.OpenUSTradeContext(host="127.0.0.1", port=11111)
 # 交易接口列表
 ret_code, ret_data = trade_hk_ctx.unlock_trade(password='123456')                # 解锁接口
 ret_code, ret_data = trade_hk_ctx.place_order(price, qty, strcode, orderside, ordertype=0, envtype=0) # 下单接口
-ret_code, ret_data = trade_hk_ctx.set_order_status(status, orderid=0, envtype=0) # 设置订单状态
 ret_code, ret_data = trade_hk_ctx.change_order(price, qty, orderid=0, envtype=0) # 修改订单
 ret_code, ret_data = trade_hk_ctx.accinfo_query(envtype=0)                       # 查询账户信息
 ret_code, ret_data = trade_hk_ctx.order_list_query(statusfilter="", envtype=0)   # 查询订单列表
@@ -76,7 +75,7 @@ ret_code, ret_data = trade_hk_ctx.deal_list_query(envtype=0)                    
 
 ### 组织结构
 
-![image](https://github.com/FutunnOpen/futuquant/raw/master/docs/source/_static/Structure.png)
+![image](https://github.com/FutunnOpen/futuquant/blob/master/docs/source/_static/Structure.png)
 
 ​	最新版本在master分支。之前各版本在其他分支上。
 
@@ -84,24 +83,23 @@ ret_code, ret_data = trade_hk_ctx.deal_list_query(envtype=0)                    
 
 ### API与富途牛牛客户端架构
 
-![image](https://github.com/FutunnOpen/futuquant/raw/master/docs/source/_static/API.png)
+![image](https://futunnopen.github.io/futuquant/_images/API.png)
 
 ***
 
 ### 使用须知
 
-- 限定使用有API后缀的安装包。不要去掉勾选“安装量化交易插件API”选项。
-- 无需拷贝对应的dll插件。
-- 安装成功后直接使用接口进行行情获取或者交易操作。
+- 在富途牛牛官网上下载[Open API](https://www.futunn.com/download/index)。
+- 安装成功后直接使用接口获取行情或者进行交易。
 
 ---
 
 ### 历史数据及除权除息下载问题
-###### [历史K线下载指引](https://github.com/FutunnOpen/futuquant/blob/master/docs/document/Hist_KLine_Download_Intro.md)
+###### [历史K线下载指引](https://futunnopen.github.io/futuquant/setup/Hist_KLine_Download_Intro.html)
 
-- 在富途牛牛安装目录的plugin文件夹内有历史数据下载配置文件(ftplugin.ini)，请先详细阅读再进行操作。
-- 如果不想下载新数据、可以将开始时间和暂停下载时间设置为相同时间。
-- 如果选择下载的数据越大，下载所需时间越长。如果中途退出，下次开启时将重新下载。请勿在下载过程中关闭牛牛客户端。
+- 在Open API文件夹内有历史数据下载配置文件(FutuHistData.xml)，请先详细阅读再进行操作。
+- 如果不想下载新数据、可以将是否开启下载设置为0。
+- 如果选择下载的数据越大，下载所需时间越长。如果中途退出，下次开启时将重新下载。请勿在下载过程中关闭FutuHistData。
 
 ***
 
