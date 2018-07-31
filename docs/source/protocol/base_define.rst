@@ -801,7 +801,7 @@ OrderType - 订单类型
 		OrderType_AbsoluteLimit = 5; //绝对限价订单(目前仅港股)，只有价格完全匹配才成交，比如你下价格为5元的买单，卖单价格必须也要是5元才能成交，低于5元也不能成交。卖出同理
 		OrderType_Auction = 6; //竞价订单(目前仅港股)，A股的早盘竞价订单类型不变还是OrderType_Normal
 		OrderType_AuctionLimit = 7; //竞价限价订单(目前仅港股)
-		OrderType_SpecialLimit = 8; //特别限价订单(目前仅港股)，成交规则同OrderType_AbsoluteLimit，且如果当前没有对手可成交，不能立即成交，交易所自动撤销订单
+		OrderType_SpecialLimit = 8; //特别限价订单(目前仅港股)，成交规则同增强限价订单，且部分成交后，交易所自动撤销订单
 	}
 
 

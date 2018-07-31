@@ -214,11 +214,6 @@ relogin - 重登录
   **Paramters login_pwd:** str，登录密码明文
   
   **Paramters login_pwd_md5:** str，登录密码密文（32位MD5加密16进制）
-
- .. note::
-
-      *   运维代码在Telnet窗口或命令控制台输入
-      .. image:: ../_static/req-verify.png
 	  
 help - 命令帮助
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -228,3 +223,8 @@ help - 命令帮助
   查看指定命令详细信息，不指定参数则输出命令列表
 
   **Paramters cmd:** str，命令
+  
+.. note::
+
+    * 运维代码在Telnet窗口或命令控制台输入
+    .. image:: ../_static/req-verify.png
