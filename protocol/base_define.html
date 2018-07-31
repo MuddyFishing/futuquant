@@ -124,6 +124,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#klfields-k">KLFields - K线数据字段</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#subtype">SubType - 行情定阅类型</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#tickerdirection">TickerDirection - 逐笔方向</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tickertype">TickerType - 逐笔类型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#darkstatus">DarkStatus - 暗盘交易状态</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#security">Security - 证券标识</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kline-k">KLine - K线数据点</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#basicqot">BasicQot - 基础报价</a></li>
@@ -153,6 +155,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#position">Position - 账户持仓</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#order">Order - 订单</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#orderfill">OrderFill - 成交</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#maxtrdqtys">MaxTrdQtys - 最大交易数量</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#trdfilterconditions">TrdFilterConditions - 过滤条件</a></li>
 </ul>
 </li>
@@ -676,13 +679,46 @@
 <div class="section" id="tickerdirection">
 <h3>TickerDirection - 逐笔方向<a class="headerlink" href="#tickerdirection" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><div class="highlight-protobuf"><div class="highlight"><pre><span></span> <span class="c1">//订阅类型</span>
- <span class="c1">//枚举值兼容旧协议定义</span>
- <span class="kd">enum</span> <span class="n">TickerDirection</span>
+<div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">enum</span> <span class="n">TickerDirection</span>
 <span class="p">{</span>
         <span class="na">TickerDirection_Bid</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//外盘</span>
         <span class="na">TickerDirection_Ask</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//内盘</span>
         <span class="na">TickerDirection_Neutral</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//中性盘</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<hr class="docutils" />
+<div class="section" id="tickertype">
+<h3>TickerType - 逐笔类型<a class="headerlink" href="#tickertype" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><div class="highlight-protobuf"><div class="highlight"><pre><span></span> <span class="c1">//逐笔类型</span>
+<span class="kd">enum</span> <span class="n">TickerType</span>
+<span class="p">{</span>
+        <span class="na">TickerType_Unknown</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//未知</span>
+        <span class="na">TickerType_Automatch</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//自动对盘</span>
+        <span class="na">TickerType_Late</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//开市前成交盘</span>
+        <span class="na">TickerType_NoneAutomatch</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//非自动对盘</span>
+        <span class="na">TickerType_InterAutomatch</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//同一证券商自动对盘</span>
+        <span class="na">TickerType_InterNoneAutomatch</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//同一证券商非自动对盘</span>
+        <span class="na">TickerType_OddLot</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//碎股交易</span>
+        <span class="na">TickerType_Auction</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//竞价交易</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<hr class="docutils" />
+<div class="section" id="darkstatus">
+<h3>DarkStatus - 暗盘交易状态<a class="headerlink" href="#darkstatus" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><div class="highlight-protobuf"><div class="highlight"><pre><span></span> <span class="c1">//暗盘交易状态</span>
+<span class="kd">enum</span> <span class="n">DarkStatus</span>
+<span class="p">{</span>
+        <span class="na">DarkStatus_None</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//无暗盘交易</span>
+        <span class="na">DarkStatus_Trading</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//暗盘交易中</span>
+        <span class="na">DarkStatus_End</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//暗盘交易结束</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -744,6 +780,7 @@
         <span class="k">required</span> <span class="kt">double</span> <span class="na">turnover</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span> <span class="c1">//成交额</span>
         <span class="k">required</span> <span class="kt">double</span> <span class="na">turnoverRate</span> <span class="o">=</span> <span class="mi">13</span><span class="p">;</span> <span class="c1">//换手率</span>
         <span class="k">required</span> <span class="kt">double</span> <span class="na">amplitude</span> <span class="o">=</span> <span class="mi">14</span><span class="p">;</span> <span class="c1">//振幅</span>
+        <span class="k">optional</span> <span class="kt">int32</span> <span class="na">darkStatus</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span> <span class="c1">//DarkStatus, 暗盘交易状态</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -837,6 +874,8 @@
         <span class="k">required</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//价格</span>
         <span class="k">required</span> <span class="kt">int64</span> <span class="na">volume</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//成交量</span>
         <span class="k">required</span> <span class="kt">double</span> <span class="na">turnover</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//成交额</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">recvTime</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//收到推送数据的本地时间戳，用于定位延迟</span>
+        <span class="k">optional</span> <span class="kt">int32</span> <span class="na">type</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">//TickerType, 逐笔类型</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -955,7 +994,7 @@
 <blockquote>
 <div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">enum</span> <span class="n">TrdSide</span>
 <span class="p">{</span>
-        <span class="c1">//客户端下单只传Buy或Sell即可，SellShort是服务器返回有此方向，BuyBack目前不存在，但也不排除服务器会传</span>
+        <span class="c1">//客户端下单只传Buy或Sell即可，SellShort是美股订单时服务器返回有此方向，BuyBack目前不存在，但也不排除服务器会传</span>
         <span class="na">TrdSide_Unknown</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//未知方向</span>
         <span class="na">TrdSide_Buy</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//买入</span>
         <span class="na">TrdSide_Sell</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//卖出</span>
@@ -973,13 +1012,13 @@
 <div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">enum</span> <span class="n">OrderType</span>
 <span class="p">{</span>
         <span class="na">OrderType_Unknown</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//未知类型</span>
-        <span class="na">OrderType_Normal</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//普通订单(港股的增强限价单、A股的限价委托、美股的限价单)</span>
+        <span class="na">OrderType_Normal</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//普通订单(港股的增强限价订单、A股的限价委托、美股的限价订单)</span>
         <span class="na">OrderType_Market</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//市价订单(目前仅美股)</span>
 
         <span class="na">OrderType_AbsoluteLimit</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//绝对限价订单(目前仅港股)，只有价格完全匹配才成交，比如你下价格为5元的买单，卖单价格必须也要是5元才能成交，低于5元也不能成交。卖出同理</span>
         <span class="na">OrderType_Auction</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//竞价订单(目前仅港股)，A股的早盘竞价订单类型不变还是OrderType_Normal</span>
         <span class="na">OrderType_AuctionLimit</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//竞价限价订单(目前仅港股)</span>
-        <span class="na">OrderType_SpecialLimit</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">//特别限价订单(目前仅港股)，成交规则同OrderType_AbsoluteLimit，且如果当前没有对手可成交，不能立即成交，交易所自动撤销订单</span>
+        <span class="na">OrderType_SpecialLimit</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">//特别限价订单(目前仅港股)，成交规则同增强限价订单，且部分成交后，交易所自动撤销订单</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -1065,7 +1104,7 @@
 <blockquote>
 <div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">message</span> <span class="nc">Funds</span>
 <span class="p">{</span>
-        <span class="k">required</span> <span class="kt">double</span> <span class="na">power</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//购买力，3位精度(A股2位)，下同</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">power</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//购买力，3位精度，下同</span>
         <span class="k">required</span> <span class="kt">double</span> <span class="na">totalAssets</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//资产净值</span>
         <span class="k">required</span> <span class="kt">double</span> <span class="na">cash</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//现金</span>
         <span class="k">required</span> <span class="kt">double</span> <span class="na">marketVal</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//证券市值</span>
@@ -1089,14 +1128,14 @@
         <span class="k">required</span> <span class="kt">string</span> <span class="na">name</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//名称</span>
         <span class="k">required</span> <span class="kt">double</span> <span class="na">qty</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//持有数量，2位精度，期权单位是&quot;张&quot;，下同</span>
         <span class="k">required</span> <span class="kt">double</span> <span class="na">canSellQty</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//可卖数量</span>
-        <span class="k">required</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//市价，3位精度(A股2位)</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//市价，3位精度</span>
         <span class="k">optional</span> <span class="kt">double</span> <span class="na">costPrice</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">//成本价，无精度限制，如果没传，代表此时此值无效</span>
-        <span class="k">required</span> <span class="kt">double</span> <span class="na">val</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span> <span class="c1">//市值，3位精度(A股2位)</span>
-        <span class="k">required</span> <span class="kt">double</span> <span class="na">plVal</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="c1">//盈亏金额，3位精度(A股2位)</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">val</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span> <span class="c1">//市值，3位精度</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">plVal</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="c1">//盈亏金额，3位精度</span>
         <span class="k">optional</span> <span class="kt">double</span> <span class="na">plRatio</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span> <span class="c1">//盈亏比例，无精度限制，如果没传，代表此时此值无效</span>
 
         <span class="c1">//以下是此持仓今日统计</span>
-        <span class="k">optional</span> <span class="kt">double</span> <span class="na">td_plVal</span> <span class="o">=</span> <span class="mi">21</span><span class="p">;</span> <span class="c1">//今日盈亏金额，3位精度(A股2位)，下同</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">td_plVal</span> <span class="o">=</span> <span class="mi">21</span><span class="p">;</span> <span class="c1">//今日盈亏金额，3位精度，下同</span>
         <span class="k">optional</span> <span class="kt">double</span> <span class="na">td_trdVal</span> <span class="o">=</span> <span class="mi">22</span><span class="p">;</span> <span class="c1">//今日交易额</span>
         <span class="k">optional</span> <span class="kt">double</span> <span class="na">td_buyVal</span> <span class="o">=</span> <span class="mi">23</span><span class="p">;</span> <span class="c1">//今日买入总额</span>
         <span class="k">optional</span> <span class="kt">double</span> <span class="na">td_buyQty</span> <span class="o">=</span> <span class="mi">24</span><span class="p">;</span> <span class="c1">//今日买入总量</span>
@@ -1117,11 +1156,11 @@
         <span class="k">required</span> <span class="kt">int32</span> <span class="na">orderType</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//订单类型, 参见OrderType的枚举定义</span>
         <span class="k">required</span> <span class="kt">int32</span> <span class="na">orderStatus</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//订单状态, 参见OrderStatus的枚举定义</span>
         <span class="k">required</span> <span class="kt">uint64</span> <span class="na">orderID</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//订单号</span>
-        <span class="k">required</span> <span class="kt">string</span> <span class="na">orderIDEx</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//扩展订单号</span>
+        <span class="k">required</span> <span class="kt">string</span> <span class="na">orderIDEx</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//扩展订单号(仅查问题时备用)</span>
         <span class="k">required</span> <span class="kt">string</span> <span class="na">code</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//代码</span>
         <span class="k">required</span> <span class="kt">string</span> <span class="na">name</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//名称</span>
         <span class="k">required</span> <span class="kt">double</span> <span class="na">qty</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">//订单数量，2位精度，期权单位是&quot;张&quot;</span>
-        <span class="k">optional</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span> <span class="c1">//订单价格，3位精度(A股2位)</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span> <span class="c1">//订单价格，3位精度</span>
         <span class="k">required</span> <span class="kt">string</span> <span class="na">createTime</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="c1">//创建时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传</span>
         <span class="k">required</span> <span class="kt">string</span> <span class="na">updateTime</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span> <span class="c1">//最后更新时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传</span>
         <span class="k">optional</span> <span class="kt">double</span> <span class="na">fillQty</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span> <span class="c1">//成交数量，2位精度，期权单位是&quot;张&quot;</span>
@@ -1140,16 +1179,33 @@
 <span class="p">{</span>
         <span class="k">required</span> <span class="kt">int32</span> <span class="na">trdSide</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//交易方向, 参见TrdSide的枚举定义</span>
         <span class="k">required</span> <span class="kt">uint64</span> <span class="na">fillID</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//成交号</span>
-        <span class="k">required</span> <span class="kt">string</span> <span class="na">fillIDEx</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//扩展成交号</span>
+        <span class="k">required</span> <span class="kt">string</span> <span class="na">fillIDEx</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//扩展成交号(仅查问题时备用)</span>
         <span class="k">optional</span> <span class="kt">uint64</span> <span class="na">orderID</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//订单号</span>
-        <span class="k">optional</span> <span class="kt">string</span> <span class="na">orderIDEx</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//扩展订单号</span>
+        <span class="k">optional</span> <span class="kt">string</span> <span class="na">orderIDEx</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//扩展订单号(仅查问题时备用)</span>
         <span class="k">required</span> <span class="kt">string</span> <span class="na">code</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//代码</span>
         <span class="k">required</span> <span class="kt">string</span> <span class="na">name</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//名称</span>
         <span class="k">required</span> <span class="kt">double</span> <span class="na">qty</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">//成交数量，2位精度，期权单位是&quot;张&quot;</span>
-        <span class="k">required</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span> <span class="c1">//成交价格，3位精度(A股2位)</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span> <span class="c1">//成交价格，3位精度</span>
         <span class="k">required</span> <span class="kt">string</span> <span class="na">createTime</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="c1">//创建时间（成交时间），严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传</span>
         <span class="k">optional</span> <span class="kt">int32</span> <span class="na">counterBrokerID</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span> <span class="c1">//对手经纪号，港股有效</span>
         <span class="k">optional</span> <span class="kt">string</span> <span class="na">counterBrokerName</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span> <span class="c1">//对手经纪名称，港股有效</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<hr class="docutils" />
+<div class="section" id="maxtrdqtys">
+<h3>MaxTrdQtys - 最大交易数量<a class="headerlink" href="#maxtrdqtys" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">message</span> <span class="nc">MaxTrdQtys</span>
+<span class="p">{</span>
+        <span class="c1">//因目前服务器实现的问题，卖空需要先卖掉持仓才能再卖空，是分开两步卖的，买回来同样是逆向两步；而看多的买是可以现金加融资一起一步买的，请注意这个差异</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">maxCashBuy</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//不使用融资，仅自己的现金最大可买整手股数</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">maxCashAndMarginBuy</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//使用融资，自己的现金 + 融资资金总共的最大可买整手股数</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">maxPositionSell</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//不使用融券(卖空)，仅自己的持仓最大可卖整手股数</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">maxSellShort</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//使用融券(卖空)，最大可卖空整手股数，不包括多仓</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">maxBuyBack</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//卖空后，需要买回的最大整手股数。因为卖空后，必须先买回已卖空的股数，还掉股票，才能再继续买多。</span>
 <span class="p">}</span>
 </pre></div>
 </div>

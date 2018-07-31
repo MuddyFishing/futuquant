@@ -51,7 +51,7 @@ FutuOpenD配置
   键值                   说明						                                                                          是否可选配置项
   ====================   ==================================================================================================   ===========================================
   ip                     监听地址																			                  是，不设置则默认0.0.0.0	
-  api_port               API协议接收端口                                                                                      否，不设置则启动失败
+  api_port               API协议接收端口                                                                                      是，可以命令行指定
   push_proto_type        API协议支持PB以及Json格式，PB：0，Json：1，推送类协议通过该配置决定包体格式                          是，不设置则默认Json格式
   qot_push_frequency     API订阅数据推送频率控制，单位毫秒，目前不包括K线和分时                                               是，不设置则不限制频率
   rsa_private_key        API协议RSA加密私钥（PKCS#1）文件绝对路径                                                             是，不设置则协议不加密
@@ -133,7 +133,7 @@ FutuHistData配置
   
   传参格式：-key=value
   
-  例如FutuOpenD.exe -login_account=100000 -login_pwd=123456 -lang=en -login_region=hk
+  例如FutuOpenD.exe -login_account=100000 -login_pwd=123456 -lang=en
 
   
   **参数项：**
@@ -145,17 +145,15 @@ FutuHistData配置
   login_pwd                  登录密码明文                                                                                         是，可以使用证书登录或配置文件配置项
   login_pwd_md5              登录密码密文（32位MD5加密16进制），密文明文都存在情况下，只使用密文                                  是，可以使用密文、证书登录或配置文件配置项
   login_cert_file            证书文件绝对路径，除帐号密码外的另一种登录方式输入，若同时存在帐号密码登录配置项，只使用证书登录     是，可以使用明文、证书登录或配置文件配置项   
-  login_region               优先连接点区域，但不一定能连接上该区域连接点，hk/gz/sh                                               是，不设置则自动选择
+  login_region               优先连接点区域，但不一定能连接上该区域连接点                                                         是，不设置则自动选择
   cfg_file                   FutuOpenD配置文件绝对路径                                                                            是，不设置则使用程序所在目录下的FutuOpenD.xml
   hist_data_cfg_file         FutuHistData配置文件绝对路径 	                                                                      是，不设置则使用程序所在目录下的FutuHistData.xml
   console                    是否显示控制台，后台运行：0，控制台运行：1                                                           是，不设置则默认控制台运行
   lang						 FutuOpenD语言，en：英文，chs：简体中文                                                               是，不设置则默认简体中文
+  api_port                   API协议接收端口                                                                                      是，不设置则使用配置文件配置项
+  help                       输出启动命令行参数然后退出程序                                                                       是，不设置则正常启动FutuOpenD
   ========================   ==================================================================================================   ================================================
 
-.. note::
-
-  * 参数以空格做为分隔符，所以注意路径配置不可带空格
-  
 --------------
 
 运维命令
@@ -216,8 +214,17 @@ relogin - 重登录
   **Paramters login_pwd:** str，登录密码明文
   
   **Paramters login_pwd_md5:** str，登录密码密文（32位MD5加密16进制）
+	  
+help - 命令帮助
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- .. note::
+  help -cmd=exit
 
-      *   运维代码在Telnet窗口或命令控制台输入
-      .. image:: ../_static/req-verify.png
+  查看指定命令详细信息，不指定参数则输出命令列表
+
+  **Paramters cmd:** str，命令
+  
+.. note::
+
+    * 运维代码在Telnet窗口或命令控制台输入
+    .. image:: ../_static/req-verify.png

@@ -111,6 +111,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#trd-subaccpush-proto-2008">Trd_SubAccPush.proto - 2008订阅接收交易账户的推送数据</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#trd-getfunds-proto-2101">Trd_GetFunds.proto - 2101获取账户资金</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#trd-getpositionlist-proto-2102">Trd_GetPositionList.proto - 2102获取持仓列表</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#trd-getmaxtrdqtys-proto-2111">Trd_GetMaxTrdQtys.proto - 2111获取最大交易数量</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#trd-getorderlist-proto-2201">Trd_GetOrderList.proto - 2201获取订单列表</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#trd-placeorder-proto-2202">Trd_PlaceOrder.proto - 2202下单</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#trd-modifyorder-proto-2205">Trd_ModifyOrder.proto - 2205修改订单(改价、改量、改状态等)</a></li>
@@ -423,6 +424,57 @@
 </div>
 </div>
 <hr class="docutils" />
+<div class="section" id="trd-getmaxtrdqtys-proto-2111">
+<h2><a class="reference external" href="https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_GetMaxTrdQtys.proto">Trd_GetMaxTrdQtys.proto</a> - 2111获取最大交易数量<a class="headerlink" href="#trd-getmaxtrdqtys-proto-2111" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="na">syntax</span> <span class="o">=</span> <span class="s">&quot;proto2&quot;</span><span class="p">;</span>
+<span class="kn">package</span> <span class="nn">Trd_GetMaxTrdQtys</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="s">&quot;Common.proto&quot;</span><span class="p">;</span>
+<span class="k">import</span> <span class="s">&quot;Trd_Common.proto&quot;</span><span class="p">;</span>
+
+<span class="kd">message</span> <span class="nc">C2S</span>
+<span class="p">{</span>
+        <span class="k">required</span> <span class="n">Trd_Common.TrdHeader</span> <span class="na">header</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//交易公共参数头</span>
+        <span class="k">required</span> <span class="kt">int32</span> <span class="na">orderType</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//订单类型, 参见Trd_Common.OrderType的枚举定义</span>
+        <span class="k">required</span> <span class="kt">string</span> <span class="na">code</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//代码，港股必须是5位数字，A股必须是6位数字，美股没限制</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//价格，3位精度。如果是竞价、市价单，请也填入一个当前价格，服务器才好计算</span>
+        <span class="k">optional</span> <span class="kt">uint64</span> <span class="na">orderID</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//订单号，新下订单不需要，如果是修改订单就需要把原订单号带上才行，因为改单的最大买卖数量会包含原订单数量。</span>
+        <span class="c1">//为保证与下单的价格同步，也提供调整价格选项，对港、A股有意义，因为港股有价位，A股2位精度，美股可不传</span>
+        <span class="k">optional</span> <span class="kt">bool</span> <span class="na">adjustPrice</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//是否调整价格，如果价格不合法，是否调整到合法价位，true调整，false不调整</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">adjustSideAndLimit</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%</span>
+<span class="p">}</span>
+
+<span class="kd">message</span> <span class="nc">S2C</span>
+<span class="p">{</span>
+        <span class="k">required</span> <span class="n">Trd_Common.TrdHeader</span> <span class="na">header</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//交易公共参数头</span>
+        <span class="k">optional</span> <span class="n">Trd_Common.MaxTrdQtys</span> <span class="na">maxTrdQtys</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//最大可交易数量结构</span>
+<span class="p">}</span>
+
+<span class="kd">message</span> <span class="nc">Request</span>
+<span class="p">{</span>
+        <span class="k">required</span> <span class="n">C2S</span> <span class="na">c2s</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">message</span> <span class="nc">Response</span>
+<span class="p">{</span>
+        <span class="c1">//以下3个字段每条协议都有，注释说明在InitConnect.proto中</span>
+        <span class="k">required</span> <span class="kt">int32</span> <span class="na">retType</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">[</span><span class="k">default</span> <span class="o">=</span> <span class="o">-</span><span class="mi">400</span><span class="p">];</span>
+        <span class="k">optional</span> <span class="kt">string</span> <span class="na">retMsg</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="k">optional</span> <span class="kt">int32</span> <span class="na">errCode</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+
+        <span class="k">optional</span> <span class="n">S2C</span> <span class="na">s2c</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>交易公共参数头结构参考 <a class="reference external" href="base_define.html#trdheader">TrdHeader</a></li>
+<li>最大可交易数量结构参考 <a class="reference external" href="base_define.html#MaxTrdQtys">MaxTrdQtys</a></li>
+</ul>
+</div>
+</div>
+<hr class="docutils" />
 <div class="section" id="trd-getorderlist-proto-2201">
 <h2><a class="reference external" href="https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_GetOrderList.proto">Trd_GetOrderList.proto</a> - 2201获取订单列表<a class="headerlink" href="#trd-getorderlist-proto-2201" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="na">syntax</span> <span class="o">=</span> <span class="s">&quot;proto2&quot;</span><span class="p">;</span>
@@ -484,10 +536,10 @@
         <span class="k">required</span> <span class="n">Trd_Common.TrdHeader</span> <span class="na">header</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//交易公共参数头</span>
         <span class="k">required</span> <span class="kt">int32</span> <span class="na">trdSide</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//交易方向, 参见Trd_Common.TrdSide的枚举定义</span>
         <span class="k">required</span> <span class="kt">int32</span> <span class="na">orderType</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//订单类型, 参见Trd_Common.OrderType的枚举定义</span>
-        <span class="k">required</span> <span class="kt">string</span> <span class="na">code</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//代码</span>
+        <span class="k">required</span> <span class="kt">string</span> <span class="na">code</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//代码，港股必须是5位数字，A股必须是6位数字，美股没限制</span>
         <span class="k">required</span> <span class="kt">double</span> <span class="na">qty</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//数量，2位精度，期权单位是&quot;张&quot;</span>
-        <span class="k">optional</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//价格，3位精度(A股2位)</span>
-        <span class="c1">//以下为调整价格使用，目前仅对港、A股有效，因为港股有价位，A股2位精度，美股不需要</span>
+        <span class="k">optional</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//价格，3位精度</span>
+        <span class="c1">//以下为调整价格使用，对港、A股有意义，因为港股有价位，A股2位精度，美股可不传</span>
         <span class="k">optional</span> <span class="kt">bool</span> <span class="na">adjustPrice</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">//是否调整价格，如果价格不合法，是否调整到合法价位，true调整，false不调整</span>
         <span class="k">optional</span> <span class="kt">double</span> <span class="na">adjustSideAndLimit</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span> <span class="c1">//调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%</span>
 <span class="p">}</span>
@@ -503,6 +555,13 @@
         <span class="k">required</span> <span class="n">C2S</span> <span class="na">c2s</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="p">}</span>
 
+<span class="c1">//如果下单返回的retMsg没用描述清楚错误，可再查看errCode了解详情，errCode一些取值和对应的错误描述如下:</span>
+<span class="c1">//2: 需要升级到保证金账户</span>
+<span class="c1">//3: 需要对交易期权的风险确认才能交易交易期权</span>
+<span class="c1">//7: 开户时选择了不希望交易衍生品</span>
+<span class="c1">//8: 需要对交易股权的风险确认才能交易交易股权</span>
+<span class="c1">//9: 需要对交易低价股的风险确认才能交易交易低价股</span>
+<span class="c1">//11: 需要对暗盘交易的风险确认才能进行暗盘交易</span>
 <span class="kd">message</span> <span class="nc">Response</span>
 <span class="p">{</span>
         <span class="c1">//以下3个字段每条协议都有，注释说明在InitConnect.proto中</span>
@@ -522,6 +581,13 @@
 <li>交易方向枚举参考 <a class="reference external" href="base_define.html#trdside">TrdSide</a></li>
 <li>订单类型枚举参考 <a class="reference external" href="base_define.html#ordertype">OrderType</a></li>
 <li>限频接口：30秒内最多30次</li>
+<li>如果下单返回的retMsg没用描述清楚错误，可再查看errCode了解详情，errCode一些取值和对应的错误描述如下:</li>
+<li>2: 需要升级到保证金账户</li>
+<li>3: 需要对交易期权的风险确认才能交易交易期权</li>
+<li>7: 开户时选择了不希望交易衍生品</li>
+<li>8: 需要对交易股权的风险确认才能交易交易股权</li>
+<li>9: 需要对交易低价股的风险确认才能交易交易低价股</li>
+<li>11: 需要对暗盘交易的风险确认才能进行暗盘交易</li>
 </ul>
 </div>
 </div>
@@ -545,7 +611,7 @@
         <span class="c1">//下面的字段仅在modifyOrderOp为ModifyOrderOp_Normal有效</span>
         <span class="k">optional</span> <span class="kt">double</span> <span class="na">qty</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">//数量，2位精度，期权单位是&quot;张&quot;</span>
         <span class="k">optional</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span> <span class="c1">//价格，3位精度(A股2位)</span>
-        <span class="c1">//以下为调整价格使用，目前仅对港、A股有效，因为港股有价位，A股2位精度，美股不需要</span>
+        <span class="c1">//以下为调整价格使用，对港、A股有意义，因为港股有价位，A股2位精度，美股可不传</span>
         <span class="k">optional</span> <span class="kt">bool</span> <span class="na">adjustPrice</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="c1">//是否调整价格，如果价格不合法，是否调整到合法价位，true调整，false不调整</span>
         <span class="k">optional</span> <span class="kt">double</span> <span class="na">adjustSideAndLimit</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span> <span class="c1">//调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%</span>
 <span class="p">}</span>
@@ -713,7 +779,7 @@
 <span class="p">{</span>
         <span class="k">required</span> <span class="n">Trd_Common.TrdHeader</span> <span class="na">header</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//交易公共参数头</span>
         <span class="k">required</span> <span class="n">Trd_Common.TrdFilterConditions</span> <span class="na">filterConditions</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//过滤条件</span>
-        <span class="k">repeated</span> <span class="kt">int32</span> <span class="na">filterStatusList</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//OrderStatus, 需要过滤的订单状态列表</span>
+        <span class="k">repeated</span> <span class="kt">int32</span> <span class="na">filterStatusList</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//需要过滤的订单状态列表</span>
 <span class="p">}</span>
 
 <span class="kd">message</span> <span class="nc">S2C</span>

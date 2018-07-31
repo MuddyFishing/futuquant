@@ -91,17 +91,8 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../intro/intro.html">介绍</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">安装指南</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">环境搭建</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#annacoda">Annacoda</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#futuquant">futuquant</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#ta-lib">TA-Lib</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#protobuf">protobuf</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#simplejson">simplejson</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pycryptodome">pycryptodome</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pycharm">PyCharm</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#futuopend">安装 FutuOpenD</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#futuopend">安装 FutuOpenD</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="FutuOpenDGuide.html">FutuOpenD使用说明</a></li>
@@ -199,8 +190,6 @@
 <li>如果安装过程中遇到了问题，先阅读该文档下面的 <span class="xref std std-ref">q&amp;a-Q&amp;A</span> 章节来尝试着解决</li>
 </ul>
 </div>
-<div class="section" id="annacoda">
-<h3>Annacoda<a class="headerlink" href="#annacoda" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>安装 Annacoda</li>
 </ul>
@@ -222,22 +211,18 @@ Step1、进入环境变量配置界面，创建变量ANACONDA3_HOME，变量值�
 %ANACONDA3_HOME%;%ANACONDA3_HOME%Lib;%ANACONDA3_HOME%Librarymingw-w64bin;%ANACONDA3_HOME%Libraryusrbin;%ANACONDA3_HOME%Library
 bin;%ANACONDA3_HOME%Scripts;</p>
 <img alt="../_images/version-Switching-paste.png" src="../_images/version-Switching-paste.png" />
-<p>Step3、再次验证anaconda3环境是否生效。</p>
-<img alt="../_images/version-Switching-verification.png" src="../_images/version-Switching-verification.png" />
+<p>Step3、再次验证anaconda3环境是否生效。
+.. image:: ../_static/version-Switching-verification.png</p>
 <ul class="simple">
 <li>方式二</li>
 </ul>
-<p>配置pyChram使用的环境为anaconda3。</p>
-<img alt="../_images/version-Switching-pycharm.png" class="last" src="../_images/version-Switching-pycharm.png" />
+<p class="last">配置pyChram使用的环境为anaconda3。
+.. image:: ../_static/version-Switching-pycharm.png</p>
 </div>
 <p>当安装成功后，执行如下命令来查看是否安装成功:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>conda -V
 </pre></div>
 </div>
-</div>
-<hr class="docutils" />
-<div class="section" id="futuquant">
-<h3>futuquant<a class="headerlink" href="#futuquant" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>安装 futuquant 库</li>
 </ul>
@@ -261,10 +246,6 @@ bin;%ANACONDA3_HOME%Scripts;</p>
 <div><img alt="../_images/powershell-install-futuquant.png" src="../_images/powershell-install-futuquant.png" />
 </div></blockquote>
 </div>
-</div>
-<hr class="docutils" />
-<div class="section" id="ta-lib">
-<h3>TA-Lib<a class="headerlink" href="#ta-lib" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>安装 TA-Lib</li>
 </ul>
@@ -281,43 +262,6 @@ bin;%ANACONDA3_HOME%Scripts;</p>
 <li>安装TA-Lib非必须，可先跳过该步骤</li>
 </ul>
 </div>
-</div>
-<hr class="docutils" />
-<div class="section" id="protobuf">
-<h3>protobuf<a class="headerlink" href="#protobuf" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li>安装 protobuf</li>
-</ul>
-<p>protobuf是google旗下的一款平台无关，语言无关，可扩展的序列化结构数据格式。</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ pip install protobuf
-</pre></div>
-</div>
-</div>
-<hr class="docutils" />
-<div class="section" id="simplejson">
-<h3>simplejson<a class="headerlink" href="#simplejson" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li>安装 simplejson</li>
-</ul>
-<p>simplejson主要用于将Python数据类型和json类型互相转换。</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ pip install simplejson
-</pre></div>
-</div>
-</div>
-<hr class="docutils" />
-<div class="section" id="pycryptodome">
-<h3>pycryptodome<a class="headerlink" href="#pycryptodome" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li>安装 pycryptodome</li>
-</ul>
-<p>pycryptodome主要用于协议加密通道。</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ pip install pycryptodome
-</pre></div>
-</div>
-</div>
-<hr class="docutils" />
-<div class="section" id="pycharm">
-<h3>PyCharm<a class="headerlink" href="#pycharm" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>安装 PyCharm</li>
 </ul>
@@ -332,13 +276,12 @@ bin;%ANACONDA3_HOME%Scripts;</p>
 </div>
 <hr class="docutils" />
 <div class="section" id="futuopend">
-<h3>安装 FutuOpenD<a class="headerlink" href="#futuopend" title="Permalink to this headline">¶</a></h3>
+<h2>安装 FutuOpenD<a class="headerlink" href="#futuopend" title="Permalink to this headline">¶</a></h2>
 <p>方式1：<a class="reference external" href="https://www.futunn.com/download/index/">富途官网下载</a></p>
 <img alt="../_images/futunn.com.png" src="../_images/futunn.com.png" />
 <p>方式2：QQ群文件下载</p>
 <img alt="../_images/download-QQ.png" src="../_images/download-QQ.png" />
 <hr class="docutils" />
-</div>
 </div>
 </div>
 

@@ -18,6 +18,8 @@
   .. _Trd_GetFunds.proto:  trade_protocol.html#trd-getfunds-proto-2101
   .. _Trd_GetPositionList.proto:  trade_protocol.html#trd-getpositionlist-proto-2102
   
+  .. _Trd_GetMaxTrdQtys.proto:  trade_protocol.html#trd-getmaxtrdqtys-proto-2111
+  
   .. _Trd_GetOrderList.proto:  trade_protocol.html#trd-getorderlist-proto-2201
   .. _Trd_PlaceOrder.proto:  trade_protocol.html#trd-placeorder-proto-2202
   .. _Trd_ModifyOrder.proto:  trade_protocol.html#trd-modifyorder-proto-2205
@@ -57,7 +59,7 @@
   .. _Qot_GetSecuritySnapshot.proto:  quote_protocol.html#qot-getsecuritysnapshot-proto-3203
   .. _Qot_GetPlateSet.proto:  quote_protocol.html#qot-getplateset-proto-3204
   .. _Qot_GetPlateSecurity.proto:  quote_protocol.html#qot-getplatesecurity-proto-3205
-  
+  .. _Qot_GetReference.proto:  quote_protocol.html#qot-getreference-proto-3206
 	
 特点
 -------
@@ -74,7 +76,6 @@
  时间             修改文件      说明
  ==============   ===========   ===================================================================
  2018/6/20        无            初稿
- 
  ==============   ===========   ===================================================================
  
 ---------------------------------------------------
@@ -94,6 +95,7 @@
  2008             Trd_SubAccPush.proto_                   订阅业务账户的交易推送数据
  2101             Trd_GetFunds.proto_                     获取账户资金
  2102             Trd_GetPositionList.proto_              获取账户持仓
+ 2111             Trd_GetMaxTrdQtys.proto_                获取最大交易数量 
  2201             Trd_GetOrderList.proto_                 获取订单列表
  2202             Trd_PlaceOrder.proto_                   下单
  2205             Trd_ModifyOrder.proto_                  修改订单
@@ -125,8 +127,8 @@
  3203             Qot_GetSecuritySnapshot.proto_          获取股票快照
  3204             Qot_GetPlateSet.proto_                  获取板块集合下的板块
  3205             Qot_GetPlateSecurity.proto_             获取板块下的股票 
+ 3206             Qot_GetReference.proto_                 获取正股相关股票 
  ==============   ==================================     ==================================================================
-
 
 .. note::
 

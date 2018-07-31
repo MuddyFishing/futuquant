@@ -124,6 +124,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#get-cur-kline">get_cur_kline</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-order-book">get_order_book</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-multi-points-history-kline">get_multi_points_history_kline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-referencestock-list">get_referencestock_list</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#stockquotehandlerbase">StockQuoteHandlerBase - 实时报价回调处理类</a><ul>
@@ -152,9 +153,10 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">接口限频</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id9">低频数据接口</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">高频数据接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">接口入参限制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">接口限频</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id10">低频数据接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">高频数据接口</a></li>
 </ul>
 </li>
 </ul>
@@ -374,7 +376,7 @@
 <h4>get_stock_basicinfo<a class="headerlink" href="#get-stock-basicinfo" title="Permalink to this headline">¶</a></h4>
 <dl class="function">
 <dt id="get_stock_basicinfo">
-<code class="descname">get_stock_basicinfo</code><span class="sig-paren">(</span><em>self</em>, <em>market</em>, <em>stock_type=SecurityType.STOCK</em><span class="sig-paren">)</span><a class="headerlink" href="#get_stock_basicinfo" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_stock_basicinfo</code><span class="sig-paren">(</span><em>self</em>, <em>market</em>, <em>stock_type=SecurityType.STOCK</em>, <em>code_list=None</em><span class="sig-paren">)</span><a class="headerlink" href="#get_stock_basicinfo" title="Permalink to this definition">¶</a></dt>
 <dd><p>获取指定市场中特定类型的股票基本信息</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -383,6 +385,7 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>market</strong> &#8211; 市场类型，futuquant.common.constsnt.Market</li>
 <li><strong>stock_type</strong> &#8211; 股票类型， futuquant.common.constsnt.SecurityType</li>
+<li><strong>code_list</strong> &#8211; 如果不为None，应该是股票code的iterable类型，将只返回指定的股票信息</li>
 </ul>
 </td>
 </tr>
@@ -999,9 +1002,9 @@
 <td>str</td>
 <td>时间(yyyy-MM-dd HH:mm:ss)</td>
 </tr>
-<tr class="row-even"><td>data_status</td>
+<tr class="row-even"><td>is_blank</td>
 <td>bool</td>
-<td>数据状态；正确为True，伪造为False</td>
+<td>数据状态；正常数据为False，伪造数据为True</td>
 </tr>
 <tr class="row-odd"><td>opened_mins</td>
 <td>int</td>
@@ -1037,6 +1040,7 @@
 </table>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+    <span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribee</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">RT_DATA</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_rt_data</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -1269,6 +1273,7 @@
 </table>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+    <span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribee</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">BROKER</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_broker_queue</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -1562,6 +1567,10 @@
 <td>float</td>
 <td>当前价差，亦即摆盘数据的买档或卖档的相邻档位的报价差</td>
 </tr>
+<tr class="row-odd"><td>dark_status</td>
+<td>str</td>
+<td>暗盘交易状态，见DarkStatus</td>
+</tr>
 </tbody>
 </table>
 </td>
@@ -1598,49 +1607,6 @@
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>(ret, data)</p>
 <p>ret == RET_OK 返回pd dataframe数据，数据列格式如下</p>
 <p>ret != RET_OK 返回错误字符串</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="22%" />
-<col width="12%" />
-<col width="66%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">参数</th>
-<th class="head">类型</th>
-<th class="head">说明</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>stock_code</td>
-<td>str</td>
-<td>股票代码</td>
-</tr>
-<tr class="row-odd"><td>sequence</td>
-<td>int</td>
-<td>逐笔序号</td>
-</tr>
-<tr class="row-even"><td>time</td>
-<td>str</td>
-<td>成交时间</td>
-</tr>
-<tr class="row-odd"><td>price</td>
-<td>float</td>
-<td>成交价格</td>
-</tr>
-<tr class="row-even"><td>volume</td>
-<td>int</td>
-<td>成交数量（股数）</td>
-</tr>
-<tr class="row-odd"><td>turnover</td>
-<td>float</td>
-<td>成交金额</td>
-</tr>
-<tr class="row-even"><td>ticker_direction</td>
-<td>str</td>
-<td>逐笔方向</td>
-</tr>
-</tbody>
-</table>
 </p>
 </td>
 </tr>
@@ -1650,6 +1616,7 @@
 </table>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+    <span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribee</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">TICKER</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_rt_ticker</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -1746,6 +1713,7 @@
 </table>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+    <span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribee</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">K_DAY</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_cur_kline</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">SubType</span><span class="o">.</span><span class="n">K_DAY</span><span class="p">,</span> <span class="n">AuType</span><span class="o">.</span><span class="n">QFQ</span><span class="p">))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -1788,6 +1756,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">example:</th><td class="field-body"><div class="code python first last highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+    <span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribee</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">ORDER_BOOK</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_order_book</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -1903,6 +1872,88 @@
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_multi_points_history_kline</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="s1">&#39;2017-06-20&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-06-25&#39;</span><span class="p">,</span> <span class="n">KL_FIELD</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="n">KLType</span><span class="o">.</span><span class="n">K_DAY</span><span class="p">,</span> <span class="n">AuType</span><span class="o">.</span><span class="n">QFQ</span><span class="p">))</span>
+<span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="get-referencestock-list">
+<h4>get_referencestock_list<a class="headerlink" href="#get-referencestock-list" title="Permalink to this headline">¶</a></h4>
+<dl class="function">
+<dt id="get_referencestock_list">
+<code class="descname">get_referencestock_list</code><span class="sig-paren">(</span><em>self</em>, <em>code</em>, <em>reference_type</em><span class="sig-paren">)</span><a class="headerlink" href="#get_referencestock_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>获取证券的关联数据</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>code</strong> &#8211; 证券id，str，例如HK.00700</li>
+<li><strong>reference_type</strong> &#8211; 要获得的相关数据，参见SecurityReferenceType。例如WARRANT，表示获取正股相关的涡轮</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>(ret, data)</p>
+<p>ret == RET_OK 返回pd dataframe数据，数据列格式如下</p>
+<p>ret != RET_OK 返回错误字符串</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="10%" />
+<col width="74%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">参数</th>
+<th class="head">类型</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>code</td>
+<td>str</td>
+<td>证券代码</td>
+</tr>
+<tr class="row-odd"><td>lot_size</td>
+<td>int</td>
+<td>每手数量</td>
+</tr>
+<tr class="row-even"><td>stock_type</td>
+<td>str</td>
+<td>证券类型，参见SecurityType</td>
+</tr>
+<tr class="row-odd"><td>stock_name</td>
+<td>str</td>
+<td>证券名字</td>
+</tr>
+<tr class="row-even"><td>list_time</td>
+<td>str</td>
+<td>上市时间</td>
+</tr>
+<tr class="row-odd"><td>wrt_valid</td>
+<td>bool</td>
+<td>是否是涡轮，如果为True，下面wrt开头的字段有效</td>
+</tr>
+<tr class="row-even"><td>wrt_type</td>
+<td>str</td>
+<td>涡轮类型，参见WrtType</td>
+</tr>
+<tr class="row-odd"><td>wrt_code</td>
+<td>str</td>
+<td>所属正股</td>
+</tr>
+</tbody>
+</table>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
+<span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_referencestock_list</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">,</span> <span class="n">SecurityReferenceType</span><span class="o">.</span><span class="n">WARRANT</span><span class="p">))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -2196,9 +2247,40 @@
 </div>
 <hr class="docutils" />
 <div class="section" id="id8">
-<h2>接口限频<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<h2>接口入参限制<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="54%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">接口名称</th>
+<th class="head">入参限制</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>get_market_snapshot</td>
+<td>传入股票最多200个</td>
+</tr>
+<tr class="row-odd"><td>get_rt_ticker</td>
+<td>可获取逐笔最多最近1000个</td>
+</tr>
+<tr class="row-even"><td>get_cur_kline</td>
+<td>可获取K线最多最近1000根</td>
+</tr>
+<tr class="row-odd"><td>get_multi_points_history_kline</td>
+<td>时间点最多5个</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<hr class="docutils" />
 <div class="section" id="id9">
-<h3>低频数据接口<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<h2>接口限频<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id10">
+<h3>低频数据接口<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <p>低频数据接口是指不需要定阅就可以请求数据的接口， api的请求到达网关客户端后， 会转发请求到futu后台服务器，为控制流量，会对请求频率加以控制，
 目前的频率限制是以连续30秒内，限制请求次数，具体那些接口有限制以及限制次数如下:</p>
 <blockquote>
@@ -2227,8 +2309,8 @@
 </div></blockquote>
 </div>
 <hr class="docutils" />
-<div class="section" id="id10">
-<h3>高频数据接口<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3>高频数据接口<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <p>为控制定阅产生推送数据流量，股票定阅总量有额度控制，规则如下:</p>
 <p>1.使用高频数据接口前，需要订阅（调用subscribe）.订阅有额度限制：</p>
 <blockquote>

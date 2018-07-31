@@ -233,6 +233,57 @@
 	
 -------------------------------------
 
+`Trd_GetMaxTrdQtys.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_GetMaxTrdQtys.proto>`_ - 2111获取最大交易数量
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+.. code-block:: protobuf
+
+	syntax = "proto2";
+	package Trd_GetMaxTrdQtys;
+
+	import "Common.proto";
+	import "Trd_Common.proto";
+
+	message C2S
+	{
+		required Trd_Common.TrdHeader header = 1; //交易公共参数头
+		required int32 orderType = 2; //订单类型, 参见Trd_Common.OrderType的枚举定义
+		required string code = 3; //代码，港股必须是5位数字，A股必须是6位数字，美股没限制
+		required double price = 4; //价格，3位精度。如果是竞价、市价单，请也填入一个当前价格，服务器才好计算
+		optional uint64 orderID = 5; //订单号，新下订单不需要，如果是修改订单就需要把原订单号带上才行，因为改单的最大买卖数量会包含原订单数量。
+		//为保证与下单的价格同步，也提供调整价格选项，对港、A股有意义，因为港股有价位，A股2位精度，美股可不传
+		optional bool adjustPrice = 6; //是否调整价格，如果价格不合法，是否调整到合法价位，true调整，false不调整
+		optional double adjustSideAndLimit = 7; //调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
+	}
+
+	message S2C
+	{
+		required Trd_Common.TrdHeader header = 1; //交易公共参数头
+		optional Trd_Common.MaxTrdQtys maxTrdQtys = 2; //最大可交易数量结构
+	}
+
+	message Request
+	{
+		required C2S c2s = 1;
+	}
+
+	message Response
+	{
+		//以下3个字段每条协议都有，注释说明在InitConnect.proto中
+		required int32 retType = 1 [default = -400];
+		optional string retMsg = 2;
+		optional int32 errCode = 3;
+		
+		optional S2C s2c = 4;
+	}
+
+.. note::
+
+	* 交易公共参数头结构参考 `TrdHeader <base_define.html#trdheader>`_
+	* 最大可交易数量结构参考 `MaxTrdQtys <base_define.html#MaxTrdQtys>`_
+	
+-------------------------------------
+
 `Trd_GetOrderList.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Trd_GetOrderList.proto>`_ - 2201获取订单列表
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -297,10 +348,10 @@
 		required Trd_Common.TrdHeader header = 2; //交易公共参数头
 		required int32 trdSide = 3; //交易方向, 参见Trd_Common.TrdSide的枚举定义
 		required int32 orderType = 4; //订单类型, 参见Trd_Common.OrderType的枚举定义
-		required string code = 5; //代码
+		required string code = 5; //代码，港股必须是5位数字，A股必须是6位数字，美股没限制
 		required double qty = 6; //数量，2位精度，期权单位是"张"
-		optional double price = 7; //价格，3位精度(A股2位)
-		//以下为调整价格使用，目前仅对港、A股有效，因为港股有价位，A股2位精度，美股不需要
+		optional double price = 7; //价格，3位精度
+		//以下为调整价格使用，对港、A股有意义，因为港股有价位，A股2位精度，美股可不传
 		optional bool adjustPrice = 8; //是否调整价格，如果价格不合法，是否调整到合法价位，true调整，false不调整
 		optional double adjustSideAndLimit = 9; //调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
 	}
@@ -316,6 +367,13 @@
 		required C2S c2s = 1;
 	}
 
+	//如果下单返回的retMsg没用描述清楚错误，可再查看errCode了解详情，errCode一些取值和对应的错误描述如下:
+	//2: 需要升级到保证金账户
+	//3: 需要对交易期权的风险确认才能交易交易期权
+	//7: 开户时选择了不希望交易衍生品
+	//8: 需要对交易股权的风险确认才能交易交易股权
+	//9: 需要对交易低价股的风险确认才能交易交易低价股
+	//11: 需要对暗盘交易的风险确认才能进行暗盘交易
 	message Response
 	{
 		//以下3个字段每条协议都有，注释说明在InitConnect.proto中
@@ -333,6 +391,14 @@
 	* 交易方向枚举参考 `TrdSide <base_define.html#trdside>`_
 	* 订单类型枚举参考 `OrderType <base_define.html#ordertype>`_
 	* 限频接口：30秒内最多30次
+	
+	* 如果下单返回的retMsg没用描述清楚错误，可再查看errCode了解详情，errCode一些取值和对应的错误描述如下:
+	* 2: 需要升级到保证金账户
+	* 3: 需要对交易期权的风险确认才能交易交易期权
+	* 7: 开户时选择了不希望交易衍生品
+	* 8: 需要对交易股权的风险确认才能交易交易股权
+	* 9: 需要对交易低价股的风险确认才能交易交易低价股
+	* 11: 需要对暗盘交易的风险确认才能进行暗盘交易
 	
 -------------------------------------
 
@@ -358,7 +424,7 @@
 		//下面的字段仅在modifyOrderOp为ModifyOrderOp_Normal有效
 		optional double qty = 8; //数量，2位精度，期权单位是"张"
 		optional double price = 9; //价格，3位精度(A股2位)
-		//以下为调整价格使用，目前仅对港、A股有效，因为港股有价位，A股2位精度，美股不需要
+		//以下为调整价格使用，对港、A股有意义，因为港股有价位，A股2位精度，美股可不传
 		optional bool adjustPrice = 10; //是否调整价格，如果价格不合法，是否调整到合法价位，true调整，false不调整
 		optional double adjustSideAndLimit = 11; //调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
 	}
@@ -526,7 +592,7 @@
 	{
 		required Trd_Common.TrdHeader header = 1; //交易公共参数头
 		required Trd_Common.TrdFilterConditions filterConditions = 2; //过滤条件
-		repeated int32 filterStatusList = 3; //OrderStatus, 需要过滤的订单状态列表
+		repeated int32 filterStatusList = 3; //需要过滤的订单状态列表
 	}
 
 	message S2C
