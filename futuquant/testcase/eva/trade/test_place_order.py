@@ -15,7 +15,7 @@ class PlaceOrder(object):
     #     SysConfig.enable_proto_encrypt(True)
 
     def test_sh(self):
-        host = '127.0.0.1'  # mac-kathy:172.18.6.144
+        host = '127.0.0.1'
         port = 11112
         trade_ctx_sh = OpenHKCCTradeContext(host, port)
 
@@ -35,14 +35,17 @@ class PlaceOrder(object):
         # price = 14.94, qty=700, code='SH.600007'
         # price = 28.8, qty=700, code='SZ.300003'
         #price = 3.512, qty=700, code='SZ.300005'
-        ret_code_place_order, ret_data_place_order = trade_ctx_sh.place_order(price = 21, qty=700, code='SZ.300003', trd_side=TrdSide.BUY, order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0)
+        ret_code_place_order, ret_data_place_order = trade_ctx_sh.place_order(price = 13.1, qty=500, code='SH.600007', trd_side=TrdSide.BUY, order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0)
         print(ret_code_place_order)
         print(ret_data_place_order)
+
+        # trade_ctx_sh.stop()
+        # trade_ctx_sh.close()
 
 
     def test_hk(self):
         host = '127.0.0.1'
-        port = 11112
+        port = 11111
         tradehk_ctx = OpenHKTradeContext(host, port)
 
         ret_code_unlock_trade, ret_data_unlock_trade = tradehk_ctx.unlock_trade(password='123123')
@@ -55,7 +58,7 @@ class PlaceOrder(object):
         # 开启异步
         tradehk_ctx.start()
         #下单
-        ret_code, ret_data = tradehk_ctx.place_order(price = 375, qty= 2400, code= 'HK.00700', trd_side= TrdSide.BUY, order_type= OrderType.NORMAL, adjust_limit=0, trd_env= TrdEnv.REAL,acc_id=0)
+        ret_code, ret_data = tradehk_ctx.place_order(price = 2.64, qty= 2000, code= 'HK.01758', trd_side= TrdSide.BUY, order_type= OrderType.ABSOLUTE_LIMIT, adjust_limit=0, trd_env= TrdEnv.REAL,acc_id=0)
         print('真实环境',ret_code)
         print('真实环境',ret_data)
 
@@ -96,10 +99,20 @@ class PlaceOrder(object):
         port = 11112
 
         trade_hk = OpenHKTradeContext(host, port)
-        trade_us = OpenUSTradeContext(host, port)
-        trade_sh_m = OpenCNTradeContext(host, port)
+        # trade_us = OpenUSTradeContext(host, port)
+        # trade_sh_m = OpenCNTradeContext(host, port)
 
-        ret_code_hk ,ret_data_hk = trade_hk.place_order(price = 0.023, qty = 10000, code = 'HK.61162', trd_side=TrdSide.BUY, order_type=OrderType.NORMAL,
+        # 设置监听
+        handler_tradeOrder = TradeOrderTest()
+        handler_tradeDealtrade = TradeDealTest()
+        trade_hk.set_handler(handler_tradeOrder)
+        trade_hk.set_handler(handler_tradeDealtrade)
+        # 开启异步
+        trade_hk.start()
+        #解锁交易
+        # trade_hk.unlock_trade('123123')
+        #下单
+        ret_code_hk ,ret_data_hk = trade_hk.place_order(price = 6.1, qty = 500, code = 'HK.01357', trd_side=TrdSide.BUY, order_type=OrderType.NORMAL,
                     adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0)
         print('模拟交易',ret_code_hk)
         print('模拟交易',ret_data_hk)
@@ -138,7 +151,7 @@ class PlaceOrder(object):
         print('真实环境', ret_data)
         #-------------------------------------------------------
         trade_hk_simulate = OpenHKTradeContext(host, port)
-        ret_code_hk, ret_data_hk = trade_hk_simulate.place_order(price=0.111, qty=10000, code='HK.61162', trd_side=TrdSide.BUY,
+        ret_code_hk, ret_data_hk = trade_hk_simulate.place_order(price=0.073, qty=10000, code='HK.20801', trd_side=TrdSide.BUY,
                                                         order_type=OrderType.NORMAL,
                                                         adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0)
         print('模拟交易', ret_code_hk)
@@ -148,4 +161,6 @@ class PlaceOrder(object):
 
 if __name__ == '__main__':
     po = PlaceOrder()
-    po.test_hk()
+    # po.test_hk()
+    # po.test1()
+    po.test2()
