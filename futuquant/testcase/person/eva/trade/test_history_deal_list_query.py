@@ -25,8 +25,8 @@ class HistoryDealListQuery(object):
         print(ret_data)
 
     def test_sh(self):
-        tradehk_ctx_sh = OpenHKCCTradeContext('127.0.0.1',11112)
-        ret_code, ret_data = tradehk_ctx_sh.history_deal_list_query( code='600007', start='', end='', trd_env=TrdEnv.REAL, acc_id=0)
+        trade_sh = OpenHKCCTradeContext('127.0.0.1',11112)
+        ret_code, ret_data = trade_sh.history_deal_list_query( code='600007', start='', end='', trd_env=TrdEnv.REAL, acc_id=0)
         print(ret_code)
         print(ret_data)
 

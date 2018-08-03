@@ -22,13 +22,15 @@ class OrderListQuery(object):
         print(ret_data)
 
     def test_sh(self):
-        host = '127.0.0.1'  # mac-kathy:172.18.6.144
+        host = '127.0.0.1'
         port = 11112
-        trade_ctx_sh = OpenHKCCTradeContext(host, port)
-        trade_ctx_sh.unlock_trade('123123')
-        pandas.set_option('display.width', 3000)
-        pandas.set_option('max_columns', 100)
-        print(trade_ctx_sh.order_list_query())
+        trade_sh = OpenHKCCTradeContext(host, port)
+        trade_sh_m = OpenCNTradeContext(host, port)
+
+        trade_sh.unlock_trade('123123')
+
+        print(trade_sh.order_list_query())
+        print(trade_sh_m.order_list_query(trd_env=TrdEnv.SIMULATE))
 
     def test1(self):
         host = '127.0.0.1'
@@ -40,8 +42,13 @@ class OrderListQuery(object):
 
         print(trade_hk.order_list_query(order_id="", status_filter_list=[], code='', start='', end='',
                          trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print(trade_us.order_list_query(order_id="", status_filter_list=[], code='', start='', end='',
+                                          trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print(trade_sh_m.order_list_query(order_id="", status_filter_list=[], code='', start='', end='',
+                                        trd_env=TrdEnv.SIMULATE, acc_id=0))
 
 
 if __name__ == '__main__':
     olq = OrderListQuery()
+    # olq.test_sh()
     olq.test1()

@@ -99,35 +99,34 @@ class PlaceOrder(object):
         port = 11112
 
         trade_hk = OpenHKTradeContext(host, port)
-        # trade_us = OpenUSTradeContext(host, port)
-        # trade_sh_m = OpenCNTradeContext(host, port)
+        trade_us = OpenUSTradeContext(host, port)
+        trade_sh_m = OpenCNTradeContext(host, port)
 
         # 设置监听
         handler_tradeOrder = TradeOrderTest()
         handler_tradeDealtrade = TradeDealTest()
         trade_hk.set_handler(handler_tradeOrder)
         trade_hk.set_handler(handler_tradeDealtrade)
+
+        trade_us.set_handler(handler_tradeOrder)
+        trade_sh_m.set_handler(handler_tradeOrder)
         # 开启异步
         trade_hk.start()
-        #解锁交易
-        # trade_hk.unlock_trade('123123')
+        trade_us.start()
+        trade_sh_m.start()
         #下单
-        ret_code_hk ,ret_data_hk = trade_hk.place_order(price = 6.1, qty = 500, code = 'HK.01357', trd_side=TrdSide.BUY, order_type=OrderType.NORMAL,
-                    adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0)
-        print('模拟交易',ret_code_hk)
-        print('模拟交易',ret_data_hk)
+        print(trade_hk.place_order(price = 6.06, qty = 500, code = 'HK.01357', trd_side=TrdSide.BUY,
+                                  order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
         # price = 3.04, qty = 10, code = 'US.DDE'
         # price = 192, qty = 10, code = 'US.AAPL'
-        # print(trade_us.place_order(price = 190, qty = 1, code = 'US.AAPL', trd_side=TrdSide.BUY,
-        #                            order_type=OrderType.NORMAL,
-        #                            adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print(trade_us.place_order(price = 197, qty = 2, code = 'US.AAPL', trd_side=TrdSide.BUY,
+                                   order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
         # price = 9.62, qty = 200, code = 'SZ.002078'
         # price=10.2, qty=200, code='SH.601007'
-        # print(trade_sh_m.place_order(price=9.37, qty=100, code='SH.000001', trd_side=TrdSide.BUY,
-        #                            order_type=OrderType.NORMAL,
-        #                            adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print(trade_sh_m.place_order(price=9.16, qty=100, code='SZ.000001', trd_side=TrdSide.BUY,
+                                   order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
     def test2(self):
         host = '127.0.0.1'
@@ -158,9 +157,7 @@ class PlaceOrder(object):
         print('模拟交易', ret_data_hk)
 
 
-
 if __name__ == '__main__':
     po = PlaceOrder()
     # po.test_hk()
-    # po.test1()
-    po.test2()
+    po.test1()

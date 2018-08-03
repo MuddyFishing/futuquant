@@ -33,13 +33,15 @@ class DealListQuery(object):
 
     def test2(self):
         host = '127.0.0.1'
-        port = 11112
+        port = 11111
 
         trade_hk = OpenHKTradeContext(host, port)
         trade_us = OpenUSTradeContext(host, port)
         trade_sh_m = OpenCNTradeContext(host, port)
 
         print(trade_hk.deal_list_query(code="", trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print(trade_us.deal_list_query(code="", trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print(trade_sh_m.deal_list_query(code="", trd_env=TrdEnv.SIMULATE, acc_id=0))
 
 if __name__ == '__main__':
     dlq = DealListQuery()

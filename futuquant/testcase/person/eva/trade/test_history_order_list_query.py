@@ -39,15 +39,15 @@ class HistoryOrderListQuery(object):
         port = 11112
 
         trade_hk = OpenHKTradeContext(host, port)
-        # trade_us = OpenUSTradeContext(host, port)
-        # trade_sh_m = OpenCNTradeContext(host, port)
+        trade_us = OpenUSTradeContext(host, port)
+        trade_sh_m = OpenCNTradeContext(host, port)
 
         print(trade_hk.history_order_list_query(status_filter_list=[], code='', start='', end='',
-                                 trd_env=TrdEnv.REAL, acc_id=0))
-        # print(trade_us.history_order_list_query(status_filter_list=[OrderStatus.CANCELLED_ALL], code='', start='2018-07-1', end='2018-08-1',
-        #                                         trd_env=TrdEnv.REAL, acc_id=0))
-        # print(trade_sh_m.history_order_list_query(status_filter_list=[], code='', start='2018-7-1', end='2018-08-1',
-        #                                         trd_env=TrdEnv.REAL, acc_id=0))
+                                 trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print(trade_us.history_order_list_query(status_filter_list=[OrderStatus.CANCELLED_ALL], code='', start='2018-07-1', end='2018-08-1',
+                                                trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print(trade_sh_m.history_order_list_query(status_filter_list=[], code='', start='2018-7-1', end='2018-08-1',
+                                                trd_env=TrdEnv.SIMULATE, acc_id=0))
 
 
 

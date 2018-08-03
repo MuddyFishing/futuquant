@@ -3,7 +3,7 @@
 import futuquant
 from futuquant.quote.quote_response_handler import StockQuoteHandlerBase
 from futuquant.common.constant import *
-from evatest.utils.logUtil import Logs
+from futuquant.testcase.eva.utils.logUtil import Logs
 
 class GetStockQuote(object):
     #获取报价 get_stock_quote 和 StockQuoteHandlerBase

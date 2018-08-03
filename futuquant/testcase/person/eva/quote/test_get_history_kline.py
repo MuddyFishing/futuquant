@@ -6,7 +6,7 @@ from futuquant.common.constant import *
 class GetHistoryKline(object):
 
     def test1(self):
-        quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1',port=11111)
+        quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1',port=11112)
         code = 'HK.00700'
         start = '2018-07-01'
         end = '2018-05-17'
@@ -22,4 +22,5 @@ class GetHistoryKline(object):
 
 if __name__ == '__main__':
     ghk = GetHistoryKline()
-    ghk.test1()
+    for i in range(10):
+        ghk.test1()

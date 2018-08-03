@@ -3,7 +3,7 @@
 import futuquant
 from futuquant.quote.quote_response_handler import TickerHandlerBase
 from futuquant.common.constant import *
-from evatest.utils.logUtil import Logs
+from futuquant.testcase.eva.utils.logUtil import Logs
 
 class GetRtTicker(object):
     #获取逐笔 get_rt_ticker 和 TickerHandlerBase
@@ -14,19 +14,23 @@ class GetRtTicker(object):
         # 设置异步数据监听
         handler = TickerTest()
         quote_ctx.set_handler(handler)
-        codes = ['HK.00700']
+        codes = ['HK.00700','HK.00939','HK.00941','US.AAPL','US.GOOG']
+        #订阅股票
+        print(quote_ctx.subscribe(codes,SubType.TICKER))
+        # 调用待测接口
         for code in codes:
-            #订阅股票
-            quote_ctx.subscribe(code,SubType.TICKER)
-            # 调用待测接口
-            ret_code,ret_data = quote_ctx.get_rt_ticker(code,1000)
-            print(ret_code)
-            print(ret_data)
+            print(quote_ctx.get_rt_ticker(code,1000))
+
+    def test2(self):
+        quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1', port=11111)
+        codes = ['HK.00700', 'HK.00939', 'HK.00941', 'US.AAPL', 'US.GOOG']
+        # 反订阅股票
+        print(quote_ctx.unsubscribe(codes, SubType.TICKER))
 
 
 class TickerTest(TickerHandlerBase):
     '''获取逐笔 get_rt_ticker 和 TickerHandlerBase'''
-    logger = Logs().getNewLogger(name='TickerTest_00700')
+    logger = Logs().getNewLogger(name='TickerTest')
     def on_recv_rsp(self, rsp_pb):
         ret_code, ret_data = super(TickerTest, self).on_recv_rsp(rsp_pb)
         # 打印,记录日志
