@@ -22,7 +22,7 @@ class TextMsg(Msg):
         self.__dict['Content'] = content
 
     def send(self):
-        XmlForm = """
+        xml_form = """
         <xml>
         <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
         <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
@@ -31,7 +31,7 @@ class TextMsg(Msg):
         <Content><![CDATA[{Content}]]></Content>
         </xml>
         """
-        return XmlForm.format(**self.__dict)
+        return xml_form.format(**self.__dict)
 
 
 class ImageMsg(Msg):
@@ -43,7 +43,7 @@ class ImageMsg(Msg):
         self.__dict['MediaId'] = mediaId
 
     def send(self):
-        XmlForm = """
+        xml_form = """
         <xml>
         <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
         <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
@@ -54,9 +54,9 @@ class ImageMsg(Msg):
         </Image>
         </xml>
         """
-        return XmlForm.format(**self.__dict)
+        return xml_form.format(**self.__dict)
 
-#作者：鱼头豆腐文
-#链接：https://www.jianshu.com/p/539904d556c8
-#來源：简书
-#简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。
+# 作者：鱼头豆腐文
+# 链接：https://www.jianshu.com/p/539904d556c8
+# 來源：简书
+# 简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。

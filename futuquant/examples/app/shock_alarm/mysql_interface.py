@@ -5,7 +5,7 @@ import re
 import common_parameter
 
 
-class mysql_interface:
+class MysqlInterface:
     def __init__(self):
         self.host = common_parameter.host
         self.port = common_parameter.port
@@ -42,12 +42,11 @@ class mysql_interface:
         con.close()
 
     def update_threshold(self, openid, user_setting):
-        list = re.split(r" +", user_setting)
-        p1 = float(list[1])
-        p2 = float(list[2])
-        p3 = float(list[3])
-        p4 = float(list[4])
-
+        parameter_list = re.split(r" +", user_setting)
+        p1 = float(parameter_list[1])
+        p2 = float(parameter_list[2])
+        p3 = float(parameter_list[3])
+        p4 = float(parameter_list[4])
 
         con = pymysql.connect(host=self.host, port=self.port, user=self.user, passwd=self.passwd, db=self.database)
         cur = con.cursor()
@@ -62,9 +61,6 @@ class mysql_interface:
             con.rollback()
         finally:
             con.close()
-
-    def update_stockid(self):
-        return 0
 
     def delete_user_setting(self, openid):
         con = pymysql.connect(host=self.host, port=self.port, user=self.user, passwd=self.passwd, db=self.database)

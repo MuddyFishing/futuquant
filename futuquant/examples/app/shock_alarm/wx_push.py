@@ -4,10 +4,11 @@ import json
 import time
 import common_parameter
 
-class wechat_push(object):
+
+class WechatPush(object):
     def __init__(self):
-        self.appid = common_parameter.appid
-        self.secrect = common_parameter.secrect
+        self.app_id = common_parameter.appid
+        self.secret = common_parameter.secrect
         self.access_generate_time = 0
         self.access_token = None
 
@@ -17,11 +18,11 @@ class wechat_push(object):
             url="https://api.weixin.qq.com/cgi-bin/token",
             params={
                 "grant_type": "client_credential",
-                "appid": self.appid,
-                "secret": self.secrect
+                "appid": self.app_id,
+                "secret": self.secret
             }
         ).json()
-        if(access_token_json):
+        if access_token_json:
             self.access_token = access_token_json['access_token']
         else:
             print(access_token_json)
@@ -29,7 +30,7 @@ class wechat_push(object):
         return self.access_token
 
     def get_access_token(self):
-        if(self.access_generate_time == 0 or time.time() - self.access_generate_time > 7200 - 5):
+        if self.access_generate_time == 0 or time.time() - self.access_generate_time > 7200 - 5:
             self.access_token = self.get_access_token_from_wechat()
             self.access_generate_time = time.time()
             print("Generate access token.")
@@ -56,12 +57,11 @@ class wechat_push(object):
         result = response.json()
         print(result)
 
-
-    def get_template_id(access_token):
+    def get_template_id(self):
         template_id = requests.get(
             url="https://api.weixin.qq.com/cgi-bin/template/api_add_template",
             params={
-                'access_token': access_token
+                'access_token': self.access_token
             }
         ).json()
         return template_id
@@ -72,7 +72,7 @@ class wechat_push(object):
         body = {
             "touser": openid,
             "template_id":common_parameter.template_id,
-             "data":{
+            "data": {
                     "first": {
                        "value":(msg['echo_type']),
                        "color":"#173177"
@@ -142,21 +142,19 @@ class wechat_push(object):
         # print(user_info_json['openid'], user_info_json['nickname'])
         return user_nickname
 
-
     def send_text_msg(self, msg):
         user_openid_list = self.get_user_openid_list()
         if user_openid_list:
             for openid in user_openid_list:
-                if (self.get_user_nickname(openid) in common_parameter.test_user_nickname):
+                if self.get_user_nickname(openid) in common_parameter.test_user_nickname:
                     self.send_msg_to_users_customer_service_news(openid, msg)
 
     def sent_template_msg_to_users(self, msg):
         user_openid_list = self.get_user_openid_list()
         if user_openid_list:
             for openid in user_openid_list:
-                if (self.get_user_nickname(openid) in common_parameter.test_user_nickname):
+                if self.get_user_nickname(openid) in common_parameter.test_user_nickname:
                     self.send_template_msg(openid, msg)
-        
 
 
 # ---- 单元测试代码
@@ -174,7 +172,7 @@ if __name__ == '__main__':
     text_msg = 'Hello'
 
     # print(get_template_id(get_access_token()))
-    wp = wechat_push()  # test号
+    wp = WechatPush()  # test号
     # wp = wechat_push('wxbe3ec6c53ff67a31', '')
     # print(wp.get_access_token())
     wp.send_text_msg(text_msg)

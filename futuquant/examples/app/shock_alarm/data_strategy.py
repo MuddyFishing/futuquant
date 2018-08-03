@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-from futuquant import *
-from wx_push import wechat_push
+from wx_push import WechatPush
 import logging
-from mysql_interface import mysql_interface
+from mysql_interface import MysqlInterface
 import common_parameter
 import time
 
-mi = mysql_interface()
-wp = wechat_push()
+mi = MysqlInterface()
+wp = WechatPush()
+
 
 def detect_warning_times(openid, warning_limit):
     sent_msg_sig = 1
@@ -18,12 +18,12 @@ def detect_warning_times(openid, warning_limit):
     if result:
         time_str = result[0][1]
         time_list = time_str.split(',')
-        if (time_list.__len__ == 1 and time_list[0] == ''):  # 当warning_time_list为“”时
+        if time_list.__len__ == 1 and time_list[0] == '':  # 当warning_time_list为“”时
             pass
         else:
             first_flag = 1
             for tmp_time in time_list:
-                if (now_time - float(tmp_time) < 60):
+                if now_time - float(tmp_time) < 60:
                     if not first_flag:  # 如果不是第一个，就需要添加','符号
                         new_time_list += ','
                     new_time_list += tmp_time
@@ -37,12 +37,13 @@ def detect_warning_times(openid, warning_limit):
     mi.update_warning_list(openid, new_time_list)
     return sent_msg_sig
 
+
 def detect(content, prev_price, openid, premium_rate, warning_threshold, large_threshold, warning_limit):
     code = content[0]['code']
-    ttime = content[0]['time']
+    record_time = content[0]['time']
     price = content[0]['price']
     vol = content[0]['volume']
-    direction = content[0]['ticker_direction']
+    # direction = content[0]['ticker_direction']
 
     msg = {}
     sent_msg_sig = 0
@@ -59,16 +60,17 @@ def detect(content, prev_price, openid, premium_rate, warning_threshold, large_t
         sent_msg_sig = 1
         msg.update({'echo_type': '单笔大额成交'})
 
-    if(sent_msg_sig):
+    if sent_msg_sig:
         sent_msg_sig = detect_warning_times(openid, warning_limit)
 
-    if(sent_msg_sig):
+    if sent_msg_sig:
         # print("+------------------------------------+")
         # print(openid, warning_threshold, large_threshold)
         # print("+------------------------------------+")
-        msg.update({'code':str(code), 'price': str(price), 'total_deal_price':str(int(vol)*price/10000), 'quantity': str(vol), 'time': str(ttime)})
+        msg.update({'code':str(code), 'price': str(price), 'total_deal_price':str(int(vol)*price/10000), 'quantity': str(vol), 'time': str(record_time)})
         wp.send_template_msg(openid, msg)
         logging.info("Send a message.")
+
 
 def get_preprice(content):
     code = content[0]['code']
@@ -78,11 +80,13 @@ def get_preprice(content):
         prev_price = result[0][1]
     return prev_price
 
+
 def update_price(content):
     code = content[0]['code']
     price = content[0]['price']
     # 更新 逐笔成交信息
     mi.update_price(code, price)
+
 
 def detect_and_send(content):
     prev_price = get_preprice(content)
