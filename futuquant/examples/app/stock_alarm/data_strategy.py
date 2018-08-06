@@ -18,7 +18,7 @@ def detect_warning_times(openid, warning_limit):
     if result:
         time_str = result[0][1]
         time_list = time_str.split(',')
-        if time_list.__len__ == 1 and time_list[0] == '':  # 当warning_time_list为“”时
+        if len(time_list) == 1 and time_list[0] == '':  # 当warning_time_list为“”时
             pass
         else:
             first_flag = 1
@@ -33,7 +33,7 @@ def detect_warning_times(openid, warning_limit):
         new_time_list = new_time_list + ',' + now_time
     else:
         sent_msg_sig = 0
-        print("The number of warning is exceeded. %d, %d" % (cnt, warning_limit))
+        print("The number of warning is exceeded. {0}, {1}".format(cnt, warning_limit))
     mi.update_warning_list(openid, new_time_list)
     return sent_msg_sig
 
