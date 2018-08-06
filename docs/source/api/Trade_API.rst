@@ -98,12 +98,13 @@ unlock_trade - 解锁交易
 accinfo_query - 获取账户资金数据
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: accinfo_query(self, trd_env=TrdEnv.REAL, acc_id=0)
+..  py:function:: accinfo_query(self, trd_env=TrdEnv.REAL, acc_id=0, acc_index=0)
 
  获取账户资金数据。获取账户的资产净值、证券市值、现金、购买力等资金数据。
 
  :param trd_env: str，交易环境 TrdEnv_ ，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
- :param acc_id: int，交易业务账户ID，传0默认第一个账户
+ :param acc_id: int，交易业务账户ID，acc_id为ID号时以acc_id为准，传0使用acc_index所对应的用户
+ :param acc_index: int，交易业务子账户ID列表所对应的下标，默认0，表示第1个业务ID
  :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据如下：
 
  =====================        ===========   ===================================================================
@@ -141,7 +142,8 @@ position_list_query - 获取账户持仓列表
  :param pl_ratio_min: float，过滤盈亏比例下限，高于此比例的会返回，如0.1，返回盈亏比例大于10%的持仓
  :param pl_ratio_max: float，过滤盈亏比例上限，低于此比例的会返回，如0.2，返回盈亏比例小于20%的持仓
  :param trd_env: str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
- :param acc_id: int，交易业务账户ID，传0默认第一个账户
+ :param acc_id: int，交易业务账户ID，acc_id为ID号时以acc_id为准，传0使用acc_index所对应的用户
+ :param acc_index: int，交易业务子账户ID列表所对应的下标，默认0，表示第1个业务ID
  :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据如下：
 
  =====================        ===========   ===================================================================
@@ -194,7 +196,8 @@ place_order - 下单
  :param order_type: str，订单类型，参考OrderType类的定义
  :param adjust_limit: folat，港股有价位表，订单价格必须在规定的价位上，OpenD会对传入价格自动调整到合法价位上，此参数指定价格调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
  :param trd_env: str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
- :param acc_id: int，交易业务账户ID，传0默认第一个账户
+ :param acc_id: int，交易业务账户ID，acc_id为ID号时以acc_id为准，传0使用acc_index所对应的用户
+ :param acc_index: int，交易业务子账户ID列表所对应的下标，默认0，表示第1个业务ID
  :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟下面的 order-list-query_ (获取订单列表)相同。
  
 	如果是OpenHKCCTradeContext，返回数据中order_type仅有OrderType.NORMAL
@@ -225,7 +228,8 @@ order_list_query - 获取订单列表
  :param start: str，开始时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
  :param end: str，结束时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
  :param trd_env: str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
- :param acc_id: int，交易业务账户ID，传0默认第一个账户
+ :param acc_id: int，交易业务账户ID，acc_id为ID号时以acc_id为准，传0使用acc_index所对应的用户
+ :param acc_index: int，交易业务子账户ID列表所对应的下标，默认0，表示第1个业务ID
  :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据如下：
 
  =====================        ===========   =======================================================================
@@ -274,7 +278,8 @@ modify_order - 修改订单
  :param price: float，(改单有效)新的订单价格，3位精度(A股2位)
  :param adjust_limit: folat，(改单有效)港股有价位表，订单价格必须在规定的价位上，OpenD会对传入价格自动调整到合法价位上，此参数指定价格调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%
  :param trd_env: str，交易环境 TrdEnv_ ，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
- :param acc_id: int，交易业务账户ID，传0默认第一个账户
+ :param acc_id: int，交易业务账户ID，acc_id为ID号时以acc_id为准，传0使用acc_index所对应的用户
+ :param acc_index: int，交易业务子账户ID列表所对应的下标，默认0，表示第1个业务ID
  :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据如下：
  
  =====================        ===========   ===================================================================
@@ -338,7 +343,8 @@ deal_list_query - 获取成交列表
 
  :param code: str，代码过滤，只返回包含这个代码的数据，没传不过滤，返回所有
  :param trd_env: str，交易环境 TrdEnv_ ，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
- :param acc_id: int，交易业务账户ID，传0默认第一个账户
+ :param acc_id: int，交易业务账户ID，acc_id为ID号时以acc_id为准，传0使用acc_index所对应的用户
+ :param acc_index: int，交易业务子账户ID列表所对应的下标，默认0，表示第1个业务ID
  :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据如下：
 
  =====================        ===========   ===================================================================
@@ -382,7 +388,8 @@ history_order_list_query - 获取历史订单列表
  :param start: str，开始时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
  :param end: str，结束时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
  :param trd_env: str，交易环境 TrdEnv_ ，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
- :param acc_id: int，交易业务账户ID，传0默认第一个账户
+ :param acc_id: int，交易业务账户ID，acc_id为ID号时以acc_id为准，传0使用acc_index所对应的用户
+ :param acc_index: int，交易业务子账户ID列表所对应的下标，默认0，表示第1个业务ID
  :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟上面的 order-list-query_ (获取订单列表)相同
  
  :example:
@@ -410,7 +417,8 @@ history_deal_list_query - 获取历史成交列表
  :param start: str，开始时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
  :param end: str，结束时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
  :param trd_env: str，交易环境 TrdEnv_ ，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)
- :param acc_id: int，交易业务账户ID，传0默认第一个账户
+ :param acc_id: int，交易业务账户ID，acc_id为ID号时以acc_id为准，传0使用acc_index所对应的用户
+ :param acc_index: int，交易业务子账户ID列表所对应的下标，默认0，表示第1个业务ID
  :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟上面的 deal-list-query_ (获取成交列表)相同
  
  :example:
