@@ -41,8 +41,3 @@ class ImageMsg(Msg):
         Msg.__init__(self, xml_data)
         self.PicUrl = xml_data.find('PicUrl').text
         self.MediaId = xml_data.find('MediaId').text
-
-# 作者：鱼头豆腐文
-# 链接：https://www.jianshu.com/p/539904d556c8
-# 來源：简书
-# 简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from futuquant import *
-from data_acquisition import *
+from .data_acquisition import *
 host='127.0.0.1'
 port=12345
 subtype_list = [SubType.QUOTE, SubType.ORDER_BOOK, SubType.TICKER, SubType.K_DAY, SubType.RT_DATA, SubType.BROKER]

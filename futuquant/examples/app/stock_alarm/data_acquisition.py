@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from futuquant import *
 from . import data_strategy
 

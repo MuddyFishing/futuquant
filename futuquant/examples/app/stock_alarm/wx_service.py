@@ -2,10 +2,10 @@
 # filename:
 from flask import Flask, request, make_response
 import time, hashlib
-from receive_and_reply import reply
-from receive_and_reply import receive
-from mysql_interface import MysqlInterface
-import common_parameter
+from .receive_and_reply import reply
+from .receive_and_reply import receive
+from .mysql_interface import MysqlInterface
+from . import Config
 
 mi = MysqlInterface()
 
@@ -16,7 +16,7 @@ app = Flask(__name__)
 def wechat():
     # 微信验证token
     if request.method == 'GET':
-        token = common_parameter.token
+        token = Config.token
         query = request.args
         signature = query.get('signature', '')
         timestamp = query.get('timestamp', '')

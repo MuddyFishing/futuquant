@@ -1,4 +1,4 @@
-from mysql_interface import MysqlInterface
+from .mysql_interface import MysqlInterface
 
 myopenid = "kdhfskgadfvbsdvkjgkaghsdzfkigv_dgfjsdzfvbjazsgdcfvgh"
 

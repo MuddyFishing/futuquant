@@ -2,16 +2,16 @@
 import pymysql
 import sys
 import re
-import common_parameter
+from . import Config
 
 
 class MysqlInterface:
     def __init__(self):
-        self.host = common_parameter.host
-        self.port = common_parameter.port
-        self.user = common_parameter.user
-        self.passwd = common_parameter.passwd
-        self.database = common_parameter.database
+        self.host = Config.host
+        self.port = Config.port
+        self.user = Config.user
+        self.passwd = Config.passwd
+        self.database = Config.database
 
     def mysql_connect(self):
         conn = pymysql.connect(host=self.host, port=self.port, user=self.user, passwd=self.passwd, db=self.database)
