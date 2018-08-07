@@ -145,7 +145,7 @@ FutuHistData配置
   login_pwd                  登录密码明文                                                                                         是，可以使用证书登录或配置文件配置项
   login_pwd_md5              登录密码密文（32位MD5加密16进制），密文明文都存在情况下，只使用密文                                  是，可以使用密文、证书登录或配置文件配置项
   login_cert_file            证书文件绝对路径，除帐号密码外的另一种登录方式输入，若同时存在帐号密码登录配置项，只使用证书登录     是，可以使用明文、证书登录或配置文件配置项   
-  login_region               优先连接点区域，但不一定能连接上该区域连接点                                                         是，不设置则自动选择
+  login_region               优先连接点区域，但不一定能连接上该区域连接点(gz/sh/hk)                                               是，不设置则自动选择
   cfg_file                   FutuOpenD配置文件绝对路径                                                                            是，不设置则使用程序所在目录下的FutuOpenD.xml
   hist_data_cfg_file         FutuHistData配置文件绝对路径 	                                                                      是，不设置则使用程序所在目录下的FutuHistData.xml
   console                    是否显示控制台，后台运行：0，控制台运行：1                                                           是，不设置则默认控制台运行
