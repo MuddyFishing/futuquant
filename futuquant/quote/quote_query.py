@@ -1395,3 +1395,61 @@ class StockReferenceList:
             data_list.append(data)
 
         return RET_OK, '', data_list
+
+
+class OwnerPlateQuery:
+    """
+    Query Conversion for getting owner plate information.
+    """
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pack_req(cls, code_list, conn_id):
+
+        stock_tuple_list = []
+        failure_tuple_list = []
+        for stock_str in code_list:
+            ret_code, content = split_stock_str(stock_str)
+            if ret_code != RET_OK:
+                msg = content
+                error_str = ERROR_STR_PREFIX + msg
+                failure_tuple_list.append((ret_code, error_str))
+                continue
+            market_code, stock_code = content
+            stock_tuple_list.append((market_code, stock_code))
+
+        if len(failure_tuple_list) > 0:
+            error_str = '\n'.join([x[1] for x in failure_tuple_list])
+            return RET_ERROR, error_str, None
+
+        from futuquant.common.pb.Qot_GetOwnerPlate_pb2 import Request
+        req = Request()
+        for market_code, stock_code in stock_tuple_list:
+            stock_inst = req.c2s.securityList.add()
+            stock_inst.market = market_code
+            stock_inst.code = stock_code
+
+        return pack_pb_req(req, ProtoId.Qot_GetOwnerPlate, conn_id)
+
+    @classmethod
+    def unpack_rsp(cls, rsp_pb):
+        # print(rsp_pb)
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, []
+        raw_quote_list = rsp_pb.s2c.ownerPlateList
+
+        data_list = []
+        for record in raw_quote_list:
+            plate_info_list = record.plateInfoList
+            for plate_info in plate_info_list:
+                quote_list = {
+                    'code': merge_qot_mkt_stock_str(record.security.market, record.security.code),
+                    'plate_code': plate_info.plate.code,
+                    'plate_name': str(plate_info.name),
+                    'plate_type': plate_info.plateType
+                }
+                data_list.append(quote_list)
+
+        return RET_OK, "", data_list
