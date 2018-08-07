@@ -34,6 +34,7 @@ enum PlateSetType
 	PlateSetType_Industry = 1; //行业板块
 	PlateSetType_Region = 2; //地域板块,港美股市场的地域分类数据暂为空
 	PlateSetType_Concept = 3; //概念板块
+	PlateSetType_Other = 4; //其他板块, 仅用于3207（获取股票所属板块）协议返回,不可作为其他协议的请求参数
 }
 
 enum WarrantType
@@ -283,6 +284,17 @@ message OrderBook
 	required int32 orederCount = 3; //委托订单个数
 }
 
+//持股变动
+message ShareHoldingChange
+{
+    required string holderName = 1; //持有者名称（机构名称 或 基金名称 或 高管姓名）
+    required double holdingQty = 2; //当前持股数量
+    required double holdingRatio = 3; //当前持股比例
+    required double changeQty = 4; //较上一次变动数量
+    required double changeRatio = 5; //较上一次变动比例
+    required string time = 6; //发布日期
+}
+
 message SubInfo
 {
 	required int32 subType = 1; //Qot_Common.SubType,订阅类型
@@ -294,4 +306,11 @@ message ConnSubInfo
 	repeated SubInfo subInfoList = 1; //该连接订阅信息
 	required int32 usedQuota = 2; //该连接已经使用的订阅额度
 	required bool isOwnConnData = 3; //用于区分是否是自己连接的数据
+}
+
+message PlateInfo
+{
+	required Qot_Common.Security plate = 1; //板块
+	required string name = 2; //板块名字
+	optional int32 plateType = 3; //PlateSetType 板块类型, 仅3207（获取股票所属板块）协议返回该字段
 }
