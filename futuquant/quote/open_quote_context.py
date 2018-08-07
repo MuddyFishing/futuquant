@@ -1381,7 +1381,7 @@ class OpenQuoteContext(OpenContextBase):
         """
         获取指定股票的分时数据
 
-        :param code_list: 股票代码列表，list或str。例如：['HK.00700', 'HK.00001']，'HK.00700,HK.00001'
+        :param code_list: 股票代码列表，list或str。例如：['HK.00700', 'HK.00001']或者'HK.00700,HK.00001'
         :return: (ret, data)
 
                 ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
