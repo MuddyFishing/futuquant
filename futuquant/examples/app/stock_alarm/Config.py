@@ -1,32 +1,32 @@
 class Config:
-    # wechat
-    appid = 'wx7a25fbe5fc90799a'       # AppID
-    secrect = 'f34624551ea8f5f784f2622378fe91f8'      # Secret
+    def __init__(self):
+        # wechat
+        self.appid = ''       # AppID
+        self.secrect = ''      # Secret
 
-    # test_user_list
-    test_user_list = {#'oaeaj0xqRf_m3l1Ln4FQ8rdoAvHc',  # ysq
-                      #'oaeaj02eXJu9OuaiBtaHjNnvzv-Y',  # 享阝木木¹³¹¹ºº⁷⁷⁵⁵º
-                      'oaeaj02DzklyZHavotk2X3mt6JuA'  # lpt
-                      }
+        # test_user_list
+        self.test_user_list = {
+                          'oaeaj02DzklyZHavotk2X3mt6JuA'  # test openid
+                          }
 
-    # test_user_nickname
-    test_user_nickname = {'lpt'}
+        # test_user_nickname
+        self.test_user_nickname = {'lpt'}
 
-    # wechat token
-    token = 'yundun999'  # token
+        # wechat token
+        self.token = ''  # token
 
-    # parameter: 越价率，
-    premium_rate = 0.005
-    warning_threshold = 1000000
-    large_threshold = 5000000
-    warning_limit = 5
+        # parameter: 越价率
+        self.premium_rate = 0.005
+        self.warning_threshold = 1000000
+        self.large_threshold = 5000000
+        self.warning_limit = 5
 
-    # template_id
-    template_id = "jr67sFJ5w4ln_ty6e0BHSBLZNOUOgMXOC-ph9u6xWwQ"
+        # template_id
+        self.template_id = ""
 
-    # mysql
-    host = '127.0.0.1'
-    port = 3306
-    user = 'root'
-    passwd = 'hackch'
-    database = 'stock_alarm'
+        # mysql
+        self.host = '127.0.0.1'
+        self.port = 3306
+        self.user = 'root'
+        self.passwd = ''
+        self.database = 'stock_alarm'

@@ -2,13 +2,14 @@
 import requests
 import json
 import time
-from . import Config
+from .Config import Config
 
+config = Config()
 
 class WechatPush(object):
     def __init__(self):
-        self.app_id = Config.appid
-        self.secret = Config.secrect
+        self.app_id = config.appid
+        self.secret = config.secrect
         self.access_generate_time = 0
         self.access_token = None
 
@@ -71,7 +72,7 @@ class WechatPush(object):
         access_token = self.get_access_token()
         body = {
             "touser": openid,
-            "template_id":Config.template_id,
+            "template_id":config.template_id,
             "data": {
                     "first": {
                        "value":(msg['echo_type']),
@@ -146,14 +147,14 @@ class WechatPush(object):
         user_openid_list = self.get_user_openid_list()
         if user_openid_list:
             for openid in user_openid_list:
-                if self.get_user_nickname(openid) in Config.test_user_nickname:
+                if self.get_user_nickname(openid) in config.test_user_nickname:
                     self.send_msg_to_users_customer_service_news(openid, msg)
 
     def sent_template_msg_to_users(self, msg):
         user_openid_list = self.get_user_openid_list()
         if user_openid_list:
             for openid in user_openid_list:
-                if self.get_user_nickname(openid) in Config.test_user_nickname:
+                if self.get_user_nickname(openid) in config.test_user_nickname:
                     self.send_template_msg(openid, msg)
 
 
