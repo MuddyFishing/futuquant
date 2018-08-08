@@ -6,11 +6,6 @@
 
 from __future__ import division
 
-# 重载sys模块，设置默认字符串编码方式为utf8
-import sys
-reload(sys)
-sys.setdefaultencoding('utf8')
-
 from strategyKingKeltnerTest import KkStrategyTest
 from vnpy.trader.app.ctaStrategy.ctaBacktesting import BacktestingEngine, MINUTE_DB_NAME
 

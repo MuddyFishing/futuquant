@@ -41,13 +41,13 @@ class StockQuoteHandlerBase(RspHandlerBase):
         """
         ret_code, content = self.parse_rsp_pb(rsp_pb)
         if ret_code != RET_OK:
-            return ret_code, msg
+            return ret_code, content
         else:
             col_list = [
                 'code', 'data_date', 'data_time', 'last_price', 'open_price',
                 'high_price', 'low_price', 'prev_close_price', 'volume',
                 'turnover', 'turnover_rate', 'amplitude', 'suspension',
-                'listing_date', 'price_spread'
+                'listing_date', 'price_spread', 'dark_status'
             ]
 
             quote_frame_table = pd.DataFrame(content, columns=col_list)
@@ -181,7 +181,7 @@ class TickerHandlerBase(RspHandlerBase):
 
             col_list = [
                 'code', 'time', 'price', 'volume', 'turnover',
-                "ticker_direction", 'sequence', 'recv_time',
+                "ticker_direction", 'sequence', 'type',
             ]
             ticker_frame_table = pd.DataFrame(content, columns=col_list)
 

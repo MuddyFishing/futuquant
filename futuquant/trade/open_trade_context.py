@@ -38,6 +38,11 @@ class OpenTradeContextBase(OpenContextBase):
             logger.debug('auto unlock trade ret={},data={}'.format(ret, data))
             if ret != RET_OK:
                 msg = data
+
+        # 定阅交易帐号推送
+        if ret == RET_OK:
+            self.__check_acc_sub_push()
+            
         return ret, msg
 
     def get_acc_list(self):
@@ -224,6 +229,24 @@ class OpenTradeContextBase(OpenContextBase):
                 stock_code = code
         return RET_OK, "", stock_code
 
+    def _split_stock_code(self, code):
+        stock_str = str(code)
+
+        split_loc = stock_str.find(".")
+        '''do not use the built-in split function in python.
+        The built-in function cannot handle some stock strings correctly.
+        for instance, US..DJI, where the dot . itself is a part of original code'''
+        if 0 <= split_loc < len(
+                stock_str) - 1 and stock_str[0:split_loc] in MKT_MAP:
+            market_str = stock_str[0:split_loc]
+            partial_stock_str = stock_str[split_loc + 1:]
+            return RET_OK, (market_str, partial_stock_str)
+
+        else:
+            error_str = ERROR_STR_PREFIX + "format of %s is wrong. (US.AAPL, HK.00700, SZ.000001)" % stock_str
+            return RET_ERROR, error_str
+
+
     def position_list_query(self, code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL, acc_id=0):
         """for querying the position list"""
         ret, msg = self._check_trd_env(trd_env)
@@ -346,9 +369,11 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        ret, msg, stock_code = self._check_stock_code(code)
+        ret, content = self._split_stock_code(code)
         if ret != RET_OK:
-            return ret, msg
+            return ret, content
+
+        market_str, stock_code = content
 
         query_processor = self._get_sync_query_processor(
             PlaceOrder.pack_req, PlaceOrder.unpack_rsp)
@@ -359,9 +384,10 @@ class OpenTradeContextBase(OpenContextBase):
             'order_type': order_type,
             'price': float(price),
             'qty': float(qty),
-            'code': str(stock_code),
+            'code': stock_code,
             'adjust_limit': float(adjust_limit),
             'trd_mkt': self.__trd_mkt,
+            'sec_mkt_str': market_str,
             'trd_env': trd_env,
             'acc_id': acc_id,
             'conn_id': self.get_sync_conn_id()
@@ -561,6 +587,70 @@ class OpenTradeContextBase(OpenContextBase):
 
         return RET_OK, deal_list_table
 
+    def acctradinginfo_query(self, order_type, code, price, order_id, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0):
+        """
+        查询账户下最大可买卖数量
+        :param order_type: 订单类型，参见OrderType
+        :param code: 证券代码，例如'HK.00700'
+        :param price: 报价，3位精度
+        :param order_id: 订单号
+        :param adjust_limit: 调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%。默认0表示不调整
+        :param trd_env: 交易环境，参见TrdEnv
+        :param acc_id: 业务账号，默认0表示第1个
+        :return: (ret, data)
+
+                ret == RET_OK, data为pd.DataFrame，数据列如下
+
+                ret != RET_OK, data为错误信息
+
+                =======================   ===========   ======================================================================================
+                参数                       类型                        说明
+                =======================   ===========   ======================================================================================
+                max_cash_buy               float            不使用融资，仅自己的现金最大可买整手股数
+                max_cash_and_margin_buy    float            使用融资，自己的现金 + 融资资金总共的最大可买整手股数
+                max_position_sell          float            不使用融券(卖空)，仅自己的持仓最大可卖整手股数
+                max_sell_short             float            使用融券(卖空)，最大可卖空整手股数，不包括多仓
+                max_buy_back               float            卖空后，需要买回的最大整手股数。因为卖空后，必须先买回已卖空的股数，还掉股票，才能再继续买多。
+                =======================   ===========   ======================================================================================
+        """
+        ret, msg = self._check_trd_env(trd_env)
+        if ret != RET_OK:
+            return ret, msg
+        ret, msg, acc_id = self._check_acc_id(trd_env, acc_id)
+        if ret != RET_OK:
+            return ret, msg
+
+        ret, content = self._split_stock_code(code)
+        if ret != RET_OK:
+            return ret, content
+
+        market_str, stock_code = content
+
+        query_processor = self._get_sync_query_processor(
+            AccTradingInfoQuery.pack_req,
+            AccTradingInfoQuery.unpack_rsp)
+
+        kargs = {
+            'order_type': order_type,
+            'code': str(stock_code),
+            'price': price,
+            'order_id': order_id,
+            'adjust_limit': adjust_limit,
+            'trd_mkt': self.__trd_mkt,
+            'sec_mkt_str': market_str,
+            'trd_env': trd_env,
+            'acc_id': acc_id,
+            'conn_id': self.get_sync_conn_id()
+        }
+
+        ret_code, msg, data = query_processor(**kargs)
+        if ret_code != RET_OK:
+            return RET_ERROR, msg
+
+        col_list = ['max_cash_buy', 'max_cash_and_margin_buy', 'max_position_sell', 'max_sell_short', 'max_buy_back']
+        acctradinginfo_table = pd.DataFrame(data, columns=col_list)
+        return RET_OK, acctradinginfo_table
+
 
 # 港股交易接口
 class OpenHKTradeContext(OpenTradeContextBase):
@@ -575,5 +665,97 @@ class OpenUSTradeContext(OpenTradeContextBase):
 
 
 
+# A股通交易接口
+class OpenHKCCTradeContext(OpenTradeContextBase):
+    def __init__(self, host="127.0.0.1", port=11111):
+        super().__init__(TrdMarket.HKCC, host, port)
 
+    def order_list_query(self, order_id="", status_filter_list=[], code='', start='', end='',
+                         trd_env=TrdEnv.REAL, acc_id=0):
+        """
+        :param order_id:
+        :param status_filter_list:
+        :param code:
+        :param start:
+        :param end:
+        :param trd_env:
+        :param acc_id:
+        :return: 返回值见基类及接口文档，但order_type仅有OrderType.NORMAL, order_status没有OrderStatus.DISABLED
+        """
+        return super().order_list_query(order_id, status_filter_list, code, start, end, trd_env, acc_id)
 
+    def place_order(self, price, qty, code, trd_side=TrdSide.NONE, order_type=OrderType.NORMAL,
+                    adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0):
+        """
+
+        :param price:
+        :param qty:
+        :param code:
+        :param trd_side:
+        :param order_type:
+        :param adjust_limit:
+        :param trd_env:
+        :param acc_id:
+        :return: 返回值见基类接口注释，但order_type仅有OrderType.NORMAL
+        """
+        return super().place_order(price=price, qty=qty, code=code, trd_side=trd_side,
+                                   order_type=order_type, adjust_limit=adjust_limit,
+                                   trd_env=trd_env, acc_id=acc_id)
+
+    def modify_order(self, modify_order_op, order_id, qty, price, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0):
+        """
+        详细说明见基类接口说明，但有以下不同：不支持改单。 可撤单。删除订单是本地操作。
+        :param modify_order_op:
+        :param order_id:
+        :param qty:
+        :param price:
+        :param adjust_limit:
+        :param trd_env:
+        :param acc_id:
+        :return:
+        """
+        return super().modify_order(modify_order_op=modify_order_op,
+                                    order_id=order_id,
+                                    qty=qty,
+                                    price=price,
+                                    adjust_limit=adjust_limit,
+                                    trd_env=trd_env,
+                                    acc_id=acc_id)
+
+    def change_orde(self, *args, **kwargs):
+        """不支持此接口"""
+        return RET_ERROR, 'API not supported'
+
+    def deal_list_query(self, code="", trd_env=TrdEnv.REAL, acc_id=0):
+        """
+
+        :param code:
+        :param trd_env:
+        :param acc_id:
+        :return: 详细说明见基类接口文档，但有以下不同：返回值没有counter_broker_id、counter_broker_name字段
+        """
+        return super().deal_list_query(code=code, trd_env=trd_env, acc_id=acc_id)
+
+    def history_order_list_query(self, status_filter_list=[], code='', start='', end='',
+                                 trd_env=TrdEnv.REAL, acc_id=0):
+        """
+
+        :param status_filter_list:
+        :param code:
+        :param start:
+        :param end:
+        :param trd_env:
+        :param acc_id:
+        :return: 返回值见基类及接口文档，但order_type仅有OrderType.NORMAL, order_status没有OrderStatus.DISABLED
+        """
+        return super().history_order_list_query(status_filter_list=status_filter_list,
+                                                code=code,
+                                                start=start,
+                                                end=end,
+                                                trd_env=trd_env,
+                                                acc_id=acc_id)
+
+# A股交易接口
+class OpenCNTradeContext(OpenTradeContextBase):
+    def __init__(self, host="127.0.0.1", port=11111):
+        super(OpenCNTradeContext, self).__init__(TrdMarket.CN, host, port)

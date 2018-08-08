@@ -188,10 +188,14 @@ class OpenContextBase(object):
         return sync_query_processor
 
     def _send_async_req(self, req_str):
+        conn_id = 0
+        net_mgr = None
         with self._lock:
             if self._status != ContextStatus.Ready:
                 return RET_ERROR, 'Context closed or not ready'
-            return self._net_mgr.send(self._conn_id, req_str)
+            conn_id = self._conn_id
+            net_mgr = self._net_mgr
+        return net_mgr.send(conn_id, req_str)
 
     def _socket_reconnect_and_wait_ready(self):
         """
@@ -370,7 +374,9 @@ class OpenContextBase(object):
         with self._lock:
             if self._status == ContextStatus.Closed or self._reconnect_timer is not None:
                 return
-            logger.info('Wait reconnect in {0} seconds'.format(wait_reconnect_interval))
+            logger.info('Wait reconnect in {} seconds: host={}; port={};'.format(wait_reconnect_interval,
+                                                                                 self.__host,
+                                                                                 self.__port))
             net_mgr = self._net_mgr
             conn_id = self._conn_id
             self._status = ContextStatus.Connecting

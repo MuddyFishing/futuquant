@@ -40,7 +40,7 @@ class ProtoFMT(object):
     Json = 1
 
 # 默认的协议格式 : set_proto_fmt 更改
-DEFULAT_PROTO_FMT = ProtoFMT.Json
+DEFULAT_PROTO_FMT = ProtoFMT.Protobuf
 
 # api的协议版本号
 API_PROTO_VER = int(0)
@@ -81,6 +81,19 @@ MKT_MAP = {
     Market.US_OPTION: 12,
     Market.SH: 21,
     Market.SZ: 22
+}
+
+from .pb import Trd_Common_pb2
+from .pb import Qot_Common_pb2
+
+QOT_MARKET_TO_TRD_SEC_MARKET_MAP = {
+    Qot_Common_pb2.QotMarket_Unknown: Trd_Common_pb2.TrdSecMarket_Unknown,
+    Qot_Common_pb2.QotMarket_CNSH_Security: Trd_Common_pb2.TrdSecMarket_CN_SH,
+    Qot_Common_pb2.QotMarket_CNSZ_Security: Trd_Common_pb2.TrdSecMarket_CN_SZ,
+    Qot_Common_pb2.QotMarket_HK_Security: Trd_Common_pb2.TrdSecMarket_HK,
+    Qot_Common_pb2.QotMarket_HK_Future: Trd_Common_pb2.TrdSecMarket_HK,
+    Qot_Common_pb2.QotMarket_US_Security: Trd_Common_pb2.TrdSecMarket_US,
+    Qot_Common_pb2.QotMarket_US_Option: Trd_Common_pb2.TrdSecMarket_US
 }
 
 # 市场状态
@@ -586,6 +599,7 @@ class ProtoId(object):
 
     Trd_GetHistoryOrderList = 2221  # 获取历史订单列表
     Trd_GetHistoryOrderFillList = 2222  # 获取历史成交列表
+    Trd_GetAccTradingInfo = 2111    # 查询最大买卖数量
 
     # 订阅数据
     Qot_Sub = 3001  # 订阅或者反订阅
@@ -616,6 +630,7 @@ class ProtoId(object):
     Qot_GetSecuritySnapshot = 3203  # 获取股票快照
     Qot_GetPlateSet = 3204  # 获取板块集合下的板块
     Qot_GetPlateSecurity = 3205  # 获取板块下的股票
+    Qot_GetReference = 3206  # 获取正股相关股票，暂时只有窝轮
 
     All_PushId = [Notify, KeepAlive, Trd_UpdateOrder, Trd_UpdateOrderFill, Qot_UpdateBroker,
                   Qot_UpdateOrderBook, Qot_UpdateKL, Qot_UpdateRT, Qot_UpdateBasicQot, Qot_UpdateTicker]
@@ -623,6 +638,85 @@ class ProtoId(object):
     @classmethod
     def is_proto_id_push(cls, id):
         return id in ProtoId.All_PushId
+
+
+class DarkStatus:
+    NONE = 'N/A'
+    TRADING = 'TRADING'
+    END = 'END'
+
+DARK_STATUS_MAP = {
+    DarkStatus.NONE: Qot_Common_pb2.DarkStatus_None,
+    DarkStatus.TRADING: Qot_Common_pb2.DarkStatus_Trading,
+    DarkStatus.END: Qot_Common_pb2.DarkStatus_End
+}
+
+class TickerType:
+    UNKNOWN = 'UNKNOWN'
+    AUTO_MATCH = 'AUTO_MATCH'
+    LATE = 'LATE'
+    NON_AUTO_MATCH = 'NON_AUTO_MATCH'
+    INTER_AUTO_MATCH = 'INTER_AUTO_MATCH'
+    INTER_NON_AUTO_MATCH = 'INTER_NON_AUTO_MATCH'
+    ODD_LOT = 'ODD_LOT'
+    AUCTION = 'AUCTION'
+    BULK = 'BULK'
+    CRASH = 'CRASH'
+    CROSS_MARKET = 'CROSS_MARKET'
+    BULK_SOLD = 'BULK_SOLD'
+    FREE_ON_BOARD = 'FREE_ON_BOARD'
+    RULE127_OR_155 = 'RULE127_OR_155'
+    DELAY = 'DELAY'
+    MARKET_CENTER_CLOSE_PRICE = 'MARKET_CENTER_CLOSE_PRICE'
+    NEXT_DAY = 'NEXT_DAY'
+    MARKET_CENTER_OPENING = 'MARKET_CENTER_OPENING'
+    PRIOR_REFERENCE_PRICE = 'PRIOR_REFERENCE_PRICE'
+    MARKET_CENTER_OPEN_PRICE = 'MARKET_CENTER_OPEN_PRICE'
+    SELLER = 'SELLER'
+    T = 'T'
+    EXTENDED_TRADING_HOURS = 'EXTENDED_TRADING_HOURS'
+    CONTINGENT = 'CONTINGENT'
+    AVERAGE_PRICE = 'AVERAGE_PRICE'
+    OTC_SOLD = 'OTC_SOLD'
+    ODD_LOT_CROSS_MARKET = 'ODD_LOT_CROSS_MARKET'
+    DERIVATIVELY_PRICED = 'DERIVATIVELY_PRICED'
+    REOPENINGP_RICED = 'REOPENINGP_RICED'
+    CLOSING_PRICED = 'CLOSING_PRICED'
+    COMPREHENSIVE_DELAY_PRICE = 'COMPREHENSIVE_DELAY_PRICE'
+
+TICKER_TYPE_MAP = {
+    TickerType.UNKNOWN: Qot_Common_pb2.TickerType_Unknown,
+    TickerType.AUTO_MATCH: Qot_Common_pb2.TickerType_Automatch,
+    TickerType.LATE: Qot_Common_pb2.TickerType_Late,
+    TickerType.NON_AUTO_MATCH: Qot_Common_pb2.TickerType_NoneAutomatch,
+    TickerType.INTER_AUTO_MATCH: Qot_Common_pb2.TickerType_InterAutomatch,
+    TickerType.INTER_NON_AUTO_MATCH: Qot_Common_pb2.TickerType_InterNoneAutomatch,
+    TickerType.ODD_LOT: Qot_Common_pb2.TickerType_OddLot,
+    TickerType.AUCTION: Qot_Common_pb2.TickerType_Auction,
+    TickerType.BULK: Qot_Common_pb2.TickerType_Bulk,
+    TickerType.CRASH: Qot_Common_pb2.TickerType_Crash,
+    TickerType.CROSS_MARKET: Qot_Common_pb2.TickerType_CrossMarket,
+    TickerType.BULK_SOLD: Qot_Common_pb2.TickerType_BulkSold,
+    TickerType.FREE_ON_BOARD: Qot_Common_pb2.TickerType_FreeOnBoard,
+    TickerType.RULE127_OR_155: Qot_Common_pb2.TickerType_Rule127Or155,
+    TickerType.DELAY: Qot_Common_pb2.TickerType_Delay,
+    TickerType.MARKET_CENTER_CLOSE_PRICE: Qot_Common_pb2.TickerType_MarketCenterClosePrice,
+    TickerType.NEXT_DAY: Qot_Common_pb2.TickerType_NextDay,
+    TickerType.MARKET_CENTER_OPENING: Qot_Common_pb2.TickerType_MarketCenterOpening,
+    TickerType.PRIOR_REFERENCE_PRICE: Qot_Common_pb2.TickerType_PriorReferencePrice,
+    TickerType.MARKET_CENTER_OPEN_PRICE: Qot_Common_pb2.TickerType_MarketCenterOpenPrice,
+    TickerType.SELLER: Qot_Common_pb2.TickerType_Seller,
+    TickerType.T: Qot_Common_pb2.TickerType_T,
+    TickerType.EXTENDED_TRADING_HOURS: Qot_Common_pb2.TickerType_ExtendedTradingHours,
+    TickerType.CONTINGENT: Qot_Common_pb2.TickerType_Contingent,
+    TickerType.AVERAGE_PRICE: Qot_Common_pb2.TickerType_AveragePrice,
+    TickerType.OTC_SOLD: Qot_Common_pb2.TickerType_OTCSold,
+    TickerType.ODD_LOT_CROSS_MARKET: Qot_Common_pb2.TickerType_OddLotCrossMarket,
+    TickerType.DERIVATIVELY_PRICED: Qot_Common_pb2.TickerType_DerivativelyPriced,
+    TickerType.REOPENINGP_RICED: Qot_Common_pb2.TickerType_ReOpeningPriced,
+    TickerType.CLOSING_PRICED: Qot_Common_pb2.TickerType_ClosingPriced,
+    TickerType.COMPREHENSIVE_DELAY_PRICE: Qot_Common_pb2.TickerType_ComprehensiveDelayPrice
+}
 
 
 # noinspection PyPep8Naming
@@ -637,7 +731,8 @@ class QUOTE(object):
     REV_KLDATA_STATUS_MAP = {KLDATA_STATUS_MAP[x]: x for x in KLDATA_STATUS_MAP}
     REV_TICKER_DIRECTION = {TICKER_DIRECTION[x]: x for x in TICKER_DIRECTION}
     REV_MARKET_STATE_MAP = {MARKET_STATE_MAP[x]: x for x in MARKET_STATE_MAP}
-
+    REV_DARK_STATUS_MAP = {DARK_STATUS_MAP[x]: x for x in DARK_STATUS_MAP}
+    REV_TICKER_TYPE_MAP = {TICKER_TYPE_MAP[x]: x for x in TICKER_TYPE_MAP}
 
 # sys notify info
 class SysNotifyType(object):
@@ -985,16 +1080,16 @@ TRD_SIDE_MAP = {
 # 交易的支持能力，持续更新中
 MKT_ENV_ENABLE_MAP = {
     (TrdMarket.HK, TrdEnv.REAL): True,
-    (TrdMarket.HK, TrdEnv.SIMULATE): False,
+    (TrdMarket.HK, TrdEnv.SIMULATE): True,
 
     (TrdMarket.US, TrdEnv.REAL): True,
-    (TrdMarket.US, TrdEnv.SIMULATE): False,
+    (TrdMarket.US, TrdEnv.SIMULATE): True,
 
-    (TrdMarket.HKCC, TrdEnv.REAL): False,
+    (TrdMarket.HKCC, TrdEnv.REAL): True,
     (TrdMarket.HKCC, TrdEnv.SIMULATE): False,
 
     (TrdMarket.CN, TrdEnv.REAL): False,
-    (TrdMarket.CN, TrdEnv.SIMULATE): False,
+    (TrdMarket.CN, TrdEnv.SIMULATE): True,
 }
 
 
@@ -1014,3 +1109,15 @@ class TRADE(object):
         return False
 
 
+class SecurityReferenceType:
+    NONE = 'N/A'
+    WARRANT = 'WARRANT'
+
+
+from .pb import Qot_GetReference_pb2
+
+
+STOCK_REFERENCE_TYPE_MAP = {
+    SecurityReferenceType.NONE: Qot_GetReference_pb2.ReferenceType_Unknow,
+    SecurityReferenceType.WARRANT: Qot_GetReference_pb2.ReferenceType_Warrant
+}

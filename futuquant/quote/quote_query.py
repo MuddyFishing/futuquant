@@ -126,7 +126,7 @@ class StockBasicInfoQuery:
         pass
 
     @classmethod
-    def pack_req(cls, market, conn_id, stock_type='STOCK'):
+    def pack_req(cls, market, conn_id, stock_type='STOCK', code_list=None):
 
         if market not in MKT_MAP:
             error_str = ERROR_STR_PREFIX + " market is %s, which is not valid. (%s)" \
@@ -142,6 +142,14 @@ class StockBasicInfoQuery:
         req = Request()
         req.c2s.market = MKT_MAP[market]
         req.c2s.secType = SEC_TYPE_MAP[stock_type]
+        if code_list is not None:
+            for code in code_list:
+                sec = req.c2s.securityList.add()
+                ret, data = split_stock_str(code)
+                if ret == RET_OK:
+                    sec.market, sec.code = data
+                else:
+                    return RET_ERROR, data, None
 
         return pack_pb_req(req, ProtoId.Qot_GetStaticInfo, conn_id)
 
@@ -876,6 +884,7 @@ class StockQuoteQuery:
             'suspension': record.isSuspended,
             'listing_date': record.listTime,
             'price_spread': record.priceSpread if record.HasField('priceSpread') else 0,
+            'dark_status': QUOTE.REV_DARK_STATUS_MAP[record.darkStatus] if record.HasField('darkStatus') else DarkStatus.NONE
         } for record in raw_quote_list]
 
         return RET_OK, "", quote_list
@@ -931,6 +940,7 @@ class TickerQuery:
             "ticker_direction": str(QUOTE.REV_TICKER_DIRECTION[record.dir]) if record.dir in QUOTE.REV_TICKER_DIRECTION else "",
             "sequence": record.sequence,
             "recv_timestamp":record.recvTime,
+            "type": QUOTE.REV_TICKER_TYPE_MAP[record.type] if record.type in QUOTE.REV_TICKER_TYPE_MAP else TickerType.UNKNOWN
         } for record in raw_ticker_list]
         return RET_OK, "", ticker_list
 
@@ -1080,7 +1090,7 @@ class OrderBookQuery:
         raw_order_book_bid = rsp_pb.s2c.orderBookBidList
 
         order_book = {}
-        order_book['code'] = merge_qot_mkt_stock_str(rsp_pb.s2c.security.market, rsp_pb.s2c.security.code),
+        order_book['code'] = merge_qot_mkt_stock_str(rsp_pb.s2c.security.market, rsp_pb.s2c.security.code)
         order_book['Bid'] = []
         order_book['Ask'] = []
 
@@ -1336,3 +1346,52 @@ class MultiPointsHisKLine:
                 list_ret.append(dict_data.copy())
 
         return RET_OK, "", (list_ret, has_next)
+
+
+class StockReferenceList:
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pack_req(cls, code, ref_type, conn_id):
+        from futuquant.common.pb.Qot_GetReference_pb2 import Request
+
+        ret, content = split_stock_str(code)
+        if ret != RET_OK:
+            return ret, content, None
+
+        req = Request()
+        req.c2s.security.market = content[0]
+        req.c2s.security.code = content[1]
+        req.c2s.referenceType = STOCK_REFERENCE_TYPE_MAP[ref_type]
+
+        return pack_pb_req(req, ProtoId.Qot_GetReference, conn_id)
+
+    @classmethod
+    def unpack_rsp(cls, rsp_pb):
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
+
+        if not rsp_pb.HasField('s2c'):
+            return RET_OK, '', None
+
+        data_list = []
+        for info in rsp_pb.s2c.staticInfoList:
+            data = {}
+            data['code'] = merge_qot_mkt_stock_str(info.basic.security.market, info.basic.security.code)
+            # item['stock_id'] = info.basic.id
+            data['lot_size'] = info.basic.lotSize
+            data['stock_type'] = QUOTE.REV_SEC_TYPE_MAP[info.basic.secType] if info.basic.secType in QUOTE.REV_SEC_TYPE_MAP else SecurityType.NONE
+            data['stock_name'] = info.basic.name
+            data['list_time'] = info.basic.listTime
+            if info.HasField('warrantExData'):
+                data['wrt_valid'] = True
+                data['wrt_type'] = QUOTE.REV_WRT_TYPE_MAP[info.warrantExData.type]
+                data['wrt_code'] = merge_qot_mkt_stock_str(info.warrantExData.owner.market,
+                                                           info.warrantExData.owner.code)
+            else:
+                data['wrt_valid'] = False
+
+            data_list.append(data)
+
+        return RET_OK, '', data_list

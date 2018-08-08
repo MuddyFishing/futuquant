@@ -123,11 +123,12 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, trade_day_list
 
-    def get_stock_basicinfo(self, market, stock_type=SecurityType.STOCK):
+    def get_stock_basicinfo(self, market, stock_type=SecurityType.STOCK, code_list=None):
         """
         获取指定市场中特定类型的股票基本信息
         :param market: 市场类型，futuquant.common.constsnt.Market
         :param stock_type: 股票类型， futuquant.common.constsnt.SecurityType
+        :param code_list: 如果不为None，应该是股票code的iterable类型，将只返回指定的股票信息
         :return: (ret_code, content)
                 ret_code 等于RET_OK时， content为Pandas.DataFrame数据, 否则为错误原因字符串, 数据列格式如下
             =================   ===========   ==============================================================================
@@ -164,6 +165,7 @@ class OpenQuoteContext(OpenContextBase):
         kargs = {
             "market": market,
             'stock_type': stock_type,
+            'code_list': code_list,
             'conn_id': self.get_sync_conn_id()
         }
 
@@ -543,7 +545,7 @@ class OpenQuoteContext(OpenContextBase):
                 =====================   ===========   ==============================================================
                 code                    str            股票代码
                 time                    str            时间(yyyy-MM-dd HH:mm:ss)
-                data_status             bool           数据状态；正确为True，伪造为False
+                is_blank                bool           数据状态；正常数据为False，伪造数据为True
                 opened_mins             int            零点到当前多少分钟
                 cur_price               float          当前价格
                 last_close              float          昨天收盘的价格
@@ -1025,6 +1027,7 @@ class OpenQuoteContext(OpenContextBase):
                 suspension              bool           是否停牌(True表示停牌)
                 listing_date            str            上市日期 (yyyy-MM-dd)
                 price_spread            float          当前价差，亦即摆盘数据的买档或卖档的相邻档位的报价差
+                dark_status             str            暗盘交易状态，见DarkStatus
                 =====================   ===========   ==============================================================
 
         """
@@ -1050,7 +1053,7 @@ class OpenQuoteContext(OpenContextBase):
             'code', 'data_date', 'data_time', 'last_price', 'open_price',
             'high_price', 'low_price', 'prev_close_price', 'volume',
             'turnover', 'turnover_rate', 'amplitude', 'suspension',
-            'listing_date', 'price_spread'
+            'listing_date', 'price_spread', 'dark_status'
         ]
 
         quote_frame_table = pd.DataFrame(quote_list, columns=col_list)
@@ -1062,7 +1065,7 @@ class OpenQuoteContext(OpenContextBase):
         获取指定股票的实时逐笔。取最近num个逐笔
 
         :param code: 股票代码
-        :param num: 最近ticker个数(有最大个数限制，最近500个）
+        :param num: 最近ticker个数(有最大个数限制，最近1000个）
         :return: (ret, data)
 
                 ret == RET_OK 返回pd dataframe数据，数据列格式如下
@@ -1079,6 +1082,7 @@ class OpenQuoteContext(OpenContextBase):
                 volume                   int            成交数量（股数）
                 turnover                 float          成交金额
                 ticker_direction         str            逐笔方向
+                type                    str             逐笔类型，参见TickerType
                 =====================   ===========   ==============================================================
         """
 
@@ -1105,7 +1109,7 @@ class OpenQuoteContext(OpenContextBase):
 
         col_list = [
             'code', 'time', 'price', 'volume', 'turnover', "ticker_direction",
-            'sequence'
+            'sequence', 'type'
         ]
         ticker_frame_table = pd.DataFrame(ticker_list, columns=col_list)
 
@@ -1324,5 +1328,51 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, pd_frame
 
+    def get_referencestock_list(self, code, reference_type):
+        """
+        获取证券的关联数据
+        :param code: 证券id，str，例如HK.00700
+        :param reference_type: 要获得的相关数据，参见SecurityReferenceType。例如WARRANT，表示获取正股相关的涡轮
+        :return: (ret, data)
 
+                ret == RET_OK 返回pd dataframe数据，数据列格式如下
 
+                ret != RET_OK 返回错误字符串
+                =================   ===========   ==============================================================================
+                参数                  类型                        说明
+                =================   ===========   ==============================================================================
+                code                str            证券代码
+                lot_size            int            每手数量
+                stock_type          str            证券类型，参见SecurityType
+                stock_name          str            证券名字
+                list_time           str            上市时间
+                wrt_valid           bool           是否是涡轮，如果为True，下面wrt开头的字段有效
+                wrt_type            str            涡轮类型，参见WrtType
+                wrt_code            str            所属正股
+                =================   ===========   ==============================================================================
+
+        """
+        if code is None or is_str(code) is False:
+            error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
+            return RET_ERROR, error_str
+
+        query_processor = self._get_sync_query_processor(
+            StockReferenceList.pack_req,
+            StockReferenceList.unpack_rsp,
+        )
+
+        kargs = {
+            "code": code,
+            'ref_type': reference_type,
+            "conn_id": self.get_sync_conn_id()
+        }
+        ret_code, msg, data_list = query_processor(**kargs)
+        if ret_code == RET_ERROR:
+            return ret_code, msg
+
+        col_list = [
+            'code', 'lot_size', 'stock_type', 'stock_name', 'list_time', 'wrt_valid', 'wrt_type', 'wrt_code'
+        ]
+
+        pd_frame = pd.DataFrame(data_list, columns=col_list)
+        return RET_OK, pd_frame

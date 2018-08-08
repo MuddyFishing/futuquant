@@ -17,10 +17,10 @@ def export_csv_k1m_file(quote_context, code, start='2017-11-01', end=None):
     '''
     # 得到历史数据
     kl_fileds = [KL_FIELD.DATE_TIME, KL_FIELD.OPEN, KL_FIELD.CLOSE, KL_FIELD.HIGH, KL_FIELD.LOW, KL_FIELD.TRADE_VOL]
-    ret, data_frame = quote_context.get_history_kline(code, start, end, 'K_1M', 'qfq', kl_fileds)
+    ret, data_frame = quote_context.get_history_kline(code, start, end, KLType.K_1M, AuType.QFQ, kl_fileds)
 
     if 0 != ret:
-        print (data_frame)
+        print(data_frame)
         return ret
 
     # 增加一列，并修改原列名
@@ -45,7 +45,7 @@ def export_csv_k1m_file(quote_context, code, start='2017-11-01', end=None):
 if __name__ == "__main__":
 
     # 参数配置
-    ip = '119.29.141.202'
+    ip = '127.0.0.1'
     port = 11111
     code = 'HK.00700'  # 腾讯
     quote_context = OpenQuoteContext(ip, port)

@@ -140,8 +140,8 @@ if __name__ == "__main__":
     ip = '127.0.0.1'
     port = 11111
     unlock_pwd = "123456"       # 交易密码
-    code = 'HK.69261'           # 'US.BABA' 'HK.00700'
-    trd_env = ft.TrdEnv.REAL    # 交易环境：真实或模拟
+    code = 'HK.00123'           # 'US.BABA' 'HK.00700'
+    trd_env = ft.TrdEnv.SIMULATE    # 交易环境：真实或模拟
     acc_id = 0                  # get_acc_list可查询交易子账号列表， 默认传0取列表中的第1个
 
     make_order_and_cancel(ip, port, unlock_pwd, code, trd_env, acc_id)

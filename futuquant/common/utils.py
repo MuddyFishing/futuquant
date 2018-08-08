@@ -150,7 +150,12 @@ def merge_trd_mkt_stock_str(trd_mkt, partial_stock_str):
         mkt_qot = Market.HK
     elif mkt == TrdMarket.US:
         mkt_qot = Market.US
-    else: # mkt == TrdMarket.CN or mt == TrdMarket.HKCC: 暂时不支持
+    elif mkt == TrdMarket.HKCC or mkt == TrdMarket.CN:
+        if partial_stock_str.startswith('6') or partial_stock_str.startswith('9'):
+            mkt_qot = Market.SH
+        else:
+            mkt_qot = Market.SZ
+    else:
         raise Exception("merge_trd_mkt_stock_str: unknown trd_mkt.")
 
     return merge_qot_mkt_stock_str(MKT_MAP[mkt_qot], partial_stock_str)
@@ -385,6 +390,14 @@ class ProtobufMap(dict):
         """ Qot_GetPlateSecurity = 3205  # 获取板块下的股票 """
         from futuquant.common.pb.Qot_GetPlateSecurity_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_GetPlateSecurity] = Response()
+
+        """ Trd_GetMaxTrdQtys = 2111 查询最大买卖数量 """
+        from futuquant.common.pb.Trd_GetMaxTrdQtys_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Trd_GetAccTradingInfo] = Response()
+
+        """ Qot_GetReference = 3206  获取正股相关股票，暂时只有窝轮"""
+        from futuquant.common.pb.Qot_GetReference_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_GetReference] = Response()
 
     def __getitem__(self, key):
         return ProtobufMap.created_protobuf_map[key] if key in ProtobufMap.created_protobuf_map else None
