@@ -1,6 +1,6 @@
 # -*-coding:utf-8-*-
 from futuquant.trade.open_trade_context import *
-from futuquant.testcase.winnie.Handler import *
+from futuquant.testcase.person.winnie.trade.Handler import *
 import pandas
 
 
