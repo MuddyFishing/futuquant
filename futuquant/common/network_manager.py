@@ -70,7 +70,7 @@ class NetManager:
         self._is_polling = False
         self._next_conn_id = 1
         self._lock = threading.RLock()
-        self._sync_req_timeout = 10
+        self._sync_req_timeout = 12
         self._stop = False
         self._thread = None
         self._use_count = 0
