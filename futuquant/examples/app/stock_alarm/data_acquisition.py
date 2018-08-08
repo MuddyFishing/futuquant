@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from futuquant import *
+from . import data_strategy
 
-import data_strategy
 
 class TickerTest(TickerHandlerBase):
     """ 获取逐笔推送数据 """
@@ -14,6 +14,7 @@ class TickerTest(TickerHandlerBase):
         # print("* TickerTest\n", content)
         data_strategy.detect_and_send(content)
         return RET_OK, content
+
 
 def quote_test(code_list, host, port):
     quote_ctx = OpenQuoteContext(host, port)

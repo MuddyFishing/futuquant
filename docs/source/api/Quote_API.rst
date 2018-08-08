@@ -858,6 +858,38 @@ get_referencestock_list
 
 ---------------------------------------------------------------------    
 
+get_owner_plate
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: get_owner_plate(self, code_list)
+
+ 获取单支或多支股票的所属板块信息列表
+
+ :param code_list: 股票代码列表，list或str。例如：['HK.00700', 'HK.00001']或者'HK.00700,HK.00001'
+ :return: (ret, data)
+
+        ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
+
+        ret != RET_OK 返回错误字符串
+
+        =====================   ===========   ==============================================================
+        参数                      类型                        说明
+        =====================   ===========   ==============================================================
+        code                    str            证券代码
+        plate_code              str            板块代码
+        plate_name              str            板块名字
+        plate_type              str            板块类型（行业板块或概念板块）
+        =====================   ===========   ==============================================================
+
+ :example:
+
+ .. code:: python
+
+    from futuquant import *
+    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+    code_list = ['HK.00700', 'HK.00001']
+    print(quote_ctx.get_owner_plate(code_list))
+    quote_ctx.close()
 
 StockQuoteHandlerBase - 实时报价回调处理类
 -------------------------------------------

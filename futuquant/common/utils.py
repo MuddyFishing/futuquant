@@ -399,6 +399,10 @@ class ProtobufMap(dict):
         from futuquant.common.pb.Qot_GetReference_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_GetReference] = Response()
 
+        """ Qot_GetOwnerPlate = 3207 获取股票所属板块"""
+        from futuquant.common.pb.Qot_GetOwnerPlate_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_GetOwnerPlate] = Response()
+
     def __getitem__(self, key):
         return ProtobufMap.created_protobuf_map[key] if key in ProtobufMap.created_protobuf_map else None
 

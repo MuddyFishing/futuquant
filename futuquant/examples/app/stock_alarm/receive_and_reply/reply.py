@@ -14,15 +14,15 @@ class Msg(object):
 
 
 class TextMsg(Msg):
-    def __init__(self, toUserName, fromUserName,content):
+    def __init__(self, to_user_name, from_user_name, content):
         self.__dict = dict()
-        self.__dict['ToUserName'] = toUserName
-        self.__dict['FromUserName'] = fromUserName
+        self.__dict['ToUserName'] = to_user_name
+        self.__dict['FromUserName'] = from_user_name
         self.__dict['CreateTime'] =int(time.time())
         self.__dict['Content'] = content
 
     def send(self):
-        XmlForm = """
+        xml_form = """
         <xml>
         <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
         <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
@@ -31,19 +31,19 @@ class TextMsg(Msg):
         <Content><![CDATA[{Content}]]></Content>
         </xml>
         """
-        return XmlForm.format(**self.__dict)
+        return xml_form.format(**self.__dict)
 
 
 class ImageMsg(Msg):
-    def __init__(self, toUserName, fromUserName, mediaId):
+    def __init__(self, to_user_name, from_user_name, media_id):
         self.__dict = dict()
-        self.__dict['ToUserName'] = toUserName
-        self.__dict['FromUserName'] = fromUserName
+        self.__dict['ToUserName'] = to_user_name
+        self.__dict['FromUserName'] = from_user_name
         self.__dict['CreateTime'] = int(time.time())
-        self.__dict['MediaId'] = mediaId
+        self.__dict['MediaId'] = media_id
 
     def send(self):
-        XmlForm = """
+        xml_form = """
         <xml>
         <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
         <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
@@ -54,9 +54,4 @@ class ImageMsg(Msg):
         </Image>
         </xml>
         """
-        return XmlForm.format(**self.__dict)
-
-#作者：鱼头豆腐文
-#链接：https://www.jianshu.com/p/539904d556c8
-#來源：简书
-#简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。
+        return xml_form.format(**self.__dict)

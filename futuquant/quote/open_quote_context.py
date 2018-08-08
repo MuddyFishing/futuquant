@@ -1376,3 +1376,55 @@ class OpenQuoteContext(OpenContextBase):
 
         pd_frame = pd.DataFrame(data_list, columns=col_list)
         return RET_OK, pd_frame
+
+    def get_owner_plate(self, code_list):
+        """
+        获取指定股票的分时数据
+
+        :param code_list: 股票代码列表，list或str。例如：['HK.00700', 'HK.00001']或者'HK.00700,HK.00001'
+        :return: (ret, data)
+
+                ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
+
+                ret != RET_OK 返回错误字符串
+
+                =====================   ===========   ==============================================================
+                参数                      类型                        说明
+                =====================   ===========   ==============================================================
+                code                    str            证券代码
+                plate_code              str            板块代码
+                plate_name              str            板块名字
+                plate_type              str            板块类型（行业板块或概念板块）
+                =====================   ===========   ==============================================================
+        """
+        if is_str(code_list):
+            code_list = code_list.split(',')
+        elif isinstance(code_list, list):
+            pass
+        else:
+            return RET_ERROR, "code list must be like ['HK.00001', 'HK.00700'] or 'HK.00001,HK.00700'"
+
+        code_list = unique_and_normalize_list(code_list)
+        for code in code_list:
+            if code is None or is_str(code) is False:
+                error_str = ERROR_STR_PREFIX + "the type of param in code_list is wrong"
+                return RET_ERROR, error_str
+
+        query_processor = self._get_sync_query_processor(
+            OwnerPlateQuery.pack_req, OwnerPlateQuery.unpack_rsp)
+        kargs = {
+            "code_list": code_list,
+            "conn_id": self.get_sync_conn_id()
+        }
+
+        ret_code, msg, owner_plate_list = query_processor(**kargs)
+        if ret_code == RET_ERROR:
+            return ret_code, msg
+
+        col_list = [
+            'code', 'plate_code', 'plate_name', 'plate_type'
+        ]
+
+        owner_plate_table = pd.DataFrame(owner_plate_list, columns=col_list)
+
+        return RET_OK, owner_plate_table
