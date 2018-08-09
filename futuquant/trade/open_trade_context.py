@@ -195,15 +195,17 @@ class OpenTradeContextBase(OpenContextBase):
         ret, acc_table = self.get_acc_list()
         if ret != RET_OK:
             return ret, acc_table
+        env_list = []
+        env_list.append(trd_env)
+        acc_table = acc_table[acc_table['trd_env'].isin(env_list)]
+        acc_table = acc_table.reset_index(drop=True)
+
         total_acc_num = acc_table.shape[0]
         msg = ""
         if acc_index >= total_acc_num:
             msg = ERROR_STR_PREFIX + "the index {0} is out of the total amount {1} ".format(acc_index, total_acc_num)
-            return RET_ERROR, msg
-        if acc_table['trd_env'][acc_index] != trd_env:
-            msg = ERROR_STR_PREFIX + "the environment is not {0} ".format(trd_env)
-            return RET_ERROR, msg
-        return RET_OK, msg, acc_table['acc_id'][acc_index]
+            return RET_ERROR, msg,
+        return RET_OK, acc_table['acc_id'][acc_index]
 
     def _check_acc_id_exist(self, trd_env, acc_id):
         ret, content = self.get_acc_list()
@@ -218,14 +220,15 @@ class OpenTradeContextBase(OpenContextBase):
 
     def _check_acc_id_and_acc_index(self, trd_env, acc_id, acc_index):
         if acc_id == 0:
-            ret, msg, acc_id = self._get_acc_id_by_acc_index(trd_env, acc_index)
+            ret, acc_id = self._get_acc_id_by_acc_index(trd_env, acc_index)
             if ret != RET_OK:
-                return ret, msg, acc_id
+                return ret, acc_id
         else:
-            ret, msg = self._check_acc_id_exist(trd_env, acc_id)
+            ret, acc_id = self._check_acc_id_exist(trd_env, acc_id)
             if ret != RET_OK:
-                return ret, msg, acc_id
-        return RET_OK, msg, acc_id
+                return ret, acc_id
+
+        return RET_OK, acc_id
 
     def accinfo_query(self, trd_env=TrdEnv.REAL, acc_id=0, acc_index=0):
         """
@@ -237,9 +240,9 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        ret, msg, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
+        ret, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
         if ret != RET_OK:
-            return ret, msg
+            return ret, acc_id
 
         query_processor = self._get_sync_query_processor(
             AccInfoQuery.pack_req, AccInfoQuery.unpack_rsp)
@@ -296,9 +299,9 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        ret, msg, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
+        ret, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
         if ret != RET_OK:
-            return ret, msg
+            return ret, acc_id
 
         ret, msg, stock_code = self._check_stock_code(code)
         if ret != RET_OK:
@@ -335,9 +338,9 @@ class OpenTradeContextBase(OpenContextBase):
     def order_list_query(self, order_id="", status_filter_list=[], code='', start='', end='',
                          trd_env=TrdEnv.REAL, acc_id=0, acc_index=0):
 
-        ret, msg, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
+        ret, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
         if ret != RET_OK:
-            return ret, msg
+            return ret, acc_id
 
         ret_code, ret_data = self._order_list_query_impl(order_id, status_filter_list,
                                                          code, start, end, trd_env, acc_id)
@@ -414,9 +417,9 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        ret, msg, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
+        ret, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
         if ret != RET_OK:
-            return ret, msg
+            return ret, acc_id
 
         ret, content = self._split_stock_code(code)
         if ret != RET_OK:
@@ -474,9 +477,9 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        ret, msg, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
+        ret, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
         if ret != RET_OK:
-            return ret, msg
+            return ret, acc_id
 
         if not order_id:
             return RET_ERROR, ERROR_STR_PREFIX + "the type of order_id param is wrong "
@@ -518,9 +521,9 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        ret, msg, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
+        ret, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
         if ret != RET_OK:
-            return ret, msg
+            return ret, acc_id
 
         ret, msg, stock_code = self._check_stock_code(code)
         if ret != RET_OK:
@@ -555,9 +558,9 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        ret, msg, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
+        ret, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
         if ret != RET_OK:
-            return ret, msg
+            return ret, acc_id
 
         ret, msg, stock_code = self._check_stock_code(code)
         if ret != RET_OK:
@@ -604,9 +607,9 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        ret, msg, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
+        ret, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
         if ret != RET_OK:
-            return ret, msg
+            return ret, acc_id
 
         ret, msg, stock_code = self._check_stock_code(code)
         if ret != RET_OK:
@@ -725,7 +728,7 @@ class OpenHKCCTradeContext(OpenTradeContextBase):
         super().__init__(TrdMarket.HKCC, host, port)
 
     def order_list_query(self, order_id="", status_filter_list=[], code='', start='', end='',
-                         trd_env=TrdEnv.REAL, acc_id=0):
+                         trd_env=TrdEnv.REAL, acc_id=0, acc_index=0):
         """
         :param order_id:
         :param status_filter_list:
@@ -736,10 +739,10 @@ class OpenHKCCTradeContext(OpenTradeContextBase):
         :param acc_id:
         :return: 返回值见基类及接口文档，但order_type仅有OrderType.NORMAL, order_status没有OrderStatus.DISABLED
         """
-        return super().order_list_query(order_id, status_filter_list, code, start, end, trd_env, acc_id)
+        return super().order_list_query(order_id, status_filter_list, code, start, end, trd_env, acc_id, acc_index)
 
     def place_order(self, price, qty, code, trd_side=TrdSide.NONE, order_type=OrderType.NORMAL,
-                    adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0):
+                    adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0, acc_index=0):
         """
 
         :param price:
@@ -754,9 +757,9 @@ class OpenHKCCTradeContext(OpenTradeContextBase):
         """
         return super().place_order(price=price, qty=qty, code=code, trd_side=trd_side,
                                    order_type=order_type, adjust_limit=adjust_limit,
-                                   trd_env=trd_env, acc_id=acc_id)
+                                   trd_env=trd_env, acc_id=acc_id, acc_index=acc_index)
 
-    def modify_order(self, modify_order_op, order_id, qty, price, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0):
+    def modify_order(self, modify_order_op, order_id, qty, price, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0, acc_index=0):
         """
         详细说明见基类接口说明，但有以下不同：不支持改单。 可撤单。删除订单是本地操作。
         :param modify_order_op:
@@ -774,13 +777,14 @@ class OpenHKCCTradeContext(OpenTradeContextBase):
                                     price=price,
                                     adjust_limit=adjust_limit,
                                     trd_env=trd_env,
-                                    acc_id=acc_id)
+                                    acc_id=acc_id,
+                                    acc_index=acc_index)
 
     def change_orde(self, *args, **kwargs):
         """不支持此接口"""
         return RET_ERROR, 'API not supported'
 
-    def deal_list_query(self, code="", trd_env=TrdEnv.REAL, acc_id=0):
+    def deal_list_query(self, code="", trd_env=TrdEnv.REAL, acc_id=0, acc_index=0):
         """
 
         :param code:
@@ -788,10 +792,10 @@ class OpenHKCCTradeContext(OpenTradeContextBase):
         :param acc_id:
         :return: 详细说明见基类接口文档，但有以下不同：返回值没有counter_broker_id、counter_broker_name字段
         """
-        return super().deal_list_query(code=code, trd_env=trd_env, acc_id=acc_id)
+        return super().deal_list_query(code=code, trd_env=trd_env, acc_id=acc_id, acc_index=acc_index)
 
     def history_order_list_query(self, status_filter_list=[], code='', start='', end='',
-                                 trd_env=TrdEnv.REAL, acc_id=0):
+                                 trd_env=TrdEnv.REAL, acc_id=0, acc_index=0):
         """
 
         :param status_filter_list:
@@ -807,7 +811,8 @@ class OpenHKCCTradeContext(OpenTradeContextBase):
                                                 start=start,
                                                 end=end,
                                                 trd_env=trd_env,
-                                                acc_id=acc_id)
+                                                acc_id=acc_id,
+                                                acc_index=acc_index)
 
 # A股交易接口
 class OpenCNTradeContext(OpenTradeContextBase):

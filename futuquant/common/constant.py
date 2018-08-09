@@ -567,6 +567,7 @@ class Plate(object):
     INDUSTRY = "INDUSTRY"
     REGION = "REGION"
     CONCEPT = "CONCEPT"
+    OTHER = "OTHER"
 
 PLATE_CLASS_MAP = {
     Plate.ALL: 0,
