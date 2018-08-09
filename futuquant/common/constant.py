@@ -571,14 +571,24 @@ class Plate(object):
     INDUSTRY = "INDUSTRY"
     REGION = "REGION"
     CONCEPT = "CONCEPT"
+    OTHER = "OTHER"
+
 
 PLATE_CLASS_MAP = {
     Plate.ALL: 0,
     Plate.INDUSTRY: 1,
     Plate.REGION: 2,
-    Plate.CONCEPT: 3
+    Plate.CONCEPT: 3,
+    Plate.OTHER: 4
 }
 
+PLATE_TYPE_ID_TO_NAME= [
+    "ALL",
+    "INDUSTRY",
+    "REGION",
+    "CONCEPT",
+    "OTHER"
+]
 
 class ProtoId(object):
     InitConnect = 1001  # 初始化连接
@@ -636,6 +646,7 @@ class ProtoId(object):
     Qot_GetPlateSecurity = 3205  # 获取板块下的股票
     Qot_GetReference = 3206  # 获取正股相关股票，暂时只有窝轮
     Qot_GetOwnerPlate = 3207  # 获取股票所属板块
+    Qot_GetHoldingChangeList = 3208  # 获取高管持股变动
 
     All_PushId = [Notify, KeepAlive, Trd_UpdateOrder, Trd_UpdateOrderFill, Qot_UpdateBroker,
                   Qot_UpdateOrderBook, Qot_UpdateKL, Qot_UpdateRT, Qot_UpdateBasicQot, Qot_UpdateTicker]
@@ -1125,4 +1136,27 @@ from .pb import Qot_GetReference_pb2
 STOCK_REFERENCE_TYPE_MAP = {
     SecurityReferenceType.NONE: Qot_GetReference_pb2.ReferenceType_Unknow,
     SecurityReferenceType.WARRANT: Qot_GetReference_pb2.ReferenceType_Warrant
+}
+
+
+class StockHolder(object):
+    """
+    持有者类别
+    ..  py:class:: StockHolderType
+     ..  py:attribute:: INSTITUTE
+      机构
+     ..  py:attribute:: FUND
+      基金
+     ..  py:attribute:: EXECUTIVE
+      高管
+    """
+    INSTITUTE = "INSTITUTE"
+    FUND = "FUND"
+    EXECUTIVE = "EXECUTIVE"
+
+
+STOCK_HOLDER_CLASS_MAP = {
+    StockHolder.INSTITUTE: 1,
+    StockHolder.FUND: 2,
+    StockHolder.EXECUTIVE: 3
 }

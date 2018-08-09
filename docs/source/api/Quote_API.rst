@@ -856,7 +856,6 @@ get_referencestock_list
     print(quote_ctx.get_referencestock_list('HK.00700', SecurityReferenceType.WARRANT))
     quote_ctx.close()	
 
----------------------------------------------------------------------    
 
 get_owner_plate
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -890,6 +889,46 @@ get_owner_plate
     code_list = ['HK.00700', 'HK.00001']
     print(quote_ctx.get_owner_plate(code_list))
     quote_ctx.close()
+
+get_holding_change_list
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: get_holding_change_list(self, code, holder_type, start_date, end_date=None)
+
+ 获取高管持仓列表,只提供美股数据
+
+ :param code: 股票代码. 例如：'US.AAPL'
+ :param holder_type: 持有者类别(1机构、2基金、3高管).
+ :param start_date: 开始时间. 例如：'2016-10-01'或者'2016-10-01 10:00:00'
+ :param end_date: 结束时间，不填为至今. 例如：'2017-10-01'
+ :return: (ret, data)
+
+        ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
+
+        ret != RET_OK 返回错误字符串
+
+        =====================   ===========   ==============================================================
+        参数                      类型                        说明
+        =====================   ===========   ==============================================================
+        holder_name             str            高管名称
+        holding_qty             str            持股数
+        holding_ratio           str            持股比例
+        change_qty              str            变动数
+        change_ratio            str            变动比例
+        time                    str            发布时间
+        =====================   ===========   ==============================================================
+
+ :example:
+
+ .. code:: python
+
+    from futuquant import *
+    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+    print(quote_ctx.get_holding_change_list('US.AAPL', 3, '2016-10-01'))
+    quote_ctx.close()
+
+
+---------------------------------------------------------------------    
 
 StockQuoteHandlerBase - 实时报价回调处理类
 -------------------------------------------
