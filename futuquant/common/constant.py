@@ -569,13 +569,22 @@ class Plate(object):
     CONCEPT = "CONCEPT"
     OTHER = "OTHER"
 
+
 PLATE_CLASS_MAP = {
     Plate.ALL: 0,
     Plate.INDUSTRY: 1,
     Plate.REGION: 2,
-    Plate.CONCEPT: 3
+    Plate.CONCEPT: 3,
+    Plate.OTHER: 4
 }
 
+PLATE_TYPE_ID_TO_NAME= [
+    "ALL",
+    "INDUSTRY",
+    "REGION",
+    "CONCEPT",
+    "OTHER"
+]
 
 class ProtoId(object):
     InitConnect = 1001  # 初始化连接

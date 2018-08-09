@@ -1448,7 +1448,7 @@ class OwnerPlateQuery:
                     'code': merge_qot_mkt_stock_str(record.security.market, record.security.code),
                     'plate_code': plate_info.plate.code,
                     'plate_name': str(plate_info.name),
-                    'plate_type': plate_info.plateType
+                    'plate_type': PLATE_TYPE_ID_TO_NAME[plate_info.plateType]
                 }
                 data_list.append(quote_list)
 
