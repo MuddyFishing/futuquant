@@ -1435,7 +1435,6 @@ class OwnerPlateQuery:
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        # print(rsp_pb)
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, []
         raw_quote_list = rsp_pb.s2c.ownerPlateList
@@ -1451,5 +1450,73 @@ class OwnerPlateQuery:
                     'plate_type': PLATE_TYPE_ID_TO_NAME[plate_info.plateType]
                 }
                 data_list.append(quote_list)
+
+        return RET_OK, "", data_list
+
+
+class HoldingChangeList:
+    """
+    Query Conversion for getting owner plate information.
+    """
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pack_req(cls, code, conn_id, start_date, end_date=None):
+
+        ret, content = split_stock_str(code)
+        if ret == RET_ERROR:
+            error_str = content
+            return RET_ERROR, error_str, None
+
+        market_code, stock_code = content
+
+        if start_date is None:
+            msg = "The start date is none."
+            return RET_ERROR, msg, None
+        else:
+            ret, msg = check_date_str_format(start_date)
+            if ret != RET_OK:
+                return ret, msg, None
+            start_date = normalize_date_format(start_date)
+
+        if end_date is None:
+            today = datetime.today()
+            end_date = today.strftime("%Y-%m-%d")
+        else:
+            ret, msg = check_date_str_format(end_date)
+            if ret != RET_OK:
+                return ret, msg, None
+            end_date = normalize_date_format(end_date)
+
+        from futuquant.common.pb.Qot_GetHoldingChangeList_pb2 import Request
+        req = Request()
+        req.c2s.security.market = market_code
+        req.c2s.security.code = stock_code
+        req.c2s.holderCategory = 3  # 持有者类别（1机构、2基金、3高管）
+        req.c2s.beginTime = start_date
+        if end_date:
+            req.c2s.endTime = end_date
+
+        return pack_pb_req(req, ProtoId.Qot_GetHoldingChangeList, conn_id)
+
+    @classmethod
+    def unpack_rsp(cls, rsp_pb):
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, []
+        raw_quote_list = rsp_pb.s2c.holdingChangeList
+
+        data_list = []
+        for record in raw_quote_list:
+            quote_list = {
+                'holder_name': record.holderName,
+                'holding_qty': record.holdingQty,
+                'holding_ratio': record.holdingRatio,
+                'change_qty': record.changeQty,
+                'change_ratio': record.changeRatio,
+                'time': record.time,
+            }
+            data_list.append(quote_list)
 
         return RET_OK, "", data_list

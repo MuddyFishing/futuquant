@@ -1379,7 +1379,7 @@ class OpenQuoteContext(OpenContextBase):
 
     def get_owner_plate(self, code_list):
         """
-        获取指定股票的分时数据
+        获取单支或多支股票的所属板块信息列表
 
         :param code_list: 股票代码列表，list或str。例如：['HK.00700', 'HK.00001']或者'HK.00700,HK.00001'
         :return: (ret, data)
@@ -1428,3 +1428,52 @@ class OpenQuoteContext(OpenContextBase):
         owner_plate_table = pd.DataFrame(owner_plate_list, columns=col_list)
 
         return RET_OK, owner_plate_table
+
+    def get_holding_change_list(self, code, start_date, end_date=None):
+        """
+        获取高管持仓列表,只提供美股数据
+
+        :param code: 股票代码. 例如：'US.AAPL'
+        :param start_date: 开始时间. 例如：'2016-10-01'或者'2016-10-01 10:00:00'
+        :param end_date: 结束时间，不填为至今. 例如：'2017-10-01'
+        :return: (ret, data)
+
+                ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
+
+                ret != RET_OK 返回错误字符串
+
+                =====================   ===========   ==============================================================
+                参数                      类型                        说明
+                =====================   ===========   ==============================================================
+                holder_name             str            高管名称
+                holding_qty             str            持股数
+                holding_ratio           str            持股比例
+                change_qty              str            变动数
+                change_ratio            str            变动比例
+                time                    str            发布时间
+                =====================   ===========   ==============================================================
+        """
+        if code is None or is_str(code) is False:
+            error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
+            return RET_ERROR, error_str
+
+        query_processor = self._get_sync_query_processor(
+            HoldingChangeList.pack_req, HoldingChangeList.unpack_rsp)
+        kargs = {
+            "code": code,
+            "conn_id": self.get_sync_conn_id(),
+            "start_date": start_date,
+            "end_date": end_date
+        }
+
+        ret_code, msg, owner_plate_list = query_processor(**kargs)
+        if ret_code == RET_ERROR:
+            return ret_code, msg
+
+        col_list = [
+            'holder_name', 'holding_qty', 'holding_ratio', 'change_qty', 'change_ratio', 'time'
+        ]
+
+        holding_change_list = pd.DataFrame(owner_plate_list, columns=col_list)
+
+        return RET_OK, holding_change_list
