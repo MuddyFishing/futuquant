@@ -36,6 +36,14 @@ DEFAULT_INIT_PRI_KEY_FILE = "conn_key.txt"
 
 # 协议格式
 class ProtoFMT(object):
+    """
+    协议格式类型
+    ..  py:class:: ProtoFMT
+     ..  py:attribute:: Protobuf
+      google的protobuf格式
+     ..  py:attribute:: Json
+      json格式
+    """
     Protobuf = 0
     Json = 1
 
@@ -1110,6 +1118,14 @@ class TRADE(object):
 
 
 class SecurityReferenceType:
+    """
+    股票关联数据类型
+    ..  py:class:: SecurityReferenceType
+     ..  py:attribute:: NONE
+      未知
+     ..  py:attribute:: WARRANT
+     相关窝轮
+    """
     NONE = 'N/A'
     WARRANT = 'WARRANT'
 
