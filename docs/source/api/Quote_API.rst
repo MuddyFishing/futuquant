@@ -2,6 +2,37 @@
 行情API
 ========
 
+ .. _Market: Base_API.html#market
+ 
+ .. _MarketState: Base_API.html#marketstate
+ 
+ .. _SecurityType: Base_API.html#securitytype
+ 
+ .. _WrtType: Base_API.html#wrttype
+ 
+ .. _SubType: Base_API.html#subtype
+ 
+ .. _KLType: Base_API.html#kltype-k
+ 
+ .. _KLDataStatus: Base_API.html#kldatastatus-k
+ 
+ .. _AuType: Base_API.html#autype-k
+ 
+ .. _KLNoDataMode: Base_API.html#klnodatamode-k
+ 
+ .. _KL_FIELD : Base_API.html#kl-field-k
+ 
+ .. _TickerDirect: Base_API.html#tickerdirect
+ 
+ .. _Plate: Base_API.html#plate
+ 
+ .. _SysNotifyType: Base_API.html#sysnotifytype
+ 
+ .. _GtwEventType: Base_API.html#gtweventtype
+ 
+ .. _SecurityReferenceType: Base_API.html#securityreferencetype
+ 
+ 
 
 一分钟上手
 ============
@@ -106,8 +137,8 @@ get_stock_basicinfo
 
  获取指定市场中特定类型的股票基本信息
  
- :param market: 市场类型，futuquant.common.constsnt.Market
- :param stock_type: 股票类型， futuquant.common.constsnt.SecurityType
+ :param market: 市场类型 Market_
+ :param stock_type: 股票类型 SecurityType_ 
  :param code_list: 如果不为None，应该是股票code的iterable类型，将只返回指定的股票信息
  :return: (ret_code, content)
 
@@ -146,8 +177,8 @@ get_multiple_history_kline
  :param codelist: 股票代码列表，list或str。例如：['HK.00700', 'HK.00001']，'HK.00700,SZ.399001'
  :param start: 起始时间
  :param end: 结束时间
- :param ktype: k线类型，参见KLType
- :param autype: 复权类型，参见AuType
+ :param ktype: k线类型，参见 KLType_
+ :param autype: 复权类型，参见 AuType_
  :return: 成功时返回(RET_OK, [data])，data是DataFrame数据, 数据列格式如下
 
     =================   ===========   ==============================================================================
@@ -182,16 +213,16 @@ get_multiple_history_kline
 get_history_kline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: get_history_kline
+..  py:function:: get_history_kline(self, code, start=None, end=None, ktype=KLType.K_DAY, autype=AuType.QFQ, fields=[KL_FIELD.ALL])
 
  得到本地历史k线，需先参照帮助文档下载k线
 
  :param code: 股票代码
  :param start: 开始时间，例如2017-06-20
  :param end:  结束时间
- :param ktype: k线类型， 参见 KLType 定义
- :param autype: 复权类型, 参见 AuType 定义
- :param fields: 需返回的字段列表，参见 KL_FIELD 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
+ :param ktype: k线类型， 参见 KLType_ 定义
+ :param autype: 复权类型, 参见 AuType_ 定义
+ :param fields: 需返回的字段列表，参见 KL_FIELD_ 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
  :return: (ret, data)
 
         ret == RET_OK 返回pd Dataframe数据, 数据列格式如下
@@ -404,6 +435,43 @@ get_plate_stock
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
     print(quote_ctx.get_plate_stock('HK.BK1001'))
     quote_ctx.close()		
+    
+   
+.. note::
+
+    *   该接口也可用于获取指数成份股, 如获取上证指数成份股:
+    
+		 .. code:: python
+		
+		    from futuquant import *
+		    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+		    print(quote_ctx.get_plate_stock('SH.000001'))
+		    quote_ctx.close()		
+			    
+    *   部分板块代码以硬编码方式支持，如下表:
+    
+        =====================  ==============================================================
+            代码                      说明
+        =====================  ==============================================================
+        HK.999901                恒指成份股
+        HK.999902                国指成份股
+        HK.999910							   港股主板
+        HK.999911							   港股创业板
+        HK.999999							   全部港股(正股)
+        SH.3000000							 上海主板
+        SZ.3000001							 深证主板
+        SH.3000002							 沪深指数
+        SZ.3000003							 中小企业板块
+        SZ.3000004							 深证创业板
+        SH.3000005							 沪深全部A股
+        US.200306								 全部美股(正股)
+        US.200301							   纽交所
+        US.200302								 纳斯达克
+        US.200303								 美交所
+        US.200304								 美中概股
+        US.200305								 美明星股
+        =====================  ==============================================================
+   
         
 get_plate_list
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -491,7 +559,7 @@ subscribe
  注意：len(code_list) * 订阅的K线类型的数量 <= 100
 
  :param code_list: 需要订阅的股票代码列表
- :param subtype_list: 需要订阅的数据类型列表，参见SubType
+ :param subtype_list: 需要订阅的数据类型列表，参见 SubType_
  :return: (ret, err_message)
 
         ret == RET_OK err_message为None
@@ -516,7 +584,7 @@ unsubscribe
  取消订阅
  
  :param code_list: 取消订阅的股票代码列表
- :param subtype_list: 取消订阅的类型，参见SubType
+ :param subtype_list: 取消订阅的类型，参见 SubType_
  :return: (ret, err_message)
         
         ret == RET_OK err_message为None
@@ -596,7 +664,8 @@ get_global_state
 		server_ver              str            FutuOpenD版本号
 		trd_logined             str            '1'：已登录交易服务器，'0': 未登录交易服务器
 		qot_logined             str            '1'：已登录行情服务器，'0': 未登录行情服务器
-		timestamp               str            当前格林威治时间戳
+		timestamp               str            当前格林威治时间戳(秒）
+		local_timestamp         double         FutuOpenD运行机器的当前时间戳(毫秒)
 		=====================   ===========   ==============================================================
  
  :example:
@@ -699,8 +768,8 @@ get_cur_kline
 
  :param code: 股票代码
  :param num:  k线数据个数，最多1000根
- :param ktype: k线类型，参见KLType
- :param autype: 复权类型，参见AuType
+ :param ktype: k线类型，参见 KLType_
+ :param autype: 复权类型，参见 AuType_
  :return: (ret, data)
 
         ret == RET_OK 返回pd dataframe数据，数据列格式如下
@@ -779,9 +848,9 @@ get_multi_points_history_kline
  :param code_list: 单个或多个股票 'HK.00700'  or  ['HK.00700', 'HK.00001']
  :param dates: 单个或多个日期 '2017-01-01' or ['2017-01-01', '2017-01-02']，最多5个时间点
  :param fields: 单个或多个数据列 KL_FIELD.ALL or [KL_FIELD.DATE_TIME, KL_FIELD.OPEN]
- :param ktype: K线类型
- :param autype: 复权类型
- :param no_data_mode: 指定时间为非交易日时，对应的k线数据取值模式，参见KLNoDataMode
+ :param ktype: K线类型 KLType_
+ :param autype: 复权类型 AuType_ 
+ :param no_data_mode: 指定时间为非交易日时，对应的k线数据取值模式，参见 KLNoDataMode_
  :return: (ret, data)
 
         ret == RET_OK 返回pd dataframe数据，固定表头包括'code'(代码) 'time_point'(指定的日期) 'data_status' (KLDataStatus)。数据列格式如下
@@ -827,7 +896,7 @@ get_referencestock_list
  获取证券的关联数据
  
  :param code: 证券id，str，例如HK.00700
- :param reference_type: 要获得的相关数据，参见SecurityReferenceType。例如WARRANT，表示获取正股相关的涡轮
+ :param reference_type: 要获得的相关数据，参见 SecurityReferenceType_ 。例如WARRANT，表示获取正股相关的涡轮
  :return: (ret, data)
 
 		ret == RET_OK 返回pd dataframe数据，数据列格式如下

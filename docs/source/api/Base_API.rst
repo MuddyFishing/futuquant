@@ -1,6 +1,7 @@
 ﻿基础API
 ========
-
+ .. _ProtoFMT : #id2
+ 
 ------------------------------------
 
 SysConfig - 系统配置
@@ -41,7 +42,7 @@ set_proto_fmt
 
   设置通讯协议body格式, 目前支持Protobuf | Json两种格式, 非必调接口
 
-  :param proto_fmt: ProtoFMT
+  :param proto_fmt: ProtoFMT_
   :return: None
 
   :example:
@@ -114,6 +115,23 @@ ret_code - 接口返回值
  
  ..  py:attribute:: RET_ERROR = -1
 
+------------------------------------
+
+ProtoFMT - 协议格式
+~~~~~~~~~~~~~~~~~~~~~~
+
+    协议格式类型
+    
+    ..  py:class:: ProtoFMT
+    
+     ..  py:attribute:: Protobuf
+     
+      google的protobuf格式
+      
+     ..  py:attribute:: Json
+     
+      json格式
+      
 ------------------------------------
 
 Market - 行情市场
@@ -665,7 +683,23 @@ GtwEventType - 网关异步通知类型
  
   需启用设备锁
   
+--------------------------------------  
   
+SecurityReferenceType - 股票关联数据类型
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+股票关联数据类型
+
+ ..  py:class:: SecurityReferenceType
+ 
+  ..  py:attribute:: NONE
+  
+   未知
+   
+  ..  py:attribute:: WARRANT
+  
+   相关窝轮
+
 --------------------------------------
 
 TrdEnv - 交易环境类型
