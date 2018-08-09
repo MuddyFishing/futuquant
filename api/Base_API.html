@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>基础API &mdash; futuquant 3.0 documentation</title>
+  <title>基础API &mdash; futuquant 3.2 documentation</title>
   
 
   
@@ -25,23 +25,17 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-    <link rel="top" title="futuquant 3.0 documentation" href="../index.html"/>
-        <link rel="next" title="行情API" href="Quote_API.html"/>
-        <link rel="prev" title="下载历史数据" href="../setup/Hist_KLine_Download_Intro.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="next" title="行情API" href="Quote_API.html" />
+    <link rel="prev" title="下载历史数据" href="../setup/Hist_KLine_Download_Intro.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -63,7 +57,7 @@
             
             
               <div class="version">
-                3.0
+                3.2
               </div>
             
           
@@ -106,6 +100,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#id1">枚举常量</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#ret-code">ret_code - 接口返回值</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">ProtoFMT - 协议格式</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#market">Market - 行情市场</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#marketstate">MarketState - 行情市场状态</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#securitytype">SecurityType - 证券类型</a></li>
@@ -120,6 +115,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#plate">Plate - 板块集合分类</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sysnotifytype">SysNotifyType - 系统异步通知类型</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gtweventtype">GtwEventType - 网关异步通知类型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#securityreferencetype">SecurityReferenceType - 股票关联数据类型</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#trdenv">TrdEnv - 交易环境类型</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#trdmarket">TrdMarket - 交易市场类型</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#positionside">PositionSide - 持仓方向类型</a></li>
@@ -155,7 +151,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">futuquant</a>
@@ -163,9 +159,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -207,8 +204,29 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="api">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="api">
 <h1>基础API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div></div></blockquote>
 <hr class="docutils" />
 <div class="section" id="sysconfig">
 <h2>SysConfig - 系统配置<a class="headerlink" href="#sysconfig" title="Permalink to this headline">¶</a></h2>
@@ -242,7 +260,7 @@
 </tr>
 </tbody>
 </table>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">SysConfig</span><span class="o">.</span><span class="n">set_client_info</span><span class="p">(</span><span class="s2">&quot;MyFutuQuant&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -262,7 +280,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>proto_fmt</strong> &#8211; ProtoFMT</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>proto_fmt</strong> &#8211; <a class="reference external" href="#id2">ProtoFMT</a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
 </tr>
@@ -270,7 +288,7 @@
 </tr>
 </tbody>
 </table>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">SysConfig</span><span class="o">.</span><span class="n">set_proto_fmt</span><span class="p">(</span><span class="n">ProtoFMT</span><span class="o">.</span><span class="n">Protobuf</span><span class="p">)</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -298,8 +316,8 @@
 </tr>
 </tbody>
 </table>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
-<span class="n">SysConfig</span><span class="o">.</span><span class="n">enable_proto_encrypt</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">SysConfig</span><span class="o">.</span><span class="n">enable_proto_encrypt</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">SysConfig</span><span class="o">.</span><span class="n">set_init_rsa_file</span><span class="p">(</span><span class="s2">&quot;conn_key.txt&quot;</span><span class="p">)</span>   <span class="c1"># rsa 私钥文件路径</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -327,8 +345,8 @@
 </tr>
 </tbody>
 </table>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
-<span class="n">SysConfig</span><span class="o">.</span><span class="n">enable_proto_encrypt</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">SysConfig</span><span class="o">.</span><span class="n">enable_proto_encrypt</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">SysConfig</span><span class="o">.</span><span class="n">set_init_rsa_file</span><span class="p">(</span><span class="s2">&quot;conn_key.txt&quot;</span><span class="p">)</span>   <span class="c1"># rsa 私钥文件路径</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -355,6 +373,30 @@
 <dt>
 <code class="descname">RET_ERROR = -1</code></dt>
 <dd></dd></dl>
+
+</div></blockquote>
+</div>
+<hr class="docutils" />
+<div class="section" id="id2">
+<h3>ProtoFMT - 协议格式<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>协议格式类型</p>
+<dl class="class">
+<dt id="ProtoFMT">
+<em class="property">class </em><code class="descname">ProtoFMT</code><a class="headerlink" href="#ProtoFMT" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="ProtoFMT.Protobuf">
+<code class="descname">Protobuf</code><a class="headerlink" href="#ProtoFMT.Protobuf" title="Permalink to this definition">¶</a></dt>
+<dd><p>google的protobuf格式</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ProtoFMT.Json">
+<code class="descname">Json</code><a class="headerlink" href="#ProtoFMT.Json" title="Permalink to this definition">¶</a></dt>
+<dd><p>json格式</p>
+</dd></dl>
+
+</dd></dl>
 
 </div></blockquote>
 </div>
@@ -1123,6 +1165,30 @@
 
 </div>
 <hr class="docutils" />
+<div class="section" id="securityreferencetype">
+<h3>SecurityReferenceType - 股票关联数据类型<a class="headerlink" href="#securityreferencetype" title="Permalink to this headline">¶</a></h3>
+<p>股票关联数据类型</p>
+<blockquote>
+<div><dl class="class">
+<dt id="SecurityReferenceType">
+<em class="property">class </em><code class="descname">SecurityReferenceType</code><a class="headerlink" href="#SecurityReferenceType" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="SecurityReferenceType.NONE">
+<code class="descname">NONE</code><a class="headerlink" href="#SecurityReferenceType.NONE" title="Permalink to this definition">¶</a></dt>
+<dd><p>未知</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="SecurityReferenceType.WARRANT">
+<code class="descname">WARRANT</code><a class="headerlink" href="#SecurityReferenceType.WARRANT" title="Permalink to this definition">¶</a></dt>
+<dd><p>相关窝轮</p>
+</dd></dl>
+
+</dd></dl>
+
+</div></blockquote>
+</div>
+<hr class="docutils" />
 <div class="section" id="trdenv">
 <h3>TrdEnv - 交易环境类型<a class="headerlink" href="#trdenv" title="Permalink to this headline">¶</a></h3>
 <p>交易环境类型定义</p>
@@ -1455,9 +1521,7 @@
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -1478,8 +1542,7 @@
         &copy; Copyright 2018, futu.
 
     </p>
-  </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  </div> 
 
 </footer>
 
@@ -1497,7 +1560,8 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'3.0',
+            VERSION:'3.2',
+            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1515,14 +1579,16 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
-   
+ 
+<script type="text/javascript">
+    console.log("Layout By FutuQuant");
+</script>
+
 
 </body>
 </html>

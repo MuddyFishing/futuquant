@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>FutuOpenD使用说明 &mdash; futuquant 3.0 documentation</title>
+  <title>FutuOpenD使用说明 &mdash; futuquant 3.2 documentation</title>
   
 
   
@@ -25,23 +25,17 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-    <link rel="top" title="futuquant 3.0 documentation" href="../index.html"/>
-        <link rel="next" title="下载历史数据" href="Hist_KLine_Download_Intro.html"/>
-        <link rel="prev" title="安装指南" href="setup.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="next" title="下载历史数据" href="Hist_KLine_Download_Intro.html" />
+    <link rel="prev" title="安装指南" href="setup.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -63,7 +57,7 @@
             
             
               <div class="version">
-                3.0
+                3.2
               </div>
             
           
@@ -143,7 +137,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">futuquant</a>
@@ -151,9 +145,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -195,7 +190,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="futuopend">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="futuopend">
 <h1>FutuOpenD使用说明<a class="headerlink" href="#futuopend" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
 <h2>基本介绍<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
@@ -408,7 +422,7 @@ sxTqXpBBCtTqcAotMlx4ZJQYL3f2PmI2Q/o0NUMt40w<span class="o">=</span>
 <td>是，可以使用明文、证书登录或配置文件配置项</td>
 </tr>
 <tr class="row-even"><td>login_region</td>
-<td>优先连接点区域，但不一定能连接上该区域连接点(gz/sh/hk)</td>
+<td>优先连接点区域，但不一定能连接上该区域连接点</td>
 <td>是，不设置则自动选择</td>
 </tr>
 <tr class="row-odd"><td>cfg_file</td>
@@ -513,9 +527,7 @@ sxTqXpBBCtTqcAotMlx4ZJQYL3f2PmI2Q/o0NUMt40w<span class="o">=</span>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -536,8 +548,7 @@ sxTqXpBBCtTqcAotMlx4ZJQYL3f2PmI2Q/o0NUMt40w<span class="o">=</span>
         &copy; Copyright 2018, futu.
 
     </p>
-  </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  </div> 
 
 </footer>
 
@@ -555,7 +566,8 @@ sxTqXpBBCtTqcAotMlx4ZJQYL3f2PmI2Q/o0NUMt40w<span class="o">=</span>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'3.0',
+            VERSION:'3.2',
+            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -573,14 +585,16 @@ sxTqXpBBCtTqcAotMlx4ZJQYL3f2PmI2Q/o0NUMt40w<span class="o">=</span>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
-   
+ 
+<script type="text/javascript">
+    console.log("Layout By FutuQuant");
+</script>
+
 
 </body>
 </html>

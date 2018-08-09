@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>交易API &mdash; futuquant 3.0 documentation</title>
+  <title>交易API &mdash; futuquant 3.2 documentation</title>
   
 
   
@@ -25,23 +25,17 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-    <link rel="top" title="futuquant 3.0 documentation" href="../index.html"/>
-        <link rel="next" title="协议接口指南" href="../protocol/intro.html"/>
-        <link rel="prev" title="行情API" href="Quote_API.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="next" title="协议接口指南" href="../protocol/intro.html" />
+    <link rel="prev" title="行情API" href="Quote_API.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -63,7 +57,7 @@
             
             
               <div class="version">
-                3.0
+                3.2
               </div>
             
           
@@ -154,7 +148,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">futuquant</a>
@@ -162,9 +156,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -206,7 +201,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="api">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="api">
 <h1>交易API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
 <blockquote>
 <div></div></blockquote>
@@ -214,11 +228,11 @@
 <h2>一分钟上手<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>如下范例，创建api交易对象，先调用unlock_trade对交易解锁，然后调用place_order下单，以700.0价格，买100股腾讯00700，最后关闭对象。</p>
 <p>注意交易对象区分港股美股。</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">pwd_unlock</span> <span class="o">=</span> <span class="s1">&#39;123456&#39;</span>
 <span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">700.0</span><span class="p">,</span> <span class="n">qty</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s2">&quot;HK.00700&quot;</span><span class="p">,</span> <span class="n">trd_side</span><span class="o">=</span><span class="n">TrdSide</span><span class="o">.</span><span class="n">SELL</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">700.0</span><span class="p">,</span> <span class="n">qty</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s2">&quot;HK.00700&quot;</span><span class="p">,</span> <span class="n">trd_side</span><span class="o">=</span><span class="n">TrdSide</span><span class="o">.</span><span class="n">SELL</span><span class="p">))</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -273,8 +287,8 @@
 </tr>
 </tbody>
 </table>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">get_acc_list</span><span class="p">())</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">get_acc_list</span><span class="p">())</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -308,10 +322,10 @@
 </tr>
 </tbody>
 </table>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">pwd_unlock</span> <span class="o">=</span> <span class="s1">&#39;123456&#39;</span>
 <span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -388,10 +402,10 @@
 </tr>
 </tbody>
 </table>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">pwd_unlock</span> <span class="o">=</span> <span class="s1">&#39;123456&#39;</span>
 <span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">accinfo_query</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">accinfo_query</span><span class="p">())</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -519,11 +533,11 @@
 </tr>
 </tbody>
 </table>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">pwd_unlock</span> <span class="o">=</span> <span class="s1">&#39;123456&#39;</span>
 <span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">position_list_query</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">position_list_query</span><span class="p">())</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -562,11 +576,11 @@
 </tr>
 </tbody>
 </table>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">pwd_unlock</span> <span class="o">=</span> <span class="s1">&#39;123456&#39;</span>
 <span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">700.0</span><span class="p">,</span> <span class="n">qty</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s2">&quot;HK.00700&quot;</span><span class="p">,</span> <span class="n">trd_side</span><span class="o">=</span><span class="n">TrdSide</span><span class="o">.</span><span class="n">SELL</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">700.0</span><span class="p">,</span> <span class="n">qty</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s2">&quot;HK.00700&quot;</span><span class="p">,</span> <span class="n">trd_side</span><span class="o">=</span><span class="n">TrdSide</span><span class="o">.</span><span class="n">SELL</span><span class="p">))</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -676,11 +690,11 @@
 </tr>
 </tbody>
 </table>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">pwd_unlock</span> <span class="o">=</span> <span class="s1">&#39;123456&#39;</span>
 <span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">order_list_query</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">order_list_query</span><span class="p">())</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -747,12 +761,12 @@
 </tr>
 </tbody>
 </table>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">pwd_unlock</span> <span class="o">=</span> <span class="s1">&#39;123456&#39;</span>
 <span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
 <span class="n">order_id</span> <span class="o">=</span> <span class="s2">&quot;12345&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">modify_order</span><span class="p">(</span><span class="n">ModifyOrderOp</span><span class="o">.</span><span class="n">CANCEL</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">modify_order</span><span class="p">(</span><span class="n">ModifyOrderOp</span><span class="o">.</span><span class="n">CANCEL</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -789,12 +803,12 @@
 </tr>
 </tbody>
 </table>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">pwd_unlock</span> <span class="o">=</span> <span class="s1">&#39;123456&#39;</span>
 <span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
 <span class="n">order_id</span> <span class="o">=</span> <span class="s2">&quot;12345&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">change_order</span><span class="p">(</span><span class="n">order_id</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">change_order</span><span class="p">(</span><span class="n">order_id</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -888,12 +902,12 @@
 </tr>
 </tbody>
 </table>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">pwd_unlock</span> <span class="o">=</span> <span class="s1">&#39;123456&#39;</span>
 <span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
 <span class="n">order_id</span> <span class="o">=</span> <span class="s2">&quot;12345&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">deal_list_query</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">deal_list_query</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">))</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -929,12 +943,12 @@
 </tr>
 </tbody>
 </table>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">pwd_unlock</span> <span class="o">=</span> <span class="s1">&#39;123456&#39;</span>
 <span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
 <span class="n">order_id</span> <span class="o">=</span> <span class="s2">&quot;12345&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">history_order_list_query</span><span class="p">([</span><span class="n">OrderStatus</span><span class="o">.</span><span class="n">FILLED_ALL</span><span class="p">,</span> <span class="n">OrderStatus</span><span class="o">.</span><span class="n">FILLED_PART</span><span class="p">],</span> <span class="s1">&#39;HK.00700&#39;</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">history_order_list_query</span><span class="p">([</span><span class="n">OrderStatus</span><span class="o">.</span><span class="n">FILLED_ALL</span><span class="p">,</span> <span class="n">OrderStatus</span><span class="o">.</span><span class="n">FILLED_PART</span><span class="p">],</span> <span class="s1">&#39;HK.00700&#39;</span><span class="p">))</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -969,12 +983,12 @@
 </tr>
 </tbody>
 </table>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">pwd_unlock</span> <span class="o">=</span> <span class="s1">&#39;123456&#39;</span>
 <span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
 <span class="n">order_id</span> <span class="o">=</span> <span class="s2">&quot;12345&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">history_deal_list_query</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">history_deal_list_query</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">))</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1013,12 +1027,12 @@
 </tr>
 </tbody>
 </table>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">pwd_unlock</span> <span class="o">=</span> <span class="s1">&#39;123456&#39;</span>
 <span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
 <span class="n">order_id</span> <span class="o">=</span> <span class="s2">&quot;12345&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">acctradinginfo_query</span><span class="p">(</span><span class="n">OrderType</span><span class="o">.</span><span class="n">NORMAL</span><span class="p">,</span> <span class="s1">&#39;HK.00700&#39;</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">acctradinginfo_query</span><span class="p">(</span><span class="n">OrderType</span><span class="o">.</span><span class="n">NORMAL</span><span class="p">,</span> <span class="s1">&#39;HK.00700&#39;</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">))</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1048,23 +1062,23 @@
 </tr>
 </tbody>
 </table>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">sleep</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
 <span class="k">class</span> <span class="nc">TradeOrderTest</span><span class="p">(</span><span class="n">TradeOrderHandlerBase</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot; order update push&quot;&quot;&quot;</span>
   <span class="k">def</span> <span class="nf">on_recv_rsp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rsp_pb</span><span class="p">):</span>
       <span class="n">ret</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">TradeOrderTest</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">on_recv_rsp</span><span class="p">(</span><span class="n">rsp_pb</span><span class="p">)</span>
 
       <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">RET_OK</span><span class="p">:</span>
-          <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;* TradeOrderTest content=</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">content</span><span class="p">))</span>
+          <span class="k">print</span><span class="p">(</span><span class="s2">&quot;* TradeOrderTest content={}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">content</span><span class="p">))</span>
 
       <span class="k">return</span> <span class="n">ret</span><span class="p">,</span> <span class="n">content</span>
 
 <span class="n">pwd_unlock</span> <span class="o">=</span> <span class="s1">&#39;123456&#39;</span>
 <span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">set_handler</span><span class="p">(</span><span class="n">TradeOrderTest</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">700.0</span><span class="p">,</span> <span class="n">qty</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s2">&quot;HK.00700&quot;</span><span class="p">,</span> <span class="n">trd_side</span><span class="o">=</span><span class="n">TrdSide</span><span class="o">.</span><span class="n">SELL</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">700.0</span><span class="p">,</span> <span class="n">qty</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s2">&quot;HK.00700&quot;</span><span class="p">,</span> <span class="n">trd_side</span><span class="o">=</span><span class="n">TrdSide</span><span class="o">.</span><span class="n">SELL</span><span class="p">))</span>
 
 <span class="n">sleep</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -1096,23 +1110,23 @@
 </tr>
 </tbody>
 </table>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="k">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">sleep</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
 <span class="k">class</span> <span class="nc">TradeDealTest</span><span class="p">(</span><span class="n">TradeDealHandlerBase</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot; order update push&quot;&quot;&quot;</span>
   <span class="k">def</span> <span class="nf">on_recv_rsp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rsp_pb</span><span class="p">):</span>
       <span class="n">ret</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">TradeDealTest</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">on_recv_rsp</span><span class="p">(</span><span class="n">rsp_pb</span><span class="p">)</span>
 
       <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">RET_OK</span><span class="p">:</span>
-          <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TradeDealTest content=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">content</span><span class="p">))</span>
+          <span class="k">print</span><span class="p">(</span><span class="s2">&quot;TradeDealTest content={}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">content</span><span class="p">))</span>
 
       <span class="k">return</span> <span class="n">ret</span><span class="p">,</span> <span class="n">content</span>
 
 <span class="n">pwd_unlock</span> <span class="o">=</span> <span class="s1">&#39;123456&#39;</span>
 <span class="n">trd_ctx</span> <span class="o">=</span> <span class="n">OpenHKTradeContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">set_handler</span><span class="p">(</span><span class="n">TradeDealTest</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">700.0</span><span class="p">,</span> <span class="n">qty</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s2">&quot;HK.00700&quot;</span><span class="p">,</span> <span class="n">trd_side</span><span class="o">=</span><span class="n">TrdSide</span><span class="o">.</span><span class="n">SELL</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">unlock_trade</span><span class="p">(</span><span class="n">pwd_unlock</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">trd_ctx</span><span class="o">.</span><span class="n">place_order</span><span class="p">(</span><span class="n">price</span><span class="o">=</span><span class="mf">700.0</span><span class="p">,</span> <span class="n">qty</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s2">&quot;HK.00700&quot;</span><span class="p">,</span> <span class="n">trd_side</span><span class="o">=</span><span class="n">TrdSide</span><span class="o">.</span><span class="n">SELL</span><span class="p">))</span>
 
 <span class="n">sleep</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -1234,9 +1248,7 @@
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -1257,8 +1269,7 @@
         &copy; Copyright 2018, futu.
 
     </p>
-  </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  </div> 
 
 </footer>
 
@@ -1276,7 +1287,8 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'3.0',
+            VERSION:'3.2',
+            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1294,14 +1306,16 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
-   
+ 
+<script type="text/javascript">
+    console.log("Layout By FutuQuant");
+</script>
+
 
 </body>
 </html>

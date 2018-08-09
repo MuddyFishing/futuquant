@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>介绍 &mdash; futuquant 3.0 documentation</title>
+  <title>介绍 &mdash; futuquant 3.2 documentation</title>
   
 
   
@@ -25,23 +25,17 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-    <link rel="top" title="futuquant 3.0 documentation" href="../index.html"/>
-        <link rel="next" title="安装指南" href="../setup/setup.html"/>
-        <link rel="prev" title="FutuQuant 3.0 指南" href="../index.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="next" title="安装指南" href="../setup/setup.html" />
+    <link rel="prev" title="FutuQuant 3.2 指南" href="../index.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -63,7 +57,7 @@
             
             
               <div class="version">
-                3.0
+                3.2
               </div>
             
           
@@ -131,7 +125,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">futuquant</a>
@@ -139,9 +133,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -183,7 +178,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="id1">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="id1">
 <h1>介绍<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference external" href="https://futunnopen.github.io/futuquant/">富途开放接口</a> 提供了基于Python的交易和行情API接口，可以满足您使用富途牛牛软件进行量化投资的需求。</p>
 <p>Futu Open API 项目，涵盖了常规交易品种（证券、衍生品）：</p>
@@ -210,7 +224,7 @@
 <td>富途牛牛圈、QQ群和众多牛人一起分享心得</td>
 </tr>
 <tr class="row-odd"><td>丰富的接口</td>
-<td>港美股、A股数据获取、实盘交易、模拟交易（即将支持）</td>
+<td>港美股、A股行情数据获取、港美股实盘交易、A股通实盘交易以及港美A模拟交易</td>
 </tr>
 <tr class="row-even"><td>跨平台支持</td>
 <td>兼容 Windows / Mac OS / Linux</td>
@@ -229,7 +243,7 @@
 <ul class="last simple">
 <li>我们强烈建议您使用Anaconda python 3，要求python3.5及以上版本, 必要的基础库包括 talib,protobuf,simplejson,pycryptodome 等</li>
 <li>FutuOpenD网关客户端 <a class="reference external" href="https://www.futunn.com/download/index">下载</a></li>
-<li>FutuOpenD可依据业务需要运行在本机或云端服务器上</li>
+<li>FutuOpenD可依业务需要在本机或云端服务器运行</li>
 <li>如您安装遇到问题请访问 : <a class="reference external" href="../setup/setup.html">安装指南</a></li>
 </ul>
 </div>
@@ -239,7 +253,7 @@
 <h2>技术架构<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id7">
 <h3>简介<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
-<p>FutuOpenD是指富途开放API网关程序，以TCP协议接口的方式，对外开放了富途行情交易基础接, 由用户自行在本地或云端部署运行。</p>
+<p>FutuOpenD是指富途开放API网关程序，以TCP协议接口的方式，对外开放了富途的行情交易基础能力, 该程序由用户自行在本地或云端部署运行。</p>
 </div>
 <div class="section" id="python-apifutuopend">
 <h3>Python API与FutuOpenD通讯架构<a class="headerlink" href="#python-apifutuopend" title="Permalink to this headline">¶</a></h3>
@@ -255,9 +269,7 @@
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -266,7 +278,7 @@
         <a href="../setup/setup.html" class="btn btn-neutral float-right" title="安装指南" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../index.html" class="btn btn-neutral" title="FutuQuant 3.0 指南" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../index.html" class="btn btn-neutral" title="FutuQuant 3.2 指南" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -278,8 +290,7 @@
         &copy; Copyright 2018, futu.
 
     </p>
-  </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  </div> 
 
 </footer>
 
@@ -297,7 +308,8 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'3.0',
+            VERSION:'3.2',
+            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -315,14 +327,16 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
-   
+ 
+<script type="text/javascript">
+    console.log("Layout By FutuQuant");
+</script>
+
 
 </body>
 </html>
