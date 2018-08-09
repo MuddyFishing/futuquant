@@ -1429,7 +1429,7 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, owner_plate_table
 
-    def get_stock_holding_change(self, code, holder_type, start_date, end_date=None):
+    def get_holding_change_list(self, code, holder_type, start_date, end_date=None):
         """
         获取高管持仓列表,只提供美股数据
 
