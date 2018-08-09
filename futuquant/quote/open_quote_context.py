@@ -1429,11 +1429,12 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, owner_plate_table
 
-    def get_holding_change_list(self, code, start_date, end_date=None):
+    def get_stock_holding_change(self, code, holder_type, start_date, end_date=None):
         """
         获取高管持仓列表,只提供美股数据
 
         :param code: 股票代码. 例如：'US.AAPL'
+        :param holder_type: 持有者类别(1机构、2基金、3高管)
         :param start_date: 开始时间. 例如：'2016-10-01'或者'2016-10-01 10:00:00'
         :param end_date: 结束时间，不填为至今. 例如：'2017-10-01'
         :return: (ret, data)
@@ -1457,10 +1458,15 @@ class OpenQuoteContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
             return RET_ERROR, error_str
 
+        if holder_type < 1 or holder_type > len(STOCK_HOLDER_CLASS_MAP):
+            error_str = ERROR_STR_PREFIX + "the type {0} is wrong, total number of types is {1}".format(holder_type, len(STOCK_HOLDER_CLASS_MAP))
+            return RET_ERROR, error_str
+
         query_processor = self._get_sync_query_processor(
             HoldingChangeList.pack_req, HoldingChangeList.unpack_rsp)
         kargs = {
             "code": code,
+            "holder_type": holder_type,
             "conn_id": self.get_sync_conn_id(),
             "start_date": start_date,
             "end_date": end_date

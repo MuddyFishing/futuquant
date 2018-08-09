@@ -1463,7 +1463,7 @@ class HoldingChangeList:
         pass
 
     @classmethod
-    def pack_req(cls, code, conn_id, start_date, end_date=None):
+    def pack_req(cls, code, holder_type, conn_id, start_date, end_date=None):
 
         ret, content = split_stock_str(code)
         if ret == RET_ERROR:
@@ -1494,7 +1494,7 @@ class HoldingChangeList:
         req = Request()
         req.c2s.security.market = market_code
         req.c2s.security.code = stock_code
-        req.c2s.holderCategory = 3  # 持有者类别（1机构、2基金、3高管）
+        req.c2s.holderCategory = holder_type
         req.c2s.beginTime = start_date
         if end_date:
             req.c2s.endTime = end_date

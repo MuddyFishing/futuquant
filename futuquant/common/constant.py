@@ -1133,3 +1133,26 @@ STOCK_REFERENCE_TYPE_MAP = {
     SecurityReferenceType.NONE: Qot_GetReference_pb2.ReferenceType_Unknow,
     SecurityReferenceType.WARRANT: Qot_GetReference_pb2.ReferenceType_Warrant
 }
+
+
+class StockHolder(object):
+    """
+    持有者类别
+    ..  py:class:: StockHolderType
+     ..  py:attribute:: INSTITUTE
+      机构
+     ..  py:attribute:: FUND
+      基金
+     ..  py:attribute:: EXECUTIVE
+      高管
+    """
+    INSTITUTE = "INSTITUTE"
+    FUND = "FUND"
+    EXECUTIVE = "EXECUTIVE"
+
+
+STOCK_HOLDER_CLASS_MAP = {
+    StockHolder.INSTITUTE: 1,
+    StockHolder.FUND: 2,
+    StockHolder.EXECUTIVE: 3
+}
