@@ -1,9 +1,10 @@
 #-*-coding:utf-8-*-
 
 import futuquant
-from futuquant.quote.quote_response_handler import TickerHandlerBase
 from futuquant.common.constant import *
-from futuquant.testcase.eva.utils.logUtil import Logs
+from futuquant.quote.quote_response_handler import TickerHandlerBase
+from futuquant.testcase.person.eva.utils.logUtil import Logs
+
 
 class GetRtTicker(object):
     #获取逐笔 get_rt_ticker 和 TickerHandlerBase

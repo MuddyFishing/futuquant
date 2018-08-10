@@ -36,14 +36,18 @@ class PositionListQuery(object):
         print(ret_data)
 
     def test1(self):
-        host = '127.0.0.1'
-        port = 11112
+        host =  '127.0.0.1'
+        port = 11115      #ubuntu
+
+        # host = '172.18.6.144'#mac-patrick
+        # port = 11111
 
         trade_hk = OpenHKTradeContext(host, port)
         trade_us = OpenUSTradeContext(host, port)
         trade_sh_m = OpenCNTradeContext(host, port)
 
-        print(trade_hk.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL, acc_id=0))
+        print(trade_us.unlock_trade('123123'))
+        print(trade_us.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL, acc_id=0))
         # print(trade_us.position_list_query(code='AAPL', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.SIMULATE, acc_id=0))
         # print(trade_sh_m.position_list_query(code='000700', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
