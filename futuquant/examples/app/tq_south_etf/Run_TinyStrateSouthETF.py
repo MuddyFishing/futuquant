@@ -9,7 +9,7 @@
 '''
 
 from futuquant.examples.TinyQuant.TinyQuantFrame import *
-from TinyStrateSouthETF import *
+from .TinyStrateSouthETF import *
 
 if __name__ == '__main__':
     my_strate = TinyStrateSouthETF()
