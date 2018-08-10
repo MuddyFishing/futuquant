@@ -545,7 +545,7 @@ class HistoryKlineQuery:
         req.c2s.maxAckKLNum = max_num
         req.c2s.needKLFieldsFlag = KL_FIELD.kl_fields_to_flag_val(fields)
 
-        return pack_pb_req(req, ProtoId.Qot_GetHistoryKL, conn_id)
+        return req
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -594,6 +594,35 @@ class HistoryKlineQuery:
 
         return RET_OK, "", (list_ret, has_next, next_time)
 
+
+class GetHistoryKlineQuery:
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pack_req(cls, code, start_date, end_date, ktype, autype, fields,
+                 max_num, conn_id):
+        req = HistoryKlineQuery.pack_req(code, start_date, end_date, ktype, autype, fields, max_num, conn_id)
+        return pack_pb_req(req, ProtoId.Qot_GetHistoryKL, conn_id)
+
+    @classmethod
+    def unpack_rsp(cls, rsp_pb):
+        return HistoryKlineQuery.unpack_rsp(rsp_pb)
+
+
+class RequestHistoryKlineQuery:
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pack_req(cls, code, start_date, end_date, ktype, autype, fields,
+                 max_num, conn_id):
+        req = HistoryKlineQuery.pack_req(code, start_date, end_date, ktype, autype, fields, max_num, conn_id)
+        return pack_pb_req(req, ProtoId.Qot_RequestHistoryKL, conn_id)
+
+    @classmethod
+    def unpack_rsp(cls, rsp_pb):
+        return HistoryKlineQuery.unpack_rsp(rsp_pb)
 
 class ExrightQuery:
     """
