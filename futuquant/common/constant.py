@@ -197,6 +197,8 @@ class SecurityType(object):
       港股涡轮牛熊证
      ..  py:attribute:: BOND
       债券
+    ..  py:attribute:: DRVT
+      期权
      ..  py:attribute:: NONE
       未知
     """
@@ -205,6 +207,7 @@ class SecurityType(object):
     ETF = "ETF"
     WARRANT = "WARRANT"
     BOND = "BOND"
+    DRVT = "DRVT"
     NONE = "N/A"
 
 SEC_TYPE_MAP = {
@@ -213,6 +216,7 @@ SEC_TYPE_MAP = {
     SecurityType.ETF: 4,
     SecurityType.WARRANT: 5,
     SecurityType.BOND: 1,
+    SecurityType.DRVT:8,
     SecurityType.NONE: 0
 }
 
@@ -632,6 +636,7 @@ class ProtoId(object):
     Qot_GetHistoryKL = 3100  # 获取历史K线
     Qot_GetHistoryKLPoints = 3101  # 获取多只股票历史单点K线
     Qot_GetRehab = 3102  # 获取复权信息
+    Qot_RequestHistoryKL = 3103 # 拉取历史K线
 
     # 其他行情数据
     Qot_GetTradeDate = 3200  # 获取市场交易日
