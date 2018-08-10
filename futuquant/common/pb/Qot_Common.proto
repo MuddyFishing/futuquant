@@ -1,4 +1,4 @@
-syntax = "proto2";
+﻿syntax = "proto2";
 package Qot_Common;
 
 import "Common.proto";
@@ -44,6 +44,13 @@ enum WarrantType
 	WarrantType_Sell = 2; //认沽
 	WarrantType_Bull = 3; //牛
 	WarrantType_Bear = 4; //熊
+};
+
+enum OptionType
+{
+	OptionType_Unknown = 0; //未知
+	OptionType_Call = 1; //涨
+	OptionType_Put = 2; //跌
 };
 
 enum QotMarketState
@@ -204,6 +211,20 @@ message KLine
 	optional double changeRate = 12; //涨跌幅
 }
 
+message OptionBasicQotExData
+{
+	required double strikePrice = 1; //行权价
+	required int32 contractSize = 2; //每份合约数
+	required int32 openInterest = 3; //未平仓合约数
+	required double impliedVolatility = 4; //隐含波动率
+	required double premium = 5; //溢价
+	required double delta = 6; //希腊值 Delta
+    required double gamma = 7; //希腊值 Gamma
+	required double vega = 8; //希腊值 Vega
+    required double theta = 9; //希腊值 Theta
+    required double rho = 10; //希腊值 Rho
+}
+
 message BasicQot
 {
 	required Security security = 1; //股票
@@ -221,6 +242,8 @@ message BasicQot
 	required double turnoverRate = 13; //换手率
 	required double amplitude = 14; //振幅
 	optional int32 darkStatus = 15; //DarkStatus, 暗盘交易状态
+
+	optional OptionBasicQotExData optionExData = 16; //期权特有字段
 }
 
 message TimeShare
@@ -239,10 +262,11 @@ message SecurityStaticBasic
 {
 	required Qot_Common.Security security = 1; //股票
 	required int64 id = 2; //股票ID
-	required int32 lotSize = 3; //每手数量
+	required int32 lotSize = 3; //每手数量,期权类型表示一份合约的股数
 	required int32 secType = 4; //Qot_Common.SecurityType,股票类型
 	required string name = 5; //股票名字
 	required string listTime = 6; //上市时间字符串
+
 }
 
 message WarrantStaticExData
@@ -251,10 +275,21 @@ message WarrantStaticExData
 	required Qot_Common.Security owner = 2; //所属正股
 }
 
+message OptionStaticExData
+{
+	required int32 type = 1; //Qot_Common.OptionType,期权
+	required Qot_Common.Security owner = 2; //标的股
+	required string strikeTime = 3; //行权日
+	required double strikePrice = 4; //行权价
+	required bool suspend = 5; //是否停牌
+	required string market = 6; //发行市场名字
+}
+
 message SecurityStaticInfo
 {
 	required SecurityStaticBasic basic = 1; //基本股票静态信息
 	optional WarrantStaticExData warrantExData = 2; //窝轮额外股票静态信息
+	optional OptionStaticExData optionExData = 3; //期权额外股票静态信息
 }
 
 message Broker
@@ -292,7 +327,7 @@ message ShareHoldingChange
     required double holdingRatio = 3; //当前持股比例
     required double changeQty = 4; //较上一次变动数量
     required double changeRatio = 5; //较上一次变动比例
-    required string time = 6; //发布日期
+    required string time = 6; //发布时间(YYYY-MM-DD HH:MM:SS字符串)
 }
 
 message SubInfo

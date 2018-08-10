@@ -632,6 +632,7 @@ class ProtoId(object):
     Qot_GetHistoryKL = 3100  # 获取历史K线
     Qot_GetHistoryKLPoints = 3101  # 获取多只股票历史单点K线
     Qot_GetRehab = 3102  # 获取复权信息
+    Qot_RequestHistoryKL = 3103 # 拉取历史K线
 
     # 其他行情数据
     Qot_GetTradeDate = 3200  # 获取市场交易日
