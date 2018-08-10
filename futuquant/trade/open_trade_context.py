@@ -192,9 +192,10 @@ class OpenTradeContextBase(OpenContextBase):
         return 0
 
     def _get_acc_id_by_acc_index(self, trd_env, acc_index=0):
-        ret, acc_table = self.get_acc_list()
+        ret, msg = self.get_acc_list()
         if ret != RET_OK:
-            return ret, acc_table
+            return ret, msg, None
+        acc_table = msg
         env_list = []
         env_list.append(trd_env)
         acc_table = acc_table[acc_table['trd_env'].isin(env_list)]
@@ -204,31 +205,31 @@ class OpenTradeContextBase(OpenContextBase):
         msg = ""
         if acc_index >= total_acc_num:
             msg = ERROR_STR_PREFIX + "the index {0} is out of the total amount {1} ".format(acc_index, total_acc_num)
-            return RET_ERROR, msg,
-        return RET_OK, acc_table['acc_id'][acc_index]
+            return RET_ERROR, msg, acc_index
+        return RET_OK, "", acc_table['acc_id'][acc_index]
 
     def _check_acc_id_exist(self, trd_env, acc_id):
-        ret, content = self.get_acc_list()
+        ret, msg = self.get_acc_list()
         if ret != RET_OK:
-            return ret, content
+            return ret, msg, acc_id
+        content = msg
 
         acc_index = content[(content.acc_id == acc_id) & (content.trd_env == trd_env)].index.tolist()
         if len(acc_index):
-            return RET_OK, ""
+            return RET_OK, "", acc_id
         else:
-            return RET_ERROR, ERROR_STR_PREFIX + "This account is not available account!"
+            return RET_ERROR, ERROR_STR_PREFIX + "This account is not available account!", acc_id
 
     def _check_acc_id_and_acc_index(self, trd_env, acc_id, acc_index):
         if acc_id == 0:
-            ret, acc_id = self._get_acc_id_by_acc_index(trd_env, acc_index)
+            ret, msg, acc_id = self._get_acc_id_by_acc_index(trd_env, acc_index)
             if ret != RET_OK:
-                return ret, acc_id
+                return ret, msg, acc_id
         else:
-            ret, acc_id = self._check_acc_id_exist(trd_env, acc_id)
+            ret, msg, acc_id = self._check_acc_id_exist(trd_env, acc_id)
             if ret != RET_OK:
-                return ret, acc_id
-
-        return RET_OK, acc_id
+                return ret, msg, acc_id
+        return RET_OK, "", acc_id
 
     def accinfo_query(self, trd_env=TrdEnv.REAL, acc_id=0, acc_index=0):
         """
@@ -240,9 +241,9 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        ret, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
+        ret, msg, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
         if ret != RET_OK:
-            return ret, acc_id
+            return ret, msg
 
         query_processor = self._get_sync_query_processor(
             AccInfoQuery.pack_req, AccInfoQuery.unpack_rsp)
@@ -299,9 +300,9 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        ret, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
+        ret, msg, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
         if ret != RET_OK:
-            return ret, acc_id
+            return ret, msg
 
         ret, msg, stock_code = self._check_stock_code(code)
         if ret != RET_OK:
@@ -338,9 +339,9 @@ class OpenTradeContextBase(OpenContextBase):
     def order_list_query(self, order_id="", status_filter_list=[], code='', start='', end='',
                          trd_env=TrdEnv.REAL, acc_id=0, acc_index=0):
 
-        ret, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
+        ret, msg, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
         if ret != RET_OK:
-            return ret, acc_id
+            return ret, msg
 
         ret_code, ret_data = self._order_list_query_impl(order_id, status_filter_list,
                                                          code, start, end, trd_env, acc_id)
@@ -417,9 +418,9 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        ret, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
+        ret, msg, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
         if ret != RET_OK:
-            return ret, acc_id
+            return ret, msg
 
         ret, content = self._split_stock_code(code)
         if ret != RET_OK:
@@ -477,9 +478,9 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        ret, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
+        ret, msg, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
         if ret != RET_OK:
-            return ret, acc_id
+            return ret, msg
 
         if not order_id:
             return RET_ERROR, ERROR_STR_PREFIX + "the type of order_id param is wrong "
@@ -521,9 +522,9 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        ret, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
+        ret, msg, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
         if ret != RET_OK:
-            return ret, acc_id
+            return ret, msg
 
         ret, msg, stock_code = self._check_stock_code(code)
         if ret != RET_OK:
@@ -558,9 +559,9 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        ret, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
+        ret, msg, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
         if ret != RET_OK:
-            return ret, acc_id
+            return ret, msg
 
         ret, msg, stock_code = self._check_stock_code(code)
         if ret != RET_OK:
@@ -607,9 +608,9 @@ class OpenTradeContextBase(OpenContextBase):
         if ret != RET_OK:
             return ret, msg
 
-        ret, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
+        ret, msg, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
         if ret != RET_OK:
-            return ret, acc_id
+            return ret, msg
 
         ret, msg, stock_code = self._check_stock_code(code)
         if ret != RET_OK:
