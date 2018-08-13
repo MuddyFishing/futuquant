@@ -10,19 +10,21 @@ wp = WechatPush()
 config = Config()
 warning_time_list = {}
 
+
 def detect_warning_times(openid, warning_limit):
     sent_msg_sig = 1
     now_time = time.time()
     result = None
+
     if openid in warning_time_list:
-        result = warning_time_list
+        result = warning_time_list[openid]
 
     new_time_list = ''
     cnt = 0
     if result:
-        time_str = result[0][1]
+        time_str = result
         time_list = time_str.split(',')
-        if time_list.__len__ == 1 and time_list[0] == '':  # 当warning_time_list为“”时
+        if len(time_list) == 1 and time_list[0] == '':  # 当warning_time_list为“”时
             pass
         else:
             first_flag = 1
@@ -64,6 +66,7 @@ def detect(content, prev_price, openid, premium_rate, warning_threshold, large_t
         sent_msg_sig = 1
         msg.update({'echo_type': '单笔大额成交'})
 
+    sent_msg_sig = 1
     if sent_msg_sig:
         sent_msg_sig = detect_warning_times(openid, warning_limit)
 
