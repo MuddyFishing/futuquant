@@ -66,7 +66,6 @@ def detect(content, prev_price, openid, premium_rate, warning_threshold, large_t
         sent_msg_sig = 1
         msg.update({'echo_type': '单笔大额成交'})
 
-    sent_msg_sig = 1
     if sent_msg_sig:
         sent_msg_sig = detect_warning_times(openid, warning_limit)
 
