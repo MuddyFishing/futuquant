@@ -71,7 +71,7 @@ def detect(content, prev_price, openid, premium_rate, warning_threshold, large_t
         # print("+------------------------------------+")
         # print(openid, warning_threshold, large_threshold)
         # print("+------------------------------------+")
-        msg.update({'code':str(code), 'price': str(price), 'total_deal_price':str(int(vol)*price/10000), 'quantity': str(vol), 'time': str(record_time)})
+        msg.update({'code':str(code), 'price': str(price), 'total_deal_price':str(vol*price), 'quantity': str(vol), 'time': str(record_time)})
         wp.send_template_msg(openid, msg)
         logging.info("Send a message.")
 
