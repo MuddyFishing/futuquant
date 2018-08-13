@@ -4,10 +4,10 @@ from flask import Flask, request, make_response
 import time, hashlib
 from .receive_and_reply import reply
 from .receive_and_reply import receive
-from .mysql_interface import MysqlInterface
+from .sqlite_interface import SqliteInterface
 from .Config import Config
 
-mi = MysqlInterface()
+sqlite = SqliteInterface()
 config = Config()
 app = Flask(__name__)
 
@@ -33,7 +33,7 @@ def wechat():
         if rec_msg.MsgType == 'text':
             content = rec_msg.Content.decode('utf-8')
             if content.startswith(u"设置", 0, 2):
-                mi.update_threshold(rec_msg.FromUserName, content)
+                sqlite.update_setting(rec_msg.FromUserName, content)
                 rep_text_msg = reply.TextMsg(rec_msg.FromUserName, rec_msg.ToUserName, ("设置成功 \n %s" % get_time()))
                 return rep_text_msg.send()
             else:
