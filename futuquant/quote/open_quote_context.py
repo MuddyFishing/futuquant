@@ -232,7 +232,8 @@ class OpenQuoteContext(OpenContextBase):
             result.append(data)
         return 0, result
 
-    def get_history_kline(self,
+    def _get_history_kline_impl(self,
+                          query_cls,
                           code,
                           start=None,
                           end=None,
@@ -327,8 +328,7 @@ class OpenQuoteContext(OpenContextBase):
                 "max_num": max_kl_num,
                 "conn_id": self.get_sync_conn_id()
             }
-            query_processor = self._get_sync_query_processor(
-                HistoryKlineQuery.pack_req, HistoryKlineQuery.unpack_rsp)
+            query_processor = self._get_sync_query_processor(query_cls.pack_req, query_cls.unpack_rsp)
             ret_code, msg, content = query_processor(**kargs)
             if ret_code != RET_OK:
                 return ret_code, msg
@@ -349,6 +349,26 @@ class OpenQuoteContext(OpenContextBase):
         kline_frame_table = pd.DataFrame(list_ret, columns=col_list)
 
         return RET_OK, kline_frame_table
+
+    def get_history_kline(self,
+                      code,
+                      start=None,
+                      end=None,
+                      ktype=KLType.K_DAY,
+                      autype=AuType.QFQ,
+                      fields=[KL_FIELD.ALL]):
+        return self._get_history_kline_impl(GetHistoryKlineQuery, code, start=start, end=end,
+                                            ktype=ktype, autype=autype, fields=fields)
+
+    def request_history_kline(self,
+                              code,
+                              start=None,
+                              end=None,
+                              ktype=KLType.K_DAY,
+                              autype=AuType.QFQ,
+                              fields=[KL_FIELD.ALL]):
+        return self._get_history_kline_impl(RequestHistoryKlineQuery, code, start=start, end=end,
+                                            ktype=ktype, autype=autype, fields=fields)
 
     def get_autype_list(self, code_list):
         """
