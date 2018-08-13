@@ -924,7 +924,7 @@ get_holding_change_list
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-    print(quote_ctx.get_holding_change_list('US.AAPL', 3, '2016-10-01'))
+    print(quote_ctx.get_holding_change_list('US.AAPL', StockHolder.INSTITUTE, '2016-10-01'))
     quote_ctx.close()
 
 
