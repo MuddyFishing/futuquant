@@ -30,16 +30,22 @@ def detect_warning_times(openid, warning_limit):
             first_flag = 1
             for tmp_time in time_list:
                 if now_time - float(tmp_time) < 60:
-                    if not first_flag:  # 如果不是第一个，就需要添加','符号
+                    if first_flag:
+                        first_flag = 0
+                    else:  # 如果不是第一个，就需要添加','符号
                         new_time_list += ','
-                    new_time_list += tmp_time
-                    cnt += 1
 
-    if cnt <= warning_limit:
-        new_time_list = new_time_list + ',' + str(now_time)
+                    new_time_list += str(tmp_time)
+                    cnt += 1
+        if cnt <= warning_limit:
+            new_time_list = new_time_list + ',' + str(now_time)
+        else:
+            sent_msg_sig = 0
+            print("The number of warning is exceeded. You set {1} times/min, "
+                  "and has warned {0} times in the last 1 minutes.".format(cnt, warning_limit))
     else:
-        sent_msg_sig = 0
-        print("The number of warning is exceeded. %d, %d" % (cnt, warning_limit))
+        new_time_list = str(now_time)
+
     warning_time_list.update({openid: new_time_list})
     return sent_msg_sig
 
@@ -76,6 +82,8 @@ def detect(content, prev_price, openid, premium_rate, warning_threshold, large_t
         msg.update({'code':str(code), 'price': str(price), 'total_deal_price':str(vol*price), 'quantity': str(vol), 'time': str(record_time)})
         wp.send_template_msg(openid, msg)
         logging.info("Send a message.")
+    else:
+        print("The content is: ", content)
 
 
 def get_preprice(content):
