@@ -1,19 +1,22 @@
 # -*- coding: utf-8 -*-
-from .wx_push import WechatPush
+from wx_push import WechatPush
 import logging
-from .mysql_interface import MysqlInterface
-from .Config import Config
+from sqlite_interface import SqliteInterface
+from Config import Config
 import time
 
-mi = MysqlInterface()
+sqlite = SqliteInterface()
 wp = WechatPush()
 config = Config()
-
+warning_time_list = {}
 
 def detect_warning_times(openid, warning_limit):
     sent_msg_sig = 1
     now_time = time.time()
-    result = mi.get_time_list_by_openid(openid)
+    result = None
+    if openid in warning_time_list:
+        result = warning_time_list
+
     new_time_list = ''
     cnt = 0
     if result:
@@ -31,11 +34,11 @@ def detect_warning_times(openid, warning_limit):
                     cnt += 1
 
     if cnt <= warning_limit:
-        new_time_list = new_time_list + ',' + now_time
+        new_time_list = new_time_list + ',' + str(now_time)
     else:
         sent_msg_sig = 0
         print("The number of warning is exceeded. %d, %d" % (cnt, warning_limit))
-    mi.update_warning_list(openid, new_time_list)
+    warning_time_list.update({openid: new_time_list})
     return sent_msg_sig
 
 
@@ -76,7 +79,7 @@ def detect(content, prev_price, openid, premium_rate, warning_threshold, large_t
 def get_preprice(content):
     code = content[0]['code']
     prev_price = 0
-    result = mi.get_preprice_by_stockid(code)
+    result = sqlite.get_values_by_id('price', 'stockid', code)
     if result:
         prev_price = result[0][1]
     return prev_price
@@ -86,7 +89,7 @@ def update_price(content):
     code = content[0]['code']
     price = content[0]['price']
     # 更新 逐笔成交信息
-    mi.update_price(code, price)
+    sqlite.update_price(code, price)
 
 
 def detect_and_send(content):
@@ -94,7 +97,7 @@ def detect_and_send(content):
 
     user_list = config.test_user_list
     for openid in user_list:
-        usr_setting = mi.get_setting_by_openid(openid)
+        usr_setting = sqlite.get_values_by_id('setting', 'openid', openid)
         if usr_setting:
             detect(content, prev_price, usr_setting[0][0], usr_setting[0][1], usr_setting[0][2], usr_setting[0][3], usr_setting[0][4])
         else:

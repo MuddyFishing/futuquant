@@ -6,7 +6,7 @@ class Config:
 
         # test_user_list
         self.test_user_list = {
-                          'oaeaj02DzklyZHavotk2X3mt6JuA'  # test openid
+                          ''  # test openid
                           }
 
         # test_user_nickname
@@ -22,11 +22,18 @@ class Config:
         self.warning_limit = 5
 
         # template_id
-        self.template_id = ""
+        self.template_id = "jr67sFJ5w4ln_ty6e0BHSBLZNOUOgMXOC-ph9u6xWwQ"
 
         # mysql
-        self.host = '127.0.0.1'
-        self.port = 3306
-        self.user = 'root'
-        self.passwd = ''
+        # self.host = '127.0.0.1'
+        # self.port = 3306
+        # self.user = ''
+        # self.passwd = ''
+        # self.database = 'stock_alarm'
+
+        # sqlite
         self.database = 'stock_alarm'
+
+        # FutuOpenD
+        self.host = '127.0.0.1'
+        self.port = 11111
