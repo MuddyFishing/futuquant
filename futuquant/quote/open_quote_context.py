@@ -1474,6 +1474,7 @@ class OpenQuoteContext(OpenContextBase):
                 time                    str            发布时间
                 =====================   ===========   ==============================================================
         """
+        holder_type = STOCK_HOLDER_CLASS_MAP[holder_type]
         if code is None or is_str(code) is False:
             error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
             return RET_ERROR, error_str
