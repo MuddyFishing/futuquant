@@ -896,11 +896,7 @@ get_referencestock_list
  获取证券的关联数据
  
  :param code: 证券id，str，例如HK.00700
-<<<<<<< HEAD
- :param reference_type: 要获得的相关数据，参见SecurityReferenceType。例如WARRANT，表示获取正股相关的窝轮
-=======
  :param reference_type: 要获得的相关数据，参见 SecurityReferenceType_ 。例如WARRANT，表示获取正股相关的涡轮
->>>>>>> v3.2
  :return: (ret, data)
 
 		ret == RET_OK 返回pd dataframe数据，数据列格式如下
