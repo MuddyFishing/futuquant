@@ -935,7 +935,7 @@ get_owner_plate
 
  获取单支或多支股票的所属板块信息列表
 
- :param code_list: 股票代码列表，list或str。例如：['HK.00700', 'HK.00001']或者'HK.00700,HK.00001'
+ :param code_list: 股票代码列表，仅支持正股、指数。list或str。例如：['HK.00700', 'HK.00001']或者'HK.00700,HK.00001'
  :return: (ret, data)
 
         ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
@@ -948,7 +948,7 @@ get_owner_plate
         code                    str            证券代码
         plate_code              str            板块代码
         plate_name              str            板块名字
-        plate_type              str            板块类型（行业板块或概念板块）
+        plate_type              str            板块类型（行业板块或概念板块），查看 Plate_
         =====================   ===========   ==============================================================
 
  :example:
