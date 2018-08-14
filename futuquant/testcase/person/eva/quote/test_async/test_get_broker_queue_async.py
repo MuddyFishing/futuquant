@@ -1,8 +1,10 @@
 #-*-coding:utf-8-*-
 
-import futuquant
-from futuquant.testcase.eva.utils.logUtil import Logs
 from futuquant.testcase.eva.datas.collect_stock import *
+
+import futuquant
+from futuquant.testcase.person.eva.utils import Logs
+
 
 class GetBrokerQueue(object):
     #获取经纪队列 get_broker_queue 和 BrokerHandlerBase
