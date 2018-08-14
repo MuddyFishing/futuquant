@@ -898,7 +898,7 @@ get_holding_change_list
  获取高管持仓列表,只提供美股数据
 
  :param code: 股票代码. 例如：'US.AAPL'
- :param holder_type: 持有者类别，futuquant.common.constant.StockHolder
+ :param holder_type: 持有者类别，查看 StockHolder_
  :param start_date: 开始时间. 例如：'2016-10-01'或者'2016-10-01 10:00:00'
  :param end_date: 结束时间，不填为至今. 例如：'2017-10-01'
  :return: (ret, data)

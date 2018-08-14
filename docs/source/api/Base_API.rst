@@ -580,6 +580,72 @@ Plate - 板块集合分类
 
 --------------------------------------
 
+StockHoder - 持有者类别
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+持有者类别定义
+
+..  py:class:: StockHoder
+
+ ..  py:attribute:: INSTITUTE
+ 
+  机构
+  
+ ..  py:attribute:: FUND
+ 
+  基金
+  
+ ..  py:attribute:: EXECUTIVE
+ 
+  高管
+  
+  
+--------------------------------------
+
+OptionType - 期权类型
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+期权类型定义
+
+..  py:class:: OptionType
+
+ ..  py:attribute:: ALL
+ 
+  全部
+  
+ ..  py:attribute:: CALL
+ 
+  涨
+  
+ ..  py:attribute:: PUT
+ 
+  跌
+  
+  
+--------------------------------------
+
+OptionCondType - 价内价外
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+价内价外定义
+
+..  py:class:: OptionType
+
+ ..  py:attribute:: ALL
+ 
+  全部
+  
+ ..  py:attribute:: WITHIN
+ 
+  价内
+  
+ ..  py:attribute:: OUTSIDE
+ 
+  价外
+  
+  
+--------------------------------------
+
 SysNotifyType - 系统异步通知类型
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
