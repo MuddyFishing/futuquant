@@ -920,7 +920,14 @@ class StockQuoteQuery:
             'suspension': record.isSuspended,
             'listing_date': record.listTime,
             'price_spread': record.priceSpread if record.HasField('priceSpread') else 0,
-            'dark_status': QUOTE.REV_DARK_STATUS_MAP[record.darkStatus] if record.HasField('darkStatus') else DarkStatus.NONE
+            'dark_status': QUOTE.REV_DARK_STATUS_MAP[record.darkStatus] if record.HasField('darkStatus') else DarkStatus.NONE,
+            "option_type": QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionStaticExData.type]
+            if record.optionStaticExData.type in QUOTE.REV_OPTION_TYPE_CLASS_MAP else OptionType.UNKNOWN,
+            "owner": merge_qot_mkt_stock_str(record.optionStaticExData.market, record.optionStaticExData.code),
+            "strike_time": record.optionStaticExData.strikeTime,
+            "strike_price": record.optionStaticExData.strikePrice,
+            "suspension": record.optionStaticExData.suspend,
+            "market": record.optionStaticExData.market,
         } for record in raw_quote_list]
 
         return RET_OK, "", quote_list
@@ -1491,6 +1498,74 @@ class OwnerPlateQuery:
 
 
 class HoldingChangeList:
+    """
+    Query Conversion for getting owner plate information.
+    """
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pack_req(cls, code, holder_type, conn_id, start_date, end_date=None):
+
+        ret, content = split_stock_str(code)
+        if ret == RET_ERROR:
+            error_str = content
+            return RET_ERROR, error_str, None
+
+        market_code, stock_code = content
+
+        if start_date is None:
+            msg = "The start date is none."
+            return RET_ERROR, msg, None
+        else:
+            ret, msg = check_date_str_format(start_date)
+            if ret != RET_OK:
+                return ret, msg, None
+            start_date = normalize_date_format(start_date)
+
+        if end_date is None:
+            today = datetime.today()
+            end_date = today.strftime("%Y-%m-%d")
+        else:
+            ret, msg = check_date_str_format(end_date)
+            if ret != RET_OK:
+                return ret, msg, None
+            end_date = normalize_date_format(end_date)
+
+        from futuquant.common.pb.Qot_GetHoldingChangeList_pb2 import Request
+        req = Request()
+        req.c2s.security.market = market_code
+        req.c2s.security.code = stock_code
+        req.c2s.holderCategory = holder_type
+        req.c2s.beginTime = start_date
+        if end_date:
+            req.c2s.endTime = end_date
+
+        return pack_pb_req(req, ProtoId.Qot_GetHoldingChangeList, conn_id)
+
+    @classmethod
+    def unpack_rsp(cls, rsp_pb):
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, []
+        raw_quote_list = rsp_pb.s2c.holdingChangeList
+
+        data_list = []
+        for record in raw_quote_list:
+            quote_list = {
+                'holder_name': record.holderName,
+                'holding_qty': record.holdingQty,
+                'holding_ratio': record.holdingRatio,
+                'change_qty': record.changeQty,
+                'change_ratio': record.changeRatio,
+                'time': record.time,
+            }
+            data_list.append(quote_list)
+
+        return RET_OK, "", data_list
+
+
+class OptionBasicInfoQuery:
     """
     Query Conversion for getting owner plate information.
     """
