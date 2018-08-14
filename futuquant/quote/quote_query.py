@@ -178,6 +178,13 @@ class StockBasicInfoQuery:
                     record.warrantExData.owner.market,
                     record.warrantExData.owner.code) if record.HasField('warrantExData') else "",
             "listing_date": record.basic.listTime,
+            "option_type": QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionStaticExData.type]
+                if record.optionStaticExData.type in QUOTE.REV_OPTION_TYPE_CLASS_MAP else OptionType.UNKNOWN,
+            "owner": merge_qot_mkt_stock_str(record.optionStaticExData.market, record.optionStaticExData.code),
+            "strike_time": record.optionStaticExData.strikeTime,
+            "strike_price": record.optionStaticExData.strikePrice,
+            "suspension": record.optionStaticExData.suspend,
+            "market": record.optionStaticExData.market,
         } for record in raw_basic_info_list]
         return RET_OK, "", basic_info_list
 

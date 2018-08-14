@@ -648,6 +648,7 @@ class ProtoId(object):
     Qot_GetReference = 3206  # 获取正股相关股票，暂时只有窝轮
     Qot_GetOwnerPlate = 3207  # 获取股票所属板块
     Qot_GetHoldingChangeList = 3208  # 获取高管持股变动
+    Qot_GetOptionChain = 3209  # 获取期权链
 
     All_PushId = [Notify, KeepAlive, Trd_UpdateOrder, Trd_UpdateOrderFill, Qot_UpdateBroker,
                   Qot_UpdateOrderBook, Qot_UpdateKL, Qot_UpdateRT, Qot_UpdateBasicQot, Qot_UpdateTicker]
@@ -701,6 +702,7 @@ class TickerType:
     CLOSING_PRICED = 'CLOSING_PRICED'
     COMPREHENSIVE_DELAY_PRICE = 'COMPREHENSIVE_DELAY_PRICE'
 
+
 TICKER_TYPE_MAP = {
     TickerType.UNKNOWN: Qot_Common_pb2.TickerType_Unknown,
     TickerType.AUTO_MATCH: Qot_Common_pb2.TickerType_Automatch,
@@ -736,6 +738,78 @@ TICKER_TYPE_MAP = {
 }
 
 
+# 股票持有者类别
+class StockHolder(object):
+    """
+    持有者类别
+    ..  py:class:: StockHolderType
+     ..  py:attribute:: INSTITUTE
+      机构
+     ..  py:attribute:: FUND
+      基金
+     ..  py:attribute:: EXECUTIVE
+      高管
+    """
+    INSTITUTE = "INSTITUTE"
+    FUND = "FUND"
+    EXECUTIVE = "EXECUTIVE"
+
+
+STOCK_HOLDER_CLASS_MAP = {
+    StockHolder.INSTITUTE: 1,
+    StockHolder.FUND: 2,
+    StockHolder.EXECUTIVE: 3
+}
+
+
+# 期权类型
+class OptionType(object):
+    """
+    期权类型
+    ..  py:class:: OptionType
+     ..  py:attribute:: UNKNOWN
+      未知
+     ..  py:attribute:: CALL
+      涨
+     ..  py:attribute:: PUT
+      跌
+    """
+    UNKNOWN = "N/A"
+    CALL = "CALL"
+    PUT = "PUT"
+
+
+OPTION_TYPE_CLASS_MAP = {
+    OptionType.UNKNOWN: 0,
+    OptionType.CALL: 1,
+    OptionType.PUT: 2
+}
+
+
+# 价内价外
+class OptionCondType(object):
+    """
+    价内价外
+    ..  py:class:: OptionType
+     ..  py:attribute:: UNKNOWN
+      未知
+     ..  py:attribute:: WITHIN
+      价内
+     ..  py:attribute:: OUTSIDE
+      价外
+    """
+    UNKNOWN = "N/A"
+    WITHIN = "WITHIN"
+    OUTSIDE = "OUTSIDE"
+
+
+OPTION_COND_TYPE_CLASS_MAP = {
+    OptionCondType.UNKNOWN: 0,
+    OptionCondType.WITHIN: 1,
+    OptionCondType.OUTSIDE: 2
+}
+
+
 # noinspection PyPep8Naming
 class QUOTE(object):
     REV_MKT_MAP = {MKT_MAP[x]: x for x in MKT_MAP}
@@ -750,6 +824,8 @@ class QUOTE(object):
     REV_MARKET_STATE_MAP = {MARKET_STATE_MAP[x]: x for x in MARKET_STATE_MAP}
     REV_DARK_STATUS_MAP = {DARK_STATUS_MAP[x]: x for x in DARK_STATUS_MAP}
     REV_TICKER_TYPE_MAP = {TICKER_TYPE_MAP[x]: x for x in TICKER_TYPE_MAP}
+    REV_OPTION_TYPE_CLASS_MAP = {OPTION_TYPE_CLASS_MAP[x]: x for x in OPTION_TYPE_CLASS_MAP}
+    REV_OPTION_COND_TYPE_CLASS_MAP = {OPTION_COND_TYPE_CLASS_MAP[x]: x for x in OPTION_COND_TYPE_CLASS_MAP}
 
 # sys notify info
 class SysNotifyType(object):
@@ -1137,27 +1213,4 @@ from .pb import Qot_GetReference_pb2
 STOCK_REFERENCE_TYPE_MAP = {
     SecurityReferenceType.NONE: Qot_GetReference_pb2.ReferenceType_Unknow,
     SecurityReferenceType.WARRANT: Qot_GetReference_pb2.ReferenceType_Warrant
-}
-
-
-class StockHolder(object):
-    """
-    持有者类别
-    ..  py:class:: StockHolderType
-     ..  py:attribute:: INSTITUTE
-      机构
-     ..  py:attribute:: FUND
-      基金
-     ..  py:attribute:: EXECUTIVE
-      高管
-    """
-    INSTITUTE = "INSTITUTE"
-    FUND = "FUND"
-    EXECUTIVE = "EXECUTIVE"
-
-
-STOCK_HOLDER_CLASS_MAP = {
-    StockHolder.INSTITUTE: 1,
-    StockHolder.FUND: 2,
-    StockHolder.EXECUTIVE: 3
 }

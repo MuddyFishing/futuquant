@@ -140,6 +140,12 @@ class OpenQuoteContext(OpenContextBase):
             stock_type          str            股票类型，参见SecurityType
             stock_child_type    str            涡轮子类型，参见WrtType
             stock_owner         str            正股代码
+            option_type         str            期权类型，Qot_Common.OptionType,期权
+            owner               str            标的股
+            strike_ime          str            行权日
+            strike_price        float          行权价
+            suspension          bool           是否停牌(True表示停牌)
+            market              str            发行市场名字
             listing_date        str            上市时间
             stock_id            int            股票id
             =================   ===========   ==============================================================================
@@ -174,8 +180,9 @@ class OpenQuoteContext(OpenContextBase):
             return ret_code, msg
 
         col_list = [
-            'code', 'name', 'lot_size', 'stock_type', 'stock_child_type',
-            "stock_owner", "listing_date", "stock_id"
+            'code', 'name', 'lot_size', 'stock_type', 'stock_child_type', 'stock_owner',
+            'option_type', 'owner', 'strike_ime', 'strike_price', 'suspension', 'market',
+            'listing_date', 'stock_id'
         ]
 
         basic_info_table = pd.DataFrame(basic_info_list, columns=col_list)
@@ -1467,10 +1474,10 @@ class OpenQuoteContext(OpenContextBase):
                 参数                      类型                        说明
                 =====================   ===========   ==============================================================
                 holder_name             str            高管名称
-                holding_qty             str            持股数
-                holding_ratio           str            持股比例
-                change_qty              str            变动数
-                change_ratio            str            变动比例
+                holding_qty             double         持股数
+                holding_ratio           double         持股比例
+                change_qty              double         变动数
+                change_ratio            double         变动比例
                 time                    str            发布时间
                 =====================   ===========   ==============================================================
         """

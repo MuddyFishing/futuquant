@@ -911,10 +911,10 @@ get_holding_change_list
         参数                      类型                        说明
         =====================   ===========   ==============================================================
         holder_name             str            高管名称
-        holding_qty             str            持股数
-        holding_ratio           str            持股比例
-        change_qty              str            变动数
-        change_ratio            str            变动比例
+        holding_qty             double         持股数
+        holding_ratio           double         持股比例
+        change_qty              double         变动数
+        change_ratio            double         变动比例
         time                    str            发布时间
         =====================   ===========   ==============================================================
 

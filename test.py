@@ -6,8 +6,18 @@ quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
 # print(quote_ctx.get_owner_plate(code_list))
 
 #------------- get_holding_change_list
-print(quote_ctx.get_holding_change_list('US.AAPL', StockHolder.INSTITUTE, '2016-10-01 10:00:00'))
+# print(quote_ctx.get_holding_change_list('US.AAPL', StockHolder.INSTITUTE, '2016-10-01 10:00:00'))
 
+#------------- get_stock_basicinfo
+# print(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.WARRANT))
+# print(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.STOCK))
+
+option_type = 2
+print(OptionType.PUT)
+print(QUOTE.REV_OPTION_TYPE_CLASS_MAP)
+print(option_type in QUOTE.REV_OPTION_TYPE_CLASS_MAP)
+output = QUOTE.REV_OPTION_TYPE_CLASS_MAP[option_type] if option_type in QUOTE.REV_OPTION_TYPE_CLASS_MAP else OptionType.UNKNOWN
+print(output)
 
 
 quote_ctx.close()
@@ -34,3 +44,15 @@ quote_ctx.close()
 # trade_context.close()
 
 
+warning_time_list = {}
+openid = 'hhhh'
+warning_list = ''
+warning_time_list.update({openid:warning_list})
+if openid in warning_time_list:
+    time_str = warning_time_list[openid]
+    time_list = time_str.split(',')
+    print(len(time_list))
+    if len(time_list) == 1 and time_list[0] == '':
+        print("no")
+    else:
+        print(time_list)

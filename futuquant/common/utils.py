@@ -410,6 +410,9 @@ class ProtobufMap(dict):
         from futuquant.common.pb.Qot_RequestHistoryKL_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_RequestHistoryKL] = Response()
 
+        from futuquant.common.pb.Qot_GetOptionChain_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_GetOptionChain] = Response()
+
     def __getitem__(self, key):
         return ProtobufMap.created_protobuf_map[key] if key in ProtobufMap.created_protobuf_map else None
 
