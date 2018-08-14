@@ -2,9 +2,11 @@
 import requests
 import json
 import time
-from .Config import Config
-
+from Config import Config
+RET_ERROR = -1
+RET_OK = 0
 config = Config()
+
 
 class WechatPush(object):
     def __init__(self):
@@ -23,23 +25,25 @@ class WechatPush(object):
                 "secret": self.secret
             }
         ).json()
-        if access_token_json:
-            self.access_token = access_token_json['access_token']
-        else:
-            print(access_token_json)
-            self.access_token = None
-        return self.access_token
+        if 'errmsg' in access_token_json:
+            return RET_ERROR, "Incorrect config, please check appid and secret."
+
+        return RET_OK, access_token_json['access_token']
 
     def get_access_token(self):
         if self.access_generate_time == 0 or time.time() - self.access_generate_time > 7200 - 5:
-            self.access_token = self.get_access_token_from_wechat()
+            ret, self.access_token = self.get_access_token_from_wechat()
+            if ret != RET_OK:
+                return ret, self.access_token
             self.access_generate_time = time.time()
             print("Generate access token.")
-        return self.access_token
+        return RET_OK, self.access_token
 
     def send_msg_to_users_customer_service_news(self, openid, msg):
 
-        access_token = self.get_access_token()
+        ret, access_token = self.get_access_token()
+        if ret != RET_OK:
+            return ret, access_token
         body = {
             "touser": openid,
             "msgtype": "text",
@@ -56,7 +60,9 @@ class WechatPush(object):
         )
 
         result = response.json()
-        print(result)
+        if result['errmsg'] != 'ok':
+            return RET_ERROR, result
+        return RET_OK, result
 
     def get_template_id(self):
         template_id = requests.get(
@@ -69,7 +75,10 @@ class WechatPush(object):
 
     def send_template_msg(self, openid, msg):
 
-        access_token = self.get_access_token()
+        ret, access_token = self.get_access_token()
+        if ret != RET_OK:
+            return ret, access_token
+
         body = {
             "touser": openid,
             "template_id":config.template_id,
@@ -112,10 +121,14 @@ class WechatPush(object):
             data=bytes(json.dumps(body, ensure_ascii=False), encoding='utf-8')
         )
         result = response.json()
-        print(result)
+        if result['errmsg'] != 'ok':
+            return RET_ERROR, result
+        return RET_OK, result
 
     def get_user_openid_list(self):
-        access_token = self.get_access_token()
+        ret, access_token = self.get_access_token()
+        if ret != RET_OK:
+            return ret, access_token
         user_list_result = requests.get(
             url="https://api.weixin.qq.com/cgi-bin/user/get",
             params={
@@ -127,10 +140,12 @@ class WechatPush(object):
             user_openid_list = user_list_result.get('data').get('openid')
         else:
             user_openid_list = None
-        return user_openid_list
+        return RET_OK, user_openid_list
 
     def get_user_nickname(self, openid):
-        access_token = self.get_access_token()
+        ret, access_token = self.get_access_token()
+        if ret != RET_OK:
+            return ret, access_token
         user_info_json = requests.get(
             url="https://api.weixin.qq.com/cgi-bin/user/info",
             params={
@@ -141,21 +156,40 @@ class WechatPush(object):
         ).json()
         user_nickname = user_info_json['nickname']
         # print(user_info_json['openid'], user_info_json['nickname'])
-        return user_nickname
+        return RET_OK, user_nickname
 
     def send_text_msg(self, msg):
-        user_openid_list = self.get_user_openid_list()
+        ret, user_openid_list = self.get_user_openid_list()
+        if ret != RET_OK:
+            return ret, user_openid_list
+
         if user_openid_list:
             for openid in user_openid_list:
-                if self.get_user_nickname(openid) in config.test_user_nickname:
-                    self.send_msg_to_users_customer_service_news(openid, msg)
+                ret, user_nickname = self.get_user_nickname(openid)
+                if ret != RET_OK:
+                    return ret, user_nickname
+
+                if user_nickname in config.test_user_nickname:
+                    ret, msg = self.send_msg_to_users_customer_service_news(openid, msg)
+                    if ret != RET_OK:
+                        return ret, msg
 
     def sent_template_msg_to_users(self, msg):
-        user_openid_list = self.get_user_openid_list()
+        ret, user_openid_list = self.get_user_openid_list()
+        if ret != RET_OK:
+            return ret, user_openid_list
+
         if user_openid_list:
             for openid in user_openid_list:
-                if self.get_user_nickname(openid) in config.test_user_nickname:
-                    self.send_template_msg(openid, msg)
+                ret, user_nickname = self.get_user_nickname(openid)
+                if ret != RET_OK:
+                    return ret, user_nickname
+
+                if user_nickname in config.test_user_nickname:
+                    ret, msg = self.send_template_msg(openid, msg)
+                    if ret != RET_OK:
+                        return ret, msg
+        return RET_OK, "Send template msg successfully."
 
 
 # ---- 单元测试代码
@@ -174,12 +208,12 @@ if __name__ == '__main__':
 
     # print(get_template_id(get_access_token()))
     wp = WechatPush()  # test号
-    # wp = wechat_push('wxbe3ec6c53ff67a31', '')
-    # print(wp.get_access_token())
-    wp.send_text_msg(text_msg)
-    wp.sent_template_msg_to_users(msg)
+    print(wp.get_access_token())
+    # wp.send_text_msg(text_msg)
+    print(wp.sent_template_msg_to_users(msg))
 
-    # 输出所有用户nickname
-    # all_user_openid =wp.get_user_openid_list()
-    # for user in all_user_openid:
-    #     print(wp.get_user_nickname(user), user)
+    # nickname
+    all_user_openid = wp.get_user_openid_list()
+    if all_user_openid:
+        for user in all_user_openid:
+            print(wp.get_user_nickname(user), user)

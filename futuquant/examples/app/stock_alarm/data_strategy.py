@@ -24,7 +24,7 @@ def detect_warning_times(openid, warning_limit):
     if result:
         time_str = result
         time_list = time_str.split(',')
-        if len(time_list) == 1 and time_list[0] == '':  # 当warning_time_list为“”时
+        if len(time_list) == 0:  # 当warning_time_list为“”时
             pass
         else:
             first_flag = 1
@@ -37,7 +37,7 @@ def detect_warning_times(openid, warning_limit):
 
                     new_time_list += str(tmp_time)
                     cnt += 1
-        if cnt <= warning_limit:
+        if cnt < warning_limit:
             new_time_list = new_time_list + ',' + str(now_time)
         else:
             sent_msg_sig = 0
@@ -76,11 +76,8 @@ def detect(content, prev_price, openid, premium_rate, warning_threshold, large_t
         sent_msg_sig = detect_warning_times(openid, warning_limit)
 
     if sent_msg_sig:
-        # print("+------------------------------------+")
-        # print(openid, warning_threshold, large_threshold)
-        # print("+------------------------------------+")
         msg.update({'code':str(code), 'price': str(price), 'total_deal_price':str(vol*price), 'quantity': str(vol), 'time': str(record_time)})
-        wp.send_template_msg(openid, msg)
+        print(wp.send_template_msg(openid, msg))
         logging.info("Send a message.")
     else:
         print("The content is: ", content)
