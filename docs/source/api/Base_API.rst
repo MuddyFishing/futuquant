@@ -598,12 +598,12 @@ Plate - 板块集合分类
 
 --------------------------------------
 
-StockHoder - 持有者类别
+StockHolder - 持有者类别
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 持有者类别定义
 
-..  py:class:: StockHoder
+..  py:class:: StockHolder
 
  ..  py:attribute:: INSTITUTE
  

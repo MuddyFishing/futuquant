@@ -25,6 +25,8 @@
  .. _TickerDirect: Base_API.html#tickerdirect
  
  .. _Plate: Base_API.html#plate
+  
+ .. _StockHolder: Base_API.html#stockholder
  
  .. _SysNotifyType: Base_API.html#sysnotifytype
  
@@ -746,7 +748,7 @@ get_rt_ticker
         volume                   int            成交数量（股数）
         turnover                 float          成交金额
         ticker_direction         str            逐笔方向
-		type                     str            逐笔类型，参见TickerType
+        type                     str            逐笔类型，参见TickerType
         =====================   ===========   ==============================================================
 
  :example:
