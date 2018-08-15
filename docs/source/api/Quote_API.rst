@@ -731,7 +731,7 @@ get_stock_quote
         listing_date            str            上市日期 (yyyy-MM-dd)
         price_spread            float          当前价差，亦即摆盘数据的买档或卖档的相邻档位的报价差
 		dark_status             str            暗盘交易状态，见DarkStatus
-        option_type             str            期权类型，查看OptionType_
+        option_type             str            期权类型，查看 OptionType_
         owner                   str            标的股
         strike_ime              str            行权日
         strike_price            float          行权价
