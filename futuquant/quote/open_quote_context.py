@@ -139,15 +139,15 @@ class OpenQuoteContext(OpenContextBase):
             lot_size            int            每手数量
             stock_type          str            股票类型，参见SecurityType
             stock_child_type    str            涡轮子类型，参见WrtType
-            stock_owner         str            正股代码
-            option_type         str            期权类型，Qot_Common.OptionType,期权
+            listing_date        str            上市时间
+            option_type         str            期权类型，Qot_Common.OptionType
             owner               str            标的股
             strike_ime          str            行权日
             strike_price        float          行权价
             suspension          bool           是否停牌(True表示停牌)
             market              str            发行市场名字
-            listing_date        str            上市时间
             stock_id            int            股票id
+            stock_owner         str            正股代码
             =================   ===========   ==============================================================================
 
         :example:
@@ -1055,7 +1055,7 @@ class OpenQuoteContext(OpenContextBase):
                 listing_date            str            上市日期 (yyyy-MM-dd)
                 price_spread            float          当前价差，亦即摆盘数据的买档或卖档的相邻档位的报价差
                 dark_status             str            暗盘交易状态，见DarkStatus
-                option_type             str            期权类型，Qot_Common.OptionType,期权
+                option_type             str            期权类型，Qot_Common.OptionType
                 owner                   str            标的股
                 strike_ime              str            行权日
                 strike_price            float          行权价
@@ -1415,7 +1415,7 @@ class OpenQuoteContext(OpenContextBase):
         """
         获取单支或多支股票的所属板块信息列表
 
-        :param code_list: 股票代码列表，list或str。例如：['HK.00700', 'HK.00001']或者'HK.00700,HK.00001'
+        :param code_list: 股票代码列表，仅支持正股、指数。list或str。例如：['HK.00700', 'HK.00001']或者'HK.00700,HK.00001'。
         :return: (ret, data)
 
                 ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
@@ -1428,7 +1428,7 @@ class OpenQuoteContext(OpenContextBase):
                 code                    str            证券代码
                 plate_code              str            板块代码
                 plate_name              str            板块名字
-                plate_type              str            板块类型（行业板块或概念板块）
+                plate_type              str            板块类型（行业板块或概念板块），futuquant.common.constant.Plate
                 =====================   ===========   ==============================================================
         """
         if is_str(code_list):
@@ -1519,76 +1519,70 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, holding_change_list
 
-    def get_option_basicinfo(self, code, start_date, end_date = None, option_cond_type = None, option_type = None):
+    def get_option_chain(self, code, start_date, end_date=None, option_type=None, option_cond_type=None):
         """
         通过标的股查询期权
 
         :param code: 股票代码,例如：'HK.02318'
-        :param start_date: 开始时间. 例如：'2016-10-01'或者'2016-10-01 10:00:00'
-        :param end_date: 结束时间，不填为至今. 例如：'2017-10-01'或者'2017-10-01 10:00:00'
-        :param option_type: 全部/价内/价外，futuquant.common.constant.OptionCondType
-        :param option_cond_type: 期权类型,全部/看涨/看跌，futuquant.common.constant.OptionType
+        :param start_date: 开始时间. 例如：'2017-08-01'或者'2017-08-01 10:00:00'
+        :param end_date: 结束时间，不填为至今. 例如：'2017-10-01'或者'2017-10-01 10:00:00', 注意，时间范围最多30天
+        :param option_type: 期权类型,全部/看涨/看跌，futuquant.common.constant.OptionType
+        :param option_cond_type: 全部/价内/价外，futuquant.common.constant.OptionCondType
         :return: (ret, data)
 
                 ret == RET_OK 返回pd dataframe数据，数据列格式如下
 
                 ret != RET_OK 返回错误字符串
 
-                =====================   ===========   ==============================================================
+                ==================   ===========   ==============================================================
                 参数                      类型                        说明
-                =====================   ===========   ==============================================================
-                code                    str            股票代码
-                data_date               str            日期
-                data_time               str            时间
-                last_price              float          最新价格
-                open_price              float          今日开盘价
-                high_price              float          最高价格
-                low_price               float          最低价格
-                prev_close_price        float          昨收盘价格
-                volume                  int            成交数量
-                turnover                float          成交金额
-                turnover_rate           float          换手率
-                amplitude               int            振幅
-                suspension              bool           是否停牌(True表示停牌)
-                listing_date            str            上市日期 (yyyy-MM-dd)
-                price_spread            float          当前价差，亦即摆盘数据的买档或卖档的相邻档位的报价差
-                dark_status             str            暗盘交易状态，见DarkStatus
-                option_type             str            期权类型，Qot_Common.OptionType,期权
-                owner                   str            标的股
-                strike_ime              str            行权日
-                strike_price            float          行权价
-                suspension              bool           是否停牌(True表示停牌)
-                market                  str            发行市场名字
-                =====================   ===========   ==============================================================
+                ==================   ===========   ==============================================================
+                code                 str           股票代码
+                name                 str           名字
+                lot_size             int           每手数量
+                stock_type           str           股票类型，参见SecurityType
+                stock_child_type     str           涡轮子类型，参见WrtType
+                stock_owner          str           正股代码
+                option_type          str           期权类型，Qot_Common.OptionType,期权
+                owner                str           标的股
+                strike_ime           str           行权日
+                strike_price         float         行权价
+                suspension           bool          是否停牌(True表示停牌)
+                market               str           发行市场名字
+                listing_date         str           上市时间
+                stock_id             int           股票id
+                ==================   ===========   ==============================================================
 
         """
-
 
         if code is None or is_str(code) is False:
             error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
             return RET_ERROR, error_str
 
-        option_cond_type = OPTION_COND_TYPE_CLASS_MAP[option_cond_type]
-        option_type = OPTION_TYPE_CLASS_MAP[option_type]
-
         query_processor = self._get_sync_query_processor(
-            OptionBasicInfoQuery.pack_req, OptionBasicInfoQuery.unpack_rsp)
+            OptionChain.pack_req, OptionChain.unpack_rsp)
         kargs = {
             "code": code,
+            "conn_id": self.get_sync_conn_id(),
             "start_date": start_date,
             "end_date": end_date,
             "option_cond_type": option_cond_type,
             "option_type": option_type
         }
 
-        ret_code, msg, option_basicinfo_list = query_processor(**kargs)
+        ret_code, msg, option_chain_list = query_processor(**kargs)
         if ret_code == RET_ERROR:
             return ret_code, msg
 
         col_list = [
-            'holder_name', 'holding_qty', 'holding_ratio', 'change_qty', 'change_ratio', 'time'
+            'code', 'name', 'lot_size', 'stock_type', 'stock_child_type', 'stock_owner',
+            'option_type', 'owner', 'strike_time', 'strike_price', 'suspension', 'market',
+            'listing_date', 'stock_id'
         ]
 
-        option_basicinfo = pd.DataFrame(option_basicinfo_list, columns=col_list)
+        option_chain = pd.DataFrame(option_chain_list, columns=col_list)
 
-        return RET_OK, option_basicinfo
+        if option_type is None or option_type == OptionType.ALL:
+            option_chain.sort_values(by=["option_type", "strike_price"], axis=0, ascending=True, inplace=True)
+
+        return RET_OK, option_chain
