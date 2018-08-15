@@ -27,6 +27,10 @@
  .. _Plate: Base_API.html#plate
   
  .. _StockHolder: Base_API.html#stockholder
+
+ .. _OptionType: Base_API.html#optiontype
+
+ .. _OptionCondType: Base_API.html#optioncondtype
  
  .. _SysNotifyType: Base_API.html#sysnotifytype
  
@@ -455,34 +459,31 @@ get_plate_stock
         =====================  ==============================================================
             代码                      说明
         =====================  ==============================================================
-        HK.999901                恒指成份股
-        HK.999902                国指成份股
-        HK.999910							   港股主板
-        HK.999911							   港股创业板
-        HK.999999							   全部港股(正股)
-        HK.BK1911							   主板H股
-        HK.BK1912							   创业板H股
-        HK.900075							   港股基金
-        HK.BK1600							   富途热门(港)
-        SH.3000000							 上海主板
-        SH.BK0901							   上证B股
-        SH.BK0902							   深证B股 
-      
-        SH.3000002							 沪深指数
-        SH.3000005							 沪深全部A股
-        SH.BK0600							   富途热门(沪深)
-        
-        SZ.3000001							 深证主板
-        SZ.3000003							 中小企业板块
-        SZ.3000004							 深证创业板
-        
-        US.BK2600							   富途热门(美)
-        US.200306								 全部美股(正股)
-        US.200301							   纽交所
-        US.200302								 纳斯达克
-        US.200303								 美交所
-        US.200304								 美中概股
-        US.200305								 美明星股
+        HK.999901                  恒指成份股
+        HK.999902                  国指成份股
+        HK.999910                  港股主板
+        HK.999911                  港股创业板
+        HK.999999                  全部港股(正股)
+        HK.BK1911                  主板H股
+        HK.BK1912                  创业板H股
+        HK.900075                  港股基金
+        HK.BK1600                  富途热门(港)
+        SH.3000000                 上海主板
+        SH.BK0901                  上证B股
+        SH.BK0902                  深证B股 
+        SH.3000002				   沪深指数
+        SH.3000005                 沪深全部A股
+        SH.BK0600                  富途热门(沪深)
+        SZ.3000001                 深证主板
+        SZ.3000003                 中小企业板块
+        SZ.3000004                 深证创业板
+        US.BK2600                  富途热门(美)
+        US.200306                  全部美股(正股)
+        US.200301                  纽交所
+        US.200302                  纳斯达克
+        US.200303                  美交所
+        US.200304                  美中概股
+        US.200305                  美明星股
         =====================  ==============================================================
    
         
@@ -831,13 +832,13 @@ get_order_book
 
  .. code:: python
 
-        {
-            'code': 股票代码
-            'Ask':[ (ask_price1, ask_volume1，order_num), (ask_price2, ask_volume2, order_num),…]
-            'Bid': [ (bid_price1, bid_volume1, order_num), (bid_price2, bid_volume2, order_num),…]
-        }
+    {
+        'code': 股票代码
+        'Ask':[ (ask_price1, ask_volume1，order_num), (ask_price2, ask_volume2, order_num),…]
+        'Bid': [ (bid_price1, bid_volume1, order_num), (bid_price2, bid_volume2, order_num),…]
+    }
 
-        'Ask'：卖盘， 'Bid'买盘。每个元组的含义是(委托价格，委托数量，委托订单数)
+    'Ask'：卖盘， 'Bid'买盘。每个元组的含义是(委托价格，委托数量，委托订单数)
         
 :example:
 
@@ -1007,6 +1008,52 @@ get_holding_change_list
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
     print(quote_ctx.get_holding_change_list('US.AAPL', StockHolder.INSTITUTE, '2016-10-01'))
+    quote_ctx.close()
+
+get_option_chain
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: get_option_chain(self, code, start_date, end_date=None, option_type=None, option_cond_type=None)
+
+ 通过标的股查询期权
+
+ :param code: 股票代码,例如：'HK.02318'
+ :param start_date: 开始时间. 例如：'2017-08-01'或者'2017-08-01 10:00:00'
+ :param end_date: 结束时间，不填为至今. 例如：'2017-10-01'或者'2017-10-01 10:00:00', 注意，时间范围最多30天
+ :param option_type: 期权类型,全部/看涨/看跌，查看 OptionType_
+ :param option_cond_type: 全部/价内/价外，查看 OptionCondType_
+ :return: (ret, data)
+
+        ret == RET_OK 返回pd dataframe数据，数据列格式如下
+
+        ret != RET_OK 返回错误字符串
+
+        ==================   ===========   ==============================================================
+        参数                      类型                        说明
+        ==================   ===========   ==============================================================
+        code                 str           股票代码
+        name                 str           名字
+        lot_size             int           每手数量
+        stock_type           str           股票类型，参见SecurityType
+        stock_child_type     str           涡轮子类型，参见WrtType
+        stock_owner          str           正股代码
+        option_type          str           期权类型
+        owner                str           标的股
+        strike_ime           str           行权日
+        strike_price         float         行权价
+        suspension           bool          是否停牌(True表示停牌)
+        market               str           发行市场名字
+        listing_date         str           上市时间
+        stock_id             int           股票id
+        ==================   ===========   ==============================================================
+
+ :example:
+
+ .. code:: python
+
+    from futuquant import *
+    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+    print(quote_ctx.get_option_chain(code, '2018-08-01', '2018-08-18', OptionType.ALL, OptionCondType.OUTSIDE))
     quote_ctx.close()
 
 
