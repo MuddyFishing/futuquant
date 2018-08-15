@@ -159,6 +159,13 @@ get_stock_basicinfo
         stock_type          str            股票类型，参见SecurityType
         stock_child_type    str            窝轮子类型，参见WrtType
         stock_owner         str            正股代码
+        stock_owner         str            正股代码
+        option_type         str            期权类型，查看 OptionType_
+        owner               str            标的股
+        strike_ime          str            行权日
+        strike_price        float          行权价
+        suspension          bool           是否停牌(True表示停牌)
+        market              str            发行市场名字
         listing_date        str            上市时间
         stock_id            int            股票id
         =================   ===========   ==============================================================================
@@ -724,6 +731,12 @@ get_stock_quote
         listing_date            str            上市日期 (yyyy-MM-dd)
         price_spread            float          当前价差，亦即摆盘数据的买档或卖档的相邻档位的报价差
 		dark_status             str            暗盘交易状态，见DarkStatus
+        option_type             str            期权类型，查看OptionType_
+        owner                   str            标的股
+        strike_ime              str            行权日
+        strike_price            float          行权价
+        suspension              bool           是否停牌(True表示停牌)
+        market                  str            发行市场名字
         =====================   ===========   ==============================================================
 		
  :example:
