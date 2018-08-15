@@ -1,8 +1,8 @@
 from futuquant import *
 quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-
+code_list = ['HK.00700', 'HK.00001']
+code = 'HK.00700'
 #------------- get_owner_plate
-# code_list = ['HK.00700', 'HK.00001']
 # print(quote_ctx.get_owner_plate(code_list))
 
 #------------- get_holding_change_list
@@ -12,12 +12,16 @@ quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
 # print(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.WARRANT))
 # print(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.STOCK))
 
-option_type = 2
-print(OptionType.PUT)
-print(QUOTE.REV_OPTION_TYPE_CLASS_MAP)
-print(option_type in QUOTE.REV_OPTION_TYPE_CLASS_MAP)
-output = QUOTE.REV_OPTION_TYPE_CLASS_MAP[option_type] if option_type in QUOTE.REV_OPTION_TYPE_CLASS_MAP else OptionType.UNKNOWN
-print(output)
+# ------------ get option chain
+code = 'US.AAPL'
+print(quote_ctx.get_option_chain(code, '2018-08-01', '2018-08-18', OptionType.ALL, OptionCondType.OUTSIDE))
+
+# option_type = 2
+# print(OptionType.PUT)
+# print(QUOTE.REV_OPTION_TYPE_CLASS_MAP)
+# print(option_type in QUOTE.REV_OPTION_TYPE_CLASS_MAP)
+# output = QUOTE.REV_OPTION_TYPE_CLASS_MAP[option_type] if option_type in QUOTE.REV_OPTION_TYPE_CLASS_MAP else OptionType.UNKNOWN
+# print(output)
 
 
 quote_ctx.close()
@@ -44,15 +48,29 @@ quote_ctx.close()
 # trade_context.close()
 
 
-warning_time_list = {}
-openid = 'hhhh'
-warning_list = ''
-warning_time_list.update({openid:warning_list})
-if openid in warning_time_list:
-    time_str = warning_time_list[openid]
-    time_list = time_str.split(',')
-    print(len(time_list))
-    if len(time_list) == 1 and time_list[0] == '':
-        print("no")
-    else:
-        print(time_list)
+# warning_time_list = {}
+# openid = 'hhhh'
+# warning_list = ''
+# warning_time_list.update({openid:warning_list})
+# if openid in warning_time_list:
+#     time_str = warning_time_list[openid]
+#     time_list = time_str.split(',')
+#     print(len(time_list))
+#     if len(time_list) == 1 and time_list[0] == '':
+#         print("no")
+#     else:
+#         print(time_list)
+
+
+# call_list = [
+#             'code_call', 'name_call', 'lot_size_call', 'stock_type_call', 'stock_child_type_call', 'stock_owner_call',
+#             'option_type_call', 'owner_call', 'strike_ime_call', 'strike_price_call', 'suspension_call', 'market_call',
+#             'listing_date_call', 'stock_id_call'
+# ]
+# put_list = [
+#     'code_put', 'name_put', 'lot_size_put', 'stock_type_put', 'stock_child_type_put', 'stock_owner_put',
+#     'option_type_put', 'owner_put', 'strike_ime_put', 'strike_price_put', 'suspension_put', 'market_put',
+#     'listing_date_put', 'stock_id_put'
+# ]
+# col_list = call_list + put_list
+# print(col_list)

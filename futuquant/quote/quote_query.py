@@ -178,13 +178,13 @@ class StockBasicInfoQuery:
                     record.warrantExData.owner.market,
                     record.warrantExData.owner.code) if record.HasField('warrantExData') else "",
             "listing_date": record.basic.listTime,
-            "option_type": QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionStaticExData.type]
-                if record.optionStaticExData.type in QUOTE.REV_OPTION_TYPE_CLASS_MAP else OptionType.UNKNOWN,
-            "owner": merge_qot_mkt_stock_str(record.optionStaticExData.market, record.optionStaticExData.code),
-            "strike_time": record.optionStaticExData.strikeTime,
-            "strike_price": record.optionStaticExData.strikePrice,
-            "suspension": record.optionStaticExData.suspend,
-            "market": record.optionStaticExData.market,
+            "option_type": QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
+                if record.optionExData.type in QUOTE.REV_OPTION_TYPE_CLASS_MAP else OptionType.ALL,
+            "owner": record.optionExData.onwer,
+            "strike_time": record.optionExData.strikeTime,
+            "strike_price": record.optionExData.strikePrice,
+            "suspension": record.optionExData.suspend,
+            "market": record.optionExData.market,
         } for record in raw_basic_info_list]
         return RET_OK, "", basic_info_list
 
@@ -921,13 +921,13 @@ class StockQuoteQuery:
             'listing_date': record.listTime,
             'price_spread': record.priceSpread if record.HasField('priceSpread') else 0,
             'dark_status': QUOTE.REV_DARK_STATUS_MAP[record.darkStatus] if record.HasField('darkStatus') else DarkStatus.NONE,
-            "option_type": QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionStaticExData.type]
-            if record.optionStaticExData.type in QUOTE.REV_OPTION_TYPE_CLASS_MAP else OptionType.UNKNOWN,
-            "owner": merge_qot_mkt_stock_str(record.optionStaticExData.market, record.optionStaticExData.code),
-            "strike_time": record.optionStaticExData.strikeTime,
-            "strike_price": record.optionStaticExData.strikePrice,
-            "suspension": record.optionStaticExData.suspend,
-            "market": record.optionStaticExData.market,
+            "option_type": QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
+            if record.optionExData.type in QUOTE.REV_OPTION_TYPE_CLASS_MAP else OptionType.ALL,
+            "owner": record.optionExData.owner,
+            "strike_time": record.optionExData.strikeTime,
+            "strike_price": record.optionExData.strikePrice,
+            "suspension": record.optionExData.suspend,
+            "market": record.optionExData.market,
         } for record in raw_quote_list]
 
         return RET_OK, "", quote_list
@@ -1456,8 +1456,7 @@ class OwnerPlateQuery:
         for stock_str in code_list:
             ret_code, content = split_stock_str(stock_str)
             if ret_code != RET_OK:
-                msg = content
-                error_str = ERROR_STR_PREFIX + msg
+                error_str = content
                 failure_tuple_list.append((ret_code, error_str))
                 continue
             market_code, stock_code = content
@@ -1499,7 +1498,7 @@ class OwnerPlateQuery:
 
 class HoldingChangeList:
     """
-    Query Conversion for getting owner plate information.
+    Query Conversion for getting holding change list.
     """
 
     def __init__(self):
@@ -1565,16 +1564,16 @@ class HoldingChangeList:
         return RET_OK, "", data_list
 
 
-class OptionBasicInfoQuery:
+class OptionChain:
     """
-    Query Conversion for getting owner plate information.
+    Query Conversion for getting option chain information.
     """
 
     def __init__(self):
         pass
 
     @classmethod
-    def pack_req(cls, code, holder_type, conn_id, start_date, end_date=None):
+    def pack_req(cls, code, conn_id, start_date, end_date=None, option_type=None, option_cond_type=None):
 
         ret, content = split_stock_str(code)
         if ret == RET_ERROR:
@@ -1601,33 +1600,64 @@ class OptionBasicInfoQuery:
                 return ret, msg, None
             end_date = normalize_date_format(end_date)
 
-        from futuquant.common.pb.Qot_GetHoldingChangeList_pb2 import Request
-        req = Request()
-        req.c2s.security.market = market_code
-        req.c2s.security.code = stock_code
-        req.c2s.holderCategory = holder_type
-        req.c2s.beginTime = start_date
-        if end_date:
-            req.c2s.endTime = end_date
+        option_cond_type = OPTION_COND_TYPE_CLASS_MAP[option_cond_type]
+        if option_cond_type == 0:
+            option_cond_type = None
 
-        return pack_pb_req(req, ProtoId.Qot_GetHoldingChangeList, conn_id)
+        option_type = OPTION_TYPE_CLASS_MAP[option_type]
+        if option_type == 0:
+            option_type = None
+
+        from futuquant.common.pb.Qot_GetOptionChain_pb2 import Request
+        req = Request()
+        req.c2s.owner.market = market_code
+        req.c2s.owner.code = stock_code
+        req.c2s.beginTime = start_date
+        req.c2s.endTime = end_date
+        if option_type:
+            req.c2s.type = option_type
+        if option_cond_type:
+            req.c2s.condition = option_cond_type
+
+        return pack_pb_req(req, ProtoId.Qot_GetOptionChain, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
         if rsp_pb.retType != RET_OK:
             return RET_ERROR, rsp_pb.retMsg, []
-        raw_quote_list = rsp_pb.s2c.holdingChangeList
+        raw_quote_list = rsp_pb.s2c.optionChain
 
         data_list = []
-        for record in raw_quote_list:
-            quote_list = {
-                'holder_name': record.holderName,
-                'holding_qty': record.holdingQty,
-                'holding_ratio': record.holdingRatio,
-                'change_qty': record.changeQty,
-                'change_ratio': record.changeRatio,
-                'time': record.time,
-            }
-            data_list.append(quote_list)
+        for OptionItem in raw_quote_list:
+            for record_all in OptionItem.option:
+                record_list = []
+                if record_all.HasField('call'):
+                    record_list.append(record_all.call)
+                if record_all.HasField('put'):
+                    record_list.append(record_all.put)
+
+                for record in record_list:
+                    quote_list = {
+                        'code': merge_qot_mkt_stock_str(int(record.basic.security.market), record.basic.security.code),
+                        "stock_id": record.basic.id,
+                        "name": record.basic.name,
+                        "lot_size": record.basic.lotSize,
+                        "stock_type": QUOTE.REV_SEC_TYPE_MAP[record.basic.secType]
+                            if record.basic.secType in QUOTE.REV_SEC_TYPE_MAP else SecurityType.NONE,
+                        "stock_child_type": QUOTE.REV_WRT_TYPE_MAP[record.warrantExData.type]
+                            if record.warrantExData.type in QUOTE.REV_WRT_TYPE_MAP else WrtType.NONE,
+                        "stock_owner":merge_qot_mkt_stock_str(
+                                record.warrantExData.owner.market,
+                                record.warrantExData.owner.code) if record.HasField('warrantExData') else "",
+                        "listing_date": record.basic.listTime,
+                        "option_type": QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
+                            if record.optionExData.type in QUOTE.REV_OPTION_TYPE_CLASS_MAP else OptionType.ALL,
+                        "owner": merge_qot_mkt_stock_str(int(record.optionExData.owner.market), record.optionExData.owner.code),
+                        "strike_time": record.optionExData.strikeTime,
+                        "strike_price": record.optionExData.strikePrice,
+                        "suspension": record.optionExData.suspend,
+                        "market": record.optionExData.market,
+                    }
+                    data_list.append(quote_list)
 
         return RET_OK, "", data_list
