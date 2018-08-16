@@ -156,8 +156,8 @@ get_stock_basicinfo
         code                str            股票代码
         name                str            名字
         lot_size            int            每手数量
-        stock_type          str            股票类型，参见SecurityType
-        stock_child_type    str            窝轮子类型，参见WrtType
+        stock_type          str            股票类型，参见 SecurityType_
+        stock_child_type    str            窝轮子类型，参见 WrtType_
         stock_owner         str            正股代码
         stock_owner         str            正股代码
         option_type         str            期权类型，查看 OptionType_
@@ -177,6 +177,7 @@ get_stock_basicinfo
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
     print(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.WARRANT))
+    print(quote_ctx.get_stock_basicinfo(Market.US, SecurityType.DRVT, 'US_OPTION.AAPL180817C20000'))
     quote_ctx.close()
     
     
@@ -367,7 +368,7 @@ get_market_snapshot
         ey_ratio                       float          收益率
         pe_ratio                       float          市盈率
         pb_ratio                       float          市净率
-        peTTMRate                      float          市盈率TTM
+        pe_ttm_ratio                   float          市盈率TTM
         price_spread                   float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
         option_valid                   bool           是否是期权
         option_type                    str            期权类型，参见 OptionType_
@@ -975,7 +976,7 @@ get_owner_plate
 
  获取单支或多支股票的所属板块信息列表
 
- :param code_list: 股票代码列表，仅支持正股、指数。list或str。例如：['HK.00700', 'HK.00001']或者'HK.00700,HK.00001'
+ :param code_list: 股票代码列表，仅支持正股、指数。list或str。例如：['HK.00700', 'HK.00001']或者'HK.00700,HK.00001'，最多可传入200只股票
  :return: (ret, data)
 
         ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
@@ -1362,6 +1363,7 @@ on_recv_rsp
  get_rt_ticker				            可获取逐笔最多最近1000个
  get_cur_kline				            可获取K线最多最近1000根
  get_multi_points_history_kline         时间点最多5个
+ get_owner_plate                        传入股票最多200个
  ===============================        =========================
 
 ----------------------------
@@ -1375,13 +1377,16 @@ on_recv_rsp
 低频数据接口是指不需要定阅就可以请求数据的接口， api的请求到达网关客户端后， 会转发请求到futu后台服务器，为控制流量，会对请求频率加以控制，
 目前的频率限制是以连续30秒内，限制请求次数，具体那些接口有限制以及限制次数如下:
 
- =====================        =====================
- 接口名称                     连续30秒内次数限制
- =====================        =====================
- get_market_snapshot          10
- get_plate_list               10
- get_plate_stock              10
- =====================        =====================
+ ==========================        =========================
+ 接口名称                          连续30秒内次数限制
+ ==========================        =========================
+ get_market_snapshot               参考OpenAPI用户等级权限
+ get_plate_list                    10
+ get_plate_stock                   10
+ get_option_chain                  10
+ get_holding_change_list           10
+ get_owner_plate                   10
+ ==========================        =========================
 
 ---------------------------------------------------------------------
 
@@ -1394,20 +1399,40 @@ on_recv_rsp
 
  用户额度 >= 订阅K线股票数 * K线权重 + 订阅逐笔股票数 * 逐笔权重 + 订阅报价股票数 * 报价权重 + 订阅摆盘股票数 * 摆盘权重
  
-2.订阅不同的类型，会消耗不同的额度，当总额度超过上限后，目前用户总额度上限为500。
+2.目前所有订阅类型占用额度均为1，用户总额度与用户等级相关。
 
 3.订阅至少一分钟才可以反订阅
 
- =====================    ===============================
- 订阅数据                 额度权重（所占订阅单位）
- =====================    ===============================
- K线						2
- 分时						2
- 逐笔						5（牛熊证为1）
- 报价						1
- 摆盘						5（牛熊证为1）
- 经纪队列					5（牛熊证为1）
- =====================    ===============================
+OpenAPI用户等级权限
+----------------------
+
+ ==========================        =========================        =========================        =========================
+ 协议限制                          一级用户                         二级用户                         三级用户
+ ==========================        =========================        =========================        =========================
+ 订阅额度                          100                              300                              1000
+ 30秒内快照请求次数                10                               20                               30 
+ 快照每次个数                      200                              300                              400
+ 历史K线请求个数                   100                              300                              1000                                                                  
+ ==========================        =========================        =========================        =========================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

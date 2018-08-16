@@ -15,7 +15,7 @@ class AccTradeInfoQuery(object):
         trade_hk = OpenHKTradeContext(host='127.0.0.1', port=11112)
         print(trade_us.unlock_trade('123123'))
         # print(trade_us.acctradinginfo_query(order_type = OrderType.NORMAL, code='BABA', price=192.67, order_id=0, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=281756460277401516))
-        print(trade_hk.acctradinginfo_query(order_type = OrderType.NORMAL, code='HK.00700', price=6.5, order_id=0, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0))
+        print(trade_hk.acctradinginfo_query(order_type = OrderType.NORMAL, code='US.AAPL180914P207500', price=2.86, order_id=0, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0))
 
     def test2(self):
         host = '127.0.0.1'

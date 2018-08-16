@@ -275,7 +275,7 @@ class MarketSnapshotQuery:
             snapshot_tmp['pe_ratio'] = record.equityExData.peRate
             snapshot_tmp['pb_ratio'] = record.equityExData.pbRate
             snapshot_tmp['wrt_valid'] = False
-            snapshot_tmp['peTTMRate'] = record.equityExData.peTTMRate
+            snapshot_tmp['pe_ttm_ratio'] = record.equityExData.peTTMRate
 
             if record.basic.type == SEC_TYPE_MAP[SecurityType.WARRANT]:
                 snapshot_tmp['wrt_valid'] = True

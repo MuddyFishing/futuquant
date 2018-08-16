@@ -833,6 +833,61 @@
 .. note::
 	
 	* 股票结构参考 `Security <base_define.html#security>`_
+
+-------------------------------------
+
+`Qot_RequestHistoryKL.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_RequestHistoryKL.proto>`_ - 3103获取单只股票一段历史K线
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+.. code-block:: protobuf
+
+	syntax = "proto2";
+	package Qot_RequestHistoryKL;
+
+	import "Common.proto";
+	import "Qot_Common.proto";
+
+	message C2S
+	{
+		required int32 rehabType = 1; //Qot_Common.RehabType,复权类型
+		required int32 klType = 2; //Qot_Common.KLType,K线类型
+		required Qot_Common.Security security = 3; //股票市场以及股票代码
+		required string beginTime = 4; //开始时间字符串
+		required string endTime = 5; //结束时间字符串
+		optional int32 maxAckKLNum = 6; //最多返回多少根K线，如果未指定表示不限制
+		optional int64 needKLFieldsFlag = 7; //指定返回K线结构体特定某几项数据，KLFields枚举值或组合，如果未指定返回全部字段
+	}
+
+	message S2C
+	{
+		required Qot_Common.Security security = 1;
+		repeated Qot_Common.KLine klList = 2; //K线数据
+		optional string nextKLTime = 3; //如请求不指定maxAckKLNum值，则不会返回该字段，该字段表示超过指定限制的下一K线时间字符串
+	}
+
+	message Request
+	{
+		required C2S c2s = 1;
+	}
+
+	message Response
+	{
+		required int32 retType = 1 [default = -400]; //RetType,返回结果
+		optional string retMsg = 2;
+		optional int32 errCode = 3;
+		
+		optional S2C s2c = 4;
+	}
+
+
+.. note::
+	
+	* 复权类型参考 `RehabType <base_define.html#rehabtype-k>`_
+	* K线类型参考 `KLType <base_define.html#kltype-k>`_
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* K线结构参考 `KLine <base_define.html#kline-k>`_
+	* K线字段类型参考 `KLFields <base_define.html#klfields-k>`_
+	* 请求最大个数参考OpenAPI用户等级权限
 -------------------------------------
 
 `Qot_GetTradeDate.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetTradeDate.proto>`_ - 3200获取市场交易日
@@ -1022,8 +1077,7 @@
 .. note::
 
 	* 股票结构参考 `Security <base_define.html#security>`_
-	* 限频接口：30秒内最多10次
-	* 最多可传入200只股票
+	* 限频以及每次请求最大个数参考OpenAPI用户等级权限
 	
 -------------------------------------
 
@@ -1044,15 +1098,9 @@
 		required int32 plateSetType = 2; //Qot_Common.PlateSetType,板块集合的类型
 	}
 
-	message PlateInfo
-	{
-		required Qot_Common.Security plate = 1; //板块
-		required string name = 2; //板块名字
-	}
-
 	message S2C
 	{
-		repeated PlateInfo plateInfoList = 1; //板块集合下的板块信息
+		repeated Qot_Common.PlateInfo plateInfoList = 1; //板块集合下的板块信息
 	}
 
 	message Request
@@ -1074,6 +1122,7 @@
 	* 市场类型参考 `QotMarket <base_define.html#qotmarket>`_
 	* 板块集合类型参考 `PlateSetType <base_define.html#platesettype>`_
 	* 股票结构参考 `Security <base_define.html#security>`_
+	* 板块信息结构参考  `PlateInfo <base_define.html#plateinfo>`_
 	* 限频接口：30秒内最多10次	
 	
 -------------------------------------
@@ -1168,10 +1217,172 @@
 	* 股票结构参考 `Security <base_define.html#security>`_
 	* 股票静态信息结构参考 `SecurityStaticInfo <base_define.html#securitystaticbasic>`_
 
+-------------------------------------
+
+`Qot_GetOwnerPlate.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetOwnerPlate.proto>`_ - 3207获取股票所属板块
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+.. code-block:: protobuf
+
+	syntax = "proto2";
+	package Qot_GetOwnerPlate;
+
+	import "Common.proto";
+	import "Qot_Common.proto";
+
+	message C2S
+	{
+		repeated Qot_Common.Security securityList = 1; //股票
+	}
+
+	message SecurityOwnerPlate
+	{
+		required Qot_Common.Security security = 1; //股票
+		repeated Qot_Common.PlateInfo plateInfoList = 2; //所属板块
+	}
+
+	message S2C
+	{
+		repeated SecurityOwnerPlate ownerPlateList = 1; //所属板块信息
+	}
+
+	message Request
+	{
+		required C2S c2s = 1;
+	}
+
+	message Response
+	{
+		required int32 retType = 1 [default = -400]; //RetType,返回结果
+		optional string retMsg = 2;
+		optional int32 errCode = 3;
+		
+		optional S2C s2c = 4;
+	}
 
 
+.. note::
+	
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* 板块信息结构参考  `PlateInfo <base_define.html#plateinfo>`_
+	* 限频接口：30秒内最多10次	
+	* 最多可传入200只股票
+	* 仅支持正股和指数
 
+-------------------------------------
 
+`Qot_GetHoldingChangeList.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetHoldingChangeList.proto>`_ - 3208获取持股变化列表
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+.. code-block:: protobuf
+
+	syntax = "proto2";
+	package Qot_GetHoldingChangeList;
+
+	import "Common.proto";
+	import "Qot_Common.proto";
+
+	message C2S
+	{
+		required Qot_Common.Security security = 1; //股票
+		required int32 holderCategory = 2; //Qot_Common.HolderCategory 持有者类别
+		//以下是发布时间筛选，不传返回所有数据，传了返回发布时间属于开始时间到结束时间段内的数据
+		optional string beginTime = 3; //开始时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
+		optional string endTime = 4; //结束时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传
+	}
+
+	message S2C
+	{
+		required Qot_Common.Security security = 1; //股票
+		repeated Qot_Common.ShareHoldingChange holdingChangeList = 2; //对应类别的持股变化列表（最多返回前100大股东的变化）
+	}
+
+	message Request
+	{
+		required C2S c2s = 1;
+	}
+
+	message Response
+	{
+		required int32 retType = 1 [default = -400]; //RetType,返回结果
+		optional string retMsg = 2;
+		optional int32 errCode = 3;
+		optional S2C s2c = 4;
+	}
+
+.. note::
+	
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* 持有者类别枚举参考  `HolderCategory <base_define.html#holdercategory>`_
+	* 持股变化列表结构参考  `ShareHoldingChange <base_define.html#shareholdingchange>`_
+	* 限频接口：30秒内最多10次	
+	* 最多返回前100大股东的变化
+	* 目前仅支持美股
+
+`Qot_GetOptionChain.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetOptionChain.proto>`_ - 3209获取期权链
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+.. code-block:: protobuf
+
+	syntax = "proto2";
+	package Qot_GetOptionChain;
+
+	import "Common.proto";
+	import "Qot_Common.proto";
+
+	enum OptionCondType
+	{
+		OptionCondType_Unknow = 0;
+		OptionCondType_WithIn = 1; //价内
+		OptionCondType_Outside = 2; //价外
+	}
+
+	message C2S
+	{
+		required Qot_Common.Security owner = 1; //期权标的股
+		optional int32 type = 2; //Qot_Common.OptionType,期权类型,可选字段,不指定则表示都返回
+		optional int32 condition = 3; //OptionCondType,价内价外,可选字段,不指定则表示都返回
+		required string beginTime = 4; //期权到期日开始时间
+		required string endTime = 5; //期权到期日结束时间,时间跨度最多一个月
+	}
+
+	message OptionItem
+	{
+		optional Qot_Common.SecurityStaticInfo call = 1; //看涨,不一定有该字段,由请求条件决定
+		optional Qot_Common.SecurityStaticInfo put = 2; //看跌,不一定有该字段,由请求条件决定
+	}
+
+	message OptionChain
+	{
+		required string strikeTime = 1; //行权日
+		repeated OptionItem option = 2; //期权信息
+	}
+
+	message S2C
+	{
+		repeated OptionChain optionChain = 1; //期权链
+	}
+
+	message Request
+	{
+		required C2S c2s = 1;
+	}
+
+	message Response
+	{
+		required int32 retType = 1 [default = -400]; //RetType,返回结果
+		optional string retMsg = 2;
+		optional int32 errCode = 3;
+		optional S2C s2c = 4;
+	}
+
+.. note::
+	
+	* 股票结构参考 `Security <base_define.html#security>`_
+	* 期权类型参考 `OptionType <base_define.html#optiontype>`_
+	* 股票静态信息结构参考 `SecurityStaticInfo <base_define.html#securitystaticbasic>`_
+	* 限频接口：30秒内最多10次
+	* 目前仅支持美股
 
 
 

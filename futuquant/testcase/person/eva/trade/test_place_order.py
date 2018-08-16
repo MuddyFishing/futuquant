@@ -1,4 +1,8 @@
 #-*-coding:utf-8-*-
+
+from futuquant import *
+from futuquant.trade.open_trade_context import *
+from futuquant.testcase.person.eva.trade.Handler import *
 import pandas
 
 from futuquant.testcase.person.eva.trade.Handler import *
@@ -67,29 +71,29 @@ class PlaceOrder(object):
 
     def test_us(self):
         host = '127.0.0.1'
-        port = 11115
-        self.tradeus_ctx = OpenUSTradeContext(host,port)
-        ret_code_unlock_trade, ret_data_unlock_trade = self.tradeus_ctx.unlock_trade(password='123123')
+        port = 11112
+        tradeus_ctx = OpenUSTradeContext(host,port)
+        ret_code_unlock_trade, ret_data_unlock_trade = tradeus_ctx.unlock_trade(password='123123')
         print('unlock_trade  ret_code= %d, ret_data= %s' % (ret_code_unlock_trade, ret_data_unlock_trade))
         # 设置监听
         handler_tradeOrder = TradeOrderTest()
         handler_tradeDealtrade = TradeDealTest()
-        self.tradeus_ctx.set_handler(handler_tradeOrder)
-        self.tradeus_ctx.set_handler(handler_tradeDealtrade)
+        tradeus_ctx.set_handler(handler_tradeOrder)
+        tradeus_ctx.set_handler(handler_tradeDealtrade)
         # 开启异步
-        self.tradeus_ctx.start()
-
-        code = 'US.XNET'
-        price = 10.21
-        qty = 1
-        trd_side = TrdSide.BUY
+        tradeus_ctx.start()
+        code = 'US.AAPL180914P207500'  # US.AAPL180914C210000
+        price = 3
+        qty = 9
+        trd_side = TrdSide.SELL
         order_type = OrderType.NORMAL
         adjust_limit = 0
         trd_env = TrdEnv.REAL
-        acc_id = 281756460277401516
-        ret_code, ret_data = self.tradeus_ctx.place_order(price, qty, code, trd_side, order_type, adjust_limit, trd_env,acc_id)
+        acc_id = 0
+        acc_index = 1
+        ret_code, ret_data = tradeus_ctx.place_order(price, qty, code, trd_side, order_type, adjust_limit, trd_env,
+                                                     acc_id, acc_index)
         print('place_order  ret_code= %d ,ret_data =\n%s' % (ret_code, str(ret_data)))
-
 
     def test1(self):
         host = '127.0.0.1'
