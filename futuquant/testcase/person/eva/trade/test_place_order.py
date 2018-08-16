@@ -1,10 +1,8 @@
 #-*-coding:utf-8-*-
-<<<<<<< HEAD
+
 from futuquant import *
 from futuquant.trade.open_trade_context import *
 from futuquant.testcase.person.eva.trade.Handler import *
-=======
->>>>>>> 4b4dff8dba070d9c68a747d748881d27820e0787
 import pandas
 
 from futuquant.testcase.person.eva.trade.Handler import *
@@ -73,15 +71,9 @@ class PlaceOrder(object):
 
     def test_us(self):
         host = '127.0.0.1'
-<<<<<<< HEAD
         port = 11112
         tradeus_ctx = OpenUSTradeContext(host,port)
         ret_code_unlock_trade, ret_data_unlock_trade = tradeus_ctx.unlock_trade(password='123123')
-=======
-        port = 11115
-        self.tradeus_ctx = OpenUSTradeContext(host,port)
-        ret_code_unlock_trade, ret_data_unlock_trade = self.tradeus_ctx.unlock_trade(password='123123')
->>>>>>> 4b4dff8dba070d9c68a747d748881d27820e0787
         print('unlock_trade  ret_code= %d, ret_data= %s' % (ret_code_unlock_trade, ret_data_unlock_trade))
         # 设置监听
         handler_tradeOrder = TradeOrderTest()
@@ -90,9 +82,7 @@ class PlaceOrder(object):
         tradeus_ctx.set_handler(handler_tradeDealtrade)
         # 开启异步
         tradeus_ctx.start()
-
-<<<<<<< HEAD
-        code = 'US.AAPL180914P207500'   #US.AAPL180914C210000
+        code = 'US.AAPL180914P207500'  # US.AAPL180914C210000
         price = 3
         qty = 9
         trd_side = TrdSide.SELL
@@ -101,20 +91,9 @@ class PlaceOrder(object):
         trd_env = TrdEnv.REAL
         acc_id = 0
         acc_index = 1
-        ret_code, ret_data = tradeus_ctx.place_order(price, qty, code, trd_side, order_type, adjust_limit, trd_env,acc_id,acc_index)
-=======
-        code = 'US.XNET'
-        price = 10.21
-        qty = 1
-        trd_side = TrdSide.BUY
-        order_type = OrderType.NORMAL
-        adjust_limit = 0
-        trd_env = TrdEnv.REAL
-        acc_id = 281756460277401516
-        ret_code, ret_data = self.tradeus_ctx.place_order(price, qty, code, trd_side, order_type, adjust_limit, trd_env,acc_id)
->>>>>>> 4b4dff8dba070d9c68a747d748881d27820e0787
+        ret_code, ret_data = tradeus_ctx.place_order(price, qty, code, trd_side, order_type, adjust_limit, trd_env,
+                                                     acc_id, acc_index)
         print('place_order  ret_code= %d ,ret_data =\n%s' % (ret_code, str(ret_data)))
-
 
     def test1(self):
         host = '127.0.0.1'

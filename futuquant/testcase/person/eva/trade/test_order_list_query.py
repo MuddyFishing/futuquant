@@ -73,10 +73,5 @@ class OrderListQuery(object):
 
 if __name__ == '__main__':
     olq = OrderListQuery()
-<<<<<<< HEAD
     olq.test_hk()
     # olq.test1()
-=======
-    # olq.test_sh()
-    olq.test2()
->>>>>>> 4b4dff8dba070d9c68a747d748881d27820e0787

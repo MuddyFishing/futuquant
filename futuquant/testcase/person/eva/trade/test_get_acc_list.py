@@ -42,11 +42,6 @@ class GetAccList(object):
 
 if __name__ == '__main__':
     gal = GetAccList()
-<<<<<<< HEAD
     gal.test_hk()
     # gal.test_us()
-=======
-    # gal.test_hk()
-    gal.test_us()
->>>>>>> 4b4dff8dba070d9c68a747d748881d27820e0787
     # gal.test_sh()
