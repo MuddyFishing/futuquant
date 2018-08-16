@@ -324,9 +324,9 @@ message ShareHoldingChange
 {
     required string holderName = 1; //持有者名称（机构名称 或 基金名称 或 高管姓名）
     required double holdingQty = 2; //当前持股数量
-    required double holdingRatio = 3; //当前持股比例
+    required double holdingRatio = 3; //当前持股百分比
     required double changeQty = 4; //较上一次变动数量
-    required double changeRatio = 5; //较上一次变动比例
+	required double changeRatio = 5; //较上一次变动百分比（是相对于自身的比例，而不是总的。如总股本1万股，持有100股，持股百分比是1%，卖掉50股，变动比例是50%，而不是0.5%）
     required string time = 6; //发布时间(YYYY-MM-DD HH:MM:SS字符串)
 }
 

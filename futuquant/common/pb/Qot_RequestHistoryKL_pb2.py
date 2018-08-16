@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Qot_RequestHistoryKL.proto',
   package='Qot_RequestHistoryKL',
   syntax='proto2',
-  serialized_pb=_b('\n\x1aQot_RequestHistoryKL.proto\x12\x14Qot_RequestHistoryKL\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"\xa3\x01\n\x03\x43\x32S\x12\x11\n\trehabType\x18\x01 \x02(\x05\x12\x0e\n\x06klType\x18\x02 \x02(\x05\x12&\n\x08security\x18\x03 \x02(\x0b\x32\x14.Qot_Common.Security\x12\x11\n\tbeginTime\x18\x04 \x02(\t\x12\x0f\n\x07\x65ndTime\x18\x05 \x02(\t\x12\x13\n\x0bmaxAckKLNum\x18\x06 \x01(\x05\x12\x18\n\x10needKLFieldsFlag\x18\x07 \x01(\x03\"d\n\x03S2C\x12&\n\x08security\x18\x01 \x02(\x0b\x32\x14.Qot_Common.Security\x12!\n\x06klList\x18\x02 \x03(\x0b\x32\x11.Qot_Common.KLine\x12\x12\n\nnextKLTime\x18\x03 \x01(\t\"1\n\x07Request\x12&\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x19.Qot_RequestHistoryKL.C2S\"j\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12&\n\x03s2c\x18\x04 \x01(\x0b\x32\x19.Qot_RequestHistoryKL.S2C')
+  serialized_pb=_b('\n\x1aQot_RequestHistoryKL.proto\x12\x14Qot_RequestHistoryKL\x1a\x0c\x43ommon.proto\x1a\x10Qot_Common.proto\"\xb7\x01\n\x03\x43\x32S\x12\x11\n\trehabType\x18\x01 \x02(\x05\x12\x0e\n\x06klType\x18\x02 \x02(\x05\x12&\n\x08security\x18\x03 \x02(\x0b\x32\x14.Qot_Common.Security\x12\x11\n\tbeginTime\x18\x04 \x02(\t\x12\x0f\n\x07\x65ndTime\x18\x05 \x02(\t\x12\x13\n\x0bmaxAckKLNum\x18\x06 \x01(\x05\x12\x18\n\x10needKLFieldsFlag\x18\x07 \x01(\x03\x12\x12\n\nnextReqKey\x18\x08 \x01(\t\"d\n\x03S2C\x12&\n\x08security\x18\x01 \x02(\x0b\x32\x14.Qot_Common.Security\x12!\n\x06klList\x18\x02 \x03(\x0b\x32\x11.Qot_Common.KLine\x12\x12\n\nnextReqKey\x18\x03 \x01(\t\"1\n\x07Request\x12&\n\x03\x63\x32s\x18\x01 \x02(\x0b\x32\x19.Qot_RequestHistoryKL.C2S\"j\n\x08Response\x12\x15\n\x07retType\x18\x01 \x02(\x05:\x04-400\x12\x0e\n\x06retMsg\x18\x02 \x01(\t\x12\x0f\n\x07\x65rrCode\x18\x03 \x01(\x05\x12&\n\x03s2c\x18\x04 \x01(\x0b\x32\x19.Qot_RequestHistoryKL.S2C')
   ,
   dependencies=[Common__pb2.DESCRIPTOR,Qot__Common__pb2.DESCRIPTOR,])
 
@@ -84,6 +84,13 @@ _C2S = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='nextReqKey', full_name='Qot_RequestHistoryKL.C2S.nextReqKey', index=7,
+      number=8, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -97,7 +104,7 @@ _C2S = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=85,
-  serialized_end=248,
+  serialized_end=268,
 )
 
 
@@ -123,7 +130,7 @@ _S2C = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='nextKLTime', full_name='Qot_RequestHistoryKL.S2C.nextKLTime', index=2,
+      name='nextReqKey', full_name='Qot_RequestHistoryKL.S2C.nextReqKey', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -141,8 +148,8 @@ _S2C = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=250,
-  serialized_end=350,
+  serialized_start=270,
+  serialized_end=370,
 )
 
 
@@ -172,8 +179,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=352,
-  serialized_end=401,
+  serialized_start=372,
+  serialized_end=421,
 )
 
 
@@ -224,8 +231,8 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=403,
-  serialized_end=509,
+  serialized_start=423,
+  serialized_end=529,
 )
 
 _C2S.fields_by_name['security'].message_type = Qot__Common__pb2._SECURITY
