@@ -49,18 +49,21 @@
   .. _Qot_GetBroker.proto:  quote_protocol.html#qot-getbroker-proto-3014
   .. _Qot_UpdateBroker.proto:  quote_protocol.html#qot-updatebroker-proto-3015
   
-  
   .. _Qot_GetHistoryKL.proto:  quote_protocol.html#qot-gethistorykl-proto-3100k
   .. _Qot_GetHistoryKLPoints.proto:  quote_protocol.html#qot-gethistoryklpoints-proto-k
   .. _Qot_GetRehab.proto:  quote_protocol.html#qot-getrehab-proto-3102
-  .. _Qot_GetTradeDate.proto:  quote_protocol.html#qot-gettradedate-proto-3200
+  .. _RequestHistoryKL.proto:  quote_protocol.html#qot-requesthistorykl-proto-3103
   
+  .. _Qot_GetTradeDate.proto:  quote_protocol.html#qot-gettradedate-proto-3200
   .. _Qot_GetStaticInfo.proto:  quote_protocol.html#qot-getstaticinfo-proto-3202
   .. _Qot_GetSecuritySnapshot.proto:  quote_protocol.html#qot-getsecuritysnapshot-proto-3203
   .. _Qot_GetPlateSet.proto:  quote_protocol.html#qot-getplateset-proto-3204
   .. _Qot_GetPlateSecurity.proto:  quote_protocol.html#qot-getplatesecurity-proto-3205
   .. _Qot_GetReference.proto:  quote_protocol.html#qot-getreference-proto-3206
-	
+  .. _Qot_GetOwnerPlate.proto:  quote_protocol.html#qot-getownerplate-proto-3206
+  .. _Qot_GetHoldingChangeList.proto:  quote_protocol.html#qot-getholdingchangelist-proto-3207
+  .. _Qot_GetOptionChain.proto:  quote_protocol.html#qot-getoptionchain-proto-3208
+  
 特点
 -------
 
