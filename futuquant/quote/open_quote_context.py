@@ -385,7 +385,7 @@ class OpenQuoteContext(OpenContextBase):
                               max_count=1000,
                               page_req_key=None):
         """
-        得到本地历史k线，需先参照帮助文档下载k线
+        拉取历史k线，不需要先下载历史数据。
 
         :param code: 股票代码
         :param start: 开始时间，例如2017-06-20
@@ -426,7 +426,10 @@ class OpenQuoteContext(OpenContextBase):
 
             from futuquant import *
             quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-            print(quote_ctx.request_history_kline('HK.00700', start='2017-06-20', end='2017-06-22'))
+            ret, data, page_req_key = quote_ctx.request_history_kline('HK.00700', start='2017-06-20', end='2018-06-22', max_count=50)
+            print(ret, data)
+            ret, data, page_req_key = quote_ctx.request_history_kline('HK.00700', start='2017-06-20', end='2018-06-22', max_count=50, page_req_key=page_req_key)
+            print(ret, data)
             quote_ctx.close()
         """
         next_page_req_key = None

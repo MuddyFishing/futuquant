@@ -271,6 +271,57 @@ get_history_kline
     quote_ctx.close()
 
 
+request_history_kline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: request_history_kline(self, code, start=None, end=None, ktype=KLType.K_DAY, autype=AuType.QFQ, fields=[KL_FIELD.ALL], max_count=1000, page_req_key=None)
+
+ 获取k线，不需要事先下载k线数据。
+
+ :param code: 股票代码
+ :param start: 开始时间，例如2017-06-20
+ :param end:  结束时间
+ :param ktype: k线类型， 参见 KLType_ 定义
+ :param autype: 复权类型, 参见 AuType_ 定义
+ :param fields: 需返回的字段列表，参见 KL_FIELD_ 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
+ :param max_count: 本次请求最大返回的数据点个数，传None表示返回start和end之间所有的数据。
+ :param page_req_key: 分页请求的key。如果start和end之间的数据点多于max_count，那么后续请求时，要传入上次调用返回的page_req_key
+ :return: (ret, data, page_req_key)
+
+        ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下。page_req_key在分页请求时（即max_count>0）可能返回，并且需要在后续的请求中传入。
+
+        ret != RET_OK 返回错误字符串
+
+    =================   ===========   ==============================================================================
+    参数                  类型                        说明
+    =================   ===========   ==============================================================================
+    code                str            股票代码
+    time_key            str            k线时间
+    open                float          开盘价
+    close               float          收盘价
+    high                float          最高价
+    low                 float          最低价
+    pe_ratio            float          市盈率
+    turnover_rate       float          换手率
+    volume              int            成交量
+    turnover            float          成交额
+    change_rate         float          涨跌幅
+    last_close          float          昨收价
+    =================   ===========   ==============================================================================
+
+	
+ :example:
+
+ .. code:: python
+
+    from futuquant import *
+    ret, data, page_req_key = quote_ctx.request_history_kline('HK.00700', start='2017-06-20', end='2018-06-22', max_count=50)
+    print(ret, data)
+    ret, data, page_req_key = quote_ctx.request_history_kline('HK.00700', start='2017-06-20', end='2018-06-22', max_count=50, page_req_key=page_req_key)
+    print(ret, data)
+    quote_ctx.close()
+
+
 get_autype_list
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
