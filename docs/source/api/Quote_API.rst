@@ -122,7 +122,7 @@ get_trading_days
 
  获取交易日
 
- :param market: 市场类型，futuquant.common.constsnt.Market
+ :param market: 市场类型，futuquant.common.constant.Market
  :param start_date: 起始日期
  :param end_date: 结束日期
  :return: 成功时返回(RET_OK, data)，data是字符串数组；失败时返回(RET_ERROR, data)，其中data是错误描述字符串
@@ -326,49 +326,64 @@ get_market_snapshot
 
         ret != RET_OK 返回错误字符串
 
-        =======================   =============   ==============================================================
-        参数                       类型                        说明
-        =======================   =============   ==============================================================
-        code                       str            股票代码
-        update_time                str            更新时间(yyyy-MM-dd HH:mm:ss)
-        last_price                 float          最新价格
-        open_price                 float          今日开盘价
-        high_price                 float          最高价格
-        low_price                  float          最低价格
-        prev_close_price           float          昨收盘价格
-        volume                     int            成交数量
-        turnover                   float          成交金额
-        turnover_rate              float          换手率
-        suspension                 bool           是否停牌(True表示停牌)
-        listing_date               str            上市日期 (yyyy-MM-dd)
-        circular_market_val        float          流通市值
-        total_market_val           float          总市值
-        wrt_valid                  bool           是否是窝轮
-        wrt_conversion_ratio       float          换股比率
-        wrt_type                   str            窝轮类型，参见WrtType
-        wrt_strike_price           float          行使价格
-        wrt_maturity_date          str            格式化窝轮到期时间
-        wrt_end_trade              str            格式化窝轮最后交易时间
-        wrt_code                   str            窝轮对应的正股
-        wrt_recovery_price         float          窝轮回收价
-        wrt_street_vol             float          窝轮街货量
-        wrt_issue_vol              float          窝轮发行量
-        wrt_street_ratio           float          窝轮街货占比
-        wrt_delta                  float          窝轮对冲值
-        wrt_implied_volatility     float          窝轮引伸波幅
-        wrt_premium                float          窝轮溢价
-        lot_size                   int            每手股数
-        issued_shares              int            发行股本
-        net_asset                  int            资产净值
-        net_profit                 int            净利润
-        earning_per_share          float          每股盈利
-        outstanding_shares         int            流通股本
-        net_asset_per_share        float          每股净资产
-        ey_ratio                   float          收益率
-        pe_ratio                   float          市盈率
-        pb_ratio                   float          市净率
-        price_spread               float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
-        =======================   =============   ==============================================================
+        ===========================   =============   ==============================================================
+        参数                           类型                        说明
+        ===========================   =============   ==============================================================
+        code                           str            股票代码
+        update_time                    str            更新时间(yyyy-MM-dd HH:mm:ss)
+        last_price                     float          最新价格
+        open_price                     float          今日开盘价
+        high_price                     float          最高价格
+        low_price                      float          最低价格
+        prev_close_price               float          昨收盘价格
+        volume                         int            成交数量
+        turnover                       float          成交金额
+        turnover_rate                  float          换手率
+        suspension                     bool           是否停牌(True表示停牌)
+        listing_date                   str            上市日期 (yyyy-MM-dd)
+        circular_market_val            float          流通市值
+        total_market_val               float          总市值
+        wrt_valid                      bool           是否是窝轮
+        wrt_conversion_ratio           float          换股比率
+        wrt_type                       str            窝轮类型，参见WrtType
+        wrt_strike_price               float          行使价格
+        wrt_maturity_date              str            格式化窝轮到期时间
+        wrt_end_trade                  str            格式化窝轮最后交易时间
+        wrt_code                       str            窝轮对应的正股
+        wrt_recovery_price             float          窝轮回收价
+        wrt_street_vol                 float          窝轮街货量
+        wrt_issue_vol                  float          窝轮发行量
+        wrt_street_ratio               float          窝轮街货占比
+        wrt_delta                      float          窝轮对冲值
+        wrt_implied_volatility         float          窝轮引伸波幅
+        wrt_premium                    float          窝轮溢价
+        lot_size                       int            每手股数
+        issued_shares                  int            发行股本
+        net_asset                      int            资产净值
+        net_profit                     int            净利润
+        earning_per_share              float          每股盈利
+        outstanding_shares             int            流通股本
+        net_asset_per_share            float          每股净资产
+        ey_ratio                       float          收益率
+        pe_ratio                       float          市盈率
+        pb_ratio                       float          市净率
+        peTTMRate                      float          市盈率TTM
+        price_spread                   float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
+        option_valid                   bool           是否是期权
+        option_type                    str            期权类型，参见 OptionType_
+        option_owner                   str            标的股
+        option_strike_time             str            行权日
+        option_strike_price            float          行权价
+        option_contract_size           int            每份合约数
+        option_open_interest           int            未平仓合约数
+        option_implied_volatility      float          隐含波动率
+        option_premium                 float          溢价
+        option_delta                   float          希腊值 Delta
+        option_gamma                   float          希腊值 Gamma
+        option_vega                    float          希腊值 Vega
+        option_theta                   float          希腊值 Theta
+        option_rho                     float          希腊值 Rho
+        ===========================   =============   ==============================================================
         
  :example:
 
@@ -376,7 +391,7 @@ get_market_snapshot
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-    print(quote_ctx.get_market_snapshot('HK.00700'))
+    print(quote_ctx.get_market_snapshot(['US_OPTION.AAPL180914C215000', 'HK.00700']))
     quote_ctx.close()
 
 get_rt_data
@@ -386,7 +401,7 @@ get_rt_data
 
  获取指定股票的分时数据
 
- :param code: 股票代码，例如，HK.00700，US.APPL
+ :param code: 股票代码，例如，HK.00700，US.AAPL
  :return (ret, data): ret == RET_OK 返回pd Dataframe数据, 数据列格式如下
 
         ret != RET_OK 返回错误字符串
@@ -1026,15 +1041,15 @@ get_holding_change_list
 get_option_chain
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: get_option_chain(self, code, start_date, end_date=None, option_type=None, option_cond_type=None)
+..  py:function:: get_option_chain(self, code, start_date, end_date=None, option_type=OptionType.ALL, option_cond_type=OptionCondType.ALL)
 
  通过标的股查询期权
 
  :param code: 股票代码,例如：'HK.02318'
  :param start_date: 开始时间. 例如：'2017-08-01'或者'2017-08-01 10:00:00'
  :param end_date: 结束时间，不填为至今. 例如：'2017-10-01'或者'2017-10-01 10:00:00', 注意，时间范围最多30天
- :param option_type: 期权类型,全部/看涨/看跌，查看 OptionType_
- :param option_cond_type: 全部/价内/价外，查看 OptionCondType_
+ :param option_type: 期权类型,,默认全部,全部/看涨/看跌，查看 OptionType_
+ :param option_cond_type: 默认全部,全部/价内/价外，查看 OptionCondType_
  :return: (ret, data)
 
         ret == RET_OK 返回pd dataframe数据，数据列格式如下
@@ -1047,10 +1062,9 @@ get_option_chain
         code                 str           股票代码
         name                 str           名字
         lot_size             int           每手数量
-        stock_type           str           股票类型，参见SecurityType
-        stock_child_type     str           涡轮子类型，参见WrtType
+        stock_type           str           股票类型，参见 SecurityType_
         stock_owner          str           正股代码
-        option_type          str           期权类型
+        option_type          str           期权类型，查看 OptionType_
         owner                str           标的股
         strike_ime           str           行权日
         strike_price         float         行权价
