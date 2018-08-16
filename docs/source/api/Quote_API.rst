@@ -156,8 +156,8 @@ get_stock_basicinfo
         code                str            股票代码
         name                str            名字
         lot_size            int            每手数量
-        stock_type          str            股票类型，参见SecurityType
-        stock_child_type    str            窝轮子类型，参见WrtType
+        stock_type          str            股票类型，参见 SecurityType_
+        stock_child_type    str            窝轮子类型，参见 WrtType_
         stock_owner         str            正股代码
         stock_owner         str            正股代码
         option_type         str            期权类型，查看 OptionType_
@@ -177,6 +177,7 @@ get_stock_basicinfo
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
     print(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.WARRANT))
+    print(quote_ctx.get_stock_basicinfo(Market.US, SecurityType.DRVT, 'US_OPTION.AAPL180817C20000'))
     quote_ctx.close()
     
     
