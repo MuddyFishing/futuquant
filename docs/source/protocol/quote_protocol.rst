@@ -1381,6 +1381,7 @@
 	* 股票结构参考 `Security <base_define.html#security>`_
 	* 期权类型参考 `OptionType <base_define.html#optiontype>`_
 	* 股票静态信息结构参考 `SecurityStaticInfo <base_define.html#securitystaticbasic>`_
+	* 限频接口：30秒内最多10次
 	* 目前仅支持美股
 
 

@@ -739,7 +739,7 @@ OrderBook - 买卖十档摆盘
 	
 -----------------------------------------------
 
-OrderBook - 持股变动
+ShareHoldingChange - 持股变动
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  .. code-block:: protobuf

@@ -60,9 +60,9 @@
   .. _Qot_GetPlateSet.proto:  quote_protocol.html#qot-getplateset-proto-3204
   .. _Qot_GetPlateSecurity.proto:  quote_protocol.html#qot-getplatesecurity-proto-3205
   .. _Qot_GetReference.proto:  quote_protocol.html#qot-getreference-proto-3206
-  .. _Qot_GetOwnerPlate.proto:  quote_protocol.html#qot-getownerplate-proto-3206
-  .. _Qot_GetHoldingChangeList.proto:  quote_protocol.html#qot-getholdingchangelist-proto-3207
-  .. _Qot_GetOptionChain.proto:  quote_protocol.html#qot-getoptionchain-proto-3208
+  .. _Qot_GetOwnerPlate.proto:  quote_protocol.html#qot-getownerplate-proto-3207
+  .. _Qot_GetHoldingChangeList.proto:  quote_protocol.html#qot-getholdingchangelist-proto-3208
+  .. _Qot_GetOptionChain.proto:  quote_protocol.html#qot-getoptionchain-proto-3209
   
 特点
 -------
@@ -125,12 +125,16 @@
  3100             Qot_GetHistoryKL.proto_                 获取单只股票一段历史K线
  3101             Qot_GetHistoryKLPoints.proto_           获取多只股票多点历史K线
  3102             Qot_GetRehab.proto_                     获取复权信息
+ 3103             RequestHistoryKL
  3200             Qot_GetTradeDate.proto_                 获取市场交易日
  3202             Qot_GetStaticInfo.proto_                获取股票静态信息
  3203             Qot_GetSecuritySnapshot.proto_          获取股票快照
  3204             Qot_GetPlateSet.proto_                  获取板块集合下的板块
  3205             Qot_GetPlateSecurity.proto_             获取板块下的股票 
  3206             Qot_GetReference.proto_                 获取正股相关股票 
+ 3207             Qot_GetOwnerPlate.proto_                获取股票所属板块
+ 3208             Qot_GetHoldingChangeList.proto_         获取持股变化列表
+ 3209             Qot_GetOptionChain.proto_               获取期权链
  ==============   ==================================     ==================================================================
 
 .. note::
