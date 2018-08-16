@@ -84,6 +84,7 @@ def wechat():
                 if not old_parameter_tuple:  # 如果数据库没有存在这个
                     msg += "您未设置任何参数."
                 else:
+                    msg += "您之前的设置为：\n"
                     msg += sqlite.change_tuple_to_string(old_parameter_tuple[0])
                 rep_text_msg = reply.TextMsg(rec_msg.FromUserName, rec_msg.ToUserName, (
                             "{0}\n\n{1}".format(msg, get_time())))
