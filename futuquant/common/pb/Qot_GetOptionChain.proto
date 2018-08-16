@@ -17,7 +17,7 @@ message C2S
 	optional int32 type = 2; //Qot_Common.OptionType,期权类型,可选字段,不指定则表示都返回
 	optional int32 condition = 3; //OptionCondType,价内价外,可选字段,不指定则表示都返回
 	required string beginTime = 4; //期权到期日开始时间
-	required string endTime = 5; //期权到期日结束时间
+	required string endTime = 5; //期权到期日结束时间,时间跨度最多一个月
 }
 
 message OptionItem
