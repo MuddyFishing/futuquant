@@ -2,6 +2,43 @@
 行情API
 ========
 
+ .. _Market: Base_API.html#market
+ 
+ .. _MarketState: Base_API.html#marketstate
+ 
+ .. _SecurityType: Base_API.html#securitytype
+ 
+ .. _WrtType: Base_API.html#wrttype
+ 
+ .. _SubType: Base_API.html#subtype
+ 
+ .. _KLType: Base_API.html#kltype-k
+ 
+ .. _KLDataStatus: Base_API.html#kldatastatus-k
+ 
+ .. _AuType: Base_API.html#autype-k
+ 
+ .. _KLNoDataMode: Base_API.html#klnodatamode-k
+ 
+ .. _KL_FIELD : Base_API.html#kl-field-k
+ 
+ .. _TickerDirect: Base_API.html#tickerdirect
+ 
+ .. _Plate: Base_API.html#plate
+  
+ .. _StockHolder: Base_API.html#stockholder
+
+ .. _OptionType: Base_API.html#optiontype
+
+ .. _OptionCondType: Base_API.html#optioncondtype
+ 
+ .. _SysNotifyType: Base_API.html#sysnotifytype
+ 
+ .. _GtwEventType: Base_API.html#gtweventtype
+ 
+ .. _SecurityReferenceType: Base_API.html#securityreferencetype
+ 
+ 
 
 一分钟上手
 ============
@@ -85,7 +122,7 @@ get_trading_days
 
  获取交易日
 
- :param market: 市场类型，futuquant.common.constsnt.Market
+ :param market: 市场类型，futuquant.common.constant.Market
  :param start_date: 起始日期
  :param end_date: 结束日期
  :return: 成功时返回(RET_OK, data)，data是字符串数组；失败时返回(RET_ERROR, data)，其中data是错误描述字符串
@@ -106,8 +143,8 @@ get_stock_basicinfo
 
  获取指定市场中特定类型的股票基本信息
  
- :param market: 市场类型，futuquant.common.constsnt.Market
- :param stock_type: 股票类型， futuquant.common.constsnt.SecurityType
+ :param market: 市场类型 Market_
+ :param stock_type: 股票类型 SecurityType_ 
  :param code_list: 如果不为None，应该是股票code的iterable类型，将只返回指定的股票信息
  :return: (ret_code, content)
 
@@ -119,9 +156,16 @@ get_stock_basicinfo
         code                str            股票代码
         name                str            名字
         lot_size            int            每手数量
-        stock_type          str            股票类型，参见SecurityType
-        stock_child_type    str            窝轮子类型，参见WrtType
+        stock_type          str            股票类型，参见 SecurityType_
+        stock_child_type    str            窝轮子类型，参见 WrtType_
         stock_owner         str            正股代码
+        stock_owner         str            正股代码
+        option_type         str            期权类型，查看 OptionType_
+        owner               str            标的股
+        strike_ime          str            行权日
+        strike_price        float          行权价
+        suspension          bool           是否停牌(True表示停牌)
+        market              str            发行市场名字
         listing_date        str            上市时间
         stock_id            int            股票id
         =================   ===========   ==============================================================================
@@ -133,6 +177,7 @@ get_stock_basicinfo
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
     print(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.WARRANT))
+    print(quote_ctx.get_stock_basicinfo(Market.US, SecurityType.DRVT, 'US_OPTION.AAPL180817C20000'))
     quote_ctx.close()
     
     
@@ -146,8 +191,8 @@ get_multiple_history_kline
  :param codelist: 股票代码列表，list或str。例如：['HK.00700', 'HK.00001']，'HK.00700,SZ.399001'
  :param start: 起始时间
  :param end: 结束时间
- :param ktype: k线类型，参见KLType
- :param autype: 复权类型，参见AuType
+ :param ktype: k线类型，参见 KLType_
+ :param autype: 复权类型，参见 AuType_
  :return: 成功时返回(RET_OK, [data])，data是DataFrame数据, 数据列格式如下
 
     =================   ===========   ==============================================================================
@@ -182,16 +227,16 @@ get_multiple_history_kline
 get_history_kline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: get_history_kline
+..  py:function:: get_history_kline(self, code, start=None, end=None, ktype=KLType.K_DAY, autype=AuType.QFQ, fields=[KL_FIELD.ALL])
 
  得到本地历史k线，需先参照帮助文档下载k线
 
  :param code: 股票代码
  :param start: 开始时间，例如2017-06-20
  :param end:  结束时间
- :param ktype: k线类型， 参见 KLType 定义
- :param autype: 复权类型, 参见 AuType 定义
- :param fields: 需返回的字段列表，参见 KL_FIELD 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
+ :param ktype: k线类型， 参见 KLType_ 定义
+ :param autype: 复权类型, 参见 AuType_ 定义
+ :param fields: 需返回的字段列表，参见 KL_FIELD_ 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
  :return: (ret, data)
 
         ret == RET_OK 返回pd Dataframe数据, 数据列格式如下
@@ -282,49 +327,64 @@ get_market_snapshot
 
         ret != RET_OK 返回错误字符串
 
-        =======================   =============   ==============================================================
-        参数                       类型                        说明
-        =======================   =============   ==============================================================
-        code                       str            股票代码
-        update_time                str            更新时间(yyyy-MM-dd HH:mm:ss)
-        last_price                 float          最新价格
-        open_price                 float          今日开盘价
-        high_price                 float          最高价格
-        low_price                  float          最低价格
-        prev_close_price           float          昨收盘价格
-        volume                     int            成交数量
-        turnover                   float          成交金额
-        turnover_rate              float          换手率
-        suspension                 bool           是否停牌(True表示停牌)
-        listing_date               str            上市日期 (yyyy-MM-dd)
-        circular_market_val        float          流通市值
-        total_market_val           float          总市值
-        wrt_valid                  bool           是否是窝轮
-        wrt_conversion_ratio       float          换股比率
-        wrt_type                   str            窝轮类型，参见WrtType
-        wrt_strike_price           float          行使价格
-        wrt_maturity_date          str            格式化窝轮到期时间
-        wrt_end_trade              str            格式化窝轮最后交易时间
-        wrt_code                   str            窝轮对应的正股
-        wrt_recovery_price         float          窝轮回收价
-        wrt_street_vol             float          窝轮街货量
-        wrt_issue_vol              float          窝轮发行量
-        wrt_street_ratio           float          窝轮街货占比
-        wrt_delta                  float          窝轮对冲值
-        wrt_implied_volatility     float          窝轮引伸波幅
-        wrt_premium                float          窝轮溢价
-        lot_size                   int            每手股数
-        issued_shares              int            发行股本
-        net_asset                  int            资产净值
-        net_profit                 int            净利润
-        earning_per_share          float          每股盈利
-        outstanding_shares         int            流通股本
-        net_asset_per_share        float          每股净资产
-        ey_ratio                   float          收益率
-        pe_ratio                   float          市盈率
-        pb_ratio                   float          市净率
-        price_spread               float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
-        =======================   =============   ==============================================================
+        ===========================   =============   ==============================================================
+        参数                           类型                        说明
+        ===========================   =============   ==============================================================
+        code                           str            股票代码
+        update_time                    str            更新时间(yyyy-MM-dd HH:mm:ss)
+        last_price                     float          最新价格
+        open_price                     float          今日开盘价
+        high_price                     float          最高价格
+        low_price                      float          最低价格
+        prev_close_price               float          昨收盘价格
+        volume                         int            成交数量
+        turnover                       float          成交金额
+        turnover_rate                  float          换手率
+        suspension                     bool           是否停牌(True表示停牌)
+        listing_date                   str            上市日期 (yyyy-MM-dd)
+        circular_market_val            float          流通市值
+        total_market_val               float          总市值
+        wrt_valid                      bool           是否是窝轮
+        wrt_conversion_ratio           float          换股比率
+        wrt_type                       str            窝轮类型，参见WrtType
+        wrt_strike_price               float          行使价格
+        wrt_maturity_date              str            格式化窝轮到期时间
+        wrt_end_trade                  str            格式化窝轮最后交易时间
+        wrt_code                       str            窝轮对应的正股
+        wrt_recovery_price             float          窝轮回收价
+        wrt_street_vol                 float          窝轮街货量
+        wrt_issue_vol                  float          窝轮发行量
+        wrt_street_ratio               float          窝轮街货占比
+        wrt_delta                      float          窝轮对冲值
+        wrt_implied_volatility         float          窝轮引伸波幅
+        wrt_premium                    float          窝轮溢价
+        lot_size                       int            每手股数
+        issued_shares                  int            发行股本
+        net_asset                      int            资产净值
+        net_profit                     int            净利润
+        earning_per_share              float          每股盈利
+        outstanding_shares             int            流通股本
+        net_asset_per_share            float          每股净资产
+        ey_ratio                       float          收益率
+        pe_ratio                       float          市盈率
+        pb_ratio                       float          市净率
+        pe_ttm_ratio                   float          市盈率TTM
+        price_spread                   float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
+        option_valid                   bool           是否是期权
+        option_type                    str            期权类型，参见 OptionType_
+        option_owner                   str            标的股
+        option_strike_time             str            行权日
+        option_strike_price            float          行权价
+        option_contract_size           int            每份合约数
+        option_open_interest           int            未平仓合约数
+        option_implied_volatility      float          隐含波动率
+        option_premium                 float          溢价
+        option_delta                   float          希腊值 Delta
+        option_gamma                   float          希腊值 Gamma
+        option_vega                    float          希腊值 Vega
+        option_theta                   float          希腊值 Theta
+        option_rho                     float          希腊值 Rho
+        ===========================   =============   ==============================================================
         
  :example:
 
@@ -332,7 +392,7 @@ get_market_snapshot
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-    print(quote_ctx.get_market_snapshot('HK.00700'))
+    print(quote_ctx.get_market_snapshot(['US_OPTION.AAPL180914C215000', 'HK.00700']))
     quote_ctx.close()
 
 get_rt_data
@@ -342,7 +402,7 @@ get_rt_data
 
  获取指定股票的分时数据
 
- :param code: 股票代码，例如，HK.00700，US.APPL
+ :param code: 股票代码，例如，HK.00700，US.AAPL
  :return (ret, data): ret == RET_OK 返回pd Dataframe数据, 数据列格式如下
 
         ret != RET_OK 返回错误字符串
@@ -404,6 +464,51 @@ get_plate_stock
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
     print(quote_ctx.get_plate_stock('HK.BK1001'))
     quote_ctx.close()		
+    
+   
+.. note::
+
+    *   该接口也可用于获取指数成份股, 如获取上证指数成份股:
+    
+		 .. code:: python
+		
+		    from futuquant import *
+		    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+		    print(quote_ctx.get_plate_stock('SH.000001'))
+		    quote_ctx.close()		
+			    
+    *   部分常用的板块或指数代码如下:
+    
+        =====================  ==============================================================
+            代码                      说明
+        =====================  ==============================================================
+        HK.999901                  恒指成份股
+        HK.999902                  国指成份股
+        HK.999910                  港股主板
+        HK.999911                  港股创业板
+        HK.999999                  全部港股(正股)
+        HK.BK1911                  主板H股
+        HK.BK1912                  创业板H股
+        HK.900075                  港股基金
+        HK.BK1600                  富途热门(港)
+        SH.3000000                 上海主板
+        SH.BK0901                  上证B股
+        SH.BK0902                  深证B股 
+        SH.3000002				   沪深指数
+        SH.3000005                 沪深全部A股
+        SH.BK0600                  富途热门(沪深)
+        SZ.3000001                 深证主板
+        SZ.3000003                 中小企业板块
+        SZ.3000004                 深证创业板
+        US.BK2600                  富途热门(美)
+        US.200306                  全部美股(正股)
+        US.200301                  纽交所
+        US.200302                  纳斯达克
+        US.200303                  美交所
+        US.200304                  美中概股
+        US.200305                  美明星股
+        =====================  ==============================================================
+   
         
 get_plate_list
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -491,7 +596,7 @@ subscribe
  注意：len(code_list) * 订阅的K线类型的数量 <= 100
 
  :param code_list: 需要订阅的股票代码列表
- :param subtype_list: 需要订阅的数据类型列表，参见SubType
+ :param subtype_list: 需要订阅的数据类型列表，参见 SubType_
  :return: (ret, err_message)
 
         ret == RET_OK err_message为None
@@ -516,7 +621,7 @@ unsubscribe
  取消订阅
  
  :param code_list: 取消订阅的股票代码列表
- :param subtype_list: 取消订阅的类型，参见SubType
+ :param subtype_list: 取消订阅的类型，参见 SubType_
  :return: (ret, err_message)
         
         ret == RET_OK err_message为None
@@ -596,7 +701,8 @@ get_global_state
 		server_ver              str            FutuOpenD版本号
 		trd_logined             str            '1'：已登录交易服务器，'0': 未登录交易服务器
 		qot_logined             str            '1'：已登录行情服务器，'0': 未登录行情服务器
-		timestamp               str            当前格林威治时间戳
+		timestamp               str            当前格林威治时间戳(秒）
+		local_timestamp         double         FutuOpenD运行机器的当前时间戳(毫秒)
 		=====================   ===========   ==============================================================
  
  :example:
@@ -641,6 +747,12 @@ get_stock_quote
         listing_date            str            上市日期 (yyyy-MM-dd)
         price_spread            float          当前价差，亦即摆盘数据的买档或卖档的相邻档位的报价差
 		dark_status             str            暗盘交易状态，见DarkStatus
+        option_type             str            期权类型，查看 OptionType_
+        owner                   str            标的股
+        strike_ime              str            行权日
+        strike_price            float          行权价
+        suspension              bool           是否停牌(True表示停牌)
+        market                  str            发行市场名字
         =====================   ===========   ==============================================================
 		
  :example:
@@ -677,7 +789,7 @@ get_rt_ticker
         volume                   int            成交数量（股数）
         turnover                 float          成交金额
         ticker_direction         str            逐笔方向
-		type                     str            逐笔类型，参见TickerType
+        type                     str            逐笔类型，参见TickerType
         =====================   ===========   ==============================================================
 
  :example:
@@ -699,8 +811,8 @@ get_cur_kline
 
  :param code: 股票代码
  :param num:  k线数据个数，最多1000根
- :param ktype: k线类型，参见KLType
- :param autype: 复权类型，参见AuType
+ :param ktype: k线类型，参见 KLType_
+ :param autype: 复权类型，参见 AuType_
  :return: (ret, data)
 
         ret == RET_OK 返回pd dataframe数据，数据列格式如下
@@ -749,13 +861,13 @@ get_order_book
 
  .. code:: python
 
-        {
-            'code': 股票代码
-            'Ask':[ (ask_price1, ask_volume1，order_num), (ask_price2, ask_volume2, order_num),…]
-            'Bid': [ (bid_price1, bid_volume1, order_num), (bid_price2, bid_volume2, order_num),…]
-        }
+    {
+        'code': 股票代码
+        'Ask':[ (ask_price1, ask_volume1，order_num), (ask_price2, ask_volume2, order_num),…]
+        'Bid': [ (bid_price1, bid_volume1, order_num), (bid_price2, bid_volume2, order_num),…]
+    }
 
-        'Ask'：卖盘， 'Bid'买盘。每个元组的含义是(委托价格，委托数量，委托订单数)
+    'Ask'：卖盘， 'Bid'买盘。每个元组的含义是(委托价格，委托数量，委托订单数)
         
 :example:
 
@@ -779,9 +891,9 @@ get_multi_points_history_kline
  :param code_list: 单个或多个股票 'HK.00700'  or  ['HK.00700', 'HK.00001']
  :param dates: 单个或多个日期 '2017-01-01' or ['2017-01-01', '2017-01-02']，最多5个时间点
  :param fields: 单个或多个数据列 KL_FIELD.ALL or [KL_FIELD.DATE_TIME, KL_FIELD.OPEN]
- :param ktype: K线类型
- :param autype: 复权类型
- :param no_data_mode: 指定时间为非交易日时，对应的k线数据取值模式，参见KLNoDataMode
+ :param ktype: K线类型 KLType_
+ :param autype: 复权类型 AuType_ 
+ :param no_data_mode: 指定时间为非交易日时，对应的k线数据取值模式，参见 KLNoDataMode_
  :return: (ret, data)
 
         ret == RET_OK 返回pd dataframe数据，固定表头包括'code'(代码) 'time_point'(指定的日期) 'data_status' (KLDataStatus)。数据列格式如下
@@ -827,7 +939,7 @@ get_referencestock_list
  获取证券的关联数据
  
  :param code: 证券id，str，例如HK.00700
- :param reference_type: 要获得的相关数据，参见SecurityReferenceType。例如WARRANT，表示获取正股相关的窝轮
+ :param reference_type: 要获得的相关数据，参见 SecurityReferenceType_ 。例如WARRANT，表示获取正股相关的涡轮
  :return: (ret, data)
 
 		ret == RET_OK 返回pd dataframe数据，数据列格式如下
@@ -864,7 +976,7 @@ get_owner_plate
 
  获取单支或多支股票的所属板块信息列表
 
- :param code_list: 股票代码列表，list或str。例如：['HK.00700', 'HK.00001']或者'HK.00700,HK.00001'
+ :param code_list: 股票代码列表，仅支持正股、指数。list或str。例如：['HK.00700', 'HK.00001']或者'HK.00700,HK.00001'
  :return: (ret, data)
 
         ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
@@ -877,7 +989,7 @@ get_owner_plate
         code                    str            证券代码
         plate_code              str            板块代码
         plate_name              str            板块名字
-        plate_type              str            板块类型（行业板块或概念板块）
+        plate_type              str            板块类型（行业板块或概念板块），查看 Plate_
         =====================   ===========   ==============================================================
 
  :example:
@@ -898,7 +1010,7 @@ get_holding_change_list
  获取高管持仓列表,只提供美股数据
 
  :param code: 股票代码. 例如：'US.AAPL'
- :param holder_type: 持有者类别，futuquant.common.constant.StockHolder
+ :param holder_type: 持有者类别，查看 StockHolder_
  :param start_date: 开始时间. 例如：'2016-10-01'或者'2016-10-01 10:00:00'
  :param end_date: 结束时间，不填为至今. 例如：'2017-10-01'
  :return: (ret, data)
@@ -925,6 +1037,51 @@ get_holding_change_list
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
     print(quote_ctx.get_holding_change_list('US.AAPL', StockHolder.INSTITUTE, '2016-10-01'))
+    quote_ctx.close()
+
+get_option_chain
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: get_option_chain(self, code, start_date, end_date=None, option_type=OptionType.ALL, option_cond_type=OptionCondType.ALL)
+
+ 通过标的股查询期权
+
+ :param code: 股票代码,例如：'HK.02318'
+ :param start_date: 开始时间. 例如：'2017-08-01'或者'2017-08-01 10:00:00'
+ :param end_date: 结束时间，不填为至今. 例如：'2017-10-01'或者'2017-10-01 10:00:00', 注意，时间范围最多30天
+ :param option_type: 期权类型,,默认全部,全部/看涨/看跌，查看 OptionType_
+ :param option_cond_type: 默认全部,全部/价内/价外，查看 OptionCondType_
+ :return: (ret, data)
+
+        ret == RET_OK 返回pd dataframe数据，数据列格式如下
+
+        ret != RET_OK 返回错误字符串
+
+        ==================   ===========   ==============================================================
+        参数                      类型                        说明
+        ==================   ===========   ==============================================================
+        code                 str           股票代码
+        name                 str           名字
+        lot_size             int           每手数量
+        stock_type           str           股票类型，参见 SecurityType_
+        stock_owner          str           正股代码
+        option_type          str           期权类型，查看 OptionType_
+        owner                str           标的股
+        strike_ime           str           行权日
+        strike_price         float         行权价
+        suspension           bool          是否停牌(True表示停牌)
+        market               str           发行市场名字
+        listing_date         str           上市时间
+        stock_id             int           股票id
+        ==================   ===========   ==============================================================
+
+ :example:
+
+ .. code:: python
+
+    from futuquant import *
+    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+    print(quote_ctx.get_option_chain(code, '2018-08-01', '2018-08-18', OptionType.ALL, OptionCondType.OUTSIDE))
     quote_ctx.close()
 
 

@@ -25,8 +25,10 @@ class WechatPush(object):
                 "secret": self.secret
             }
         ).json()
+
         if 'errmsg' in access_token_json:
-            return RET_ERROR, "Incorrect config, please check appid and secret."
+            print(access_token_json)
+            return RET_ERROR, "Incorrect config, please check appid and secret. Or your ip did not add to whitelist."
 
         return RET_OK, access_token_json['access_token']
 
@@ -208,9 +210,9 @@ if __name__ == '__main__':
 
     # print(get_template_id(get_access_token()))
     wp = WechatPush()  # test号
-    print(wp.get_access_token())
+    # print(wp.get_access_token())
     # wp.send_text_msg(text_msg)
-    print(wp.sent_template_msg_to_users(msg))
+    # print(wp.sent_template_msg_to_users(msg))
 
     # nickname
     all_user_openid = wp.get_user_openid_list()

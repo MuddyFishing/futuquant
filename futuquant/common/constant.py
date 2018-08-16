@@ -36,6 +36,14 @@ DEFAULT_INIT_PRI_KEY_FILE = "conn_key.txt"
 
 # 协议格式
 class ProtoFMT(object):
+    """
+    协议格式类型
+    ..  py:class:: ProtoFMT
+     ..  py:attribute:: Protobuf
+      google的protobuf格式
+     ..  py:attribute:: Json
+      json格式
+    """
     Protobuf = 0
     Json = 1
 
@@ -590,6 +598,77 @@ PLATE_TYPE_ID_TO_NAME= [
     "OTHER"
 ]
 
+# 股票持有者类别
+class StockHolder(object):
+    """
+    持有者类别
+    ..  py:class:: StockHolderType
+     ..  py:attribute:: INSTITUTE
+      机构
+     ..  py:attribute:: FUND
+      基金
+     ..  py:attribute:: EXECUTIVE
+      高管
+    """
+    INSTITUTE = "INSTITUTE"
+    FUND = "FUND"
+    EXECUTIVE = "EXECUTIVE"
+
+
+STOCK_HOLDER_CLASS_MAP = {
+    StockHolder.INSTITUTE: 1,
+    StockHolder.FUND: 2,
+    StockHolder.EXECUTIVE: 3
+}
+
+
+# 期权类型
+class OptionType(object):
+    """
+    期权类型
+    ..  py:class:: OptionType
+     ..  py:attribute:: ALL
+      全部
+     ..  py:attribute:: CALL
+      涨
+     ..  py:attribute:: PUT
+      跌
+    """
+    ALL = "ALL"
+    CALL = "CALL"
+    PUT = "PUT"
+
+
+OPTION_TYPE_CLASS_MAP = {
+    OptionType.ALL: 0,
+    OptionType.CALL: 1,
+    OptionType.PUT: 2
+}
+
+
+# 价内价外
+class OptionCondType(object):
+    """
+    价内价外
+    ..  py:class:: OptionCondType
+     ..  py:attribute:: ALL
+      全部
+     ..  py:attribute:: WITHIN
+      价内
+     ..  py:attribute:: OUTSIDE
+      价外
+    """
+    ALL = "ALL"
+    WITHIN = "WITHIN"
+    OUTSIDE = "OUTSIDE"
+
+
+OPTION_COND_TYPE_CLASS_MAP = {
+    OptionCondType.ALL: 0,
+    OptionCondType.WITHIN: 1,
+    OptionCondType.OUTSIDE: 2
+}
+
 class ProtoId(object):
     InitConnect = 1001  # 初始化连接
     GetGlobalState = 1002  # 获取全局状态
@@ -736,79 +815,6 @@ TICKER_TYPE_MAP = {
     TickerType.CLOSING_PRICED: Qot_Common_pb2.TickerType_ClosingPriced,
     TickerType.COMPREHENSIVE_DELAY_PRICE: Qot_Common_pb2.TickerType_ComprehensiveDelayPrice
 }
-
-
-# 股票持有者类别
-class StockHolder(object):
-    """
-    持有者类别
-    ..  py:class:: StockHolderType
-     ..  py:attribute:: INSTITUTE
-      机构
-     ..  py:attribute:: FUND
-      基金
-     ..  py:attribute:: EXECUTIVE
-      高管
-    """
-    INSTITUTE = "INSTITUTE"
-    FUND = "FUND"
-    EXECUTIVE = "EXECUTIVE"
-
-
-STOCK_HOLDER_CLASS_MAP = {
-    StockHolder.INSTITUTE: 1,
-    StockHolder.FUND: 2,
-    StockHolder.EXECUTIVE: 3
-}
-
-
-# 期权类型
-class OptionType(object):
-    """
-    期权类型
-    ..  py:class:: OptionType
-     ..  py:attribute:: UNKNOWN
-      未知
-     ..  py:attribute:: CALL
-      涨
-     ..  py:attribute:: PUT
-      跌
-    """
-    UNKNOWN = "N/A"
-    CALL = "CALL"
-    PUT = "PUT"
-
-
-OPTION_TYPE_CLASS_MAP = {
-    OptionType.UNKNOWN: 0,
-    OptionType.CALL: 1,
-    OptionType.PUT: 2
-}
-
-
-# 价内价外
-class OptionCondType(object):
-    """
-    价内价外
-    ..  py:class:: OptionType
-     ..  py:attribute:: UNKNOWN
-      未知
-     ..  py:attribute:: WITHIN
-      价内
-     ..  py:attribute:: OUTSIDE
-      价外
-    """
-    UNKNOWN = "N/A"
-    WITHIN = "WITHIN"
-    OUTSIDE = "OUTSIDE"
-
-
-OPTION_COND_TYPE_CLASS_MAP = {
-    OptionCondType.UNKNOWN: 0,
-    OptionCondType.WITHIN: 1,
-    OptionCondType.OUTSIDE: 2
-}
-
 
 # noinspection PyPep8Naming
 class QUOTE(object):
@@ -1203,6 +1209,14 @@ class TRADE(object):
 
 
 class SecurityReferenceType:
+    """
+    股票关联数据类型
+    ..  py:class:: SecurityReferenceType
+     ..  py:attribute:: NONE
+      未知
+     ..  py:attribute:: WARRANT
+     相关窝轮
+    """
     NONE = 'N/A'
     WARRANT = 'WARRANT'
 

@@ -5,7 +5,10 @@ from Config import Config
 from check_config import CheckConfig
 
 cc = CheckConfig()
-cc.check_all()
+ret, msg = cc.check_all()
+if ret != RET_OK:
+    print(ret, msg)
+    exit()
 
 config = Config()
 

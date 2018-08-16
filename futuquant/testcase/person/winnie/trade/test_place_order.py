@@ -1,6 +1,7 @@
 # -*-coding:utf-8-*-
 from futuquant.trade.open_trade_context import *
-from futuquant.testcase.winnie.Handler import *
+from futuquant.quote.open_quote_context import *
+from futuquant.testcase.person.winnie.trade.Handler import *
 import pandas
 
 
@@ -15,14 +16,21 @@ class PlaceOrder(object):
         pwd_unlock = '123123'
         trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
         trd_ctx.unlock_trade(pwd_unlock)
+        # 设置监听
+        handler_tradeOrder = TradeOrderTest()
+        handler_tradeDealtrade = TradeDealTest()
+        trd_ctx.set_handler(handler_tradeOrder)
+        trd_ctx.set_handler(handler_tradeDealtrade)
+        # 开启异步
+        trd_ctx.start()
         # 港股买入
-        ret_code, ret_data = trd_ctx.place_order(price=2.0,
+        ret_code, ret_data = trd_ctx.place_order(price=2.001,
                                                  qty=1000,
                                                  code='HK.00434',
                                                  trd_side=TrdSide.BUY,
                                                  order_type=OrderType.NORMAL,
-                                                 adjust_limit=0.015,
-                                                 trd_env=TrdEnv.SIMULATE,
+                                                 adjust_limit=0,
+                                                 trd_env=TrdEnv.REAL,
                                                  acc_id=0)
         print(ret_data)
         # 卖出
@@ -35,10 +43,9 @@ class PlaceOrder(object):
         #                                          trd_env=TrdEnv.SIMULATE,
         #                                          acc_id=0)
         # print(ret_data)
-        print('获取今日订单列表:')
-        ret_code, ret_data = trd_ctx.order_list_query(trd_env=TrdEnv.SIMULATE,
-                                                      acc_id=0)
-        print(ret_data)
+        #print('获取今日订单列表:')
+        #ret_code, ret_data = trd_ctx.order_list_query(trd_env=TrdEnv.SIMULATE, acc_id=0)
+        #print(ret_data)
         trd_ctx.close()
 
     def test_hk_zheng(self):
@@ -46,15 +53,15 @@ class PlaceOrder(object):
         trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
         trd_ctx.unlock_trade(pwd_unlock)
         # 港股正股买入
-        ret_code, ret_data = trd_ctx.place_order(price=0.37,
-                                                 qty=10000,
-                                                 code='HK.08140',
-                                                 trd_side=TrdSide.BUY,
-                                                 order_type=OrderType.NORMAL,
-                                                 adjust_limit=0,
-                                                 trd_env=TrdEnv.SIMULATE,
-                                                 acc_id=0)
-        print(ret_data)
+        # ret_code, ret_data = trd_ctx.place_order(price=0.37,
+        #                                          qty=10000,
+        #                                          code='HK.08140',
+        #                                          trd_side=TrdSide.BUY,
+        #                                          order_type=OrderType.NORMAL,
+        #                                          adjust_limit=0,
+        #                                          trd_env=TrdEnv.SIMULATE,
+        #                                          acc_id=0)
+        # print(ret_data)
 
         # ret_code, ret_data = trd_ctx.place_order(price=2.2,
         #                                          qty=1000,
@@ -132,11 +139,37 @@ class PlaceOrder(object):
                                                       acc_id=0)
         print(ret_data)
 
+    def test_us_option(self):
+        pwd_unlock = '123123'
+        trd_ctx = OpenUSTradeContext(host='127.0.0.1', port=11111)
+        trd_ctx.unlock_trade(pwd_unlock)
+        # 设置监听
+        handler_tradeOrder = TradeOrderTest()
+        handler_tradeDealtrade = TradeDealTest()
+        trd_ctx.set_handler(handler_tradeOrder)
+        trd_ctx.set_handler(handler_tradeDealtrade)
+        # 开启异步
+        trd_ctx.start()
+
+        ret_code, ret_data = trd_ctx.place_order(price=2.0,
+                                                 qty=1,
+                                                 code='US.DIS180914C112000',
+                                                 trd_side=TrdSide.SELL,
+                                                 order_type=OrderType.NORMAL,
+                                                 adjust_limit=0,
+                                                 trd_env=TrdEnv.REAL,
+                                                 acc_id=0)
+        print(ret_data)
+        ret_code, ret_data = trd_ctx.order_list_query(trd_env=TrdEnv.REAL,
+                                                      acc_id=0)
+        print(ret_data)
+
 
 if __name__ == '__main__':
     po = PlaceOrder()
-    # po.test_hk_normal()
+    po.test_hk_normal()
     # po.test_hk_zheng()
     # po.test_us()
     # po.test_ch()
-    po.test_hk_wolun()
+    # po.test_hk_wolun()
+    # po.test_us_option()

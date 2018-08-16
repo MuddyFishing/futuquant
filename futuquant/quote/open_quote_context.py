@@ -126,8 +126,8 @@ class OpenQuoteContext(OpenContextBase):
     def get_stock_basicinfo(self, market, stock_type=SecurityType.STOCK, code_list=None):
         """
         获取指定市场中特定类型的股票基本信息
-        :param market: 市场类型，futuquant.common.constsnt.Market
-        :param stock_type: 股票类型， futuquant.common.constsnt.SecurityType
+        :param market: 市场类型，futuquant.common.constant.Market
+        :param stock_type: 股票类型， futuquant.common.constant.SecurityType
         :param code_list: 如果不为None，应该是股票code的iterable类型，将只返回指定的股票信息
         :return: (ret_code, content)
                 ret_code 等于RET_OK时， content为Pandas.DataFrame数据, 否则为错误原因字符串, 数据列格式如下
@@ -139,15 +139,15 @@ class OpenQuoteContext(OpenContextBase):
             lot_size            int            每手数量
             stock_type          str            股票类型，参见SecurityType
             stock_child_type    str            涡轮子类型，参见WrtType
-            stock_owner         str            正股代码
-            option_type         str            期权类型，Qot_Common.OptionType,期权
+            listing_date        str            上市时间
+            option_type         str            期权类型，Qot_Common.OptionType
             owner               str            标的股
             strike_ime          str            行权日
             strike_price        float          行权价
             suspension          bool           是否停牌(True表示停牌)
             market              str            发行市场名字
-            listing_date        str            上市时间
             stock_id            int            股票id
+            stock_owner         str            正股代码
             =================   ===========   ==============================================================================
 
         :example:
@@ -165,6 +165,13 @@ class OpenQuoteContext(OpenContextBase):
             if param is None or is_str(param) is False:
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
+
+        if is_str(code_list):
+            code_list = code_list.split(',')
+        elif isinstance(code_list, list):
+            pass
+        else:
+            return RET_ERROR, "code list must be like ['HK.00001', 'HK.00700'] or 'HK.00001,HK.00700'"
 
         query_processor = self._get_sync_query_processor(
             StockBasicInfoQuery.pack_req, StockBasicInfoQuery.unpack_rsp)
@@ -489,7 +496,22 @@ class OpenQuoteContext(OpenContextBase):
                 ey_ratio                   float          收益率
                 pe_ratio                   float          市盈率
                 pb_ratio                   float          市净率
+                pe_ttm_ratio               float          市盈率TTM
                 price_spread               float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
+                option_valid               bool           是否是期权
+                option_type                str            期权类型，参见OptionType
+                option_owner               str            标的股
+                option_strike_time         str            行权日
+                option_strike_price        float          行权价
+                option_contract_size       int            每份合约数
+                option_open_interest       int            未平仓合约数
+                option_implied_volatility  float          隐含波动率
+                option_premium             float          溢价
+                option_delta               float          希腊值 Delta
+                option_gamma               float          希腊值 Gamma
+                option_vega                float          希腊值 Vega
+                option_theta               float          希腊值 Theta
+                option_rho                 float          希腊值 Rho
                 =======================   =============   ==============================================================
         """
         code_list = unique_and_normalize_list(code_list)
@@ -548,8 +570,25 @@ class OpenQuoteContext(OpenContextBase):
             'ey_ratio',
             'pe_ratio',
             'pb_ratio',
+            # 2018.08.16 add
+            'pe_ttm_ratio',
             # 2017.1.25 add
             'price_spread',
+            # 2018.08.16 add option
+            'option_valid',
+            'option_type',
+            'option_owner',
+            'option_strike_time',
+            'option_strike_price',
+            'option_contract_size',
+            'option_open_interest',
+            'option_implied_volatility',
+            'option_premium',
+            'option_delta',
+            'option_gamma',
+            'option_vega',
+            'option_theta',
+            'option_rho',
         ]
 
         snapshot_frame_table = pd.DataFrame(snapshot_list, columns=col_list)
@@ -1055,6 +1094,12 @@ class OpenQuoteContext(OpenContextBase):
                 listing_date            str            上市日期 (yyyy-MM-dd)
                 price_spread            float          当前价差，亦即摆盘数据的买档或卖档的相邻档位的报价差
                 dark_status             str            暗盘交易状态，见DarkStatus
+                option_type             str            期权类型，Qot_Common.OptionType
+                owner                   str            标的股
+                strike_ime              str            行权日
+                strike_price            float          行权价
+                suspension              bool           是否停牌(True表示停牌)
+                market                  str            发行市场名字
                 =====================   ===========   ==============================================================
 
         """
@@ -1080,7 +1125,8 @@ class OpenQuoteContext(OpenContextBase):
             'code', 'data_date', 'data_time', 'last_price', 'open_price',
             'high_price', 'low_price', 'prev_close_price', 'volume',
             'turnover', 'turnover_rate', 'amplitude', 'suspension',
-            'listing_date', 'price_spread', 'dark_status'
+            'listing_date', 'price_spread', 'dark_status', 'option_type',
+            'owner', 'strike_ime', 'strike_price', 'suspension', 'market'
         ]
 
         quote_frame_table = pd.DataFrame(quote_list, columns=col_list)
@@ -1408,7 +1454,7 @@ class OpenQuoteContext(OpenContextBase):
         """
         获取单支或多支股票的所属板块信息列表
 
-        :param code_list: 股票代码列表，list或str。例如：['HK.00700', 'HK.00001']或者'HK.00700,HK.00001'
+        :param code_list: 股票代码列表，仅支持正股、指数。list或str。例如：['HK.00700', 'HK.00001']或者'HK.00700,HK.00001'。
         :return: (ret, data)
 
                 ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
@@ -1421,7 +1467,7 @@ class OpenQuoteContext(OpenContextBase):
                 code                    str            证券代码
                 plate_code              str            板块代码
                 plate_name              str            板块名字
-                plate_type              str            板块类型（行业板块或概念板块）
+                plate_type              str            板块类型（行业板块或概念板块），futuquant.common.constant.Plate
                 =====================   ===========   ==============================================================
         """
         if is_str(code_list):
@@ -1511,3 +1557,70 @@ class OpenQuoteContext(OpenContextBase):
         holding_change_list = pd.DataFrame(owner_plate_list, columns=col_list)
 
         return RET_OK, holding_change_list
+
+    def get_option_chain(self, code, start_date, end_date=None, option_type=OptionType.ALL, option_cond_type=OptionCondType.ALL):
+        """
+        通过标的股查询期权
+
+        :param code: 股票代码,例如：'HK.02318'
+        :param start_date: 开始时间. 例如：'2017-08-01'或者'2017-08-01 10:00:00'
+        :param end_date: 结束时间，不填为至今. 例如：'2017-10-01'或者'2017-10-01 10:00:00', 注意，时间范围最多30天
+        :param option_type: 期权类型,默认全部，全部/看涨/看跌，futuquant.common.constant.OptionType
+        :param option_cond_type: 默认全部，全部/价内/价外，futuquant.common.constant.OptionCondType
+        :return: (ret, data)
+
+                ret == RET_OK 返回pd dataframe数据，数据列格式如下
+
+                ret != RET_OK 返回错误字符串
+
+                ==================   ===========   ==============================================================
+                参数                      类型                        说明
+                ==================   ===========   ==============================================================
+                code                 str           股票代码
+                name                 str           名字
+                lot_size             int           每手数量
+                stock_type           str           股票类型，参见SecurityType
+                stock_owner          str           正股代码
+                option_type          str           期权类型，Qot_Common.OptionType
+                owner                str           标的股
+                strike_ime           str           行权日
+                strike_price         float         行权价
+                suspension           bool          是否停牌(True表示停牌)
+                market               str           发行市场名字
+                listing_date         str           上市时间
+                stock_id             int           股票id
+                ==================   ===========   ==============================================================
+
+        """
+
+        if code is None or is_str(code) is False:
+            error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
+            return RET_ERROR, error_str
+
+        query_processor = self._get_sync_query_processor(
+            OptionChain.pack_req, OptionChain.unpack_rsp)
+        kargs = {
+            "code": code,
+            "conn_id": self.get_sync_conn_id(),
+            "start_date": start_date,
+            "end_date": end_date,
+            "option_cond_type": option_cond_type,
+            "option_type": option_type
+        }
+
+        ret_code, msg, option_chain_list = query_processor(**kargs)
+        if ret_code == RET_ERROR:
+            return ret_code, msg
+
+        col_list = [
+            'code', 'name', 'lot_size', 'stock_type', 'stock_owner',
+            'option_type', 'owner', 'strike_time', 'strike_price', 'suspension', 'market',
+            'listing_date', 'stock_id'
+        ]
+
+        option_chain = pd.DataFrame(option_chain_list, columns=col_list)
+
+        if option_type is None or option_type == OptionType.ALL:
+            option_chain.sort_values(by=["strike_time", "strike_price"], axis=0, ascending=True, inplace=True)
+
+        return RET_OK, option_chain
