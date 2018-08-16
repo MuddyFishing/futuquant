@@ -65,12 +65,13 @@ def detect(content, prev_price, openid, premium_rate, warning_threshold, large_t
 
     if prev_price == 0:   # 之前数据库里无这股票的价格记录
         pass
-    elif abs(price - prev_price) / prev_price > premium_rate:   # 越价
+    elif abs((price - prev_price) / prev_price - premium_rate) > 1e-8:  # 越价, 小于1e-8视为相等
         # 检查成交量：
-        if int(vol) * price > warning_threshold:   # price * vol
+        if vol * price > warning_threshold:   # price * vol
+            print(vol * price, warning_threshold)
             sent_msg_sig = 1
             msg.update({'echo_type': '异常成交提醒'})
-    elif int(vol) * price > large_threshold:   # 单笔成交金额超过400万
+    elif vol * price > large_threshold:   # 单笔成交金额超过400万
         sent_msg_sig = 1
         msg.update({'echo_type': '单笔大额成交'})
 
@@ -78,7 +79,9 @@ def detect(content, prev_price, openid, premium_rate, warning_threshold, large_t
         sent_msg_sig = detect_warning_times(openid, warning_limit)
 
     if sent_msg_sig:
-        msg.update({'code':str(code), 'price': str(price), 'total_deal_price':str(vol*price), 'quantity': str(vol), 'time': str(record_time)})
+        msg.update({'code': str(code), 'price': str(float('%.4f' % price)),
+                    'total_deal_price': str(float('%.4f' % (vol * price))), 'quantity': str(vol),
+                    'time': str(record_time)})
         print(wp.send_template_msg(openid, msg))
         logging.info("Send a message.")
     # else:

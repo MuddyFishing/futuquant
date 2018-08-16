@@ -89,19 +89,32 @@ class SqliteInterface:
         parameter_list = re.split(r" +", content)
         if len(parameter_list) < 5:
             return False, "参数数量不足，需要的参数分别为：\n越价率，越价+大单的大单阈值，单笔大单阈值，一分钟内的预警次数限制", None
+        if len(parameter_list) > 5:
+            return False, "参数数量过多，请重新输入.需要的参数分别为：\n越价率，越价+大单的大单阈值，单笔大单阈值，一分钟内的预警次数限制", None
         for i in range(1, len(parameter_list)):
             try:
-                f = float(parameter_list[i])
+                if i < len(parameter_list) - 1:
+                    f = float(parameter_list[i])
+                else:
+                    f = int(parameter_list[i])
             except ValueError:
-                return False, "第{0}个参数不是数值.".format(i), None
-            parameter_list[i] = float(parameter_list[i])
+                if i < len(parameter_list) - 1:
+                    return False, "第{0}个参数不是数值.".format(i), None
+                else:
+                    return False, "第{0}个参数不是整数.".format(i), None
+            if i < len(parameter_list) - 1:
+                parameter_list[i] = float(parameter_list[i])
+            else:
+                parameter_list[i] = int(parameter_list[i])
         msg = ''
         premium_rate = parameter_list[1]
         warning_threshold = parameter_list[2]
         large_threshold = parameter_list[3]
         warning_limit = parameter_list[4]
-        if premium_rate > 1 or premium_rate < -1:
-            msg += "越价率请设成小于-1到1之间的数，如设置成0.005，即5%\n"
+        if premium_rate > 1:
+            msg += "越价率请设成小于0到1之间的数，如设置成0.005，即0.5%\n"
+        if premium_rate <= 1e-8:
+            msg += "越价率请大于1e-8\n"
         if warning_threshold <= 0:
             msg += "越价+大单组合预警的大单阈值，只能为正数.\n"
         if large_threshold <= 0:

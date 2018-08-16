@@ -66,7 +66,7 @@ def wechat():
                 if ret:
                     active_time = time.time() + 60
                     new_setting_cache.update({rec_msg.FromUserName: [parameter_list, active_time]})
-                    msg += "\n\n确认更新请输入y或Y，取消请按n或N"
+                    msg += "\n\n确认更新请在一分钟内输入y或Y，取消请输入n或N"
                 else:  # 输入错误，或者与上次设置相同，都无需做
                     pass
                 rep_text_msg = reply.TextMsg(rec_msg.FromUserName, rec_msg.ToUserName,
