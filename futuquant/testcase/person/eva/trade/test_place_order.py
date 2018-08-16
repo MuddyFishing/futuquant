@@ -1,7 +1,7 @@
 #-*-coding:utf-8-*-
 from futuquant import *
 from futuquant.trade.open_trade_context import *
-from futuquant.testcase.eva.trade.Handler import *
+from futuquant.testcase.person.eva.trade.Handler import *
 import pandas
 
 class PlaceOrder(object):
@@ -64,33 +64,28 @@ class PlaceOrder(object):
 
     def test_us(self):
         host = '127.0.0.1'
-        port = 11111
-        self.tradeus_ctx = OpenUSTradeContext(host,port)
-        ret_code_unlock_trade, ret_data_unlock_trade = self.tradeus_ctx.unlock_trade(password='123123')
+        port = 11112
+        tradeus_ctx = OpenUSTradeContext(host,port)
+        ret_code_unlock_trade, ret_data_unlock_trade = tradeus_ctx.unlock_trade(password='123123')
         print('unlock_trade  ret_code= %d, ret_data= %s' % (ret_code_unlock_trade, ret_data_unlock_trade))
         # 设置监听
         handler_tradeOrder = TradeOrderTest()
         handler_tradeDealtrade = TradeDealTest()
-        self.tradeus_ctx.set_handler(handler_tradeOrder)
-        self.tradeus_ctx.set_handler(handler_tradeDealtrade)
+        tradeus_ctx.set_handler(handler_tradeOrder)
+        tradeus_ctx.set_handler(handler_tradeDealtrade)
         # 开启异步
-        self.tradeus_ctx.start()
+        tradeus_ctx.start()
 
-        code = 'US.AAPL'
-        price = 120
-        qty = 2644
+        code = 'US.AAPL180914P207500'   #US.AAPL180914C210000
+        price = 3
+        qty = 9
         trd_side = TrdSide.SELL
         order_type = OrderType.NORMAL
-        # NORMAL = "NORMAL"  # 普通订单(港股的增强限价单、A股限价委托、美股的限单)
-        # MARKET = "MARKET"  # 市价，目前仅美股
-        # ABSOLUTE_LIMIT = "ABSOLUTE_LIMIT"  # 港股_限价(只有价格完全匹配才成交)
-        # AUCTION = "AUCTION"  # 港股_竞价
-        # AUCTION_LIMIT = "AUCTION_LIMIT"  # 港股_竞价限价
-        # SPECIAL_LIMIT = "SPECIAL_LIMIT"  # 港股_特别限价(即市价IOC, 订单到达交易所后，或全部成交， 或部分成交再撤单， 或下单失败)
         adjust_limit = 0
         trd_env = TrdEnv.REAL
         acc_id = 0
-        ret_code, ret_data = self.tradeus_ctx.place_order(price, qty, code, trd_side, order_type, adjust_limit, trd_env,acc_id)
+        acc_index = 1
+        ret_code, ret_data = tradeus_ctx.place_order(price, qty, code, trd_side, order_type, adjust_limit, trd_env,acc_id,acc_index)
         print('place_order  ret_code= %d ,ret_data =\n%s' % (ret_code, str(ret_data)))
 
 
@@ -159,5 +154,5 @@ class PlaceOrder(object):
 
 if __name__ == '__main__':
     po = PlaceOrder()
-    # po.test_hk()
-    po.test1()
+    po.test_us()
+    # po.test1()

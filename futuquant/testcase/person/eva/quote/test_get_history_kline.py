@@ -2,16 +2,21 @@
 
 import futuquant
 from futuquant.common.constant import *
+import pandas
 
 class GetHistoryKline(object):
 
+    def __init__(self):
+        pandas.set_option('display.width', 1000)
+        pandas.set_option('max_columns', 1000)
+
     def test1(self):
-        quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1',port=11112)
+        quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1',port=11111)
         code = 'HK.00700'
-        start = '2018-07-01'
-        end = '2018-05-17'
-        ktype = KLType.K_WEEK
-        autype = AuType.QFQ
+        start = '2017-1-1'
+        end = None
+        ktype = KLType.K_DAY
+        autype = AuType.NONE
         fields = KL_FIELD.ALL_REAL
 
         ret_code , ret_data = quote_ctx.get_history_kline(code, start, end, ktype, autype, fields)
@@ -22,5 +27,4 @@ class GetHistoryKline(object):
 
 if __name__ == '__main__':
     ghk = GetHistoryKline()
-    for i in range(10):
-        ghk.test1()
+    ghk.test1()

@@ -83,8 +83,8 @@ def get_codes_cvs():
     获取cvs中的股票代码列表
     :return:
     '''
-    path_csv = os.path.dirname(os.path.dirname(os.getcwd())) + os.path.sep +'datas'+ os.path.sep +'stock1.csv'
-    codes = load_stock_code(path_csv) # r'D:\FutuCode\api\futuquant_v3.0\evatest\datas\stock1.csv'
+    path_csv = r'D:\\FutuCode\\api\\FutuOpenAPI\\futuquant\\testcase\\person\\eva\\datas\\stock1.csv'#os.path.dirname(os.path.dirname(os.getcwd())) + os.path.sep +'datas'+ os.path.sep +'stock1.csv'
+    codes = load_stock_code(path_csv) # r'D:\FutuCode\api\FutuOpenAPI\futuquant\testcase\person\eva\datas\\stock1.csv'
     return codes
 
 def export_stock():

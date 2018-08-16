@@ -12,11 +12,10 @@ class OrderListQuery(object):
     def test_hk(self):
         host = '127.0.0.1'
         port = 11112
-        tradehk_ctx = OpenHKTradeContext(host, port)
-        # self.tradehk_ctx = OpenUSTradeContext(host,port)
-        ret_code_unlock_trade, ret_data_unlock_trade = tradehk_ctx.unlock_trade(password='123123')
+        trade_ = OpenUSTradeContext(host, port)
+        ret_code_unlock_trade, ret_data_unlock_trade = trade_.unlock_trade(password='123123')
         print('unlock_trade  ret_code= %d, ret_data= %s' % (ret_code_unlock_trade, ret_data_unlock_trade))
-        ret_code,ret_data = tradehk_ctx.order_list_query(order_id="", status_filter_list=[], code='', start='', end='',trd_env=TrdEnv.REAL, acc_id=0)
+        ret_code,ret_data = trade_.order_list_query(order_id="", status_filter_list=[], code='', start='', end='',trd_env=TrdEnv.REAL,acc_id=0,acc_index=1)
 
         print(ret_code)
         print(ret_data)
@@ -50,5 +49,5 @@ class OrderListQuery(object):
 
 if __name__ == '__main__':
     olq = OrderListQuery()
-    # olq.test_sh()
-    olq.test1()
+    olq.test_hk()
+    # olq.test1()
