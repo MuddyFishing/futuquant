@@ -892,7 +892,7 @@ get_cur_kline
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.subscribee(['HK.00700'], [SubType.K_DAY])
+	quote_ctx.subscribe(['HK.00700'], [SubType.K_DAY])
     print(quote_ctx.get_cur_kline('HK.00700', 10, SubType.K_DAY, AuType.QFQ))
     quote_ctx.close()
         
@@ -926,7 +926,7 @@ get_order_book
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.subscribee(['HK.00700'], [SubType.ORDER_BOOK])
+	quote_ctx.subscribe(['HK.00700'], [SubType.ORDER_BOOK])
     print(quote_ctx.get_order_book('HK.00700'))
     quote_ctx.close()
 
