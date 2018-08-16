@@ -126,8 +126,8 @@ class OpenQuoteContext(OpenContextBase):
     def get_stock_basicinfo(self, market, stock_type=SecurityType.STOCK, code_list=None):
         """
         获取指定市场中特定类型的股票基本信息
-        :param market: 市场类型，futuquant.common.constsnt.Market
-        :param stock_type: 股票类型， futuquant.common.constsnt.SecurityType
+        :param market: 市场类型，futuquant.common.constant.Market
+        :param stock_type: 股票类型， futuquant.common.constant.SecurityType
         :param code_list: 如果不为None，应该是股票code的iterable类型，将只返回指定的股票信息
         :return: (ret_code, content)
                 ret_code 等于RET_OK时， content为Pandas.DataFrame数据, 否则为错误原因字符串, 数据列格式如下
@@ -489,7 +489,22 @@ class OpenQuoteContext(OpenContextBase):
                 ey_ratio                   float          收益率
                 pe_ratio                   float          市盈率
                 pb_ratio                   float          市净率
+                peTTMRate                  float          市盈率TTM
                 price_spread               float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
+                option_valid               bool           是否是期权
+                option_type                str            期权类型，参见OptionType
+                option_owner               str            标的股
+                option_strike_time         str            行权日
+                option_strike_price        float          行权价
+                option_contract_size       int            每份合约数
+                option_open_interest       int            未平仓合约数
+                option_implied_volatility  float          隐含波动率
+                option_premium             float          溢价
+                option_delta               float          希腊值 Delta
+                option_gamma               float          希腊值 Gamma
+                option_vega                float          希腊值 Vega
+                option_theta               float          希腊值 Theta
+                option_rho                 float          希腊值 Rho
                 =======================   =============   ==============================================================
         """
         code_list = unique_and_normalize_list(code_list)
@@ -548,8 +563,25 @@ class OpenQuoteContext(OpenContextBase):
             'ey_ratio',
             'pe_ratio',
             'pb_ratio',
+            # 2018.08.16 add
+            'peTTMRate',
             # 2017.1.25 add
             'price_spread',
+            # 2018.08.16 add option
+            'option_valid',
+            'option_type',
+            'option_owner',
+            'option_strike_time',
+            'option_strike_price',
+            'option_contract_size',
+            'option_open_interest',
+            'option_implied_volatility',
+            'option_premium',
+            'option_delta',
+            'option_gamma',
+            'option_vega',
+            'option_theta',
+            'option_rho',
         ]
 
         snapshot_frame_table = pd.DataFrame(snapshot_list, columns=col_list)
@@ -1519,15 +1551,15 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, holding_change_list
 
-    def get_option_chain(self, code, start_date, end_date=None, option_type=None, option_cond_type=None):
+    def get_option_chain(self, code, start_date, end_date=None, option_type=OptionType.ALL, option_cond_type=OptionCondType.ALL):
         """
         通过标的股查询期权
 
         :param code: 股票代码,例如：'HK.02318'
         :param start_date: 开始时间. 例如：'2017-08-01'或者'2017-08-01 10:00:00'
         :param end_date: 结束时间，不填为至今. 例如：'2017-10-01'或者'2017-10-01 10:00:00', 注意，时间范围最多30天
-        :param option_type: 期权类型,全部/看涨/看跌，futuquant.common.constant.OptionType
-        :param option_cond_type: 全部/价内/价外，futuquant.common.constant.OptionCondType
+        :param option_type: 期权类型,默认全部，全部/看涨/看跌，futuquant.common.constant.OptionType
+        :param option_cond_type: 默认全部，全部/价内/价外，futuquant.common.constant.OptionCondType
         :return: (ret, data)
 
                 ret == RET_OK 返回pd dataframe数据，数据列格式如下
@@ -1541,9 +1573,8 @@ class OpenQuoteContext(OpenContextBase):
                 name                 str           名字
                 lot_size             int           每手数量
                 stock_type           str           股票类型，参见SecurityType
-                stock_child_type     str           涡轮子类型，参见WrtType
                 stock_owner          str           正股代码
-                option_type          str           期权类型，Qot_Common.OptionType,期权
+                option_type          str           期权类型，Qot_Common.OptionType
                 owner                str           标的股
                 strike_ime           str           行权日
                 strike_price         float         行权价
@@ -1575,7 +1606,7 @@ class OpenQuoteContext(OpenContextBase):
             return ret_code, msg
 
         col_list = [
-            'code', 'name', 'lot_size', 'stock_type', 'stock_child_type', 'stock_owner',
+            'code', 'name', 'lot_size', 'stock_type', 'stock_owner',
             'option_type', 'owner', 'strike_time', 'strike_price', 'suspension', 'market',
             'listing_date', 'stock_id'
         ]
@@ -1583,6 +1614,6 @@ class OpenQuoteContext(OpenContextBase):
         option_chain = pd.DataFrame(option_chain_list, columns=col_list)
 
         if option_type is None or option_type == OptionType.ALL:
-            option_chain.sort_values(by=["option_type", "strike_price"], axis=0, ascending=True, inplace=True)
+            option_chain.sort_values(by=["strike_time", "strike_price"], axis=0, ascending=True, inplace=True)
 
         return RET_OK, option_chain

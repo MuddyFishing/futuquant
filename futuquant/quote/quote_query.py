@@ -236,6 +236,7 @@ class MarketSnapshotQuery:
             return RET_ERROR, ret_msg, None
 
         raw_snapshot_list = rsp_pb.s2c.snapshotList
+
         snapshot_list = []
         for record in raw_snapshot_list:
             snapshot_tmp = {}
@@ -274,6 +275,7 @@ class MarketSnapshotQuery:
             snapshot_tmp['pe_ratio'] = record.equityExData.peRate
             snapshot_tmp['pb_ratio'] = record.equityExData.pbRate
             snapshot_tmp['wrt_valid'] = False
+            snapshot_tmp['peTTMRate'] = record.equityExData.peTTMRate
 
             if record.basic.type == SEC_TYPE_MAP[SecurityType.WARRANT]:
                 snapshot_tmp['wrt_valid'] = True
@@ -302,6 +304,31 @@ class MarketSnapshotQuery:
                 snapshot_tmp[
                     'wrt_implied_volatility'] = record.warrantExData.impliedVolatility
                 snapshot_tmp['wrt_premium'] = record.warrantExData.premium
+            if record.basic.type == SEC_TYPE_MAP[SecurityType.DRVT]:
+                snapshot_tmp['option_valid'] = True
+                snapshot_tmp[
+                    'option_type'] = QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
+                snapshot_tmp['option_owner'] = merge_qot_mkt_stock_str(
+                    record.optionExData.owner.market, record.optionExData.owner.code)
+                snapshot_tmp[
+                    'option_strike_time'] = record.optionExData.strikeTime
+                snapshot_tmp[
+                    'option_strike_price'] = record.optionExData.strikePrice
+                snapshot_tmp[
+                    'option_contract_size'] = record.optionExData.contractSize
+                snapshot_tmp[
+                    'option_open_interest'] = record.optionExData.openInterest
+                snapshot_tmp['option_implied_volatility'] = record.optionExData.impliedVolatility
+                snapshot_tmp[
+                    'option_premium'] = record.optionExData.premium
+                snapshot_tmp[
+                    'option_delta'] = record.optionExData.delta
+                snapshot_tmp[
+                    'option_gamma'] = record.optionExData.gamma
+                snapshot_tmp[
+                    'option_vega'] = record.optionExData.vega
+                snapshot_tmp['option_theta'] = record.optionExData.theta
+                snapshot_tmp['option_rho'] = record.optionExData.rho
             else:
                 pass
             snapshot_list.append(snapshot_tmp)
@@ -1574,7 +1601,7 @@ class OptionChain:
         pass
 
     @classmethod
-    def pack_req(cls, code, conn_id, start_date, end_date=None, option_type=None, option_cond_type=None):
+    def pack_req(cls, code, conn_id, start_date, end_date=None, option_type=OptionType.ALL, option_cond_type=OptionCondType.ALL):
 
         ret, content = split_stock_str(code)
         if ret == RET_ERROR:
@@ -1601,13 +1628,11 @@ class OptionChain:
                 return ret, msg, None
             end_date = normalize_date_format(end_date)
 
-        if option_cond_type is not None:
-            option_cond_type = OPTION_COND_TYPE_CLASS_MAP[option_cond_type]
+        option_cond_type = OPTION_COND_TYPE_CLASS_MAP[option_cond_type]
         if option_cond_type == 0:
             option_cond_type = None
 
-        if option_cond_type is not None:
-            option_type = OPTION_TYPE_CLASS_MAP[option_type]
+        option_type = OPTION_TYPE_CLASS_MAP[option_type]
         if option_type == 0:
             option_type = None
 
@@ -1647,11 +1672,9 @@ class OptionChain:
                         "lot_size": record.basic.lotSize,
                         "stock_type": QUOTE.REV_SEC_TYPE_MAP[record.basic.secType]
                             if record.basic.secType in QUOTE.REV_SEC_TYPE_MAP else SecurityType.NONE,
-                        "stock_child_type": QUOTE.REV_WRT_TYPE_MAP[record.warrantExData.type]
-                            if record.warrantExData.type in QUOTE.REV_WRT_TYPE_MAP else WrtType.NONE,
                         "stock_owner":merge_qot_mkt_stock_str(
-                                record.warrantExData.owner.market,
-                                record.warrantExData.owner.code) if record.HasField('warrantExData') else "",
+                                record.optionExData.owner.market,
+                                record.optionExData.owner.code) if record.HasField('warrantExData') else "",
                         "listing_date": record.basic.listTime,
                         "option_type": QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
                             if record.HasField('optionExData') else "",
