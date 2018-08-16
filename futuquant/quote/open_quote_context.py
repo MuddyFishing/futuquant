@@ -496,7 +496,7 @@ class OpenQuoteContext(OpenContextBase):
                 ey_ratio                   float          收益率
                 pe_ratio                   float          市盈率
                 pb_ratio                   float          市净率
-                peTTMRate                  float          市盈率TTM
+                pe_ttm_ratio               float          市盈率TTM
                 price_spread               float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
                 option_valid               bool           是否是期权
                 option_type                str            期权类型，参见OptionType
@@ -571,7 +571,7 @@ class OpenQuoteContext(OpenContextBase):
             'pe_ratio',
             'pb_ratio',
             # 2018.08.16 add
-            'peTTMRate',
+            'pe_ttm_ratio',
             # 2017.1.25 add
             'price_spread',
             # 2018.08.16 add option
