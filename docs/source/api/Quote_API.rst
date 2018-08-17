@@ -1058,7 +1058,7 @@ get_holding_change_list
 
 ..  py:function:: get_holding_change_list(self, code, holder_type, start_date, end_date=None)
 
- 获取高管持仓列表,只提供美股数据
+ 获取大股东持股变动列表,只提供美股数据
 
  :param code: 股票代码. 例如：'US.AAPL'
  :param holder_type: 持有者类别，查看 StockHolder_
