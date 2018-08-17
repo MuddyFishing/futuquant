@@ -12,15 +12,14 @@ class AccinfoQuery(object):
     def test1(self):
         host = '127.0.0.1'
         port = 11112
-        trade_hk = OpenHKTradeContext(host, port)
-        # tradehk_ctx = OpenUSTradeContext(host, port)
-        ret_code_unlock_trade, ret_data_unlock_trade = trade_hk.unlock_trade(password='123123')
+        trade_ = OpenUSTradeContext(host, port)
+        ret_code_unlock_trade, ret_data_unlock_trade = trade_.unlock_trade(password='123123')
         print('unlock_trade  ret_code= %d, ret_data= %s' % (ret_code_unlock_trade, ret_data_unlock_trade))
-        ret_code_acc_list ,ret_data_acc_list = trade_hk.get_acc_list()
+        ret_code_acc_list ,ret_data_acc_list = trade_.get_acc_list()
         acc_list = ret_data_acc_list['acc_id'].tolist()
         for acc in acc_list:
             print('acc = %s'%acc)
-            print(trade_hk.accinfo_query(trd_env=TrdEnv.REAL, acc_id=acc))
+            print(trade_.accinfo_query(trd_env=TrdEnv.REAL, acc_id=acc))
 
 
     def test_sh(self):
@@ -53,4 +52,4 @@ class AccinfoQuery(object):
 
 if __name__ == '__main__':
     aq = AccinfoQuery()
-    aq.test2()
+    aq.test1()

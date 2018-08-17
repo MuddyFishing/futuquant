@@ -10,7 +10,7 @@ class GetStockQuote(object):
     #获取报价 get_stock_quote 和 StockQuoteHandlerBase
 
     def test1(self):
-        quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1',port=11115) #mac-kathy:172.18.6.144
+        quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1',port=11111) #mac-kathy:172.18.6.144
         quote_ctx.start()
         # 设置异步数据监听
         # handler = StockQuoteTest()

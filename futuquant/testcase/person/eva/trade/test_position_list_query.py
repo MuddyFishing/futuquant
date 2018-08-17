@@ -12,12 +12,12 @@ class PositionListQuery(object):
     def test_hk(self):
         host = '127.0.0.1'
         port = 11112
-        tradehk_ctx = OpenHKTradeContext(host, port)
-        # self.tradehk_ctx = OpenUSTradeContext(host, port)
-        ret_code_unlock_trade, ret_data_unlock_trade = tradehk_ctx.unlock_trade(password='123123')
+        trade_hk = OpenHKTradeContext(host, port)
+        # self.trade_hk = OpenUSTradeContext(host, port)
+        ret_code_unlock_trade, ret_data_unlock_trade = trade_hk.unlock_trade(password='123123')
         print('unlock_trade  ret_code= %d, ret_data= %s' % (ret_code_unlock_trade, ret_data_unlock_trade))
 
-        ret_code,ret_data = tradehk_ctx.position_list_query(code='', pl_ratio_min= None, pl_ratio_max= None, trd_env=TrdEnv.REAL, acc_id=0)
+        ret_code,ret_data = trade_hk.position_list_query(code='', pl_ratio_min= None, pl_ratio_max= None, trd_env=TrdEnv.REAL, acc_id=0)
         #281756455982434220 现金0268
         #281756457982434020  现金0178
         #281756455982434020  融资0068
@@ -37,7 +37,7 @@ class PositionListQuery(object):
 
     def test1(self):
         host =  '127.0.0.1'
-        port = 11115      #ubuntu
+        port = 11112
 
         # host = '172.18.6.144'#mac-patrick
         # port = 11111
@@ -47,7 +47,7 @@ class PositionListQuery(object):
         trade_sh_m = OpenCNTradeContext(host, port)
 
         print(trade_us.unlock_trade('123123'))
-        print(trade_us.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL, acc_id=0))
+        print(trade_us.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL, acc_id=0,acc_index=1))
         # print(trade_us.position_list_query(code='AAPL', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.SIMULATE, acc_id=0))
         # print(trade_sh_m.position_list_query(code='000700', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.SIMULATE, acc_id=0))
 

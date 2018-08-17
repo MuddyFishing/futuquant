@@ -49,16 +49,16 @@ class Sub(object):
         quote_ctx.close()
 
     def test5(self):
-        quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1', port=11111)
-        ret_code, ret_data = quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.STOCK)
-        codes = ret_data['code'].tolist()[:50]
-        subTypes = [SubType.QUOTE, SubType.ORDER_BOOK,SubType.BROKER, SubType.TICKER, SubType.RT_DATA, SubType.K_1M,SubType.K_5M,SubType.K_15M, SubType.K_30M, SubType.K_60M, SubType.K_DAY, SubType.K_WEEK, SubType.K_MON]
+        quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1', port=11112)
+        ret_code, ret_data = quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.STOCK,code_list=[])
+        codes = ret_data['code'].tolist()[0:22]
+        subTypes = [SubType.QUOTE, SubType.ORDER_BOOK,SubType.BROKER, SubType.TICKER, SubType.RT_DATA,
+                    SubType.K_1M,SubType.K_5M,SubType.K_15M, SubType.K_30M, SubType.K_60M,
+                    SubType.K_DAY, SubType.K_WEEK, SubType.K_MON]
 
-        quote_ctx.subscribe(codes, subTypes)
-
-
-
+        print(quote_ctx.subscribe(codes, subTypes))
+        print(quote_ctx.query_subscription())
 
 if __name__ == '__main__':
     sub = Sub()
-    sub.test6()
+    sub.test5()
