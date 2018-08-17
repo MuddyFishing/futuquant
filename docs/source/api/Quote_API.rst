@@ -798,12 +798,16 @@ get_stock_quote
         listing_date            str            上市日期 (yyyy-MM-dd)
         price_spread            float          当前价差，亦即摆盘数据的买档或卖档的相邻档位的报价差
 		dark_status             str            暗盘交易状态，见DarkStatus
-        option_type             str            期权类型，查看 OptionType_
-        owner                   str            标的股
-        strike_ime              str            行权日
         strike_price            float          行权价
-        suspension              bool           是否停牌(True表示停牌)
-        market                  str            发行市场名字
+        contract_size           int            每份合约数
+        open_interest           int            未平仓合约数
+        implied_volatility      float          隐含波动率
+        premium                 float          溢价
+        delta                   float          希腊值 Delta
+        gamma                   float          希腊值 Gamma
+        vega                    float          希腊值 Vega
+        theta                   float          希腊值 Theta
+        rho                     float          希腊值 Rho
         =====================   ===========   ==============================================================
 		
  :example:
@@ -812,7 +816,9 @@ get_stock_quote
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-    print(quote_ctx.get_stock_quote(['HK.00700']))
+    code_list = ['US_OPTION.AAPL180914C212500']
+    print(quote_ctx.subscribe(code_list, [SubType.QUOTE]))
+    print(quote_ctx.get_stock_quote(code_list))
     quote_ctx.close()
         
 get_rt_ticker
