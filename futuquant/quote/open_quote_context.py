@@ -142,7 +142,7 @@ class OpenQuoteContext(OpenContextBase):
             listing_date        str            上市时间
             option_type         str            期权类型，Qot_Common.OptionType
             owner               str            标的股
-            strike_ime          str            行权日
+            strike_time          str           行权日
             strike_price        float          行权价
             suspension          bool           是否停牌(True表示停牌)
             market              str            发行市场名字
@@ -1219,12 +1219,16 @@ class OpenQuoteContext(OpenContextBase):
                 listing_date            str            上市日期 (yyyy-MM-dd)
                 price_spread            float          当前价差，亦即摆盘数据的买档或卖档的相邻档位的报价差
                 dark_status             str            暗盘交易状态，见DarkStatus
-                option_type             str            期权类型，Qot_Common.OptionType
-                owner                   str            标的股
-                strike_ime              str            行权日
                 strike_price            float          行权价
-                suspension              bool           是否停牌(True表示停牌)
-                market                  str            发行市场名字
+                contract_size           int            每份合约数
+                open_interest           int            未平仓合约数
+                implied_volatility      float          隐含波动率
+                premium                 float          溢价
+                delta                   float          希腊值 Delta
+                gamma                   float          希腊值 Gamma
+                vega                    float          希腊值 Vega
+                theta                   float          希腊值 Theta
+                rho                     float          希腊值 Rho
                 =====================   ===========   ==============================================================
 
         """
@@ -1250,8 +1254,9 @@ class OpenQuoteContext(OpenContextBase):
             'code', 'data_date', 'data_time', 'last_price', 'open_price',
             'high_price', 'low_price', 'prev_close_price', 'volume',
             'turnover', 'turnover_rate', 'amplitude', 'suspension',
-            'listing_date', 'price_spread', 'dark_status', 'option_type',
-            'owner', 'strike_ime', 'strike_price', 'suspension', 'market'
+            'listing_date', 'price_spread', 'dark_status', 'strike_price',
+            'contract_size', 'open_interest', 'implied_volatility',
+            'premium', 'delta', 'gamma', 'vega', 'theta', 'rho'
         ]
 
         quote_frame_table = pd.DataFrame(quote_list, columns=col_list)
@@ -1629,7 +1634,7 @@ class OpenQuoteContext(OpenContextBase):
 
     def get_holding_change_list(self, code, holder_type, start_date, end_date=None):
         """
-        获取高管持仓列表,只提供美股数据
+        获取大股东持股变动列表,只提供美股数据
 
         :param code: 股票代码. 例如：'US.AAPL'
         :param holder_type: 持有者类别，futuquant.common.constant.StockHolder

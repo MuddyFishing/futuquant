@@ -1008,14 +1008,16 @@ class StockQuoteQuery:
             'listing_date': record.listTime,
             'price_spread': record.priceSpread if record.HasField('priceSpread') else 0,
             'dark_status': QUOTE.REV_DARK_STATUS_MAP[record.darkStatus] if record.HasField('darkStatus') else DarkStatus.NONE,
-            "option_type": QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
-                if record.HasField('optionExData') else "",
-            "owner": merge_qot_mkt_stock_str(int(record.optionExData.owner.market), record.optionExData.owner.code)
-                if record.HasField('optionExData') else "",
-            "strike_time": record.optionExData.strikeTime,
-            "strike_price": record.optionExData.strikePrice if record.HasField('optionExData') else "NaN",
-            "suspension": record.optionExData.suspend if record.HasField('optionExData') else "N/A",
-            "market": record.optionExData.market if record.HasField('optionExData') else "",
+            "strike_price": record.optionExData.strikePrice,
+            "contract_size": record.optionExData.contractSize,
+            "open_interest": record.optionExData.openInterest,
+            "implied_volatility": record.optionExData.impliedVolatility,
+            "premium": record.optionExData.premium,
+            "delta": record.optionExData.delta,
+            "gamma": record.optionExData.gamma,
+            'vega': record.optionExData.vega,
+            'theta': record.optionExData.theta,
+            'rho': record.optionExData.rho,
         } for record in raw_quote_list]
 
         return RET_OK, "", quote_list
