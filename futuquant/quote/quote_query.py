@@ -535,7 +535,7 @@ class BrokerQueueQuery:
         return RET_OK, "", (stock_code, bid_list, ask_list)
 
 
-class HistoryKlineQuery:
+class GetHistoryKlineQuery:
     """
     Query Conversion for getting historic Kline data.
     """
@@ -579,7 +579,7 @@ class HistoryKlineQuery:
         req.c2s.maxAckKLNum = max_num
         req.c2s.needKLFieldsFlag = KL_FIELD.kl_fields_to_flag_val(fields)
 
-        return req
+        return pack_pb_req(req, ProtoId.Qot_GetHistoryKL, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
@@ -629,34 +629,94 @@ class HistoryKlineQuery:
         return RET_OK, "", (list_ret, has_next, next_time)
 
 
-class GetHistoryKlineQuery:
-    def __init__(self):
-        pass
-
-    @classmethod
-    def pack_req(cls, code, start_date, end_date, ktype, autype, fields,
-                 max_num, conn_id):
-        req = HistoryKlineQuery.pack_req(code, start_date, end_date, ktype, autype, fields, max_num, conn_id)
-        return pack_pb_req(req, ProtoId.Qot_GetHistoryKL, conn_id)
-
-    @classmethod
-    def unpack_rsp(cls, rsp_pb):
-        return HistoryKlineQuery.unpack_rsp(rsp_pb)
-
-
 class RequestHistoryKlineQuery:
     def __init__(self):
         pass
 
     @classmethod
     def pack_req(cls, code, start_date, end_date, ktype, autype, fields,
-                 max_num, conn_id):
-        req = HistoryKlineQuery.pack_req(code, start_date, end_date, ktype, autype, fields, max_num, conn_id)
+                 max_num, conn_id, next_req_key):
+        ret, content = split_stock_str(code)
+        if ret == RET_ERROR:
+            error_str = content
+            return RET_ERROR, error_str, None
+
+        market_code, stock_code = content
+
+        # check k line type
+        if ktype not in KTYPE_MAP:
+            error_str = ERROR_STR_PREFIX + "ktype is %s, which is not valid. (%s)" \
+                        % (ktype, ", ".join([x for x in KTYPE_MAP]))
+            return RET_ERROR, error_str, None
+
+        if autype not in AUTYPE_MAP:
+            error_str = ERROR_STR_PREFIX + "autype is %s, which is not valid. (%s)" \
+                        % (autype, ", ".join([str(x) for x in AUTYPE_MAP]))
+            return RET_ERROR, error_str, None
+
+        from futuquant.common.pb.Qot_RequestHistoryKL_pb2 import Request
+
+        req = Request()
+        req.c2s.rehabType = AUTYPE_MAP[autype]
+        req.c2s.klType = KTYPE_MAP[ktype]
+        req.c2s.security.market = market_code
+        req.c2s.security.code = stock_code
+        if start_date:
+            req.c2s.beginTime = start_date
+        if end_date:
+            req.c2s.endTime = end_date
+        req.c2s.maxAckKLNum = max_num
+        req.c2s.needKLFieldsFlag = KL_FIELD.kl_fields_to_flag_val(fields)
+        if next_req_key is not None:
+            req.c2s.nextReqKey = next_req_key
+
         return pack_pb_req(req, ProtoId.Qot_RequestHistoryKL, conn_id)
 
     @classmethod
     def unpack_rsp(cls, rsp_pb):
-        return HistoryKlineQuery.unpack_rsp(rsp_pb)
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
+
+        has_next = False
+        next_req_key = None
+        if rsp_pb.s2c.HasField('nextReqKey'):
+            has_next = True
+            next_req_key = bytes(rsp_pb.s2c.nextReqKey)
+
+        stock_code = merge_qot_mkt_stock_str(rsp_pb.s2c.security.market,
+                                     rsp_pb.s2c.security.code)
+
+        list_ret = []
+        dict_data = {}
+        raw_kline_list = rsp_pb.s2c.klList
+        for record in raw_kline_list:
+            dict_data['code'] = stock_code
+            dict_data['time_key'] = record.time
+            if record.isBlank:
+                continue
+            if record.HasField('openPrice'):
+                dict_data['open'] = record.openPrice
+            if record.HasField('highPrice'):
+                dict_data['high'] = record.highPrice
+            if record.HasField('lowPrice'):
+                dict_data['low'] = record.lowPrice
+            if record.HasField('closePrice'):
+                dict_data['close'] = record.closePrice
+            if record.HasField('volume'):
+                dict_data['volume'] = record.volume
+            if record.HasField('turnover'):
+                dict_data['turnover'] = record.turnover
+            if record.HasField('pe'):
+                dict_data['pe_ratio'] = record.pe
+            if record.HasField('turnoverRate'):
+                dict_data['turnover_rate'] = record.turnoverRate
+            if record.HasField('changeRate'):
+                dict_data['change_rate'] = record.changeRate
+            if record.HasField('lastClosePrice'):
+                dict_data['last_close'] = record.lastClosePrice
+            list_ret.append(dict_data.copy())
+
+        return RET_OK, "", (list_ret, has_next, next_req_key)
 
 class ExrightQuery:
     """

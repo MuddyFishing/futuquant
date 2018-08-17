@@ -271,6 +271,57 @@ get_history_kline
     quote_ctx.close()
 
 
+request_history_kline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: request_history_kline(self, code, start=None, end=None, ktype=KLType.K_DAY, autype=AuType.QFQ, fields=[KL_FIELD.ALL], max_count=1000, page_req_key=None)
+
+ 获取k线，不需要事先下载k线数据。
+
+ :param code: 股票代码
+ :param start: 开始时间，例如2017-06-20
+ :param end:  结束时间
+ :param ktype: k线类型， 参见 KLType_ 定义
+ :param autype: 复权类型, 参见 AuType_ 定义
+ :param fields: 需返回的字段列表，参见 KL_FIELD_ 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
+ :param max_count: 本次请求最大返回的数据点个数，传None表示返回start和end之间所有的数据。
+ :param page_req_key: 分页请求的key。如果start和end之间的数据点多于max_count，那么后续请求时，要传入上次调用返回的page_req_key
+ :return: (ret, data, page_req_key)
+
+        ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下。page_req_key在分页请求时（即max_count>0）可能返回，并且需要在后续的请求中传入。
+
+        ret != RET_OK 返回错误字符串
+
+    =================   ===========   ==============================================================================
+    参数                  类型                        说明
+    =================   ===========   ==============================================================================
+    code                str            股票代码
+    time_key            str            k线时间
+    open                float          开盘价
+    close               float          收盘价
+    high                float          最高价
+    low                 float          最低价
+    pe_ratio            float          市盈率
+    turnover_rate       float          换手率
+    volume              int            成交量
+    turnover            float          成交额
+    change_rate         float          涨跌幅
+    last_close          float          昨收价
+    =================   ===========   ==============================================================================
+
+	
+ :example:
+
+ .. code:: python
+
+    from futuquant import *
+    ret, data, page_req_key = quote_ctx.request_history_kline('HK.00700', start='2017-06-20', end='2018-06-22', max_count=50)
+    print(ret, data)
+    ret, data, page_req_key = quote_ctx.request_history_kline('HK.00700', start='2017-06-20', end='2018-06-22', max_count=50, page_req_key=page_req_key)
+    print(ret, data)
+    quote_ctx.close()
+
+
 get_autype_list
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -841,7 +892,7 @@ get_cur_kline
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.subscribee(['HK.00700'], [SubType.K_DAY])
+	quote_ctx.subscribe(['HK.00700'], [SubType.K_DAY])
     print(quote_ctx.get_cur_kline('HK.00700', 10, SubType.K_DAY, AuType.QFQ))
     quote_ctx.close()
         
@@ -875,7 +926,7 @@ get_order_book
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.subscribee(['HK.00700'], [SubType.ORDER_BOOK])
+	quote_ctx.subscribe(['HK.00700'], [SubType.ORDER_BOOK])
     print(quote_ctx.get_order_book('HK.00700'))
     quote_ctx.close()
 
@@ -976,7 +1027,7 @@ get_owner_plate
 
  获取单支或多支股票的所属板块信息列表
 
- :param code_list: 股票代码列表，仅支持正股、指数。list或str。例如：['HK.00700', 'HK.00001']或者'HK.00700,HK.00001'
+ :param code_list: 股票代码列表，仅支持正股、指数。list或str。例如：['HK.00700', 'HK.00001']或者'HK.00700,HK.00001'，最多可传入200只股票
  :return: (ret, data)
 
         ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
@@ -1363,6 +1414,7 @@ on_recv_rsp
  get_rt_ticker				            可获取逐笔最多最近1000个
  get_cur_kline				            可获取K线最多最近1000根
  get_multi_points_history_kline         时间点最多5个
+ get_owner_plate                        传入股票最多200个
  ===============================        =========================
 
 ----------------------------
@@ -1376,13 +1428,16 @@ on_recv_rsp
 低频数据接口是指不需要定阅就可以请求数据的接口， api的请求到达网关客户端后， 会转发请求到futu后台服务器，为控制流量，会对请求频率加以控制，
 目前的频率限制是以连续30秒内，限制请求次数，具体那些接口有限制以及限制次数如下:
 
- =====================        =====================
- 接口名称                     连续30秒内次数限制
- =====================        =====================
- get_market_snapshot          10
- get_plate_list               10
- get_plate_stock              10
- =====================        =====================
+ ==========================        =========================
+ 接口名称                          连续30秒内次数限制
+ ==========================        =========================
+ get_market_snapshot               参考OpenAPI用户等级权限
+ get_plate_list                    10
+ get_plate_stock                   10
+ get_option_chain                  10
+ get_holding_change_list           10
+ get_owner_plate                   10
+ ==========================        =========================
 
 ---------------------------------------------------------------------
 
@@ -1395,20 +1450,40 @@ on_recv_rsp
 
  用户额度 >= 订阅K线股票数 * K线权重 + 订阅逐笔股票数 * 逐笔权重 + 订阅报价股票数 * 报价权重 + 订阅摆盘股票数 * 摆盘权重
  
-2.订阅不同的类型，会消耗不同的额度，当总额度超过上限后，目前用户总额度上限为500。
+2.目前所有订阅类型占用额度均为1，用户总额度与用户等级相关。
 
 3.订阅至少一分钟才可以反订阅
 
- =====================    ===============================
- 订阅数据                 额度权重（所占订阅单位）
- =====================    ===============================
- K线						2
- 分时						2
- 逐笔						5（牛熊证为1）
- 报价						1
- 摆盘						5（牛熊证为1）
- 经纪队列					5（牛熊证为1）
- =====================    ===============================
+OpenAPI用户等级权限
+----------------------
+
+ ==========================        =========================        =========================        =========================
+ 协议限制                          一级用户                         二级用户                         三级用户
+ ==========================        =========================        =========================        =========================
+ 订阅额度                          100                              300                              1000
+ 30秒内快照请求次数                10                               20                               30 
+ 快照每次个数                      200                              300                              400
+ 历史K线请求个数                   100                              300                              1000                                                                  
+ ==========================        =========================        =========================        =========================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

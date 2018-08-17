@@ -188,6 +188,14 @@ enum DarkStatus
 	DarkStatus_End = 2; //暗盘交易结束
 }
 
+enum HolderCategory
+{
+	HolderCategory_Unknow = 0; //未知
+	HolderCategory_Agency = 1; //机构
+	HolderCategory_Fund = 2; //基金
+	HolderCategory_SeniorManager = 3; //高管
+}
+
  //两个字段确定一支股票
 message Security
 {

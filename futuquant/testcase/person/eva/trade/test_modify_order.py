@@ -5,21 +5,21 @@ from futuquant.quote.open_quote_context import *
 
 class ModifyOrder(object):
 
-    def test_hk(self):
+    def test_us(self):
         host = '127.0.0.1'   #mac-kathy:172.18.6.144
         port = 11112
-        self.trade_ctx_hk = OpenHKTradeContext(host, port)
-        ret_code_unlock_trade, ret_data_unlock_trade = self.trade_ctx_hk.unlock_trade(password='123123')
+        trade_ = OpenUSTradeContext(host, port)
+        ret_code_unlock_trade, ret_data_unlock_trade = trade_.unlock_trade(password='123123')
         print('unlock_trade  ret_code= %d, ret_data= %s' % (ret_code_unlock_trade, ret_data_unlock_trade))
         modify_order_op = ModifyOrderOp.NORMAL
-        order_id = '7522391930750799566'
-        qty = 2400
-        price = 375
+        order_id = '2285638475093535808'
+        qty = 500
+        price = 2.51
+        adjust_limit = 0
+        trd_env = TrdEnv.REAL
         acc_id = 0
-        #281756455982434220 现金0268
-        #281756457982434020  现金0178
-        #281756455982434020  融资0068
-        ret_code, ret_data = self.trade_ctx_hk.modify_order(modify_order_op, order_id, qty, price)   #, qty, price, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=acc_id
+        acc_index = 1
+        ret_code, ret_data = trade_.modify_order(modify_order_op, order_id, qty, price,adjust_limit,trd_env,acc_id,acc_index)   #, qty, price, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=acc_id
         print(ret_code)
         print(ret_data)
 
@@ -45,4 +45,4 @@ class ModifyOrder(object):
 
 if __name__ == '__main__':
     mo = ModifyOrder()
-    mo.test1()
+    mo.test_us()

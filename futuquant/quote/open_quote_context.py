@@ -247,54 +247,14 @@ class OpenQuoteContext(OpenContextBase):
         return 0, result
 
     def _get_history_kline_impl(self,
-                          query_cls,
-                          code,
-                          start=None,
-                          end=None,
-                          ktype=KLType.K_DAY,
-                          autype=AuType.QFQ,
-                          fields=[KL_FIELD.ALL]):
-        """
-        得到本地历史k线，需先参照帮助文档下载k线
-
-        :param code: 股票代码
-        :param start: 开始时间，例如2017-06-20
-        :param end:  结束时间
-        :param ktype: k线类型， 参见 KLType 定义
-        :param autype: 复权类型, 参见 AuType 定义
-        :param fields: 需返回的字段列表，参见 KL_FIELD 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
-        :return: (ret, data)
-
-                ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
-
-                ret != RET_OK 返回错误字符串
-
-            =================   ===========   ==============================================================================
-            参数                  类型                        说明
-            =================   ===========   ==============================================================================
-            code                str            股票代码
-            time_key            str            k线时间
-            open                float          开盘价
-            close               float          收盘价
-            high                float          最高价
-            low                 float          最低价
-            pe_ratio            float          市盈率
-            turnover_rate       float          换手率
-            volume              int            成交量
-            turnover            float          成交额
-            change_rate         float          涨跌幅
-            last_close          float          昨收价
-            =================   ===========   ==============================================================================
-
-        :example:
-
-        .. code:: python
-
-            from futuquant import *
-            quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-            print(quote_ctx.get_history_kline('HK.00700', start='2017-06-20', end='2017-06-22'))
-            quote_ctx.close()
-        """
+                                query_cls,
+                                code,
+                                start=None,
+                                end=None,
+                                ktype=KLType.K_DAY,
+                                autype=AuType.QFQ,
+                                fields=[KL_FIELD.ALL]
+                                ):
 
         if start is not None and is_str(start) is False:
             error_str = ERROR_STR_PREFIX + "the type of start param is wrong"
@@ -371,6 +331,47 @@ class OpenQuoteContext(OpenContextBase):
                       ktype=KLType.K_DAY,
                       autype=AuType.QFQ,
                       fields=[KL_FIELD.ALL]):
+        """
+            得到本地历史k线，需先参照帮助文档下载k线
+
+            :param code: 股票代码
+            :param start: 开始时间，例如2017-06-20
+            :param end:  结束时间
+            :param ktype: k线类型， 参见 KLType 定义
+            :param autype: 复权类型, 参见 AuType 定义
+            :param fields: 需返回的字段列表，参见 KL_FIELD 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
+            :return: (ret, data)
+
+                    ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
+
+                    ret != RET_OK 返回错误字符串
+
+                =================   ===========   ==============================================================================
+                参数                  类型                        说明
+                =================   ===========   ==============================================================================
+                code                str            股票代码
+                time_key            str            k线时间
+                open                float          开盘价
+                close               float          收盘价
+                high                float          最高价
+                low                 float          最低价
+                pe_ratio            float          市盈率
+                turnover_rate       float          换手率
+                volume              int            成交量
+                turnover            float          成交额
+                change_rate         float          涨跌幅
+                last_close          float          昨收价
+                =================   ===========   ==============================================================================
+
+            :example:
+
+            .. code:: python
+
+                from futuquant import *
+                quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+                print(quote_ctx.get_history_kline('HK.00700', start='2017-06-20', end='2017-06-22'))
+                quote_ctx.close()
+        """
         return self._get_history_kline_impl(GetHistoryKlineQuery, code, start=start, end=end,
                                             ktype=ktype, autype=autype, fields=fields)
 
@@ -380,9 +381,133 @@ class OpenQuoteContext(OpenContextBase):
                               end=None,
                               ktype=KLType.K_DAY,
                               autype=AuType.QFQ,
-                              fields=[KL_FIELD.ALL]):
-        return self._get_history_kline_impl(RequestHistoryKlineQuery, code, start=start, end=end,
-                                            ktype=ktype, autype=autype, fields=fields)
+                              fields=[KL_FIELD.ALL],
+                              max_count=1000,
+                              page_req_key=None):
+        """
+        拉取历史k线，不需要先下载历史数据。
+
+        :param code: 股票代码
+        :param start: 开始时间，例如2017-06-20
+        :param end:  结束时间
+        :param ktype: k线类型， 参见 KLType 定义
+        :param autype: 复权类型, 参见 AuType 定义
+        :param fields: 需返回的字段列表，参见 KL_FIELD 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
+        :param max_count: 本次请求最大返回的数据点个数，传None表示返回start和end之间所有的数据。
+        :param page_req_key: 分页请求的key。如果start和end之间的数据点多于max_count，那么后续请求时，要传入上次调用返回的page_req_key
+        :return: (ret, data, page_req_key)
+
+                ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下。page_req_key在分页请求时（即max_count>0）可能返回，并且需要在后续的请求中传入。
+
+                ret != RET_OK 返回错误字符串
+
+            =================   ===========   ==============================================================================
+            参数                  类型                        说明
+            =================   ===========   ==============================================================================
+            code                str            股票代码
+            time_key            str            k线时间
+            open                float          开盘价
+            close               float          收盘价
+            high                float          最高价
+            low                 float          最低价
+            pe_ratio            float          市盈率
+            turnover_rate       float          换手率
+            volume              int            成交量
+            turnover            float          成交额
+            change_rate         float          涨跌幅
+            last_close          float          昨收价
+            =================   ===========   ==============================================================================
+
+        :note
+
+        :example:
+
+        .. code:: python
+
+            from futuquant import *
+            quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+            ret, data, page_req_key = quote_ctx.request_history_kline('HK.00700', start='2017-06-20', end='2018-06-22', max_count=50)
+            print(ret, data)
+            ret, data, page_req_key = quote_ctx.request_history_kline('HK.00700', start='2017-06-20', end='2018-06-22', max_count=50, page_req_key=page_req_key)
+            print(ret, data)
+            quote_ctx.close()
+        """
+        next_page_req_key = None
+        if start is not None and is_str(start) is False:
+            error_str = ERROR_STR_PREFIX + "the type of start param is wrong"
+            return RET_ERROR, error_str, next_page_req_key
+
+        if end is not None and is_str(end) is False:
+            error_str = ERROR_STR_PREFIX + "the type of end param is wrong"
+            return RET_ERROR, error_str, next_page_req_key
+
+        req_fields = unique_and_normalize_list(fields)
+        if not fields:
+            req_fields = copy(KL_FIELD.ALL_REAL)
+        req_fields = KL_FIELD.normalize_field_list(req_fields)
+        if not req_fields:
+            error_str = ERROR_STR_PREFIX + "the type of fields param is wrong"
+            return RET_ERROR, error_str, next_page_req_key
+
+        if autype is None:
+            autype = 'None'
+
+        param_table = {'code': code, 'ktype': ktype, 'autype': autype}
+        for x in param_table:
+            param = param_table[x]
+            if param is None or is_str(param) is False:
+                error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
+                return RET_ERROR, error_str, next_page_req_key
+
+        # format start end date
+        ret, msg, req_start, end = normalize_start_end_date(start, end, 365)
+        if ret != RET_OK:
+            return ret, msg, next_page_req_key
+
+        max_kl_num = min(1000, max_count) if max_count is not None else 1000
+        data_finish = False
+        list_ret = []
+        # 循环请求数据，避免一次性取太多超时
+        while not data_finish:
+            kargs = {
+                "code": code,
+                "start_date": req_start,
+                "end_date": end,
+                "ktype": ktype,
+                "autype": autype,
+                "fields": copy(req_fields),
+                "max_num": max_kl_num,
+                "conn_id": self.get_sync_conn_id(),
+                "next_req_key": page_req_key
+            }
+            query_processor = self._get_sync_query_processor(RequestHistoryKlineQuery.pack_req,
+                                                             RequestHistoryKlineQuery.unpack_rsp)
+            ret_code, msg, content = query_processor(**kargs)
+            if ret_code != RET_OK:
+                return ret_code, msg, next_page_req_key
+
+            list_kline, has_next, page_req_key = content
+            list_ret.extend(list_kline)
+            next_page_req_key = page_req_key
+            if max_count is not None:
+                if max_count > len(list_ret):
+                    data_finish = False
+                    max_kl_num = min(max_count - len(list_ret), 1000)
+                else:
+                    data_finish = True
+            else:
+                data_finish = not has_next
+
+        # 表头列
+        col_list = ['code']
+        for field in req_fields:
+            str_field = KL_FIELD.DICT_KL_FIELD_STR[field]
+            if str_field not in col_list:
+                col_list.append(str_field)
+
+        kline_frame_table = pd.DataFrame(list_ret, columns=col_list)
+
+        return RET_OK, kline_frame_table, next_page_req_key
 
     def get_autype_list(self, code_list):
         """
