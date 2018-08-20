@@ -595,9 +595,20 @@ class OpenQuoteContext(OpenContextBase):
                 turnover_rate              float          换手率
                 suspension                 bool           是否停牌(True表示停牌)
                 listing_date               str            上市日期 (yyyy-MM-dd)
-                circular_market_val        float          流通市值
+                equity_valid               bool           是否正股（为true时以下正股相关字段才有合法数值）
+                issued_shares              int            发行股本
                 total_market_val           float          总市值
-                wrt_valid                  bool           是否是窝轮
+                net_asset                  int            资产净值
+                net_profit                 int            净利润
+                earning_per_share          float          每股盈利
+                outstanding_shares         int            流通股本
+                net_asset_per_share        float          每股净资产
+                circular_market_val        float          流通市值
+                ey_ratio                   float          收益率
+                pe_ratio                   float          市盈率
+                pb_ratio                   float          市净率
+                pe_ttm_ratio               float          市盈率TTM
+                wrt_valid                  bool           是否是窝轮（为true时以下涡轮相关的字段才有合法数据）
                 wrt_conversion_ratio       float          换股比率
                 wrt_type                   str            窝轮类型，参见WrtType
                 wrt_strike_price           float          行使价格
@@ -612,18 +623,8 @@ class OpenQuoteContext(OpenContextBase):
                 wrt_implied_volatility     float          窝轮引伸波幅
                 wrt_premium                float          窝轮溢价
                 lot_size                   int            每手股数
-                issued_shares              int            发行股本
-                net_asset                  int            资产净值
-                net_profit                 int            净利润
-                earning_per_share          float          每股盈利
-                outstanding_shares         int            流通股本
-                net_asset_per_share        float          每股净资产
-                ey_ratio                   float          收益率
-                pe_ratio                   float          市盈率
-                pb_ratio                   float          市净率
-                pe_ttm_ratio               float          市盈率TTM
                 price_spread               float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
-                option_valid               bool           是否是期权
+                option_valid               bool           是否是期权（为true时以下期权相关的字段才有合法数值）
                 option_type                str            期权类型，参见OptionType
                 option_owner               str            标的股
                 option_strike_time         str            行权日
@@ -655,6 +656,47 @@ class OpenQuoteContext(OpenContextBase):
         if ret_code == RET_ERROR:
             return ret_code, msg
 
+        equity_col_list = ['issued_shares',
+                           'total_market_val',
+                           'net_asset',
+                           'net_profit',
+                           'earning_per_share',
+                           'outstanding_shares',
+                           'circular_market_val',
+                           'net_asset_per_share',
+                           'ey_ratio',
+                           'pe_ratio',
+                           'pb_ratio',
+                           'pe_ttm_ratio'
+                           ]
+        wrt_col_list = ['wrt_conversion_ratio',
+                        'wrt_type',
+                        'wrt_strike_price',
+                        'wrt_maturity_date',
+                        'wrt_end_trade',
+                        'wrt_code',
+                        'wrt_recovery_price',
+                        'wrt_street_vol',
+                        'wrt_issue_vol',
+                        'wrt_street_ratio',
+                        'wrt_delta',
+                        'wrt_implied_volatility',
+                        'wrt_premium'
+                        ]
+        option_col_list = ['option_type',
+                           'option_owner',
+                           'option_strike_time',
+                           'option_strike_price',
+                           'option_contract_size',
+                           'option_open_interest',
+                           'option_implied_volatility',
+                           'option_premium',
+                           'option_delta',
+                           'option_gamma',
+                           'option_vega',
+                           'option_theta',
+                           'option_rho'
+                           ]
         col_list = [
             'code',
             'update_time',
@@ -668,53 +710,16 @@ class OpenQuoteContext(OpenContextBase):
             'turnover_rate',
             'suspension',
             'listing_date',
-            'circular_market_val',
-            'total_market_val',
-            'wrt_valid',
-            'wrt_conversion_ratio',
-            'wrt_type',
-            'wrt_strike_price',
-            'wrt_maturity_date',
-            'wrt_end_trade',
-            'wrt_code',
-            'wrt_recovery_price',
-            'wrt_street_vol',
-            'wrt_issue_vol',
-            'wrt_street_ratio',
-            'wrt_delta',
-            'wrt_implied_volatility',
-            'wrt_premium',
             'lot_size',
-            # 2017.11.6 add
-            'issued_shares',
-            'net_asset',
-            'net_profit',
-            'earning_per_share',
-            'outstanding_shares',
-            'net_asset_per_share',
-            'ey_ratio',
-            'pe_ratio',
-            'pb_ratio',
-            # 2018.08.16 add
-            'pe_ttm_ratio',
-            # 2017.1.25 add
-            'price_spread',
-            # 2018.08.16 add option
-            'option_valid',
-            'option_type',
-            'option_owner',
-            'option_strike_time',
-            'option_strike_price',
-            'option_contract_size',
-            'option_open_interest',
-            'option_implied_volatility',
-            'option_premium',
-            'option_delta',
-            'option_gamma',
-            'option_vega',
-            'option_theta',
-            'option_rho',
+            'price_spread'
         ]
+
+        col_list.append('equity_valid')
+        col_list.extend(equity_col_list)
+        col_list.append('wrt_valid')
+        col_list.extend(wrt_col_list)
+        col_list.append('option_valid')
+        col_list.extend(option_col_list)
 
         snapshot_frame_table = pd.DataFrame(snapshot_list, columns=col_list)
 
