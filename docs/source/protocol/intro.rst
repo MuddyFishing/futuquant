@@ -238,30 +238,24 @@ arrReserved      保留8字节扩展
 .. code-block:: bash
 	
 	{
-	    "Request":
-	    {
-	        "c2s": 
-	        {
-	            "req": 0
-	        }
-	    }
+		"c2s": 
+		{
+			"req": 0
+		}
 	}
 
 **Json协议回应包体结构**
 
 .. code-block:: bash
 	
-	{
-	    "Response":
-	    {
-	        "retType" : 0
-	        "retMsg" : ""
-	        "errCode" : 0
-	        "s2c": 
-	        {
-	            "data": 0
-	        }
-	    }
+	{    
+		"retType" : 0
+		"retMsg" : ""
+		"errCode" : 0
+		"s2c": 
+		{
+			"data": 0
+		}	    
 	}
 
 ---------
