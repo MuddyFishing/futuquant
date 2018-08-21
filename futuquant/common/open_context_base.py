@@ -332,7 +332,7 @@ class OpenContextBase(object):
         else:
             logger.warning('Recv packet error: proto_id={}; ret={}; msg={};', proto_id, ret, msg)
 
-    def on_activate(self, conn_id, now: datetime):
+    def on_activate(self, conn_id, now):  # type:(self, int, datetime)->None
         with self._lock:
             if self._status != ContextStatus.Ready:
                 return

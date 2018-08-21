@@ -21,7 +21,7 @@ class SocketEvent:
     Write = 1 << 2
 
 class Connection:
-    def __init__(self, conn_id: int, sock: socket.socket, addr, handler):
+    def __init__(self, conn_id, sock, addr, handler):  # type: (self, int, socket.socket, any, any)->None
         self._conn_id = conn_id
         self.opend_conn_id = 0
         self.sock = sock
@@ -309,10 +309,10 @@ class NetManager:
         req_head_dict = parse_head(req_str[:head_len])
         return req_head_dict
 
-    def _get_conn(self, conn_id) -> Connection:
+    def _get_conn(self, conn_id):  # type: (self, int)->Connection
         return next((conn for conn in self._rlist if conn.conn_id == conn_id), None)
 
-    def _on_read(self, conn: Connection):
+    def _on_read(self, conn):  # type: (self, Connection)->None
         if conn.status == ConnStatus.Closed:
             return
         err = None
@@ -365,7 +365,7 @@ class NetManager:
         if err:
             conn.handler.on_error(conn.conn_id, err)
 
-    def _on_write(self, conn: Connection):
+    def _on_write(self, conn):  # type: (self, Connection)->None
         if conn.status == ConnStatus.Closed:
             return
         elif conn.status == ConnStatus.Connecting:
@@ -395,7 +395,7 @@ class NetManager:
         if err:
             conn.handler.on_error(conn.conn_id, err)
 
-    def _on_connect_timeout(self, conn: Connection):
+    def _on_connect_timeout(self, conn):  # type: (self, Connection)->None
         conn.handler.on_connect_timeout(conn.conn_id)
 
     @staticmethod
@@ -407,7 +407,7 @@ class NetManager:
             rsp_pb = None
         return ret, msg, rsp_pb
 
-    def set_conn_info(self, conn_id, info:dict):
+    def set_conn_info(self, conn_id, info):  # type: (self, int, dict)->(int, str)
         with self._lock:
             conn = self._get_conn(conn_id)
             if conn is not None:
