@@ -479,7 +479,7 @@ get_rt_data
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.subscribee(['HK.00700'], [SubType.RT_DATA])
+	quote_ctx.subscribe(['HK.00700'], [SubType.RT_DATA])
     print(quote_ctx.get_rt_data('HK.00700'))
     quote_ctx.close()
 	
@@ -634,7 +634,7 @@ get_broker_queue
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.subscribee(['HK.00700'], [SubType.BROKER])
+	quote_ctx.subscribe(['HK.00700'], [SubType.BROKER])
     print(quote_ctx.get_broker_queue('HK.00700'))
     quote_ctx.close()
 		
@@ -856,7 +856,7 @@ get_rt_ticker
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.subscribee(['HK.00700'], [SubType.TICKER])
+	quote_ctx.subscribe(['HK.00700'], [SubType.TICKER])
     print(quote_ctx.get_rt_ticker('HK.00700', 10))
     quote_ctx.close()
 
@@ -1378,18 +1378,19 @@ BrokerHandlerBase - 实时经纪推送回调处理类
 	
 	class BrokerTest(BrokerHandlerBase):
 		def on_recv_rsp(self, rsp_str):
-			ret_code, data = super(BrokerTest,self).on_recv_rsp(rsp_str)
+			ret_code, err_or_stock_id, data_or_none = super(BrokerTest,self).on_recv_rsp(rsp_str)
 			if ret_code != RET_OK:
-				print("BrokerTest: error, msg: %s" % data)
-				return RET_ERROR, data
+				print("BrokerTest: error, msg: %s" % err_or_stock_id)
+				return RET_ERROR, err_or_stock_id, None
 
-			print("BrokerTest ", data) # BrokerTest自己的处理逻辑
+			print("BrokerTest ", data_or_none) # BrokerTest自己的处理逻辑
 
-			return RET_OK, data
+			return RET_OK, err_or_stock_id, data_or_none
                 
-	quote_ctx = OpenQuoteContex(host='127.0.0.1', port=11111)
+	quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
 	handler = BrokerTest()
 	quote_ctx.set_handler(handler)
+	quote_ctx.subscribe('HK.00700', SubType.BROKER)
 	time.sleep(15)  
 	quote_ctx.close()
 	
@@ -1406,7 +1407,9 @@ on_recv_rsp
  注意该回调是在独立子线程中
 
  :param rsp_pb: 派生类中不需要直接处理该参数
- :return: 参见get_broker_queue的返回值
+ :return: 成功时返回(RET_OK, stock_code, [bid_frame_table, ask_frame_table]), 相关frame table含义见 get_broker_queue_ 的返回值说明
+ 
+        失败时返回(RET_ERROR, ERR_MSG, None)
 
 ----------------------------    
 
