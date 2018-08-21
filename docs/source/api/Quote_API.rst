@@ -158,15 +158,12 @@ get_stock_basicinfo
         lot_size            int            每手数量
         stock_type          str            股票类型，参见 SecurityType_
         stock_child_type    str            窝轮子类型，参见 WrtType_
-        stock_owner         str            正股代码
         option_type         str            期权类型，查看 OptionType_
         owner               str            标的股
         strike_ime          str            行权日
         strike_price        float          行权价
         suspension          bool           是否停牌(True表示停牌)
         market              str            发行市场名字
-        listing_date        str            上市时间
-        stock_id            int            股票id
         =================   ===========   ==============================================================================
 
  :example:
@@ -377,65 +374,65 @@ get_market_snapshot
 
         ret != RET_OK 返回错误字符串
 
-        =======================   =============   ==============================================================
-          参数                       类型                        说明
-        =======================   =============   ==============================================================
-		code                       str            股票代码
-		update_time                str            更新时间(yyyy-MM-dd HH:mm:ss)
-		last_price                 float          最新价格
-		open_price                 float          今日开盘价
-		high_price                 float          最高价格
-		low_price                  float          最低价格
-		prev_close_price           float          昨收盘价格
-		volume                     int            成交数量
-		turnover                   float          成交金额
-		turnover_rate              float          换手率
-		suspension                 bool           是否停牌(True表示停牌)
-		listing_date               str            上市日期 (yyyy-MM-dd)
-		equity_valid               bool           是否正股（为true时以下正股相关字段才有合法数值）
-		issued_shares              int            发行股本
-		total_market_val           float          总市值
-		net_asset                  int            资产净值
-		net_profit                 int            净利润
-		earning_per_share          float          每股盈利
-		outstanding_shares         int            流通股本
-		net_asset_per_share        float          每股净资产
-		circular_market_val        float          流通市值
-		ey_ratio                   float          收益率
-		pe_ratio                   float          市盈率
-		pb_ratio                   float          市净率
-		pe_ttm_ratio               float          市盈率TTM
-		wrt_valid                  bool           是否是窝轮（为true时以下涡轮相关的字段才有合法数据）
-		wrt_conversion_ratio       float          换股比率
-		wrt_type                   str            窝轮类型，参见WrtType
-		wrt_strike_price           float          行使价格
-		wrt_maturity_date          str            格式化窝轮到期时间
-		wrt_end_trade              str            格式化窝轮最后交易时间
-		wrt_code                   str            窝轮对应的正股
-		wrt_recovery_price         float          窝轮回收价
-		wrt_street_vol             float          窝轮街货量
-		wrt_issue_vol              float          窝轮发行量
-		wrt_street_ratio           float          窝轮街货占比
-		wrt_delta                  float          窝轮对冲值
-		wrt_implied_volatility     float          窝轮引伸波幅
-		wrt_premium                float          窝轮溢价
-		lot_size                   int            每手股数
-		price_spread               float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
-		option_valid               bool           是否是期权（为true时以下期权相关的字段才有合法数值）
-		option_type                str            期权类型，参见OptionType
-		owner                      str            标的股
-		strike_time                str            行权日
-		option_strike_price        float          行权价
-		option_contract_size       int            每份合约数
-		option_open_interest       int            未平仓合约数
-		option_implied_volatility  float          隐含波动率
-		option_premium             float          溢价
-		option_delta               float          希腊值 Delta
-		option_gamma               float          希腊值 Gamma
-		option_vega                float          希腊值 Vega
-		option_theta               float          希腊值 Theta
-		option_rho                 float          希腊值 Rho
-		=======================   =============   ==============================================================
+        ============================   =============   ==============================================================
+        参数                             类型                       说明
+        ============================   =============   ==============================================================
+        code                            str            股票代码
+        update_time                     str            更新时间(yyyy-MM-dd HH:mm:ss)
+        last_price                      float          最新价格
+        open_price                      float          今日开盘价
+        high_price                      float          最高价格
+        low_price                       float          最低价格
+        prev_close_price                float          昨收盘价格
+        volume                          int            成交数量
+        turnover                        float          成交金额
+        turnover_rate                   float          换手率
+        suspension                      bool           是否停牌(True表示停牌)
+        listing_date                    str            上市日期 (yyyy-MM-dd)
+        equity_valid                    bool           是否正股（为true时以下正股相关字段才有合法数值）
+        issued_shares                   int            发行股本
+        total_market_val                float          总市值
+        net_asset                       int            资产净值
+        net_profit                      int            净利润
+        earning_per_share               float          每股盈利
+        outstanding_shares              int            流通股本
+        net_asset_per_share             float          每股净资产
+        circular_market_val             float          流通市值
+        ey_ratio                        float          收益率
+        pe_ratio                        float          市盈率
+        pb_ratio                        float          市净率
+        pe_ttm_ratio                    float          市盈率TTM
+        wrt_valid                       bool           是否是窝轮（为true时以下涡轮相关的字段才有合法数据）
+        wrt_conversion_ratio            float          换股比率
+        wrt_type                        str            窝轮类型，参见WrtType
+        wrt_strike_price                float          行使价格
+        wrt_maturity_date               str            格式化窝轮到期时间
+        wrt_end_trade                   str            格式化窝轮最后交易时间
+        wrt_code                        str            窝轮对应的正股
+        wrt_recovery_price              float          窝轮回收价
+        wrt_street_vol                  float          窝轮街货量
+        wrt_issue_vol                   float          窝轮发行量
+        wrt_street_ratio                float          窝轮街货占比
+        wrt_delta                       float          窝轮对冲值
+        wrt_implied_volatility          float          窝轮引伸波幅
+        wrt_premium                     float          窝轮溢价
+        lot_size                        int            每手股数
+        price_spread                    float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
+        option_valid                    bool           是否是期权（为true时以下期权相关的字段才有合法数值）
+        option_type                     str            期权类型，参见OptionType
+        owner                           str            标的股
+        strike_time                     str            行权日
+        option_strike_price             float          行权价
+        option_contract_size            int            每份合约数
+        option_open_interest            int            未平仓合约数
+        option_implied_volatility       float          隐含波动率
+        option_premium                  float          溢价
+        option_delta                    float          希腊值 Delta
+        option_gamma                    float          希腊值 Gamma
+        option_vega                     float          希腊值 Vega
+        option_theta                    float          希腊值 Theta
+        option_rho                      float          希腊值 Rho
+        ============================   =============   ==============================================================
         
  :example:
 
@@ -478,7 +475,7 @@ get_rt_data
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.subscribe(['HK.00700'], [SubType.RT_DATA])
+	quote_ctx.subscribee(['HK.00700'], [SubType.RT_DATA])
     print(quote_ctx.get_rt_data('HK.00700'))
     quote_ctx.close()
 	
@@ -633,7 +630,7 @@ get_broker_queue
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.subscribe(['HK.00700'], [SubType.BROKER])
+	quote_ctx.subscribee(['HK.00700'], [SubType.BROKER])
     print(quote_ctx.get_broker_queue('HK.00700'))
     quote_ctx.close()
 		
@@ -855,7 +852,7 @@ get_rt_ticker
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.subscribe(['HK.00700'], [SubType.TICKER])
+	quote_ctx.subscribee(['HK.00700'], [SubType.TICKER])
     print(quote_ctx.get_rt_ticker('HK.00700', 10))
     quote_ctx.close()
 
@@ -1375,19 +1372,18 @@ BrokerHandlerBase - 实时经纪推送回调处理类
 	
 	class BrokerTest(BrokerHandlerBase):
 		def on_recv_rsp(self, rsp_str):
-			ret_code, err_or_stock_id, data_or_none = super(BrokerTest,self).on_recv_rsp(rsp_str)
+			ret_code, data = super(BrokerTest,self).on_recv_rsp(rsp_str)
 			if ret_code != RET_OK:
-				print("BrokerTest: error, msg: %s" % err_or_stock_id)
-				return RET_ERROR, err_or_stock_id, None
+				print("BrokerTest: error, msg: %s" % data)
+				return RET_ERROR, data
 
-			print("BrokerTest ", data_or_none) # BrokerTest自己的处理逻辑
+			print("BrokerTest ", data) # BrokerTest自己的处理逻辑
 
-			return RET_OK, err_or_stock_id, data_or_none
+			return RET_OK, data
                 
-	quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+	quote_ctx = OpenQuoteContex(host='127.0.0.1', port=11111)
 	handler = BrokerTest()
 	quote_ctx.set_handler(handler)
-	quote_ctx.subscribe('HK.00700', SubType.BROKER)
 	time.sleep(15)  
 	quote_ctx.close()
 	
@@ -1404,9 +1400,7 @@ on_recv_rsp
  注意该回调是在独立子线程中
 
  :param rsp_pb: 派生类中不需要直接处理该参数
- :return: 成功时返回(RET_OK, stock_code, [bid_frame_table, ask_frame_table]), 相关frame table含义见 get_broker_queue_ 的返回值说明
- 
-        失败时返回(RET_ERROR, ERR_MSG, None)
+ :return: 参见get_broker_queue的返回值
 
 ----------------------------    
 
