@@ -23,7 +23,10 @@ def quote_test(code_list, host, port):
     quote_ctx.set_handler(TickerTest())
     quote_ctx.start()
 
-    quote_ctx.subscribe(code_list, SubType.TICKER)
+    ret, msg = quote_ctx.subscribe(code_list, SubType.TICKER)
+    if ret != RET_OK:
+        return ret, msg
     print(quote_ctx.query_subscription())
+    return RET_OK, ""
 
 
