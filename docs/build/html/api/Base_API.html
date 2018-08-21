@@ -24,24 +24,19 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-    <link rel="top" title="futuquant 3.2 documentation" href="../index.html"/>
-        <link rel="next" title="行情API" href="Quote_API.html"/>
-        <link rel="prev" title="下载历史数据" href="../setup/Hist_KLine_Download_Intro.html"/> 
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="行情API" href="Quote_API.html" />
+    <link rel="prev" title="下载历史数据" href="../setup/Hist_KLine_Download_Intro.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -160,7 +155,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">futuquant</a>
@@ -168,9 +163,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -199,7 +195,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/api/Base_API.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/api/Base_API.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -256,8 +252,8 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>client_id</strong> &#8211; str, client的标识</li>
-<li><strong>client_ver</strong> &#8211; int, client的版本号</li>
+<li><strong>client_id</strong> – str, client的标识</li>
+<li><strong>client_ver</strong> – int, client的版本号</li>
 </ul>
 </td>
 </tr>
@@ -288,7 +284,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>proto_fmt</strong> &#8211; <a class="reference external" href="#id2">ProtoFMT</a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>proto_fmt</strong> – <a class="reference external" href="#id2">ProtoFMT</a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
 </tr>
@@ -316,7 +312,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>is_encrypt</strong> &#8211; bool</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>is_encrypt</strong> – bool</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
 </tr>
@@ -345,7 +341,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file</strong> &#8211; str, 文件路径</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file</strong> – str, 文件路径</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
 </tr>
@@ -411,7 +407,7 @@
 <hr class="docutils" />
 <div class="section" id="market">
 <h3>Market - 行情市场<a class="headerlink" href="#market" title="Permalink to this headline">¶</a></h3>
-<p>标识不同的行情市场，股票名称的前缀复用该字符串,如 <strong>&#8216;HK.00700&#8217;</strong>, <strong>&#8216;HK_FUTURE.999010&#8217;</strong></p>
+<p>标识不同的行情市场，股票名称的前缀复用该字符串,如 <strong>‘HK.00700’</strong>, <strong>‘HK_FUTURE.999010’</strong></p>
 <dl class="class">
 <dt id="Market">
 <em class="property">class </em><code class="descname">Market</code><a class="headerlink" href="#Market" title="Permalink to this definition">¶</a></dt>
@@ -1613,9 +1609,7 @@
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -1655,10 +1649,11 @@
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'3.2',
+            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -1667,19 +1662,13 @@
 
   
 
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
-  
  
 <script type="text/javascript">
     console.log("Layout By FutuQuant");

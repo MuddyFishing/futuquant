@@ -24,24 +24,19 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-    <link rel="top" title="futuquant 3.2 documentation" href="../index.html"/>
-        <link rel="next" title="交易API" href="Trade_API.html"/>
-        <link rel="prev" title="基础API" href="Base_API.html"/> 
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="交易API" href="Trade_API.html" />
+    <link rel="prev" title="基础API" href="Base_API.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -189,7 +184,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">futuquant</a>
@@ -197,9 +192,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -228,7 +224,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/api/Quote_API.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/api/Quote_API.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -321,7 +317,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>handler</strong> &#8211; <p>回调处理对象，必须是以下类的子类实例</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>handler</strong> – <p>回调处理对象，必须是以下类的子类实例</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="55%" />
@@ -376,9 +372,9 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>market</strong> &#8211; 市场类型，futuquant.common.constant.Market</li>
-<li><strong>start_date</strong> &#8211; 起始日期</li>
-<li><strong>end_date</strong> &#8211; 结束日期</li>
+<li><strong>market</strong> – 市场类型，futuquant.common.constant.Market</li>
+<li><strong>start_date</strong> – 起始日期</li>
+<li><strong>end_date</strong> – 结束日期</li>
 </ul>
 </td>
 </tr>
@@ -409,9 +405,9 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>market</strong> &#8211; 市场类型 <a class="reference external" href="Base_API.html#market">Market</a></li>
-<li><strong>stock_type</strong> &#8211; 股票类型 <a class="reference external" href="Base_API.html#securitytype">SecurityType</a></li>
-<li><strong>code_list</strong> &#8211; 如果不为None，应该是股票code的iterable类型，将只返回指定的股票信息</li>
+<li><strong>market</strong> – 市场类型 <a class="reference external" href="Base_API.html#market">Market</a></li>
+<li><strong>stock_type</strong> – 股票类型 <a class="reference external" href="Base_API.html#securitytype">SecurityType</a></li>
+<li><strong>code_list</strong> – 如果不为None，应该是股票code的iterable类型，将只返回指定的股票信息</li>
 </ul>
 </td>
 </tr>
@@ -520,11 +516,11 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>codelist</strong> &#8211; 股票代码列表，list或str。例如：[&#8216;HK.00700&#8217;, &#8216;HK.00001&#8217;]，&#8217;HK.00700,SZ.399001&#8217;</li>
-<li><strong>start</strong> &#8211; 起始时间</li>
-<li><strong>end</strong> &#8211; 结束时间</li>
-<li><strong>ktype</strong> &#8211; k线类型，参见 <a class="reference external" href="Base_API.html#kltype-k">KLType</a></li>
-<li><strong>autype</strong> &#8211; 复权类型，参见 <a class="reference external" href="Base_API.html#autype-k">AuType</a></li>
+<li><strong>codelist</strong> – 股票代码列表，list或str。例如：[‘HK.00700’, ‘HK.00001’]，’HK.00700,SZ.399001’</li>
+<li><strong>start</strong> – 起始时间</li>
+<li><strong>end</strong> – 结束时间</li>
+<li><strong>ktype</strong> – k线类型，参见 <a class="reference external" href="Base_API.html#kltype-k">KLType</a></li>
+<li><strong>autype</strong> – 复权类型，参见 <a class="reference external" href="Base_API.html#autype-k">AuType</a></li>
 </ul>
 </td>
 </tr>
@@ -622,12 +618,12 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>code</strong> &#8211; 股票代码</li>
-<li><strong>start</strong> &#8211; 开始时间，例如2017-06-20</li>
-<li><strong>end</strong> &#8211; 结束时间</li>
-<li><strong>ktype</strong> &#8211; k线类型， 参见 <a class="reference external" href="Base_API.html#kltype-k">KLType</a> 定义</li>
-<li><strong>autype</strong> &#8211; 复权类型, 参见 <a class="reference external" href="Base_API.html#autype-k">AuType</a> 定义</li>
-<li><strong>fields</strong> &#8211; 需返回的字段列表，参见 <a class="reference external" href="Base_API.html#kl-field-k">KL_FIELD</a> 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....</li>
+<li><strong>code</strong> – 股票代码</li>
+<li><strong>start</strong> – 开始时间，例如2017-06-20</li>
+<li><strong>end</strong> – 结束时间</li>
+<li><strong>ktype</strong> – k线类型， 参见 <a class="reference external" href="Base_API.html#kltype-k">KLType</a> 定义</li>
+<li><strong>autype</strong> – 复权类型, 参见 <a class="reference external" href="Base_API.html#autype-k">AuType</a> 定义</li>
+<li><strong>fields</strong> – 需返回的字段列表，参见 <a class="reference external" href="Base_API.html#kl-field-k">KL_FIELD</a> 定义 KL_FIELD.ALL  KL_FIELD.OPEN ….</li>
 </ul>
 </td>
 </tr>
@@ -726,14 +722,14 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>code</strong> &#8211; 股票代码</li>
-<li><strong>start</strong> &#8211; 开始时间，例如2017-06-20</li>
-<li><strong>end</strong> &#8211; 结束时间</li>
-<li><strong>ktype</strong> &#8211; k线类型， 参见 <a class="reference external" href="Base_API.html#kltype-k">KLType</a> 定义</li>
-<li><strong>autype</strong> &#8211; 复权类型, 参见 <a class="reference external" href="Base_API.html#autype-k">AuType</a> 定义</li>
-<li><strong>fields</strong> &#8211; 需返回的字段列表，参见 <a class="reference external" href="Base_API.html#kl-field-k">KL_FIELD</a> 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....</li>
-<li><strong>max_count</strong> &#8211; 本次请求最大返回的数据点个数，传None表示返回start和end之间所有的数据。</li>
-<li><strong>page_req_key</strong> &#8211; 分页请求的key。如果start和end之间的数据点多于max_count，那么后续请求时，要传入上次调用返回的page_req_key</li>
+<li><strong>code</strong> – 股票代码</li>
+<li><strong>start</strong> – 开始时间，例如2017-06-20</li>
+<li><strong>end</strong> – 结束时间</li>
+<li><strong>ktype</strong> – k线类型， 参见 <a class="reference external" href="Base_API.html#kltype-k">KLType</a> 定义</li>
+<li><strong>autype</strong> – 复权类型, 参见 <a class="reference external" href="Base_API.html#autype-k">AuType</a> 定义</li>
+<li><strong>fields</strong> – 需返回的字段列表，参见 <a class="reference external" href="Base_API.html#kl-field-k">KL_FIELD</a> 定义 KL_FIELD.ALL  KL_FIELD.OPEN ….</li>
+<li><strong>max_count</strong> – 本次请求最大返回的数据点个数，传None表示返回start和end之间所有的数据。</li>
+<li><strong>page_req_key</strong> – 分页请求的key。如果start和end之间的数据点多于max_count，那么后续请求时，要传入上次调用返回的page_req_key</li>
 </ul>
 </td>
 </tr>
@@ -833,7 +829,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code_list</strong> &#8211; 股票列表，例如[&#8216;HK.00700&#8217;]</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code_list</strong> – 股票列表，例如[‘HK.00700’]</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">(ret, data)<p>ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下</p>
 <p>ret != RET_OK 返回错误字符串</p>
@@ -937,243 +933,70 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">param code_list:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">股票列表，限制最多200只股票</p>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first">股票列表，限制最多200只股票</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">return:</th><td class="field-body"><p class="first">(ret, data)</p>
 <p>ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下</p>
 <p>ret != RET_OK 返回错误字符串</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="26%" />
-<col width="13%" />
-<col width="61%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">参数</th>
-<th class="head">类型</th>
-<th class="head">说明</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>code</td>
-<td>str</td>
-<td>股票代码</td>
-</tr>
-<tr class="row-odd"><td>update_time</td>
-<td>str</td>
-<td>更新时间(yyyy-MM-dd HH:mm:ss)</td>
-</tr>
-<tr class="row-even"><td>last_price</td>
-<td>float</td>
-<td>最新价格</td>
-</tr>
-<tr class="row-odd"><td>open_price</td>
-<td>float</td>
-<td>今日开盘价</td>
-</tr>
-<tr class="row-even"><td>high_price</td>
-<td>float</td>
-<td>最高价格</td>
-</tr>
-<tr class="row-odd"><td>low_price</td>
-<td>float</td>
-<td>最低价格</td>
-</tr>
-<tr class="row-even"><td>prev_close_price</td>
-<td>float</td>
-<td>昨收盘价格</td>
-</tr>
-<tr class="row-odd"><td>volume</td>
-<td>int</td>
-<td>成交数量</td>
-</tr>
-<tr class="row-even"><td>turnover</td>
-<td>float</td>
-<td>成交金额</td>
-</tr>
-<tr class="row-odd"><td>turnover_rate</td>
-<td>float</td>
-<td>换手率</td>
-</tr>
-<tr class="row-even"><td>suspension</td>
-<td>bool</td>
-<td>是否停牌(True表示停牌)</td>
-</tr>
-<tr class="row-odd"><td>listing_date</td>
-<td>str</td>
-<td>上市日期 (yyyy-MM-dd)</td>
-</tr>
-<tr class="row-even"><td>circular_market_val</td>
-<td>float</td>
-<td>流通市值</td>
-</tr>
-<tr class="row-odd"><td>total_market_val</td>
-<td>float</td>
-<td>总市值</td>
-</tr>
-<tr class="row-even"><td>wrt_valid</td>
-<td>bool</td>
-<td>是否是窝轮</td>
-</tr>
-<tr class="row-odd"><td>wrt_conversion_ratio</td>
-<td>float</td>
-<td>换股比率</td>
-</tr>
-<tr class="row-even"><td>wrt_type</td>
-<td>str</td>
-<td>窝轮类型，参见WrtType</td>
-</tr>
-<tr class="row-odd"><td>wrt_strike_price</td>
-<td>float</td>
-<td>行使价格</td>
-</tr>
-<tr class="row-even"><td>wrt_maturity_date</td>
-<td>str</td>
-<td>格式化窝轮到期时间</td>
-</tr>
-<tr class="row-odd"><td>wrt_end_trade</td>
-<td>str</td>
-<td>格式化窝轮最后交易时间</td>
-</tr>
-<tr class="row-even"><td>wrt_code</td>
-<td>str</td>
-<td>窝轮对应的正股</td>
-</tr>
-<tr class="row-odd"><td>wrt_recovery_price</td>
-<td>float</td>
-<td>窝轮回收价</td>
-</tr>
-<tr class="row-even"><td>wrt_street_vol</td>
-<td>float</td>
-<td>窝轮街货量</td>
-</tr>
-<tr class="row-odd"><td>wrt_issue_vol</td>
-<td>float</td>
-<td>窝轮发行量</td>
-</tr>
-<tr class="row-even"><td>wrt_street_ratio</td>
-<td>float</td>
-<td>窝轮街货占比</td>
-</tr>
-<tr class="row-odd"><td>wrt_delta</td>
-<td>float</td>
-<td>窝轮对冲值</td>
-</tr>
-<tr class="row-even"><td>wrt_implied_volatility</td>
-<td>float</td>
-<td>窝轮引伸波幅</td>
-</tr>
-<tr class="row-odd"><td>wrt_premium</td>
-<td>float</td>
-<td>窝轮溢价</td>
-</tr>
-<tr class="row-even"><td>lot_size</td>
-<td>int</td>
-<td>每手股数</td>
-</tr>
-<tr class="row-odd"><td>issued_shares</td>
-<td>int</td>
-<td>发行股本</td>
-</tr>
-<tr class="row-even"><td>net_asset</td>
-<td>int</td>
-<td>资产净值</td>
-</tr>
-<tr class="row-odd"><td>net_profit</td>
-<td>int</td>
-<td>净利润</td>
-</tr>
-<tr class="row-even"><td>earning_per_share</td>
-<td>float</td>
-<td>每股盈利</td>
-</tr>
-<tr class="row-odd"><td>outstanding_shares</td>
-<td>int</td>
-<td>流通股本</td>
-</tr>
-<tr class="row-even"><td>net_asset_per_share</td>
-<td>float</td>
-<td>每股净资产</td>
-</tr>
-<tr class="row-odd"><td>ey_ratio</td>
-<td>float</td>
-<td>收益率</td>
-</tr>
-<tr class="row-even"><td>pe_ratio</td>
-<td>float</td>
-<td>市盈率</td>
-</tr>
-<tr class="row-odd"><td>pb_ratio</td>
-<td>float</td>
-<td>市净率</td>
-</tr>
-<tr class="row-even"><td>pe_ttm_ratio</td>
-<td>float</td>
-<td>市盈率TTM</td>
-</tr>
-<tr class="row-odd"><td>price_spread</td>
-<td>float</td>
-<td>当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差</td>
-</tr>
-<tr class="row-even"><td>option_valid</td>
-<td>bool</td>
-<td>是否是期权</td>
-</tr>
-<tr class="row-odd"><td>option_type</td>
-<td>str</td>
-<td>期权类型，参见 <a class="reference external" href="Base_API.html#optiontype">OptionType</a></td>
-</tr>
-<tr class="row-even"><td>option_owner</td>
-<td>str</td>
-<td>标的股</td>
-</tr>
-<tr class="row-odd"><td>option_strike_time</td>
-<td>str</td>
-<td>行权日</td>
-</tr>
-<tr class="row-even"><td>option_strike_price</td>
-<td>float</td>
-<td>行权价</td>
-</tr>
-<tr class="row-odd"><td>option_contract_size</td>
-<td>int</td>
-<td>每份合约数</td>
-</tr>
-<tr class="row-even"><td>option_open_interest</td>
-<td>int</td>
-<td>未平仓合约数</td>
-</tr>
-<tr class="row-odd"><td>option_implied_volatility</td>
-<td>float</td>
-<td>隐含波动率</td>
-</tr>
-<tr class="row-even"><td>option_premium</td>
-<td>float</td>
-<td>溢价</td>
-</tr>
-<tr class="row-odd"><td>option_delta</td>
-<td>float</td>
-<td>希腊值 Delta</td>
-</tr>
-<tr class="row-even"><td>option_gamma</td>
-<td>float</td>
-<td>希腊值 Gamma</td>
-</tr>
-<tr class="row-odd"><td>option_vega</td>
-<td>float</td>
-<td>希腊值 Vega</td>
-</tr>
-<tr class="row-even"><td>option_theta</td>
-<td>float</td>
-<td>希腊值 Theta</td>
-</tr>
-<tr class="row-odd"><td>option_rho</td>
-<td>float</td>
-<td>希腊值 Rho</td>
-</tr>
-</tbody>
-</table>
+<blockquote>
+<div><p>code                       str            股票代码
+update_time                str            更新时间(yyyy-MM-dd HH:mm:ss)
+last_price                 float          最新价格
+open_price                 float          今日开盘价
+high_price                 float          最高价格
+low_price                  float          最低价格
+prev_close_price           float          昨收盘价格
+volume                     int            成交数量
+turnover                   float          成交金额
+turnover_rate              float          换手率
+suspension                 bool           是否停牌(True表示停牌)
+listing_date               str            上市日期 (yyyy-MM-dd)
+equity_valid               bool           是否正股（为true时以下正股相关字段才有合法数值）
+issued_shares              int            发行股本
+total_market_val           float          总市值
+net_asset                  int            资产净值
+net_profit                 int            净利润
+earning_per_share          float          每股盈利
+outstanding_shares         int            流通股本
+net_asset_per_share        float          每股净资产
+circular_market_val        float          流通市值
+ey_ratio                   float          收益率
+pe_ratio                   float          市盈率
+pb_ratio                   float          市净率
+pe_ttm_ratio               float          市盈率TTM
+wrt_valid                  bool           是否是窝轮（为true时以下涡轮相关的字段才有合法数据）
+wrt_conversion_ratio       float          换股比率
+wrt_type                   str            窝轮类型，参见WrtType
+wrt_strike_price           float          行使价格
+wrt_maturity_date          str            格式化窝轮到期时间
+wrt_end_trade              str            格式化窝轮最后交易时间
+wrt_code                   str            窝轮对应的正股
+wrt_recovery_price         float          窝轮回收价
+wrt_street_vol             float          窝轮街货量
+wrt_issue_vol              float          窝轮发行量
+wrt_street_ratio           float          窝轮街货占比
+wrt_delta                  float          窝轮对冲值
+wrt_implied_volatility     float          窝轮引伸波幅
+wrt_premium                float          窝轮溢价
+lot_size                   int            每手股数
+price_spread               float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
+option_valid               bool           是否是期权（为true时以下期权相关的字段才有合法数值）
+option_type                str            期权类型，参见OptionType
+option_owner               str            标的股
+option_strike_time         str            行权日
+option_strike_price        float          行权价
+option_contract_size       int            每份合约数
+option_open_interest       int            未平仓合约数
+option_implied_volatility  float          隐含波动率
+option_premium             float          溢价
+option_delta               float          希腊值 Delta
+option_gamma               float          希腊值 Gamma
+option_vega                float          希腊值 Vega
+option_theta               float          希腊值 Theta
+option_rho                 float          希腊值 Rho
+=======================   =============   ==============================================================</p>
+</div></blockquote>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">example:</th><td class="field-body"></td>
@@ -1182,7 +1005,7 @@
 </table>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_market_snapshot</span><span class="p">([</span><span class="s1">&#39;US_OPTION.AAPL180914C215000&#39;</span><span class="p">,</span> <span class="s1">&#39;HK.00700&#39;</span><span class="p">]))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_market_snapshot</span><span class="p">([</span><span class="s1">&#39;US.AAPL&#39;</span><span class="p">,</span> <span class="s1">&#39;HK.00700&#39;</span><span class="p">]))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1198,11 +1021,11 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>code</strong> &#8211; 股票代码，例如，HK.00700，US.AAPL</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>code</strong> – 股票代码，例如，HK.00700，US.AAPL</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Return (ret, data):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first">ret == RET_OK 返回pd Dataframe数据, 数据列格式如下</p>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first">ret == RET_OK 返回pd Dataframe数据, 数据列格式如下</p>
 <p>ret != RET_OK 返回错误字符串</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -1281,11 +1104,11 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>plate_code</strong> &#8211; 板块代码, string, 例如，”SH.BK0001”，”SH.BK0002”，先利用获取子版块列表函数获取子版块代码</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>plate_code</strong> – 板块代码, string, 例如，”SH.BK0001”，”SH.BK0002”，先利用获取子版块列表函数获取子版块代码</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Return (ret, data):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first">ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下</p>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first">ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下</p>
 <p>ret != RET_OK 返回错误字符串</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -1465,13 +1288,13 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>market</strong> &#8211; 市场标识，注意这里不区分沪，深,输入沪或者深都会返回沪深市场的子板块（这个是和客户端保持一致的）参见Market</li>
-<li><strong>plate_class</strong> &#8211; 板块分类，参见Plate</li>
+<li><strong>market</strong> – 市场标识，注意这里不区分沪，深,输入沪或者深都会返回沪深市场的子板块（这个是和客户端保持一致的）参见Market</li>
+<li><strong>plate_class</strong> – 板块分类，参见Plate</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Return (ret, data):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first">ret == RET_OK 返回pd Dataframe数据，数据列格式如下</p>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first">ret == RET_OK 返回pd Dataframe数据，数据列格式如下</p>
 <p>ret != RET_OK 返回错误字符串</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -1525,7 +1348,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code</strong> &#8211; 股票代码</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code</strong> – 股票代码</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">(ret, bid_frame_table, ask_frame_table)或(ret, err_message)<p>ret == RET_OK 返回pd dataframe数据，数据列格式如下</p>
 <p>ret != RET_OK 返回错误字符串</p>
@@ -1621,8 +1444,8 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>code_list</strong> &#8211; 需要订阅的股票代码列表</li>
-<li><strong>subtype_list</strong> &#8211; 需要订阅的数据类型列表，参见 <a class="reference external" href="Base_API.html#subtype">SubType</a></li>
+<li><strong>code_list</strong> – 需要订阅的股票代码列表</li>
+<li><strong>subtype_list</strong> – 需要订阅的数据类型列表，参见 <a class="reference external" href="Base_API.html#subtype">SubType</a></li>
 </ul>
 </td>
 </tr>
@@ -1656,8 +1479,8 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>code_list</strong> &#8211; 取消订阅的股票代码列表</li>
-<li><strong>subtype_list</strong> &#8211; 取消订阅的类型，参见 <a class="reference external" href="Base_API.html#subtype">SubType</a></li>
+<li><strong>code_list</strong> – 取消订阅的股票代码列表</li>
+<li><strong>subtype_list</strong> – 取消订阅的类型，参见 <a class="reference external" href="Base_API.html#subtype">SubType</a></li>
 </ul>
 </td>
 </tr>
@@ -1693,7 +1516,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">param is_all_conn:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">是否返回所有连接的订阅状态,不传或者传False只返回当前连接数据</p>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first">是否返回所有连接的订阅状态,不传或者传False只返回当前连接数据</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">return:</th><td class="field-body"><p class="first">(ret, data)</p>
@@ -1781,11 +1604,11 @@
 </tr>
 <tr class="row-even"><td>trd_logined</td>
 <td>str</td>
-<td>&#8216;1&#8217;：已登录交易服务器，&#8216;0&#8217;: 未登录交易服务器</td>
+<td>‘1’：已登录交易服务器，‘0’: 未登录交易服务器</td>
 </tr>
 <tr class="row-odd"><td>qot_logined</td>
 <td>str</td>
-<td>&#8216;1&#8217;：已登录行情服务器，&#8216;0&#8217;: 未登录行情服务器</td>
+<td>‘1’：已登录行情服务器，‘0’: 未登录行情服务器</td>
 </tr>
 <tr class="row-even"><td>timestamp</td>
 <td>str</td>
@@ -1822,7 +1645,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code_list</strong> &#8211; 股票代码列表，必须确保code_list中的股票均订阅成功后才能够执行</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code_list</strong> – 股票代码列表，必须确保code_list中的股票均订阅成功后才能够执行</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">(ret, data)<p>ret == RET_OK 返回pd dataframe数据，数据列格式如下</p>
 <p>ret != RET_OK 返回错误字符串</p>
@@ -1903,29 +1726,45 @@
 <td>str</td>
 <td>暗盘交易状态，见DarkStatus</td>
 </tr>
-<tr class="row-even"><td>option_type</td>
-<td>str</td>
-<td>期权类型，查看 <a class="reference external" href="Base_API.html#optiontype">OptionType</a></td>
-</tr>
-<tr class="row-odd"><td>owner</td>
-<td>str</td>
-<td>标的股</td>
-</tr>
-<tr class="row-even"><td>strike_ime</td>
-<td>str</td>
-<td>行权日</td>
-</tr>
-<tr class="row-odd"><td>strike_price</td>
+<tr class="row-even"><td>strike_price</td>
 <td>float</td>
 <td>行权价</td>
 </tr>
-<tr class="row-even"><td>suspension</td>
-<td>bool</td>
-<td>是否停牌(True表示停牌)</td>
+<tr class="row-odd"><td>contract_size</td>
+<td>int</td>
+<td>每份合约数</td>
 </tr>
-<tr class="row-odd"><td>market</td>
-<td>str</td>
-<td>发行市场名字</td>
+<tr class="row-even"><td>open_interest</td>
+<td>int</td>
+<td>未平仓合约数</td>
+</tr>
+<tr class="row-odd"><td>implied_volatility</td>
+<td>float</td>
+<td>隐含波动率</td>
+</tr>
+<tr class="row-even"><td>premium</td>
+<td>float</td>
+<td>溢价</td>
+</tr>
+<tr class="row-odd"><td>delta</td>
+<td>float</td>
+<td>希腊值 Delta</td>
+</tr>
+<tr class="row-even"><td>gamma</td>
+<td>float</td>
+<td>希腊值 Gamma</td>
+</tr>
+<tr class="row-odd"><td>vega</td>
+<td>float</td>
+<td>希腊值 Vega</td>
+</tr>
+<tr class="row-even"><td>theta</td>
+<td>float</td>
+<td>希腊值 Theta</td>
+</tr>
+<tr class="row-odd"><td>rho</td>
+<td>float</td>
+<td>希腊值 Rho</td>
 </tr>
 </tbody>
 </table>
@@ -1937,7 +1776,9 @@
 </table>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_stock_quote</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">]))</span>
+<span class="n">code_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;US_OPTION.AAPL180914C212500&#39;</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">code_list</span><span class="p">,</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">QUOTE</span><span class="p">]))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_stock_quote</span><span class="p">(</span><span class="n">code_list</span><span class="p">))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1955,8 +1796,8 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>code</strong> &#8211; 股票代码</li>
-<li><strong>num</strong> &#8211; 最近ticker个数，最多可获取1000个</li>
+<li><strong>code</strong> – 股票代码</li>
+<li><strong>num</strong> – 最近ticker个数，最多可获取1000个</li>
 </ul>
 </td>
 </tr>
@@ -2038,10 +1879,10 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>code</strong> &#8211; 股票代码</li>
-<li><strong>num</strong> &#8211; k线数据个数，最多1000根</li>
-<li><strong>ktype</strong> &#8211; k线类型，参见 <a class="reference external" href="Base_API.html#kltype-k">KLType</a></li>
-<li><strong>autype</strong> &#8211; 复权类型，参见 <a class="reference external" href="Base_API.html#autype-k">AuType</a></li>
+<li><strong>code</strong> – 股票代码</li>
+<li><strong>num</strong> – k线数据个数，最多1000根</li>
+<li><strong>ktype</strong> – k线类型，参见 <a class="reference external" href="Base_API.html#kltype-k">KLType</a></li>
+<li><strong>autype</strong> – 复权类型，参见 <a class="reference external" href="Base_API.html#autype-k">AuType</a></li>
 </ul>
 </td>
 </tr>
@@ -2134,7 +1975,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code</strong> &#8211; 股票代码</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code</strong> – 股票代码</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">(ret, data)<p>ret == RET_OK 返回字典，数据格式如下</p>
 <p>ret != RET_OK 返回错误字符串</p>
@@ -2180,18 +2021,18 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>code_list</strong> &#8211; 单个或多个股票 &#8216;HK.00700&#8217;  or  [&#8216;HK.00700&#8217;, &#8216;HK.00001&#8217;]</li>
-<li><strong>dates</strong> &#8211; 单个或多个日期 &#8216;2017-01-01&#8217; or [&#8216;2017-01-01&#8217;, &#8216;2017-01-02&#8217;]，最多5个时间点</li>
-<li><strong>fields</strong> &#8211; 单个或多个数据列 KL_FIELD.ALL or [KL_FIELD.DATE_TIME, KL_FIELD.OPEN]</li>
-<li><strong>ktype</strong> &#8211; K线类型 <a class="reference external" href="Base_API.html#kltype-k">KLType</a></li>
-<li><strong>autype</strong> &#8211; 复权类型 <a class="reference external" href="Base_API.html#autype-k">AuType</a></li>
-<li><strong>no_data_mode</strong> &#8211; 指定时间为非交易日时，对应的k线数据取值模式，参见 <a class="reference external" href="Base_API.html#klnodatamode-k">KLNoDataMode</a></li>
+<li><strong>code_list</strong> – 单个或多个股票 ‘HK.00700’  or  [‘HK.00700’, ‘HK.00001’]</li>
+<li><strong>dates</strong> – 单个或多个日期 ‘2017-01-01’ or [‘2017-01-01’, ‘2017-01-02’]，最多5个时间点</li>
+<li><strong>fields</strong> – 单个或多个数据列 KL_FIELD.ALL or [KL_FIELD.DATE_TIME, KL_FIELD.OPEN]</li>
+<li><strong>ktype</strong> – K线类型 <a class="reference external" href="Base_API.html#kltype-k">KLType</a></li>
+<li><strong>autype</strong> – 复权类型 <a class="reference external" href="Base_API.html#autype-k">AuType</a></li>
+<li><strong>no_data_mode</strong> – 指定时间为非交易日时，对应的k线数据取值模式，参见 <a class="reference external" href="Base_API.html#klnodatamode-k">KLNoDataMode</a></li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>(ret, data)</p>
 <blockquote>
-<div><p>ret == RET_OK 返回pd dataframe数据，固定表头包括&#8217;code&#8217;(代码) &#8216;time_point&#8217;(指定的日期) &#8216;data_status&#8217; (KLDataStatus)。数据列格式如下</p>
+<div><p>ret == RET_OK 返回pd dataframe数据，固定表头包括’code’(代码) ‘time_point’(指定的日期) ‘data_status’ (KLDataStatus)。数据列格式如下</p>
 <p>ret != RET_OK 返回错误字符串</p>
 </div></blockquote>
 <table border="1" class="docutils">
@@ -2292,8 +2133,8 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>code</strong> &#8211; 证券id，str，例如HK.00700</li>
-<li><strong>reference_type</strong> &#8211; 要获得的相关数据，参见 <a class="reference external" href="Base_API.html#securityreferencetype">SecurityReferenceType</a> 。例如WARRANT，表示获取正股相关的涡轮</li>
+<li><strong>code</strong> – 证券id，str，例如HK.00700</li>
+<li><strong>reference_type</strong> – 要获得的相关数据，参见 <a class="reference external" href="Base_API.html#securityreferencetype">SecurityReferenceType</a> 。例如WARRANT，表示获取正股相关的涡轮</li>
 </ul>
 </td>
 </tr>
@@ -2373,7 +2214,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code_list</strong> &#8211; 股票代码列表，仅支持正股、指数。list或str。例如：[&#8216;HK.00700&#8217;, &#8216;HK.00001&#8217;]或者&#8217;HK.00700,HK.00001&#8217;，最多可传入200只股票</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code_list</strong> – 股票代码列表，仅支持正股、指数。list或str。例如：[‘HK.00700’, ‘HK.00001’]或者’HK.00700,HK.00001’，最多可传入200只股票</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">(ret, data)<p>ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下</p>
 <p>ret != RET_OK 返回错误字符串</p>
@@ -2429,16 +2270,16 @@
 <dl class="function">
 <dt id="get_holding_change_list">
 <code class="descname">get_holding_change_list</code><span class="sig-paren">(</span><em>self</em>, <em>code</em>, <em>holder_type</em>, <em>start_date</em>, <em>end_date=None</em><span class="sig-paren">)</span><a class="headerlink" href="#get_holding_change_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>获取高管持仓列表,只提供美股数据</p>
+<dd><p>获取大股东持股变动列表,只提供美股数据</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>code</strong> &#8211; 股票代码. 例如：&#8217;US.AAPL&#8217;</li>
-<li><strong>holder_type</strong> &#8211; 持有者类别，查看 <a class="reference external" href="Base_API.html#stockholder">StockHolder</a></li>
-<li><strong>start_date</strong> &#8211; 开始时间. 例如：&#8216;2016-10-01&#8217;或者&#8216;2016-10-01 10:00:00&#8217;</li>
-<li><strong>end_date</strong> &#8211; 结束时间，不填为至今. 例如：&#8216;2017-10-01&#8217;</li>
+<li><strong>code</strong> – 股票代码. 例如：’US.AAPL’</li>
+<li><strong>holder_type</strong> – 持有者类别，查看 <a class="reference external" href="Base_API.html#stockholder">StockHolder</a></li>
+<li><strong>start_date</strong> – 开始时间. 例如：‘2016-10-01’或者‘2016-10-01 10:00:00’</li>
+<li><strong>end_date</strong> – 结束时间，不填为至今. 例如：‘2017-10-01’</li>
 </ul>
 </td>
 </tr>
@@ -2511,11 +2352,11 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>code</strong> &#8211; 股票代码,例如：&#8217;HK.02318&#8217;</li>
-<li><strong>start_date</strong> &#8211; 开始时间. 例如：&#8216;2017-08-01&#8217;或者&#8216;2017-08-01 10:00:00&#8217;</li>
-<li><strong>end_date</strong> &#8211; 结束时间，不填为至今. 例如：&#8216;2017-10-01&#8217;或者&#8216;2017-10-01 10:00:00&#8217;, 注意，时间范围最多30天</li>
-<li><strong>option_type</strong> &#8211; 期权类型,,默认全部,全部/看涨/看跌，查看 <a class="reference external" href="Base_API.html#optiontype">OptionType</a></li>
-<li><strong>option_cond_type</strong> &#8211; 默认全部,全部/价内/价外，查看 <a class="reference external" href="Base_API.html#optioncondtype">OptionCondType</a></li>
+<li><strong>code</strong> – 股票代码,例如：’HK.02318’</li>
+<li><strong>start_date</strong> – 开始时间. 例如：‘2017-08-01’或者‘2017-08-01 10:00:00’</li>
+<li><strong>end_date</strong> – 结束时间，不填为至今. 例如：‘2017-10-01’或者‘2017-10-01 10:00:00’, 注意，时间范围最多30天</li>
+<li><strong>option_type</strong> – 期权类型,,默认全部,全部/看涨/看跌，查看 <a class="reference external" href="Base_API.html#optiontype">OptionType</a></li>
+<li><strong>option_cond_type</strong> – 默认全部,全部/价内/价外，查看 <a class="reference external" href="Base_API.html#optioncondtype">OptionCondType</a></li>
 </ul>
 </td>
 </tr>
@@ -2643,7 +2484,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rsp_pb</strong> &#8211; 派生类中不需要直接处理该参数</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rsp_pb</strong> – 派生类中不需要直接处理该参数</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">参见get_stock_quote的返回值</td>
 </tr>
@@ -2690,7 +2531,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rsp_pb</strong> &#8211; 派生类中不需要直接处理该参数</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rsp_pb</strong> – 派生类中不需要直接处理该参数</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">参见get_order_book的返回值</td>
 </tr>
@@ -2737,7 +2578,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rsp_pb</strong> &#8211; 派生类中不需要直接处理该参数</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rsp_pb</strong> – 派生类中不需要直接处理该参数</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">参见get_cur_kline的返回值</td>
 </tr>
@@ -2784,7 +2625,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rsp_pb</strong> &#8211; 派生类中不需要直接处理该参数</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rsp_pb</strong> – 派生类中不需要直接处理该参数</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">参见get_rt_ticker的返回值</td>
 </tr>
@@ -2831,7 +2672,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rsp_pb</strong> &#8211; 派生类中不需要直接处理该参数</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rsp_pb</strong> – 派生类中不需要直接处理该参数</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">参见get_rt_data的返回值</td>
 </tr>
@@ -2879,7 +2720,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rsp_pb</strong> &#8211; 派生类中不需要直接处理该参数</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rsp_pb</strong> – 派生类中不需要直接处理该参数</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">参见get_broker_queue的返回值</td>
 </tr>
@@ -3022,9 +2863,7 @@
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -3064,10 +2903,11 @@
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'3.2',
+            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -3076,19 +2916,13 @@
 
   
 
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
-  
  
 <script type="text/javascript">
     console.log("Layout By FutuQuant");
