@@ -1699,7 +1699,7 @@ class OpenQuoteContext(OpenContextBase):
 
         :param code: 股票代码,例如：'HK.02318'
         :param start_date: 开始时间. 例如：'2017-08-01'或者'2017-08-01 10:00:00'
-        :param end_date: 结束时间，不填为至今. 例如：'2017-10-01'或者'2017-10-01 10:00:00', 注意，时间范围最多30天
+        :param end_date: 结束时间，不填表示start之后的30天. 例如：'2017-10-01'或者'2017-10-01 10:00:00', 注意，时间范围最多30天
         :param option_type: 期权类型,默认全部，全部/看涨/看跌，futuquant.common.constant.OptionType
         :param option_cond_type: 默认全部，全部/价内/价外，futuquant.common.constant.OptionCondType
         :return: (ret, data)
@@ -1715,15 +1715,12 @@ class OpenQuoteContext(OpenContextBase):
                 name                 str           名字
                 lot_size             int           每手数量
                 stock_type           str           股票类型，参见SecurityType
-                stock_owner          str           正股代码
                 option_type          str           期权类型，Qot_Common.OptionType
                 owner                str           标的股
-                strike_time           str           行权日
+                strike_time          str           行权日
                 strike_price         float         行权价
                 suspension           bool          是否停牌(True表示停牌)
                 market               str           发行市场名字
-                listing_date         str           上市时间
-                stock_id             int           股票id
                 ==================   ===========   ==============================================================
 
         """
@@ -1748,9 +1745,8 @@ class OpenQuoteContext(OpenContextBase):
             return ret_code, msg
 
         col_list = [
-            'code', 'name', 'lot_size', 'stock_type', 'stock_owner',
-            'option_type', 'owner', 'strike_time', 'strike_price', 'suspension', 'market',
-            'listing_date', 'stock_id'
+            'code', 'name', 'lot_size', 'stock_type',
+            'option_type', 'owner', 'strike_time', 'strike_price', 'suspension', 'market'
         ]
 
         option_chain = pd.DataFrame(option_chain_list, columns=col_list)
