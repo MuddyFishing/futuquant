@@ -312,10 +312,10 @@ class MarketSnapshotQuery:
                 snapshot_tmp['option_valid'] = True
                 snapshot_tmp[
                     'option_type'] = QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
-                snapshot_tmp['option_owner'] = merge_qot_mkt_stock_str(
+                snapshot_tmp['owner'] = merge_qot_mkt_stock_str(
                     record.optionExData.owner.market, record.optionExData.owner.code)
                 snapshot_tmp[
-                    'option_strike_time'] = record.optionExData.strikeTime
+                    'strike_time'] = record.optionExData.strikeTime
                 snapshot_tmp[
                     'option_strike_price'] = record.optionExData.strikePrice
                 snapshot_tmp[

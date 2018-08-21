@@ -188,7 +188,7 @@ class OpenQuoteContext(OpenContextBase):
 
         col_list = [
             'code', 'name', 'lot_size', 'stock_type', 'stock_child_type', 'stock_owner',
-            'option_type', 'owner', 'strike_ime', 'strike_price', 'suspension', 'market',
+            'option_type', 'owner', 'strike_time', 'strike_price', 'suspension', 'market',
             'listing_date', 'stock_id'
         ]
 
@@ -626,8 +626,8 @@ class OpenQuoteContext(OpenContextBase):
                 price_spread               float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
                 option_valid               bool           是否是期权（为true时以下期权相关的字段才有合法数值）
                 option_type                str            期权类型，参见OptionType
-                option_owner               str            标的股
-                option_strike_time         str            行权日
+                owner                      str            标的股
+                strike_time                str            行权日
                 option_strike_price        float          行权价
                 option_contract_size       int            每份合约数
                 option_open_interest       int            未平仓合约数
@@ -684,8 +684,8 @@ class OpenQuoteContext(OpenContextBase):
                         'wrt_premium'
                         ]
         option_col_list = ['option_type',
-                           'option_owner',
-                           'option_strike_time',
+                           'owner',
+                           'strike_time',
                            'option_strike_price',
                            'option_contract_size',
                            'option_open_interest',
@@ -1718,7 +1718,7 @@ class OpenQuoteContext(OpenContextBase):
                 stock_owner          str           正股代码
                 option_type          str           期权类型，Qot_Common.OptionType
                 owner                str           标的股
-                strike_ime           str           行权日
+                strike_time           str           行权日
                 strike_price         float         行权价
                 suspension           bool          是否停牌(True表示停牌)
                 market               str           发行市场名字
