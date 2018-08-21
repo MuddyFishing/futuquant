@@ -282,6 +282,10 @@ SecurityType - 证券类型
  ..  py:attribute:: BOND
  
   债券
+
+ ..  py:attribute:: DRVT
+ 
+  期权
    
  ..  py:attribute:: NONE
  

@@ -159,7 +159,6 @@ get_stock_basicinfo
         stock_type          str            股票类型，参见 SecurityType_
         stock_child_type    str            窝轮子类型，参见 WrtType_
         stock_owner         str            正股代码
-        stock_owner         str            正股代码
         option_type         str            期权类型，查看 OptionType_
         owner               str            标的股
         strike_ime          str            行权日
@@ -424,8 +423,8 @@ get_market_snapshot
 		price_spread               float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
 		option_valid               bool           是否是期权（为true时以下期权相关的字段才有合法数值）
 		option_type                str            期权类型，参见OptionType
-		option_owner               str            标的股
-		option_strike_time         str            行权日
+		owner                      str            标的股
+		strike_time                str            行权日
 		option_strike_price        float          行权价
 		option_contract_size       int            每份合约数
 		option_open_interest       int            未平仓合约数
@@ -1106,7 +1105,7 @@ get_option_chain
 
  :param code: 股票代码,例如：'HK.02318'
  :param start_date: 开始时间. 例如：'2017-08-01'或者'2017-08-01 10:00:00'
- :param end_date: 结束时间，不填为至今. 例如：'2017-10-01'或者'2017-10-01 10:00:00', 注意，时间范围最多30天
+ :param end_date: 结束时间，不填表示start之后的30天. 例如：'2017-10-01'或者'2017-10-01 10:00:00', 注意，时间范围最多30天
  :param option_type: 期权类型,,默认全部,全部/看涨/看跌，查看 OptionType_
  :param option_cond_type: 默认全部,全部/价内/价外，查看 OptionCondType_
  :return: (ret, data)
@@ -1125,12 +1124,10 @@ get_option_chain
         stock_owner          str           正股代码
         option_type          str           期权类型，查看 OptionType_
         owner                str           标的股
-        strike_ime           str           行权日
+        strike_time          str           行权日
         strike_price         float         行权价
         suspension           bool          是否停牌(True表示停牌)
         market               str           发行市场名字
-        listing_date         str           上市时间
-        stock_id             int           股票id
         ==================   ===========   ==============================================================
 
  :example:
@@ -1139,7 +1136,7 @@ get_option_chain
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-    print(quote_ctx.get_option_chain(code, '2018-08-01', '2018-08-18', OptionType.ALL, OptionCondType.OUTSIDE))
+    print(quote_ctx.get_option_chain('US.AAPL', '2018-08-01', '2018-08-18', OptionType.ALL, OptionCondType.OUTSIDE))
     quote_ctx.close()
 
 
