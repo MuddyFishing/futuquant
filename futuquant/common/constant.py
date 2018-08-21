@@ -68,8 +68,6 @@ class Market(object):
       深市
      ..  py:attribute:: HK_FUTURE
       港股期货
-     ..  py:attribute:: US_OPTION
-      美股期权
      ..  py:attribute:: NONE
       未知
     """
@@ -78,7 +76,6 @@ class Market(object):
     SH = "SH"
     SZ = "SZ"
     HK_FUTURE = "HK_FUTURE"
-    US_OPTION = "US_OPTION"
     NONE = "N/A"
 
 MKT_MAP = {
@@ -86,7 +83,6 @@ MKT_MAP = {
     Market.HK: 1,
     Market.HK_FUTURE: 2,
     Market.US: 11,
-    Market.US_OPTION: 12,
     Market.SH: 21,
     Market.SZ: 22
 }
