@@ -475,7 +475,7 @@ get_rt_data
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.subscribee(['HK.00700'], [SubType.RT_DATA])
+	quote_ctx.subscribe(['HK.00700'], [SubType.RT_DATA])
     print(quote_ctx.get_rt_data('HK.00700'))
     quote_ctx.close()
 	
@@ -630,7 +630,7 @@ get_broker_queue
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.subscribee(['HK.00700'], [SubType.BROKER])
+	quote_ctx.subscribe(['HK.00700'], [SubType.BROKER])
     print(quote_ctx.get_broker_queue('HK.00700'))
     quote_ctx.close()
 		
