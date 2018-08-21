@@ -255,27 +255,30 @@ class MarketSnapshotQuery:
             snapshot_tmp['price_spread'] = record.basic.priceSpread
             snapshot_tmp['lot_size'] = record.basic.lotSize
 
+            snapshot_tmp['equity_valid'] = False
             # equityExData
-            snapshot_tmp[
-                'circular_market_val'] = record.equityExData.outstandingMarketVal
-            snapshot_tmp[
-                'total_market_val'] = record.equityExData.issuedMarketVal
-            snapshot_tmp[
-                'issued_shares'] = record.equityExData.issuedShares
-            snapshot_tmp['net_asset'] = record.equityExData.netAsset
-            snapshot_tmp['net_profit'] = record.equityExData.netProfit
-            snapshot_tmp[
-                'earning_per_share'] = record.equityExData.earningsPershare
-            snapshot_tmp[
-                'outstanding_shares'] = record.equityExData.outstandingShares
-            snapshot_tmp[
-                'net_asset_per_share'] = record.equityExData.netAssetPershare
-            snapshot_tmp['ey_ratio'] = record.equityExData.eyRate
-            snapshot_tmp['pe_ratio'] = record.equityExData.peRate
-            snapshot_tmp['pb_ratio'] = record.equityExData.pbRate
-            snapshot_tmp['wrt_valid'] = False
-            snapshot_tmp['pe_ttm_ratio'] = record.equityExData.peTTMRate
+            if record.HasField('equityExData'):
+                snapshot_tmp['equity_valid'] = True
+                snapshot_tmp[
+                    'issued_shares'] = record.equityExData.issuedShares
+                snapshot_tmp[
+                    'total_market_val'] = record.equityExData.issuedMarketVal
+                snapshot_tmp['net_asset'] = record.equityExData.netAsset
+                snapshot_tmp['net_profit'] = record.equityExData.netProfit
+                snapshot_tmp[
+                    'earning_per_share'] = record.equityExData.earningsPershare
+                snapshot_tmp[
+                    'outstanding_shares'] = record.equityExData.outstandingShares
+                snapshot_tmp[
+                    'circular_market_val'] = record.equityExData.outstandingMarketVal
+                snapshot_tmp[
+                    'net_asset_per_share'] = record.equityExData.netAssetPershare
+                snapshot_tmp['ey_ratio'] = record.equityExData.eyRate
+                snapshot_tmp['pe_ratio'] = record.equityExData.peRate
+                snapshot_tmp['pb_ratio'] = record.equityExData.pbRate
+                snapshot_tmp['pe_ttm_ratio'] = record.equityExData.peTTMRate
 
+            snapshot_tmp['wrt_valid'] = False
             if record.basic.type == SEC_TYPE_MAP[SecurityType.WARRANT]:
                 snapshot_tmp['wrt_valid'] = True
                 snapshot_tmp[
@@ -303,6 +306,8 @@ class MarketSnapshotQuery:
                 snapshot_tmp[
                     'wrt_implied_volatility'] = record.warrantExData.impliedVolatility
                 snapshot_tmp['wrt_premium'] = record.warrantExData.premium
+
+            snapshot_tmp['option_valid'] = False
             if record.basic.type == SEC_TYPE_MAP[SecurityType.DRVT]:
                 snapshot_tmp['option_valid'] = True
                 snapshot_tmp[
