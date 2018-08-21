@@ -490,7 +490,7 @@ class OpenQuoteContext(OpenContextBase):
             list_ret.extend(list_kline)
             next_page_req_key = page_req_key
             if max_count is not None:
-                if max_count > len(list_ret):
+                if max_count > len(list_ret) and has_next:
                     data_finish = False
                     max_kl_num = min(max_count - len(list_ret), 1000)
                 else:
