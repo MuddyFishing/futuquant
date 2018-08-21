@@ -235,6 +235,7 @@ class OpenTradeContextBase(OpenContextBase):
         """
         :param trd_env:
         :param acc_id:
+        :param acc_index:
         :return:
         """
         ret, msg = self._check_trd_env(trd_env)
@@ -645,7 +646,7 @@ class OpenTradeContextBase(OpenContextBase):
 
         return RET_OK, deal_list_table
 
-    def acctradinginfo_query(self, order_type, code, price, order_id, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0):
+    def acctradinginfo_query(self, order_type, code, price, order_id, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0, acc_index=0):
         """
         查询账户下最大可买卖数量
         :param order_type: 订单类型，参见OrderType
@@ -655,6 +656,7 @@ class OpenTradeContextBase(OpenContextBase):
         :param adjust_limit: 调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%。默认0表示不调整
         :param trd_env: 交易环境，参见TrdEnv
         :param acc_id: 业务账号，默认0表示第1个
+        :param acc_index: int，交易业务子账户ID列表所对应的下标，默认0，表示第1个业务ID
         :return: (ret, data)
 
                 ret == RET_OK, data为pd.DataFrame，数据列如下
@@ -674,7 +676,8 @@ class OpenTradeContextBase(OpenContextBase):
         ret, msg = self._check_trd_env(trd_env)
         if ret != RET_OK:
             return ret, msg
-        ret, msg, acc_id = self._check_acc_id(trd_env, acc_id)
+
+        ret, msg, acc_id = self._check_acc_id_and_acc_index(trd_env, acc_id, acc_index)
         if ret != RET_OK:
             return ret, msg
 
@@ -754,6 +757,7 @@ class OpenHKCCTradeContext(OpenTradeContextBase):
         :param adjust_limit:
         :param trd_env:
         :param acc_id:
+        :param acc_index:
         :return: 返回值见基类接口注释，但order_type仅有OrderType.NORMAL
         """
         return super().place_order(price=price, qty=qty, code=code, trd_side=trd_side,
@@ -805,6 +809,7 @@ class OpenHKCCTradeContext(OpenTradeContextBase):
         :param end:
         :param trd_env:
         :param acc_id:
+        :param acc_index:
         :return: 返回值见基类及接口文档，但order_type仅有OrderType.NORMAL, order_status没有OrderStatus.DISABLED
         """
         return super().history_order_list_query(status_filter_list=status_filter_list,

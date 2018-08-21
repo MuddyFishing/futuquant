@@ -205,8 +205,7 @@ class MarketSnapshotQuery:
         for stock_str in stock_list:
             ret_code, content = split_stock_str(stock_str)
             if ret_code != RET_OK:
-                msg = content
-                error_str = ERROR_STR_PREFIX + msg
+                error_str = content
                 failure_tuple_list.append((ret_code, error_str))
                 continue
 
