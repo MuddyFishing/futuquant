@@ -1733,10 +1733,12 @@ class OptionChain:
                 for record in record_list:
                     quote_list = {
                         'code': merge_qot_mkt_stock_str(int(record.basic.security.market), record.basic.security.code),
+                        "stock_id": record.basic.id,
                         "name": record.basic.name,
                         "lot_size": record.basic.lotSize,
                         "stock_type": QUOTE.REV_SEC_TYPE_MAP[record.basic.secType]
                             if record.basic.secType in QUOTE.REV_SEC_TYPE_MAP else SecurityType.NONE,
+                        "listing_date": record.basic.listTime,
                         "option_type": QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
                             if record.HasField('optionExData') else "",
                         "owner": merge_qot_mkt_stock_str(int(record.optionExData.owner.market), record.optionExData.owner.code)
