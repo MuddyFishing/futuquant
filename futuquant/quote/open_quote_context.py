@@ -196,7 +196,7 @@ class OpenQuoteContext(OpenContextBase):
                                    ktype=KLType.K_DAY,
                                    autype=AuType.QFQ):
         """
-        获取多只股票的历史k线数据
+        获取多只股票的本地历史k线数据
 
         :param codelist: 股票代码列表，list或str。例如：['HK.00700', 'HK.00001']，'HK.00700,HK.00001'
         :param start: 起始时间，例如2017-06-20
@@ -1430,7 +1430,7 @@ class OpenQuoteContext(OpenContextBase):
                                        autype=AuType.QFQ,
                                        no_data_mode=KLNoDataMode.FORWARD):
         '''
-        获取多支股票多个时间点的指定数据列
+        从本地历史K线中获取多支股票多个时间点的指定数据列
 
         :param code_list: 单个或多个股票 'HK.00700'  or  ['HK.00700', 'HK.00001']
         :param dates: 单个或多个日期 '2017-01-01' or ['2017-01-01', '2017-01-02']
