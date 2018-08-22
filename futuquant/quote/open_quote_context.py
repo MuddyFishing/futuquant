@@ -1648,10 +1648,10 @@ class OpenQuoteContext(OpenContextBase):
                 参数                      类型                        说明
                 =====================   ===========   ==============================================================
                 holder_name             str            高管名称
-                holding_qty             double         持股数
-                holding_ratio           double         持股比例
-                change_qty              double         变动数
-                change_ratio            double         变动比例
+                holding_qty             float          持股数
+                holding_ratio           float          持股比例
+                change_qty              float          变动数
+                change_ratio            float          变动比例
                 time                    str            发布时间
                 =====================   ===========   ==============================================================
         """
@@ -1747,7 +1747,7 @@ class OpenQuoteContext(OpenContextBase):
 
         option_chain = pd.DataFrame(option_chain_list, columns=col_list)
 
-        if option_type is None or option_type == OptionType.ALL:
-            option_chain.sort_values(by=["strike_time", "strike_price"], axis=0, ascending=True, inplace=True)
+        option_chain.sort_values(by=["strike_time", "strike_price"], axis=0, ascending=True, inplace=True)
+        option_chain.index = range(len(option_chain))
 
         return RET_OK, option_chain
