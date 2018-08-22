@@ -29,9 +29,7 @@ def check_date_str_format(s, default_time="00:00:00"):
         return RET_OK, dt_obj
 
     except ValueError:
-        traceback.print_exc()
-        err = sys.exc_info()[1]
-        error_str = ERROR_STR_PREFIX + str(err)
+        error_str = ERROR_STR_PREFIX + "wrong time or time format"
         return RET_ERROR, error_str
 
 
