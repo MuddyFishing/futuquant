@@ -49,14 +49,15 @@ def detect_warning_times(openid, warning_limit):
         new_time_list = str(now_time)
 
     warning_time_list.update({openid: new_time_list})
+    print(now_time, warning_time_list[openid])
     return sent_msg_sig
 
 
 def detect(content, prev_price, openid, premium_rate, warning_threshold, large_threshold, warning_limit):
-    code = content[0]['code']
-    record_time = content[0]['time']
-    price = content[0]['price']
-    vol = content[0]['volume']
+    code = content['code']
+    record_time = content['time']
+    price = content['price']
+    vol = content['volume']
     # direction = content[0]['ticker_direction']
 
     msg = {}
@@ -84,12 +85,10 @@ def detect(content, prev_price, openid, premium_rate, warning_threshold, large_t
                     'time': str(record_time)})
         print(wp.send_template_msg(openid, msg))
         logging.info("Send a message.")
-    # else:
-        # print("The content is: ", content)
 
 
 def get_preprice(content):
-    code = content[0]['code']
+    code = content['code']
     prev_price = 0
     result = sqlite.get_values_by_id('price', 'stockid', code)
     if result:
@@ -98,21 +97,28 @@ def get_preprice(content):
 
 
 def update_price(content):
-    code = content[0]['code']
-    price = content[0]['price']
+    code = content['code']
+    price = content['price']
     # 更新 逐笔成交信息
     sqlite.update_price(code, price)
 
 
-def detect_and_send(content):
+def detect_and_send_each_ticker(content):
     prev_price = get_preprice(content)
 
     user_list = config.test_user_list
     for openid in user_list:
         usr_setting = sqlite.get_values_by_id('setting', 'openid', openid)
         if usr_setting:
-            detect(content, prev_price, usr_setting[0][0], usr_setting[0][1], usr_setting[0][2], usr_setting[0][3], usr_setting[0][4])
+            detect(content, prev_price, usr_setting[0][0], usr_setting[0][1], usr_setting[0][2], usr_setting[0][3],
+                   usr_setting[0][4])
         else:
-            detect(content, prev_price, openid, config.premium_rate, config.warning_threshold, config.large_threshold, config.warning_limit)
+            detect(content, prev_price, openid, config.premium_rate, config.warning_threshold, config.large_threshold,
+                   config.warning_limit)
 
     update_price(content)
+
+
+def detect_and_send(content):
+    for ticker in content:
+        detect_and_send_each_ticker(ticker)

@@ -193,6 +193,18 @@ class WechatPush(object):
                         return ret, msg
         return RET_OK, "Send template msg successfully."
 
+    def sent_template_msg_to_all(self, msg):
+        ret, user_openid_list = self.get_user_openid_list()
+        if ret != RET_OK:
+            return ret, user_openid_list
+
+        if user_openid_list:
+            for openid in user_openid_list:
+                ret, msg = self.send_template_msg(openid, msg)
+                if ret != RET_OK:
+                    return ret, msg
+        return RET_OK, "Send template msg successfully."
+
 
 # ---- 单元测试代码
 if __name__ == '__main__':
@@ -211,11 +223,12 @@ if __name__ == '__main__':
     # print(get_template_id(get_access_token()))
     wp = WechatPush()  # test号
     # print(wp.get_access_token())
-    # wp.send_text_msg(text_msg)
+    print(wp.send_text_msg(text_msg))
     # print(wp.sent_template_msg_to_users(msg))
 
     # nickname
-    all_user_openid = wp.get_user_openid_list()
-    if all_user_openid:
-        for user in all_user_openid:
-            print(wp.get_user_nickname(user), user)
+    # ret, all_user_openid = wp.get_user_openid_list()
+    # if all_user_openid:
+    #     for user in all_user_openid:
+    #         ret, username = wp.get_user_nickname(user)
+    #         print(username, user)

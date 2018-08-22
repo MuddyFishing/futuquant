@@ -7,7 +7,7 @@ class Config:
 
         # test_user_list
         self.test_user_list = {
-                          'oaeaj02DzklyZHavotk2X3mt6JuA'  # lpt
+                          ''  # lpt
                           }
 
         # test_user_nickname

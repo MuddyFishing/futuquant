@@ -12,7 +12,7 @@ class CheckConfig:
 
     def _check_template_id(self, openid):
         msg = {
-            'echo_type': 'This is test.',
+            'echo_type': '*** This is test ***',
             'code': str(10000),
             'price': str(101.1),
             'total_deal_price': str(200),
@@ -76,29 +76,35 @@ class CheckConfig:
 
         # ---- send test msg to tester.
         # else:
-        #     ret, msg = self._send_test_msg_to_test_nickname()
-        #     if ret != RET_OK:
-        #         return ret, msg
-        #     print(msg)
+        #     if len(config.test_user_list) == 0 and len():
+        #         return RET_ERROR, "Please fill the test_user_list correctly."
+        #     else:
+        #         for test_openid in config.test_user_list:
+        #             ret, msg = self._check_template_id(test_openid)
+        #             if ret != RET_OK:
+        #                 return ret, msg
+        #             print("Template_id is ready.")
 
         return RET_OK, "Connect wechat successfully."
 
     def _check_others(self):
         msg = ''
         if config.database == '':
-            msg += 'Database name is null.'
-            return RET_ERROR, msg
+            msg += 'Database name is null.\n'
 
         if config.host == '':
-            msg += 'Host is null.'
-            return RET_ERROR, msg
+            msg += 'Host is null.\n'
 
         if config.port == '':
-            msg += 'Port is null.'
-            return RET_ERROR, msg
+            msg += 'Port is null.\n'
 
         if config.token == '':
-            msg += 'Token is null.'
+            msg += 'Token is null.\n'
+
+        if config.template_id == '':
+            msg += 'Template_id is null.\n'
+
+        if msg != '':
             return RET_ERROR, msg
 
         return RET_OK, "Other parameter is ready."
