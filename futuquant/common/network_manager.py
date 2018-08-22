@@ -93,6 +93,7 @@ class NetManager:
             except BlockingIOError:
                 pass
             except Exception as e:
+                self.close(conn.conn_id)
                 return RET_ERROR, str(e), 0
         return RET_OK, '', conn.conn_id
 
@@ -396,6 +397,7 @@ class NetManager:
             conn.handler.on_error(conn.conn_id, err)
 
     def _on_connect_timeout(self, conn: Connection):
+        self.close(conn.conn_id)
         conn.handler.on_connect_timeout(conn.conn_id)
 
     @staticmethod
