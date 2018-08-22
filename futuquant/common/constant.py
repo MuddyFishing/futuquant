@@ -97,7 +97,6 @@ QOT_MARKET_TO_TRD_SEC_MARKET_MAP = {
     Qot_Common_pb2.QotMarket_HK_Security: Trd_Common_pb2.TrdSecMarket_HK,
     Qot_Common_pb2.QotMarket_HK_Future: Trd_Common_pb2.TrdSecMarket_HK,
     Qot_Common_pb2.QotMarket_US_Security: Trd_Common_pb2.TrdSecMarket_US,
-    Qot_Common_pb2.QotMarket_US_Option: Trd_Common_pb2.TrdSecMarket_US
 }
 
 # 市场状态
