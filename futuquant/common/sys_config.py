@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
+import sys
+import traceback
 from futuquant.common import bytes_utf8, IS_PY2, str_utf8
 from futuquant.common.constant import *
 from futuquant.common.ft_logger import logger
