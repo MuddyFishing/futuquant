@@ -14,7 +14,7 @@ class GetHoldChange(object):
         host = '127.0.0.1'
         port=11111
         quote_ctx = OpenQuoteContext(host,port)
-        print(quote_ctx.get_holding_change_list(code='US.AAPL', holder_type=StockHolder.INSTITUTE, start_date='2017-01-01', end_date='2018-8-30'))
+        print(quote_ctx.get_holding_change_list(code='US.DIS', holder_type=StockHolder.EXECUTIVE, start_date='2018-1-1', end_date='2018-8-30'))
 
     def test2(self):
         host = '127.0.0.1'
@@ -33,8 +33,6 @@ class GetHoldChange(object):
                 print('变动比例与预期不符！')
                 print('change_ratio_temp = ', change_ratio_temp)
                 print('change_ratio = ', change_ratio_list[i])
-
-
 
 
 if __name__ == '__main__':

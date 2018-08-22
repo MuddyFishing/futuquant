@@ -82,7 +82,7 @@ class PlaceOrder(object):
         tradeus_ctx.set_handler(handler_tradeDealtrade)
         # 开启异步
         tradeus_ctx.start()
-        code = 'US.AAPL180914P205000'  # US.AAPL180914C210000
+        code = 'US_OPTION.AAPL180914P205000'  # US.AAPL180914C210000
         price = 1.2
         qty = 1000
         trd_side = TrdSide.BUY
