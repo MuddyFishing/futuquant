@@ -161,10 +161,6 @@ Market - 行情市场
     
   港股期货
   
- ..  py:attribute:: US_OPTION
-    
-  美股期权
-  
  ..  py:attribute:: NONE
     
   未知

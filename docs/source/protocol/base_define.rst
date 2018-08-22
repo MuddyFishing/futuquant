@@ -265,7 +265,6 @@ QotMarket - 行情市场
 		QotMarket_HK_Security = 1; //港股
 		QotMarket_HK_Future = 2; //港期货(目前是恒指的当月、下月期货行情)
 		QotMarket_US_Security = 11; //美股
-		QotMarket_US_Option = 12; //美期权,暂时不支持期权
 		QotMarket_CNSH_Security = 21; //沪股
 		QotMarket_CNSZ_Security = 22; //深股
 	}
@@ -274,7 +273,6 @@ QotMarket - 行情市场
 
     *   QotMarket定义一支证券所属的行情市场分类
     *   QotMarket_HK_Future 港股期货，目前仅支持 999010(恒指当月期货)、999011(恒指下月期货)
-    *   QotMarket_US_Option 美股期权，牛牛客户端可以查看行情，API 后续支持
 	
 ----------------------------------------------
 
