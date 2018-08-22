@@ -270,7 +270,9 @@ class BrokerHandlerBase(RspHandlerBase):
         注意该回调是在独立子线程中
 
         :param rsp_pb: 派生类中不需要直接处理该参数
-        :return: 参见get_broker_queue的返回值
+        :return: 成功时返回(RET_OK, stock_code, [bid_frame_table, ask_frame_table]), 相关frame table含义见 get_broker_queue_ 的返回值说明
+
+                 失败时返回(RET_ERROR, ERR_MSG, None)
         """
         ret_code, content = self.parse_rsp_pb(rsp_pb)
         if ret_code != RET_OK:
