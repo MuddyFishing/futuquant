@@ -118,13 +118,22 @@ set_handler
 get_trading_days
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: get_trading_days(self, market, start_date=None, end_date=None)
+..  py:function:: get_trading_days(self, market, start=None, end=None)
 
  获取交易日
 
- :param market: 市场类型，futuquant.common.constant.Market
- :param start_date: 起始日期
- :param end_date: 结束日期
+ :param market: 市场类型，Market_
+ :param start: 起始日期。例如'2018-01-01'。
+ :param end: 结束日期。例如'2018-01-01'。
+         start和end的组合如下：
+             ==========    ==========    ========================================
+             start类型      end类型       说明
+             ==========    ==========    ========================================
+             str            str           start和end分别为指定的日期
+             None           str           start为end往前365天
+             str            None          end为start往后365天
+             None           None          end为当前日期，start为end往前365天
+             ==========    ==========    ========================================
  :return: 成功时返回(RET_OK, data)，data是字符串数组；失败时返回(RET_ERROR, data)，其中data是错误描述字符串
         
  :example:
@@ -133,7 +142,7 @@ get_trading_days
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-    print(quote_ctx.get_trading_days(market=Market.HK))
+    print(quote_ctx.get_trading_days(Market.HK, start='2018-01-01', end='2018-01-10'))
     quote_ctx.close()
 
 get_stock_basicinfo
@@ -185,8 +194,8 @@ get_multiple_history_kline
  获取多只股票的本地历史k线数据
 
  :param codelist: 股票代码列表，list或str。例如：['HK.00700', 'HK.00001']，'HK.00700,SZ.399001'
- :param start: 起始时间
- :param end: 结束时间
+ :param start: 起始时间，，例如'2017-06-20'
+ :param end: 结束时间，例如'2017-07-20'，start与end组合关系参见 get_history_kline_
  :param ktype: k线类型，参见 KLType_
  :param autype: 复权类型，参见 AuType_
  :return: 成功时返回(RET_OK, [data])，data是DataFrame数据, 数据列格式如下
@@ -228,8 +237,17 @@ get_history_kline
  得到本地历史k线，需先参照帮助文档下载k线
 
  :param code: 股票代码
- :param start: 开始时间，例如2017-06-20
- :param end:  结束时间
+ :param start: 开始时间，例如'2017-06-20'。
+ :param end:  结束时间，例如'2017-06-30'。
+            start和end的组合如下：
+              ==========    ==========    ========================================
+              start类型      end类型       说明
+              ==========    ==========    ========================================
+                str            str           start和end分别为指定的日期
+                None           str           start为end往前365天
+                str            None          end为start往后365天
+                None           None          end为当前日期，start为end往前365天
+              ==========    ==========    ========================================
  :param ktype: k线类型， 参见 KLType_ 定义
  :param autype: 复权类型, 参见 AuType_ 定义
  :param fields: 需返回的字段列表，参见 KL_FIELD_ 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
@@ -275,8 +293,17 @@ request_history_kline
  获取k线，不需要事先下载k线数据。
 
  :param code: 股票代码
- :param start: 开始时间，例如2017-06-20
- :param end:  结束时间
+ :param start: 开始时间，例如'2017-06-20'
+ :param end:  结束时间，例如'2017-07-20'。
+            start和end的组合如下：
+              ==========    ==========    ========================================
+              start类型      end类型       说明
+              ==========    ==========    ========================================
+                str            str           start和end分别为指定的日期
+                None           str           start为end往前365天
+                str            None          end为start往后365天
+                None           None          end为当前日期，start为end往前365天
+              ==========    ==========    ========================================
  :param ktype: k线类型， 参见 KLType_ 定义
  :param autype: 复权类型, 参见 AuType_ 定义
  :param fields: 需返回的字段列表，参见 KL_FIELD_ 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
@@ -337,7 +364,7 @@ get_autype_list
         =====================   ===========   =================================================================
         code                    str            股票代码
         ex_div_date             str            除权除息日
-        split_ratio             float          拆合股比例； double，例如，对于5股合1股为1/5，对于1股拆5股为5/1
+        split_ratio             float          拆合股比例； float，例如，对于5股合1股为1/5，对于1股拆5股为5/1
         per_cash_div            float          每股派现
         per_share_div_ratio     float          每股送股比例
         per_share_trans_ratio   float          每股转增股比例
@@ -750,7 +777,7 @@ get_global_state
 		trd_logined             str            '1'：已登录交易服务器，'0': 未登录交易服务器
 		qot_logined             str            '1'：已登录行情服务器，'0': 未登录行情服务器
 		timestamp               str            当前格林威治时间戳(秒）
-		local_timestamp         double         FutuOpenD运行机器的当前时间戳(毫秒)
+		local_timestamp         float         FutuOpenD运行机器的当前时间戳(毫秒)
 		=====================   ===========   ==============================================================
  
  :example:
@@ -1059,14 +1086,23 @@ get_owner_plate
 get_holding_change_list
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: get_holding_change_list(self, code, holder_type, start_date, end_date=None)
+..  py:function:: get_holding_change_list(self, code, holder_type, start, end=None)
 
  获取大股东持股变动列表,只提供美股数据
 
  :param code: 股票代码. 例如：'US.AAPL'
  :param holder_type: 持有者类别，查看 StockHolder_
- :param start_date: 开始时间. 例如：'2016-10-01'或者'2016-10-01 10:00:00'
- :param end_date: 结束时间，不填为至今. 例如：'2017-10-01'
+ :param start: 开始时间. 例如：'2016-10-01'
+ :param end: 结束时间，例如：'2017-10-01'。
+           start与end的组合如下：
+            ==========    ==========    ========================================
+             start类型      end类型       说明
+            ==========    ==========    ========================================
+             str            str           start和end分别为指定的日期
+             None           str           start为end往前365天
+             str            None          end为start往后365天
+             None           None          end为当前日期，start为end往前365天
+            ==========    ==========    ========================================
  :return: (ret, data)
 
         ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
@@ -1077,10 +1113,10 @@ get_holding_change_list
         参数                      类型                        说明
         =====================   ===========   ==============================================================
         holder_name             str            高管名称
-        holding_qty             double         持股数
-        holding_ratio           double         持股比例
-        change_qty              double         变动数
-        change_ratio            double         变动比例
+        holding_qty             float         持股数
+        holding_ratio           float         持股比例
+        change_qty              float         变动数
+        change_ratio            float         变动比例
         time                    str            发布时间
         =====================   ===========   ==============================================================
 
@@ -1096,13 +1132,22 @@ get_holding_change_list
 get_option_chain
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: get_option_chain(self, code, start_date, end_date=None, option_type=OptionType.ALL, option_cond_type=OptionCondType.ALL)
+..  py:function:: get_option_chain(self, code, start, end=None, option_type=OptionType.ALL, option_cond_type=OptionCondType.ALL)
 
  通过标的股查询期权
 
  :param code: 股票代码,例如：'HK.02318'
- :param start_date: 开始时间，时分秒不填默认为00:00:00. 例如：'2017-08-01'或者'2017-08-01 10:00:00'
- :param end_date: 结束时间，不填表示start之后的30天，时分秒不填默认为23:59:59. 例如：'2017-10-01'或者'2017-10-01 10:00:00', 注意，时间范围最多30天
+ :param start: 开始日期，例如'2017-08-01'
+ :param end: 结束日期，例如'2017-08-30'。 注意，时间范围最多30天。
+             start和end的组合如下：
+                ==========    ==========    ========================================
+                 start类型      end类型       说明
+                ==========    ==========    ========================================
+                 str            str           start和end分别为指定的日期
+                 None           str           start为end往前30天
+                 str            None          end为start往后30天
+                 None           None          start为当前日期，end往后30天
+                ==========    ==========    ========================================
  :param option_type: 期权类型,,默认全部,全部/看涨/看跌，查看 OptionType_
  :param option_cond_type: 默认全部,全部/价内/价外，查看 OptionCondType_
  :return: (ret, data)

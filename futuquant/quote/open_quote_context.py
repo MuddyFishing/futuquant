@@ -96,13 +96,27 @@ class OpenQuoteContext(OpenContextBase):
             self._wait_reconnect()
         return ret_code, ret_msg
 
-    def get_trading_days(self, market, start_date=None, end_date=None):
-        """get the trading days"""
+    def get_trading_days(self, market, start=None, end=None):
+        """获取交易日
+        :param market: 市场类型，Market_
+        :param start: 起始日期。例如'2018-01-01'。
+        :param end: 结束日期。例如'2018-01-01'。
+         start和end的组合如下：
+         ==========    ==========    ========================================
+         start类型      end类型       说明
+         ==========    ==========    ========================================
+         str            str           start和end分别为指定的日期
+         None           str           start为end往前365天
+         str            None          end为start往后365天
+         None           None          end为当前日期，start为end往前365天
+         ==========    ==========    ========================================
+        :return: 成功时返回(RET_OK, data)，data是字符串数组；失败时返回(RET_ERROR, data)，其中data是错误描述字符串
+        """
         if market is None or is_str(market) is False:
             error_str = ERROR_STR_PREFIX + "the type of market param is wrong"
             return RET_ERROR, error_str
 
-        ret, msg, start_date, end_date = normalize_start_end_date(start_date, end_date, 365)
+        ret, msg, start, end = normalize_start_end_date(start, end, 365)
         if ret != RET_OK:
             return ret, msg
 
@@ -112,8 +126,8 @@ class OpenQuoteContext(OpenContextBase):
         # the keys of kargs should be corresponding to the actual function arguments
         kargs = {
             'market': market,
-            'start_date': start_date,
-            'end_date': end_date,
+            'start_date': start,
+            'end_date': end,
             'conn_id': self.get_sync_conn_id()
         }
         ret_code, msg, trade_day_list = query_processor(**kargs)
@@ -199,8 +213,8 @@ class OpenQuoteContext(OpenContextBase):
         获取多只股票的本地历史k线数据
 
         :param codelist: 股票代码列表，list或str。例如：['HK.00700', 'HK.00001']，'HK.00700,HK.00001'
-        :param start: 起始时间，例如2017-06-20
-        :param end: 结束时间
+        :param start: 起始时间，例如'2017-06-20'
+        :param end: 结束时间, 例如'2017-07-20'，start与end组合关系参见 get_history_kline_
         :param ktype: k线类型，参见KLType
         :param autype: 复权类型，参见AuType
         :return: 成功时返回(RET_OK, [data])，data是DataFrame数据, 数据列格式如下
@@ -249,13 +263,9 @@ class OpenQuoteContext(OpenContextBase):
                                 fields=[KL_FIELD.ALL]
                                 ):
 
-        if start is not None and is_str(start) is False:
-            error_str = ERROR_STR_PREFIX + "the type of start param is wrong"
-            return RET_ERROR, error_str
-
-        if end is not None and is_str(end) is False:
-            error_str = ERROR_STR_PREFIX + "the type of end param is wrong"
-            return RET_ERROR, error_str
+        ret, msg, req_start, end = normalize_start_end_date(start, end, 365)
+        if ret != RET_OK:
+            return ret, msg
 
         req_fields = unique_and_normalize_list(fields)
         if not fields:
@@ -275,10 +285,6 @@ class OpenQuoteContext(OpenContextBase):
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
 
-        # format start end date
-        ret, msg, req_start, end = normalize_start_end_date(start, end, 365)
-        if ret != RET_OK:
-            return ret, msg
 
         max_kl_num = 1000
         data_finish = False
@@ -328,8 +334,17 @@ class OpenQuoteContext(OpenContextBase):
             得到本地历史k线，需先参照帮助文档下载k线
 
             :param code: 股票代码
-            :param start: 开始时间，例如2017-06-20
-            :param end:  结束时间
+            :param start: 开始时间，例如'2017-06-20'
+            :param end:  结束时间，例如'2017-06-30'
+                    start和end的组合如下：
+                    ==========    ==========    ========================================
+                     start类型      end类型       说明
+                    ==========    ==========    ========================================
+                     str            str           start和end分别为指定的日期
+                     None           str           start为end往前365天
+                     str            None          end为start往后365天
+                     None           None          end为当前日期，start为end往前365天
+                    ==========    ==========    ========================================
             :param ktype: k线类型， 参见 KLType 定义
             :param autype: 复权类型, 参见 AuType 定义
             :param fields: 需返回的字段列表，参见 KL_FIELD 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
@@ -381,8 +396,17 @@ class OpenQuoteContext(OpenContextBase):
         拉取历史k线，不需要先下载历史数据。
 
         :param code: 股票代码
-        :param start: 开始时间，例如2017-06-20
-        :param end:  结束时间
+        :param start: 开始时间，例如'2017-06-20'
+        :param end:  结束时间，例如'2017-07-20'。
+                  start和end的组合如下：
+                     ==========    ==========    ========================================
+                     start类型      end类型       说明
+                     ==========    ==========    ========================================
+                     str            str           start和end分别为指定的日期
+                     None           str           start为end往前365天
+                     str            None          end为start往后365天
+                     None           None          end为当前日期，start为end往前365天
+                     ==========    ==========    ========================================
         :param ktype: k线类型， 参见 KLType 定义
         :param autype: 复权类型, 参见 AuType 定义
         :param fields: 需返回的字段列表，参见 KL_FIELD 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
@@ -426,13 +450,9 @@ class OpenQuoteContext(OpenContextBase):
             quote_ctx.close()
         """
         next_page_req_key = None
-        if start is not None and is_str(start) is False:
-            error_str = ERROR_STR_PREFIX + "the type of start param is wrong"
-            return RET_ERROR, error_str, next_page_req_key
-
-        if end is not None and is_str(end) is False:
-            error_str = ERROR_STR_PREFIX + "the type of end param is wrong"
-            return RET_ERROR, error_str, next_page_req_key
+        ret, msg, req_start, end = normalize_start_end_date(start, end, 365)
+        if ret != RET_OK:
+            return ret, msg, next_page_req_key
 
         req_fields = unique_and_normalize_list(fields)
         if not fields:
@@ -451,11 +471,6 @@ class OpenQuoteContext(OpenContextBase):
             if param is None or is_str(param) is False:
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str, next_page_req_key
-
-        # format start end date
-        ret, msg, req_start, end = normalize_start_end_date(start, end, 365)
-        if ret != RET_OK:
-            return ret, msg, next_page_req_key
 
         max_kl_num = min(1000, max_count) if max_count is not None else 1000
         data_finish = False
@@ -1630,14 +1645,24 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, owner_plate_table
 
-    def get_holding_change_list(self, code, holder_type, start_date, end_date=None):
+    def get_holding_change_list(self, code, holder_type, start=None, end=None):
         """
         获取大股东持股变动列表,只提供美股数据
 
         :param code: 股票代码. 例如：'US.AAPL'
-        :param holder_type: 持有者类别，futuquant.common.constant.StockHolder
-        :param start_date: 开始时间. 例如：'2016-10-01'或者'2016-10-01 10:00:00'
-        :param end_date: 结束时间，不填为至今. 例如：'2017-10-01'
+        :param holder_type: 持有者类别，StockHolder_
+        :param start: 开始时间. 例如：'2016-10-01'
+        :param end: 结束时间，例如：'2017-10-01'。
+            start与end的组合如下：
+            ==========    ==========    ========================================
+             start类型      end类型       说明
+            ==========    ==========    ========================================
+             str            str           start和end分别为指定的日期
+             None           str           start为end往前365天
+             str            None          end为start往后365天
+             None           None          end为当前日期，start为end往前365天
+            ==========    ==========    ========================================
+
         :return: (ret, data)
 
                 ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
@@ -1648,21 +1673,25 @@ class OpenQuoteContext(OpenContextBase):
                 参数                      类型                        说明
                 =====================   ===========   ==============================================================
                 holder_name             str            高管名称
-                holding_qty             double         持股数
-                holding_ratio           double         持股比例
-                change_qty              double         变动数
-                change_ratio            double         变动比例
+                holding_qty             float          持股数
+                holding_ratio           float          持股比例
+                change_qty              float          变动数
+                change_ratio            float          变动比例
                 time                    str            发布时间
                 =====================   ===========   ==============================================================
         """
         holder_type = STOCK_HOLDER_CLASS_MAP[holder_type]
         if code is None or is_str(code) is False:
-            error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
-            return RET_ERROR, error_str
+            msg = ERROR_STR_PREFIX + "the type of code param is wrong"
+            return RET_ERROR, msg
 
         if holder_type < 1 or holder_type > len(STOCK_HOLDER_CLASS_MAP):
-            error_str = ERROR_STR_PREFIX + "the type {0} is wrong, total number of types is {1}".format(holder_type, len(STOCK_HOLDER_CLASS_MAP))
-            return RET_ERROR, error_str
+            msg = ERROR_STR_PREFIX + "the type {0} is wrong, total number of types is {1}".format(holder_type, len(STOCK_HOLDER_CLASS_MAP))
+            return RET_ERROR, msg
+
+        ret_code, msg, start, end = normalize_start_end_date(start, end, delta_days=365)
+        if ret_code != RET_OK:
+            return  ret_code, msg
 
         query_processor = self._get_sync_query_processor(
             HoldingChangeList.pack_req, HoldingChangeList.unpack_rsp)
@@ -1670,8 +1699,8 @@ class OpenQuoteContext(OpenContextBase):
             "code": code,
             "holder_type": holder_type,
             "conn_id": self.get_sync_conn_id(),
-            "start_date": start_date,
-            "end_date": end_date
+            "start_date": start,
+            "end_date": end
         }
 
         ret_code, msg, owner_plate_list = query_processor(**kargs)
@@ -1686,13 +1715,22 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, holding_change_list
 
-    def get_option_chain(self, code, start_date, end_date=None, option_type=OptionType.ALL, option_cond_type=OptionCondType.ALL):
+    def get_option_chain(self, code, start=None, end=None, option_type=OptionType.ALL, option_cond_type=OptionCondType.ALL):
         """
         通过标的股查询期权
 
         :param code: 股票代码,例如：'HK.02318'
-        :param start_date: 开始时间，时分秒不填默认为00:00:00. 例如：'2017-08-01'或者'2017-08-01 10:00:00'
-        :param end_date: 结束时间，不填表示start之后的30天，时分秒不填默认为23:59:59. 例如：'2017-10-01'或者'2017-10-01 10:00:00', 注意，时间范围最多30天
+        :param start: 开始日期，例如'2017-08-01'
+        :param end: 结束日期，例如'2017-08-30'。 注意，时间范围最多30天
+                start和end的组合如下：
+                ==========    ==========    ========================================
+                 start类型      end类型       说明
+                ==========    ==========    ========================================
+                 str            str           start和end分别为指定的日期
+                 None           str           start为end往前30天
+                 str            None          end为start往后30天
+                 None           None          start为当前日期，end往后30天
+                ==========    ==========    ========================================
         :param option_type: 期权类型,默认全部，全部/看涨/看跌，futuquant.common.constant.OptionType
         :param option_cond_type: 默认全部，全部/价内/价外，futuquant.common.constant.OptionCondType
         :return: (ret, data)
@@ -1724,13 +1762,17 @@ class OpenQuoteContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
             return RET_ERROR, error_str
 
+        ret_code, msg, start, end = normalize_start_end_date(start, end, delta_days=30, prefer_end_now=False)
+        if ret_code != RET_OK:
+            return ret_code, msg
+
         query_processor = self._get_sync_query_processor(
             OptionChain.pack_req, OptionChain.unpack_rsp)
         kargs = {
             "code": code,
             "conn_id": self.get_sync_conn_id(),
-            "start_date": start_date,
-            "end_date": end_date,
+            "start_date": start,
+            "end_date": end,
             "option_cond_type": option_cond_type,
             "option_type": option_type
         }

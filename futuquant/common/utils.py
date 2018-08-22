@@ -44,7 +44,24 @@ def normalize_date_format(date_str, default_time="00:00:00"):
     return ret_data.strftime("%Y-%m-%d %H:%M:%S")
 
 
-def normalize_start_end_date(start, end, delta_days=0, default_time_start="00:00:00", default_time_end="23:59:59"):
+def normalize_start_end_date(start, end, delta_days=0, default_time_start="00:00:00", default_time_end="23:59:59", prefer_end_now=True):
+    """
+
+    :param start:
+    :param end:
+    :param delta_days:
+    :param default_time_start:
+    :param default_time_end:
+    :param prefer_end_now: 为True时，当start和end都为None时，end设为当前时间，为False则start设为当前时间
+    :return:
+    """
+    if start is not None and is_str(start) is False:
+        error_str = ERROR_STR_PREFIX + "the type of start param is wrong"
+        return RET_ERROR, error_str, None, None
+
+    if end is not None and is_str(end) is False:
+        error_str = ERROR_STR_PREFIX + "the type of end param is wrong"
+        return RET_ERROR, error_str, None, None
 
     dt_start = None
     dt_end = None
@@ -73,10 +90,18 @@ def normalize_start_end_date(start, end, delta_days=0, default_time_start="00:00
         dt_end = datetime(year=dt_tmp.year, month=dt_tmp.month, day=dt_tmp.day, hour=hour_end, minute=min_end, second=sec_end)
 
     if not start and not end:
-        dt_now = datetime.now()
-        dt_end = datetime(year=dt_now.year, month=dt_now.month, day=dt_now.day, hour=hour_end, minute=min_end, second=sec_end)
-        dt_tmp = dt_end - delta
-        dt_start = datetime(year=dt_tmp.year, month=dt_tmp.month, day=dt_tmp.day, hour=hour_start, minute=min_start, second=sec_start)
+        if prefer_end_now:
+            dt_now = datetime.now()
+            dt_end = datetime(year=dt_now.year, month=dt_now.month, day=dt_now.day, hour=hour_end, minute=min_end, second=sec_end)
+            dt_tmp = dt_end - delta
+            dt_start = datetime(year=dt_tmp.year, month=dt_tmp.month, day=dt_tmp.day, hour=hour_start, minute=min_start, second=sec_start)
+        else:
+            dt_now = datetime.now()
+            dt_start = datetime(year=dt_now.year, month=dt_now.month, day=dt_now.day, hour=hour_start, minute=min_start,
+                              second=sec_start)
+            dt_tmp = dt_start + delta
+            dt_end = datetime(year=dt_tmp.year, month=dt_tmp.month, day=dt_tmp.day, hour=hour_end, minute=min_end,
+                                second=sec_end)
 
     start = dt_start.strftime("%Y-%m-%d %H:%M:%S")
     end = dt_end.strftime("%Y-%m-%d %H:%M:%S")
