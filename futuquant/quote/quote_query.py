@@ -1581,7 +1581,7 @@ class OwnerPlateQuery:
             for plate_info in plate_info_list:
                 quote_list = {
                     'code': merge_qot_mkt_stock_str(record.security.market, record.security.code),
-                    'plate_code': plate_info.plate.code,
+                    'plate_code': merge_qot_mkt_stock_str(plate_info.plate.market, plate_info.plate.code),
                     'plate_name': str(plate_info.name),
                     'plate_type': PLATE_TYPE_ID_TO_NAME[plate_info.plateType]
                 }
