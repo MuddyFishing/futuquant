@@ -5,7 +5,7 @@
 + run.bat: windows下的脚本执行文件。主要逻辑是设置脚本所在目录为当前工作目录及运行run.py 
 
 ## 使用说明:
-+ futuquant仅支持python3.x , 需要vnpy支持python3.x才可正常运行
++ futuquant已兼容python2.7, vnpy最低版本要求v1.9, 建议在python2.7下运行该范例
 + 需要用pip 安装的其它库包括 : vnpy, pymongo, future, ta-lib
 + 体验步骤:
 	+ 双击run.bat(windows)或 设置当前目录为工作目录，再执行run.py
