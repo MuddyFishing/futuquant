@@ -1691,8 +1691,8 @@ class OpenQuoteContext(OpenContextBase):
         通过标的股查询期权
 
         :param code: 股票代码,例如：'HK.02318'
-        :param start_date: 开始时间. 例如：'2017-08-01'或者'2017-08-01 10:00:00'
-        :param end_date: 结束时间，不填表示start之后的30天. 例如：'2017-10-01'或者'2017-10-01 10:00:00', 注意，时间范围最多30天
+        :param start_date: 开始时间，时分秒不填默认为00:00:00. 例如：'2017-08-01'或者'2017-08-01 10:00:00'
+        :param end_date: 结束时间，不填表示start之后的30天，时分秒不填默认为23:59:59. 例如：'2017-10-01'或者'2017-10-01 10:00:00', 注意，时间范围最多30天
         :param option_type: 期权类型,默认全部，全部/看涨/看跌，futuquant.common.constant.OptionType
         :param option_cond_type: 默认全部，全部/价内/价外，futuquant.common.constant.OptionCondType
         :return: (ret, data)
