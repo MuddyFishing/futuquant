@@ -1,4 +1,5 @@
 import socket
+import io
 import select
 import errno
 import datetime
@@ -21,7 +22,7 @@ class SocketEvent:
     Write = 1 << 2
 
 class Connection:
-    def __init__(self, conn_id, sock, addr, handler):  # type: (self, int, socket.socket, any, any)->None
+    def __init__(self, conn_id, sock, addr, handler):
         self._conn_id = conn_id
         self.opend_conn_id = 0
         self.sock = sock
@@ -90,8 +91,11 @@ class NetManager:
             self._wlist.append(conn)
             try:
                 sock.connect(addr)
-            except BlockingIOError:
-                pass
+            except socket.error as e:
+                if e.errno == errno.EWOULDBLOCK:
+                    pass
+                else:
+                    return RET_ERROR, str(e), 0
             except Exception as e:
                 return RET_ERROR, str(e), 0
         return RET_OK, '', conn.conn_id
@@ -117,7 +121,8 @@ class NetManager:
         with self._lock:
             for conn in self._closing_list:
                 self.close(conn.conn_id)
-            self._closing_list.clear()
+            # self._closing_list.clear()
+            del self._closing_list[:]
 
             self._is_polling = True
             rlist = None
@@ -179,10 +184,13 @@ class NetManager:
                 sleep(0.01)
             self._close_all()
             self._thread = None
-            self._rlist.clear()
-            self._wlist.clear()
+            # self._rlist.clear()
+            # self._wlist.clear()
+            del self._rlist[:]
+            del self._wlist[:]
             self._owner_pid = os.getpid()
-            self._closing_list.clear()
+            # self._closing_list.clear()
+            del self._closing_list[:]
             self._next_conn_id = 1
             self._lock = threading.RLock()
             self._is_polling = False
@@ -269,7 +277,7 @@ class NetManager:
                 pass
 
     def _close_all(self):
-        conn_list = self._rlist.copy()
+        conn_list = copy(self._rlist)
         for conn in conn_list:
             self.close(conn.conn_id)
 
@@ -309,10 +317,10 @@ class NetManager:
         req_head_dict = parse_head(req_str[:head_len])
         return req_head_dict
 
-    def _get_conn(self, conn_id):  # type: (self, int)->Connection
+    def _get_conn(self, conn_id):
         return next((conn for conn in self._rlist if conn.conn_id == conn_id), None)
 
-    def _on_read(self, conn):  # type: (self, Connection)->None
+    def _on_read(self, conn):
         if conn.status == ConnStatus.Closed:
             return
         err = None
@@ -365,7 +373,7 @@ class NetManager:
         if err:
             conn.handler.on_error(conn.conn_id, err)
 
-    def _on_write(self, conn):  # type: (self, Connection)->None
+    def _on_write(self, conn):
         if conn.status == ConnStatus.Closed:
             return
         elif conn.status == ConnStatus.Connecting:
@@ -395,7 +403,7 @@ class NetManager:
         if err:
             conn.handler.on_error(conn.conn_id, err)
 
-    def _on_connect_timeout(self, conn):  # type: (self, Connection)->None
+    def _on_connect_timeout(self, conn):
         conn.handler.on_connect_timeout(conn.conn_id)
 
     @staticmethod
@@ -407,7 +415,7 @@ class NetManager:
             rsp_pb = None
         return ret, msg, rsp_pb
 
-    def set_conn_info(self, conn_id, info):  # type: (self, int, dict)->(int, str)
+    def set_conn_info(self, conn_id, info):
         with self._lock:
             conn = self._get_conn(conn_id)
             if conn is not None:

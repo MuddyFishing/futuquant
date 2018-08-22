@@ -4,7 +4,7 @@ import time
 from abc import ABCMeta, abstractmethod
 from collections import namedtuple
 from time import sleep
-from typing import Optional
+# from typing import Optional
 from threading import Timer
 from datetime import datetime
 from threading import RLock, Thread
@@ -330,9 +330,9 @@ class OpenContextBase(object):
             if handler_ctx:
                 handler_ctx.recv_func(rsp_pb, proto_id)
         else:
-            logger.warning('Recv packet error: proto_id={}; ret={}; msg={};', proto_id, ret, msg)
+            logger.warning('Recv packet error: proto_id={}; ret={}; msg={};'.format(proto_id, ret, msg))
 
-    def on_activate(self, conn_id, now):  # type:(self, int, datetime)->None
+    def on_activate(self, conn_id, now):
         with self._lock:
             if self._status != ContextStatus.Ready:
                 return

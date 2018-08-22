@@ -3,6 +3,7 @@ import requests
 import json
 import time
 import common_parameter
+from futuquant.common import bytes_utf8
 
 class wechat_push(object):
     def __init__(self):
@@ -49,7 +50,7 @@ class wechat_push(object):
             params={
                 'access_token': access_token
             },
-            data=bytes(json.dumps(body, ensure_ascii=False), encoding='utf-8')
+            data=bytes_utf8(json.dumps(body, ensure_ascii=False))
         )
 
         result = response.json()
@@ -107,7 +108,7 @@ class wechat_push(object):
             params={
                 'access_token': access_token
             },
-            data=bytes(json.dumps(body, ensure_ascii=False), encoding='utf-8')
+            data=bytes_utf8(json.dumps(body, ensure_ascii=False))
         )
         result = response.json()
         print(result)
