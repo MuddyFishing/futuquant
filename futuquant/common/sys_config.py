@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-from futuquant.common import bytes_utf8, IS_PY2
+from futuquant.common import bytes_utf8, IS_PY2, str_utf8
 from futuquant.common.constant import *
 from futuquant.common.ft_logger import logger
 from Crypto.PublicKey import RSA
@@ -154,7 +154,7 @@ class SysConfig(object):
             f = open(file_path, 'rb')
             df = f.read()
             if type(df) is not str:
-                df = str(df, encoding='utf8')
+                df = str_utf8(df)
 
             rsa = RSA.importKey(df)
             pub_key = rsa.publickey().exportKey()

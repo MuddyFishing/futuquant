@@ -156,7 +156,7 @@ class TinyQuantFrame(object):
             df = f.read()
             f.close()
             if type(df) is not str:
-                df = str(df, encoding='utf8')
+                df = str_utf8(df)
             self._global_settings = json.loads(df)
             if self._global_settings is None or 'frame' not in self._global_settings:
                 raise Exception("setting.json - no frame config!'")
