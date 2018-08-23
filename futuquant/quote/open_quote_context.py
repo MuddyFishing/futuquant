@@ -616,13 +616,14 @@ class OpenQuoteContext(OpenContextBase):
                 pe_ratio                   float          市盈率
                 pb_ratio                   float          市净率
                 pe_ttm_ratio               float          市盈率TTM
+                stock_owner                str            所属正股
                 wrt_valid                  bool           是否是窝轮（为true时以下涡轮相关的字段才有合法数据）
                 wrt_conversion_ratio       float          换股比率
                 wrt_type                   str            窝轮类型，参见WrtType
                 wrt_strike_price           float          行使价格
                 wrt_maturity_date          str            格式化窝轮到期时间
                 wrt_end_trade              str            格式化窝轮最后交易时间
-                wrt_code                   str            窝轮对应的正股
+                wrt_code                   str            窝轮对应的正股（此字段已废除,修改为stock_owner）
                 wrt_recovery_price         float          窝轮回收价
                 wrt_street_vol             float          窝轮街货量
                 wrt_issue_vol              float          窝轮发行量
@@ -634,7 +635,6 @@ class OpenQuoteContext(OpenContextBase):
                 price_spread               float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
                 option_valid               bool           是否是期权（为true时以下期权相关的字段才有合法数值）
                 option_type                str            期权类型，参见OptionType
-                owner                      str            标的股
                 strike_time                str            行权日
                 option_strike_price        float          行权价
                 option_contract_size       int            每份合约数
@@ -682,7 +682,6 @@ class OpenQuoteContext(OpenContextBase):
                         'wrt_strike_price',
                         'wrt_maturity_date',
                         'wrt_end_trade',
-                        'wrt_code',
                         'wrt_recovery_price',
                         'wrt_street_vol',
                         'wrt_issue_vol',
@@ -692,7 +691,6 @@ class OpenQuoteContext(OpenContextBase):
                         'wrt_premium'
                         ]
         option_col_list = ['option_type',
-                           'owner',
                            'strike_time',
                            'option_strike_price',
                            'option_contract_size',
@@ -719,7 +717,8 @@ class OpenQuoteContext(OpenContextBase):
             'suspension',
             'listing_date',
             'lot_size',
-            'price_spread'
+            'price_spread',
+            'stock_owner'
         ]
 
         col_list.append('equity_valid')

@@ -293,7 +293,7 @@ class MarketSnapshotQuery:
                     'wrt_maturity_date'] = record.warrantExData.maturityTime
                 snapshot_tmp[
                     'wrt_end_trade'] = record.warrantExData.endTradeTime
-                snapshot_tmp['wrt_code'] = merge_qot_mkt_stock_str(
+                snapshot_tmp['stock_owner'] = merge_qot_mkt_stock_str(
                     record.warrantExData.owner.market,
                     record.warrantExData.owner.code)
                 snapshot_tmp[
@@ -314,7 +314,7 @@ class MarketSnapshotQuery:
                 snapshot_tmp['option_valid'] = True
                 snapshot_tmp[
                     'option_type'] = QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
-                snapshot_tmp['owner'] = merge_qot_mkt_stock_str(
+                snapshot_tmp['stock_owner'] = merge_qot_mkt_stock_str(
                     record.optionExData.owner.market, record.optionExData.owner.code)
                 snapshot_tmp[
                     'strike_time'] = record.optionExData.strikeTime

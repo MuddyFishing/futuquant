@@ -169,7 +169,6 @@ get_stock_basicinfo
         stock_child_type    str            窝轮子类型，参见 WrtType_
         stock_owner         str            正股代码
         option_type         str            期权类型，查看 OptionType_
-        owner               str            标的股
         strike_time         str            行权日
         strike_price        float          行权价
         suspension          bool           是否停牌(True表示停牌)
@@ -430,13 +429,14 @@ get_market_snapshot
         pe_ratio                        float          市盈率
         pb_ratio                        float          市净率
         pe_ttm_ratio                    float          市盈率TTM
+        stock_owner                     str            所属正股
         wrt_valid                       bool           是否是窝轮（为true时以下涡轮相关的字段才有合法数据）
         wrt_conversion_ratio            float          换股比率
         wrt_type                        str            窝轮类型，参见WrtType
         wrt_strike_price                float          行使价格
         wrt_maturity_date               str            格式化窝轮到期时间
         wrt_end_trade                   str            格式化窝轮最后交易时间
-        wrt_code                        str            窝轮对应的正股
+        wrt_code                        str            窝轮对应的正股（此字段已废除,修改为stock_owner）
         wrt_recovery_price              float          窝轮回收价
         wrt_street_vol                  float          窝轮街货量
         wrt_issue_vol                   float          窝轮发行量
