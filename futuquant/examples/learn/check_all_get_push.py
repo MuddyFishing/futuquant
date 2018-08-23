@@ -148,6 +148,15 @@ def quote_test():
 
     code_list = ['HK.00700', 'HK.00388']
 
+    print("* get_owner_plate : {}\n".format(quote_ctx.get_owner_plate(code_list)))
+    print("* get_referencestock_list : {}\n".format(quote_ctx.get_referencestock_list(
+        code_list[0], SecurityReferenceType.WARRANT)))
+    print("* get_holding_change_list : {}\n".format(quote_ctx.get_holding_change_list(
+        "US.AAPL", StockHolder.EXECUTIVE, "2018-01-01", None)))
+
+    print("* request_history_kline : {}\n".format(quote_ctx.request_history_kline(
+        code_list[0], "2018-01-01", None, KLType.K_1M, AuType.QFQ, [KL_FIELD.ALL], 50000)))
+
     # 测试大量数据定阅
     if len(big_sub_codes):
         print("* subscribe : {}\n".format(quote_ctx.subscribe(big_sub_codes, subtype_list)))
