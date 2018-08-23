@@ -21,13 +21,13 @@ def test_get_rt_triker():
     outputfile = open('get_rt_triker.txt', 'w')
     sys.stdout = outputfile
 
-    quote_ctx = OpenQuoteContext(host='172.18.10.58', port=11111)
+    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
     # 订阅
     quote_ctx.subscribe(['HK.00700'], [SubType.TICKER])
     # 设置显示
     # pandas.set_option('max_columns', 100)
     # pandas.set_option('display.width ', 1000)
-    print(quote_ctx.get_rt_ticker('HK.00700', 1000))
+    print(quote_ctx.get_rt_ticker(['HK.00700'], 1000))
     quote_ctx.close()
     outputfile.close()
 
@@ -36,17 +36,17 @@ if __name__ == '__main__':
     # test_get_rt_triker()
     # print输出到指定的get_rt_triker.txt中
 
-    # output = sys.stdout
-    # outputfile = open('get_rt_triker.txt', 'w')
-    # sys.stdout = outputfile
-
+    output = sys.stdout
+    outputfile = open('get_rt_triker.txt', 'w')
+    sys.stdout = outputfile
+    test_get_rt_triker()
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
     quote_ctx.start()
     handler = TickerTest()
     quote_ctx.set_handler(handler)
 
-    print(quote_ctx.subscribe(['HK.00700'], SubType.TICKER))
+    print(quote_ctx.subscribe(['HK_FUTURE.999010'], SubType.TICKER))
+    # # print(quote_ctx.unsubscribe(['HK.00700'], SubType.TICKER))
+    # time.sleep(61)
     # print(quote_ctx.unsubscribe(['HK.00700'], SubType.TICKER))
-    time.sleep(61)
-    print(quote_ctx.unsubscribe(['HK.00700'], SubType.TICKER))
-    quote_ctx.close()
+    # quote_ctx.close()

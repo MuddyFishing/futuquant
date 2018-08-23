@@ -6,16 +6,15 @@ import pandas
 class AccTradeInfoQuery(object):
     #acctradinginfo_query 获取最大可买可卖
 
-    def test1(self):
+    def __init__(self):
         pandas.set_option('max_columns', 1000)
         pandas.set_option('display.width', 1000)
 
-        # trade_ctx_sh = OpenHKTradeContext(host = '127.0.0.1',port=11112)
+    def test1(self):
         trade_us = OpenUSTradeContext(host='127.0.0.1', port=11112)
-        trade_hk = OpenHKTradeContext(host='127.0.0.1', port=11112)
         print(trade_us.unlock_trade('123123'))
-        # print(trade_us.acctradinginfo_query(order_type = OrderType.NORMAL, code='BABA', price=192.67, order_id=0, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=281756460277401516))
-        print(trade_hk.acctradinginfo_query(order_type = OrderType.NORMAL, code='US.AAPL180914P207500', price=2.86, order_id=0, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0))
+        print(trade_us.acctradinginfo_query(order_type=OrderType.NORMAL, code='US.AAPL180817C190000', price=23.8,
+                                            order_id=0, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=281756460277401516))
 
     def test2(self):
         host = '127.0.0.1'
@@ -34,4 +33,4 @@ class AccTradeInfoQuery(object):
 
 if __name__ == '__main__':
     atiq = AccTradeInfoQuery()
-    atiq.test2()
+    atiq.test1()

@@ -37,6 +37,6 @@ class AccList(object):
 
 if __name__ == '__main__':
     al = AccList()
-    al.test_hk()
+    # al.test_hk()
     al.test_us()
-    al.test_ch()
+    # al.test_ch()

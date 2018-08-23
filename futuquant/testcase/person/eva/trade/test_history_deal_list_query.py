@@ -11,7 +11,7 @@ class HistoryDealListQuery(object):
 
     def test1(self):
         host = '127.0.0.1'
-        port = 11115
+        port = 11112
 
         trade_hk = OpenHKTradeContext(host, port)
         trade_us = OpenUSTradeContext(host, port)
@@ -20,7 +20,7 @@ class HistoryDealListQuery(object):
         print(trade_hk.unlock_trade(password='123123'))
 
         # print(trade_hk.history_deal_list_query(code = '', start = '', end = '', trd_env=TrdEnv.SIMULATE, acc_id=0))
-        print(trade_us.history_deal_list_query(code='', start='', end='', trd_env=TrdEnv.REAL, acc_id=281756460277401516))
+        print(trade_us.history_deal_list_query(code='', start='', end='', trd_env=TrdEnv.REAL, acc_id=0, acc_index =1))
         # print(trade_sh_m.history_deal_list_query(code='', start='', end='', trd_env=TrdEnv.SIMULATE, acc_id=0))
         #281756455982434220 现金0268
         #281756457982434020  现金0178

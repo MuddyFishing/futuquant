@@ -1,20 +1,36 @@
 #-*-coding:utf-8-*-
 
-import futuquant
+from futuquant import *
+import pandas
 
 class GetMarketSnapshot(object):
     # 获取市场快照 get_market_snapshot
 
-    def test1(self):
-        quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1',port=11111)
+    def __init__(self):
+        pandas.set_option('display.width', 1000)
+        pandas.set_option('max_columns', 1000)
 
-        ret_code, ret_data = quote_ctx.get_stock_basicinfo(market='HK', stock_type='STOCK')
-        # code_list = ret_data['code'].tolist()[0:20]
-        code_list = ['HK.24505','HK.00700']
-        ret_code, ret_data = quote_ctx.get_market_snapshot('HK.00700')
+    def test1(self):
+        quote_ctx = OpenQuoteContext(host='127.0.0.1',port=11113)
+        ret_code, ret_data = quote_ctx.get_stock_basicinfo(market=Market.HK, stock_type=SecurityType.STOCK,code_list=None)
+        codes = ret_data['code'].tolist()
+
+        for i in range(2):
+            flag = True
+            t = time.time() #控制while循环执行的时长:30s
+            times = 0   #30秒内成功请求次数
+            while flag:
+                print(times)
+                ret_code ,ret_data = quote_ctx.get_market_snapshot(code_list = codes[:300])
+                print(ret_data)
+                if ret_code is RET_OK:
+                    times += 1
+                if time.time() > (t+30):
+                    flag = False
+            print('get_market_snapshot 第%d个30秒请求成功的次数：%d'%(i,times))
+            time.sleep(30)
         quote_ctx.close()
-        print(ret_code)
-        print(ret_data)
+
         # for data in ret_data.iterrows():
         #     print(data)
 

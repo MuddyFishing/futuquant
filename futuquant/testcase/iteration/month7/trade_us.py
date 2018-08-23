@@ -17,24 +17,29 @@ class TradeUS(object):
 
     def test_ubuntu(self):
 
-        host = '127.0.0.1'
-        port = 11115
+        host = '172.18.6.144'
+        port = 11112
 
         quote_ctx = OpenQuoteContext(host,11111)
         trade_us = OpenUSTradeContext(host,port)
 
-        ret_code,ret_data = quote_ctx.get_stock_basicinfo( market = Market.US, stock_type=SecurityType.STOCK)
+        ret_code,ret_data = quote_ctx.get_stock_basicinfo( market = Market.US, stock_type=SecurityType.STOCK,code_list=[])
         codes = ret_data['code'].tolist()
         # codes = ['US.XNET','US.X','US.WB','US.RUSL','US.DUC','US.BZUN','US.BRK.A','US.BIDU','US.BITA','US.A']
-        acc_id = 281756460277401311
+        acc_id = 281756460277401516
 
-        logger = self.getNewLogger('ubuntu_11115(2)')
+        # logger = self.getNewLogger('ubuntu_11115(2)')
+        logger = self.getNewLogger('plate_order_time_out_11112')
         logger.info('unlock' )
         logger.info(trade_us.unlock_trade('123123'))
-        logger.info('subscribe')
-        logger.info(quote_ctx.subscribe(codes,SubType.QUOTE))
+        # logger.info('subscribe')
+        # logger.info(quote_ctx.subscribe(codes,SubType.QUOTE))
         for code in codes:
-            ret_code,ret_data = quote_ctx.get_stock_quote(code)
+            logger.info('subscribe')
+            logger.info(quote_ctx.subscribe(code, SubType.QUOTE))
+            ret_code,ret_data = quote_ctx.get_stock_quote([code])
+            if ret_code is not RET_OK:
+                logger.info('get_stock_quote '+str(ret_code)+ret_data)
             price = ret_data['last_price'].tolist()[0]
             logger.info('place_order 【买入】')
             logger.info('code='+code+' price='+str(price))
@@ -48,7 +53,9 @@ class TradeUS(object):
             time.sleep(5)
             logger.info('position_list_query')
             logger.info(trade_us.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL,acc_id=acc_id))
-            time.sleep(30*60)
+            time.sleep(10*60)
+            logger.info('unsubscribe')
+            logger.info(quote_ctx.unsubscribe(code, SubType.QUOTE))
 
     def test_mac(self):
         host = '172.18.6.144'  # mac-patrick
@@ -93,5 +100,5 @@ class TradeUS(object):
 
 
 if __name__ == '__main__':
-    # TradeUS().test_ubuntu()
-    TradeUS().test_mac()
+    TradeUS().test_ubuntu()
+    # TradeUS().test_mac()

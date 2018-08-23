@@ -11,13 +11,12 @@ class DealListQuery(object):
 
     def test1(self):
         host = '127.0.0.1'
-        port = 11111
-        self.tradehk_ctx = OpenHKTradeContext(host, port)
-        # self.tradehk_ctx = OpenUSTradeContext(host, port)
-        ret_code_unlock_trade, ret_data_unlock_trade = self.tradehk_ctx.unlock_trade(password='321321')
+        port = 11112
+        trade_ = OpenUSTradeContext(host, port)
+        ret_code_unlock_trade, ret_data_unlock_trade = trade_.unlock_trade(password='123123')
         print('unlock_trade  ret_code= %d, ret_data= %s' % (ret_code_unlock_trade, ret_data_unlock_trade))
 
-        ret_code,ret_data = self.tradehk_ctx.deal_list_query(code="", trd_env=TrdEnv.REAL, acc_id=0)
+        ret_code,ret_data = trade_.deal_list_query(code="", trd_env=TrdEnv.REAL, acc_id=0,acc_index=1)
         #281756455982434220 现金0268
         #281756457982434020  现金0178
         #281756455982434020  融资0068
@@ -45,4 +44,4 @@ class DealListQuery(object):
 
 if __name__ == '__main__':
     dlq = DealListQuery()
-    dlq.test2()
+    dlq.test1()

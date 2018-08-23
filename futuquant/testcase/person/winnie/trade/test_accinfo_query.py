@@ -18,7 +18,8 @@ class AccinfoQuery(object):
     def test_us(self):
         pwd = '123123'
         trd_ctx = OpenUSTradeContext(host='127.0.0.1', port=11111)
-        ret_code, ret_data = trd_ctx.accinfo_query(trd_env=TrdEnv.SIMULATE, acc_id=6377)
+        trd_ctx.unlock_trade(pwd)
+        ret_code, ret_data = trd_ctx.accinfo_query(trd_env=TrdEnv.REAL, acc_id=0)
         print('us：')
         print(ret_data)
         trd_ctx.close()
@@ -34,6 +35,6 @@ class AccinfoQuery(object):
 
 if __name__ == '__main__':
     aq = AccinfoQuery()
-    aq.test_hk()
+    # aq.test_hk()
     aq.test_us()
-    aq.test_ch()
+    # aq.test_ch()

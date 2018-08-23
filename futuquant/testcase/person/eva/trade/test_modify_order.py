@@ -12,9 +12,9 @@ class ModifyOrder(object):
         ret_code_unlock_trade, ret_data_unlock_trade = trade_.unlock_trade(password='123123')
         print('unlock_trade  ret_code= %d, ret_data= %s' % (ret_code_unlock_trade, ret_data_unlock_trade))
         modify_order_op = ModifyOrderOp.NORMAL
-        order_id = '2285638475093535808'
-        qty = 500
-        price = 2.51
+        order_id = '1976183207435565593'
+        qty = 1000
+        price = 1.1
         adjust_limit = 0
         trd_env = TrdEnv.REAL
         acc_id = 0
