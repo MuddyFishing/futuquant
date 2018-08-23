@@ -3145,12 +3145,18 @@ start和end的组合如下：</p>
 <hr class="docutils" />
 <div class="section" id="id12">
 <h3>高频数据接口<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
-<p>为控制定阅产生推送数据流量，股票定阅总量有额度控制，规则如下:</p>
-<p>1.使用高频数据接口前，需要订阅（调用subscribe）.订阅有额度限制：</p>
+<p>为控制订阅产生推送数据流量，股票订阅总量有额度控制，规则如下:</p>
+<p>1.使用高频数据接口前，需要订阅（调用subscribe），订阅有额度限制：</p>
 <blockquote>
 <div>用户额度 &gt;= 订阅K线股票数 * K线权重 + 订阅逐笔股票数 * 逐笔权重 + 订阅报价股票数 * 报价权重 + 订阅摆盘股票数 * 摆盘权重</div></blockquote>
 <p>2.目前所有订阅类型占用额度均为1，用户总额度与用户等级相关，参考 <a class="reference external" href="Quote_API.html#id12">OpenAPI用户等级权限</a>。</p>
 <p>3.订阅至少一分钟才可以反订阅</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>futuquant的订阅接口subscribe限制了股票个数*K线种类必须小于等于100</li>
+</ul>
+</div>
 </div>
 <div class="section" id="id14">
 <h3>OpenAPI用户等级权限<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
@@ -3164,9 +3170,9 @@ start和end的组合如下：</p>
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">协议限制</th>
-<th class="head">一级用户</th>
-<th class="head">二级用户</th>
 <th class="head">三级用户</th>
+<th class="head">二级用户</th>
+<th class="head">一级用户</th>
 </tr>
 </thead>
 <tbody valign="top">
