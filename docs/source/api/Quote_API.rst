@@ -153,7 +153,7 @@ get_stock_basicinfo
  获取指定市场中特定类型的股票基本信息
  
  :param market: 市场类型 Market_
- :param stock_type: 股票类型 SecurityType_ 
+ :param stock_type: 股票类型，该参数不支持SecurityType.DRVT SecurityType_ 
  :param code_list: 如果不为None，应该是股票code的iterable类型，将只返回指定的股票信息
  :return: (ret_code, content)
 
