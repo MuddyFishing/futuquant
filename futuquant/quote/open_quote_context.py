@@ -153,10 +153,10 @@ class OpenQuoteContext(OpenContextBase):
             lot_size            int            每手数量
             stock_type          str            股票类型，参见SecurityType
             stock_child_type    str            涡轮子类型，参见WrtType
+            stock_owner         str            正股代码
             listing_date        str            上市时间
             option_type         str            期权类型，Qot_Common.OptionType
-            owner               str            标的股
-            strike_time          str           行权日
+            strike_time         str            行权日
             strike_price        float          行权价
             suspension          bool           是否停牌(True表示停牌)
             market              str            发行市场名字
@@ -195,7 +195,7 @@ class OpenQuoteContext(OpenContextBase):
 
         col_list = [
             'code', 'name', 'lot_size', 'stock_type', 'stock_child_type', 'stock_owner',
-            'option_type', 'owner', 'strike_time', 'strike_price', 'suspension', 'market',
+            'option_type', 'strike_time', 'strike_price', 'suspension', 'market',
             'listing_date', 'stock_id'
         ]
 
@@ -1747,7 +1747,7 @@ class OpenQuoteContext(OpenContextBase):
                 lot_size             int           每手数量
                 stock_type           str           股票类型，参见SecurityType
                 option_type          str           期权类型，Qot_Common.OptionType
-                owner                str           标的股
+                stock_owner          str           标的股
                 strike_time          str           行权日
                 strike_price         float         行权价
                 suspension           bool          是否停牌(True表示停牌)
@@ -1783,7 +1783,7 @@ class OpenQuoteContext(OpenContextBase):
 
         col_list = [
             'code', 'name', 'lot_size', 'stock_type',
-            'option_type', 'owner', 'strike_time', 'strike_price', 'suspension', 'market',
+            'option_type', 'stock_owner', 'strike_time', 'strike_price', 'suspension', 'market',
             'listing_date', 'stock_id'
         ]
 

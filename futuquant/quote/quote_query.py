@@ -175,11 +175,13 @@ class StockBasicInfoQuery:
                 if record.warrantExData.type in QUOTE.REV_WRT_TYPE_MAP else WrtType.NONE,
             "stock_owner":merge_qot_mkt_stock_str(
                     record.warrantExData.owner.market,
-                    record.warrantExData.owner.code) if record.HasField('warrantExData') else "",
+                    record.warrantExData.owner.code) if record.HasField('warrantExData') else (
+                    merge_qot_mkt_stock_str(
+                    record.optionExData.owner.market,
+                    record.optionExData.owner.code) if record.HasField('optionExData')
+                    else ""),
             "listing_date": record.basic.listTime,
             "option_type": QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
-                if record.HasField('optionExData') else "",
-            "owner": merge_qot_mkt_stock_str(int(record.optionExData.owner.market), record.optionExData.owner.code)
                 if record.HasField('optionExData') else "",
             "strike_time": record.optionExData.strikeTime,
             "strike_price": record.optionExData.strikePrice if record.HasField('optionExData') else "NaN",
@@ -1741,7 +1743,7 @@ class OptionChain:
                         "listing_date": record.basic.listTime,
                         "option_type": QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
                             if record.HasField('optionExData') else "",
-                        "owner": merge_qot_mkt_stock_str(int(record.optionExData.owner.market), record.optionExData.owner.code)
+                        "stock_owner": merge_qot_mkt_stock_str(int(record.optionExData.owner.market), record.optionExData.owner.code)
                             if record.HasField('optionExData') else "",
                         "strike_time": record.optionExData.strikeTime,
                         "strike_price": record.optionExData.strikePrice if record.HasField('optionExData') else "NaN",

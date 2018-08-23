@@ -167,6 +167,7 @@ get_stock_basicinfo
         lot_size            int            每手数量
         stock_type          str            股票类型，参见 SecurityType_
         stock_child_type    str            窝轮子类型，参见 WrtType_
+        stock_owner         str            正股代码
         option_type         str            期权类型，查看 OptionType_
         owner               str            标的股
         strike_time         str            行权日
@@ -1161,7 +1162,7 @@ get_option_chain
         lot_size             int           每手数量
         stock_type           str           股票类型，参见 SecurityType_
         option_type          str           期权类型，查看 OptionType_
-        owner                str           标的股
+        stock_owner          str           标的股
         strike_time          str           行权日
         strike_price         float         行权价
         suspension           bool          是否停牌(True表示停牌)
