@@ -126,14 +126,14 @@ get_trading_days
  :param start: 起始日期。例如'2018-01-01'。
  :param end: 结束日期。例如'2018-01-01'。
          start和end的组合如下：
-             ==========    ==========    ========================================
-             start类型      end类型       说明
-             ==========    ==========    ========================================
-             str            str           start和end分别为指定的日期
-             None           str           start为end往前365天
-             str            None          end为start往后365天
-             None           None          end为当前日期，start为end往前365天
-             ==========    ==========    ========================================
+            ==========    ==========    ========================================
+            start类型      end类型       说明
+            ==========    ==========    ========================================
+            str            str           start和end分别为指定的日期
+            None           str           start为end往前365天
+            str            None          end为start往后365天
+            None           None          end为当前日期，start为end往前365天
+            ==========    ==========    ========================================
  :return: 成功时返回(RET_OK, data)，data是字符串数组；失败时返回(RET_ERROR, data)，其中data是错误描述字符串
         
  :example:
@@ -717,16 +717,16 @@ query_subscription
 
 ..  py:function:: query_subscription(self, is_all_conn=True)
 
-查询已订阅的实时信息
+ 查询已订阅的实时信息
 
-:param is_all_conn: 是否返回所有连接的订阅状态,不传或者传False只返回当前连接数据
-:return: (ret, data)  
+ :param is_all_conn: 是否返回所有连接的订阅状态,不传或者传False只返回当前连接数据
+ :return: (ret, data)  
         
         ret != RET_OK 返回错误字符串
         
         ret == RET_OK 返回 定阅信息的字典数据 ，格式如下:
         
-.. code:: python
+ .. code:: python
 
         {
             'total_used': 4,    # 所有连接已使用的定阅额度
@@ -739,10 +739,7 @@ query_subscription
             }
         }
 
-
-
-:example:
-
+ :example:
 
  .. code:: python
 
@@ -1137,8 +1134,8 @@ get_option_chain
  通过标的股查询期权
 
  :param code: 股票代码,例如：'HK.02318'
- :param start: 开始日期，例如'2017-08-01'
- :param end: 结束日期，例如'2017-08-30'。 注意，时间范围最多30天。
+ :param start: 开始日期，该日期指到期日，例如'2017-08-01'
+ :param end: 结束日期（包括这一天），该日期指到期日，例如'2017-08-30'。 注意，时间范围最多30天。
              start和end的组合如下：
                 ==========    ==========    ========================================
                  start类型      end类型       说明
