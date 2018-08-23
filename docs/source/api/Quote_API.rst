@@ -162,7 +162,7 @@ get_stock_basicinfo
         stock_owner         str            正股代码
         option_type         str            期权类型，查看 OptionType_
         owner               str            标的股
-        strike_ime          str            行权日
+        strike_time         str            行权日
         strike_price        float          行权价
         suspension          bool           是否停牌(True表示停牌)
         market              str            发行市场名字
