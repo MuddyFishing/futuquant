@@ -547,27 +547,21 @@ message Response
 </div>
 <p><strong>Json协议请求包体结构</strong></p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">{</span>
-    <span class="s2">&quot;Request&quot;</span>:
+    <span class="s2">&quot;c2s&quot;</span>:
     <span class="o">{</span>
-        <span class="s2">&quot;c2s&quot;</span>:
-        <span class="o">{</span>
-            <span class="s2">&quot;req&quot;</span>: 0
-        <span class="o">}</span>
+         <span class="s2">&quot;req&quot;</span>: 0
     <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
 </div>
 <p><strong>Json协议回应包体结构</strong></p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">{</span>
-    <span class="s2">&quot;Response&quot;</span>:
+    <span class="s2">&quot;retType&quot;</span> : 0
+    <span class="s2">&quot;retMsg&quot;</span> : <span class="s2">&quot;&quot;</span>
+    <span class="s2">&quot;errCode&quot;</span> : 0
+    <span class="s2">&quot;s2c&quot;</span>:
     <span class="o">{</span>
-        <span class="s2">&quot;retType&quot;</span> : 0
-        <span class="s2">&quot;retMsg&quot;</span> : <span class="s2">&quot;&quot;</span>
-        <span class="s2">&quot;errCode&quot;</span> : 0
-        <span class="s2">&quot;s2c&quot;</span>:
-        <span class="o">{</span>
-            <span class="s2">&quot;data&quot;</span>: 0
-        <span class="o">}</span>
+        <span class="s2">&quot;data&quot;</span>: 0
     <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>

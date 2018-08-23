@@ -231,12 +231,9 @@ arrReserved      保留8字节扩展
 .. code-block:: bash
 	
 	{
-	    "Request":
+	    "c2s": 
 	    {
-	        "c2s": 
-	        {
-	            "req": 0
-	        }
+	    	 "req": 0
 	    }
 	}
 
@@ -245,15 +242,12 @@ arrReserved      保留8字节扩展
 .. code-block:: bash
 	
 	{
-	    "Response":
+	    "retType" : 0
+	    "retMsg" : ""
+	    "errCode" : 0
+	    "s2c": 
 	    {
-	        "retType" : 0
-	        "retMsg" : ""
-	        "errCode" : 0
-	        "s2c": 
-	        {
-	            "data": 0
-	        }
+	        "data": 0
 	    }
 	}
 
