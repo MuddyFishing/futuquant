@@ -1751,3 +1751,98 @@ class OptionChain:
                     data_list.append(quote_list)
 
         return RET_OK, "", data_list
+
+
+class CapitalFlowQuery:
+    """
+    Query capital flow.
+    """
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pack_req(cls, code, conn_id):
+
+        ret, content = split_stock_str(code)
+        if ret == RET_ERROR:
+            error_str = content
+            return RET_ERROR, error_str, None
+
+        market_code, stock_code = content
+        from futuquant.common.pb.Qot_GetCapitalFlow_pb2 import Request
+        req = Request()
+        req.c2s.security.market = market_code
+        req.c2s.security.code = stock_code
+
+        return pack_pb_req(req, ProtoId.Qot_GetCapitalFlow, conn_id)
+
+    @classmethod
+    def unpack_rsp(cls, rsp_pb):
+
+        ret_type = rsp_pb.retType
+        ret_msg = rsp_pb.retMsg
+
+        if ret_type != RET_OK:
+            return RET_ERROR, ret_msg, None
+
+        raw_capital_flow_list = rsp_pb.s2c.capitalFlow
+
+        capital_flow_list = [
+            {
+                "sequence": raw_capital_flow_list.sequence,
+                "last_valid_time":  raw_capital_flow_list.lastValidTime,
+                "time": record.time,
+                "in_flow": record.inFlow
+            } for record in raw_capital_flow_list.flowItemList
+        ]
+        return RET_OK, "", capital_flow_list
+
+
+class CapitalDistributionQuery:
+    """
+    Query capital flow.
+    """
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pack_req(cls, code, conn_id):
+
+        ret, content = split_stock_str(code)
+        if ret == RET_ERROR:
+            error_str = content
+            return RET_ERROR, error_str, None
+
+        market_code, stock_code = content
+        from futuquant.common.pb.Qot_GetCapitalDistribution_pb2 import Request
+        req = Request()
+        req.c2s.security.market = market_code
+        req.c2s.security.code = stock_code
+
+        return pack_pb_req(req, ProtoId.Qot_GetCapitalDistribution, conn_id)
+
+    @classmethod
+    def unpack_rsp(cls, rsp_pb):
+
+        ret_type = rsp_pb.retType
+        ret_msg = rsp_pb.retMsg
+
+        if ret_type != RET_OK:
+            return RET_ERROR, ret_msg, None
+
+        record = rsp_pb.s2c.capitalDistribution
+        capital_distribution_list = [
+            {
+                "capital_in_big": record.capitalInBig,
+                "capital_in_mid":  record.capitalInMid,
+                "capital_in_small": record.capitalInSmall,
+                "capital_out_big": record.capitalOutBig,
+                "capital_out_mid": record.capitalOutMid,
+                "capital_out_small": record.capitalOutSmall,
+                "update_time": record.updateTime
+
+            }
+        ]
+        return RET_OK, "", capital_distribution_list

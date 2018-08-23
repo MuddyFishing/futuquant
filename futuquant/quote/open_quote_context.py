@@ -1793,3 +1793,97 @@ class OpenQuoteContext(OpenContextBase):
         option_chain.index = range(len(option_chain))
 
         return RET_OK, option_chain
+
+    def get_capital_flow(self, code):
+        """
+        获取指定股票的分时数据
+
+        :param code: 股票代码，例如，HK.00700，US.APPL
+        :return: (ret, data)
+
+                ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
+
+                ret != RET_OK 返回错误字符串
+
+                =====================   ===========   ==============================================================
+                参数                      类型                        说明
+                =====================   ===========   ==============================================================
+                sequence                int            当前最新sequence
+                last_valid_time         string         数据最后有效时间字符串
+                time                    string         开始时间字符串,以分钟为单位
+                in_flow                  float         净流入的资金额度
+                =====================   ===========   ==============================================================
+        """
+        if code is None or is_str(code) is False:
+            error_str = ERROR_STR_PREFIX + "the type of param in code is wrong"
+            return RET_ERROR, error_str
+
+        query_processor = self._get_sync_query_processor(
+            CapitalFlowQuery.pack_req, CapitalFlowQuery.unpack_rsp)
+        kargs = {
+            "code": code,
+            "conn_id": self.get_sync_conn_id()
+        }
+
+        ret_code, msg, capital_flow_list = query_processor(**kargs)
+        if ret_code == RET_ERROR:
+            return ret_code, msg
+
+        col_list = [
+            'code', 'sequence', 'last_valid_time', 'time', 'in_flow'
+        ]
+
+        capital_flow_table = pd.DataFrame(capital_flow_list, columns=col_list)
+
+        capital_flow_table['code'] = code
+
+        return RET_OK, capital_flow_table
+
+    def get_capital_distribution(self, code):
+        """
+        获取指定股票的分时数据
+
+        :param code: 股票代码，例如，HK.00700，US.APPL
+        :return: (ret, data)
+
+                ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
+
+                ret != RET_OK 返回错误字符串
+
+                =====================   ===========   ==============================================================
+                参数                      类型                        说明
+                =====================   ===========   ==============================================================
+                capital_in_big            float         流入资金额度，大单
+                capital_in_mid            float         流入资金额度，中单
+                capital_in_small          float         流入资金额度，小单
+                capital_out_big           float         流出资金额度，大单
+                capital_out_mid           float         流出资金额度，中单
+                capital_out_small         float         流出资金额度，小单
+                update_time               string        更新时间字符串
+                =====================   ===========   ==============================================================
+        """
+        if code is None or is_str(code) is False:
+            error_str = ERROR_STR_PREFIX + "the type of param in code is wrong"
+            return RET_ERROR, error_str
+
+        query_processor = self._get_sync_query_processor(
+            CapitalDistributionQuery.pack_req, CapitalDistributionQuery.unpack_rsp)
+        kargs = {
+            "code": code,
+            "conn_id": self.get_sync_conn_id()
+        }
+
+        ret_code, msg, capital_distribution_list = query_processor(**kargs)
+        if ret_code == RET_ERROR:
+            return ret_code, msg
+
+        col_list = [
+            'code', 'capital_in_big', 'capital_in_mid', 'capital_in_small', 'capital_out_big', 'capital_out_mid',
+            'capital_out_small', 'update_time'
+        ]
+
+        capital_distribution_table = pd.DataFrame(capital_distribution_list, columns=col_list)
+
+        capital_distribution_table['code'] = code
+
+        return RET_OK, capital_distribution_table

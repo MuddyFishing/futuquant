@@ -436,6 +436,14 @@ class ProtobufMap(dict):
         from futuquant.common.pb.Qot_GetOptionChain_pb2 import Response
         ProtobufMap.created_protobuf_map[ProtoId.Qot_GetOptionChain] = Response()
 
+        """ Qot_GetOwnerPlate = 3210 获取资金流"""
+        from futuquant.common.pb.Qot_GetCapitalFlow_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_GetCapitalFlow] = Response()
+
+        """ Qot_GetOwnerPlate = 3210 获取资金分布"""
+        from futuquant.common.pb.Qot_GetCapitalDistribution_pb2 import Response
+        ProtobufMap.created_protobuf_map[ProtoId.Qot_GetCapitalDistribution] = Response()
+
     def __getitem__(self, key):
         return ProtobufMap.created_protobuf_map[key] if key in ProtobufMap.created_protobuf_map else None
 

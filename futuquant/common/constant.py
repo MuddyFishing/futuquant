@@ -723,6 +723,8 @@ class ProtoId(object):
     Qot_GetOwnerPlate = 3207  # 获取股票所属板块
     Qot_GetHoldingChangeList = 3208  # 获取高管持股变动
     Qot_GetOptionChain = 3209  # 获取期权链
+    Qot_GetCapitalFlow = 3210  # 资金流
+    Qot_GetCapitalDistribution = 3211  # 资金分布
 
     All_PushId = [Notify, KeepAlive, Trd_UpdateOrder, Trd_UpdateOrderFill, Qot_UpdateBroker,
                   Qot_UpdateOrderBook, Qot_UpdateKL, Qot_UpdateRT, Qot_UpdateBasicQot, Qot_UpdateTicker]
