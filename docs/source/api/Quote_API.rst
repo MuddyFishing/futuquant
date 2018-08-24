@@ -838,7 +838,7 @@ get_stock_quote
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-    code_list = ['US_OPTION.AAPL180914C212500']
+    code_list = ['US.AAPL180914C212500']
     print(quote_ctx.subscribe(code_list, [SubType.QUOTE]))
     print(quote_ctx.get_stock_quote(code_list))
     quote_ctx.close()
@@ -1167,7 +1167,6 @@ get_option_chain
         strike_price         float         行权价
         suspension           bool          是否停牌(True表示停牌)
         market               str           发行市场名字
-        listing_date         str           上市时间
         stock_id             int           股票id
         ==================   ===========   ==============================================================
 

@@ -1751,7 +1751,6 @@ class OpenQuoteContext(OpenContextBase):
                 strike_price         float         行权价
                 suspension           bool          是否停牌(True表示停牌)
                 market               str           发行市场名字
-                listing_date         str           上市时间
                 stock_id             int           股票id
                 ==================   ===========   ==============================================================
 
@@ -1783,7 +1782,7 @@ class OpenQuoteContext(OpenContextBase):
         col_list = [
             'code', 'name', 'lot_size', 'stock_type',
             'option_type', 'stock_owner', 'strike_time', 'strike_price', 'suspension', 'market',
-            'listing_date', 'stock_id'
+            'stock_id'
         ]
 
         option_chain = pd.DataFrame(option_chain_list, columns=col_list)
