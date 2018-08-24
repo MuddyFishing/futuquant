@@ -9,6 +9,7 @@ cc = CheckConfig()
 ret, msg = cc.check_all()
 if ret != RET_OK:
     print(ret, msg)
+    sys.exit(1)
 
 config = Config()
 
