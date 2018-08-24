@@ -169,7 +169,7 @@ get_stock_basicinfo
         stock_child_type    str            窝轮子类型，参见 WrtType_
         stock_owner         str            正股代码
         option_type         str            期权类型，查看 OptionType_
-        strike_time         str            行权日
+        strike_time         str            行权日（美股默认是美东时间，港股A股默认是北京时间）
         strike_price        float          行权价
         suspension          bool           是否停牌(True表示停牌)
         market              str            发行市场名字
@@ -204,12 +204,12 @@ get_multiple_history_kline
     参数                  类型                        说明
     =================   ===========   ==============================================================================
     code                str            股票代码
-    time_key            str            k线时间
+    time_key            str            k线时间（美股默认是美东时间，港股A股默认是北京时间）
     open                float          开盘价
     close               float          收盘价
     high                float          最高价
     low                 float          最低价
-    pe_ratio            float          市盈率
+    pe_ratio            float          市盈率（该字段为比例字段，默认不展示%）
     turnover_rate       float          换手率
     volume              int            成交量
     turnover            float          成交额
@@ -261,12 +261,12 @@ get_history_kline
     参数                  类型                        说明
     =================   ===========   ==============================================================================
     code                str            股票代码
-    time_key            str            k线时间
+    time_key            str            k线时间（美股默认是美东时间，港股A股默认是北京时间）
     open                float          开盘价
     close               float          收盘价
     high                float          最高价
     low                 float          最低价
-    pe_ratio            float          市盈率
+    pe_ratio            float          市盈率（该字段为比例字段，默认不展示%）
     turnover_rate       float          换手率
     volume              int            成交量
     turnover            float          成交额
@@ -319,12 +319,12 @@ request_history_kline
     参数                  类型                        说明
     =================   ===========   ==============================================================================
     code                str            股票代码
-    time_key            str            k线时间
+    time_key            str            k线时间（美股默认是美东时间，港股A股默认是北京时间）
     open                float          开盘价
     close               float          收盘价
     high                float          最高价
     low                 float          最低价
-    pe_ratio            float          市盈率
+    pe_ratio            float          市盈率（该字段为比例字段，默认不展示%）
     turnover_rate       float          换手率
     volume              int            成交量
     turnover            float          成交额
@@ -359,24 +359,24 @@ get_autype_list
 
         ret != RET_OK 返回错误字符串
 
-        =====================   ===========   =================================================================
+        =====================   ===========   ====================================================================================
         参数                      类型                        说明
-        =====================   ===========   =================================================================
+        =====================   ===========   ====================================================================================
         code                    str            股票代码
         ex_div_date             str            除权除息日
-        split_ratio             float          拆合股比例； float，例如，对于5股合1股为1/5，对于1股拆5股为5/1
+        split_ratio             float          拆合股比例（该字段为比例字段，默认不展示%），例如，对于5股合1股为1/5，对于1股拆5股为5/1
         per_cash_div            float          每股派现
-        per_share_div_ratio     float          每股送股比例
-        per_share_trans_ratio   float          每股转增股比例
-        allotment_ratio         float          每股配股比例
+        per_share_div_ratio     float          每股送股比例（该字段为比例字段，默认不展示%）
+        per_share_trans_ratio   float          每股转增股比例（该字段为比例字段，默认不展示%）
+        allotment_ratio         float          每股配股比例（该字段为比例字段，默认不展示%）
         allotment_price         float          配股价
-        stk_spo_ratio           float          增发比例
+        stk_spo_ratio           float          增发比例（该字段为比例字段，默认不展示%）
         stk_spo_price           float          增发价格
         forward_adj_factorA     float          前复权因子A
         forward_adj_factorB     float          前复权因子B
         backward_adj_factorA    float          后复权因子A
         backward_adj_factorB    float          后复权因子B
-        =====================   ===========   =================================================================
+        =====================   ===========   ====================================================================================
 		
  :example:
 
@@ -401,11 +401,11 @@ get_market_snapshot
 
         ret != RET_OK 返回错误字符串
 
-        ============================   =============   ==============================================================
+        ============================   =============   ======================================================================
         参数                             类型                       说明
-        ============================   =============   ==============================================================
+        ============================   =============   ======================================================================
         code                            str            股票代码
-        update_time                     str            更新时间(yyyy-MM-dd HH:mm:ss)
+        update_time                     str            更新时间(yyyy-MM-dd HH:mm:ss)（美股默认是美东时间，港股A股默认是北京时间）
         last_price                      float          最新价格
         open_price                      float          今日开盘价
         high_price                      float          最高价格
@@ -425,13 +425,13 @@ get_market_snapshot
         outstanding_shares              int            流通股本
         net_asset_per_share             float          每股净资产
         circular_market_val             float          流通市值
-        ey_ratio                        float          收益率
-        pe_ratio                        float          市盈率
-        pb_ratio                        float          市净率
-        pe_ttm_ratio                    float          市盈率TTM
+        ey_ratio                        float          收益率（该字段为比例字段，默认不展示%）
+        pe_ratio                        float          市盈率（该字段为比例字段，默认不展示%）
+        pb_ratio                        float          市净率（该字段为比例字段，默认不展示%）
+        pe_ttm_ratio                    float          市盈率TTM（该字段为比例字段，默认不展示%）
         stock_owner                     str            所属正股
         wrt_valid                       bool           是否是窝轮（为true时以下涡轮相关的字段才有合法数据）
-        wrt_conversion_ratio            float          换股比率
+        wrt_conversion_ratio            float          换股比率（该字段为比例字段，默认不展示%）
         wrt_type                        str            窝轮类型，参见WrtType
         wrt_strike_price                float          行使价格
         wrt_maturity_date               str            格式化窝轮到期时间
@@ -440,7 +440,7 @@ get_market_snapshot
         wrt_recovery_price              float          窝轮回收价
         wrt_street_vol                  float          窝轮街货量
         wrt_issue_vol                   float          窝轮发行量
-        wrt_street_ratio                float          窝轮街货占比
+        wrt_street_ratio                float          窝轮街货占比（该字段为比例字段，默认不展示%）
         wrt_delta                       float          窝轮对冲值
         wrt_implied_volatility          float          窝轮引伸波幅
         wrt_premium                     float          窝轮溢价
@@ -449,7 +449,7 @@ get_market_snapshot
         option_valid                    bool           是否是期权（为true时以下期权相关的字段才有合法数值）
         option_type                     str            期权类型，参见OptionType
         owner                           str            标的股
-        strike_time                     str            行权日
+        strike_time                     str            行权日（美股默认是美东时间，港股A股默认是北京时间）
         option_strike_price             float          行权价
         option_contract_size            int            每份合约数
         option_open_interest            int            未平仓合约数
@@ -460,7 +460,7 @@ get_market_snapshot
         option_vega                     float          希腊值 Vega
         option_theta                    float          希腊值 Theta
         option_rho                      float          希腊值 Rho
-        ============================   =============   ==============================================================
+        ============================   =============   ======================================================================
         
  :example:
 
@@ -483,11 +483,11 @@ get_rt_data
 
         ret != RET_OK 返回错误字符串
 
-        =====================   ===========   ==============================================================
+        =====================   ===========   ===================================================================
         参数                      类型                        说明
-        =====================   ===========   ==============================================================
+        =====================   ===========   ===================================================================
         code                    str            股票代码
-        time                    str            时间(yyyy-MM-dd HH:mm:ss)
+        time                    str            时间(yyyy-MM-dd HH:mm:ss)（美股默认是美东时间，港股A股默认是北京时间）
         is_blank                bool           数据状态；正常数据为False，伪造数据为True
         opened_mins             int            零点到当前多少分钟
         cur_price               float          当前价格
@@ -495,7 +495,7 @@ get_rt_data
         avg_price               float          平均价格
         volume                  float          成交量
         turnover                float          成交金额
-        =====================   ===========   ==============================================================
+        =====================   ===========   ===================================================================
 
  :example:
 
@@ -528,7 +528,7 @@ get_plate_stock
         stock_owner             str            所属正股的代码
         stock_child_type        str            股票子类型，参见WrtType
         stock_type              str            股票类型，参见SecurityType
-        list_time               str            上市时间
+        list_time               str            上市时间（美股默认是美东时间，港股A股默认是北京时间）
         stock_id                int            股票id
         =====================   ===========   ==============================================================
 
@@ -806,7 +806,7 @@ get_stock_quote
         =====================   ===========   ==============================================================
         code                    str            股票代码
         data_date               str            日期
-        data_time               str            时间
+        data_time               str            时间（美股默认是美东时间，港股A股默认是北京时间）
         last_price              float          最新价格
         open_price              float          今日开盘价
         high_price              float          最高价格
@@ -863,7 +863,7 @@ get_rt_ticker
         =====================   ===========   ==============================================================
         code                     str            股票代码
         sequence                 int            逐笔序号
-        time                     str            成交时间
+        time                     str            成交时间（美股默认是美东时间，港股A股默认是北京时间）
         price                    float          成交价格
         volume                   int            成交数量（股数）
         turnover                 float          成交金额
@@ -902,14 +902,14 @@ get_cur_kline
         参数                      类型                        说明
         =====================   ===========   ==============================================================
         code                     str            股票代码
-        time_key                 str            时间
+        time_key                 str            时间（美股默认是美东时间，港股A股默认是北京时间）
         open                     float          开盘价
         close                    float          收盘价
         high                     float          最高价
         low                      float          最低价
         volume                   int            成交量
         turnover                 float          成交额
-        pe_ratio                 float          市盈率
+        pe_ratio                 float          市盈率（该字段为比例字段，默认不展示%）
         turnover_rate            float          换手率
         last_close               float          昨收价
         =====================   ===========   ==============================================================
@@ -983,14 +983,14 @@ get_multi_points_history_kline
     参数                  类型                        说明
     =================   ===========   ==============================================================================
     code                str            股票代码
-    time_point          str            请求的时间
+    time_point          str            请求的时间（美股默认是美东时间，港股A股默认是北京时间）
     data_status         str            数据点是否有效，参见KLDataStatus
-    time_key            str            k线时间
+    time_key            str            k线时间（美股默认是美东时间，港股A股默认是北京时间）
     open                float          开盘价
     close               float          收盘价
     high                float          最高价
     low                 float          最低价
-    pe_ratio            float          市盈率
+    pe_ratio            float          市盈率（该字段为比例字段，默认不展示%）
     turnover_rate       float          换手率
     volume              int            成交量
     turnover            float          成交额
@@ -1032,7 +1032,7 @@ get_referencestock_list
 		lot_size            int            每手数量
 		stock_type          str            证券类型，参见SecurityType
 		stock_name          str            证券名字
-		list_time           str            上市时间
+		list_time           str            上市时间（美股默认是美东时间，港股A股默认是北京时间）
 		wrt_valid           bool           是否是窝轮，如果为True，下面wrt开头的字段有效
 		wrt_type            str            窝轮类型，参见WrtType
 		wrt_code            str            所属正股
@@ -1112,10 +1112,10 @@ get_holding_change_list
         =====================   ===========   ==============================================================
         holder_name             str            高管名称
         holding_qty             float         持股数
-        holding_ratio           float         持股比例
+        holding_ratio           float         持股比例（该字段为比例字段，默认不展示%）
         change_qty              float         变动数
-        change_ratio            float         变动比例
-        time                    str            发布时间
+        change_ratio            float         变动比例（该字段为比例字段，默认不展示%）
+        time                    str           发布时间（美股的时间默认是美东）
         =====================   ===========   ==============================================================
 
  :example:
@@ -1163,7 +1163,7 @@ get_option_chain
         stock_type           str           股票类型，参见 SecurityType_
         option_type          str           期权类型，查看 OptionType_
         stock_owner          str           标的股
-        strike_time          str           行权日
+        strike_time          str           行权日（美股默认是美东时间，港股A股默认是北京时间）
         strike_price         float         行权价
         suspension           bool          是否停牌(True表示停牌)
         market               str           发行市场名字
