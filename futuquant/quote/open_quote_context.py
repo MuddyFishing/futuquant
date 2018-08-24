@@ -153,10 +153,10 @@ class OpenQuoteContext(OpenContextBase):
             lot_size            int            每手数量
             stock_type          str            股票类型，参见SecurityType
             stock_child_type    str            涡轮子类型，参见WrtType
+            stock_owner         str            正股代码
             listing_date        str            上市时间
             option_type         str            期权类型，Qot_Common.OptionType
-            owner               str            标的股
-            strike_time          str           行权日
+            strike_time         str            行权日
             strike_price        float          行权价
             suspension          bool           是否停牌(True表示停牌)
             market              str            发行市场名字
@@ -195,7 +195,7 @@ class OpenQuoteContext(OpenContextBase):
 
         col_list = [
             'code', 'name', 'lot_size', 'stock_type', 'stock_child_type', 'stock_owner',
-            'option_type', 'owner', 'strike_time', 'strike_price', 'suspension', 'market',
+            'option_type', 'strike_time', 'strike_price', 'suspension', 'market',
             'listing_date', 'stock_id'
         ]
 
@@ -616,13 +616,14 @@ class OpenQuoteContext(OpenContextBase):
                 pe_ratio                   float          市盈率
                 pb_ratio                   float          市净率
                 pe_ttm_ratio               float          市盈率TTM
+                stock_owner                str            所属正股
                 wrt_valid                  bool           是否是窝轮（为true时以下涡轮相关的字段才有合法数据）
                 wrt_conversion_ratio       float          换股比率
                 wrt_type                   str            窝轮类型，参见WrtType
                 wrt_strike_price           float          行使价格
                 wrt_maturity_date          str            格式化窝轮到期时间
                 wrt_end_trade              str            格式化窝轮最后交易时间
-                wrt_code                   str            窝轮对应的正股
+                wrt_code                   str            窝轮对应的正股（此字段已废除,修改为stock_owner）
                 wrt_recovery_price         float          窝轮回收价
                 wrt_street_vol             float          窝轮街货量
                 wrt_issue_vol              float          窝轮发行量
@@ -634,7 +635,6 @@ class OpenQuoteContext(OpenContextBase):
                 price_spread               float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
                 option_valid               bool           是否是期权（为true时以下期权相关的字段才有合法数值）
                 option_type                str            期权类型，参见OptionType
-                owner                      str            标的股
                 strike_time                str            行权日
                 option_strike_price        float          行权价
                 option_contract_size       int            每份合约数
@@ -682,7 +682,6 @@ class OpenQuoteContext(OpenContextBase):
                         'wrt_strike_price',
                         'wrt_maturity_date',
                         'wrt_end_trade',
-                        'wrt_code',
                         'wrt_recovery_price',
                         'wrt_street_vol',
                         'wrt_issue_vol',
@@ -692,7 +691,6 @@ class OpenQuoteContext(OpenContextBase):
                         'wrt_premium'
                         ]
         option_col_list = ['option_type',
-                           'owner',
                            'strike_time',
                            'option_strike_price',
                            'option_contract_size',
@@ -719,7 +717,8 @@ class OpenQuoteContext(OpenContextBase):
             'suspension',
             'listing_date',
             'lot_size',
-            'price_spread'
+            'price_spread',
+            'stock_owner'
         ]
 
         col_list.append('equity_valid')
@@ -1720,8 +1719,8 @@ class OpenQuoteContext(OpenContextBase):
         通过标的股查询期权
 
         :param code: 股票代码,例如：'HK.02318'
-        :param start: 开始日期，例如'2017-08-01'
-        :param end: 结束日期，例如'2017-08-30'。 注意，时间范围最多30天
+        :param start: 开始日期，该日期指到期日，例如'2017-08-01'
+        :param end: 结束日期（包括这一天），该日期指到期日，例如'2017-08-30'。 注意，时间范围最多30天
                 start和end的组合如下：
                 ==========    ==========    ========================================
                  start类型      end类型       说明
@@ -1747,7 +1746,7 @@ class OpenQuoteContext(OpenContextBase):
                 lot_size             int           每手数量
                 stock_type           str           股票类型，参见SecurityType
                 option_type          str           期权类型，Qot_Common.OptionType
-                owner                str           标的股
+                stock_owner          str           标的股
                 strike_time          str           行权日
                 strike_price         float         行权价
                 suspension           bool          是否停牌(True表示停牌)
@@ -1783,7 +1782,7 @@ class OpenQuoteContext(OpenContextBase):
 
         col_list = [
             'code', 'name', 'lot_size', 'stock_type',
-            'option_type', 'owner', 'strike_time', 'strike_price', 'suspension', 'market',
+            'option_type', 'stock_owner', 'strike_time', 'strike_price', 'suspension', 'market',
             'listing_date', 'stock_id'
         ]
 

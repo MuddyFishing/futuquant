@@ -175,11 +175,13 @@ class StockBasicInfoQuery:
                 if record.warrantExData.type in QUOTE.REV_WRT_TYPE_MAP else WrtType.NONE,
             "stock_owner":merge_qot_mkt_stock_str(
                     record.warrantExData.owner.market,
-                    record.warrantExData.owner.code) if record.HasField('warrantExData') else "",
+                    record.warrantExData.owner.code) if record.HasField('warrantExData') else (
+                    merge_qot_mkt_stock_str(
+                    record.optionExData.owner.market,
+                    record.optionExData.owner.code) if record.HasField('optionExData')
+                    else ""),
             "listing_date": record.basic.listTime,
             "option_type": QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
-                if record.HasField('optionExData') else "",
-            "owner": merge_qot_mkt_stock_str(int(record.optionExData.owner.market), record.optionExData.owner.code)
                 if record.HasField('optionExData') else "",
             "strike_time": record.optionExData.strikeTime,
             "strike_price": record.optionExData.strikePrice if record.HasField('optionExData') else "NaN",
@@ -291,7 +293,7 @@ class MarketSnapshotQuery:
                     'wrt_maturity_date'] = record.warrantExData.maturityTime
                 snapshot_tmp[
                     'wrt_end_trade'] = record.warrantExData.endTradeTime
-                snapshot_tmp['wrt_code'] = merge_qot_mkt_stock_str(
+                snapshot_tmp['stock_owner'] = merge_qot_mkt_stock_str(
                     record.warrantExData.owner.market,
                     record.warrantExData.owner.code)
                 snapshot_tmp[
@@ -312,7 +314,7 @@ class MarketSnapshotQuery:
                 snapshot_tmp['option_valid'] = True
                 snapshot_tmp[
                     'option_type'] = QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
-                snapshot_tmp['owner'] = merge_qot_mkt_stock_str(
+                snapshot_tmp['stock_owner'] = merge_qot_mkt_stock_str(
                     record.optionExData.owner.market, record.optionExData.owner.code)
                 snapshot_tmp[
                     'strike_time'] = record.optionExData.strikeTime
@@ -1741,7 +1743,7 @@ class OptionChain:
                         "listing_date": record.basic.listTime,
                         "option_type": QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
                             if record.HasField('optionExData') else "",
-                        "owner": merge_qot_mkt_stock_str(int(record.optionExData.owner.market), record.optionExData.owner.code)
+                        "stock_owner": merge_qot_mkt_stock_str(int(record.optionExData.owner.market), record.optionExData.owner.code)
                             if record.HasField('optionExData') else "",
                         "strike_time": record.optionExData.strikeTime,
                         "strike_price": record.optionExData.strikePrice if record.HasField('optionExData') else "NaN",

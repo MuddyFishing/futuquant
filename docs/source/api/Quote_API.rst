@@ -126,14 +126,14 @@ get_trading_days
  :param start: 起始日期。例如'2018-01-01'。
  :param end: 结束日期。例如'2018-01-01'。
          start和end的组合如下：
-             ==========    ==========    ========================================
-             start类型      end类型       说明
-             ==========    ==========    ========================================
-             str            str           start和end分别为指定的日期
-             None           str           start为end往前365天
-             str            None          end为start往后365天
-             None           None          end为当前日期，start为end往前365天
-             ==========    ==========    ========================================
+            ==========    ==========    ========================================
+            start类型      end类型       说明
+            ==========    ==========    ========================================
+            str            str           start和end分别为指定的日期
+            None           str           start为end往前365天
+            str            None          end为start往后365天
+            None           None          end为当前日期，start为end往前365天
+            ==========    ==========    ========================================
  :return: 成功时返回(RET_OK, data)，data是字符串数组；失败时返回(RET_ERROR, data)，其中data是错误描述字符串
         
  :example:
@@ -153,7 +153,7 @@ get_stock_basicinfo
  获取指定市场中特定类型的股票基本信息
  
  :param market: 市场类型 Market_
- :param stock_type: 股票类型 SecurityType_ 
+ :param stock_type: 股票类型，该参数不支持SecurityType.DRVT SecurityType_ 
  :param code_list: 如果不为None，应该是股票code的iterable类型，将只返回指定的股票信息
  :return: (ret_code, content)
 
@@ -167,9 +167,9 @@ get_stock_basicinfo
         lot_size            int            每手数量
         stock_type          str            股票类型，参见 SecurityType_
         stock_child_type    str            窝轮子类型，参见 WrtType_
+        stock_owner         str            正股代码
         option_type         str            期权类型，查看 OptionType_
-        owner               str            标的股
-        strike_ime          str            行权日
+        strike_time         str            行权日
         strike_price        float          行权价
         suspension          bool           是否停牌(True表示停牌)
         market              str            发行市场名字
@@ -182,7 +182,7 @@ get_stock_basicinfo
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
     print(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.WARRANT))
-    print(quote_ctx.get_stock_basicinfo(Market.US, SecurityType.DRVT, 'US_OPTION.AAPL180817C20000'))
+    print(quote_ctx.get_stock_basicinfo(Market.US, SecurityType.DRVT, 'US.AAPL180817C20000'))
     quote_ctx.close()
     
     
@@ -429,13 +429,14 @@ get_market_snapshot
         pe_ratio                        float          市盈率
         pb_ratio                        float          市净率
         pe_ttm_ratio                    float          市盈率TTM
+        stock_owner                     str            所属正股
         wrt_valid                       bool           是否是窝轮（为true时以下涡轮相关的字段才有合法数据）
         wrt_conversion_ratio            float          换股比率
         wrt_type                        str            窝轮类型，参见WrtType
         wrt_strike_price                float          行使价格
         wrt_maturity_date               str            格式化窝轮到期时间
         wrt_end_trade                   str            格式化窝轮最后交易时间
-        wrt_code                        str            窝轮对应的正股
+        wrt_code                        str            窝轮对应的正股（此字段已废除,修改为stock_owner）
         wrt_recovery_price              float          窝轮回收价
         wrt_street_vol                  float          窝轮街货量
         wrt_issue_vol                   float          窝轮发行量
@@ -717,16 +718,16 @@ query_subscription
 
 ..  py:function:: query_subscription(self, is_all_conn=True)
 
-查询已订阅的实时信息
+ 查询已订阅的实时信息
 
-:param is_all_conn: 是否返回所有连接的订阅状态,不传或者传False只返回当前连接数据
-:return: (ret, data)  
+ :param is_all_conn: 是否返回所有连接的订阅状态,不传或者传False只返回当前连接数据
+ :return: (ret, data)  
         
         ret != RET_OK 返回错误字符串
         
         ret == RET_OK 返回 定阅信息的字典数据 ，格式如下:
         
-.. code:: python
+ .. code:: python
 
         {
             'total_used': 4,    # 所有连接已使用的定阅额度
@@ -739,10 +740,7 @@ query_subscription
             }
         }
 
-
-
-:example:
-
+ :example:
 
  .. code:: python
 
@@ -840,7 +838,7 @@ get_stock_quote
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-    code_list = ['US_OPTION.AAPL180914C212500']
+    code_list = ['US.AAPL180914C212500']
     print(quote_ctx.subscribe(code_list, [SubType.QUOTE]))
     print(quote_ctx.get_stock_quote(code_list))
     quote_ctx.close()
@@ -1137,8 +1135,8 @@ get_option_chain
  通过标的股查询期权
 
  :param code: 股票代码,例如：'HK.02318'
- :param start: 开始日期，例如'2017-08-01'
- :param end: 结束日期，例如'2017-08-30'。 注意，时间范围最多30天。
+ :param start: 开始日期，该日期指到期日，例如'2017-08-01'
+ :param end: 结束日期（包括这一天），该日期指到期日，例如'2017-08-30'。 注意，时间范围最多30天。
              start和end的组合如下：
                 ==========    ==========    ========================================
                  start类型      end类型       说明
@@ -1164,7 +1162,7 @@ get_option_chain
         lot_size             int           每手数量
         stock_type           str           股票类型，参见 SecurityType_
         option_type          str           期权类型，查看 OptionType_
-        owner                str           标的股
+        stock_owner          str           标的股
         strike_time          str           行权日
         strike_price         float         行权价
         suspension           bool          是否停牌(True表示停牌)
@@ -1508,14 +1506,14 @@ on_recv_rsp
 OpenAPI用户等级权限
 ----------------------
 
- ==========================        =========================        =========================        =========================
- 协议限制                          三级用户                         二级用户                         一级用户
- ==========================        =========================        =========================        =========================
- 订阅额度                          100                              300                              1000
- 30秒内快照请求次数                10                               20                               30 
- 快照每次个数                      200                              300                              400
- 历史K线请求个数                   100                              300                              1000                                                                  
- ==========================        =========================        =========================        =========================
+ ======================================        =========================        =========================        =========================
+ 协议限制                                      三级用户                         二级用户                         一级用户
+ ======================================        =========================        =========================        =========================
+ 订阅额度                                      100                              300                              1000
+ 30秒内快照请求次数                            10                               20                               30 
+ 快照每次请求股票数                            200                              300                              400
+ 30天内非本地历史K线最多可请求股票数           100                              300                              1000                                                                  
+ ======================================        =========================        =========================        =========================
 
 
 
