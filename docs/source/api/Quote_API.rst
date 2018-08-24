@@ -153,7 +153,7 @@ get_stock_basicinfo
  获取指定市场中特定类型的股票基本信息
  
  :param market: 市场类型 Market_
- :param stock_type: 股票类型 SecurityType_ 
+ :param stock_type: 股票类型，该参数不支持SecurityType.DRVT SecurityType_ 
  :param code_list: 如果不为None，应该是股票code的iterable类型，将只返回指定的股票信息
  :return: (ret_code, content)
 
@@ -182,7 +182,7 @@ get_stock_basicinfo
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
     print(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.WARRANT))
-    print(quote_ctx.get_stock_basicinfo(Market.US, SecurityType.DRVT, 'US_OPTION.AAPL180817C20000'))
+    print(quote_ctx.get_stock_basicinfo(Market.US, SecurityType.DRVT, 'US.AAPL180817C20000'))
     quote_ctx.close()
     
     
