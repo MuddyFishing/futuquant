@@ -68,22 +68,28 @@ def test_request_nums():
 def test_request_stock_count():
     pandas.set_option('max_columns', 100)
     pandas.set_option('display.width', 1000)
-    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11112)
+    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
     ret_code, ret_data = quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.STOCK, [])
     code_list = list(ret_data['code'])
     del code_list[200:]  # 截取股票
-    print(len(code_list))
-    # print(quote_ctx.request_history_kline(code='US.AAPL', start='2018-08-15', end='2018-08-15', ktype=KLType.K_DAY, max_count=1))
-    # print(quote_ctx.request_history_kline(code='SZ.000001', start='2018-08-15', end='2018-08-15', ktype=KLType.K_DAY,
-    #                                       max_count=1))
+    # print(len(code_list))
+    # print(quote_ctx.request_history_kline(code='US.AAPL180921P235000', start='2018-08-15', end='2018-09-15', ktype=KLType.K_DAY,
+    #                                       max_count=40))
+    # print(quote_ctx.request_history_kline(code='US.AAPL180921C135000', start='2018-08-15', end='2018-08-23', ktype=KLType.K_DAY,
+    #                                       max_count=40))
+    # print(quote_ctx.request_history_kline(code='HK.00700', start='2018-08-15', end='2018-09-15',
+    #                                       ktype=KLType.K_DAY,
+    #                                       max_count=40))
     # ------每次请求的股票只数测试
-    for i in range(201):
+    page_key = None
+    for i in range(20):
         print(i)
         if i != 0 and i % 10 == 0:
             time.sleep(30)
-        ret_code, ret_data, page_key = quote_ctx.request_history_kline(code=code_list[i], start='2018-08-15',
-                                                                       end='2018-08-21', ktype=KLType.K_DAY,
-                                                                       max_count=1)
+        ret_code, ret_data, page_key = quote_ctx.request_history_kline(code='HK.00700', start='2018-08-01',
+                                                                       end='2018-08-16', ktype=KLType.K_1M,
+                                                                       autype=AuType.NONE, fields=KL_FIELD.ALL_REAL,
+                                                                       max_count=331, page_req_key=page_key)
         print(ret_data)
 
 
