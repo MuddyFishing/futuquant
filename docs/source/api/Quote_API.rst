@@ -182,7 +182,7 @@ get_stock_basicinfo
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
     print(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.WARRANT))
-    print(quote_ctx.get_stock_basicinfo(Market.US, SecurityType.DRVT, 'US_OPTION.AAPL180817C20000'))
+    print(quote_ctx.get_stock_basicinfo(Market.US, SecurityType.DRVT, 'US.AAPL180817C20000'))
     quote_ctx.close()
     
     
@@ -838,7 +838,7 @@ get_stock_quote
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-    code_list = ['US_OPTION.AAPL180914C212500']
+    code_list = ['US.AAPL180914C212500']
     print(quote_ctx.subscribe(code_list, [SubType.QUOTE]))
     print(quote_ctx.get_stock_quote(code_list))
     quote_ctx.close()
