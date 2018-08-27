@@ -308,10 +308,11 @@ request_history_kline
  :param autype: 复权类型, 参见 AuType_ 定义
  :param fields: 需返回的字段列表，参见 KL_FIELD_ 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
  :param max_count: 本次请求最大返回的数据点个数，传None表示返回start和end之间所有的数据。
- :param page_req_key: 分页请求的key。如果start和end之间的数据点多于max_count，那么后续请求时，要传入上次调用返回的page_req_key
+ :param page_req_key: 分页请求的key。如果start和end之间的数据点多于max_count，那么后续请求时，要传入上次调用返回的page_req_key。初始请求时应该传None。
  :return: (ret, data, page_req_key)
 
-        ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下。page_req_key在分页请求时（即max_count>0）可能返回，并且需要在后续的请求中传入。
+        ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下。page_req_key在分页请求时（即max_count>0）
+                可能返回，并且需要在后续的请求中传入。如果没有更多数据，page_req_key返回None。
 
         ret != RET_OK 返回错误字符串
 
@@ -338,9 +339,9 @@ request_history_kline
  .. code:: python
 
     from futuquant import *
-    ret, data, page_req_key = quote_ctx.request_history_kline('HK.00700', start='2017-06-20', end='2018-06-22', max_count=50)
+    ret, data, page_req_key = quote_ctx.request_history_kline('HK.00700', start='2017-06-20', end='2018-06-22', max_count=50) #请求开头50个数据
     print(ret, data)
-    ret, data, page_req_key = quote_ctx.request_history_kline('HK.00700', start='2017-06-20', end='2018-06-22', max_count=50, page_req_key=page_req_key)
+    ret, data, page_req_key = quote_ctx.request_history_kline('HK.00700', start='2017-06-20', end='2018-06-22', max_count=50, page_req_key=page_req_key) #请求下50个数据
     print(ret, data)
     quote_ctx.close()
 
@@ -1443,7 +1444,9 @@ on_recv_rsp
  注意该回调是在独立子线程中
 
  :param rsp_pb: 派生类中不需要直接处理该参数
- :return: 参见get_broker_queue的返回值
+ :return: 成功时返回(RET_OK, stock_code, [bid_frame_table, ask_frame_table]), 相关frame table含义见 get_broker_queue_ 的返回值说明
+
+          失败时返回(RET_ERROR, ERR_MSG, None)
 
 ----------------------------    
 
@@ -1481,6 +1484,7 @@ on_recv_rsp
  get_option_chain                  10
  get_holding_change_list           10
  get_owner_plate                   10
+ request_history_kline             10
  ==========================        ==================================================
 
 ---------------------------------------------------------------------

@@ -411,10 +411,11 @@ class OpenQuoteContext(OpenContextBase):
         :param autype: 复权类型, 参见 AuType 定义
         :param fields: 需返回的字段列表，参见 KL_FIELD 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
         :param max_count: 本次请求最大返回的数据点个数，传None表示返回start和end之间所有的数据。
-        :param page_req_key: 分页请求的key。如果start和end之间的数据点多于max_count，那么后续请求时，要传入上次调用返回的page_req_key
+        :param page_req_key: 分页请求的key。如果start和end之间的数据点多于max_count，那么后续请求时，要传入上次调用返回的page_req_key。初始请求时应该传None。
         :return: (ret, data, page_req_key)
 
-                ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下。page_req_key在分页请求时（即max_count>0）可能返回，并且需要在后续的请求中传入。
+                ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下。page_req_key在分页请求时（即max_count>0）
+                可能返回，并且需要在后续的请求中传入。如果没有更多数据，page_req_key返回None。
 
                 ret != RET_OK 返回错误字符串
 
