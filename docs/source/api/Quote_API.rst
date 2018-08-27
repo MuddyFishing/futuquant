@@ -167,12 +167,14 @@ get_stock_basicinfo
         lot_size            int            每手数量
         stock_type          str            股票类型，参见 SecurityType_
         stock_child_type    str            窝轮子类型，参见 WrtType_
-        stock_owner         str            正股代码
+        stock_owner         str            所属正股的代码
         option_type         str            期权类型，查看 OptionType_
         strike_time         str            行权日（美股默认是美东时间，港股A股默认是北京时间）
         strike_price        float          行权价
         suspension          bool           是否停牌(True表示停牌)
         market              str            发行市场名字
+        listing_date        str            上市时间
+        stock_id            int            股票id
         =================   ===========   ==============================================================================
 
  :example:
@@ -308,10 +310,11 @@ request_history_kline
  :param autype: 复权类型, 参见 AuType_ 定义
  :param fields: 需返回的字段列表，参见 KL_FIELD_ 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
  :param max_count: 本次请求最大返回的数据点个数，传None表示返回start和end之间所有的数据。
- :param page_req_key: 分页请求的key。如果start和end之间的数据点多于max_count，那么后续请求时，要传入上次调用返回的page_req_key
+ :param page_req_key: 分页请求的key。如果start和end之间的数据点多于max_count，那么后续请求时，要传入上次调用返回的page_req_key。初始请求时应该传None。
  :return: (ret, data, page_req_key)
 
-        ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下。page_req_key在分页请求时（即max_count>0）可能返回，并且需要在后续的请求中传入。
+        ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下。page_req_key在分页请求时（即max_count>0）
+                可能返回，并且需要在后续的请求中传入。如果没有更多数据，page_req_key返回None。
 
         ret != RET_OK 返回错误字符串
 
@@ -338,9 +341,9 @@ request_history_kline
  .. code:: python
 
     from futuquant import *
-    ret, data, page_req_key = quote_ctx.request_history_kline('HK.00700', start='2017-06-20', end='2018-06-22', max_count=50)
+    ret, data, page_req_key = quote_ctx.request_history_kline('HK.00700', start='2017-06-20', end='2018-06-22', max_count=50) #请求开头50个数据
     print(ret, data)
-    ret, data, page_req_key = quote_ctx.request_history_kline('HK.00700', start='2017-06-20', end='2018-06-22', max_count=50, page_req_key=page_req_key)
+    ret, data, page_req_key = quote_ctx.request_history_kline('HK.00700', start='2017-06-20', end='2018-06-22', max_count=50, page_req_key=page_req_key) #请求下50个数据
     print(ret, data)
     quote_ctx.close()
 
@@ -429,7 +432,7 @@ get_market_snapshot
         pe_ratio                        float          市盈率（该字段为比例字段，默认不展示%）
         pb_ratio                        float          市净率（该字段为比例字段，默认不展示%）
         pe_ttm_ratio                    float          市盈率TTM（该字段为比例字段，默认不展示%）
-        stock_owner                     str            所属正股
+        stock_owner                     str            所属正股的代码
         wrt_valid                       bool           是否是窝轮（为true时以下涡轮相关的字段才有合法数据）
         wrt_conversion_ratio            float          换股比率（该字段为比例字段，默认不展示%）
         wrt_type                        str            窝轮类型，参见WrtType
@@ -1443,7 +1446,9 @@ on_recv_rsp
  注意该回调是在独立子线程中
 
  :param rsp_pb: 派生类中不需要直接处理该参数
- :return: 参见get_broker_queue的返回值
+ :return: 成功时返回(RET_OK, stock_code, [bid_frame_table, ask_frame_table]), 相关frame table含义见 get_broker_queue_ 的返回值说明
+
+          失败时返回(RET_ERROR, ERR_MSG, None)
 
 ----------------------------    
 
@@ -1451,15 +1456,15 @@ on_recv_rsp
 接口入参限制
 ============ 
 
- ===============================        =========================
+ ===============================        =====================================================
  接口名称                               入参限制
- ===============================        =========================
- get_market_snapshot                    传入股票最多200个
+ ===============================        =====================================================
+ get_market_snapshot                    参考 `OpenAPI用户等级权限 <Quote_API.html#id12>`_
  get_rt_ticker				            可获取逐笔最多最近1000个
  get_cur_kline				            可获取K线最多最近1000根
  get_multi_points_history_kline         时间点最多5个
  get_owner_plate                        传入股票最多200个
- ===============================        =========================
+ ===============================        =====================================================
 
 ----------------------------
 
@@ -1481,6 +1486,7 @@ on_recv_rsp
  get_option_chain                  10
  get_holding_change_list           10
  get_owner_plate                   10
+ request_history_kline             10
  ==========================        ==================================================
 
 ---------------------------------------------------------------------

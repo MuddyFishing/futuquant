@@ -153,15 +153,14 @@ class OpenQuoteContext(OpenContextBase):
             lot_size            int            每手数量
             stock_type          str            股票类型，参见SecurityType
             stock_child_type    str            涡轮子类型，参见WrtType
-            stock_owner         str            正股代码
-            listing_date        str            上市时间
+            stock_owner         str            所属正股的代码
             option_type         str            期权类型，Qot_Common.OptionType
             strike_time         str            行权日
             strike_price        float          行权价
             suspension          bool           是否停牌(True表示停牌)
             market              str            发行市场名字
+            listing_date        str            上市时间
             stock_id            int            股票id
-            stock_owner         str            正股代码
             =================   ===========   ==============================================================================
 
         :example:
@@ -411,10 +410,11 @@ class OpenQuoteContext(OpenContextBase):
         :param autype: 复权类型, 参见 AuType 定义
         :param fields: 需返回的字段列表，参见 KL_FIELD 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
         :param max_count: 本次请求最大返回的数据点个数，传None表示返回start和end之间所有的数据。
-        :param page_req_key: 分页请求的key。如果start和end之间的数据点多于max_count，那么后续请求时，要传入上次调用返回的page_req_key
+        :param page_req_key: 分页请求的key。如果start和end之间的数据点多于max_count，那么后续请求时，要传入上次调用返回的page_req_key。初始请求时应该传None。
         :return: (ret, data, page_req_key)
 
-                ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下。page_req_key在分页请求时（即max_count>0）可能返回，并且需要在后续的请求中传入。
+                ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下。page_req_key在分页请求时（即max_count>0）
+                可能返回，并且需要在后续的请求中传入。如果没有更多数据，page_req_key返回None。
 
                 ret != RET_OK 返回错误字符串
 
@@ -616,7 +616,7 @@ class OpenQuoteContext(OpenContextBase):
                 pe_ratio                   float          市盈率（该字段为比例字段，默认不展示%）
                 pb_ratio                   float          市净率（该字段为比例字段，默认不展示%）
                 pe_ttm_ratio               float          市盈率TTM（该字段为比例字段，默认不展示%）
-                stock_owner                str            所属正股
+                stock_owner                str            所属正股的代码
                 wrt_valid                  bool           是否是窝轮（为true时以下涡轮相关的字段才有合法数据）
                 wrt_conversion_ratio       float          换股比率（该字段为比例字段，默认不展示%）
                 wrt_type                   str            窝轮类型，参见WrtType
