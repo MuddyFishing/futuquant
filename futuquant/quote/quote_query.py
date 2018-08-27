@@ -180,7 +180,7 @@ class StockBasicInfoQuery:
                     record.optionExData.owner.market,
                     record.optionExData.owner.code) if record.HasField('optionExData')
                     else ""),
-            "listing_date": record.basic.listTime,
+            "listing_date": "N/A" if record.HasField('optionExData') else record.basic.listTime,
             "option_type": QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
                 if record.HasField('optionExData') else "",
             "strike_time": record.optionExData.strikeTime,
@@ -253,7 +253,7 @@ class MarketSnapshotQuery:
             snapshot_tmp['turnover'] = record.basic.turnover
             snapshot_tmp['turnover_rate'] = record.basic.turnoverRate
             snapshot_tmp['suspension'] = record.basic.isSuspend
-            snapshot_tmp['listing_date'] = record.basic.listTime
+            snapshot_tmp['listing_date'] = "N/A" if record.HasField('optionExData') else record.basic.listTime,
             snapshot_tmp['price_spread'] = record.basic.priceSpread
             snapshot_tmp['lot_size'] = record.basic.lotSize
 
@@ -1740,7 +1740,6 @@ class OptionChain:
                         "lot_size": record.basic.lotSize,
                         "stock_type": QUOTE.REV_SEC_TYPE_MAP[record.basic.secType]
                             if record.basic.secType in QUOTE.REV_SEC_TYPE_MAP else SecurityType.NONE,
-                        "listing_date": record.basic.listTime,
                         "option_type": QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
                             if record.HasField('optionExData') else "",
                         "stock_owner": merge_qot_mkt_stock_str(int(record.optionExData.owner.market), record.optionExData.owner.code)
