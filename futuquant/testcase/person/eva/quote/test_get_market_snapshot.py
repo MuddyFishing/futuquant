@@ -34,6 +34,15 @@ class GetMarketSnapshot(object):
         # for data in ret_data.iterrows():
         #     print(data)
 
+    def test2(self):
+        quote_ctx = OpenQuoteContext(host='172.18.6.144', port=11111)
+
+        ret_code, ret_data = quote_ctx.get_market_snapshot(
+            code_list=['HK.00700', 'US.AAPL', 'SZ.000700', 'HK.13597', 'US.DIS180824C111000'])
+        quote_ctx.close()
+        print(ret_code)
+        print(ret_data)
+
 if __name__ == '__main__':
     gms = GetMarketSnapshot()
-    gms.test1()
+    gms.test2()

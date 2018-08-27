@@ -33,21 +33,42 @@ class RequestHstyKl(object):
                               page_req_key=None))
             time.sleep(req_sleep)
 
-        # ret_code, ret_data, req_key = quote_ctx.request_history_kline(code='HK.00700',
-        #                                                               start='2018-8-1',
-        #                                                               end=None,
-        #                                                               ktype=KLType.K_1M,
-        #                                                               autype=AuType.NONE,
-        #                                                               fields=KL_FIELD.ALL_REAL,
-        #                                                               max_count=331,
-        #                                                               page_req_key=req_key)
-        # print(ret_code, ret_data, req_key)
-
         # e = time.time()
         # print(s)
         # print('时延（秒）：',e - s)
 
+    def test2(self):
+        host = '127.0.0.1'  # mac 172.18.6.144
+        port = 11112
+        quote_ctx = OpenQuoteContext(host, port)
+        print(quote_ctx.request_history_kline(code = 'HK.999010',
+                              start=None,
+                              end=None,
+                              ktype=KLType.K_DAY,
+                              autype=AuType.QFQ,
+                              fields=[KL_FIELD.ALL],
+                              max_count=1000,
+                              page_req_key=None))
+
+    def test3(self):
+        host = '127.0.0.1'  # mac 172.18.6.144
+        port = 11112
+        quote_ctx = OpenQuoteContext(host, port)
+        req_key = None
+        for i in range(20):
+            print(i)
+            ret_code, ret_data ,req_key = quote_ctx.request_history_kline(code = 'HK.00700',
+                              start='2018-8-1',
+                              end='2018-8-16',
+                              ktype=KLType.K_1M,
+                              autype=AuType.QFQ,
+                              fields=[KL_FIELD.ALL],
+                              max_count=331,
+                              page_req_key=req_key)
+            print(ret_data)
+
+
 if __name__ == '__main__':
     rhk = RequestHstyKl()
-    rhk.test1()
+    rhk.test2()
 

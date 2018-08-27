@@ -9,11 +9,11 @@ class GetOptionChain(object):
         pandas.set_option('display.width', 1000)
 
     def test1(self):
-        host = '172.18.6.144'
+        host = '127.0.0.1'#'172.18.6.144'
         port = 11111
         quote_ctx = OpenQuoteContext(host,port)
-        print(quote_ctx.get_option_chain(code = 'US.DIS', start_date='2018-8-1',
-                                         end_date=None, option_type=OptionType.ALL,
+        print(quote_ctx.get_option_chain(code = 'US.DIS', start='2018-9-1',
+                                         end='2018-9-30', option_type=OptionType.ALL,
                                          option_cond_type=OptionCondType.OUTSIDE))
         quote_ctx.close()
 

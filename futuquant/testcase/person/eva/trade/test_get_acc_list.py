@@ -7,7 +7,7 @@ class GetAccList(object):
 
     def test_hk(self):
         host = '127.0.0.1'  # mac-kathy:172.18.6.144
-        port = 11111
+        port = 11114
         trade_ctx_hk = OpenHKTradeContext(host, port)
         ret_code_acc_list, ret_data_acc_list = trade_ctx_hk.get_acc_list()
         print('hk-----------------')
@@ -16,7 +16,7 @@ class GetAccList(object):
 
     def test_us(self):
         host = '127.0.0.1'  # mac-kathy:172.18.6.144
-        port = 11112
+        port = 11114
         trade_ctx_us = OpenUSTradeContext(host, port)
         ret_code_acc_list, ret_data_acc_list = trade_ctx_us.get_acc_list()
         print('us-----------------')
@@ -42,6 +42,6 @@ class GetAccList(object):
 
 if __name__ == '__main__':
     gal = GetAccList()
-    # gal.test_hk()
+    gal.test_hk()
     gal.test_us()
     # gal.test_sh()

@@ -12,7 +12,7 @@ class TestAccId(object):
 
     def test1(self):
         host = '127.0.0.1'
-        port = 11112
+        port = 11114
         trade_ = OpenUSTradeContext(host, port)
         print(trade_.unlock_trade('123123'))
         print('accinfo_query',trade_.accinfo_query(acc_id=0, acc_index=1))    #281756457982434020

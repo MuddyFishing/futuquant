@@ -11,8 +11,8 @@ class TestShareOption(object):
         pandas.set_option('display.width', 1000)
 
     def test_shareOption(self):
-        host = '172.18.6.144' #mac 172.18.6.144
-        port = 11111
+        host = '127.0.0.1' #mac 172.18.6.144
+        port = 21111
         quote_cxt = OpenQuoteContext(host,port)
         quote_cxt.start()
         handlers = [CurKlineTest(),OrderBookTest(),RTDataTest(),TickerTest(),StockQuoteTest()]
@@ -20,7 +20,7 @@ class TestShareOption(object):
             #设置监听
             print('set_handler',quote_cxt.set_handler(handler=h))
         # 订阅
-        print('subscribe',quote_cxt.subscribe(code_list=['US_OPTION.AAPL180921C215000','HK.00700'],
+        print('subscribe',quote_cxt.subscribe(code_list=['US.AAPL180921C215000','HK.00700'],
                                 subtype_list=[SubType.QUOTE, SubType.RT_DATA, SubType.ORDER_BOOK, SubType.TICKER,
                                               SubType.K_1M]))
 
@@ -122,6 +122,9 @@ class BrokerTest(BrokerHandlerBase):
         return RET_OK,ret_data
 
 def test1():
+    pandas.set_option('max_columns', 100)
+    pandas.set_option('display.width', 1000)
+
     host = '127.0.0.1' #mac 172.18.6.144
     port = 11111
     quote_cxt = OpenQuoteContext(host,port)
@@ -129,10 +132,11 @@ def test1():
     #设置监听
     print('set_handler',quote_cxt.set_handler(handler=CurKlineTest()))
     # 订阅
-    print('subscribe',quote_cxt.subscribe(code_list=['US_OPTION.AAPL180921C215000'],
+    print('subscribe',quote_cxt.subscribe(code_list=['US.AAPL180921C215000'],
                             subtype_list=[SubType.K_1M]))
 
 
 if __name__ == '__main__':
-    tso = TestShareOption()
-    tso.test_shareOption()
+    # tso = TestShareOption()
+    # tso.test_shareOption()
+    test1()

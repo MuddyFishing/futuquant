@@ -1,0 +1,8 @@
+2018-08-27 11:24:43,960 - INFO - TickerTest
+2018-08-27 11:24:43,960 - INFO - 0
+2018-08-27 11:24:43,960 - INFO -        code                 time  price  volume  turnover ticker_direction             sequence                  type
+0  HK.00700  2018-08-27 11:24:43  359.1     100   35910.0          NEUTRAL  6594236303716384769  INTER_NON_AUTO_MATCH
+2018-08-27 11:24:49,354 - INFO - TickerTest
+2018-08-27 11:24:49,354 - INFO - 0
+2018-08-27 11:24:49,355 - INFO -        code                 time  price  volume  turnover ticker_direction             sequence        type
+0  HK.00700  2018-08-27 11:24:46  359.4     100   35940.0              BUY  6594236316601286659  AUTO_MATCH

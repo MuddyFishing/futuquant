@@ -50,7 +50,7 @@ class PlaceOrder(object):
 
     def test_hk(self):
         host =  '127.0.0.1'
-        port = 11115      #ubuntu
+        port = 11113      #ubuntu
         trade = OpenHKTradeContext(host, port)
 
         ret_code_unlock_trade, ret_data_unlock_trade = trade.unlock_trade(password='123123')
@@ -71,7 +71,7 @@ class PlaceOrder(object):
 
     def test_us(self):
         host = '127.0.0.1'
-        port = 11112
+        port = 11113
         tradeus_ctx = OpenUSTradeContext(host,port)
         ret_code_unlock_trade, ret_data_unlock_trade = tradeus_ctx.unlock_trade(password='123123')
         print('unlock_trade  ret_code= %d, ret_data= %s' % (ret_code_unlock_trade, ret_data_unlock_trade))
@@ -82,7 +82,7 @@ class PlaceOrder(object):
         tradeus_ctx.set_handler(handler_tradeDealtrade)
         # 开启异步
         tradeus_ctx.start()
-        code = 'US_OPTION.AAPL180914P205000'  # US.AAPL180914C210000
+        code = 'US.AAPL180914P205000'  # US.AAPL180914C210000
         price = 1.2
         qty = 1000
         trd_side = TrdSide.BUY
@@ -96,7 +96,7 @@ class PlaceOrder(object):
 
     def test1(self):
         host = '127.0.0.1'
-        port = 11113
+        port = 11111
 
         trade_hk = OpenHKTradeContext(host, port)
         trade_us = OpenUSTradeContext(host, port)
@@ -115,20 +115,20 @@ class PlaceOrder(object):
         trade_us.start()
         trade_sh_m.start()
         #解锁
-        print(trade_hk.unlock_trade('321321'))
+        print(trade_hk.unlock_trade('123123'))
         #下单
-        print(trade_hk.place_order(price = 5.82, qty = 500, code = 'HK.01357', trd_side=TrdSide.BUY,
+        print('下单place_order\n',trade_hk.place_order(price = 5.82, qty = 500, code = 'HK.01357', trd_side=TrdSide.BUY,
                                   order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
         # price = 3.04, qty = 10, code = 'US.DDE'
         # price = 192, qty = 10, code = 'US.AAPL'
-        print(trade_us.place_order(price = 36.34, qty = 2, code = 'US.JD', trd_side=TrdSide.BUY,
-                                   order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
+        # print('place_order\n',trade_us.place_order(price = 36.34, qty = 2, code = 'US.JD', trd_side=TrdSide.BUY,
+        #                            order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
         # price = 9.62, qty = 200, code = 'SZ.002078'
         # price=10.2, qty=200, code='SH.601007'
-        print(trade_sh_m.place_order(price=9.16, qty=100, code='SZ.000001', trd_side=TrdSide.BUY,
-                                   order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
+        # print('place_order\n',trade_sh_m.place_order(price=9.16, qty=100, code='SZ.000001', trd_side=TrdSide.BUY,
+        #                            order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
     def test2(self):
         host = '127.0.0.1'
@@ -159,5 +159,5 @@ class PlaceOrder(object):
 
 if __name__ == '__main__':
     po = PlaceOrder()
-    po.test_us()
-    # po.test1()
+    # po.test_us()
+    po.test1()

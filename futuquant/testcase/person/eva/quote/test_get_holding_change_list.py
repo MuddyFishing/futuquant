@@ -12,15 +12,15 @@ class GetHoldChange(object):
 
     def test1(self):
         host = '127.0.0.1'
-        port=11111
+        port=11112
         quote_ctx = OpenQuoteContext(host,port)
-        print(quote_ctx.get_holding_change_list(code='US.DIS', holder_type=StockHolder.EXECUTIVE, start_date='2018-1-1', end_date='2018-8-30'))
+        print(quote_ctx.get_holding_change_list(code='US.DIS', holder_type=StockHolder.EXECUTIVE, start=None, end=None))
 
     def test2(self):
         host = '127.0.0.1'
         port = 11111
         quote_ctx = OpenQuoteContext(host, port)
-        ret_code,ret_data = quote_ctx.get_holding_change_list(code='US.AAPL', holder_type=StockHolder.EXECUTIVE, start_date='2017-01-01', end_date='2018-8-30')
+        ret_code,ret_data = quote_ctx.get_holding_change_list(code='US.AAPL', holder_type=StockHolder.EXECUTIVE, start='2017-01-01', end='2018-8-30')
         holding_qty_list = ret_data['holding_qty']
         # holding_ratio_list = ret_data['holding_ratio']
         change_qty_list = ret_data['change_qty']
