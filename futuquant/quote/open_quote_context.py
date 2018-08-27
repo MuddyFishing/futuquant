@@ -1022,22 +1022,22 @@ class OpenQuoteContext(OpenContextBase):
         if ret_code != RET_OK:
             return RET_ERROR, msg
 
-        for subtype in subtype_list:
-            if subtype not in self._ctx_subscribe:
-                self._ctx_subscribe[subtype] = set()
-            code_set = self._ctx_subscribe[subtype]
-            for code in code_list:
-                code_set.add(code)
-
-        ret_code, msg, push_req_str = SubscriptionQuery.pack_push_req(
-            code_list, subtype_list, self.get_async_conn_id(), is_first_push)
-
-        if ret_code != RET_OK:
-            return RET_ERROR, msg
-
-        ret_code, msg = self._send_async_req(push_req_str)
-        if ret_code != RET_OK:
-            return RET_ERROR, msg
+        # for subtype in subtype_list:
+        #     if subtype not in self._ctx_subscribe:
+        #         self._ctx_subscribe[subtype] = set()
+        #     code_set = self._ctx_subscribe[subtype]
+        #     for code in code_list:
+        #         code_set.add(code)
+        #
+        # ret_code, msg, push_req_str = SubscriptionQuery.pack_push_req(
+        #     code_list, subtype_list, self.get_async_conn_id(), is_first_push)
+        #
+        # if ret_code != RET_OK:
+        #     return RET_ERROR, msg
+        #
+        # ret_code, msg = self._send_async_req(push_req_str)
+        # if ret_code != RET_OK:
+        #     return RET_ERROR, msg
 
         return RET_OK, None
 

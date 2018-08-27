@@ -831,7 +831,7 @@ class SubscriptionQuery:
         pass
 
     @classmethod
-    def pack_sub_or_unsub_req(cls, code_list, subtype_list, is_sub, conn_id, is_first_push):
+    def pack_sub_or_unsub_req(cls, code_list, subtype_list, is_sub, conn_id, is_first_push, reg_or_unreg_push):
 
         stock_tuple_list = []
         for code in code_list:
@@ -851,12 +851,13 @@ class SubscriptionQuery:
             req.c2s.subTypeList.append(SUBTYPE_MAP[subtype])
         req.c2s.isSubOrUnSub = is_sub
         req.c2s.isFirstPush = is_first_push
+        req.c2s.isRegOrUnRegPush = reg_or_unreg_push
 
         return pack_pb_req(req, ProtoId.Qot_Sub, conn_id)
 
     @classmethod
     def pack_subscribe_req(cls, code_list, subtype_list, conn_id, is_first_push):
-        return SubscriptionQuery.pack_sub_or_unsub_req(code_list, subtype_list, True, conn_id, is_first_push)
+        return SubscriptionQuery.pack_sub_or_unsub_req(code_list, subtype_list, True, conn_id, is_first_push, True)
 
     @classmethod
     def unpack_subscribe_rsp(cls, rsp_pb):
@@ -869,7 +870,7 @@ class SubscriptionQuery:
     @classmethod
     def pack_unsubscribe_req(cls, code_list, subtype_list, conn_id):
 
-        return SubscriptionQuery.pack_sub_or_unsub_req(code_list, subtype_list, False, conn_id, False)
+        return SubscriptionQuery.pack_sub_or_unsub_req(code_list, subtype_list, False, conn_id, False, False)
 
     @classmethod
     def unpack_unsubscribe_rsp(cls, rsp_pb):
