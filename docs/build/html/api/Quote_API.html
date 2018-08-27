@@ -158,10 +158,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#id8">接口入参限制</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id9">接口限频</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id10">低频数据接口</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id12">高频数据接口</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id14">OpenAPI用户等级权限</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">接口限频</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id11">低频数据接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">高频数据接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">OpenAPI用户等级权限</a></li>
 </ul>
 </li>
 </ul>
@@ -487,7 +487,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-odd"><td>stock_owner</td>
 <td>str</td>
-<td>正股代码</td>
+<td>所属正股的代码</td>
 </tr>
 <tr class="row-even"><td>option_type</td>
 <td>str</td>
@@ -508,6 +508,14 @@ start和end的组合如下：</p>
 <tr class="row-even"><td>market</td>
 <td>str</td>
 <td>发行市场名字</td>
+</tr>
+<tr class="row-odd"><td>listing_date</td>
+<td>str</td>
+<td>上市时间</td>
+</tr>
+<tr class="row-even"><td>stock_id</td>
+<td>int</td>
+<td>股票id</td>
 </tr>
 </tbody>
 </table>
@@ -822,13 +830,17 @@ start和end的组合如下：</p>
 <li><strong>autype</strong> &#8211; 复权类型, 参见 <a class="reference external" href="Base_API.html#autype-k">AuType</a> 定义</li>
 <li><strong>fields</strong> &#8211; 需返回的字段列表，参见 <a class="reference external" href="Base_API.html#kl-field-k">KL_FIELD</a> 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....</li>
 <li><strong>max_count</strong> &#8211; 本次请求最大返回的数据点个数，传None表示返回start和end之间所有的数据。</li>
-<li><strong>page_req_key</strong> &#8211; 分页请求的key。如果start和end之间的数据点多于max_count，那么后续请求时，要传入上次调用返回的page_req_key</li>
+<li><strong>page_req_key</strong> &#8211; 分页请求的key。如果start和end之间的数据点多于max_count，那么后续请求时，要传入上次调用返回的page_req_key。初始请求时应该传None。</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>(ret, data, page_req_key)</p>
 <blockquote>
-<div><p>ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下。page_req_key在分页请求时（即max_count&gt;0）可能返回，并且需要在后续的请求中传入。</p>
+<div><dl class="docutils">
+<dt>ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下。page_req_key在分页请求时（即max_count&gt;0）</dt>
+<dd><p class="first last">可能返回，并且需要在后续的请求中传入。如果没有更多数据，page_req_key返回None。</p>
+</dd>
+</dl>
 <p>ret != RET_OK 返回错误字符串</p>
 </div></blockquote>
 <table border="1" class="docutils">
@@ -902,9 +914,9 @@ start和end的组合如下：</p>
 </tbody>
 </table>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="n">ret</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">page_req_key</span> <span class="o">=</span> <span class="n">quote_ctx</span><span class="o">.</span><span class="n">request_history_kline</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s1">&#39;2017-06-20&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;2018-06-22&#39;</span><span class="p">,</span> <span class="n">max_count</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">ret</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">page_req_key</span> <span class="o">=</span> <span class="n">quote_ctx</span><span class="o">.</span><span class="n">request_history_kline</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s1">&#39;2017-06-20&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;2018-06-22&#39;</span><span class="p">,</span> <span class="n">max_count</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span> <span class="c1">#请求开头50个数据</span>
 <span class="k">print</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="n">ret</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">page_req_key</span> <span class="o">=</span> <span class="n">quote_ctx</span><span class="o">.</span><span class="n">request_history_kline</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s1">&#39;2017-06-20&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;2018-06-22&#39;</span><span class="p">,</span> <span class="n">max_count</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">page_req_key</span><span class="o">=</span><span class="n">page_req_key</span><span class="p">)</span>
+<span class="n">ret</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">page_req_key</span> <span class="o">=</span> <span class="n">quote_ctx</span><span class="o">.</span><span class="n">request_history_kline</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s1">&#39;2017-06-20&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;2018-06-22&#39;</span><span class="p">,</span> <span class="n">max_count</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">page_req_key</span><span class="o">=</span><span class="n">page_req_key</span><span class="p">)</span> <span class="c1">#请求下50个数据</span>
 <span class="k">print</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -1147,7 +1159,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-odd"><td>stock_owner</td>
 <td>str</td>
-<td>所属正股</td>
+<td>所属正股的代码</td>
 </tr>
 <tr class="row-even"><td>wrt_valid</td>
 <td>bool</td>
@@ -3055,7 +3067,8 @@ start和end的组合如下：</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rsp_pb</strong> &#8211; 派生类中不需要直接处理该参数</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">参见get_broker_queue的返回值</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">成功时返回(RET_OK, stock_code, [bid_frame_table, ask_frame_table]), 相关frame table含义见 <a class="reference internal" href="#get_broker_queue">get_broker_queue</a> 的返回值说明<p>失败时返回(RET_ERROR, ERR_MSG, None)</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -3070,8 +3083,8 @@ start和end的组合如下：</p>
 <blockquote>
 <div><table border="1" class="docutils">
 <colgroup>
-<col width="46%" />
-<col width="54%" />
+<col width="37%" />
+<col width="63%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">接口名称</th>
@@ -3080,7 +3093,7 @@ start和end的组合如下：</p>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>get_market_snapshot</td>
-<td>传入股票最多200个</td>
+<td>参考 <a class="reference external" href="Quote_API.html#id12">OpenAPI用户等级权限</a></td>
 </tr>
 <tr class="row-odd"><td>get_rt_ticker</td>
 <td>可获取逐笔最多最近1000个</td>
@@ -3099,10 +3112,10 @@ start和end的组合如下：</p>
 </div></blockquote>
 </div>
 <hr class="docutils" />
-<div class="section" id="id9">
-<h2>接口限频<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id10">
-<h3>低频数据接口<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<h2>接口限频<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h3>低频数据接口<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <p>低频数据接口是指不需要定阅就可以请求数据的接口， api的请求到达网关客户端后， 会转发请求到futu后台服务器，为控制流量，会对请求频率加以控制，
 目前的频率限制是以连续30秒内，限制请求次数，具体那些接口有限制以及限制次数如下:</p>
 <blockquote>
@@ -3135,13 +3148,16 @@ start和end的组合如下：</p>
 <tr class="row-odd"><td>get_owner_plate</td>
 <td>10</td>
 </tr>
+<tr class="row-even"><td>request_history_kline</td>
+<td>10</td>
+</tr>
 </tbody>
 </table>
 </div></blockquote>
 </div>
 <hr class="docutils" />
-<div class="section" id="id12">
-<h3>高频数据接口<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>高频数据接口<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <p>为控制订阅产生推送数据流量，股票订阅总量有额度控制，规则如下:</p>
 <p>1.使用高频数据接口前，需要订阅（调用subscribe），订阅有额度限制：</p>
 <blockquote>
@@ -3155,8 +3171,8 @@ start和end的组合如下：</p>
 </ul>
 </div>
 </div>
-<div class="section" id="id14">
-<h3>OpenAPI用户等级权限<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h3>OpenAPI用户等级权限<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p>用户净资产大于10000港币为二级用户，小于10000港币为三级用户。一级用户需要与富途联系获取。</p>
 <table border="1" class="docutils">

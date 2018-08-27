@@ -723,7 +723,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>modify_order_op</strong> &#8211; str，改单操作类型，参考 <a href="#id12"><span class="problematic" id="id13">ModifyOrderOp_</span></a> 类的定义，有</li>
+<li><strong>modify_order_op</strong> &#8211; str，改单操作类型，参考 <a class="reference external" href="Base_API.html#ModifyOrderOp">ModifyOrderOp</a> 类的定义，有</li>
 <li><strong>order_id</strong> &#8211; str，订单号</li>
 <li><strong>qty</strong> &#8211; float，(改单有效)新的订单数量，2位精度，期权单位是&#8221;张&#8221;</li>
 <li><strong>price</strong> &#8211; float，(改单有效)新的订单价格，3位精度(A股2位)</li>
@@ -1039,6 +1039,41 @@
 </table>
 </dd></dl>
 
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="8%" />
+<col width="74%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">参数</th>
+<th class="head">类型</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>max_cash_buy</td>
+<td>float</td>
+<td>不使用融资，仅自己的现金最大可买整手股数</td>
+</tr>
+<tr class="row-odd"><td>max_cash_and_margin_buy</td>
+<td>float</td>
+<td>使用融资，自己的现金 + 融资资金总共的最大可买整手股数</td>
+</tr>
+<tr class="row-even"><td>max_position_sell</td>
+<td>float</td>
+<td>不使用融券(卖空)，仅自己的持仓最大可卖整手股数</td>
+</tr>
+<tr class="row-odd"><td>max_sell_short</td>
+<td>float</td>
+<td>使用融券(卖空)，最大可卖空整手股数，不包括多仓</td>
+</tr>
+<tr class="row-even"><td>max_buy_back</td>
+<td>float</td>
+<td>卖空后，需要买回的最大整手股数。因为卖空后，必须先买回已卖空的股数，还掉股票，才能再继续买多。</td>
+</tr>
+</tbody>
+</table>
 <blockquote>
 <div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
