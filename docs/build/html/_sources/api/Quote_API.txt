@@ -957,7 +957,7 @@ get_order_book
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.subscribe(['HK.00700'], [SubType.ORDER_BOOK])
+    quote_ctx.subscribe(['HK.00700'], [SubType.ORDER_BOOK])
     print(quote_ctx.get_order_book('HK.00700'))
     quote_ctx.close()
 
@@ -1192,25 +1192,26 @@ StockQuoteHandlerBase - 实时报价回调处理类
 
 .. code:: python
     
-	import time
-	from futuquant import *
+    import time
+    from futuquant import *
 	
-	class StockQuoteTest(StockQuoteHandlerBase):
-		def on_recv_rsp(self, rsp_str):
-			ret_code, data = super(StockQuoteTest,self).on_recv_rsp(rsp_str)
-			if ret_code != RET_OK:
-				print("StockQuoteTest: error, msg: %s" % data)
-				return RET_ERROR, data
+    class StockQuoteTest(StockQuoteHandlerBase):
+        def on_recv_rsp(self, rsp_str):
+            ret_code, data = super(StockQuoteTest,self).on_recv_rsp(rsp_str)
+            if ret_code != RET_OK:
+                print("StockQuoteTest: error, msg: %s" % data)
+                return RET_ERROR, data
 
-			print("StockQuoteTest ", data) # StockQuoteTest自己的处理逻辑
+            print("StockQuoteTest ", data) # StockQuoteTest自己的处理逻辑
 
-			return RET_OK, data
+            return RET_OK, data
 			
-	quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	handler = StockQuoteTest()
-	quote_ctx.set_handler(handler)
-	time.sleep(15)  
-	quote_ctx.close()	
+    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+    handler = StockQuoteTest()
+    quote_ctx.set_handler(handler)
+    quote_ctx.subscribe(['HK.00700'], [SubType.QUOTE])
+    time.sleep(15)  
+    quote_ctx.close()	
                 
 -------------------------------------------
 
@@ -1224,7 +1225,7 @@ on_recv_rsp
  注意该回调是在独立子线程中
 
  :param rsp_pb: 派生类中不需要直接处理该参数
- :return: 参见get_stock_quote的返回值
+ :return: 参见 get_stock_quote_ 的返回值
     
 ----------------------------
 
@@ -1235,25 +1236,26 @@ OrderBookHandlerBase - 实时摆盘回调处理类
 
 .. code:: python
     
-	import time
-	from futuquant import *
+    import time
+    from futuquant import *
 	
-	class OrderBookTest(OrderBookHandlerBase):
-		def on_recv_rsp(self, rsp_str):
-			ret_code, data = super(OrderBookTest,self).on_recv_rsp(rsp_str)
-			if ret_code != RET_OK:
-				print("OrderBookTest: error, msg: %s" % data)
-				return RET_ERROR, data
+    class OrderBookTest(OrderBookHandlerBase):
+        def on_recv_rsp(self, rsp_str):
+            ret_code, data = super(OrderBookTest,self).on_recv_rsp(rsp_str)
+            if ret_code != RET_OK:
+                print("OrderBookTest: error, msg: %s" % data)
+                return RET_ERROR, data
 
-			print("OrderBookTest ", data) # OrderBookTest自己的处理逻辑
+            print("OrderBookTest ", data) # OrderBookTest自己的处理逻辑
 
-			return RET_OK, data
+            return RET_OK, data
 			
-	quote_ctx = OpenQuoteContex(host='127.0.0.1', port=11111)
-	handler = OrderBookTest()
-	quote_ctx.set_handler(handler)
-	time.sleep(15)  
-	quote_ctx.close()
+    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+    handler = OrderBookTest()
+    quote_ctx.set_handler(handler)
+    quote_ctx.subscribe(['HK.00700'], [SubType.ORDER_BOOK])
+    time.sleep(15)  
+    quote_ctx.close()
             
 -------------------------------------------
 
@@ -1268,7 +1270,7 @@ on_recv_rsp
  注意该回调是在独立子线程中
 
  :param rsp_pb: 派生类中不需要直接处理该参数
- :return: 参见get_order_book的返回值
+ :return: 参见 get_order_book_ 的返回值
     
 ----------------------------
 
@@ -1279,25 +1281,26 @@ CurKlineHandlerBase - 实时k线推送回调处理类
 
 .. code:: python
 
-	import time
-	from futuquant import *
+    import time
+    from futuquant import *
 
-	class CurKlineTest(CurKlineHandlerBase):
-		def on_recv_rsp(self, rsp_str):
-			ret_code, data = super(CurKlineTest,self).on_recv_rsp(rsp_str)
-			if ret_code != RET_OK:
-				print("CurKlineTest: error, msg: %s" % data)
-				return RET_ERROR, data
+    class CurKlineTest(CurKlineHandlerBase):
+        def on_recv_rsp(self, rsp_str):
+            ret_code, data = super(CurKlineTest,self).on_recv_rsp(rsp_str)
+            if ret_code != RET_OK:
+                print("CurKlineTest: error, msg: %s" % data)
+                return RET_ERROR, data
 
-			print("CurKlineTest ", data) # CurKlineTest自己的处理逻辑
+            print("CurKlineTest ", data) # CurKlineTest自己的处理逻辑
 
-			return RET_OK, data
+            return RET_OK, data
 
-	quote_ctx = OpenQuoteContex(host='127.0.0.1', port=11111)
-	handler = CurKlineTest()
-	quote_ctx.set_handler(handler)
-	time.sleep(15)  
-	quote_ctx.close()			
+    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+    handler = CurKlineTest()
+    quote_ctx.set_handler(handler)
+    quote_ctx.subscribe(['HK.00700'], [SubType.K_1M])
+    time.sleep(15)  
+    quote_ctx.close()			
 
 -------------------------------------------
 
@@ -1312,7 +1315,7 @@ on_recv_rsp
  注意该回调是在独立子线程中
 
  :param rsp_pb: 派生类中不需要直接处理该参数
- :return: 参见get_cur_kline的返回值
+ :return: 参见 get_cur_kline_ 的返回值
     
 ----------------------------
 
@@ -1337,9 +1340,10 @@ TickerHandlerBase - 实时逐笔推送回调处理类
 
 			return RET_OK, data
                 
-	quote_ctx = OpenQuoteContex(host='127.0.0.1', port=11111)
+	quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
 	handler = TickerTest()
 	quote_ctx.set_handler(handler)
+	quote_ctx.subscribe(['HK.00700'], [SubType.TICKER])
 	time.sleep(15)  
 	quote_ctx.close()
 
@@ -1356,7 +1360,7 @@ on_recv_rsp
  注意该回调是在独立子线程中
 
  :param rsp_pb: 派生类中不需要直接处理该参数
- :return: 参见get_rt_ticker的返回值
+ :return: 参见 get_rt_ticker_ 的返回值
 
 ----------------------------
 
@@ -1381,9 +1385,10 @@ RTDataHandlerBase - 实时分时推送回调处理类
 
 			return RET_OK, data
                 
-	quote_ctx = OpenQuoteContex(host='127.0.0.1', port=11111)
+	quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
 	handler = RTDataTest()
 	quote_ctx.set_handler(handler)
+	quote_ctx.subscribe(['HK.00700'], [SubType.RT_DATA])
 	time.sleep(15)  
 	quote_ctx.close()
 	
@@ -1400,7 +1405,7 @@ on_recv_rsp
  注意该回调是在独立子线程中
 
  :param rsp_pb: 派生类中不需要直接处理该参数
- :return: 参见get_rt_data的返回值
+ :return: 参见 get_rt_data_ 的返回值
 
 ----------------------------
 
@@ -1411,25 +1416,24 @@ BrokerHandlerBase - 实时经纪推送回调处理类
 
 .. code:: python
     
-	import time
-	from futuquant import *
-	
 	class BrokerTest(BrokerHandlerBase):
-		def on_recv_rsp(self, rsp_str):
-			ret_code, data = super(BrokerTest,self).on_recv_rsp(rsp_str)
-			if ret_code != RET_OK:
-				print("BrokerTest: error, msg: %s" % data)
-				return RET_ERROR, data
+        def on_recv_rsp(self, rsp_str):
+            ret_code, err_or_stock_code, data = super(BrokerTest, self).on_recv_rsp(rsp_str)
+            if ret_code != RET_OK:
+                print("BrokerTest: error, msg: {}".format(err_or_stock_code))
+                return RET_ERROR, data
 
-			print("BrokerTest ", data) # BrokerTest自己的处理逻辑
+            print("BrokerTest: stock: {} data: {} ".format(err_or_stock_code, data))  # BrokerTest自己的处理逻辑
 
-			return RET_OK, data
-                
-	quote_ctx = OpenQuoteContex(host='127.0.0.1', port=11111)
-	handler = BrokerTest()
-	quote_ctx.set_handler(handler)
-	time.sleep(15)  
-	quote_ctx.close()
+            return RET_OK, data
+
+
+    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+    handler = BrokerTest()
+    quote_ctx.set_handler(handler)
+    quote_ctx.subscribe(['HK.00700'], [SubType.BROKER])
+    time.sleep(15)
+    quote_ctx.close()
 	
 -------------------------------------------
 
