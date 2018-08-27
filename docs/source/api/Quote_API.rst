@@ -778,7 +778,7 @@ get_global_state
 		trd_logined             str            '1'：已登录交易服务器，'0': 未登录交易服务器
 		qot_logined             str            '1'：已登录行情服务器，'0': 未登录行情服务器
 		timestamp               str            当前格林威治时间戳(秒）
-		local_timestamp         float         FutuOpenD运行机器的当前时间戳(毫秒)
+		local_timestamp         float          FutuOpenD运行机器的当前时间戳(秒)
 		=====================   ===========   ==============================================================
  
  :example:
