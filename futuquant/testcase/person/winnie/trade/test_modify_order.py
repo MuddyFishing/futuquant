@@ -1,6 +1,6 @@
 # -*-coding:utf-8-*-
 from futuquant.trade.open_trade_context import *
-from futuquant.testcase.winnie.Handler import *
+from futuquant.testcase.person.winnie.trade.Handler import *
 import pandas
 
 
@@ -17,7 +17,7 @@ class ModifyOrder(object):
         # 1改单，修改数量
         ret_code, ret_data = trd_ctx.modify_order(modify_order_op=ModifyOrderOp.NORMAL,
                                                   order_id=3610190749957526613, qty=2000, price=2.2,
-                                                  trd_env=TrdEnv.SIMULATE,)
+                                                  trd_env=TrdEnv.SIMULATE)
         print('改单：', ret_data)
         # 2改单，修改价格
 
@@ -36,7 +36,18 @@ class ModifyOrder(object):
         ret_code, ret_data = trd_ctx.order_list_query(trd_env=TrdEnv.SIMULATE, acc_id=0)
         print(ret_data)
 
+    def test_us(self):
+        trd_us = OpenUSTradeContext(host='127.0.0.1', port=11112)
+        trd_us.unlock_trade('123123')
+        ret_code, ret_data = trd_us.order_list_query(trd_env=TrdEnv.REAL, acc_id=0)
+        print(ret_data)
+        ret_code, ret_data = trd_us.modify_order(modify_order_op=ModifyOrderOp.CANCEL, order_id=1355707863574253342, qty=3,
+                                                 price=10, trd_env=TrdEnv.REAL)
+        print(ret_data)
+        ret_code, ret_data = trd_us.order_list_query(trd_env=TrdEnv.REAL, acc_id=0)
+        print(ret_data)
+
 
 if __name__ == '__main__':
     mo = ModifyOrder()
-    mo.test_hk()
+    mo.test_us()

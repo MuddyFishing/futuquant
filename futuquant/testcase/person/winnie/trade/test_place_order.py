@@ -141,7 +141,7 @@ class PlaceOrder(object):
 
     def test_us_option(self):
         pwd_unlock = '123123'
-        trd_ctx = OpenUSTradeContext(host='127.0.0.1', port=11111)
+        trd_ctx = OpenUSTradeContext(host='127.0.0.1', port=11112)
         trd_ctx.unlock_trade(pwd_unlock)
         # 设置监听
         handler_tradeOrder = TradeOrderTest()
@@ -151,15 +151,15 @@ class PlaceOrder(object):
         # 开启异步
         trd_ctx.start()
 
-        ret_code, ret_data = trd_ctx.place_order(price=6.1,
-                                                 qty=1,
-                                                 code='US.AAPL180914C207500',
+        ret_code, ret_data = trd_ctx.place_order(price=2,
+                                                 qty=2,
+                                                 code='US.AAPL',
                                                  trd_side=TrdSide.BUY,
                                                  order_type=OrderType.NORMAL,
                                                  adjust_limit=0,
-                                                 trd_env=TrdEnv.REAL,
+                                                 trd_env=TrdEnv.SIMULATE,
                                                  acc_id=0)
-        print(ret_data)
+        # print(ret_data)
         # ret_code, ret_data = trd_ctx.order_list_query(trd_env=TrdEnv.REAL,
         #                                               acc_id=0)
         # print(ret_data)

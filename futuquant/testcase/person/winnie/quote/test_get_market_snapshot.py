@@ -14,7 +14,7 @@ def test_get_market_snapshot():
     # print(ret_data['code'])
     code_list=['HK.00700', 'HK.00066', 'US.AAPL', 'SZ.000700']
     # code_list = ['HK.999010', 'HK.22170', 'US.AAPL180921P235000', 'US.AAPL180921C135000']  # 'US_OPTION.AAPL180921C225000'
-    print(quote_ctx.get_market_snapshot(code_list))
+    print(quote_ctx.get_market_snapshot(['HK_FUTURE.999010', 'HK_FUTURE.999011']))
 
 
 if __name__ == '__main__':
