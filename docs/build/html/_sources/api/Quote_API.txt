@@ -397,7 +397,7 @@ get_market_snapshot
 
 获取市场快照
 
- :param code_list: 股票列表，股票个数限制参考 `OpenAPI用户等级权限 <Quote_API.html#id12>`_
+ :param code_list: 股票列表，股票个数限制参考 `OpenAPI用户等级权限 <Quote_API.html#id15>`_
  :return: (ret, data)
 
         ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
@@ -1459,7 +1459,7 @@ on_recv_rsp
  ===============================        =====================================================
  接口名称                               入参限制
  ===============================        =====================================================
- get_market_snapshot                    参考 `OpenAPI用户等级权限 <Quote_API.html#id12>`_
+ get_market_snapshot                    参考 `OpenAPI用户等级权限 <Quote_API.html#id15>`_
  get_rt_ticker				            可获取逐笔最多最近1000个
  get_cur_kline				            可获取K线最多最近1000根
  get_multi_points_history_kline         时间点最多5个
@@ -1480,7 +1480,7 @@ on_recv_rsp
  ==========================        ==================================================
  接口名称                          连续30秒内次数限制
  ==========================        ==================================================
- get_market_snapshot               参考 `OpenAPI用户等级权限 <Quote_API.html#id12>`_
+ get_market_snapshot               参考 `OpenAPI用户等级权限 <Quote_API.html#id15>`_
  get_plate_list                    10
  get_plate_stock                   10
  get_option_chain                  10
@@ -1500,7 +1500,7 @@ on_recv_rsp
 
  用户额度 >= 订阅K线股票数 * K线权重 + 订阅逐笔股票数 * 逐笔权重 + 订阅报价股票数 * 报价权重 + 订阅摆盘股票数 * 摆盘权重
  
-2.目前所有订阅类型占用额度均为1，用户总额度与用户等级相关，参考 `OpenAPI用户等级权限 <Quote_API.html#id12>`_。
+2.目前所有订阅类型占用额度均为1，用户总额度与用户等级相关，参考 `OpenAPI用户等级权限 <Quote_API.html#id15>`_。
 
 3.订阅至少一分钟才可以反订阅
 
