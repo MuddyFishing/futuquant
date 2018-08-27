@@ -661,7 +661,7 @@ get_broker_queue
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.subscribe(['HK.00700'], [SubType.BROKER])
+    quote_ctx.subscribe(['HK.00700'], [SubType.BROKER])
     print(quote_ctx.get_broker_queue('HK.00700'))
     quote_ctx.close()
 		
@@ -778,7 +778,7 @@ get_global_state
 		trd_logined             str            '1'：已登录交易服务器，'0': 未登录交易服务器
 		qot_logined             str            '1'：已登录行情服务器，'0': 未登录行情服务器
 		timestamp               str            当前格林威治时间戳(秒）
-		local_timestamp         float         FutuOpenD运行机器的当前时间戳(毫秒)
+		local_timestamp         float          FutuOpenD运行机器的当前时间戳(秒)
 		=====================   ===========   ==============================================================
  
  :example:
@@ -1406,8 +1406,6 @@ on_recv_rsp
 
 BrokerHandlerBase - 实时经纪推送回调处理类
 -------------------------------------------
-
-异步处理推送的分时数据。
 
 异步处理推送的经纪数据。
 

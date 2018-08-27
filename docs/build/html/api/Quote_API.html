@@ -1710,7 +1710,7 @@ start和end的组合如下：</p>
 </table>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-    <span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribe</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">BROKER</span><span class="p">])</span>
+<span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribe</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">BROKER</span><span class="p">])</span>
 <span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_broker_queue</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -1899,7 +1899,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-odd"><td>local_timestamp</td>
 <td>float</td>
-<td>FutuOpenD运行机器的当前时间戳(毫秒)</td>
+<td>FutuOpenD运行机器的当前时间戳(秒)</td>
 </tr>
 </tbody>
 </table>
@@ -3030,7 +3030,6 @@ start和end的组合如下：</p>
 <hr class="docutils" />
 <div class="section" id="brokerhandlerbase">
 <h3>BrokerHandlerBase - 实时经纪推送回调处理类<a class="headerlink" href="#brokerhandlerbase" title="Permalink to this headline">¶</a></h3>
-<p>异步处理推送的分时数据。</p>
 <p>异步处理推送的经纪数据。</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
