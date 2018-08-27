@@ -445,7 +445,7 @@ start和end的组合如下：</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>market</strong> &#8211; 市场类型 <a class="reference external" href="Base_API.html#market">Market</a></li>
-<li><strong>stock_type</strong> &#8211; 股票类型 <a class="reference external" href="Base_API.html#securitytype">SecurityType</a></li>
+<li><strong>stock_type</strong> &#8211; 股票类型，该参数不支持SecurityType.DRVT <a class="reference external" href="Base_API.html#securitytype">SecurityType</a></li>
 <li><strong>code_list</strong> &#8211; 如果不为None，应该是股票code的iterable类型，将只返回指定的股票信息</li>
 </ul>
 </td>
@@ -485,17 +485,17 @@ start和end的组合如下：</p>
 <td>str</td>
 <td>窝轮子类型，参见 <a class="reference external" href="Base_API.html#wrttype">WrtType</a></td>
 </tr>
-<tr class="row-odd"><td>option_type</td>
+<tr class="row-odd"><td>stock_owner</td>
+<td>str</td>
+<td>正股代码</td>
+</tr>
+<tr class="row-even"><td>option_type</td>
 <td>str</td>
 <td>期权类型，查看 <a class="reference external" href="Base_API.html#optiontype">OptionType</a></td>
 </tr>
-<tr class="row-even"><td>owner</td>
+<tr class="row-odd"><td>strike_time</td>
 <td>str</td>
-<td>标的股</td>
-</tr>
-<tr class="row-odd"><td>strike_ime</td>
-<td>str</td>
-<td>行权日</td>
+<td>行权日（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-even"><td>strike_price</td>
 <td>float</td>
@@ -521,7 +521,7 @@ start和end的组合如下：</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_stock_basicinfo</span><span class="p">(</span><span class="n">Market</span><span class="o">.</span><span class="n">HK</span><span class="p">,</span> <span class="n">SecurityType</span><span class="o">.</span><span class="n">WARRANT</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_stock_basicinfo</span><span class="p">(</span><span class="n">Market</span><span class="o">.</span><span class="n">US</span><span class="p">,</span> <span class="n">SecurityType</span><span class="o">.</span><span class="n">DRVT</span><span class="p">,</span> <span class="s1">&#39;US_OPTION.AAPL180817C20000&#39;</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_stock_basicinfo</span><span class="p">(</span><span class="n">Market</span><span class="o">.</span><span class="n">US</span><span class="p">,</span> <span class="n">SecurityType</span><span class="o">.</span><span class="n">DRVT</span><span class="p">,</span> <span class="s1">&#39;US.AAPL180817C20000&#39;</span><span class="p">))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -567,7 +567,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-odd"><td>time_key</td>
 <td>str</td>
-<td>k线时间</td>
+<td>k线时间（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-even"><td>open</td>
 <td>float</td>
@@ -587,7 +587,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-even"><td>pe_ratio</td>
 <td>float</td>
-<td>市盈率</td>
+<td>市盈率（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-odd"><td>turnover_rate</td>
 <td>float</td>
@@ -709,7 +709,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-odd"><td>time_key</td>
 <td>str</td>
-<td>k线时间</td>
+<td>k线时间（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-even"><td>open</td>
 <td>float</td>
@@ -729,7 +729,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-even"><td>pe_ratio</td>
 <td>float</td>
-<td>市盈率</td>
+<td>市盈率（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-odd"><td>turnover_rate</td>
 <td>float</td>
@@ -850,7 +850,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-odd"><td>time_key</td>
 <td>str</td>
-<td>k线时间</td>
+<td>k线时间（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-even"><td>open</td>
 <td>float</td>
@@ -870,7 +870,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-even"><td>pe_ratio</td>
 <td>float</td>
-<td>市盈率</td>
+<td>市盈率（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-odd"><td>turnover_rate</td>
 <td>float</td>
@@ -928,9 +928,9 @@ start和end的组合如下：</p>
 <p>ret != RET_OK 返回错误字符串</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="22%" />
-<col width="11%" />
-<col width="67%" />
+<col width="18%" />
+<col width="9%" />
+<col width="73%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">参数</th>
@@ -949,7 +949,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-even"><td>split_ratio</td>
 <td>float</td>
-<td>拆合股比例； float，例如，对于5股合1股为1/5，对于1股拆5股为5/1</td>
+<td>拆合股比例（该字段为比例字段，默认不展示%），例如，对于5股合1股为1/5，对于1股拆5股为5/1</td>
 </tr>
 <tr class="row-odd"><td>per_cash_div</td>
 <td>float</td>
@@ -957,15 +957,15 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-even"><td>per_share_div_ratio</td>
 <td>float</td>
-<td>每股送股比例</td>
+<td>每股送股比例（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-odd"><td>per_share_trans_ratio</td>
 <td>float</td>
-<td>每股转增股比例</td>
+<td>每股转增股比例（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-even"><td>allotment_ratio</td>
 <td>float</td>
-<td>每股配股比例</td>
+<td>每股配股比例（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-odd"><td>allotment_price</td>
 <td>float</td>
@@ -973,7 +973,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-even"><td>stk_spo_ratio</td>
 <td>float</td>
-<td>增发比例</td>
+<td>增发比例（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-odd"><td>stk_spo_price</td>
 <td>float</td>
@@ -1034,9 +1034,9 @@ start和end的组合如下：</p>
 <p>ret != RET_OK 返回错误字符串</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="27%" />
-<col width="13%" />
-<col width="60%" />
+<col width="24%" />
+<col width="11%" />
+<col width="64%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">参数</th>
@@ -1051,7 +1051,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-odd"><td>update_time</td>
 <td>str</td>
-<td>更新时间(yyyy-MM-dd HH:mm:ss)</td>
+<td>更新时间(yyyy-MM-dd HH:mm:ss)（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-even"><td>last_price</td>
 <td>float</td>
@@ -1131,137 +1131,141 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-odd"><td>ey_ratio</td>
 <td>float</td>
-<td>收益率</td>
+<td>收益率（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-even"><td>pe_ratio</td>
 <td>float</td>
-<td>市盈率</td>
+<td>市盈率（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-odd"><td>pb_ratio</td>
 <td>float</td>
-<td>市净率</td>
+<td>市净率（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-even"><td>pe_ttm_ratio</td>
 <td>float</td>
-<td>市盈率TTM</td>
+<td>市盈率TTM（该字段为比例字段，默认不展示%）</td>
 </tr>
-<tr class="row-odd"><td>wrt_valid</td>
+<tr class="row-odd"><td>stock_owner</td>
+<td>str</td>
+<td>所属正股</td>
+</tr>
+<tr class="row-even"><td>wrt_valid</td>
 <td>bool</td>
 <td>是否是窝轮（为true时以下涡轮相关的字段才有合法数据）</td>
 </tr>
-<tr class="row-even"><td>wrt_conversion_ratio</td>
+<tr class="row-odd"><td>wrt_conversion_ratio</td>
 <td>float</td>
-<td>换股比率</td>
+<td>换股比率（该字段为比例字段，默认不展示%）</td>
 </tr>
-<tr class="row-odd"><td>wrt_type</td>
+<tr class="row-even"><td>wrt_type</td>
 <td>str</td>
 <td>窝轮类型，参见WrtType</td>
 </tr>
-<tr class="row-even"><td>wrt_strike_price</td>
+<tr class="row-odd"><td>wrt_strike_price</td>
 <td>float</td>
 <td>行使价格</td>
 </tr>
-<tr class="row-odd"><td>wrt_maturity_date</td>
+<tr class="row-even"><td>wrt_maturity_date</td>
 <td>str</td>
 <td>格式化窝轮到期时间</td>
 </tr>
-<tr class="row-even"><td>wrt_end_trade</td>
+<tr class="row-odd"><td>wrt_end_trade</td>
 <td>str</td>
 <td>格式化窝轮最后交易时间</td>
 </tr>
-<tr class="row-odd"><td>wrt_code</td>
+<tr class="row-even"><td>wrt_code</td>
 <td>str</td>
-<td>窝轮对应的正股</td>
+<td>窝轮对应的正股（此字段已废除,修改为stock_owner）</td>
 </tr>
-<tr class="row-even"><td>wrt_recovery_price</td>
+<tr class="row-odd"><td>wrt_recovery_price</td>
 <td>float</td>
 <td>窝轮回收价</td>
 </tr>
-<tr class="row-odd"><td>wrt_street_vol</td>
+<tr class="row-even"><td>wrt_street_vol</td>
 <td>float</td>
 <td>窝轮街货量</td>
 </tr>
-<tr class="row-even"><td>wrt_issue_vol</td>
+<tr class="row-odd"><td>wrt_issue_vol</td>
 <td>float</td>
 <td>窝轮发行量</td>
 </tr>
-<tr class="row-odd"><td>wrt_street_ratio</td>
+<tr class="row-even"><td>wrt_street_ratio</td>
 <td>float</td>
-<td>窝轮街货占比</td>
+<td>窝轮街货占比（该字段为比例字段，默认不展示%）</td>
 </tr>
-<tr class="row-even"><td>wrt_delta</td>
+<tr class="row-odd"><td>wrt_delta</td>
 <td>float</td>
 <td>窝轮对冲值</td>
 </tr>
-<tr class="row-odd"><td>wrt_implied_volatility</td>
+<tr class="row-even"><td>wrt_implied_volatility</td>
 <td>float</td>
 <td>窝轮引伸波幅</td>
 </tr>
-<tr class="row-even"><td>wrt_premium</td>
+<tr class="row-odd"><td>wrt_premium</td>
 <td>float</td>
 <td>窝轮溢价</td>
 </tr>
-<tr class="row-odd"><td>lot_size</td>
+<tr class="row-even"><td>lot_size</td>
 <td>int</td>
 <td>每手股数</td>
 </tr>
-<tr class="row-even"><td>price_spread</td>
+<tr class="row-odd"><td>price_spread</td>
 <td>float</td>
 <td>当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差</td>
 </tr>
-<tr class="row-odd"><td>option_valid</td>
+<tr class="row-even"><td>option_valid</td>
 <td>bool</td>
 <td>是否是期权（为true时以下期权相关的字段才有合法数值）</td>
 </tr>
-<tr class="row-even"><td>option_type</td>
+<tr class="row-odd"><td>option_type</td>
 <td>str</td>
 <td>期权类型，参见OptionType</td>
 </tr>
-<tr class="row-odd"><td>owner</td>
+<tr class="row-even"><td>owner</td>
 <td>str</td>
 <td>标的股</td>
 </tr>
-<tr class="row-even"><td>strike_time</td>
+<tr class="row-odd"><td>strike_time</td>
 <td>str</td>
-<td>行权日</td>
+<td>行权日（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
-<tr class="row-odd"><td>option_strike_price</td>
+<tr class="row-even"><td>option_strike_price</td>
 <td>float</td>
 <td>行权价</td>
 </tr>
-<tr class="row-even"><td>option_contract_size</td>
+<tr class="row-odd"><td>option_contract_size</td>
 <td>int</td>
 <td>每份合约数</td>
 </tr>
-<tr class="row-odd"><td>option_open_interest</td>
+<tr class="row-even"><td>option_open_interest</td>
 <td>int</td>
 <td>未平仓合约数</td>
 </tr>
-<tr class="row-even"><td>option_implied_volatility</td>
+<tr class="row-odd"><td>option_implied_volatility</td>
 <td>float</td>
 <td>隐含波动率</td>
 </tr>
-<tr class="row-odd"><td>option_premium</td>
+<tr class="row-even"><td>option_premium</td>
 <td>float</td>
 <td>溢价</td>
 </tr>
-<tr class="row-even"><td>option_delta</td>
+<tr class="row-odd"><td>option_delta</td>
 <td>float</td>
 <td>希腊值 Delta</td>
 </tr>
-<tr class="row-odd"><td>option_gamma</td>
+<tr class="row-even"><td>option_gamma</td>
 <td>float</td>
 <td>希腊值 Gamma</td>
 </tr>
-<tr class="row-even"><td>option_vega</td>
+<tr class="row-odd"><td>option_vega</td>
 <td>float</td>
 <td>希腊值 Vega</td>
 </tr>
-<tr class="row-odd"><td>option_theta</td>
+<tr class="row-even"><td>option_theta</td>
 <td>float</td>
 <td>希腊值 Theta</td>
 </tr>
-<tr class="row-even"><td>option_rho</td>
+<tr class="row-odd"><td>option_rho</td>
 <td>float</td>
 <td>希腊值 Rho</td>
 </tr>
@@ -1299,9 +1303,9 @@ start和end的组合如下：</p>
 <p>ret != RET_OK 返回错误字符串</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="22%" />
-<col width="12%" />
-<col width="66%" />
+<col width="20%" />
+<col width="11%" />
+<col width="69%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">参数</th>
@@ -1316,7 +1320,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-odd"><td>time</td>
 <td>str</td>
-<td>时间(yyyy-MM-dd HH:mm:ss)</td>
+<td>时间(yyyy-MM-dd HH:mm:ss)（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-even"><td>is_blank</td>
 <td>bool</td>
@@ -1419,7 +1423,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-even"><td>list_time</td>
 <td>str</td>
-<td>上市时间</td>
+<td>上市时间（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-odd"><td>stock_id</td>
 <td>int</td>
@@ -1778,20 +1782,15 @@ start和end的组合如下：</p>
 <dl class="function">
 <dt id="query_subscription">
 <code class="descname">query_subscription</code><span class="sig-paren">(</span><em>self</em>, <em>is_all_conn=True</em><span class="sig-paren">)</span><a class="headerlink" href="#query_subscription" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<p>查询已订阅的实时信息</p>
+<dd><p>查询已订阅的实时信息</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">param is_all_conn:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">是否返回所有连接的订阅状态,不传或者传False只返回当前连接数据</p>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>is_all_conn</strong> &#8211; 是否返回所有连接的订阅状态,不传或者传False只返回当前连接数据</td>
 </tr>
-<tr class="field-even field"><th class="field-name">return:</th><td class="field-body"><p class="first">(ret, data)</p>
-<p>ret != RET_OK 返回错误字符串</p>
-<p class="last">ret == RET_OK 返回 定阅信息的字典数据 ，格式如下:</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">(ret, data)<p>ret != RET_OK 返回错误字符串</p>
+<p>ret == RET_OK 返回 定阅信息的字典数据 ，格式如下:</p>
 </td>
 </tr>
 </tbody>
@@ -1812,16 +1811,18 @@ start和end的组合如下：</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">example:</th><td class="field-body"><div class="first last highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">query_subscription</span><span class="p">())</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-</td>
-</tr>
-</tbody>
-</table>
+</dd></dl>
+
 </div>
 <div class="section" id="get-global-state">
 <h4>get_global_state<a class="headerlink" href="#get-global-state" title="Permalink to this headline">¶</a></h4>
@@ -1942,7 +1943,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-even"><td>data_time</td>
 <td>str</td>
-<td>时间</td>
+<td>时间（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-odd"><td>last_price</td>
 <td>float</td>
@@ -2046,7 +2047,7 @@ start和end的组合如下：</p>
 </table>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-<span class="n">code_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;US_OPTION.AAPL180914C212500&#39;</span><span class="p">]</span>
+<span class="n">code_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;US.AAPL180914C212500&#39;</span><span class="p">]</span>
 <span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">code_list</span><span class="p">,</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">QUOTE</span><span class="p">]))</span>
 <span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_stock_quote</span><span class="p">(</span><span class="n">code_list</span><span class="p">))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -2097,7 +2098,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-even"><td>time</td>
 <td>str</td>
-<td>成交时间</td>
+<td>成交时间（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-odd"><td>price</td>
 <td>float</td>
@@ -2178,7 +2179,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-odd"><td>time_key</td>
 <td>str</td>
-<td>时间</td>
+<td>时间（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-even"><td>open</td>
 <td>float</td>
@@ -2206,7 +2207,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-even"><td>pe_ratio</td>
 <td>float</td>
-<td>市盈率</td>
+<td>市盈率（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-odd"><td>turnover_rate</td>
 <td>float</td>
@@ -2324,7 +2325,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-odd"><td>time_point</td>
 <td>str</td>
-<td>请求的时间</td>
+<td>请求的时间（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-even"><td>data_status</td>
 <td>str</td>
@@ -2332,7 +2333,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-odd"><td>time_key</td>
 <td>str</td>
-<td>k线时间</td>
+<td>k线时间（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-even"><td>open</td>
 <td>float</td>
@@ -2352,7 +2353,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-even"><td>pe_ratio</td>
 <td>float</td>
-<td>市盈率</td>
+<td>市盈率（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-odd"><td>turnover_rate</td>
 <td>float</td>
@@ -2442,7 +2443,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="row-even"><td>list_time</td>
 <td>str</td>
-<td>上市时间</td>
+<td>上市时间（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-odd"><td>wrt_valid</td>
 <td>bool</td>
@@ -2614,7 +2615,7 @@ start与end的组合如下：</p>
 </tr>
 <tr class="row-even"><td>holding_ratio</td>
 <td>float</td>
-<td>持股比例</td>
+<td>持股比例（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-odd"><td>change_qty</td>
 <td>float</td>
@@ -2622,11 +2623,11 @@ start与end的组合如下：</p>
 </tr>
 <tr class="row-even"><td>change_ratio</td>
 <td>float</td>
-<td>变动比例</td>
+<td>变动比例（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-odd"><td>time</td>
 <td>str</td>
-<td>发布时间</td>
+<td>发布时间（美股的时间默认是美东）</td>
 </tr>
 </tbody>
 </table>
@@ -2658,8 +2659,8 @@ start与end的组合如下：</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>code</strong> &#8211; 股票代码,例如：&#8217;HK.02318&#8217;</li>
-<li><strong>start</strong> &#8211; 开始日期，例如&#8216;2017-08-01&#8217;</li>
-<li><strong>end</strong> &#8211; <p>结束日期，例如&#8216;2017-08-30&#8217;。 注意，时间范围最多30天。
+<li><strong>start</strong> &#8211; 开始日期，该日期指到期日，例如&#8216;2017-08-01&#8217;</li>
+<li><strong>end</strong> &#8211; <p>结束日期（包括这一天），该日期指到期日，例如&#8216;2017-08-30&#8217;。 注意，时间范围最多30天。
 start和end的组合如下：</p>
 <blockquote>
 <div><table border="1" class="docutils">
@@ -2736,13 +2737,13 @@ start和end的组合如下：</p>
 <td>str</td>
 <td>期权类型，查看 <a class="reference external" href="Base_API.html#optiontype">OptionType</a></td>
 </tr>
-<tr class="row-odd"><td>owner</td>
+<tr class="row-odd"><td>stock_owner</td>
 <td>str</td>
 <td>标的股</td>
 </tr>
 <tr class="row-even"><td>strike_time</td>
 <td>str</td>
-<td>行权日</td>
+<td>行权日（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-odd"><td>strike_price</td>
 <td>float</td>
@@ -2756,11 +2757,7 @@ start和end的组合如下：</p>
 <td>str</td>
 <td>发行市场名字</td>
 </tr>
-<tr class="row-even"><td>listing_date</td>
-<td>str</td>
-<td>上市时间</td>
-</tr>
-<tr class="row-odd"><td>stock_id</td>
+<tr class="row-even"><td>stock_id</td>
 <td>int</td>
 <td>股票id</td>
 </tr>
@@ -3161,12 +3158,13 @@ start和end的组合如下：</p>
 <div class="section" id="id14">
 <h3>OpenAPI用户等级权限<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><table border="1" class="docutils">
+<div><p>用户净资产大于10000港币为二级用户，小于10000港币为三级用户。一级用户需要与富途联系获取。</p>
+<table border="1" class="docutils">
 <colgroup>
-<col width="26%" />
-<col width="25%" />
-<col width="25%" />
-<col width="25%" />
+<col width="34%" />
+<col width="22%" />
+<col width="22%" />
+<col width="22%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">协议限制</th>
@@ -3186,12 +3184,12 @@ start和end的组合如下：</p>
 <td>20</td>
 <td>30</td>
 </tr>
-<tr class="row-even"><td>快照每次个数</td>
+<tr class="row-even"><td>快照每次请求股票数</td>
 <td>200</td>
 <td>300</td>
 <td>400</td>
 </tr>
-<tr class="row-odd"><td>历史K线请求个数</td>
+<tr class="row-odd"><td>30天内非本地历史K线最多可请求股票数</td>
 <td>100</td>
 <td>300</td>
 <td>1000</td>

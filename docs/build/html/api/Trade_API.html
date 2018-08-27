@@ -1032,45 +1032,19 @@
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Return (ret_code, ret_data):</th></tr>
 <tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first">ret == RET_OK, data为pd.DataFrame，数据列如下</p>
-<p>ret != RET_OK, data为错误信息</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="17%" />
-<col width="8%" />
-<col width="74%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">参数</th>
-<th class="head">类型</th>
-<th class="head">说明</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>max_cash_buy</td>
-<td>float</td>
-<td>不使用融资，仅自己的现金最大可买整手股数</td>
-</tr>
-<tr class="row-odd"><td>max_cash_and_margin_buy</td>
-<td>float</td>
-<td>使用融资，自己的现金 + 融资资金总共的最大可买整手股数</td>
-</tr>
-<tr class="row-even"><td>max_position_sell</td>
-<td>float</td>
-<td>不使用融券(卖空)，仅自己的持仓最大可卖整手股数</td>
-</tr>
-<tr class="row-odd"><td>max_sell_short</td>
-<td>float</td>
-<td>使用融券(卖空)，最大可卖空整手股数，不包括多仓</td>
-</tr>
-<tr class="row-even"><td>max_buy_back</td>
-<td>float</td>
-<td>卖空后，需要买回的最大整手股数。因为卖空后，必须先买回已卖空的股数，还掉股票，才能再继续买多。</td>
+<p class="last">ret != RET_OK, data为错误信息</p>
+</td>
 </tr>
 </tbody>
 </table>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</dd></dl>
+
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">example:</th><td class="field-body"></td>
 </tr>
 </tbody>
 </table>
@@ -1083,8 +1057,7 @@
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-</dd></dl>
-
+</div></blockquote>
 </div>
 </div>
 <hr class="docutils" />
