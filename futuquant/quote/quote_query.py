@@ -253,7 +253,7 @@ class MarketSnapshotQuery:
             snapshot_tmp['turnover'] = record.basic.turnover
             snapshot_tmp['turnover_rate'] = record.basic.turnoverRate
             snapshot_tmp['suspension'] = record.basic.isSuspend
-            snapshot_tmp['listing_date'] = "N/A" if record.HasField('optionExData') else record.basic.listTime,
+            snapshot_tmp['listing_date'] = "N/A" if record.HasField('optionExData') else record.basic.listTime
             snapshot_tmp['price_spread'] = record.basic.priceSpread
             snapshot_tmp['lot_size'] = record.basic.lotSize
 
