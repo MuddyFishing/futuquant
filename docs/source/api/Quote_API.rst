@@ -126,6 +126,7 @@ get_trading_days
  :param start: 起始日期。例如'2018-01-01'。
  :param end: 结束日期。例如'2018-01-01'。
          start和end的组合如下：
+            
             ==========    ==========    ========================================
             start类型      end类型       说明
             ==========    ==========    ========================================
@@ -242,6 +243,7 @@ get_history_kline
  :param start: 开始时间，例如'2017-06-20'。
  :param end:  结束时间，例如'2017-06-30'。
             start和end的组合如下：
+			
               ==========    ==========    ========================================
               start类型      end类型       说明
               ==========    ==========    ========================================
@@ -297,7 +299,8 @@ request_history_kline
  :param code: 股票代码
  :param start: 开始时间，例如'2017-06-20'
  :param end:  结束时间，例如'2017-07-20'。
-            start和end的组合如下：
+              start和end的组合如下：
+			  
               ==========    ==========    ========================================
               start类型      end类型       说明
               ==========    ==========    ========================================
@@ -306,6 +309,7 @@ request_history_kline
                 str            None          end为start往后365天
                 None           None          end为当前日期，start为end往前365天
               ==========    ==========    ========================================
+			  
  :param ktype: k线类型， 参见 KLType_ 定义
  :param autype: 复权类型, 参见 AuType_ 定义
  :param fields: 需返回的字段列表，参见 KL_FIELD_ 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
@@ -506,7 +510,7 @@ get_rt_data
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.subscribe(['HK.00700'], [SubType.RT_DATA])
+    quote_ctx.subscribe(['HK.00700'], [SubType.RT_DATA])
     print(quote_ctx.get_rt_data('HK.00700'))
     quote_ctx.close()
 	
@@ -923,7 +927,7 @@ get_cur_kline
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.subscribe(['HK.00700'], [SubType.K_DAY])
+    quote_ctx.subscribe(['HK.00700'], [SubType.K_DAY])
     print(quote_ctx.get_cur_kline('HK.00700', 10, SubType.K_DAY, AuType.QFQ))
     quote_ctx.close()
         
@@ -951,7 +955,7 @@ get_order_book
 
     'Ask'：卖盘， 'Bid'买盘。每个元组的含义是(委托价格，委托数量，委托订单数)
         
-:example:
+ :example:
 
  .. code:: python
 
@@ -1096,14 +1100,16 @@ get_holding_change_list
  :param start: 开始时间. 例如：'2016-10-01'
  :param end: 结束时间，例如：'2017-10-01'。
            start与end的组合如下：
-            ==========    ==========    ========================================
-             start类型      end类型       说明
-            ==========    ==========    ========================================
+
+           ==========    ==========    ========================================
+           start类型      end类型       说明
+           ==========    ==========    ========================================
              str            str           start和end分别为指定的日期
              None           str           start为end往前365天
              str            None          end为start往后365天
              None           None          end为当前日期，start为end往前365天
-            ==========    ==========    ========================================
+           ==========    ==========    ========================================
+			
  :return: (ret, data)
 
         ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
@@ -1141,6 +1147,7 @@ get_option_chain
  :param start: 开始日期，该日期指到期日，例如'2017-08-01'
  :param end: 结束日期（包括这一天），该日期指到期日，例如'2017-08-30'。 注意，时间范围最多30天。
              start和end的组合如下：
+			 
                 ==========    ==========    ========================================
                  start类型      end类型       说明
                 ==========    ==========    ========================================
@@ -1149,6 +1156,7 @@ get_option_chain
                  str            None          end为start往后30天
                  None           None          start为当前日期，end往后30天
                 ==========    ==========    ========================================
+				
  :param option_type: 期权类型,,默认全部,全部/看涨/看跌，查看 OptionType_
  :param option_cond_type: 默认全部,全部/价内/价外，查看 OptionCondType_
  :return: (ret, data)
