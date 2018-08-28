@@ -231,12 +231,9 @@ arrReserved      保留8字节扩展
 .. code-block:: bash
 	
 	{
-	    "Request":
+	    "c2s": 
 	    {
-	        "c2s": 
-	        {
-	            "req": 0
-	        }
+	    	 "req": 0
 	    }
 	}
 
@@ -245,15 +242,12 @@ arrReserved      保留8字节扩展
 .. code-block:: bash
 	
 	{
-	    "Response":
+	    "retType" : 0
+	    "retMsg" : ""
+	    "errCode" : 0
+	    "s2c": 
 	    {
-	        "retType" : 0
-	        "retMsg" : ""
-	        "errCode" : 0
-	        "s2c": 
-	        {
-	            "data": 0
-	        }
+	        "data": 0
 	    }
 	}
 
@@ -262,10 +256,8 @@ arrReserved      保留8字节扩展
 ==============   ==================================================================
 字段             说明
 ==============   ==================================================================
-Request          请求包体结构
 c2s              请求参数结构
 req              请求参数，实际根据协议定义
-Response         回应包体结构
 retType          请求结果
 retMsg           若请求失败，说明失败原因
 errCode          若请求失败对应错误码

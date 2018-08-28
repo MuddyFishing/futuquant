@@ -36,7 +36,7 @@ class HistoryOrderListQuery(object):
 
     def test1(self):
         host = '127.0.0.1'
-        port = 11112
+        port = 11111
 
         trade_hk = OpenHKTradeContext(host, port)
         trade_us = OpenUSTradeContext(host, port)
@@ -44,9 +44,9 @@ class HistoryOrderListQuery(object):
 
         print(trade_hk.history_order_list_query(status_filter_list=[], code='', start='', end='',
                                  trd_env=TrdEnv.SIMULATE, acc_id=0))
-        print(trade_us.history_order_list_query(status_filter_list=[OrderStatus.CANCELLED_ALL], code='', start='2018-07-1', end='2018-08-1',
+        print(trade_us.history_order_list_query(status_filter_list=[OrderStatus.CANCELLED_ALL], code='', start='', end='',
                                                 trd_env=TrdEnv.SIMULATE, acc_id=0))
-        print(trade_sh_m.history_order_list_query(status_filter_list=[], code='', start='2018-7-1', end='2018-08-1',
+        print(trade_sh_m.history_order_list_query(status_filter_list=[], code='', start='', end='',
                                                 trd_env=TrdEnv.SIMULATE, acc_id=0))
 
 

@@ -11,18 +11,21 @@ class HistoryDealListQuery(object):
 
     def test1(self):
         host = '127.0.0.1'
-        port = 11112
-        self.tradehk_ctx = OpenHKTradeContext(host, port)
-        ret_code_unlock_trade, ret_data_unlock_trade = self.tradehk_ctx.unlock_trade(password='123123')
-        print('unlock_trade  ret_code= %d, ret_data= %s' % (ret_code_unlock_trade, ret_data_unlock_trade))
+        port = 11115
 
-        ret_code,ret_data = self.tradehk_ctx.history_deal_list_query(code = '', start = '', end = '', trd_env=TrdEnv.REAL, acc_id=0)
+        trade_hk = OpenHKTradeContext(host, port)
+        trade_us = OpenUSTradeContext(host, port)
+        trade_sh_m = OpenCNTradeContext(host, port)
+
+        print(trade_hk.unlock_trade(password='123123'))
+
+        # print(trade_hk.history_deal_list_query(code = '', start = '', end = '', trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print(trade_us.history_deal_list_query(code='', start='', end='', trd_env=TrdEnv.REAL, acc_id=281756460277401516))
+        # print(trade_sh_m.history_deal_list_query(code='', start='', end='', trd_env=TrdEnv.SIMULATE, acc_id=0))
         #281756455982434220 现金0268
         #281756457982434020  现金0178
         #281756455982434020  融资0068
         #牛号：5913971    281756455988247923
-        print(ret_code)
-        print(ret_data)
 
     def test_sh(self):
         trade_sh = OpenHKCCTradeContext('127.0.0.1',11112)
@@ -32,4 +35,4 @@ class HistoryDealListQuery(object):
 
 if __name__ == '__main__':
     hdlq = HistoryDealListQuery()
-    hdlq.test_sh()
+    hdlq.test1()

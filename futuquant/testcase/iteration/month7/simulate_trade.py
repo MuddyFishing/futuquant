@@ -1,7 +1,9 @@
 #-*-coding:utf-8-*-
-from futuquant.trade.open_trade_context import *
-from futuquant.testcase.eva.trade.Handler import *
 import pandas
+
+from futuquant.testcase.person.eva.trade.Handler import *
+from futuquant.trade.open_trade_context import *
+
 
 class SimuluateTrade(object):
     # 模拟交易

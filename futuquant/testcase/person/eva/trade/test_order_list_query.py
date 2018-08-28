@@ -34,7 +34,7 @@ class OrderListQuery(object):
 
     def test1(self):
         host = '127.0.0.1'
-        port = 11112
+        port = 11111
 
         trade_hk = OpenHKTradeContext(host, port)
         trade_us = OpenUSTradeContext(host, port)
@@ -47,8 +47,32 @@ class OrderListQuery(object):
         print(trade_sh_m.order_list_query(order_id="", status_filter_list=[], code='', start='', end='',
                                         trd_env=TrdEnv.SIMULATE, acc_id=0))
 
+    def test2(self):
+        host = '127.0.0.1'
+        port = 11113
+
+        trade_hk = OpenHKTradeContext(host, port)
+        trade_us = OpenUSTradeContext(host, port)
+        trade_cn = OpenHKCCTradeContext(host, port)
+        trade_cn_s = OpenCNTradeContext(host,port)
+        print('模拟交易 今日订单')
+        print(trade_hk.order_list_query(order_id="", status_filter_list=[], code='', start='', end='',
+                         trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print(trade_us.order_list_query(order_id="", status_filter_list=[], code='', start='', end='',
+                                          trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print(trade_cn_s.order_list_query(order_id="", status_filter_list=[], code='', start='', end='',
+                                        trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print('真实交易 今日订单')
+        print(trade_hk.order_list_query(order_id="", status_filter_list=[], code='', start='', end='',
+                                        trd_env=TrdEnv.REAL, acc_id=0))
+        print(trade_us.order_list_query(order_id="", status_filter_list=[], code='', start='', end='',
+                                        trd_env=TrdEnv.REAL, acc_id=0))
+        print(trade_cn.order_list_query(order_id="", status_filter_list=[], code='', start='', end='',
+                                          trd_env=TrdEnv.REAL, acc_id=0))
+
+
 
 if __name__ == '__main__':
     olq = OrderListQuery()
     # olq.test_sh()
-    olq.test1()
+    olq.test2()

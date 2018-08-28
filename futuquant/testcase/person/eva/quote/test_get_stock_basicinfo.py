@@ -15,9 +15,9 @@ class GetStockBasicinfo(object):
 
     def test1(self):
         quote_ctx = OpenQuoteContext(host='127.0.0.1',port=11111)
-        market = Market.HK
-        stock_type = SecurityType.WARRANT
-        ret_code,ret_data = quote_ctx.get_stock_basicinfo(market,stock_type,['HK.00700','HK.00388'])
+        market = Market.US
+        stock_type = SecurityType.STOCK
+        ret_code,ret_data = quote_ctx.get_stock_basicinfo(market,stock_type)
         print(ret_code)
         print(ret_data)
         # for data in ret_data.iterrows():
