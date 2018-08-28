@@ -137,7 +137,7 @@ get_trading_days
             ==========    ==========    ========================================
  :return: 成功时返回(RET_OK, data)，data是字符串数组；失败时返回(RET_ERROR, data)，其中data是错误描述字符串
         
- :example:
+ :Example:
 
  .. code:: python
 
@@ -178,7 +178,7 @@ get_stock_basicinfo
         stock_id            int            股票id
         =================   ===========   ==============================================================================
 
- :example:
+ :Example:
 
  .. code-block:: python
 
@@ -222,7 +222,7 @@ get_multiple_history_kline
 
 	失败时返回(RET_ERROR, data)，其中data是错误描述字符串
 	
- :example:
+ :Example:
 
  .. code-block:: python
 
@@ -279,7 +279,7 @@ get_history_kline
     =================   ===========   ==============================================================================
 
 	
- :example:
+ :Example:
 
  .. code:: python
 
@@ -340,7 +340,7 @@ request_history_kline
     =================   ===========   ==============================================================================
 
 	
- :example:
+ :Example:
 
  .. code:: python
 
@@ -366,26 +366,26 @@ get_autype_list
 
         ret != RET_OK 返回错误字符串
 
-        =====================   ===========   ====================================================================================
-        参数                      类型                        说明
-        =====================   ===========   ====================================================================================
-        code                    str            股票代码
-        ex_div_date             str            除权除息日
-        split_ratio             float          拆合股比例（该字段为比例字段，默认不展示%），例如，对于5股合1股为1/5，对于1股拆5股为5/1
-        per_cash_div            float          每股派现
-        per_share_div_ratio     float          每股送股比例（该字段为比例字段，默认不展示%）
-        per_share_trans_ratio   float          每股转增股比例（该字段为比例字段，默认不展示%）
-        allotment_ratio         float          每股配股比例（该字段为比例字段，默认不展示%）
-        allotment_price         float          配股价
-        stk_spo_ratio           float          增发比例（该字段为比例字段，默认不展示%）
-        stk_spo_price           float          增发价格
-        forward_adj_factorA     float          前复权因子A
-        forward_adj_factorB     float          前复权因子B
-        backward_adj_factorA    float          后复权因子A
-        backward_adj_factorB    float          后复权因子B
-        =====================   ===========   ====================================================================================
+ =====================   ===========   ====================================================================================
+ 参数                      类型                        说明
+ =====================   ===========   ====================================================================================
+ code                    str            股票代码
+ ex_div_date             str            除权除息日
+ split_ratio             float          拆合股比例（该字段为比例字段，默认不展示%），例如，对于5股合1股为1/5，对于1股拆5股为5/1
+ per_cash_div            float          每股派现
+ per_share_div_ratio     float          每股送股比例（该字段为比例字段，默认不展示%）
+ per_share_trans_ratio   float          每股转增股比例（该字段为比例字段，默认不展示%）
+ allotment_ratio         float          每股配股比例（该字段为比例字段，默认不展示%）
+ allotment_price         float          配股价
+ stk_spo_ratio           float          增发比例（该字段为比例字段，默认不展示%）
+ stk_spo_price           float          增发价格
+ forward_adj_factorA     float          前复权因子A
+ forward_adj_factorB     float          前复权因子B
+ backward_adj_factorA    float          后复权因子A
+ backward_adj_factorB    float          后复权因子B
+ =====================   ===========   ====================================================================================
 		
- :example:
+ :Example:
 
  .. code:: python
 
@@ -408,68 +408,68 @@ get_market_snapshot
 
         ret != RET_OK 返回错误字符串
 
-        ============================   =============   ======================================================================
-        参数                             类型                       说明
-        ============================   =============   ======================================================================
-        code                            str            股票代码
-        update_time                     str            更新时间(yyyy-MM-dd HH:mm:ss)（美股默认是美东时间，港股A股默认是北京时间）
-        last_price                      float          最新价格
-        open_price                      float          今日开盘价
-        high_price                      float          最高价格
-        low_price                       float          最低价格
-        prev_close_price                float          昨收盘价格
-        volume                          int            成交数量
-        turnover                        float          成交金额
-        turnover_rate                   float          换手率
-        suspension                      bool           是否停牌(True表示停牌)
-        listing_date                    str            上市日期 (yyyy-MM-dd)
-        equity_valid                    bool           是否正股（为true时以下正股相关字段才有合法数值）
-        issued_shares                   int            发行股本
-        total_market_val                float          总市值
-        net_asset                       int            资产净值
-        net_profit                      int            净利润
-        earning_per_share               float          每股盈利
-        outstanding_shares              int            流通股本
-        net_asset_per_share             float          每股净资产
-        circular_market_val             float          流通市值
-        ey_ratio                        float          收益率（该字段为比例字段，默认不展示%）
-        pe_ratio                        float          市盈率（该字段为比例字段，默认不展示%）
-        pb_ratio                        float          市净率（该字段为比例字段，默认不展示%）
-        pe_ttm_ratio                    float          市盈率TTM（该字段为比例字段，默认不展示%）
-        stock_owner                     str            所属正股的代码
-        wrt_valid                       bool           是否是窝轮（为true时以下涡轮相关的字段才有合法数据）
-        wrt_conversion_ratio            float          换股比率（该字段为比例字段，默认不展示%）
-        wrt_type                        str            窝轮类型，参见WrtType
-        wrt_strike_price                float          行使价格
-        wrt_maturity_date               str            格式化窝轮到期时间
-        wrt_end_trade                   str            格式化窝轮最后交易时间
-        wrt_code                        str            窝轮对应的正股（此字段已废除,修改为stock_owner）
-        wrt_recovery_price              float          窝轮回收价
-        wrt_street_vol                  float          窝轮街货量
-        wrt_issue_vol                   float          窝轮发行量
-        wrt_street_ratio                float          窝轮街货占比（该字段为比例字段，默认不展示%）
-        wrt_delta                       float          窝轮对冲值
-        wrt_implied_volatility          float          窝轮引伸波幅
-        wrt_premium                     float          窝轮溢价
-        lot_size                        int            每手股数
-        price_spread                    float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
-        option_valid                    bool           是否是期权（为true时以下期权相关的字段才有合法数值）
-        option_type                     str            期权类型，参见OptionType
-        owner                           str            标的股
-        strike_time                     str            行权日（美股默认是美东时间，港股A股默认是北京时间）
-        option_strike_price             float          行权价
-        option_contract_size            int            每份合约数
-        option_open_interest            int            未平仓合约数
-        option_implied_volatility       float          隐含波动率
-        option_premium                  float          溢价
-        option_delta                    float          希腊值 Delta
-        option_gamma                    float          希腊值 Gamma
-        option_vega                     float          希腊值 Vega
-        option_theta                    float          希腊值 Theta
-        option_rho                      float          希腊值 Rho
-        ============================   =============   ======================================================================
+ ============================   =============   ======================================================================
+ 参数                             类型                       说明
+ ============================   =============   ======================================================================
+ code                            str            股票代码
+ update_time                     str            更新时间(yyyy-MM-dd HH:mm:ss)（美股默认是美东时间，港股A股默认是北京时间）
+ last_price                      float          最新价格
+ open_price                      float          今日开盘价
+ high_price                      float          最高价格
+ low_price                       float          最低价格
+ prev_close_price                float          昨收盘价格
+ volume                          int            成交数量
+ turnover                        float          成交金额
+ turnover_rate                   float          换手率
+ suspension                      bool           是否停牌(True表示停牌)
+ listing_date                    str            上市日期 (yyyy-MM-dd)
+ equity_valid                    bool           是否正股（为true时以下正股相关字段才有合法数值）
+ issued_shares                   int            发行股本
+ total_market_val                float          总市值
+ net_asset                       int            资产净值
+ net_profit                      int            净利润
+ earning_per_share               float          每股盈利
+ outstanding_shares              int            流通股本
+ net_asset_per_share             float          每股净资产
+ circular_market_val             float          流通市值
+ ey_ratio                        float          收益率（该字段为比例字段，默认不展示%）
+ pe_ratio                        float          市盈率（该字段为比例字段，默认不展示%）
+ pb_ratio                        float          市净率（该字段为比例字段，默认不展示%）
+ pe_ttm_ratio                    float          市盈率TTM（该字段为比例字段，默认不展示%）
+ stock_owner                     str            所属正股的代码
+ wrt_valid                       bool           是否是窝轮（为true时以下涡轮相关的字段才有合法数据）
+ wrt_conversion_ratio            float          换股比率（该字段为比例字段，默认不展示%）
+ wrt_type                        str            窝轮类型，参见WrtType
+ wrt_strike_price                float          行使价格
+ wrt_maturity_date               str            格式化窝轮到期时间
+ wrt_end_trade                   str            格式化窝轮最后交易时间
+ wrt_code                        str            窝轮对应的正股（此字段已废除,修改为stock_owner）
+ wrt_recovery_price              float          窝轮回收价
+ wrt_street_vol                  float          窝轮街货量
+ wrt_issue_vol                   float          窝轮发行量
+ wrt_street_ratio                float          窝轮街货占比（该字段为比例字段，默认不展示%）
+ wrt_delta                       float          窝轮对冲值
+ wrt_implied_volatility          float          窝轮引伸波幅
+ wrt_premium                     float          窝轮溢价
+ lot_size                        int            每手股数
+ price_spread                    float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
+ option_valid                    bool           是否是期权（为true时以下期权相关的字段才有合法数值）
+ option_type                     str            期权类型，参见OptionType
+ owner                           str            标的股
+ strike_time                     str            行权日（美股默认是美东时间，港股A股默认是北京时间）
+ option_strike_price             float          行权价
+ option_contract_size            int            每份合约数
+ option_open_interest            int            未平仓合约数
+ option_implied_volatility       float          隐含波动率
+ option_premium                  float          溢价
+ option_delta                    float          希腊值 Delta
+ option_gamma                    float          希腊值 Gamma
+ option_vega                     float          希腊值 Vega
+ option_theta                    float          希腊值 Theta
+ option_rho                      float          希腊值 Rho
+ ============================   =============   ======================================================================
         
- :example:
+ :Example:
 
  .. code:: python
 
@@ -490,21 +490,21 @@ get_rt_data
 
         ret != RET_OK 返回错误字符串
 
-        =====================   ===========   ===================================================================
-        参数                      类型                        说明
-        =====================   ===========   ===================================================================
-        code                    str            股票代码
-        time                    str            时间(yyyy-MM-dd HH:mm:ss)（美股默认是美东时间，港股A股默认是北京时间）
-        is_blank                bool           数据状态；正常数据为False，伪造数据为True
-        opened_mins             int            零点到当前多少分钟
-        cur_price               float          当前价格
-        last_close              float          昨天收盘的价格
-        avg_price               float          平均价格
-        volume                  float          成交量
-        turnover                float          成交金额
-        =====================   ===========   ===================================================================
+=====================   ===========   ===================================================================
+参数                      类型                        说明
+=====================   ===========   ===================================================================
+code                    str            股票代码
+time                    str            时间(yyyy-MM-dd HH:mm:ss)（美股默认是美东时间，港股A股默认是北京时间）
+is_blank                bool           数据状态；正常数据为False，伪造数据为True
+opened_mins             int            零点到当前多少分钟
+cur_price               float          当前价格
+last_close              float          昨天收盘的价格
+avg_price               float          平均价格
+volume                  float          成交量
+turnover                float          成交金额
+=====================   ===========   ===================================================================
 
- :example:
+ :Example:
 
  .. code:: python
 
@@ -539,7 +539,7 @@ get_plate_stock
         stock_id                int            股票id
         =====================   ===========   ==============================================================
 
- :example:
+ :Example:
 
  .. code:: python
 
@@ -614,7 +614,7 @@ get_plate_list
         plate_id                str            板块id
         =====================   ===========   ==============================================================
 
- :example:
+ :Example:
 
  .. code:: python
 
@@ -659,7 +659,7 @@ get_broker_queue
         ask_broker_pos          int             经纪档位
         =====================   ===========   ==============================================================
 
- :example:
+ :Example:
 
  .. code:: python
 
@@ -686,7 +686,7 @@ subscribe
         
         ret != RET_OK err_message为错误描述字符串
         
- :example:
+ :Example:
 
  .. code:: python
 
@@ -711,7 +711,7 @@ unsubscribe
         
         ret != RET_OK err_message为错误描述字符串
      
- :example:
+ :Example:
 
  .. code:: python
 
@@ -747,7 +747,7 @@ query_subscription
             }
         }
 
- :example:
+ :Example:
 
  .. code:: python
 
@@ -785,7 +785,7 @@ get_global_state
 		local_timestamp         float          FutuOpenD运行机器的当前时间戳(秒)
 		=====================   ===========   ==============================================================
  
- :example:
+ :Example:
 
  .. code:: python
 
@@ -839,7 +839,7 @@ get_stock_quote
         rho                     float          希腊值 Rho
         =====================   ===========   ==============================================================
 		
- :example:
+ :Example:
 
  .. code:: python
 
@@ -878,7 +878,7 @@ get_rt_ticker
         type                     str            逐笔类型，参见TickerType
         =====================   ===========   ==============================================================
 
- :example:
+ :Example:
 
  .. code:: python
 
@@ -921,7 +921,7 @@ get_cur_kline
         last_close               float          昨收价
         =====================   ===========   ==============================================================
 		
- :example:
+ :Example:
 
  .. code:: python
 
@@ -955,7 +955,7 @@ get_order_book
 
     'Ask'：卖盘， 'Bid'买盘。每个元组的含义是(委托价格，委托数量，委托订单数)
         
- :example:
+ :Example:
 
  .. code:: python
 
@@ -1005,7 +1005,7 @@ get_multi_points_history_kline
     last_close          float          昨收价
     =================   ===========   ==============================================================================
     
- :example:
+ :Example:
 
  .. code:: python
 
@@ -1045,7 +1045,7 @@ get_referencestock_list
 		wrt_code            str            所属正股
 		=================   ===========   ==============================================================================
 		
- :example:
+ :Example:
 
  .. code:: python
 
@@ -1078,7 +1078,7 @@ get_owner_plate
         plate_type              str            板块类型（行业板块或概念板块），查看 Plate_
         =====================   ===========   ==============================================================
 
- :example:
+ :Example:
 
  .. code:: python
 
@@ -1127,7 +1127,7 @@ get_holding_change_list
         time                    str           发布时间（美股的时间默认是美东）
         =====================   ===========   ==============================================================
 
- :example:
+ :Example:
 
  .. code:: python
 
@@ -1181,7 +1181,7 @@ get_option_chain
         stock_id             int           股票id
         ==================   ===========   ==============================================================
 
- :example:
+ :Example:
 
  .. code:: python
 
@@ -1484,8 +1484,8 @@ on_recv_rsp
 低频数据接口
 ------------
 
-低频数据接口是指不需要定阅就可以请求数据的接口， api的请求到达网关客户端后， 会转发请求到futu后台服务器，为控制流量，会对请求频率加以控制，
-目前的频率限制是以连续30秒内，限制请求次数，具体那些接口有限制以及限制次数如下:
+低频数据接口是指不需要订阅就可以请求数据的接口， api的请求到达网关客户端后， 会转发请求到futu后台服务器，为控制流量，会对请求频率加以控制，
+目前的频率限制是以连续30秒内，限制请求次数，有限制的接口以及限制次数如下:
 
  ==========================        ==================================================
  接口名称                          连续30秒内次数限制
