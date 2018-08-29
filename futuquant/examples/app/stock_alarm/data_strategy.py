@@ -60,7 +60,7 @@ def detect(content, prev_price, openid, premium_rate, warning_threshold, large_t
     vol = content['volume']
     # direction = content[0]['ticker_direction']
 
-    msg = {}
+    msg_list = []
     sent_msg_sig = 0
     # print(warning_threshold, large_threshold)
 
@@ -71,20 +71,28 @@ def detect(content, prev_price, openid, premium_rate, warning_threshold, large_t
         if vol * price > warning_threshold:   # price * vol
             # print(vol * price, warning_threshold)
             sent_msg_sig = 1
-            msg.update({'echo_type': '异常成交提醒'})
+            msg_list.append('异常成交提醒')
     elif vol * price > large_threshold:   # 单笔成交金额超过400万
         sent_msg_sig = 1
-        msg.update({'echo_type': '单笔大额成交'})
+        msg_list.append('单笔大额成交')
 
     if sent_msg_sig:
         sent_msg_sig = detect_warning_times(openid, warning_limit)
 
     if sent_msg_sig:
-        msg.update({'code': str(code), 'price': str(float('%.4f' % price)),
-                    'total_deal_price': str(float('%.4f' % (vol * price))), 'quantity': str(vol),
-                    'time': str(record_time)})
-        print(wp.send_template_msg(openid, msg))
+        msg_list.append(code)
+        msg_list.append(price)
+        msg_list.append(vol * price)
+        msg_list.append(vol)
+        msg_list.append(record_time)
+        msg_list.append('请及时查看，谢谢！')
+
+        print(wp.send_template_msg(openid, msg_list))
         logging.info("Send a message.")
+
+    print("* TickerTest\n", content)
+    print("pre_price is {0}".format(prev_price))
+    print("")
 
 
 def get_preprice(content):

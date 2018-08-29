@@ -75,46 +75,39 @@ class WechatPush(object):
         ).json()
         return template_id
 
-    def send_template_msg(self, openid, msg):
+    def list_to_template(self, openid, raw_msg_list):
+        if len(raw_msg_list) != 7:
+            print("Number of the list is wrong, you must set 7 params.")
+        msg_list = []
+        for item in raw_msg_list:
+            if isinstance(item, float):
+                msg_list.append(str(float('%.4f' % item)))
+            else:
+                msg_list.append(str(item))
+
+        title_list = ["first", "keyword1", "keyword2", "keyword3", "keyword4", "keyword5", "remark"]
+        data = {}
+        for i in range(len(title_list)):
+            title_dict = {}
+            title_dict.update({"value": msg_list[i]})
+            title_dict.update({"color": "#173177"})
+            data.update({title_list[i]: title_dict})
+
+        body = {
+            "touser": openid,
+            "template_id": config.template_id,
+            "data": data
+        }
+        return body
+
+    def send_template_msg(self, openid, msg_list):
 
         ret, access_token = self.get_access_token()
         if ret != RET_OK:
             return ret, access_token
 
-        body = {
-            "touser": openid,
-            "template_id":config.template_id,
-            "data": {
-                    "first": {
-                       "value":(msg['echo_type']),
-                       "color":"#173177"
-                    },
-                    "keyword1":{
-                       "value":msg['code'],
-                       "color":"#173177"
-                    },
-                     "keyword2": {
-                         "value": msg['price'],
-                         "color": "#173177"
-                     },
-                    "keyword3": {
-                       "value":msg['total_deal_price'],
-                       "color":"#173177"
-                    },
-                    "keyword4": {
-                       "value":msg['quantity'],
-                       "color":"#173177"
-                    },
-                    "keyword5":{
-                       "value":msg['time'],
-                       "color":"#173177"
-                    },
-                    "remark":{
-                       "value":"请及时前往查看，谢谢！",
-                       "color":"#173177"
-                    }
-               }
-        }
+        body = self.list_to_template(openid, msg_list)
+
         response = requests.post(
             url="https://api.weixin.qq.com/cgi-bin/message/template/send",
             params={
@@ -160,6 +153,21 @@ class WechatPush(object):
         # print(user_info_json['openid'], user_info_json['nickname'])
         return RET_OK, user_nickname
 
+    def get_openid_by_nickname(self, nickname):
+        ret, user_openid_list = self.get_user_openid_list()
+        if ret != RET_OK:
+            return ret, user_openid_list
+
+        if user_openid_list:
+            for openid in user_openid_list:
+                ret, user_nickname = self.get_user_nickname(openid)
+                if ret != RET_OK:
+                    return ret, user_nickname
+
+                if user_nickname == nickname:
+                    return ret, openid
+        return RET_ERROR, "please check your nickname."
+
     def send_text_msg(self, msg):
         ret, user_openid_list = self.get_user_openid_list()
         if ret != RET_OK:
@@ -193,42 +201,16 @@ class WechatPush(object):
                         return ret, msg
         return RET_OK, "Send template msg successfully."
 
-    def sent_template_msg_to_all(self, msg):
-        ret, user_openid_list = self.get_user_openid_list()
-        if ret != RET_OK:
-            return ret, user_openid_list
-
-        if user_openid_list:
-            for openid in user_openid_list:
-                ret, msg = self.send_template_msg(openid, msg)
-                if ret != RET_OK:
-                    return ret, msg
-        return RET_OK, "Send template msg successfully."
-
 
 # ---- 单元测试代码
 if __name__ == '__main__':
-    # sendmsg('','Hello!')
-    # msg =
-    msg = {
-        'echo_type': 'Warning',
-        'code':str(10000),
-        'price': str(101.1),
-        'total_deal_price':str(200),
-        'quantity': str(20000),
-        'time': str(123)
-    }
-    text_msg = 'Hello'
-
-    # print(get_template_id(get_access_token()))
+    msg = ["测试消息", 10000, 101.000456, 200, 20000, 123, "请及时查看，谢谢！"]
     wp = WechatPush()  # test号
-    # print(wp.get_access_token())
-    print(wp.send_text_msg(text_msg))
-    # print(wp.sent_template_msg_to_users(msg))
 
-    # nickname
-    # ret, all_user_openid = wp.get_user_openid_list()
-    # if all_user_openid:
-    #     for user in all_user_openid:
-    #         ret, username = wp.get_user_nickname(user)
-    #         print(username, user)
+    # import sys
+    # ret, my_openid = wp.get_openid_by_nickname('lpt')
+    # if ret != RET_OK:
+    #     sys.exit(1)
+    # print(my_openid)
+    my_openid = 'oaeaj02DzklyZHavotk2X3mt6JuA'
+    print(wp.send_template_msg(my_openid, msg))
