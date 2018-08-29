@@ -18,6 +18,7 @@ from futuquant.common.conn_mng import FutuConnMng
 from futuquant.common.network_manager import NetManager
 from .err import Err
 from .ft_logger import make_log_msg
+from .callback_executor import callback_executor, CallbackItem
 
 _SyncReqRet = namedtuple('_SyncReqRet', ('ret', 'msg'))
 
@@ -328,10 +329,8 @@ class OpenContextBase(object):
         elif proto_info.proto_id == ProtoId.KeepAlive:
             self._handle_keep_alive(conn_id, proto_info.proto_id, ret_code, msg, rsp_pb)
         elif ret_code == RET_OK:
-            with self._lock:
-                handler_ctx = self._handler_ctx
-            if handler_ctx:
-                handler_ctx.recv_func(rsp_pb, proto_info.proto_id)
+            item = CallbackItem(self, proto_info.proto_id, rsp_pb)
+            callback_executor.queue.put(item)
 
     def on_activate(self, conn_id, now: datetime):
         with self._lock:
@@ -351,6 +350,15 @@ class OpenContextBase(object):
                 return
 
             self._last_keep_alive_time = now
+
+    def packet_callback(self, proto_id, rsp_pb):
+        with self._lock:
+            if self._status != ContextStatus.Ready:
+                return
+
+            handler_ctx = self._handler_ctx
+        if handler_ctx:
+            handler_ctx.recv_func(rsp_pb, proto_id)
 
     def _handle_init_connect(self, conn_id, proto_info, ret, msg, rsp_pb):
         data = None
