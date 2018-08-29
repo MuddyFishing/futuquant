@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 #
 # Copyright (c) 2013, Next Tuesday GmbH
 #       Authored by: Seif Lotfy <sfl@nexttuesday.de>
