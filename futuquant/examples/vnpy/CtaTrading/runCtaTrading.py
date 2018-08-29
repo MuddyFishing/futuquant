@@ -11,11 +11,10 @@ from vnpy.trader.gateway import futuGateway
 from vnpy.trader.app import ctaStrategy
 from vnpy.trader.app.ctaStrategy.ctaBase import EVENT_CTA_LOG
 
- 
-#----------------------------------------------------------------------
+
 def runChildProcess():
     """子进程运行函数"""
-    print('-'*20)
+    print('-' * 20)
     
     # 创建日志引擎
     le = LogEngine()
@@ -61,7 +60,7 @@ def runChildProcess():
     while True:
         sleep(1)
 
-#----------------------------------------------------------------------
+
 def runParentProcess():
     """父进程运行函数"""
     # 创建日志引擎
@@ -84,9 +83,9 @@ def runParentProcess():
         recording = False
         
         # 判断当前处于的时间段
-        if ((currentTime >= DAY_START and currentTime <= DAY_END) or
-            (currentTime >= NIGHT_START) or
-            (currentTime <= NIGHT_END)):
+        if (DAY_START <= currentTime <= DAY_END or
+                currentTime >= NIGHT_START or
+                currentTime <= NIGHT_END):
             recording = True
         
         # 记录时间则需要启动子进程
@@ -111,4 +110,4 @@ if __name__ == '__main__':
     runChildProcess()
     
     # 尽管同样实现了无人值守，但强烈建议每天启动时人工检查，为自己的PNL负责
-    #runParentProcess()
+    # runParentProcess()
