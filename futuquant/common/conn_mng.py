@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+from futuquant.common import bytes_utf8, IS_PY2
 from futuquant.common.utils import *
 from futuquant.common.sys_config import SysConfig
 from Crypto.Cipher import AES
@@ -43,7 +45,8 @@ class FutuConnMng(object):
             key = FutuConnMng.get_conn_key(conn_id)
             if not key:
                 return None
-            key_tmp = bytes(str(key), encoding='utf-8')
+
+            key_tmp = bytes_utf8(str(key))
             cryptor = AES.new(key_tmp, AES.MODE_ECB)
             conn_info['aes_cryptor'] = cryptor
             return cryptor
@@ -56,7 +59,7 @@ class FutuConnMng(object):
             return RET_OK, '', data
 
         if type(data) is not bytes:
-            data = bytes(str(data), encoding='utf-8')
+            data = bytes_utf8(str(data))
 
         len_src = len(data)
         mod_tail_len = (len_src % 16)
@@ -70,7 +73,8 @@ class FutuConnMng(object):
             data = aes_cryptor.encrypt(data)
 
             # 增加一个16字节的数据块（目前只有最后一个字节有用），如果对原数据有补数据，记录原数据最后一个数据块真实长度
-            data_tail = b'\x00' * 15 + bytes(chr(mod_tail_len), encoding='utf-8')
+            data_tail = b'\x00' * 15 + bytes_utf8(chr(mod_tail_len))
+
             data_tail = data_tail[-16:]
             data += data_tail
             return RET_OK, '', data
@@ -85,11 +89,18 @@ class FutuConnMng(object):
         # tail的未尾字节记录解密数据的最一个数据块真实的长度
         data_real = data[:len(data) - 16]
         data_tail = data[-1:]
-        tail_real_len = int.from_bytes(data_tail, 'little')
+        import struct
+        mem_tmp = b'\0\0\0' + data_tail
+        tail_real_len = struct.unpack(">L", mem_tmp)[0]
+        # tail_real_len = int.from_bytes(data_tail, 'little')
 
         aes_cryptor = FutuConnMng.get_conn_aes_cryptor(conn_id)
+
         if aes_cryptor:
-            de_data = aes_cryptor.decrypt(data_real)
+            if IS_PY2:
+                de_data = aes_cryptor.decrypt(str(data_real))
+            else:
+                de_data = aes_cryptor.decrypt(data_real)
 
             # 去掉在加密前增加的额外数据
             if tail_real_len != 0:

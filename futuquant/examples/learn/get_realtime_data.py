@@ -14,7 +14,7 @@ def _example_stock_quote(quote_ctx):
     # subscribe "QUOTE"
     ret_status, ret_data = quote_ctx.subscribe(stock_code_list, ft.SubType.QUOTE)
     if ret_status != ft.RET_OK:
-        print("%s %s: %s" % (stk_code, "QUOTE", ret_data))
+        print("%s %s: %s" % (stock_code_list, "QUOTE", ret_data))
         exit()
 
     ret_status, ret_data = quote_ctx.query_subscription()

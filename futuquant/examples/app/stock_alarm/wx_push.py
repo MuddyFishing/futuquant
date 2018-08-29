@@ -3,6 +3,9 @@ import requests
 import json
 import time
 from Config import Config
+from futuquant.common import bytes_utf8
+
+
 RET_ERROR = -1
 RET_OK = 0
 config = Config()
@@ -58,7 +61,7 @@ class WechatPush(object):
             params={
                 'access_token': access_token
             },
-            data=bytes(json.dumps(body, ensure_ascii=False), encoding='utf-8')
+            data=bytes_utf8(json.dumps(body, ensure_ascii=False))
         )
 
         result = response.json()
@@ -120,7 +123,7 @@ class WechatPush(object):
             params={
                 'access_token': access_token
             },
-            data=bytes(json.dumps(body, ensure_ascii=False), encoding='utf-8')
+            data=bytes_utf8(json.dumps(body, ensure_ascii=False))
         )
         result = response.json()
         if result['errmsg'] != 'ok':

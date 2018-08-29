@@ -3,5 +3,5 @@
 	"port": 11111,
 	"market": "HK",
     "password": "979899",
-    "env": "REAL"
+    "env": "SIMULATE"
 }

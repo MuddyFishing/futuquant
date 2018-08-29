@@ -9,7 +9,7 @@
 
 
 ## 使用说明:
-+ futuquant仅支持python3.x , 需要vnpy支持python3.x才可正常运行
++ futuquant已兼容python2.7, vnpy最低版本要求v1.9, 建议在python2.7下运行该范例
 + 需要用pip 安装的其它库包括 : vnpy, pymongo, future, ta-lib
 + 体验步骤:
 	+ 执行export_csv_k1min_00700.py生成csv文件, 如果不需要最新数据，可跳过

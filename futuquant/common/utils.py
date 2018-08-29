@@ -452,7 +452,10 @@ def binary2str(b, proto_id, proto_fmt_type):
         return b.decode('utf-8')
     elif proto_fmt_type == ProtoFMT.Protobuf:
         rsp = pb_map[proto_id]
-        rsp.ParseFromString(b)
+        if IS_PY2:
+            rsp.ParseFromString(str(b))
+        else:
+            rsp.ParseFromString(b)
         return MessageToJson(rsp)
     else:
         raise Exception("binary2str: unknown proto format.")
@@ -472,7 +475,10 @@ def binary2pb(b, proto_id, proto_fmt_type):
     elif proto_fmt_type == ProtoFMT.Protobuf:
         rsp.Clear()
         # logger.debug((proto_id))
-        rsp.ParseFromString(b)
+        if IS_PY2:
+            rsp.ParseFromString(str(b))
+        else:
+            rsp.ParseFromString(b)
         return rsp
     else:
         raise Exception("binary2str: unknown proto format.")
@@ -503,7 +509,7 @@ def _joint_head(proto_id, proto_fmt_type, body_len, str_body, conn_id, serial_no
         str_body = str_body.SerializeToString()
 
     if type(str_body) is not bytes:
-        str_body = bytes(str_body, encoding='utf-8')
+        str_body = bytes_utf8(str_body)
     sha20 = hashlib.sha1(str_body).digest()
 
     # init connect 需要用rsa加密
@@ -541,11 +547,10 @@ def decrypt_rsp_body(rsp_body, head_dict, conn_id):
     ret_code = RET_OK
     msg = ''
     sha20 = head_dict['sha20']
+    proto_id = head_dict['proto_id']
 
     if SysConfig.is_proto_encrypt():
         try:
-            proto_id = head_dict['proto_id']
-
             if proto_id == ProtoId.InitConnect:
                 rsp_body = RsaCrypt.decrypt(rsp_body)
             else:
