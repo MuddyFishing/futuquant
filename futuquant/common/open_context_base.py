@@ -374,9 +374,9 @@ class OpenContextBase(object):
                 self._net_mgr.set_conn_info(conn_id, conn_info)
                 self._last_keep_alive_time = datetime.now()
                 FutuConnMng.add_conn(conn_info)
-                logger.info("InitConnect ok: {}".format(conn_info))
+                logger.info(make_log_msg("InitConnect ok", conn_id=conn_id, info=conn_info))
             else:
-                logger.warning("InitConnect error: {}".format(msg))
+                logger.warning(make_log_msg("InitConnect error", msg=msg))
                 self._wait_reconnect()
 
     def _handle_keep_alive(self, conn_id, proto_info, ret_code, msg, rsp_pb):
@@ -409,6 +409,7 @@ class OpenContextBase(object):
             self._status = ContextStatus.Connecting
             self._sync_conn_id = 0
             self._conn_id = 0
+            self._keep_alive_fail_count = 0
             self._reconnect_timer = Timer(wait_reconnect_interval, self._reconnect)
             self._reconnect_timer.start()
 
