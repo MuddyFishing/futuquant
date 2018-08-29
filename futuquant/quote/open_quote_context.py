@@ -170,6 +170,7 @@ class OpenQuoteContext(OpenContextBase):
             from futuquant import *
             quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
             print(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.WARRANT))
+            print(quote_ctx.get_stock_basicinfo(Market.US, SecurityType.DRVT, 'US.AAPL190621C140000'))
             quote_ctx.close()
         """
         param_table = {'market': market, 'stock_type': stock_type}
@@ -178,6 +179,14 @@ class OpenQuoteContext(OpenContextBase):
             if param is None or is_str(param) is False:
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
+
+        if code_list is not None:
+            if is_str(code_list):
+                code_list = code_list.split(',')
+            elif isinstance(code_list, list):
+                pass
+            else:
+                return RET_ERROR, "code list must be like ['HK.00001', 'HK.00700'] or 'HK.00001,HK.00700'"
 
         query_processor = self._get_sync_query_processor(
             StockBasicInfoQuery.pack_req, StockBasicInfoQuery.unpack_rsp)
