@@ -54,7 +54,7 @@ class Sub(object):
         quote_ctx.close()
 
     def test5(self):
-        quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1', port=11114)
+        quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1', port=21111)
         # ret_code, ret_data = quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.STOCK,code_list=[])
         # codes = ret_data['code'].tolist()
         # subTypes = [SubType.QUOTE, SubType.ORDER_BOOK,SubType.BROKER, SubType.TICKER, SubType.RT_DATA]
@@ -62,7 +62,19 @@ class Sub(object):
         # print(quote_ctx.subscribe(code_list = codes[:10], subtype_list=subTypes_KL))    #使用8*n个订阅位
         # print(quote_ctx.query_subscription())
         # print(quote_ctx.subscribe(code_list=codes[:12], subtype_list=subTypes))    #使用5*n个订阅位
-        print(quote_ctx.query_subscription())
+        # print(quote_ctx.query_subscription())
+
+        subTypes = [SubType.QUOTE, SubType.ORDER_BOOK, SubType.BROKER, SubType.TICKER, SubType.RT_DATA, SubType.K_1M,
+                   SubType.K_5M, SubType.K_15M, SubType.K_30M, SubType.K_60M, SubType.K_DAY, SubType.K_WEEK,
+                   SubType.K_MON]
+        codes1 = ['HK.00700', 'HK.800000', 'US.AAPL', 'SH.601318', 'SH.000001', 'SZ.000001']
+        codes2 = ['HK.00388', 'US.MSFT', 'SH.601998']
+        codes3 = ['HK.00772', 'US.FB', 'SZ.000885']
+        codes4 = ['HK.01810', 'US.AMZN']
+        codes5 = ['HK.01357', 'US.MDR', 'SZ.000565']
+        codes6 = ['HK.01478']
+        codes = codes1 + codes2 + codes3 + codes4 + codes5 + codes6
+        print(quote_ctx.unsubscribe(code_list=codes, subtype_list=subTypes))
 
 if __name__ == '__main__':
     sub = Sub()

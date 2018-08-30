@@ -14,10 +14,12 @@ class GetStockBasicinfo(object):
     #     SysConfig.enable_proto_encrypt(True)
 
     def test1(self):
-        quote_ctx = OpenQuoteContext(host='172.18.6.144',port=11111)
-        ret_code,ret_data = quote_ctx.get_stock_basicinfo(market = Market.HK, stock_type=SecurityType.WARRANT, code_list=[])
-        print(ret_code)
-        print(ret_data)
+        quote_ctx = OpenQuoteContext(host='127.0.0.1',port=11111)
+        # ret_code,ret_data = quote_ctx.get_stock_basicinfo(market = Market.US, stock_type=SecurityType.DRVT, code_list=['US.AAPL180928C172500'])
+        # print(ret_code)
+        # print(ret_data)
+        print(quote_ctx.get_stock_basicinfo(market=Market.HK, stock_type=SecurityType.STOCK, code_list=None))
+        # print(quote_ctx.get_stock_basicinfo(market=Market.US, stock_type=SecurityType.STOCK, code_list=None))
         # for data in ret_data.iterrows():
         #     print(data)
 

@@ -11,8 +11,8 @@ class TestShareOption(object):
         pandas.set_option('display.width', 1000)
 
     def test_shareOption(self):
-        host = '127.0.0.1' #mac 172.18.6.144
-        port = 21111
+        host = '172.18.7.65' #mac 172.18.6.144
+        port = 11111
         quote_cxt = OpenQuoteContext(host,port)
         quote_cxt.start()
         handlers = [CurKlineTest(),OrderBookTest(),RTDataTest(),TickerTest(),StockQuoteTest()]
@@ -137,6 +137,6 @@ def test1():
 
 
 if __name__ == '__main__':
-    # tso = TestShareOption()
-    # tso.test_shareOption()
-    test1()
+    tso = TestShareOption()
+    tso.test_shareOption()
+    # test1()

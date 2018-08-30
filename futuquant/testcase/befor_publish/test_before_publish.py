@@ -28,7 +28,7 @@ class BeforePublishTest(object):
         pandas.set_option('max_columns',100)
         pandas.set_option('display.width',1000)
         self.host = '127.0.0.1'
-        self.port = 11111
+        self.port = 11112
 
 
     def test_quotation(self):
@@ -43,7 +43,7 @@ class BeforePublishTest(object):
         
         #同步接口
         logger.info('获取交易日 get_trading_days')
-        logger.info(quote_ctx.get_trading_days(market = Market.HK, start_date=None, end_date=None))
+        logger.info(quote_ctx.get_trading_days(market = Market.HK, start=None, end=None))
         logger.info('获取股票信息 get_stock_basicinfo')
         logger.info(quote_ctx.get_stock_basicinfo(market = Market.HK, stock_type=SecurityType.STOCK, code_list=None))
         logger.info(quote_ctx.get_stock_basicinfo(market=Market.HK, stock_type=SecurityType.WARRANT, code_list=None))
@@ -82,7 +82,7 @@ class BeforePublishTest(object):
         logger.info(quote_ctx.get_rt_ticker(code='US.MSFT', num=1000))
         logger.info(quote_ctx.get_rt_ticker(code='SH.601998', num=1000))
 
-        logger.info('订阅 subscribe-K_5M')
+        logger.info('订阅 subscribe-KL')
         codes3 = ['HK.00772','US.FB','SZ.000885']
         logger.info(quote_ctx.subscribe(code_list=codes3, subtype_list=[SubType.K_5M,SubType.K_DAY,SubType.K_WEEK]))
         logger.info('获取实时K线 get_cur_kline')
@@ -114,13 +114,16 @@ class BeforePublishTest(object):
         logger.info('查询订阅 query_subscription')
         logger.info(quote_ctx.query_subscription(is_all_conn=True))
 
-        time.sleep(60)
+        time.sleep(61)
         logger.info('反订阅 unsubscribe')
         subTypes = [SubType.QUOTE, SubType.ORDER_BOOK, SubType.BROKER, SubType.TICKER, SubType.RT_DATA, SubType.K_1M,
                     SubType.K_5M, SubType.K_15M, SubType.K_30M, SubType.K_60M, SubType.K_DAY, SubType.K_WEEK,
                     SubType.K_MON]
         codes=codes1+codes2+codes3+codes4+codes5+codes6
         logger.info(quote_ctx.unsubscribe(code_list = codes, subtype_list = subTypes))
+
+        logger.info('查询订阅 query_subscription')
+        logger.info(quote_ctx.query_subscription(is_all_conn=True))
 
         #异步实时数据
         # 设置监听
@@ -171,25 +174,25 @@ class BeforePublishTest(object):
         trade_cn.start()
 
         #股票信息
-        price_hk = 5.85
+        price_hk = 4.01
         qty_hk = 500
-        code_hk = 'HK.1357'
-        price_us = 36.34
+        code_hk = 'HK.01357'
+        price_us = 32.14
         qty_us = 2
         code_us = 'US.JD'
-        price_cn = 9.02
+        price_cn = 10.15
         qty_cn = 100
         code_cn = 'SZ.000001'
         
         #查询最大可买可卖
         logger.info(code_hk+' price='+str(price_hk)+' 最大可买可卖')
-        logger.info(trade_hk.acctradinginfo_query(order_type = OrderType.NORMAL, code=code_hk, price=price_hk, order_id = '', adjust_limit=0, trd_env=tradeEnv, acc_id=0))
+        logger.info(trade_hk.acctradinginfo_query(order_type = OrderType.NORMAL, code=code_hk, price=price_hk, order_id = 0, adjust_limit=0, trd_env=tradeEnv, acc_id=0, acc_index=0))
         logger.info(code_us+' price='+str(price_us)+' 最大可买可卖')
-        logger.info(trade_us.acctradinginfo_query(order_type=OrderType.NORMAL, code=code_us, price=price_us, order_id='',
-                                            adjust_limit=0, trd_env=tradeEnv, acc_id=0))
+        logger.info(trade_us.acctradinginfo_query(order_type=OrderType.NORMAL, code=code_us, price=price_us, order_id=0,
+                                            adjust_limit=0, trd_env=tradeEnv, acc_id=0, acc_index=0))
         logger.info(code_cn+'price='+str(price_cn)+' 最大可买可卖')
-        logger.info(trade_cn.acctradinginfo_query(order_type=OrderType.NORMAL, code=code_cn, price=price_cn, order_id='',
-                                            adjust_limit=0, trd_env=tradeEnv, acc_id=0))
+        logger.info(trade_cn.acctradinginfo_query(order_type=OrderType.NORMAL, code=code_cn, price=price_cn, order_id=0,
+                                            adjust_limit=0, trd_env=tradeEnv, acc_id=0, acc_index=0))
 
         # 下单 place_order
         for i in range(3):
@@ -204,14 +207,14 @@ class BeforePublishTest(object):
 
             #港股普通订单-卖出
             logger.info('港股普通订单-卖出')
-            logger.info(trade_hk.place_order(price=price_hk - i, qty=qty_hk * i,
+            logger.info(trade_hk.place_order(price=price_hk + i, qty=qty_hk * i,
                                        code=code_hk,
                                        trd_side=TrdSide.SELL,
                                        order_type=OrderType.NORMAL,
                                        adjust_limit=0, trd_env=tradeEnv,
                                        acc_id=0))
             #美股普通订单-买入
-            logger.info('股普通订单-买入')
+            logger.info('美股普通订单-买入')
             logger.info(trade_us.place_order(price=price_us - i, qty=qty_us * i,
                                        code=code_us,
                                        trd_side=TrdSide.BUY,
@@ -219,7 +222,7 @@ class BeforePublishTest(object):
                                        adjust_limit=0, trd_env=tradeEnv,
                                        acc_id=0))
             # 美股普通订单-卖出
-            logger.info('股普通订单-卖出')
+            logger.info('美股普通订单-卖出')
             logger.info(trade_us.place_order(price=price_us + i, qty=qty_us * i,
                                  code=code_us,
                                  trd_side=TrdSide.SELL,
@@ -349,6 +352,7 @@ class BeforePublishTest(object):
         logger.info('CN 历史成交列表')
         logger.info(trade_cn.history_deal_list_query(code='', start='', end='', trd_env=tradeEnv, acc_id=0))
 
+
     
 class CurKlineTest(CurKlineHandlerBase):
     '''获取实时K线 get_cur_kline 和 CurKlineHandlerBase'''
@@ -450,7 +454,7 @@ class TradeDealTest(TradeDealHandlerBase):
 
 if __name__ == '__main__':
     aa = BeforePublishTest()
-    aa.test_quotation()
+    # aa.test_quotation()
     aa.test_trade(TrdEnv.REAL)
     aa.test_trade(TrdEnv.SIMULATE)
 

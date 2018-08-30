@@ -11,10 +11,13 @@ class AccTradeInfoQuery(object):
         pandas.set_option('display.width', 1000)
 
     def test1(self):
-        trade_us = OpenUSTradeContext(host='127.0.0.1', port=11112)
-        print(trade_us.unlock_trade('123123'))
-        print(trade_us.acctradinginfo_query(order_type=OrderType.NORMAL, code='US.AAPL180817C190000', price=23.8,
-                                            order_id=0, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=281756460277401516))
+        trade_ = OpenHKTradeContext(host='127.0.0.1', port=11111)
+        print(trade_.unlock_trade('123123'))
+        price_hk = 4.01
+        qty_hk = 500
+        code_hk = 'HK.01357'
+        print(trade_.acctradinginfo_query(order_type=OrderType.NORMAL, code=code_hk, price=price_hk,
+                                            order_id=0, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0,acc_index=0))
 
     def test2(self):
         host = '127.0.0.1'

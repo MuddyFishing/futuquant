@@ -12,7 +12,7 @@ class RequestHstyKl(object):
         pandas.set_option('max_columns', 1000)
 
     def test1(self):
-        host = '127.0.0.1'   #mac 172.18.6.144
+        host = '172.18.6.144'   #mac 172.18.6.144
         port = 11112
         req_sleep = 4
         quote_ctx = OpenQuoteContext(host,port)
@@ -22,7 +22,7 @@ class RequestHstyKl(object):
         ret_code,ret_data = quote_ctx.get_stock_basicinfo(market = Market.HK, stock_type=SecurityType.STOCK, code_list=None)
         codes = ret_data['code'].tolist()
         for i in range(1001):
-            print(i)
+            print(i,'code = ',codes[i])
             print(quote_ctx.request_history_kline(codes[i],
                               start='2018-8-21',
                               end='2018-8-21',
@@ -39,9 +39,9 @@ class RequestHstyKl(object):
 
     def test2(self):
         host = '127.0.0.1'  # mac 172.18.6.144
-        port = 11112
+        port = 11111
         quote_ctx = OpenQuoteContext(host, port)
-        print(quote_ctx.request_history_kline(code = 'HK.999010',
+        print(quote_ctx.request_history_kline(code = 'HK.00700',
                               start=None,
                               end=None,
                               ktype=KLType.K_DAY,

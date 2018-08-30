@@ -12,7 +12,7 @@ class AccinfoQuery(object):
     def test1(self):
         host = '127.0.0.1'
         port = 11112
-        trade_ = OpenUSTradeContext(host, port)#OpenHKTradeContext(host,port)#OpenUSTradeContext(host, port)
+        trade_ = OpenHKTradeContext(host, port)#OpenHKTradeContext(host,port)#OpenUSTradeContext(host, port)
         ret_code_unlock_trade, ret_data_unlock_trade = trade_.unlock_trade(password='123123')
         print('unlock_trade  ret_code= %d, ret_data= %s' % (ret_code_unlock_trade, ret_data_unlock_trade))
         ret_code_acc_list ,ret_data_acc_list = trade_.get_acc_list()

@@ -73,4 +73,4 @@ class OrderListQuery(object):
 
 if __name__ == '__main__':
     olq = OrderListQuery()
-    olq.test1()
+    olq.test2()

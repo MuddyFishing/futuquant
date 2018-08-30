@@ -64,4 +64,4 @@ class HistoryOrderListQuery(object):
 
 if __name__ == '__main__':
     holq = HistoryOrderListQuery()
-    holq.test_us()
+    holq.test1()

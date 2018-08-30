@@ -12,7 +12,7 @@ class GetHoldChange(object):
 
     def test1(self):
         host = '127.0.0.1'
-        port=11112
+        port=11111
         quote_ctx = OpenQuoteContext(host,port)
         print(quote_ctx.get_holding_change_list(code='US.DIS', holder_type=StockHolder.EXECUTIVE, start=None, end=None))
 

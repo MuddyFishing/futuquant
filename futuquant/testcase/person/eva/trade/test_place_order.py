@@ -71,9 +71,9 @@ class PlaceOrder(object):
 
     def test_us(self):
         host = '127.0.0.1'
-        port = 11113
+        port = 21111
         tradeus_ctx = OpenUSTradeContext(host,port)
-        ret_code_unlock_trade, ret_data_unlock_trade = tradeus_ctx.unlock_trade(password='123123')
+        ret_code_unlock_trade, ret_data_unlock_trade = tradeus_ctx.unlock_trade(password='321321')
         print('unlock_trade  ret_code= %d, ret_data= %s' % (ret_code_unlock_trade, ret_data_unlock_trade))
         # 设置监听
         handler_tradeOrder = TradeOrderTest()
@@ -82,15 +82,15 @@ class PlaceOrder(object):
         tradeus_ctx.set_handler(handler_tradeDealtrade)
         # 开启异步
         tradeus_ctx.start()
-        code = 'US.AAPL180914P205000'  # US.AAPL180914C210000
-        price = 1.2
-        qty = 1000
+        code = 'US.AAPL'  # US.AAPL180914P205000
+        price = 215
+        qty = 1
         trd_side = TrdSide.BUY
         order_type = OrderType.NORMAL
         adjust_limit = 0
         trd_env = TrdEnv.REAL
         acc_id = 0
-        acc_index = 1
+        acc_index = 0
         ret_code, ret_data = tradeus_ctx.place_order(price, qty, code, trd_side, order_type, adjust_limit, trd_env,acc_id, acc_index)
         print('place_order  ret_code= %d ,ret_data =\n%s' % (ret_code, str(ret_data)))
 
@@ -117,18 +117,18 @@ class PlaceOrder(object):
         #解锁
         print(trade_hk.unlock_trade('123123'))
         #下单
-        print('下单place_order\n',trade_hk.place_order(price = 5.82, qty = 500, code = 'HK.01357', trd_side=TrdSide.BUY,
+        print('港股下单place_order\n',trade_hk.place_order(price = 5.82, qty = 1000, code = 'HK.01357', trd_side=TrdSide.BUY,
                                   order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
         # price = 3.04, qty = 10, code = 'US.DDE'
         # price = 192, qty = 10, code = 'US.AAPL'
-        # print('place_order\n',trade_us.place_order(price = 36.34, qty = 2, code = 'US.JD', trd_side=TrdSide.BUY,
-        #                            order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print('美股下单place_order\n',trade_us.place_order(price = 36.34, qty = 2, code = 'US.JD', trd_side=TrdSide.BUY,
+                                   order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
         # price = 9.62, qty = 200, code = 'SZ.002078'
         # price=10.2, qty=200, code='SH.601007'
-        # print('place_order\n',trade_sh_m.place_order(price=9.16, qty=100, code='SZ.000001', trd_side=TrdSide.BUY,
-        #                            order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print('A股下单place_order\n',trade_sh_m.place_order(price=10.27, qty=100, code='SZ.000001', trd_side=TrdSide.BUY,
+                                   order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
     def test2(self):
         host = '127.0.0.1'

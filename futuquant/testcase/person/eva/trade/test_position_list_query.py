@@ -37,7 +37,7 @@ class PositionListQuery(object):
 
     def test1(self):
         host =  '127.0.0.1'
-        port = 11112
+        port = 11111
 
         # host = '172.18.6.144'#mac-patrick
         # port = 11111
@@ -47,9 +47,9 @@ class PositionListQuery(object):
         trade_sh_m = OpenCNTradeContext(host, port)
 
         print(trade_us.unlock_trade('123123'))
-        print(trade_us.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL, acc_id=0,acc_index=1))
-        # print(trade_us.position_list_query(code='AAPL', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.SIMULATE, acc_id=0))
-        # print(trade_sh_m.position_list_query(code='000700', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print(trade_hk.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.SIMULATE, acc_id=0,acc_index=0))
+        print(trade_us.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print(trade_sh_m.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
 
 if __name__ == '__main__':
