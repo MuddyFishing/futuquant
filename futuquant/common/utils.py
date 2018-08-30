@@ -569,3 +569,14 @@ def decrypt_rsp_body(rsp_body, head_dict, conn_id):
     return ret_code, msg, rsp_body
 
 
+def make_from_namedtuple(t, **kwargs):
+    """
+    t是namedtuple，复制一份t，但其中部分字段更新为kwargs的值
+    :param t:
+    :param kwargs:
+    :return:
+    """
+    d = t._asdict()
+    d.update(kwargs)
+    cls = type(t)
+    return cls(**d)

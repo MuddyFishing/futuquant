@@ -323,8 +323,8 @@ class NetManager:
 
     def _close_all(self):
         for sock, sel_key in self._selector.get_map().items():
-            sock.close()
             self._selector.unregister(sock)
+            sock.close()
 
     def sync_query(self, conn_id, req_str):
         head_dict = self._parse_req_head(req_str)
@@ -413,12 +413,12 @@ class NetManager:
             return
         elif conn.status == ConnStatus.Connecting:
             err = conn.sock.getsockopt(socket.SOL_SOCKET, socket.SO_ERROR)
+            self._watch_write(conn, False)
             if err != 0:
                 conn.handler.on_error(conn.conn_id, errno.errorcode[err])
             else:
                 conn.status = ConnStatus.Connected
                 conn.handler.on_connected(conn.conn_id)
-            self._watch_write(conn, False)
             return
 
         err = None
@@ -429,6 +429,8 @@ class NetManager:
                 size = conn.sock.send(conn.writebuf)
                 # logger.debug('send: total_len={}; sent_len={};'.format(len(conn.writebuf), size))
                 # logger.debug(conn.writebuf[:size])
+        except BlockingIOError:
+            pass
         except socket.error as e:
             if e.errno != errno.EAGAIN and e.errno != errno.EWOULDBLOCK:
                 err = str(e)
@@ -467,10 +469,11 @@ class NetManager:
                 msg = msg_decrypt
                 rsp_pb = None
 
-        log_msg = 'Recv packet: proto_id={}; serial_no={}; data_len={}; msg={};'.format(proto_info.proto_id,
-                                                                                        proto_info.serial_no,
-                                                                                        len(rsp_body_data) if rsp_body_data else 0,
-                                                                                        msg)
+        log_msg = 'Recv: conn_id={}; proto_id={}; serial_no={}; data_len={}; msg={};'.format(conn.conn_id,
+                                                                                             proto_info.proto_id,
+                                                                                             proto_info.serial_no,
+                                                                                             len(rsp_body_data) if rsp_body_data else 0,
+                                                                                             msg)
         if err_code == Err.Ok.code:
             logger.debug(log_msg)
         else:
