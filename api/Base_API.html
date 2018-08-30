@@ -25,17 +25,23 @@
   
 
   
+  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="next" title="行情API" href="Quote_API.html" />
-    <link rel="prev" title="下载历史数据" href="../setup/Hist_KLine_Download_Intro.html" /> 
+  
+
+  
+
+  
+    <link rel="top" title="futuquant 3.2 documentation" href="../index.html"/>
+        <link rel="next" title="行情API" href="Quote_API.html"/>
+        <link rel="prev" title="下载历史数据" href="../setup/Hist_KLine_Download_Intro.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav">
+<body class="wy-body-for-nav" role="document">
 
    
   <div class="wy-grid-for-nav">
@@ -113,6 +119,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#kl-field-k">KL_FIELD - K线数据字段</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#tickerdirect">TickerDirect - 逐笔方向</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#plate">Plate - 板块集合分类</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stockholder">StockHolder - 持有者类别</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optiontype">OptionType - 期权类型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optioncondtype">OptionCondType - 价内价外</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sysnotifytype">SysNotifyType - 系统异步通知类型</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gtweventtype">GtwEventType - 网关异步通知类型</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#securityreferencetype">SecurityReferenceType - 股票关联数据类型</a></li>
@@ -151,7 +160,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" aria-label="top navigation">
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">futuquant</a>
@@ -159,10 +168,9 @@
       </nav>
 
 
+      
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           
 
 
@@ -438,12 +446,6 @@
 </dd></dl>
 
 <dl class="attribute">
-<dt id="Market.US_OPTION">
-<code class="descname">US_OPTION</code><a class="headerlink" href="#Market.US_OPTION" title="Permalink to this definition">¶</a></dt>
-<dd><p>美股期权</p>
-</dd></dl>
-
-<dl class="attribute">
 <dt id="Market.NONE">
 <code class="descname">NONE</code><a class="headerlink" href="#Market.NONE" title="Permalink to this definition">¶</a></dt>
 <dd><p>未知</p>
@@ -611,6 +613,12 @@
 <dt id="SecurityType.BOND">
 <code class="descname">BOND</code><a class="headerlink" href="#SecurityType.BOND" title="Permalink to this definition">¶</a></dt>
 <dd><p>债券</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="SecurityType.DRVT">
+<code class="descname">DRVT</code><a class="headerlink" href="#SecurityType.DRVT" title="Permalink to this definition">¶</a></dt>
+<dd><p>期权</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1037,6 +1045,90 @@
 <dt id="Plate.CONCEPT">
 <code class="descname">CONCEPT</code><a class="headerlink" href="#Plate.CONCEPT" title="Permalink to this definition">¶</a></dt>
 <dd><p>概念板块</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="stockholder">
+<h3>StockHolder - 持有者类别<a class="headerlink" href="#stockholder" title="Permalink to this headline">¶</a></h3>
+<p>持有者类别定义</p>
+<dl class="class">
+<dt id="StockHolder">
+<em class="property">class </em><code class="descname">StockHolder</code><a class="headerlink" href="#StockHolder" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="StockHolder.INSTITUTE">
+<code class="descname">INSTITUTE</code><a class="headerlink" href="#StockHolder.INSTITUTE" title="Permalink to this definition">¶</a></dt>
+<dd><p>机构</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="StockHolder.FUND">
+<code class="descname">FUND</code><a class="headerlink" href="#StockHolder.FUND" title="Permalink to this definition">¶</a></dt>
+<dd><p>基金</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="StockHolder.EXECUTIVE">
+<code class="descname">EXECUTIVE</code><a class="headerlink" href="#StockHolder.EXECUTIVE" title="Permalink to this definition">¶</a></dt>
+<dd><p>高管</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="optiontype">
+<h3>OptionType - 期权类型<a class="headerlink" href="#optiontype" title="Permalink to this headline">¶</a></h3>
+<p>期权类型定义</p>
+<dl class="class">
+<dt id="OptionType">
+<em class="property">class </em><code class="descname">OptionType</code><a class="headerlink" href="#OptionType" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="OptionType.ALL">
+<code class="descname">ALL</code><a class="headerlink" href="#OptionType.ALL" title="Permalink to this definition">¶</a></dt>
+<dd><p>全部</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="OptionType.CALL">
+<code class="descname">CALL</code><a class="headerlink" href="#OptionType.CALL" title="Permalink to this definition">¶</a></dt>
+<dd><p>涨</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="OptionType.PUT">
+<code class="descname">PUT</code><a class="headerlink" href="#OptionType.PUT" title="Permalink to this definition">¶</a></dt>
+<dd><p>跌</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="optioncondtype">
+<h3>OptionCondType - 价内价外<a class="headerlink" href="#optioncondtype" title="Permalink to this headline">¶</a></h3>
+<p>价内价外定义</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descname">OptionType</code></dt>
+<dd><dl class="attribute">
+<dt>
+<code class="descname">ALL</code></dt>
+<dd><p>全部</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="OptionType.WITHIN">
+<code class="descname">WITHIN</code><a class="headerlink" href="#OptionType.WITHIN" title="Permalink to this definition">¶</a></dt>
+<dd><p>价内</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="OptionType.OUTSIDE">
+<code class="descname">OUTSIDE</code><a class="headerlink" href="#OptionType.OUTSIDE" title="Permalink to this definition">¶</a></dt>
+<dd><p>价外</p>
 </dd></dl>
 
 </dd></dl>
@@ -1521,7 +1613,9 @@
 
 
            </div>
-           
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
@@ -1561,7 +1655,6 @@
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'3.2',
-            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1579,11 +1672,14 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
+  
+  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
+          SphinxRtdTheme.StickyNav.enable();
       });
   </script>
+  
  
 <script type="text/javascript">
     console.log("Layout By FutuQuant");

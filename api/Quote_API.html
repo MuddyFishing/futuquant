@@ -25,17 +25,23 @@
   
 
   
+  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="next" title="交易API" href="Trade_API.html" />
-    <link rel="prev" title="基础API" href="Base_API.html" /> 
+  
+
+  
+
+  
+    <link rel="top" title="futuquant 3.2 documentation" href="../index.html"/>
+        <link rel="next" title="交易API" href="Trade_API.html"/>
+        <link rel="prev" title="基础API" href="Base_API.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav">
+<body class="wy-body-for-nav" role="document">
 
    
   <div class="wy-grid-for-nav">
@@ -103,6 +109,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#get-stock-basicinfo">get_stock_basicinfo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-multiple-history-kline">get_multiple_history_kline</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-history-kline">get_history_kline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#request-history-kline">request_history_kline</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-autype-list">get_autype_list</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-market-snapshot">get_market_snapshot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-rt-data">get_rt_data</a></li>
@@ -119,6 +126,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#get-order-book">get_order_book</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-multi-points-history-kline">get_multi_points_history_kline</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#get-referencestock-list">get_referencestock_list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-owner-plate">get_owner_plate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-holding-change-list">get_holding_change_list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-option-chain">get_option_chain</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#stockquotehandlerbase">StockQuoteHandlerBase - 实时报价回调处理类</a><ul>
@@ -148,9 +158,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#id8">接口入参限制</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id9">接口限频</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id10">低频数据接口</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id11">高频数据接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">接口限频</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id11">低频数据接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">高频数据接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">OpenAPI用户等级权限</a></li>
 </ul>
 </li>
 </ul>
@@ -178,7 +189,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" aria-label="top navigation">
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">futuquant</a>
@@ -186,10 +197,9 @@
       </nav>
 
 
+      
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           
 
 
@@ -359,16 +369,51 @@
 <h4>get_trading_days<a class="headerlink" href="#get-trading-days" title="Permalink to this headline">¶</a></h4>
 <dl class="function">
 <dt id="get_trading_days">
-<code class="descname">get_trading_days</code><span class="sig-paren">(</span><em>self</em>, <em>market</em>, <em>start_date=None</em>, <em>end_date=None</em><span class="sig-paren">)</span><a class="headerlink" href="#get_trading_days" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_trading_days</code><span class="sig-paren">(</span><em>self</em>, <em>market</em>, <em>start=None</em>, <em>end=None</em><span class="sig-paren">)</span><a class="headerlink" href="#get_trading_days" title="Permalink to this definition">¶</a></dt>
 <dd><p>获取交易日</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>market</strong> &#8211; 市场类型，futuquant.common.constsnt.Market</li>
-<li><strong>start_date</strong> &#8211; 起始日期</li>
-<li><strong>end_date</strong> &#8211; 结束日期</li>
+<li><strong>market</strong> &#8211; 市场类型，<a class="reference external" href="Base_API.html#market">Market</a></li>
+<li><strong>start</strong> &#8211; 起始日期。例如&#8216;2018-01-01&#8217;。</li>
+<li><strong>end</strong> &#8211; <p>结束日期。例如&#8216;2018-01-01&#8217;。
+start和end的组合如下：</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="17%" />
+<col width="67%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">start类型</th>
+<th class="head">end类型</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>str</td>
+<td>str</td>
+<td>start和end分别为指定的日期</td>
+</tr>
+<tr class="row-odd"><td>None</td>
+<td>str</td>
+<td>start为end往前365天</td>
+</tr>
+<tr class="row-even"><td>str</td>
+<td>None</td>
+<td>end为start往后365天</td>
+</tr>
+<tr class="row-odd"><td>None</td>
+<td>None</td>
+<td>end为当前日期，start为end往前365天</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
 </ul>
 </td>
 </tr>
@@ -381,7 +426,7 @@
 </table>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_trading_days</span><span class="p">(</span><span class="n">market</span><span class="o">=</span><span class="n">Market</span><span class="o">.</span><span class="n">HK</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_trading_days</span><span class="p">(</span><span class="n">Market</span><span class="o">.</span><span class="n">HK</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s1">&#39;2018-01-01&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;2018-01-10&#39;</span><span class="p">))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -400,7 +445,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>market</strong> &#8211; 市场类型 <a class="reference external" href="Base_API.html#market">Market</a></li>
-<li><strong>stock_type</strong> &#8211; 股票类型 <a class="reference external" href="Base_API.html#securitytype">SecurityType</a></li>
+<li><strong>stock_type</strong> &#8211; 股票类型，该参数不支持SecurityType.DRVT <a class="reference external" href="Base_API.html#securitytype">SecurityType</a></li>
 <li><strong>code_list</strong> &#8211; 如果不为None，应该是股票code的iterable类型，将只返回指定的股票信息</li>
 </ul>
 </td>
@@ -434,15 +479,31 @@
 </tr>
 <tr class="row-odd"><td>stock_type</td>
 <td>str</td>
-<td>股票类型，参见SecurityType</td>
+<td>股票类型，参见 <a class="reference external" href="Base_API.html#securitytype">SecurityType</a></td>
 </tr>
 <tr class="row-even"><td>stock_child_type</td>
 <td>str</td>
-<td>涡轮子类型，参见WrtType</td>
+<td>窝轮子类型，参见 <a class="reference external" href="Base_API.html#wrttype">WrtType</a></td>
 </tr>
 <tr class="row-odd"><td>stock_owner</td>
 <td>str</td>
-<td>正股代码</td>
+<td>所属正股的代码</td>
+</tr>
+<tr class="row-even"><td>option_type</td>
+<td>str</td>
+<td>期权类型，查看 <a class="reference external" href="Base_API.html#optiontype">OptionType</a></td>
+</tr>
+<tr class="row-odd"><td>strike_time</td>
+<td>str</td>
+<td>行权日（美股默认是美东时间，港股A股默认是北京时间）</td>
+</tr>
+<tr class="row-even"><td>strike_price</td>
+<td>float</td>
+<td>行权价</td>
+</tr>
+<tr class="row-odd"><td>suspension</td>
+<td>bool</td>
+<td>是否停牌(True表示停牌)</td>
 </tr>
 <tr class="row-even"><td>listing_date</td>
 <td>str</td>
@@ -464,6 +525,7 @@
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_stock_basicinfo</span><span class="p">(</span><span class="n">Market</span><span class="o">.</span><span class="n">HK</span><span class="p">,</span> <span class="n">SecurityType</span><span class="o">.</span><span class="n">WARRANT</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_stock_basicinfo</span><span class="p">(</span><span class="n">Market</span><span class="o">.</span><span class="n">US</span><span class="p">,</span> <span class="n">SecurityType</span><span class="o">.</span><span class="n">DRVT</span><span class="p">,</span> <span class="s1">&#39;US.AAPL190621C140000&#39;</span><span class="p">))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -475,15 +537,15 @@
 <dl class="function">
 <dt id="get_multiple_history_kline">
 <code class="descname">get_multiple_history_kline</code><span class="sig-paren">(</span><em>self</em>, <em>codelist</em>, <em>start=None</em>, <em>end=None</em>, <em>ktype=KLType.K_DAY</em>, <em>autype=AuType.QFQ</em><span class="sig-paren">)</span><a class="headerlink" href="#get_multiple_history_kline" title="Permalink to this definition">¶</a></dt>
-<dd><p>获取多只股票的历史k线数据</p>
+<dd><p>获取多只股票的本地历史k线数据</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>codelist</strong> &#8211; 股票代码列表，list或str。例如：[&#8216;HK.00700&#8217;, &#8216;HK.00001&#8217;]，&#8217;HK.00700,SZ.399001&#8217;</li>
-<li><strong>start</strong> &#8211; 起始时间</li>
-<li><strong>end</strong> &#8211; 结束时间</li>
+<li><strong>start</strong> &#8211; 起始时间，，例如&#8216;2017-06-20&#8217;</li>
+<li><strong>end</strong> &#8211; 结束时间，例如&#8216;2017-07-20&#8217;，start与end组合关系参见 <a class="reference internal" href="#get_history_kline">get_history_kline</a></li>
 <li><strong>ktype</strong> &#8211; k线类型，参见 <a class="reference external" href="Base_API.html#kltype-k">KLType</a></li>
 <li><strong>autype</strong> &#8211; 复权类型，参见 <a class="reference external" href="Base_API.html#autype-k">AuType</a></li>
 </ul>
@@ -509,7 +571,7 @@
 </tr>
 <tr class="row-odd"><td>time_key</td>
 <td>str</td>
-<td>k线时间</td>
+<td>k线时间（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-even"><td>open</td>
 <td>float</td>
@@ -529,7 +591,7 @@
 </tr>
 <tr class="row-even"><td>pe_ratio</td>
 <td>float</td>
-<td>市盈率</td>
+<td>市盈率（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-odd"><td>turnover_rate</td>
 <td>float</td>
@@ -584,8 +646,43 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>code</strong> &#8211; 股票代码</li>
-<li><strong>start</strong> &#8211; 开始时间，例如2017-06-20</li>
-<li><strong>end</strong> &#8211; 结束时间</li>
+<li><strong>start</strong> &#8211; 开始时间，例如&#8216;2017-06-20&#8217;。</li>
+<li><strong>end</strong> &#8211; <p>结束时间，例如&#8216;2017-06-30&#8217;。
+start和end的组合如下：</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="17%" />
+<col width="67%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">start类型</th>
+<th class="head">end类型</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>str</td>
+<td>str</td>
+<td>start和end分别为指定的日期</td>
+</tr>
+<tr class="row-odd"><td>None</td>
+<td>str</td>
+<td>start为end往前365天</td>
+</tr>
+<tr class="row-even"><td>str</td>
+<td>None</td>
+<td>end为start往后365天</td>
+</tr>
+<tr class="row-odd"><td>None</td>
+<td>None</td>
+<td>end为当前日期，start为end往前365天</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
 <li><strong>ktype</strong> &#8211; k线类型， 参见 <a class="reference external" href="Base_API.html#kltype-k">KLType</a> 定义</li>
 <li><strong>autype</strong> &#8211; 复权类型, 参见 <a class="reference external" href="Base_API.html#autype-k">AuType</a> 定义</li>
 <li><strong>fields</strong> &#8211; 需返回的字段列表，参见 <a class="reference external" href="Base_API.html#kl-field-k">KL_FIELD</a> 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....</li>
@@ -616,7 +713,7 @@
 </tr>
 <tr class="row-odd"><td>time_key</td>
 <td>str</td>
-<td>k线时间</td>
+<td>k线时间（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-even"><td>open</td>
 <td>float</td>
@@ -636,7 +733,7 @@
 </tr>
 <tr class="row-even"><td>pe_ratio</td>
 <td>float</td>
-<td>市盈率</td>
+<td>市盈率（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-odd"><td>turnover_rate</td>
 <td>float</td>
@@ -676,6 +773,151 @@
 </dd></dl>
 
 </div>
+<div class="section" id="request-history-kline">
+<h4>request_history_kline<a class="headerlink" href="#request-history-kline" title="Permalink to this headline">¶</a></h4>
+<dl class="function">
+<dt id="request_history_kline">
+<code class="descname">request_history_kline</code><span class="sig-paren">(</span><em>self, code, start=None, end=None, ktype=KLType.K_DAY, autype=AuType.QFQ, fields=[KL_FIELD.ALL], max_count=1000, page_req_key=None</em><span class="sig-paren">)</span><a class="headerlink" href="#request_history_kline" title="Permalink to this definition">¶</a></dt>
+<dd><p>获取k线，不需要事先下载k线数据。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>code</strong> &#8211; 股票代码</li>
+<li><strong>start</strong> &#8211; 开始时间，例如&#8216;2017-06-20&#8217;</li>
+<li><strong>end</strong> &#8211; <p>结束时间，例如&#8216;2017-07-20&#8217;。
+start和end的组合如下：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="17%" />
+<col width="67%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">start类型</th>
+<th class="head">end类型</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>str</td>
+<td>str</td>
+<td>start和end分别为指定的日期</td>
+</tr>
+<tr class="row-odd"><td>None</td>
+<td>str</td>
+<td>start为end往前365天</td>
+</tr>
+<tr class="row-even"><td>str</td>
+<td>None</td>
+<td>end为start往后365天</td>
+</tr>
+<tr class="row-odd"><td>None</td>
+<td>None</td>
+<td>end为当前日期，start为end往前365天</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><strong>ktype</strong> &#8211; k线类型， 参见 <a class="reference external" href="Base_API.html#kltype-k">KLType</a> 定义</li>
+<li><strong>autype</strong> &#8211; 复权类型, 参见 <a class="reference external" href="Base_API.html#autype-k">AuType</a> 定义</li>
+<li><strong>fields</strong> &#8211; 需返回的字段列表，参见 <a class="reference external" href="Base_API.html#kl-field-k">KL_FIELD</a> 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....</li>
+<li><strong>max_count</strong> &#8211; 本次请求最大返回的数据点个数，传None表示返回start和end之间所有的数据。</li>
+<li><strong>page_req_key</strong> &#8211; 分页请求的key。如果start和end之间的数据点多于max_count，那么后续请求时，要传入上次调用返回的page_req_key。初始请求时应该传None。</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>(ret, data, page_req_key)</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下。page_req_key在分页请求时（即max_count&gt;0）</dt>
+<dd><p class="first last">可能返回，并且需要在后续的请求中传入。如果没有更多数据，page_req_key返回None。</p>
+</dd>
+</dl>
+<p>ret != RET_OK 返回错误字符串</p>
+</div></blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="10%" />
+<col width="74%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">参数</th>
+<th class="head">类型</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>code</td>
+<td>str</td>
+<td>股票代码</td>
+</tr>
+<tr class="row-odd"><td>time_key</td>
+<td>str</td>
+<td>k线时间（美股默认是美东时间，港股A股默认是北京时间）</td>
+</tr>
+<tr class="row-even"><td>open</td>
+<td>float</td>
+<td>开盘价</td>
+</tr>
+<tr class="row-odd"><td>close</td>
+<td>float</td>
+<td>收盘价</td>
+</tr>
+<tr class="row-even"><td>high</td>
+<td>float</td>
+<td>最高价</td>
+</tr>
+<tr class="row-odd"><td>low</td>
+<td>float</td>
+<td>最低价</td>
+</tr>
+<tr class="row-even"><td>pe_ratio</td>
+<td>float</td>
+<td>市盈率（该字段为比例字段，默认不展示%）</td>
+</tr>
+<tr class="row-odd"><td>turnover_rate</td>
+<td>float</td>
+<td>换手率</td>
+</tr>
+<tr class="row-even"><td>volume</td>
+<td>int</td>
+<td>成交量</td>
+</tr>
+<tr class="row-odd"><td>turnover</td>
+<td>float</td>
+<td>成交额</td>
+</tr>
+<tr class="row-even"><td>change_rate</td>
+<td>float</td>
+<td>涨跌幅</td>
+</tr>
+<tr class="row-odd"><td>last_close</td>
+<td>float</td>
+<td>昨收价</td>
+</tr>
+</tbody>
+</table>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">ret</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">page_req_key</span> <span class="o">=</span> <span class="n">quote_ctx</span><span class="o">.</span><span class="n">request_history_kline</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s1">&#39;2017-06-20&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;2018-06-22&#39;</span><span class="p">,</span> <span class="n">max_count</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span> <span class="c1">#请求开头50个数据</span>
+<span class="k">print</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">ret</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">page_req_key</span> <span class="o">=</span> <span class="n">quote_ctx</span><span class="o">.</span><span class="n">request_history_kline</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s1">&#39;2017-06-20&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;2018-06-22&#39;</span><span class="p">,</span> <span class="n">max_count</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">page_req_key</span><span class="o">=</span><span class="n">page_req_key</span><span class="p">)</span> <span class="c1">#请求下50个数据</span>
+<span class="k">print</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
 <div class="section" id="get-autype-list">
 <h4>get_autype_list<a class="headerlink" href="#get-autype-list" title="Permalink to this headline">¶</a></h4>
 <dl class="function">
@@ -690,11 +932,15 @@
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">(ret, data)<p>ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下</p>
 <p>ret != RET_OK 返回错误字符串</p>
+</td>
+</tr>
+</tbody>
+</table>
 <table border="1" class="docutils">
 <colgroup>
-<col width="22%" />
-<col width="11%" />
-<col width="67%" />
+<col width="18%" />
+<col width="9%" />
+<col width="73%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">参数</th>
@@ -713,7 +959,7 @@
 </tr>
 <tr class="row-even"><td>split_ratio</td>
 <td>float</td>
-<td>拆合股比例； double，例如，对于5股合1股为1/5，对于1股拆5股为5/1</td>
+<td>拆合股比例（该字段为比例字段，默认不展示%），例如，对于5股合1股为1/5，对于1股拆5股为5/1</td>
 </tr>
 <tr class="row-odd"><td>per_cash_div</td>
 <td>float</td>
@@ -721,15 +967,15 @@
 </tr>
 <tr class="row-even"><td>per_share_div_ratio</td>
 <td>float</td>
-<td>每股送股比例</td>
+<td>每股送股比例（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-odd"><td>per_share_trans_ratio</td>
 <td>float</td>
-<td>每股转增股比例</td>
+<td>每股转增股比例（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-even"><td>allotment_ratio</td>
 <td>float</td>
-<td>每股配股比例</td>
+<td>每股配股比例（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-odd"><td>allotment_price</td>
 <td>float</td>
@@ -737,7 +983,7 @@
 </tr>
 <tr class="row-even"><td>stk_spo_ratio</td>
 <td>float</td>
-<td>增发比例</td>
+<td>增发比例（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-odd"><td>stk_spo_price</td>
 <td>float</td>
@@ -761,8 +1007,10 @@
 </tr>
 </tbody>
 </table>
-</td>
-</tr>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
 </tr>
 </tbody>
@@ -790,17 +1038,21 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">param code_list:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">股票列表，限制最多200只股票</p>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">股票列表，股票个数限制参考 <a class="reference external" href="Quote_API.html#id15">OpenAPI用户等级权限</a></p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">return:</th><td class="field-body"><p class="first">(ret, data)</p>
 <p>ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下</p>
-<p>ret != RET_OK 返回错误字符串</p>
+<p class="last">ret != RET_OK 返回错误字符串</p>
+</td>
+</tr>
+</tbody>
+</table>
 <table border="1" class="docutils">
 <colgroup>
-<col width="23%" />
-<col width="13%" />
-<col width="63%" />
+<col width="24%" />
+<col width="11%" />
+<col width="64%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">参数</th>
@@ -815,7 +1067,7 @@
 </tr>
 <tr class="row-odd"><td>update_time</td>
 <td>str</td>
-<td>更新时间(yyyy-MM-dd HH:mm:ss)</td>
+<td>更新时间(yyyy-MM-dd HH:mm:ss)（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-even"><td>last_price</td>
 <td>float</td>
@@ -857,21 +1109,69 @@
 <td>str</td>
 <td>上市日期 (yyyy-MM-dd)</td>
 </tr>
+<tr class="row-even"><td>equity_valid</td>
+<td>bool</td>
+<td>是否正股（为true时以下正股相关字段才有合法数值）</td>
+</tr>
+<tr class="row-odd"><td>issued_shares</td>
+<td>int</td>
+<td>发行股本</td>
+</tr>
+<tr class="row-even"><td>total_market_val</td>
+<td>float</td>
+<td>总市值</td>
+</tr>
+<tr class="row-odd"><td>net_asset</td>
+<td>int</td>
+<td>资产净值</td>
+</tr>
+<tr class="row-even"><td>net_profit</td>
+<td>int</td>
+<td>净利润</td>
+</tr>
+<tr class="row-odd"><td>earning_per_share</td>
+<td>float</td>
+<td>每股盈利</td>
+</tr>
+<tr class="row-even"><td>outstanding_shares</td>
+<td>int</td>
+<td>流通股本</td>
+</tr>
+<tr class="row-odd"><td>net_asset_per_share</td>
+<td>float</td>
+<td>每股净资产</td>
+</tr>
 <tr class="row-even"><td>circular_market_val</td>
 <td>float</td>
 <td>流通市值</td>
 </tr>
-<tr class="row-odd"><td>total_market_val</td>
+<tr class="row-odd"><td>ey_ratio</td>
 <td>float</td>
-<td>总市值</td>
+<td>收益率（该字段为比例字段，默认不展示%）</td>
+</tr>
+<tr class="row-even"><td>pe_ratio</td>
+<td>float</td>
+<td>市盈率（该字段为比例字段，默认不展示%）</td>
+</tr>
+<tr class="row-odd"><td>pb_ratio</td>
+<td>float</td>
+<td>市净率（该字段为比例字段，默认不展示%）</td>
+</tr>
+<tr class="row-even"><td>pe_ttm_ratio</td>
+<td>float</td>
+<td>市盈率TTM（该字段为比例字段，默认不展示%）</td>
+</tr>
+<tr class="row-odd"><td>stock_owner</td>
+<td>str</td>
+<td>所属正股的代码</td>
 </tr>
 <tr class="row-even"><td>wrt_valid</td>
 <td>bool</td>
-<td>是否是窝轮</td>
+<td>是否是窝轮（为true时以下涡轮相关的字段才有合法数据）</td>
 </tr>
 <tr class="row-odd"><td>wrt_conversion_ratio</td>
 <td>float</td>
-<td>换股比率</td>
+<td>换股比率（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-even"><td>wrt_type</td>
 <td>str</td>
@@ -891,7 +1191,7 @@
 </tr>
 <tr class="row-even"><td>wrt_code</td>
 <td>str</td>
-<td>窝轮对应的正股</td>
+<td>窝轮对应的正股（此字段已废除,修改为stock_owner）</td>
 </tr>
 <tr class="row-odd"><td>wrt_recovery_price</td>
 <td>float</td>
@@ -907,7 +1207,7 @@
 </tr>
 <tr class="row-even"><td>wrt_street_ratio</td>
 <td>float</td>
-<td>窝轮街货占比</td>
+<td>窝轮街货占比（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-odd"><td>wrt_delta</td>
 <td>float</td>
@@ -925,57 +1225,79 @@
 <td>int</td>
 <td>每手股数</td>
 </tr>
-<tr class="row-odd"><td>issued_shares</td>
-<td>int</td>
-<td>发行股本</td>
-</tr>
-<tr class="row-even"><td>net_asset</td>
-<td>int</td>
-<td>资产净值</td>
-</tr>
-<tr class="row-odd"><td>net_profit</td>
-<td>int</td>
-<td>净利润</td>
-</tr>
-<tr class="row-even"><td>earning_per_share</td>
-<td>float</td>
-<td>每股盈利</td>
-</tr>
-<tr class="row-odd"><td>outstanding_shares</td>
-<td>int</td>
-<td>流通股本</td>
-</tr>
-<tr class="row-even"><td>net_asset_per_share</td>
-<td>float</td>
-<td>每股净资产</td>
-</tr>
-<tr class="row-odd"><td>ey_ratio</td>
-<td>float</td>
-<td>收益率</td>
-</tr>
-<tr class="row-even"><td>pe_ratio</td>
-<td>float</td>
-<td>市盈率</td>
-</tr>
-<tr class="row-odd"><td>pb_ratio</td>
-<td>float</td>
-<td>市净率</td>
-</tr>
-<tr class="row-even"><td>price_spread</td>
+<tr class="row-odd"><td>price_spread</td>
 <td>float</td>
 <td>当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差</td>
 </tr>
+<tr class="row-even"><td>option_valid</td>
+<td>bool</td>
+<td>是否是期权（为true时以下期权相关的字段才有合法数值）</td>
+</tr>
+<tr class="row-odd"><td>option_type</td>
+<td>str</td>
+<td>期权类型，参见OptionType</td>
+</tr>
+<tr class="row-even"><td>owner</td>
+<td>str</td>
+<td>标的股</td>
+</tr>
+<tr class="row-odd"><td>strike_time</td>
+<td>str</td>
+<td>行权日（美股默认是美东时间，港股A股默认是北京时间）</td>
+</tr>
+<tr class="row-even"><td>option_strike_price</td>
+<td>float</td>
+<td>行权价</td>
+</tr>
+<tr class="row-odd"><td>option_contract_size</td>
+<td>int</td>
+<td>每份合约数</td>
+</tr>
+<tr class="row-even"><td>option_open_interest</td>
+<td>int</td>
+<td>未平仓合约数</td>
+</tr>
+<tr class="row-odd"><td>option_implied_volatility</td>
+<td>float</td>
+<td>隐含波动率</td>
+</tr>
+<tr class="row-even"><td>option_premium</td>
+<td>float</td>
+<td>溢价</td>
+</tr>
+<tr class="row-odd"><td>option_delta</td>
+<td>float</td>
+<td>希腊值 Delta</td>
+</tr>
+<tr class="row-even"><td>option_gamma</td>
+<td>float</td>
+<td>希腊值 Gamma</td>
+</tr>
+<tr class="row-odd"><td>option_vega</td>
+<td>float</td>
+<td>希腊值 Vega</td>
+</tr>
+<tr class="row-even"><td>option_theta</td>
+<td>float</td>
+<td>希腊值 Theta</td>
+</tr>
+<tr class="row-odd"><td>option_rho</td>
+<td>float</td>
+<td>希腊值 Rho</td>
+</tr>
 </tbody>
 </table>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">example:</th><td class="field-body"></td>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
 </tr>
 </tbody>
 </table>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_market_snapshot</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_market_snapshot</span><span class="p">([</span><span class="s1">&#39;US.AAPL&#39;</span><span class="p">,</span> <span class="s1">&#39;HK.00700&#39;</span><span class="p">]))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -991,17 +1313,23 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>code</strong> &#8211; 股票代码，例如，HK.00700，US.APPL</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>code</strong> &#8211; 股票代码，例如，HK.00700，US.AAPL</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Return (ret, data):</th></tr>
 <tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first">ret == RET_OK 返回pd Dataframe数据, 数据列格式如下</p>
-<p>ret != RET_OK 返回错误字符串</p>
+<p class="last">ret != RET_OK 返回错误字符串</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <table border="1" class="docutils">
 <colgroup>
-<col width="22%" />
-<col width="12%" />
-<col width="66%" />
+<col width="20%" />
+<col width="11%" />
+<col width="69%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">参数</th>
@@ -1016,7 +1344,7 @@
 </tr>
 <tr class="row-odd"><td>time</td>
 <td>str</td>
-<td>时间(yyyy-MM-dd HH:mm:ss)</td>
+<td>时间(yyyy-MM-dd HH:mm:ss)（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-even"><td>is_blank</td>
 <td>bool</td>
@@ -1048,21 +1376,23 @@
 </tr>
 </tbody>
 </table>
-</td>
-</tr>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
 </tr>
 </tbody>
 </table>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-    <span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribee</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">RT_DATA</span><span class="p">])</span>
+<span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribe</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">RT_DATA</span><span class="p">])</span>
 <span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_rt_data</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-</dd></dl>
-
+</div></blockquote>
 </div>
 <div class="section" id="get-plate-stock">
 <h4>get_plate_stock<a class="headerlink" href="#get-plate-stock" title="Permalink to this headline">¶</a></h4>
@@ -1119,7 +1449,7 @@
 </tr>
 <tr class="row-even"><td>list_time</td>
 <td>str</td>
-<td>上市时间</td>
+<td>上市时间（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-odd"><td>stock_id</td>
 <td>int</td>
@@ -1154,7 +1484,7 @@
 </div>
 </div></blockquote>
 </li>
-<li><p class="first">部分板块代码以硬编码方式支持，如下表:</p>
+<li><p class="first">部分常用的板块或指数代码如下:</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="25%" />
@@ -1181,14 +1511,38 @@
 <tr class="row-even"><td>HK.999999</td>
 <td>全部港股(正股)</td>
 </tr>
+<tr class="row-odd"><td>HK.BK1911</td>
+<td>主板H股</td>
+</tr>
+<tr class="row-even"><td>HK.BK1912</td>
+<td>创业板H股</td>
+</tr>
+<tr class="row-odd"><td>HK.900075</td>
+<td>港股基金</td>
+</tr>
+<tr class="row-even"><td>HK.BK1600</td>
+<td>富途热门(港)</td>
+</tr>
 <tr class="row-odd"><td>SH.3000000</td>
 <td>上海主板</td>
 </tr>
-<tr class="row-even"><td>SZ.3000001</td>
-<td>深证主板</td>
+<tr class="row-even"><td>SH.BK0901</td>
+<td>上证B股</td>
 </tr>
-<tr class="row-odd"><td>SH.3000002</td>
+<tr class="row-odd"><td>SH.BK0902</td>
+<td>深证B股</td>
+</tr>
+<tr class="row-even"><td>SH.3000002</td>
 <td>沪深指数</td>
+</tr>
+<tr class="row-odd"><td>SH.3000005</td>
+<td>沪深全部A股</td>
+</tr>
+<tr class="row-even"><td>SH.BK0600</td>
+<td>富途热门(沪深)</td>
+</tr>
+<tr class="row-odd"><td>SZ.3000001</td>
+<td>深证主板</td>
 </tr>
 <tr class="row-even"><td>SZ.3000003</td>
 <td>中小企业板块</td>
@@ -1196,8 +1550,8 @@
 <tr class="row-odd"><td>SZ.3000004</td>
 <td>深证创业板</td>
 </tr>
-<tr class="row-even"><td>SH.3000005</td>
-<td>沪深全部A股</td>
+<tr class="row-even"><td>US.BK2600</td>
+<td>富途热门(美)</td>
 </tr>
 <tr class="row-odd"><td>US.200306</td>
 <td>全部美股(正股)</td>
@@ -1370,7 +1724,7 @@
 </table>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-    <span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribee</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">BROKER</span><span class="p">])</span>
+<span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribe</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">BROKER</span><span class="p">])</span>
 <span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_broker_queue</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -1454,20 +1808,15 @@
 <dl class="function">
 <dt id="query_subscription">
 <code class="descname">query_subscription</code><span class="sig-paren">(</span><em>self</em>, <em>is_all_conn=True</em><span class="sig-paren">)</span><a class="headerlink" href="#query_subscription" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<p>查询已订阅的实时信息</p>
+<dd><p>查询已订阅的实时信息</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">param is_all_conn:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">是否返回所有连接的订阅状态,不传或者传False只返回当前连接数据</p>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>is_all_conn</strong> &#8211; 是否返回所有连接的订阅状态,不传或者传False只返回当前连接数据</td>
 </tr>
-<tr class="field-even field"><th class="field-name">return:</th><td class="field-body"><p class="first">(ret, data)</p>
-<p>ret != RET_OK 返回错误字符串</p>
-<p class="last">ret == RET_OK 返回 定阅信息的字典数据 ，格式如下:</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">(ret, data)<p>ret != RET_OK 返回错误字符串</p>
+<p>ret == RET_OK 返回 定阅信息的字典数据 ，格式如下:</p>
 </td>
 </tr>
 </tbody>
@@ -1488,16 +1837,18 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">example:</th><td class="field-body"><div class="first last highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">query_subscription</span><span class="p">())</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-</td>
-</tr>
-</tbody>
-</table>
+</dd></dl>
+
 </div>
 <div class="section" id="get-global-state">
 <h4>get_global_state<a class="headerlink" href="#get-global-state" title="Permalink to this headline">¶</a></h4>
@@ -1561,8 +1912,8 @@
 <td>当前格林威治时间戳(秒）</td>
 </tr>
 <tr class="row-odd"><td>local_timestamp</td>
-<td>double</td>
-<td>FutuOpenD运行机器的当前时间戳(毫秒)</td>
+<td>float</td>
+<td>FutuOpenD运行机器的当前时间戳(秒)</td>
 </tr>
 </tbody>
 </table>
@@ -1618,7 +1969,7 @@
 </tr>
 <tr class="row-even"><td>data_time</td>
 <td>str</td>
-<td>时间</td>
+<td>时间（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-odd"><td>last_price</td>
 <td>float</td>
@@ -1672,6 +2023,46 @@
 <td>str</td>
 <td>暗盘交易状态，见DarkStatus</td>
 </tr>
+<tr class="row-even"><td>strike_price</td>
+<td>float</td>
+<td>行权价</td>
+</tr>
+<tr class="row-odd"><td>contract_size</td>
+<td>int</td>
+<td>每份合约数</td>
+</tr>
+<tr class="row-even"><td>open_interest</td>
+<td>int</td>
+<td>未平仓合约数</td>
+</tr>
+<tr class="row-odd"><td>implied_volatility</td>
+<td>float</td>
+<td>隐含波动率</td>
+</tr>
+<tr class="row-even"><td>premium</td>
+<td>float</td>
+<td>溢价</td>
+</tr>
+<tr class="row-odd"><td>delta</td>
+<td>float</td>
+<td>希腊值 Delta</td>
+</tr>
+<tr class="row-even"><td>gamma</td>
+<td>float</td>
+<td>希腊值 Gamma</td>
+</tr>
+<tr class="row-odd"><td>vega</td>
+<td>float</td>
+<td>希腊值 Vega</td>
+</tr>
+<tr class="row-even"><td>theta</td>
+<td>float</td>
+<td>希腊值 Theta</td>
+</tr>
+<tr class="row-odd"><td>rho</td>
+<td>float</td>
+<td>希腊值 Rho</td>
+</tr>
 </tbody>
 </table>
 </td>
@@ -1682,7 +2073,9 @@
 </table>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_stock_quote</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">]))</span>
+<span class="n">code_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;US.AAPL180914C212500&#39;</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">code_list</span><span class="p">,</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">QUOTE</span><span class="p">]))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_stock_quote</span><span class="p">(</span><span class="n">code_list</span><span class="p">))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1708,6 +2101,53 @@
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>(ret, data)</p>
 <p>ret == RET_OK 返回pd dataframe数据，数据列格式如下</p>
 <p>ret != RET_OK 返回错误字符串</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="12%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">参数</th>
+<th class="head">类型</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>code</td>
+<td>str</td>
+<td>股票代码</td>
+</tr>
+<tr class="row-odd"><td>sequence</td>
+<td>int</td>
+<td>逐笔序号</td>
+</tr>
+<tr class="row-even"><td>time</td>
+<td>str</td>
+<td>成交时间（美股默认是美东时间，港股A股默认是北京时间）</td>
+</tr>
+<tr class="row-odd"><td>price</td>
+<td>float</td>
+<td>成交价格</td>
+</tr>
+<tr class="row-even"><td>volume</td>
+<td>int</td>
+<td>成交数量（股数）</td>
+</tr>
+<tr class="row-odd"><td>turnover</td>
+<td>float</td>
+<td>成交金额</td>
+</tr>
+<tr class="row-even"><td>ticker_direction</td>
+<td>str</td>
+<td>逐笔方向</td>
+</tr>
+<tr class="row-odd"><td>type</td>
+<td>str</td>
+<td>逐笔类型，参见TickerType</td>
+</tr>
+</tbody>
+</table>
 </p>
 </td>
 </tr>
@@ -1717,7 +2157,7 @@
 </table>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-    <span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribee</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">TICKER</span><span class="p">])</span>
+<span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribe</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">TICKER</span><span class="p">])</span>
 <span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_rt_ticker</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -1765,7 +2205,7 @@
 </tr>
 <tr class="row-odd"><td>time_key</td>
 <td>str</td>
-<td>时间</td>
+<td>时间（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-even"><td>open</td>
 <td>float</td>
@@ -1793,7 +2233,7 @@
 </tr>
 <tr class="row-even"><td>pe_ratio</td>
 <td>float</td>
-<td>市盈率</td>
+<td>市盈率（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-odd"><td>turnover_rate</td>
 <td>float</td>
@@ -1814,7 +2254,7 @@
 </table>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-    <span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribee</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">K_DAY</span><span class="p">])</span>
+<span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribe</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">K_DAY</span><span class="p">])</span>
 <span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_cur_kline</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">SubType</span><span class="o">.</span><span class="n">K_DAY</span><span class="p">,</span> <span class="n">AuType</span><span class="o">.</span><span class="n">QFQ</span><span class="p">))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -1849,30 +2289,30 @@
 &#39;Ask&#39;：卖盘， &#39;Bid&#39;买盘。每个元组的含义是(委托价格，委托数量，委托订单数)
 </pre></div>
 </div>
-</dd></dl>
-
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">example:</th><td class="field-body"><div class="first last highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
-    <span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribee</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">ORDER_BOOK</span><span class="p">])</span>
+<span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribe</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">ORDER_BOOK</span><span class="p">])</span>
 <span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_order_book</span><span class="p">(</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">))</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-</td>
-</tr>
-</tbody>
-</table>
+</dd></dl>
+
 </div>
 <div class="section" id="get-multi-points-history-kline">
 <h4>get_multi_points_history_kline<a class="headerlink" href="#get-multi-points-history-kline" title="Permalink to this headline">¶</a></h4>
 <dl class="function">
 <dt id="get_multi_points_history_kline">
 <code class="descname">get_multi_points_history_kline</code><span class="sig-paren">(</span><em>self</em>, <em>code_list</em>, <em>dates</em>, <em>fields</em>, <em>ktype=KLType.K_DAY</em>, <em>autype=AuType.QFQ</em>, <em>no_data_mode=KLNoDataMode.FORWARD</em><span class="sig-paren">)</span><a class="headerlink" href="#get_multi_points_history_kline" title="Permalink to this definition">¶</a></dt>
-<dd><p>获取多支股票多个时间点的指定数据列</p>
+<dd><p>从本地历史K线中获取多支股票多个时间点的指定数据列</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1911,7 +2351,7 @@
 </tr>
 <tr class="row-odd"><td>time_point</td>
 <td>str</td>
-<td>请求的时间</td>
+<td>请求的时间（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-even"><td>data_status</td>
 <td>str</td>
@@ -1919,7 +2359,7 @@
 </tr>
 <tr class="row-odd"><td>time_key</td>
 <td>str</td>
-<td>k线时间</td>
+<td>k线时间（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-even"><td>open</td>
 <td>float</td>
@@ -1939,7 +2379,7 @@
 </tr>
 <tr class="row-even"><td>pe_ratio</td>
 <td>float</td>
-<td>市盈率</td>
+<td>市盈率（该字段为比例字段，默认不展示%）</td>
 </tr>
 <tr class="row-odd"><td>turnover_rate</td>
 <td>float</td>
@@ -2029,15 +2469,15 @@
 </tr>
 <tr class="row-even"><td>list_time</td>
 <td>str</td>
-<td>上市时间</td>
+<td>上市时间（美股默认是美东时间，港股A股默认是北京时间）</td>
 </tr>
 <tr class="row-odd"><td>wrt_valid</td>
 <td>bool</td>
-<td>是否是涡轮，如果为True，下面wrt开头的字段有效</td>
+<td>是否是窝轮，如果为True，下面wrt开头的字段有效</td>
 </tr>
 <tr class="row-even"><td>wrt_type</td>
 <td>str</td>
-<td>涡轮类型，参见WrtType</td>
+<td>窝轮类型，参见WrtType</td>
 </tr>
 <tr class="row-odd"><td>wrt_code</td>
 <td>str</td>
@@ -2061,6 +2501,304 @@
 </dd></dl>
 
 </div>
+<div class="section" id="get-owner-plate">
+<h4>get_owner_plate<a class="headerlink" href="#get-owner-plate" title="Permalink to this headline">¶</a></h4>
+<dl class="function">
+<dt id="get_owner_plate">
+<code class="descname">get_owner_plate</code><span class="sig-paren">(</span><em>self</em>, <em>code_list</em><span class="sig-paren">)</span><a class="headerlink" href="#get_owner_plate" title="Permalink to this definition">¶</a></dt>
+<dd><p>获取单支或多支股票的所属板块信息列表</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code_list</strong> &#8211; 股票代码列表，仅支持正股、指数。list或str。例如：[&#8216;HK.00700&#8217;, &#8216;HK.00001&#8217;]或者&#8217;HK.00700,HK.00001&#8217;，最多可传入200只股票</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">(ret, data)<p>ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下</p>
+<p>ret != RET_OK 返回错误字符串</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="12%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">参数</th>
+<th class="head">类型</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>code</td>
+<td>str</td>
+<td>证券代码</td>
+</tr>
+<tr class="row-odd"><td>plate_code</td>
+<td>str</td>
+<td>板块代码</td>
+</tr>
+<tr class="row-even"><td>plate_name</td>
+<td>str</td>
+<td>板块名字</td>
+</tr>
+<tr class="row-odd"><td>plate_type</td>
+<td>str</td>
+<td>板块类型（行业板块或概念板块），查看 <a class="reference external" href="Base_API.html#plate">Plate</a></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+<span class="n">code_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">,</span> <span class="s1">&#39;HK.00001&#39;</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_owner_plate</span><span class="p">(</span><span class="n">code_list</span><span class="p">))</span>
+<span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="get-holding-change-list">
+<h4>get_holding_change_list<a class="headerlink" href="#get-holding-change-list" title="Permalink to this headline">¶</a></h4>
+<dl class="function">
+<dt id="get_holding_change_list">
+<code class="descname">get_holding_change_list</code><span class="sig-paren">(</span><em>self</em>, <em>code</em>, <em>holder_type</em>, <em>start</em>, <em>end=None</em><span class="sig-paren">)</span><a class="headerlink" href="#get_holding_change_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>获取大股东持股变动列表,只提供美股数据</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>code</strong> &#8211; 股票代码. 例如：&#8217;US.AAPL&#8217;</li>
+<li><strong>holder_type</strong> &#8211; 持有者类别，查看 <a class="reference external" href="Base_API.html#stockholder">StockHolder</a></li>
+<li><strong>start</strong> &#8211; 开始时间. 例如：&#8216;2016-10-01&#8217;</li>
+<li><strong>end</strong> &#8211; <p>结束时间，例如：&#8216;2017-10-01&#8217;。
+start与end的组合如下：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="17%" />
+<col width="67%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">start类型</th>
+<th class="head">end类型</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>str</td>
+<td>str</td>
+<td>start和end分别为指定的日期</td>
+</tr>
+<tr class="row-odd"><td>None</td>
+<td>str</td>
+<td>start为end往前365天</td>
+</tr>
+<tr class="row-even"><td>str</td>
+<td>None</td>
+<td>end为start往后365天</td>
+</tr>
+<tr class="row-odd"><td>None</td>
+<td>None</td>
+<td>end为当前日期，start为end往前365天</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>(ret, data)</p>
+<p>ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下</p>
+<p>ret != RET_OK 返回错误字符串</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="12%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">参数</th>
+<th class="head">类型</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>holder_name</td>
+<td>str</td>
+<td>高管名称</td>
+</tr>
+<tr class="row-odd"><td>holding_qty</td>
+<td>float</td>
+<td>持股数</td>
+</tr>
+<tr class="row-even"><td>holding_ratio</td>
+<td>float</td>
+<td>持股比例（该字段为比例字段，默认不展示%）</td>
+</tr>
+<tr class="row-odd"><td>change_qty</td>
+<td>float</td>
+<td>变动数</td>
+</tr>
+<tr class="row-even"><td>change_ratio</td>
+<td>float</td>
+<td>变动比例（该字段为比例字段，默认不展示%）</td>
+</tr>
+<tr class="row-odd"><td>time</td>
+<td>str</td>
+<td>发布时间（美股的时间默认是美东）</td>
+</tr>
+</tbody>
+</table>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_holding_change_list</span><span class="p">(</span><span class="s1">&#39;US.AAPL&#39;</span><span class="p">,</span> <span class="n">StockHolder</span><span class="o">.</span><span class="n">INSTITUTE</span><span class="p">,</span> <span class="s1">&#39;2016-10-01&#39;</span><span class="p">))</span>
+<span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="get-option-chain">
+<h4>get_option_chain<a class="headerlink" href="#get-option-chain" title="Permalink to this headline">¶</a></h4>
+<dl class="function">
+<dt id="get_option_chain">
+<code class="descname">get_option_chain</code><span class="sig-paren">(</span><em>self</em>, <em>code</em>, <em>start</em>, <em>end=None</em>, <em>option_type=OptionType.ALL</em>, <em>option_cond_type=OptionCondType.ALL</em><span class="sig-paren">)</span><a class="headerlink" href="#get_option_chain" title="Permalink to this definition">¶</a></dt>
+<dd><p>通过标的股查询期权</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>code</strong> &#8211; 股票代码,例如：&#8217;HK.02318&#8217;</li>
+<li><strong>start</strong> &#8211; 开始日期，该日期指到期日，例如&#8216;2017-08-01&#8217;</li>
+<li><strong>end</strong> &#8211; <p>结束日期（包括这一天），该日期指到期日，例如&#8216;2017-08-30&#8217;。 注意，时间范围最多30天。
+start和end的组合如下：</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="17%" />
+<col width="67%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">start类型</th>
+<th class="head">end类型</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>str</td>
+<td>str</td>
+<td>start和end分别为指定的日期</td>
+</tr>
+<tr class="row-odd"><td>None</td>
+<td>str</td>
+<td>start为end往前30天</td>
+</tr>
+<tr class="row-even"><td>str</td>
+<td>None</td>
+<td>end为start往后30天</td>
+</tr>
+<tr class="row-odd"><td>None</td>
+<td>None</td>
+<td>start为当前日期，end往后30天</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><strong>option_type</strong> &#8211; 期权类型,,默认全部,全部/看涨/看跌，查看 <a class="reference external" href="Base_API.html#optiontype">OptionType</a></li>
+<li><strong>option_cond_type</strong> &#8211; 默认全部,全部/价内/价外，查看 <a class="reference external" href="Base_API.html#optioncondtype">OptionCondType</a></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>(ret, data)</p>
+<p>ret == RET_OK 返回pd dataframe数据，数据列格式如下</p>
+<p>ret != RET_OK 返回错误字符串</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="12%" />
+<col width="68%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">参数</th>
+<th class="head">类型</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>code</td>
+<td>str</td>
+<td>股票代码</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>str</td>
+<td>名字</td>
+</tr>
+<tr class="row-even"><td>lot_size</td>
+<td>int</td>
+<td>每手数量</td>
+</tr>
+<tr class="row-odd"><td>stock_type</td>
+<td>str</td>
+<td>股票类型，参见 <a class="reference external" href="Base_API.html#securitytype">SecurityType</a></td>
+</tr>
+<tr class="row-even"><td>option_type</td>
+<td>str</td>
+<td>期权类型，查看 <a class="reference external" href="Base_API.html#optiontype">OptionType</a></td>
+</tr>
+<tr class="row-odd"><td>stock_owner</td>
+<td>str</td>
+<td>标的股</td>
+</tr>
+<tr class="row-even"><td>strike_time</td>
+<td>str</td>
+<td>行权日（美股默认是美东时间，港股A股默认是北京时间）</td>
+</tr>
+<tr class="row-odd"><td>strike_price</td>
+<td>float</td>
+<td>行权价</td>
+</tr>
+<tr class="row-even"><td>suspension</td>
+<td>bool</td>
+<td>是否停牌(True表示停牌)</td>
+</tr>
+<tr class="row-odd"><td>stock_id</td>
+<td>int</td>
+<td>股票id</td>
+</tr>
+</tbody>
+</table>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">quote_ctx</span><span class="o">.</span><span class="n">get_option_chain</span><span class="p">(</span><span class="s1">&#39;US.AAPL&#39;</span><span class="p">,</span> <span class="s1">&#39;2018-08-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2018-08-18&#39;</span><span class="p">,</span> <span class="n">OptionType</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="n">OptionCondType</span><span class="o">.</span><span class="n">OUTSIDE</span><span class="p">))</span>
+<span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
 </div>
 <hr class="docutils" />
 <div class="section" id="stockquotehandlerbase">
@@ -2070,19 +2808,20 @@
 <span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="k">class</span> <span class="nc">StockQuoteTest</span><span class="p">(</span><span class="n">StockQuoteHandlerBase</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">on_recv_rsp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rsp_str</span><span class="p">):</span>
-                <span class="n">ret_code</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">StockQuoteTest</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">on_recv_rsp</span><span class="p">(</span><span class="n">rsp_str</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">ret_code</span> <span class="o">!=</span> <span class="n">RET_OK</span><span class="p">:</span>
-                        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;StockQuoteTest: error, msg: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">data</span><span class="p">)</span>
-                        <span class="k">return</span> <span class="n">RET_ERROR</span><span class="p">,</span> <span class="n">data</span>
+    <span class="k">def</span> <span class="nf">on_recv_rsp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rsp_str</span><span class="p">):</span>
+        <span class="n">ret_code</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">StockQuoteTest</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">on_recv_rsp</span><span class="p">(</span><span class="n">rsp_str</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ret_code</span> <span class="o">!=</span> <span class="n">RET_OK</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;StockQuoteTest: error, msg: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">data</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">RET_ERROR</span><span class="p">,</span> <span class="n">data</span>
 
-                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;StockQuoteTest &quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="c1"># StockQuoteTest自己的处理逻辑</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;StockQuoteTest &quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="c1"># StockQuoteTest自己的处理逻辑</span>
 
-                <span class="k">return</span> <span class="n">RET_OK</span><span class="p">,</span> <span class="n">data</span>
+        <span class="k">return</span> <span class="n">RET_OK</span><span class="p">,</span> <span class="n">data</span>
 
 <span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="n">handler</span> <span class="o">=</span> <span class="n">StockQuoteTest</span><span class="p">()</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">set_handler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+<span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribe</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">QUOTE</span><span class="p">])</span>
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -2101,7 +2840,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rsp_pb</strong> &#8211; 派生类中不需要直接处理该参数</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">参见get_stock_quote的返回值</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">参见 <a class="reference internal" href="#get_stock_quote">get_stock_quote</a> 的返回值</td>
 </tr>
 </tbody>
 </table>
@@ -2117,19 +2856,20 @@
 <span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="k">class</span> <span class="nc">OrderBookTest</span><span class="p">(</span><span class="n">OrderBookHandlerBase</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">on_recv_rsp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rsp_str</span><span class="p">):</span>
-                <span class="n">ret_code</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">OrderBookTest</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">on_recv_rsp</span><span class="p">(</span><span class="n">rsp_str</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">ret_code</span> <span class="o">!=</span> <span class="n">RET_OK</span><span class="p">:</span>
-                        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;OrderBookTest: error, msg: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">data</span><span class="p">)</span>
-                        <span class="k">return</span> <span class="n">RET_ERROR</span><span class="p">,</span> <span class="n">data</span>
+    <span class="k">def</span> <span class="nf">on_recv_rsp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rsp_str</span><span class="p">):</span>
+        <span class="n">ret_code</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">OrderBookTest</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">on_recv_rsp</span><span class="p">(</span><span class="n">rsp_str</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ret_code</span> <span class="o">!=</span> <span class="n">RET_OK</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;OrderBookTest: error, msg: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">data</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">RET_ERROR</span><span class="p">,</span> <span class="n">data</span>
 
-                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;OrderBookTest &quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="c1"># OrderBookTest自己的处理逻辑</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;OrderBookTest &quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="c1"># OrderBookTest自己的处理逻辑</span>
 
-                <span class="k">return</span> <span class="n">RET_OK</span><span class="p">,</span> <span class="n">data</span>
+        <span class="k">return</span> <span class="n">RET_OK</span><span class="p">,</span> <span class="n">data</span>
 
-<span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContex</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+<span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="n">handler</span> <span class="o">=</span> <span class="n">OrderBookTest</span><span class="p">()</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">set_handler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+<span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribe</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">ORDER_BOOK</span><span class="p">])</span>
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -2148,7 +2888,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rsp_pb</strong> &#8211; 派生类中不需要直接处理该参数</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">参见get_order_book的返回值</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">参见 <a class="reference internal" href="#get_order_book">get_order_book</a> 的返回值</td>
 </tr>
 </tbody>
 </table>
@@ -2164,19 +2904,20 @@
 <span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="k">class</span> <span class="nc">CurKlineTest</span><span class="p">(</span><span class="n">CurKlineHandlerBase</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">on_recv_rsp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rsp_str</span><span class="p">):</span>
-                <span class="n">ret_code</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">CurKlineTest</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">on_recv_rsp</span><span class="p">(</span><span class="n">rsp_str</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">ret_code</span> <span class="o">!=</span> <span class="n">RET_OK</span><span class="p">:</span>
-                        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;CurKlineTest: error, msg: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">data</span><span class="p">)</span>
-                        <span class="k">return</span> <span class="n">RET_ERROR</span><span class="p">,</span> <span class="n">data</span>
+    <span class="k">def</span> <span class="nf">on_recv_rsp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rsp_str</span><span class="p">):</span>
+        <span class="n">ret_code</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">CurKlineTest</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">on_recv_rsp</span><span class="p">(</span><span class="n">rsp_str</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ret_code</span> <span class="o">!=</span> <span class="n">RET_OK</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;CurKlineTest: error, msg: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">data</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">RET_ERROR</span><span class="p">,</span> <span class="n">data</span>
 
-                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;CurKlineTest &quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="c1"># CurKlineTest自己的处理逻辑</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;CurKlineTest &quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="c1"># CurKlineTest自己的处理逻辑</span>
 
-                <span class="k">return</span> <span class="n">RET_OK</span><span class="p">,</span> <span class="n">data</span>
+        <span class="k">return</span> <span class="n">RET_OK</span><span class="p">,</span> <span class="n">data</span>
 
-<span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContex</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+<span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="n">handler</span> <span class="o">=</span> <span class="n">CurKlineTest</span><span class="p">()</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">set_handler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+<span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribe</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">K_1M</span><span class="p">])</span>
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -2195,7 +2936,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rsp_pb</strong> &#8211; 派生类中不需要直接处理该参数</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">参见get_cur_kline的返回值</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">参见 <a class="reference internal" href="#get_cur_kline">get_cur_kline</a> 的返回值</td>
 </tr>
 </tbody>
 </table>
@@ -2221,9 +2962,10 @@
 
                 <span class="k">return</span> <span class="n">RET_OK</span><span class="p">,</span> <span class="n">data</span>
 
-<span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContex</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+<span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="n">handler</span> <span class="o">=</span> <span class="n">TickerTest</span><span class="p">()</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">set_handler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+<span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribe</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">TICKER</span><span class="p">])</span>
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -2242,7 +2984,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rsp_pb</strong> &#8211; 派生类中不需要直接处理该参数</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">参见get_rt_ticker的返回值</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">参见 <a class="reference internal" href="#get_rt_ticker">get_rt_ticker</a> 的返回值</td>
 </tr>
 </tbody>
 </table>
@@ -2268,9 +3010,10 @@
 
                 <span class="k">return</span> <span class="n">RET_OK</span><span class="p">,</span> <span class="n">data</span>
 
-<span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContex</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+<span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="n">handler</span> <span class="o">=</span> <span class="n">RTDataTest</span><span class="p">()</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">set_handler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+<span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribe</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">RT_DATA</span><span class="p">])</span>
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -2289,7 +3032,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rsp_pb</strong> &#8211; 派生类中不需要直接处理该参数</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">参见get_rt_data的返回值</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">参见 <a class="reference internal" href="#get_rt_data">get_rt_data</a> 的返回值</td>
 </tr>
 </tbody>
 </table>
@@ -2300,25 +3043,23 @@
 <hr class="docutils" />
 <div class="section" id="brokerhandlerbase">
 <h3>BrokerHandlerBase - 实时经纪推送回调处理类<a class="headerlink" href="#brokerhandlerbase" title="Permalink to this headline">¶</a></h3>
-<p>异步处理推送的分时数据。</p>
 <p>异步处理推送的经纪数据。</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span>    <span class="k">class</span> <span class="nc">BrokerTest</span><span class="p">(</span><span class="n">BrokerHandlerBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">on_recv_rsp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rsp_str</span><span class="p">):</span>
+        <span class="n">ret_code</span><span class="p">,</span> <span class="n">err_or_stock_code</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">BrokerTest</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">on_recv_rsp</span><span class="p">(</span><span class="n">rsp_str</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ret_code</span> <span class="o">!=</span> <span class="n">RET_OK</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;BrokerTest: error, msg: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">err_or_stock_code</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">RET_ERROR</span><span class="p">,</span> <span class="n">data</span>
 
-<span class="k">class</span> <span class="nc">BrokerTest</span><span class="p">(</span><span class="n">BrokerHandlerBase</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">on_recv_rsp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rsp_str</span><span class="p">):</span>
-                <span class="n">ret_code</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">BrokerTest</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">on_recv_rsp</span><span class="p">(</span><span class="n">rsp_str</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">ret_code</span> <span class="o">!=</span> <span class="n">RET_OK</span><span class="p">:</span>
-                        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;BrokerTest: error, msg: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">data</span><span class="p">)</span>
-                        <span class="k">return</span> <span class="n">RET_ERROR</span><span class="p">,</span> <span class="n">data</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;BrokerTest: stock: {} data: {} &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">err_or_stock_code</span><span class="p">,</span> <span class="n">data</span><span class="p">))</span>  <span class="c1"># BrokerTest自己的处理逻辑</span>
 
-                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;BrokerTest &quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="c1"># BrokerTest自己的处理逻辑</span>
+        <span class="k">return</span> <span class="n">RET_OK</span><span class="p">,</span> <span class="n">data</span>
 
-                <span class="k">return</span> <span class="n">RET_OK</span><span class="p">,</span> <span class="n">data</span>
 
-<span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContex</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+<span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
 <span class="n">handler</span> <span class="o">=</span> <span class="n">BrokerTest</span><span class="p">()</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">set_handler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+<span class="n">quote_ctx</span><span class="o">.</span><span class="n">subscribe</span><span class="p">([</span><span class="s1">&#39;HK.00700&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">SubType</span><span class="o">.</span><span class="n">BROKER</span><span class="p">])</span>
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">quote_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -2337,7 +3078,8 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rsp_pb</strong> &#8211; 派生类中不需要直接处理该参数</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">参见get_broker_queue的返回值</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">成功时返回(RET_OK, stock_code, [bid_frame_table, ask_frame_table]), 相关frame table含义见 <a class="reference internal" href="#get_broker_queue">get_broker_queue</a> 的返回值说明<p>失败时返回(RET_ERROR, ERR_MSG, None)</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -2352,8 +3094,8 @@
 <blockquote>
 <div><table border="1" class="docutils">
 <colgroup>
-<col width="46%" />
-<col width="54%" />
+<col width="37%" />
+<col width="63%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">接口名称</th>
@@ -2362,7 +3104,7 @@
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>get_market_snapshot</td>
-<td>传入股票最多200个</td>
+<td>参考 <a class="reference external" href="Quote_API.html#id15">OpenAPI用户等级权限</a></td>
 </tr>
 <tr class="row-odd"><td>get_rt_ticker</td>
 <td>可获取逐笔最多最近1000个</td>
@@ -2373,22 +3115,25 @@
 <tr class="row-odd"><td>get_multi_points_history_kline</td>
 <td>时间点最多5个</td>
 </tr>
+<tr class="row-even"><td>get_owner_plate</td>
+<td>传入股票最多200个</td>
+</tr>
 </tbody>
 </table>
 </div></blockquote>
 </div>
 <hr class="docutils" />
-<div class="section" id="id9">
-<h2>接口限频<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id10">
-<h3>低频数据接口<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
-<p>低频数据接口是指不需要定阅就可以请求数据的接口， api的请求到达网关客户端后， 会转发请求到futu后台服务器，为控制流量，会对请求频率加以控制，
-目前的频率限制是以连续30秒内，限制请求次数，具体那些接口有限制以及限制次数如下:</p>
+<h2>接口限频<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h3>低频数据接口<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>低频数据接口是指不需要订阅就可以请求数据的接口， api的请求到达网关客户端后， 会转发请求到futu后台服务器，为控制流量，会对请求频率加以控制，
+目前的频率限制是以连续30秒内，限制请求次数，有限制的接口以及限制次数如下:</p>
 <blockquote>
 <div><table border="1" class="docutils">
 <colgroup>
-<col width="50%" />
-<col width="50%" />
+<col width="34%" />
+<col width="66%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">接口名称</th>
@@ -2397,7 +3142,7 @@
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>get_market_snapshot</td>
-<td>10</td>
+<td>参考 <a class="reference external" href="Quote_API.html#id15">OpenAPI用户等级权限</a></td>
 </tr>
 <tr class="row-odd"><td>get_plate_list</td>
 <td>10</td>
@@ -2405,48 +3150,76 @@
 <tr class="row-even"><td>get_plate_stock</td>
 <td>10</td>
 </tr>
+<tr class="row-odd"><td>get_option_chain</td>
+<td>10</td>
+</tr>
+<tr class="row-even"><td>get_holding_change_list</td>
+<td>10</td>
+</tr>
+<tr class="row-odd"><td>get_owner_plate</td>
+<td>10</td>
+</tr>
+<tr class="row-even"><td>request_history_kline</td>
+<td>10</td>
+</tr>
 </tbody>
 </table>
 </div></blockquote>
 </div>
 <hr class="docutils" />
-<div class="section" id="id11">
-<h3>高频数据接口<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
-<p>为控制定阅产生推送数据流量，股票定阅总量有额度控制，规则如下:</p>
-<p>1.使用高频数据接口前，需要订阅（调用subscribe）.订阅有额度限制：</p>
+<div class="section" id="id13">
+<h3>高频数据接口<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<p>为控制订阅产生推送数据流量，股票订阅总量有额度控制，规则如下:</p>
+<p>1.使用高频数据接口前，需要订阅（调用subscribe），订阅有额度限制：</p>
 <blockquote>
 <div>用户额度 &gt;= 订阅K线股票数 * K线权重 + 订阅逐笔股票数 * 逐笔权重 + 订阅报价股票数 * 报价权重 + 订阅摆盘股票数 * 摆盘权重</div></blockquote>
-<p>2.订阅不同的类型，会消耗不同的额度，当总额度超过上限后，目前用户总额度上限为500。</p>
+<p>2.目前所有订阅类型占用额度均为1，用户总额度与用户等级相关，参考 <a class="reference external" href="Quote_API.html#id15">OpenAPI用户等级权限</a>。</p>
 <p>3.订阅至少一分钟才可以反订阅</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>futuquant的订阅接口subscribe限制了股票个数*K线种类必须小于等于100</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id15">
+<h3>OpenAPI用户等级权限<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><table border="1" class="docutils">
+<div><p>用户净资产大于10000港币为二级用户，小于10000港币为三级用户。一级用户需要与富途联系获取。</p>
+<table border="1" class="docutils">
 <colgroup>
-<col width="36%" />
-<col width="64%" />
+<col width="34%" />
+<col width="22%" />
+<col width="22%" />
+<col width="22%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">订阅数据</th>
-<th class="head">额度权重（所占订阅单位）</th>
+<tr class="row-odd"><th class="head">协议限制</th>
+<th class="head">三级用户</th>
+<th class="head">二级用户</th>
+<th class="head">一级用户</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>K线</td>
-<td>2</td>
+<tr class="row-even"><td>订阅额度</td>
+<td>100</td>
+<td>300</td>
+<td>1000</td>
 </tr>
-<tr class="row-odd"><td>分时</td>
-<td>2</td>
+<tr class="row-odd"><td>30秒内快照请求次数</td>
+<td>10</td>
+<td>20</td>
+<td>30</td>
 </tr>
-<tr class="row-even"><td>逐笔</td>
-<td>5（牛熊证为1）</td>
+<tr class="row-even"><td>快照每次请求股票数</td>
+<td>200</td>
+<td>300</td>
+<td>400</td>
 </tr>
-<tr class="row-odd"><td>报价</td>
-<td>1</td>
-</tr>
-<tr class="row-even"><td>摆盘</td>
-<td>5（牛熊证为1）</td>
-</tr>
-<tr class="row-odd"><td>经纪队列</td>
-<td>5（牛熊证为1）</td>
+<tr class="row-odd"><td>30天内非本地历史K线最多可请求股票数</td>
+<td>100</td>
+<td>300</td>
+<td>1000</td>
 </tr>
 </tbody>
 </table>
@@ -2457,7 +3230,9 @@
 
 
            </div>
-           
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
@@ -2497,7 +3272,6 @@
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'3.2',
-            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -2515,11 +3289,14 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
+  
+  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
+          SphinxRtdTheme.StickyNav.enable();
       });
   </script>
+  
  
 <script type="text/javascript">
     console.log("Layout By FutuQuant");

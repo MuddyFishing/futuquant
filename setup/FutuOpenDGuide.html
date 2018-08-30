@@ -25,17 +25,23 @@
   
 
   
+  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="next" title="下载历史数据" href="Hist_KLine_Download_Intro.html" />
-    <link rel="prev" title="安装指南" href="setup.html" /> 
+  
+
+  
+
+  
+    <link rel="top" title="futuquant 3.2 documentation" href="../index.html"/>
+        <link rel="next" title="下载历史数据" href="Hist_KLine_Download_Intro.html"/>
+        <link rel="prev" title="安装指南" href="setup.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav">
+<body class="wy-body-for-nav" role="document">
 
    
   <div class="wy-grid-for-nav">
@@ -137,7 +143,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" aria-label="top navigation">
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">futuquant</a>
@@ -145,10 +151,9 @@
       </nav>
 
 
+      
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           
 
 
@@ -303,7 +308,7 @@
 </div></blockquote>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>密文是明文经过32位MD5加密后用16进制表示的数据，搜索在线MD5加密可找到生成密文的网站，例如：<a class="reference external" href="http://www.cmd5.com">http://www.cmd5.com</a>。</p>
+<p>密文是明文经过32位MD5加密后用16进制表示的数据，搜索在线MD5加密（注意，通过第三方网站计算可能有记录撞库的风险）或下载MD5计算工具可计算得到。</p>
 <p>32位MD5密文如下图红框区域（e10adc3949ba59abbe56e057f20f883e）：</p>
 <img alt="../_images/MD5.png" class="last" src="../_images/MD5.png" />
 </div>
@@ -422,7 +427,7 @@ sxTqXpBBCtTqcAotMlx4ZJQYL3f2PmI2Q/o0NUMt40w<span class="o">=</span>
 <td>是，可以使用明文、证书登录或配置文件配置项</td>
 </tr>
 <tr class="row-even"><td>login_region</td>
-<td>优先连接点区域，但不一定能连接上该区域连接点</td>
+<td>优先连接点区域，但不一定能连接上该区域连接点(gz/sh/hk)</td>
 <td>是，不设置则自动选择</td>
 </tr>
 <tr class="row-odd"><td>cfg_file</td>
@@ -527,7 +532,9 @@ sxTqXpBBCtTqcAotMlx4ZJQYL3f2PmI2Q/o0NUMt40w<span class="o">=</span>
 
 
            </div>
-           
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
@@ -567,7 +574,6 @@ sxTqXpBBCtTqcAotMlx4ZJQYL3f2PmI2Q/o0NUMt40w<span class="o">=</span>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'3.2',
-            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -585,11 +591,14 @@ sxTqXpBBCtTqcAotMlx4ZJQYL3f2PmI2Q/o0NUMt40w<span class="o">=</span>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
+  
+  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
+          SphinxRtdTheme.StickyNav.enable();
       });
   </script>
+  
  
 <script type="text/javascript">
     console.log("Layout By FutuQuant");

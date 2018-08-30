@@ -265,7 +265,6 @@ QotMarket - 行情市场
 		QotMarket_HK_Security = 1; //港股
 		QotMarket_HK_Future = 2; //港期货(目前是恒指的当月、下月期货行情)
 		QotMarket_US_Security = 11; //美股
-		QotMarket_US_Option = 12; //美期权,暂时不支持期权
 		QotMarket_CNSH_Security = 21; //沪股
 		QotMarket_CNSZ_Security = 22; //深股
 	}
@@ -274,7 +273,6 @@ QotMarket - 行情市场
 
     *   QotMarket定义一支证券所属的行情市场分类
     *   QotMarket_HK_Future 港股期货，目前仅支持 999010(恒指当月期货)、999011(恒指下月期货)
-    *   QotMarket_US_Option 美股期权，牛牛客户端可以查看行情，API 后续支持
 	
 ----------------------------------------------
 
@@ -298,8 +296,7 @@ SecurityType - 证券类型
 	}
 	
 -----------------------------------------------
-	
-	
+
 PlateSetType - 板块集合类型
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -311,6 +308,7 @@ PlateSetType - 板块集合类型
 		PlateSetType_Industry = 1; //行业板块
 		PlateSetType_Region = 2; //地域板块,港美股市场的地域分类数据暂为空
 		PlateSetType_Concept = 3; //概念板块
+		PlateSetType_Other = 4; //其他板块, 仅用于3207（获取股票所属板块）协议返回,不可作为其他协议的请求参数
 	}
 
  .. note::
@@ -319,7 +317,7 @@ PlateSetType - 板块集合类型
 	
 -----------------------------------------------
  
-WarrantType - 窝轮子类型
+WarrantType - 窝轮类型
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  .. code-block:: protobuf
@@ -333,6 +331,19 @@ WarrantType - 窝轮子类型
 		WarrantType_Bear = 4; //熊
 	};
 
+-----------------------------------------------
+ 
+OptionType - 期权类型
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+
+	enum WarrantType
+	{
+		OptionType_Unknown = 0; //未知
+		OptionType_Call = 1; //认购
+		OptionType_Put = 2; //认沽
+	};
  
 -----------------------------------------------
 
@@ -503,6 +514,21 @@ DarkStatus - 暗盘交易状态
 	
 -----------------------------------------------
 
+HolderCategory - 持有者类别
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+
+	enum HolderCategory
+	{
+		HolderCategory_Unknow = 0; //未知
+		HolderCategory_Agency = 1; //机构
+		HolderCategory_Fund = 2; //基金
+		HolderCategory_SeniorManager = 3; //高管
+	}
+	
+-----------------------------------------------
+
 Security - 证券标识
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -544,6 +570,20 @@ BasicQot - 基础报价
 
  .. code-block:: protobuf
 
+	 message OptionBasicQotExData
+	{
+		required double strikePrice = 1; //行权价
+		required int32 contractSize = 2; //每份合约数
+		required int32 openInterest = 3; //未平仓合约数
+		required double impliedVolatility = 4; //隐含波动率
+		required double premium = 5; //溢价
+		required double delta = 6; //希腊值 Delta
+		required double gamma = 7; //希腊值 Gamma
+		required double vega = 8; //希腊值 Vega
+		required double theta = 9; //希腊值 Theta
+		required double rho = 10; //希腊值 Rho
+	}
+	
 	message BasicQot
 	{
 		required Security security = 1; //股票
@@ -561,6 +601,8 @@ BasicQot - 基础报价
 		required double turnoverRate = 13; //换手率
 		required double amplitude = 14; //振幅
 		optional int32 darkStatus = 15; //DarkStatus, 暗盘交易状态
+		
+		optional OptionBasicQotExData optionExData = 16; //期权特有字段
 	}
 		
 -----------------------------------------------
@@ -601,7 +643,7 @@ SecurityStaticBasic - 证券基本静态信息
 
 -----------------------------------------------
 
-WarrantStaticExData - 窝轮静态信息
+WarrantStaticExData - 窝轮额外静态信息
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  .. code-block:: protobuf
@@ -610,6 +652,23 @@ WarrantStaticExData - 窝轮静态信息
 	{
 		required int32 type = 1; //Qot_Common.WarrantType,涡轮类型
 		required Qot_Common.Security owner = 2; //所属正股
+	}
+			
+-----------------------------------------------
+
+OptionStaticExData - 期权额外静态信息
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+
+	message OptionStaticExData
+	{
+		required int32 type = 1; //Qot_Common.OptionType,期权
+		required Qot_Common.Security owner = 2; //标的股
+		required string strikeTime = 3; //行权日
+		required double strikePrice = 4; //行权价
+		required bool suspend = 5; //是否停牌
+		required string market = 6; //发行市场名字
 	}
 			
 -----------------------------------------------
@@ -623,6 +682,7 @@ SecurityStaticInfo - 证券静态信息
 	{
 		required SecurityStaticBasic basic = 1; //基本股票静态信息
 		optional WarrantStaticExData warrantExData = 2; //窝轮额外股票静态信息
+		optional OptionStaticExData optionExData = 3; //期权额外股票静态信息
 	}
 	
 -----------------------------------------------
@@ -657,6 +717,7 @@ Ticker - 逐笔成交
 		required double turnover = 6; //成交额
 		optional double recvTime = 7; //收到推送数据的本地时间戳，用于定位延迟
 		optional int32 type = 8; //TickerType, 逐笔类型
+		optional int32 typeSign = 9; //逐笔类型符号
 	}
 	
 -----------------------------------------------
@@ -672,6 +733,23 @@ OrderBook - 买卖十档摆盘
 		required double price = 1; //委托价格
 		required int64 volume = 2; //委托数量
 		required int32 orederCount = 3; //委托订单个数
+	}
+	
+-----------------------------------------------
+
+ShareHoldingChange - 持股变动
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+
+	message ShareHoldingChange
+	{
+		required string holderName = 1; //持有者名称（机构名称 或 基金名称 或 高管姓名）
+		required double holdingQty = 2; //当前持股数量
+		required double holdingRatio = 3; //当前持股百分比
+		required double changeQty = 4; //较上一次变动数量
+		required double changeRatio = 5; //较上一次变动百分比（是相对于自身的比例，而不是总的。如总股本1万股，持有100股，持股百分比是1%，卖掉50股，变动比例是50%，而不是0.5%）
+		required string time = 6; //发布时间(YYYY-MM-DD HH:MM:SS字符串)
 	}
 	
 -----------------------------------------------
@@ -704,7 +782,20 @@ ConnSubInfo - 单条连接定阅信息
  .. note::
 
     *   一条连接重复定阅其它连接已经订阅过的，不会额外消耗订阅额度
-  
+	
+	-----------------------------------------------
+
+PlateInfo - 单条连接定阅信息
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+
+	message PlateInfo
+	{
+		required Qot_Common.Security plate = 1; //板块
+		required string name = 2; //板块名字
+		optional int32 plateType = 3; //PlateSetType 板块类型, 仅3207（获取股票所属板块）协议返回该字段
+	}
 	
 -----------------------------------------------
 

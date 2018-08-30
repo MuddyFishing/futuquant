@@ -25,17 +25,23 @@
   
 
   
+  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="next" title="基础定义" href="base_define.html" />
-    <link rel="prev" title="交易API" href="../api/Trade_API.html" /> 
+  
+
+  
+
+  
+    <link rel="top" title="futuquant 3.2 documentation" href="../index.html"/>
+        <link rel="next" title="基础定义" href="base_define.html"/>
+        <link rel="prev" title="交易API" href="../api/Trade_API.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav">
+<body class="wy-body-for-nav" role="document">
 
    
   <div class="wy-grid-for-nav">
@@ -129,7 +135,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" aria-label="top navigation">
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">futuquant</a>
@@ -137,10 +143,9 @@
       </nav>
 
 
+      
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           
 
 
@@ -400,29 +405,45 @@
 <td><a class="reference external" href="quote_protocol.html#qot-getrehab-proto-3102">Qot_GetRehab.proto</a></td>
 <td>获取复权信息</td>
 </tr>
-<tr class="row-even"><td>3200</td>
+<tr class="row-even"><td>3103</td>
+<td>RequestHistoryKL</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>3200</td>
 <td><a class="reference external" href="quote_protocol.html#qot-gettradedate-proto-3200">Qot_GetTradeDate.proto</a></td>
 <td>获取市场交易日</td>
 </tr>
-<tr class="row-odd"><td>3202</td>
+<tr class="row-even"><td>3202</td>
 <td><a class="reference external" href="quote_protocol.html#qot-getstaticinfo-proto-3202">Qot_GetStaticInfo.proto</a></td>
 <td>获取股票静态信息</td>
 </tr>
-<tr class="row-even"><td>3203</td>
+<tr class="row-odd"><td>3203</td>
 <td><a class="reference external" href="quote_protocol.html#qot-getsecuritysnapshot-proto-3203">Qot_GetSecuritySnapshot.proto</a></td>
 <td>获取股票快照</td>
 </tr>
-<tr class="row-odd"><td>3204</td>
+<tr class="row-even"><td>3204</td>
 <td><a class="reference external" href="quote_protocol.html#qot-getplateset-proto-3204">Qot_GetPlateSet.proto</a></td>
 <td>获取板块集合下的板块</td>
 </tr>
-<tr class="row-even"><td>3205</td>
+<tr class="row-odd"><td>3205</td>
 <td><a class="reference external" href="quote_protocol.html#qot-getplatesecurity-proto-3205">Qot_GetPlateSecurity.proto</a></td>
 <td>获取板块下的股票</td>
 </tr>
-<tr class="row-odd"><td>3206</td>
+<tr class="row-even"><td>3206</td>
 <td><a class="reference external" href="quote_protocol.html#qot-getreference-proto-3206">Qot_GetReference.proto</a></td>
 <td>获取正股相关股票</td>
+</tr>
+<tr class="row-odd"><td>3207</td>
+<td><a class="reference external" href="quote_protocol.html#qot-getownerplate-proto-3207">Qot_GetOwnerPlate.proto</a></td>
+<td>获取股票所属板块</td>
+</tr>
+<tr class="row-even"><td>3208</td>
+<td><a class="reference external" href="quote_protocol.html#qot-getholdingchangelist-proto-3208">Qot_GetHoldingChangeList.proto</a></td>
+<td>获取持股变化列表</td>
+</tr>
+<tr class="row-odd"><td>3209</td>
+<td><a class="reference external" href="quote_protocol.html#qot-getoptionchain-proto-3209">Qot_GetOptionChain.proto</a></td>
+<td>获取期权链</td>
 </tr>
 </tbody>
 </table>
@@ -547,22 +568,22 @@ message Response
 </div>
 <p><strong>Json协议请求包体结构</strong></p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">{</span>
-    <span class="s2">&quot;c2s&quot;</span>:
-    <span class="o">{</span>
-         <span class="s2">&quot;req&quot;</span>: 0
-    <span class="o">}</span>
+        <span class="s2">&quot;c2s&quot;</span>:
+        <span class="o">{</span>
+                <span class="s2">&quot;req&quot;</span>: 0
+        <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
 </div>
 <p><strong>Json协议回应包体结构</strong></p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">{</span>
-    <span class="s2">&quot;retType&quot;</span> : 0
-    <span class="s2">&quot;retMsg&quot;</span> : <span class="s2">&quot;&quot;</span>
-    <span class="s2">&quot;errCode&quot;</span> : 0
-    <span class="s2">&quot;s2c&quot;</span>:
-    <span class="o">{</span>
-        <span class="s2">&quot;data&quot;</span>: 0
-    <span class="o">}</span>
+        <span class="s2">&quot;retType&quot;</span> : 0
+        <span class="s2">&quot;retMsg&quot;</span> : <span class="s2">&quot;&quot;</span>
+        <span class="s2">&quot;errCode&quot;</span> : 0
+        <span class="s2">&quot;s2c&quot;</span>:
+        <span class="o">{</span>
+                <span class="s2">&quot;data&quot;</span>: 0
+        <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
 </div>
@@ -578,11 +599,17 @@ message Response
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>c2s</td>
+<tr class="row-even"><td>Request</td>
+<td>请求包体结构</td>
+</tr>
+<tr class="row-odd"><td>c2s</td>
 <td>请求参数结构</td>
 </tr>
-<tr class="row-odd"><td>req</td>
+<tr class="row-even"><td>req</td>
 <td>请求参数，实际根据协议定义</td>
+</tr>
+<tr class="row-odd"><td>Response</td>
+<td>回应包体结构</td>
 </tr>
 <tr class="row-even"><td>retType</td>
 <td>请求结果</td>
@@ -688,7 +715,9 @@ message Response
 
 
            </div>
-           
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
@@ -728,7 +757,6 @@ message Response
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'3.2',
-            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -746,11 +774,14 @@ message Response
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
+  
+  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
+          SphinxRtdTheme.StickyNav.enable();
       });
   </script>
+  
  
 <script type="text/javascript">
     console.log("Layout By FutuQuant");

@@ -25,17 +25,23 @@
   
 
   
+  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="next" title="协议接口指南" href="../protocol/intro.html" />
-    <link rel="prev" title="行情API" href="Quote_API.html" /> 
+  
+
+  
+
+  
+    <link rel="top" title="futuquant 3.2 documentation" href="../index.html"/>
+        <link rel="next" title="协议接口指南" href="../protocol/intro.html"/>
+        <link rel="prev" title="行情API" href="Quote_API.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav">
+<body class="wy-body-for-nav" role="document">
 
    
   <div class="wy-grid-for-nav">
@@ -148,7 +154,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" aria-label="top navigation">
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">futuquant</a>
@@ -156,10 +162,9 @@
       </nav>
 
 
+      
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           
 
 
@@ -337,7 +342,7 @@
 <h4>accinfo_query - 获取账户资金数据<a class="headerlink" href="#accinfo-query" title="Permalink to this headline">¶</a></h4>
 <dl class="function">
 <dt id="accinfo_query">
-<code class="descname">accinfo_query</code><span class="sig-paren">(</span><em>self</em>, <em>trd_env=TrdEnv.REAL</em>, <em>acc_id=0</em><span class="sig-paren">)</span><a class="headerlink" href="#accinfo_query" title="Permalink to this definition">¶</a></dt>
+<code class="descname">accinfo_query</code><span class="sig-paren">(</span><em>self</em>, <em>trd_env=TrdEnv.REAL</em>, <em>acc_id=0</em>, <em>acc_index=0</em><span class="sig-paren">)</span><a class="headerlink" href="#accinfo_query" title="Permalink to this definition">¶</a></dt>
 <dd><p>获取账户资金数据。获取账户的资产净值、证券市值、现金、购买力等资金数据。</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -345,7 +350,8 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>trd_env</strong> &#8211; str，交易环境 <a class="reference external" href="Base_API.html#trdenv">TrdEnv</a> ，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)</li>
-<li><strong>acc_id</strong> &#8211; int，交易业务账户ID，传0默认第一个账户</li>
+<li><strong>acc_id</strong> &#8211; int，交易业务账户ID，acc_id为ID号时以acc_id为准，传0使用acc_index所对应的账户</li>
+<li><strong>acc_index</strong> &#8211; int，交易业务子账户ID列表所对应的下标，默认0，表示第1个业务ID</li>
 </ul>
 </td>
 </tr>
@@ -428,7 +434,8 @@
 <li><strong>pl_ratio_min</strong> &#8211; float，过滤盈亏比例下限，高于此比例的会返回，如0.1，返回盈亏比例大于10%的持仓</li>
 <li><strong>pl_ratio_max</strong> &#8211; float，过滤盈亏比例上限，低于此比例的会返回，如0.2，返回盈亏比例小于20%的持仓</li>
 <li><strong>trd_env</strong> &#8211; str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)</li>
-<li><strong>acc_id</strong> &#8211; int，交易业务账户ID，传0默认第一个账户</li>
+<li><strong>acc_id</strong> &#8211; int，交易业务账户ID，acc_id为ID号时以acc_id为准，传0使用acc_index所对应的账户</li>
+<li><strong>acc_index</strong> &#8211; int，交易业务子账户ID列表所对应的下标，默认0，表示第1个业务ID</li>
 </ul>
 </td>
 </tr>
@@ -563,7 +570,8 @@
 <li><strong>order_type</strong> &#8211; str，订单类型，参考OrderType类的定义</li>
 <li><strong>adjust_limit</strong> &#8211; folat，港股有价位表，订单价格必须在规定的价位上，OpenD会对传入价格自动调整到合法价位上，此参数指定价格调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%</li>
 <li><strong>trd_env</strong> &#8211; str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)</li>
-<li><strong>acc_id</strong> &#8211; int，交易业务账户ID，传0默认第一个账户</li>
+<li><strong>acc_id</strong> &#8211; int，交易业务账户ID，acc_id为ID号时以acc_id为准，传0使用acc_index所对应的账户</li>
+<li><strong>acc_index</strong> &#8211; int，交易业务子账户ID列表所对应的下标，默认0，表示第1个业务ID</li>
 </ul>
 </td>
 </tr>
@@ -605,7 +613,8 @@
 <li><strong>start</strong> &#8211; str，开始时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传</li>
 <li><strong>end</strong> &#8211; str，结束时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传</li>
 <li><strong>trd_env</strong> &#8211; str，交易环境，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)</li>
-<li><strong>acc_id</strong> &#8211; int，交易业务账户ID，传0默认第一个账户</li>
+<li><strong>acc_id</strong> &#8211; int，交易业务账户ID，acc_id为ID号时以acc_id为准，传0使用acc_index所对应的账户</li>
+<li><strong>acc_index</strong> &#8211; int，交易业务子账户ID列表所对应的下标，默认0，表示第1个业务ID</li>
 </ul>
 </td>
 </tr>
@@ -714,13 +723,14 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>modify_order_op</strong> &#8211; str，改单操作类型，参考 <a href="#id12"><span class="problematic" id="id13">ModifyOrderOp_</span></a> 类的定义，有</li>
+<li><strong>modify_order_op</strong> &#8211; str，改单操作类型，参考 <a class="reference external" href="Base_API.html#ModifyOrderOp">ModifyOrderOp</a> 类的定义，有</li>
 <li><strong>order_id</strong> &#8211; str，订单号</li>
 <li><strong>qty</strong> &#8211; float，(改单有效)新的订单数量，2位精度，期权单位是&#8221;张&#8221;</li>
 <li><strong>price</strong> &#8211; float，(改单有效)新的订单价格，3位精度(A股2位)</li>
 <li><strong>adjust_limit</strong> &#8211; folat，(改单有效)港股有价位表，订单价格必须在规定的价位上，OpenD会对传入价格自动调整到合法价位上，此参数指定价格调整方向和调整幅度百分比限制，正数代表向上调整，负数代表向下调整，具体值代表调整幅度限制，如：0.015代表向上调整且幅度不超过1.5%；-0.01代表向下调整且幅度不超过1%</li>
 <li><strong>trd_env</strong> &#8211; str，交易环境 <a class="reference external" href="Base_API.html#trdenv">TrdEnv</a> ，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)</li>
-<li><strong>acc_id</strong> &#8211; int，交易业务账户ID，传0默认第一个账户</li>
+<li><strong>acc_id</strong> &#8211; int，交易业务账户ID，acc_id为ID号时以acc_id为准，传0使用acc_index所对应的账户</li>
+<li><strong>acc_index</strong> &#8211; int，交易业务子账户ID列表所对应的下标，默认0，表示第1个业务ID</li>
 </ul>
 </td>
 </tr>
@@ -829,7 +839,8 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>code</strong> &#8211; str，代码过滤，只返回包含这个代码的数据，没传不过滤，返回所有</li>
 <li><strong>trd_env</strong> &#8211; str，交易环境 <a class="reference external" href="Base_API.html#trdenv">TrdEnv</a> ，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)</li>
-<li><strong>acc_id</strong> &#8211; int，交易业务账户ID，传0默认第一个账户</li>
+<li><strong>acc_id</strong> &#8211; int，交易业务账户ID，acc_id为ID号时以acc_id为准，传0使用acc_index所对应的账户</li>
+<li><strong>acc_index</strong> &#8211; int，交易业务子账户ID列表所对应的下标，默认0，表示第1个业务ID</li>
 </ul>
 </td>
 </tr>
@@ -931,7 +942,8 @@
 <li><strong>start</strong> &#8211; str，开始时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传</li>
 <li><strong>end</strong> &#8211; str，结束时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传</li>
 <li><strong>trd_env</strong> &#8211; str，交易环境 <a class="reference external" href="Base_API.html#trdenv">TrdEnv</a> ，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)</li>
-<li><strong>acc_id</strong> &#8211; int，交易业务账户ID，传0默认第一个账户</li>
+<li><strong>acc_id</strong> &#8211; int，交易业务账户ID，acc_id为ID号时以acc_id为准，传0使用acc_index所对应的账户</li>
+<li><strong>acc_index</strong> &#8211; int，交易业务子账户ID列表所对应的下标，默认0，表示第1个业务ID</li>
 </ul>
 </td>
 </tr>
@@ -971,7 +983,8 @@
 <li><strong>start</strong> &#8211; str，开始时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传</li>
 <li><strong>end</strong> &#8211; str，结束时间，严格按YYYY-MM-DD HH:MM:SS或YYYY-MM-DD HH:MM:SS.MS格式传</li>
 <li><strong>trd_env</strong> &#8211; str，交易环境 <a class="reference external" href="Base_API.html#trdenv">TrdEnv</a> ，TrdEnv.REAL(真实环境)或TrdEnv.SIMULATE(仿真环境)</li>
-<li><strong>acc_id</strong> &#8211; int，交易业务账户ID，传0默认第一个账户</li>
+<li><strong>acc_id</strong> &#8211; int，交易业务账户ID，acc_id为ID号时以acc_id为准，传0使用acc_index所对应的账户</li>
+<li><strong>acc_index</strong> &#8211; int，交易业务子账户ID列表所对应的下标，默认0，表示第1个业务ID</li>
 </ul>
 </td>
 </tr>
@@ -1017,13 +1030,56 @@
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>(ret, data)</p>
-<p>ret == RET_OK, data为pd.DataFrame，数据列如下</p>
-<p>ret != RET_OK, data为错误信息</p>
-</p>
+<tr class="field-even field"><th class="field-name" colspan="2">Return (ret_code, ret_data):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first">ret == RET_OK, data为pd.DataFrame，数据列如下</p>
+<p class="last">ret != RET_OK, data为错误信息</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tbody>
+</table>
+</dd></dl>
+
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="8%" />
+<col width="74%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">参数</th>
+<th class="head">类型</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>max_cash_buy</td>
+<td>float</td>
+<td>不使用融资，仅自己的现金最大可买整手股数</td>
+</tr>
+<tr class="row-odd"><td>max_cash_and_margin_buy</td>
+<td>float</td>
+<td>使用融资，自己的现金 + 融资资金总共的最大可买整手股数</td>
+</tr>
+<tr class="row-even"><td>max_position_sell</td>
+<td>float</td>
+<td>不使用融券(卖空)，仅自己的持仓最大可卖整手股数</td>
+</tr>
+<tr class="row-odd"><td>max_sell_short</td>
+<td>float</td>
+<td>使用融券(卖空)，最大可卖空整手股数，不包括多仓</td>
+</tr>
+<tr class="row-even"><td>max_buy_back</td>
+<td>float</td>
+<td>卖空后，需要买回的最大整手股数。因为卖空后，必须先买回已卖空的股数，还掉股票，才能再继续买多。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">example:</th><td class="field-body"></td>
 </tr>
 </tbody>
 </table>
@@ -1036,8 +1092,7 @@
 <span class="n">trd_ctx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-</dd></dl>
-
+</div></blockquote>
 </div>
 </div>
 <hr class="docutils" />
@@ -1248,7 +1303,9 @@
 
 
            </div>
-           
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
@@ -1288,7 +1345,6 @@
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'3.2',
-            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1306,11 +1362,14 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
+  
+  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
+          SphinxRtdTheme.StickyNav.enable();
       });
   </script>
+  
  
 <script type="text/javascript">
     console.log("Layout By FutuQuant");

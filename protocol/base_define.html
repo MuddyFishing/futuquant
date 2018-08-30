@@ -25,17 +25,23 @@
   
 
   
+  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="next" title="行情协议" href="quote_protocol.html" />
-    <link rel="prev" title="协议接口指南" href="intro.html" /> 
+  
+
+  
+
+  
+    <link rel="top" title="futuquant 3.2 documentation" href="../index.html"/>
+        <link rel="next" title="行情协议" href="quote_protocol.html"/>
+        <link rel="prev" title="协议接口指南" href="intro.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav">
+<body class="wy-body-for-nav" role="document">
 
    
   <div class="wy-grid-for-nav">
@@ -111,7 +117,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#qotmarket">QotMarket - 行情市场</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#securitytype">SecurityType - 证券类型</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#platesettype">PlateSetType - 板块集合类型</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#warranttype">WarrantType - 窝轮子类型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#warranttype">WarrantType - 窝轮类型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optiontype">OptionType - 期权类型</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id4">QotMarketState - 行情市场状态</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#rehabtype-k">RehabType - K线复权类型</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kltype-k">KLType - K线类型</a></li>
@@ -120,18 +127,22 @@
 <li class="toctree-l3"><a class="reference internal" href="#tickerdirection">TickerDirection - 逐笔方向</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#tickertype">TickerType - 逐笔类型</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#darkstatus">DarkStatus - 暗盘交易状态</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#holdercategory">HolderCategory - 持有者类别</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#security">Security - 证券标识</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kline-k">KLine - K线数据点</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#basicqot">BasicQot - 基础报价</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#timeshare">TimeShare - 分时数据点</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#securitystaticbasic">SecurityStaticBasic - 证券基本静态信息</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#warrantstaticexdata">WarrantStaticExData - 窝轮静态信息</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#warrantstaticexdata">WarrantStaticExData - 窝轮额外静态信息</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optionstaticexdata">OptionStaticExData - 期权额外静态信息</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#securitystaticinfo">SecurityStaticInfo - 证券静态信息</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#broker">Broker - 买卖经纪摆盘</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ticker">Ticker - 逐笔成交</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#orderbook">OrderBook - 买卖十档摆盘</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shareholdingchange">ShareHoldingChange - 持股变动</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#subinfo">SubInfo - 单个定阅类型信息</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#connsubinfo">ConnSubInfo - 单条连接定阅信息</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#plateinfo">PlateInfo - 单条连接定阅信息</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#id5">Trd_Common.proto - 交易通用定义</a><ul>
@@ -172,7 +183,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" aria-label="top navigation">
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">futuquant</a>
@@ -180,10 +191,9 @@
       </nav>
 
 
+      
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           
 
 
@@ -497,7 +507,6 @@
         <span class="na">QotMarket_HK_Security</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//港股</span>
         <span class="na">QotMarket_HK_Future</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//港期货(目前是恒指的当月、下月期货行情)</span>
         <span class="na">QotMarket_US_Security</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span> <span class="c1">//美股</span>
-        <span class="na">QotMarket_US_Option</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span> <span class="c1">//美期权,暂时不支持期权</span>
         <span class="na">QotMarket_CNSH_Security</span> <span class="o">=</span> <span class="mi">21</span><span class="p">;</span> <span class="c1">//沪股</span>
         <span class="na">QotMarket_CNSZ_Security</span> <span class="o">=</span> <span class="mi">22</span><span class="p">;</span> <span class="c1">//深股</span>
 <span class="p">}</span>
@@ -508,7 +517,6 @@
 <ul class="last simple">
 <li>QotMarket定义一支证券所属的行情市场分类</li>
 <li>QotMarket_HK_Future 港股期货，目前仅支持 999010(恒指当月期货)、999011(恒指下月期货)</li>
-<li>QotMarket_US_Option 美股期权，牛牛客户端可以查看行情，API 后续支持</li>
 </ul>
 </div>
 </div></blockquote>
@@ -544,6 +552,7 @@
         <span class="na">PlateSetType_Industry</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//行业板块</span>
         <span class="na">PlateSetType_Region</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//地域板块,港美股市场的地域分类数据暂为空</span>
         <span class="na">PlateSetType_Concept</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//概念板块</span>
+        <span class="na">PlateSetType_Other</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//其他板块, 仅用于3207（获取股票所属板块）协议返回,不可作为其他协议的请求参数</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -557,7 +566,7 @@
 </div>
 <hr class="docutils" />
 <div class="section" id="warranttype">
-<h3>WarrantType - 窝轮子类型<a class="headerlink" href="#warranttype" title="Permalink to this headline">¶</a></h3>
+<h3>WarrantType - 窝轮类型<a class="headerlink" href="#warranttype" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">enum</span> <span class="n">WarrantType</span>
 <span class="p">{</span>
@@ -566,6 +575,20 @@
         <span class="na">WarrantType_Sell</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//认沽</span>
         <span class="na">WarrantType_Bull</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//牛</span>
         <span class="na">WarrantType_Bear</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//熊</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<hr class="docutils" />
+<div class="section" id="optiontype">
+<h3>OptionType - 期权类型<a class="headerlink" href="#optiontype" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">enum</span> <span class="n">WarrantType</span>
+<span class="p">{</span>
+        <span class="na">OptionType_Unknown</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//未知</span>
+        <span class="na">OptionType_Call</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//认购</span>
+        <span class="na">OptionType_Put</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//认沽</span>
 <span class="p">};</span>
 </pre></div>
 </div>
@@ -739,6 +762,21 @@
 </div></blockquote>
 </div>
 <hr class="docutils" />
+<div class="section" id="holdercategory">
+<h3>HolderCategory - 持有者类别<a class="headerlink" href="#holdercategory" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">enum</span> <span class="n">HolderCategory</span>
+<span class="p">{</span>
+        <span class="na">HolderCategory_Unknow</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//未知</span>
+        <span class="na">HolderCategory_Agency</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//机构</span>
+        <span class="na">HolderCategory_Fund</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//基金</span>
+        <span class="na">HolderCategory_SeniorManager</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//高管</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<hr class="docutils" />
 <div class="section" id="security">
 <h3>Security - 证券标识<a class="headerlink" href="#security" title="Permalink to this headline">¶</a></h3>
 <blockquote>
@@ -778,7 +816,21 @@
 <div class="section" id="basicqot">
 <h3>BasicQot - 基础报价<a class="headerlink" href="#basicqot" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">message</span> <span class="nc">BasicQot</span>
+<div><div class="highlight-protobuf"><div class="highlight"><pre><span></span> <span class="kd">message</span> <span class="nc">OptionBasicQotExData</span>
+<span class="p">{</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">strikePrice</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//行权价</span>
+        <span class="k">required</span> <span class="kt">int32</span> <span class="na">contractSize</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//每份合约数</span>
+        <span class="k">required</span> <span class="kt">int32</span> <span class="na">openInterest</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//未平仓合约数</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">impliedVolatility</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//隐含波动率</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">premium</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//溢价</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">delta</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//希腊值 Delta</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">gamma</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//希腊值 Gamma</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">vega</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">//希腊值 Vega</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">theta</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span> <span class="c1">//希腊值 Theta</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">rho</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="c1">//希腊值 Rho</span>
+<span class="p">}</span>
+
+<span class="kd">message</span> <span class="nc">BasicQot</span>
 <span class="p">{</span>
         <span class="k">required</span> <span class="n">Security</span> <span class="na">security</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//股票</span>
         <span class="k">required</span> <span class="kt">bool</span> <span class="na">isSuspended</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//是否停牌</span>
@@ -795,6 +847,8 @@
         <span class="k">required</span> <span class="kt">double</span> <span class="na">turnoverRate</span> <span class="o">=</span> <span class="mi">13</span><span class="p">;</span> <span class="c1">//换手率</span>
         <span class="k">required</span> <span class="kt">double</span> <span class="na">amplitude</span> <span class="o">=</span> <span class="mi">14</span><span class="p">;</span> <span class="c1">//振幅</span>
         <span class="k">optional</span> <span class="kt">int32</span> <span class="na">darkStatus</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span> <span class="c1">//DarkStatus, 暗盘交易状态</span>
+
+        <span class="k">optional</span> <span class="n">OptionBasicQotExData</span> <span class="na">optionExData</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span> <span class="c1">//期权特有字段</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -838,12 +892,29 @@
 </div>
 <hr class="docutils" />
 <div class="section" id="warrantstaticexdata">
-<h3>WarrantStaticExData - 窝轮静态信息<a class="headerlink" href="#warrantstaticexdata" title="Permalink to this headline">¶</a></h3>
+<h3>WarrantStaticExData - 窝轮额外静态信息<a class="headerlink" href="#warrantstaticexdata" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">message</span> <span class="nc">WarrantStaticExData</span>
 <span class="p">{</span>
         <span class="k">required</span> <span class="kt">int32</span> <span class="na">type</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//Qot_Common.WarrantType,涡轮类型</span>
         <span class="k">required</span> <span class="n">Qot_Common.Security</span> <span class="na">owner</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//所属正股</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<hr class="docutils" />
+<div class="section" id="optionstaticexdata">
+<h3>OptionStaticExData - 期权额外静态信息<a class="headerlink" href="#optionstaticexdata" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">message</span> <span class="nc">OptionStaticExData</span>
+<span class="p">{</span>
+        <span class="k">required</span> <span class="kt">int32</span> <span class="na">type</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//Qot_Common.OptionType,期权</span>
+        <span class="k">required</span> <span class="n">Qot_Common.Security</span> <span class="na">owner</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//标的股</span>
+        <span class="k">required</span> <span class="kt">string</span> <span class="na">strikeTime</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//行权日</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">strikePrice</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//行权价</span>
+        <span class="k">required</span> <span class="kt">bool</span> <span class="na">suspend</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//是否停牌</span>
+        <span class="k">required</span> <span class="kt">string</span> <span class="na">market</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//发行市场名字</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -857,6 +928,7 @@
 <span class="p">{</span>
         <span class="k">required</span> <span class="n">SecurityStaticBasic</span> <span class="na">basic</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//基本股票静态信息</span>
         <span class="k">optional</span> <span class="n">WarrantStaticExData</span> <span class="na">warrantExData</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//窝轮额外股票静态信息</span>
+        <span class="k">optional</span> <span class="n">OptionStaticExData</span> <span class="na">optionExData</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//期权额外股票静态信息</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -890,6 +962,7 @@
         <span class="k">required</span> <span class="kt">double</span> <span class="na">turnover</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//成交额</span>
         <span class="k">optional</span> <span class="kt">double</span> <span class="na">recvTime</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="c1">//收到推送数据的本地时间戳，用于定位延迟</span>
         <span class="k">optional</span> <span class="kt">int32</span> <span class="na">type</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">//TickerType, 逐笔类型</span>
+        <span class="k">optional</span> <span class="kt">int32</span> <span class="na">typeSign</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span> <span class="c1">//逐笔类型符号</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -904,6 +977,23 @@
         <span class="k">required</span> <span class="kt">double</span> <span class="na">price</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//委托价格</span>
         <span class="k">required</span> <span class="kt">int64</span> <span class="na">volume</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//委托数量</span>
         <span class="k">required</span> <span class="kt">int32</span> <span class="na">orederCount</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//委托订单个数</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<hr class="docutils" />
+<div class="section" id="shareholdingchange">
+<h3>ShareHoldingChange - 持股变动<a class="headerlink" href="#shareholdingchange" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">message</span> <span class="nc">ShareHoldingChange</span>
+<span class="p">{</span>
+        <span class="k">required</span> <span class="kt">string</span> <span class="na">holderName</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//持有者名称（机构名称 或 基金名称 或 高管姓名）</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">holdingQty</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//当前持股数量</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">holdingRatio</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//当前持股百分比</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">changeQty</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">//较上一次变动数量</span>
+        <span class="k">required</span> <span class="kt">double</span> <span class="na">changeRatio</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//较上一次变动百分比（是相对于自身的比例，而不是总的。如总股本1万股，持有100股，持股百分比是1%，卖掉50股，变动比例是50%，而不是0.5%）</span>
+        <span class="k">required</span> <span class="kt">string</span> <span class="na">time</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="c1">//发布时间(YYYY-MM-DD HH:MM:SS字符串)</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -939,6 +1029,19 @@
 <ul class="last simple">
 <li>一条连接重复定阅其它连接已经订阅过的，不会额外消耗订阅额度</li>
 </ul>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="plateinfo">
+<h3>PlateInfo - 单条连接定阅信息<a class="headerlink" href="#plateinfo" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">message</span> <span class="nc">PlateInfo</span>
+<span class="p">{</span>
+        <span class="k">required</span> <span class="n">Qot_Common.Security</span> <span class="na">plate</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//板块</span>
+        <span class="k">required</span> <span class="kt">string</span> <span class="na">name</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//板块名字</span>
+        <span class="k">optional</span> <span class="kt">int32</span> <span class="na">plateType</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">//PlateSetType 板块类型, 仅3207（获取股票所属板块）协议返回该字段</span>
+<span class="p">}</span>
+</pre></div>
 </div>
 </div></blockquote>
 </div>
@@ -1247,7 +1350,9 @@
 
 
            </div>
-           
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
@@ -1287,7 +1392,6 @@
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'3.2',
-            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1305,11 +1409,14 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
+  
+  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
+          SphinxRtdTheme.StickyNav.enable();
       });
   </script>
+  
  
 <script type="text/javascript">
     console.log("Layout By FutuQuant");
