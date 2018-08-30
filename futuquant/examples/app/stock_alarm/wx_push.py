@@ -210,10 +210,10 @@ if __name__ == '__main__':
     msg = ["测试消息", 10000, 101.000456, 200, 20000, 123, "请及时查看，谢谢！"]
     wp = WechatPush()  # test号
 
-    # import sys
-    # ret, my_openid = wp.get_openid_by_nickname('lpt')
-    # if ret != RET_OK:
-    #     sys.exit(1)
-    # print(my_openid)
-    my_openid = 'oaeaj02DzklyZHavotk2X3mt6JuA'
+    import sys
+    ret, my_openid = wp.get_openid_by_nickname('lpt')
+    if ret != RET_OK:
+        sys.exit(1)
+    print(my_openid)
+    # my_openid = ''
     print(wp.send_template_msg(my_openid, msg))
