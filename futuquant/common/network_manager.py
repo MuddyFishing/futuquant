@@ -54,6 +54,20 @@ class Connection:
         return self.sock.fileno
 
 
+def is_socket_exception_wouldblock(e):
+    has_errno = False
+    if IS_PY2:
+        if isinstance(e, IOError):
+            has_errno = True
+    else:
+        if isinstance(e, OSError):
+            has_errno = True
+
+    if has_errno:
+        if e.errno == errno.EWOULDBLOCK or e.errno == errno.EAGAIN or e.errno == errno.EINPROGRESS:
+            return True
+    return False
+
 class NetManager:
     _default_inst = None
 
@@ -91,14 +105,10 @@ class NetManager:
             self._wlist.append(conn)
             try:
                 sock.connect(addr)
-            except socket.error as e:
-                if e.errno == errno.EWOULDBLOCK:
-                    pass
-                else:
-                    return RET_ERROR, str(e), 0
             except Exception as e:
-                self.close(conn.conn_id)
-                return RET_ERROR, str(e), 0
+                if not is_socket_exception_wouldblock(e):
+                    self.close(conn.conn_id)
+                    return RET_ERROR, str(e), 0
         return RET_OK, '', conn.conn_id
 
     def sync_connect(self, addr, handler, timeout):
@@ -232,8 +242,8 @@ class NetManager:
                     size = conn.sock.send(data)
                     # logger.debug('send: total_len={}; sent_len={};'.format(len(data), size))
                     # logger.debug(data[:size])
-            except socket.error as e:
-                if e.errno == errno.EAGAIN or e.errno == errno.EWOULDBLOCK:
+            except Exception as e:
+                if is_socket_exception_wouldblock(e):
                     pass
                 else:
                     return RET_ERROR, e.strerror
@@ -334,11 +344,11 @@ class NetManager:
                     break
                 else:
                     conn.readbuf.extend(data)
-            except socket.error as e:
-                if e.errno == errno.EAGAIN or e.errno == errno.EWOULDBLOCK:
+            except Exception as e:
+                if is_socket_exception_wouldblock(e):
                     break
                 else:
-                    err = e
+                    err = str(e)
                     break
 
         while len(conn.readbuf) > 0:
@@ -391,9 +401,9 @@ class NetManager:
                 size = conn.sock.send(conn.writebuf)
                 # logger.debug('send: total_len={}; sent_len={};'.format(len(conn.writebuf), size))
                 # logger.debug(conn.writebuf[:size])
-        except socket.error as e:
-            if e.errno != errno.EAGAIN and e.errno != errno.EWOULDBLOCK:
-                err = e
+        except Exception as e:
+            if not is_socket_exception_wouldblock(e):
+                err = str(e)
 
         if size > 0:
             del conn.writebuf[:size]
