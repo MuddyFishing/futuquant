@@ -186,7 +186,6 @@ class StockBasicInfoQuery:
             "strike_time": record.optionExData.strikeTime,
             "strike_price": record.optionExData.strikePrice if record.HasField('optionExData') else "NaN",
             "suspension": record.optionExData.suspend if record.HasField('optionExData') else "N/A",
-            "market": record.optionExData.market if record.HasField('optionExData') else "",
         } for record in raw_basic_info_list]
         return RET_OK, "", basic_info_list
 
@@ -1748,7 +1747,6 @@ class OptionChain:
                         "strike_time": record.optionExData.strikeTime,
                         "strike_price": record.optionExData.strikePrice if record.HasField('optionExData') else "NaN",
                         "suspension": record.optionExData.suspend if record.HasField('optionExData') else "N/A",
-                        "market": record.optionExData.market if record.HasField('optionExData') else "",
                     }
                     data_list.append(quote_list)
 

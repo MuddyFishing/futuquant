@@ -173,7 +173,6 @@ get_stock_basicinfo
         strike_time         str            行权日（美股默认是美东时间，港股A股默认是北京时间）
         strike_price        float          行权价
         suspension          bool           是否停牌(True表示停牌)
-        market              str            发行市场名字
         listing_date        str            上市时间
         stock_id            int            股票id
         =================   ===========   ==============================================================================
@@ -1177,7 +1176,6 @@ get_option_chain
         strike_time          str           行权日（美股默认是美东时间，港股A股默认是北京时间）
         strike_price         float         行权价
         suspension           bool          是否停牌(True表示停牌)
-        market               str           发行市场名字
         stock_id             int           股票id
         ==================   ===========   ==============================================================
 
