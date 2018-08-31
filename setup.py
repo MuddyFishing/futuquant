@@ -17,14 +17,26 @@
 
 import sys
 from os.path import dirname, join
+import sys
 
 from setuptools import (
     find_packages,
     setup,
 )
 
+is_py2 = sys.version_info[0] == 2
+
 with open(join(dirname(__file__), 'futuquant/VERSION.txt'), 'rb') as f:
     version = f.read().decode('ascii').strip()
+
+install_requires = ["pandas",
+                    "simplejson",
+                    "protobuf",
+                    "PyCryptodome",
+                    ]
+
+if is_py2:
+    install_requires.append("selectors2")
 
 setup(
     name='futuquant',
@@ -39,9 +51,5 @@ setup(
     packages=find_packages(exclude=[]),
     package_data={'': ['*.*']},
     include_package_data=True,
-    install_requires=["pandas",
-                      "simplejson",
-                      "protobuf",
-                      "PyCryptodome",
-                      ],
+    install_requires=install_requires
 )

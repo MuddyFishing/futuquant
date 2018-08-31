@@ -1,15 +1,16 @@
-import socket
-import selectors
 import errno
 import datetime
 import threading
-from struct import pack
 from time import sleep
 from futuquant.common.utils import *
 from futuquant.quote.quote_query import parse_head
 from .err import Err
 from .utils import ProtoInfo
 from .ft_logger import make_log_msg
+if IS_PY2:
+    import selectors2 as selectors
+else:
+    import selectors
 
 class ConnStatus:
     Start = 0
@@ -172,8 +173,6 @@ class NetManager:
             elapsed_time = now - req_time
             if elapsed_time.total_seconds() >= self._sync_req_timeout:
                 self._on_packet(conn, proto_info._asdict(), Err.Timeout.code, Err.Timeout.text, None)
-                del conn.req_dict[proto_info]
-
 
     def _thread_func(self):
         while True:
