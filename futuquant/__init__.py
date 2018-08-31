@@ -28,6 +28,7 @@ from futuquant.trade.open_trade_context import OpenHKCCTradeContext
 from futuquant.trade.open_trade_context import OpenCNTradeContext
 
 #import constant values
+from futuquant.common import *
 from futuquant.common.constant import *
 from futuquant.common.sys_config import SysConfig
 

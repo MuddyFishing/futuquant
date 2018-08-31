@@ -96,13 +96,27 @@ class OpenQuoteContext(OpenContextBase):
             self._wait_reconnect()
         return ret_code, ret_msg
 
-    def get_trading_days(self, market, start_date=None, end_date=None):
-        """get the trading days"""
+    def get_trading_days(self, market, start=None, end=None):
+        """获取交易日
+        :param market: 市场类型，Market_
+        :param start: 起始日期。例如'2018-01-01'。
+        :param end: 结束日期。例如'2018-01-01'。
+         start和end的组合如下：
+         ==========    ==========    ========================================
+         start类型      end类型       说明
+         ==========    ==========    ========================================
+         str            str           start和end分别为指定的日期
+         None           str           start为end往前365天
+         str            None          end为start往后365天
+         None           None          end为当前日期，start为end往前365天
+         ==========    ==========    ========================================
+        :return: 成功时返回(RET_OK, data)，data是字符串数组；失败时返回(RET_ERROR, data)，其中data是错误描述字符串
+        """
         if market is None or is_str(market) is False:
             error_str = ERROR_STR_PREFIX + "the type of market param is wrong"
             return RET_ERROR, error_str
 
-        ret, msg, start_date, end_date = normalize_start_end_date(start_date, end_date, 365)
+        ret, msg, start, end = normalize_start_end_date(start, end, 365)
         if ret != RET_OK:
             return ret, msg
 
@@ -112,8 +126,8 @@ class OpenQuoteContext(OpenContextBase):
         # the keys of kargs should be corresponding to the actual function arguments
         kargs = {
             'market': market,
-            'start_date': start_date,
-            'end_date': end_date,
+            'start_date': start,
+            'end_date': end,
             'conn_id': self.get_sync_conn_id()
         }
         ret_code, msg, trade_day_list = query_processor(**kargs)
@@ -126,8 +140,8 @@ class OpenQuoteContext(OpenContextBase):
     def get_stock_basicinfo(self, market, stock_type=SecurityType.STOCK, code_list=None):
         """
         获取指定市场中特定类型的股票基本信息
-        :param market: 市场类型，futuquant.common.constsnt.Market
-        :param stock_type: 股票类型， futuquant.common.constsnt.SecurityType
+        :param market: 市场类型，futuquant.common.constant.Market
+        :param stock_type: 股票类型， futuquant.common.constant.SecurityType
         :param code_list: 如果不为None，应该是股票code的iterable类型，将只返回指定的股票信息
         :return: (ret_code, content)
                 ret_code 等于RET_OK时， content为Pandas.DataFrame数据, 否则为错误原因字符串, 数据列格式如下
@@ -139,7 +153,11 @@ class OpenQuoteContext(OpenContextBase):
             lot_size            int            每手数量
             stock_type          str            股票类型，参见SecurityType
             stock_child_type    str            涡轮子类型，参见WrtType
-            stock_owner         str            正股代码
+            stock_owner         str            所属正股的代码
+            option_type         str            期权类型，Qot_Common.OptionType
+            strike_time         str            行权日
+            strike_price        float          行权价
+            suspension          bool           是否停牌(True表示停牌)
             listing_date        str            上市时间
             stock_id            int            股票id
             =================   ===========   ==============================================================================
@@ -151,6 +169,7 @@ class OpenQuoteContext(OpenContextBase):
             from futuquant import *
             quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
             print(quote_ctx.get_stock_basicinfo(Market.HK, SecurityType.WARRANT))
+            print(quote_ctx.get_stock_basicinfo(Market.US, SecurityType.DRVT, 'US.AAPL190621C140000'))
             quote_ctx.close()
         """
         param_table = {'market': market, 'stock_type': stock_type}
@@ -159,6 +178,14 @@ class OpenQuoteContext(OpenContextBase):
             if param is None or is_str(param) is False:
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
+
+        if code_list is not None:
+            if is_str(code_list):
+                code_list = code_list.split(',')
+            elif isinstance(code_list, list):
+                pass
+            else:
+                return RET_ERROR, "code list must be like ['HK.00001', 'HK.00700'] or 'HK.00001,HK.00700'"
 
         query_processor = self._get_sync_query_processor(
             StockBasicInfoQuery.pack_req, StockBasicInfoQuery.unpack_rsp)
@@ -174,8 +201,9 @@ class OpenQuoteContext(OpenContextBase):
             return ret_code, msg
 
         col_list = [
-            'code', 'name', 'lot_size', 'stock_type', 'stock_child_type',
-            "stock_owner", "listing_date", "stock_id"
+            'code', 'name', 'lot_size', 'stock_type', 'stock_child_type', 'stock_owner',
+            'option_type', 'strike_time', 'strike_price', 'suspension',
+            'listing_date', 'stock_id'
         ]
 
         basic_info_table = pd.DataFrame(basic_info_list, columns=col_list)
@@ -189,11 +217,11 @@ class OpenQuoteContext(OpenContextBase):
                                    ktype=KLType.K_DAY,
                                    autype=AuType.QFQ):
         """
-        获取多只股票的历史k线数据
+        获取多只股票的本地历史k线数据
 
         :param codelist: 股票代码列表，list或str。例如：['HK.00700', 'HK.00001']，'HK.00700,HK.00001'
-        :param start: 起始时间，例如2017-06-20
-        :param end: 结束时间
+        :param start: 起始时间，例如'2017-06-20'
+        :param end: 结束时间, 例如'2017-07-20'，start与end组合关系参见 get_history_kline_
         :param ktype: k线类型，参见KLType
         :param autype: 复权类型，参见AuType
         :return: 成功时返回(RET_OK, [data])，data是DataFrame数据, 数据列格式如下
@@ -207,7 +235,7 @@ class OpenQuoteContext(OpenContextBase):
             close               float          收盘价
             high                float          最高价
             low                 float          最低价
-            pe_ratio            float          市盈率
+            pe_ratio            float          市盈率（该字段为比例字段，默认不展示%）
             turnover_rate       float          换手率
             volume              int            成交量
             turnover            float          成交额
@@ -232,62 +260,19 @@ class OpenQuoteContext(OpenContextBase):
             result.append(data)
         return 0, result
 
-    def get_history_kline(self,
-                          code,
-                          start=None,
-                          end=None,
-                          ktype=KLType.K_DAY,
-                          autype=AuType.QFQ,
-                          fields=[KL_FIELD.ALL]):
-        """
-        得到本地历史k线，需先参照帮助文档下载k线
+    def _get_history_kline_impl(self,
+                                query_cls,
+                                code,
+                                start=None,
+                                end=None,
+                                ktype=KLType.K_DAY,
+                                autype=AuType.QFQ,
+                                fields=[KL_FIELD.ALL]
+                                ):
 
-        :param code: 股票代码
-        :param start: 开始时间，例如2017-06-20
-        :param end:  结束时间
-        :param ktype: k线类型， 参见 KLType 定义
-        :param autype: 复权类型, 参见 AuType 定义
-        :param fields: 需返回的字段列表，参见 KL_FIELD 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
-        :return: (ret, data)
-
-                ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
-
-                ret != RET_OK 返回错误字符串
-
-            =================   ===========   ==============================================================================
-            参数                  类型                        说明
-            =================   ===========   ==============================================================================
-            code                str            股票代码
-            time_key            str            k线时间
-            open                float          开盘价
-            close               float          收盘价
-            high                float          最高价
-            low                 float          最低价
-            pe_ratio            float          市盈率
-            turnover_rate       float          换手率
-            volume              int            成交量
-            turnover            float          成交额
-            change_rate         float          涨跌幅
-            last_close          float          昨收价
-            =================   ===========   ==============================================================================
-
-        :example:
-
-        .. code:: python
-
-            from futuquant import *
-            quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-            print(quote_ctx.get_history_kline('HK.00700', start='2017-06-20', end='2017-06-22'))
-            quote_ctx.close()
-        """
-
-        if start is not None and is_str(start) is False:
-            error_str = ERROR_STR_PREFIX + "the type of start param is wrong"
-            return RET_ERROR, error_str
-
-        if end is not None and is_str(end) is False:
-            error_str = ERROR_STR_PREFIX + "the type of end param is wrong"
-            return RET_ERROR, error_str
+        ret, msg, req_start, end = normalize_start_end_date(start, end, 365)
+        if ret != RET_OK:
+            return ret, msg
 
         req_fields = unique_and_normalize_list(fields)
         if not fields:
@@ -307,10 +292,6 @@ class OpenQuoteContext(OpenContextBase):
                 error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
                 return RET_ERROR, error_str
 
-        # format start end date
-        ret, msg, req_start, end = normalize_start_end_date(start, end, 365)
-        if ret != RET_OK:
-            return ret, msg
 
         max_kl_num = 1000
         data_finish = False
@@ -327,8 +308,7 @@ class OpenQuoteContext(OpenContextBase):
                 "max_num": max_kl_num,
                 "conn_id": self.get_sync_conn_id()
             }
-            query_processor = self._get_sync_query_processor(
-                HistoryKlineQuery.pack_req, HistoryKlineQuery.unpack_rsp)
+            query_processor = self._get_sync_query_processor(query_cls.pack_req, query_cls.unpack_rsp)
             ret_code, msg, content = query_processor(**kargs)
             if ret_code != RET_OK:
                 return ret_code, msg
@@ -350,6 +330,201 @@ class OpenQuoteContext(OpenContextBase):
 
         return RET_OK, kline_frame_table
 
+    def get_history_kline(self,
+                      code,
+                      start=None,
+                      end=None,
+                      ktype=KLType.K_DAY,
+                      autype=AuType.QFQ,
+                      fields=[KL_FIELD.ALL]):
+        """
+            得到本地历史k线，需先参照帮助文档下载k线
+
+            :param code: 股票代码
+            :param start: 开始时间，例如'2017-06-20'
+            :param end:  结束时间，例如'2017-06-30'
+                    start和end的组合如下：
+                    ==========    ==========    ========================================
+                     start类型      end类型       说明
+                    ==========    ==========    ========================================
+                     str            str           start和end分别为指定的日期
+                     None           str           start为end往前365天
+                     str            None          end为start往后365天
+                     None           None          end为当前日期，start为end往前365天
+                    ==========    ==========    ========================================
+            :param ktype: k线类型， 参见 KLType 定义
+            :param autype: 复权类型, 参见 AuType 定义
+            :param fields: 需返回的字段列表，参见 KL_FIELD 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
+            :return: (ret, data)
+
+                    ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
+
+                    ret != RET_OK 返回错误字符串
+
+                =================   ===========   ==============================================================================
+                参数                  类型                        说明
+                =================   ===========   ==============================================================================
+                code                str            股票代码
+                time_key            str            k线时间
+                open                float          开盘价
+                close               float          收盘价
+                high                float          最高价
+                low                 float          最低价
+                pe_ratio            float          市盈率（该字段为比例字段，默认不展示%）
+                turnover_rate       float          换手率
+                volume              int            成交量
+                turnover            float          成交额
+                change_rate         float          涨跌幅
+                last_close          float          昨收价
+                =================   ===========   ==============================================================================
+
+            :example:
+
+            .. code:: python
+
+                from futuquant import *
+                quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+                print(quote_ctx.get_history_kline('HK.00700', start='2017-06-20', end='2017-06-22'))
+                quote_ctx.close()
+        """
+        return self._get_history_kline_impl(GetHistoryKlineQuery, code, start=start, end=end,
+                                            ktype=ktype, autype=autype, fields=fields)
+
+    def request_history_kline(self,
+                              code,
+                              start=None,
+                              end=None,
+                              ktype=KLType.K_DAY,
+                              autype=AuType.QFQ,
+                              fields=[KL_FIELD.ALL],
+                              max_count=1000,
+                              page_req_key=None):
+        """
+        拉取历史k线，不需要先下载历史数据。
+
+        :param code: 股票代码
+        :param start: 开始时间，例如'2017-06-20'
+        :param end:  结束时间，例如'2017-07-20'。
+                  start和end的组合如下：
+                     ==========    ==========    ========================================
+                     start类型      end类型       说明
+                     ==========    ==========    ========================================
+                     str            str           start和end分别为指定的日期
+                     None           str           start为end往前365天
+                     str            None          end为start往后365天
+                     None           None          end为当前日期，start为end往前365天
+                     ==========    ==========    ========================================
+        :param ktype: k线类型， 参见 KLType 定义
+        :param autype: 复权类型, 参见 AuType 定义
+        :param fields: 需返回的字段列表，参见 KL_FIELD 定义 KL_FIELD.ALL  KL_FIELD.OPEN ....
+        :param max_count: 本次请求最大返回的数据点个数，传None表示返回start和end之间所有的数据。
+        :param page_req_key: 分页请求的key。如果start和end之间的数据点多于max_count，那么后续请求时，要传入上次调用返回的page_req_key。初始请求时应该传None。
+        :return: (ret, data, page_req_key)
+
+                ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下。page_req_key在分页请求时（即max_count>0）
+                可能返回，并且需要在后续的请求中传入。如果没有更多数据，page_req_key返回None。
+
+                ret != RET_OK 返回错误字符串
+
+            =================   ===========   ==============================================================================
+            参数                  类型                        说明
+            =================   ===========   ==============================================================================
+            code                str            股票代码
+            time_key            str            k线时间
+            open                float          开盘价
+            close               float          收盘价
+            high                float          最高价
+            low                 float          最低价
+            pe_ratio            float          市盈率（该字段为比例字段，默认不展示%）
+            turnover_rate       float          换手率
+            volume              int            成交量
+            turnover            float          成交额
+            change_rate         float          涨跌幅
+            last_close          float          昨收价
+            =================   ===========   ==============================================================================
+
+        :note
+
+        :example:
+
+        .. code:: python
+
+            from futuquant import *
+            quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+            ret, data, page_req_key = quote_ctx.request_history_kline('HK.00700', start='2017-06-20', end='2018-06-22', max_count=50)
+            print(ret, data)
+            ret, data, page_req_key = quote_ctx.request_history_kline('HK.00700', start='2017-06-20', end='2018-06-22', max_count=50, page_req_key=page_req_key)
+            print(ret, data)
+            quote_ctx.close()
+        """
+        next_page_req_key = None
+        ret, msg, req_start, end = normalize_start_end_date(start, end, 365)
+        if ret != RET_OK:
+            return ret, msg, next_page_req_key
+
+        req_fields = unique_and_normalize_list(fields)
+        if not fields:
+            req_fields = copy(KL_FIELD.ALL_REAL)
+        req_fields = KL_FIELD.normalize_field_list(req_fields)
+        if not req_fields:
+            error_str = ERROR_STR_PREFIX + "the type of fields param is wrong"
+            return RET_ERROR, error_str, next_page_req_key
+
+        if autype is None:
+            autype = 'None'
+
+        param_table = {'code': code, 'ktype': ktype, 'autype': autype}
+        for x in param_table:
+            param = param_table[x]
+            if param is None or is_str(param) is False:
+                error_str = ERROR_STR_PREFIX + "the type of %s param is wrong" % x
+                return RET_ERROR, error_str, next_page_req_key
+
+        max_kl_num = min(1000, max_count) if max_count is not None else 1000
+        data_finish = False
+        list_ret = []
+        # 循环请求数据，避免一次性取太多超时
+        while not data_finish:
+            kargs = {
+                "code": code,
+                "start_date": req_start,
+                "end_date": end,
+                "ktype": ktype,
+                "autype": autype,
+                "fields": copy(req_fields),
+                "max_num": max_kl_num,
+                "conn_id": self.get_sync_conn_id(),
+                "next_req_key": page_req_key
+            }
+            query_processor = self._get_sync_query_processor(RequestHistoryKlineQuery.pack_req,
+                                                             RequestHistoryKlineQuery.unpack_rsp)
+            ret_code, msg, content = query_processor(**kargs)
+            if ret_code != RET_OK:
+                return ret_code, msg, next_page_req_key
+
+            list_kline, has_next, page_req_key = content
+            list_ret.extend(list_kline)
+            next_page_req_key = page_req_key
+            if max_count is not None:
+                if max_count > len(list_ret) and has_next:
+                    data_finish = False
+                    max_kl_num = min(max_count - len(list_ret), 1000)
+                else:
+                    data_finish = True
+            else:
+                data_finish = not has_next
+
+        # 表头列
+        col_list = ['code']
+        for field in req_fields:
+            str_field = KL_FIELD.DICT_KL_FIELD_STR[field]
+            if str_field not in col_list:
+                col_list.append(str_field)
+
+        kline_frame_table = pd.DataFrame(list_ret, columns=col_list)
+
+        return RET_OK, kline_frame_table, next_page_req_key
+
     def get_autype_list(self, code_list):
         """
         获取给定股票列表的复权因子
@@ -361,24 +536,24 @@ class OpenQuoteContext(OpenContextBase):
 
                 ret != RET_OK 返回错误字符串
 
-                =====================   ===========   ==============================================================
+                =====================   ===========   =================================================================================
                 参数                      类型                        说明
-                =====================   ===========   ==============================================================
+                =====================   ===========   =================================================================================
                 code                    str            股票代码
                 ex_div_date             str            除权除息日
-                split_ratio             float          拆合股比例； double，例如，对于5股合1股为1/5，对于1股拆5股为5/1
+                split_ratio             float          拆合股比例（该字段为比例字段，默认不展示%），例如，对于5股合1股为1/5，对于1股拆5股为5/1
                 per_cash_div            float          每股派现
-                per_share_div_ratio     float          每股送股比例
-                per_share_trans_ratio   float          每股转增股比例
-                allotment_ratio         float          每股配股比例
+                per_share_div_ratio     float          每股送股比例（该字段为比例字段，默认不展示%）
+                per_share_trans_ratio   float          每股转增股比例（该字段为比例字段，默认不展示%）
+                allotment_ratio         float          每股配股比例（该字段为比例字段，默认不展示%）
                 allotment_price         float          配股价
-                stk_spo_ratio           float          增发比例
+                stk_spo_ratio           float          增发比例（该字段为比例字段，默认不展示%）
                 stk_spo_price           float          增发价格
                 forward_adj_factorA     float          前复权因子A
                 forward_adj_factorB     float          前复权因子B
                 backward_adj_factorA    float          后复权因子A
                 backward_adj_factorB    float          后复权因子B
-                =====================   ===========   ==============================================================
+                =====================   ===========   =================================================================================
 
         """
         code_list = unique_and_normalize_list(code_list)
@@ -421,11 +596,11 @@ class OpenQuoteContext(OpenContextBase):
 
                 ret != RET_OK 返回错误字符串
 
-                =======================   =============   ==============================================================
+                =======================   =============   ==============================================================================
                 参数                       类型                        说明
-                =======================   =============   ==============================================================
+                =======================   =============   ==============================================================================
                 code                       str            股票代码
-                update_time                str            更新时间(yyyy-MM-dd HH:mm:ss)
+                update_time                str            更新时间(yyyy-MM-dd HH:mm:ss)，（美股默认是美东时间，港股A股默认是北京时间）
                 last_price                 float          最新价格
                 open_price                 float          今日开盘价
                 high_price                 float          最高价格
@@ -436,34 +611,50 @@ class OpenQuoteContext(OpenContextBase):
                 turnover_rate              float          换手率
                 suspension                 bool           是否停牌(True表示停牌)
                 listing_date               str            上市日期 (yyyy-MM-dd)
-                circular_market_val        float          流通市值
-                total_market_val           float          总市值
-                wrt_valid                  bool           是否是窝轮
-                wrt_conversion_ratio       float          换股比率
-                wrt_type                   str            窝轮类型，参见WrtType
-                wrt_strike_price           float          行使价格
-                wrt_maturity_date          str            格式化窝轮到期时间
-                wrt_end_trade              str            格式化窝轮最后交易时间
-                wrt_code                   str            窝轮对应的正股
-                wrt_recovery_price         float          窝轮回收价
-                wrt_street_vol             float          窝轮街货量
-                wrt_issue_vol              float          窝轮发行量
-                wrt_street_ratio           float          窝轮街货占比
-                wrt_delta                  float          窝轮对冲值
-                wrt_implied_volatility     float          窝轮引伸波幅
-                wrt_premium                float          窝轮溢价
-                lot_size                   int            每手股数
+                equity_valid               bool           是否正股（为true时以下正股相关字段才有合法数值）
                 issued_shares              int            发行股本
+                total_market_val           float          总市值
                 net_asset                  int            资产净值
                 net_profit                 int            净利润
                 earning_per_share          float          每股盈利
                 outstanding_shares         int            流通股本
                 net_asset_per_share        float          每股净资产
-                ey_ratio                   float          收益率
-                pe_ratio                   float          市盈率
-                pb_ratio                   float          市净率
+                circular_market_val        float          流通市值
+                ey_ratio                   float          收益率（该字段为比例字段，默认不展示%）
+                pe_ratio                   float          市盈率（该字段为比例字段，默认不展示%）
+                pb_ratio                   float          市净率（该字段为比例字段，默认不展示%）
+                pe_ttm_ratio               float          市盈率TTM（该字段为比例字段，默认不展示%）
+                stock_owner                str            所属正股的代码
+                wrt_valid                  bool           是否是窝轮（为true时以下涡轮相关的字段才有合法数据）
+                wrt_conversion_ratio       float          换股比率（该字段为比例字段，默认不展示%）
+                wrt_type                   str            窝轮类型，参见WrtType
+                wrt_strike_price           float          行使价格
+                wrt_maturity_date          str            格式化窝轮到期时间
+                wrt_end_trade              str            格式化窝轮最后交易时间
+                wrt_code                   str            窝轮对应的正股（此字段已废除,修改为stock_owner）
+                wrt_recovery_price         float          窝轮回收价
+                wrt_street_vol             float          窝轮街货量
+                wrt_issue_vol              float          窝轮发行量
+                wrt_street_ratio           float          窝轮街货占比（该字段为比例字段，默认不展示%）
+                wrt_delta                  float          窝轮对冲值
+                wrt_implied_volatility     float          窝轮引伸波幅
+                wrt_premium                float          窝轮溢价
+                lot_size                   int            每手股数
                 price_spread               float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
-                =======================   =============   ==============================================================
+                option_valid               bool           是否是期权（为true时以下期权相关的字段才有合法数值）
+                option_type                str            期权类型，参见OptionType
+                strike_time                str            行权日（美股默认是美东时间，港股A股默认是北京时间）
+                option_strike_price        float          行权价
+                option_contract_size       int            每份合约数
+                option_open_interest       int            未平仓合约数
+                option_implied_volatility  float          隐含波动率
+                option_premium             float          溢价
+                option_delta               float          希腊值 Delta
+                option_gamma               float          希腊值 Gamma
+                option_vega                float          希腊值 Vega
+                option_theta               float          希腊值 Theta
+                option_rho                 float          希腊值 Rho
+                =======================   =============   ==============================================================================
         """
         code_list = unique_and_normalize_list(code_list)
         if not code_list:
@@ -481,6 +672,45 @@ class OpenQuoteContext(OpenContextBase):
         if ret_code == RET_ERROR:
             return ret_code, msg
 
+        equity_col_list = ['issued_shares',
+                           'total_market_val',
+                           'net_asset',
+                           'net_profit',
+                           'earning_per_share',
+                           'outstanding_shares',
+                           'circular_market_val',
+                           'net_asset_per_share',
+                           'ey_ratio',
+                           'pe_ratio',
+                           'pb_ratio',
+                           'pe_ttm_ratio'
+                           ]
+        wrt_col_list = ['wrt_conversion_ratio',
+                        'wrt_type',
+                        'wrt_strike_price',
+                        'wrt_maturity_date',
+                        'wrt_end_trade',
+                        'wrt_recovery_price',
+                        'wrt_street_vol',
+                        'wrt_issue_vol',
+                        'wrt_street_ratio',
+                        'wrt_delta',
+                        'wrt_implied_volatility',
+                        'wrt_premium'
+                        ]
+        option_col_list = ['option_type',
+                           'strike_time',
+                           'option_strike_price',
+                           'option_contract_size',
+                           'option_open_interest',
+                           'option_implied_volatility',
+                           'option_premium',
+                           'option_delta',
+                           'option_gamma',
+                           'option_vega',
+                           'option_theta',
+                           'option_rho'
+                           ]
         col_list = [
             'code',
             'update_time',
@@ -494,36 +724,17 @@ class OpenQuoteContext(OpenContextBase):
             'turnover_rate',
             'suspension',
             'listing_date',
-            'circular_market_val',
-            'total_market_val',
-            'wrt_valid',
-            'wrt_conversion_ratio',
-            'wrt_type',
-            'wrt_strike_price',
-            'wrt_maturity_date',
-            'wrt_end_trade',
-            'wrt_code',
-            'wrt_recovery_price',
-            'wrt_street_vol',
-            'wrt_issue_vol',
-            'wrt_street_ratio',
-            'wrt_delta',
-            'wrt_implied_volatility',
-            'wrt_premium',
             'lot_size',
-            # 2017.11.6 add
-            'issued_shares',
-            'net_asset',
-            'net_profit',
-            'earning_per_share',
-            'outstanding_shares',
-            'net_asset_per_share',
-            'ey_ratio',
-            'pe_ratio',
-            'pb_ratio',
-            # 2017.1.25 add
             'price_spread',
+            'stock_owner'
         ]
+
+        col_list.append('equity_valid')
+        col_list.extend(equity_col_list)
+        col_list.append('wrt_valid')
+        col_list.extend(wrt_col_list)
+        col_list.append('option_valid')
+        col_list.extend(option_col_list)
 
         snapshot_frame_table = pd.DataFrame(snapshot_list, columns=col_list)
 
@@ -540,11 +751,11 @@ class OpenQuoteContext(OpenContextBase):
 
                 ret != RET_OK 返回错误字符串
 
-                =====================   ===========   ==============================================================
+                =====================   ===========   ==========================================================================
                 参数                      类型                        说明
-                =====================   ===========   ==============================================================
+                =====================   ===========   ==========================================================================
                 code                    str            股票代码
-                time                    str            时间(yyyy-MM-dd HH:mm:ss)
+                time                    str            时间(yyyy-MM-dd HH:mm:ss)（美股默认是美东时间，港股A股默认是北京时间）
                 is_blank                bool           数据状态；正常数据为False，伪造数据为True
                 opened_mins             int            零点到当前多少分钟
                 cur_price               float          当前价格
@@ -552,7 +763,7 @@ class OpenQuoteContext(OpenContextBase):
                 avg_price               float          平均价格
                 volume                  float          成交量
                 turnover                float          成交金额
-                =====================   ===========   ==============================================================
+                =====================   ===========   ==========================================================================
         """
         if code is None or is_str(code) is False:
             error_str = ERROR_STR_PREFIX + "the type of param in code is wrong"
@@ -652,7 +863,7 @@ class OpenQuoteContext(OpenContextBase):
                 stock_owner             str            所属正股的代码
                 stock_child_type        str            股票子类型，参见WrtType
                 stock_type              str            股票类型，参见SecurityType
-                list_time               str            上市时间
+                list_time               str            上市时间（美股默认是美东时间，港股A股默认是北京时间）
                 stock_id                int            股票id
                 =====================   ===========   ==============================================================
         """
@@ -823,18 +1034,17 @@ class OpenQuoteContext(OpenContextBase):
             if subtype not in self._ctx_subscribe:
                 self._ctx_subscribe[subtype] = set()
             code_set = self._ctx_subscribe[subtype]
-            for code in code_list:
-                code_set.add(code)
-
-        ret_code, msg, push_req_str = SubscriptionQuery.pack_push_req(
-            code_list, subtype_list, self.get_async_conn_id(), is_first_push)
-
-        if ret_code != RET_OK:
-            return RET_ERROR, msg
-
-        ret_code, msg = self._send_async_req(push_req_str)
-        if ret_code != RET_OK:
-            return RET_ERROR, msg
+            code_set.update(code_list)
+        #
+        # ret_code, msg, push_req_str = SubscriptionQuery.pack_push_req(
+        #     code_list, subtype_list, self.get_async_conn_id(), is_first_push)
+        #
+        # if ret_code != RET_OK:
+        #     return RET_ERROR, msg
+        #
+        # ret_code, msg = self._send_async_req(push_req_str)
+        # if ret_code != RET_OK:
+        #     return RET_ERROR, msg
 
         return RET_OK, None
 
@@ -1014,7 +1224,7 @@ class OpenQuoteContext(OpenContextBase):
                 =====================   ===========   ==============================================================
                 code                    str            股票代码
                 data_date               str            日期
-                data_time               str            时间
+                data_time               str            时间（美股默认是美东时间，港股A股默认是北京时间）
                 last_price              float          最新价格
                 open_price              float          今日开盘价
                 high_price              float          最高价格
@@ -1028,6 +1238,16 @@ class OpenQuoteContext(OpenContextBase):
                 listing_date            str            上市日期 (yyyy-MM-dd)
                 price_spread            float          当前价差，亦即摆盘数据的买档或卖档的相邻档位的报价差
                 dark_status             str            暗盘交易状态，见DarkStatus
+                strike_price            float          行权价
+                contract_size           int            每份合约数
+                open_interest           int            未平仓合约数
+                implied_volatility      float          隐含波动率
+                premium                 float          溢价
+                delta                   float          希腊值 Delta
+                gamma                   float          希腊值 Gamma
+                vega                    float          希腊值 Vega
+                theta                   float          希腊值 Theta
+                rho                     float          希腊值 Rho
                 =====================   ===========   ==============================================================
 
         """
@@ -1053,7 +1273,9 @@ class OpenQuoteContext(OpenContextBase):
             'code', 'data_date', 'data_time', 'last_price', 'open_price',
             'high_price', 'low_price', 'prev_close_price', 'volume',
             'turnover', 'turnover_rate', 'amplitude', 'suspension',
-            'listing_date', 'price_spread', 'dark_status'
+            'listing_date', 'price_spread', 'dark_status', 'strike_price',
+            'contract_size', 'open_interest', 'implied_volatility',
+            'premium', 'delta', 'gamma', 'vega', 'theta', 'rho'
         ]
 
         quote_frame_table = pd.DataFrame(quote_list, columns=col_list)
@@ -1077,7 +1299,7 @@ class OpenQuoteContext(OpenContextBase):
                 =====================   ===========   ==============================================================
                 stock_code               str            股票代码
                 sequence                 int            逐笔序号
-                time                     str            成交时间
+                time                     str            成交时间（美股默认是美东时间，港股A股默认是北京时间）
                 price                    float          成交价格
                 volume                   int            成交数量（股数）
                 turnover                 float          成交金额
@@ -1133,14 +1355,14 @@ class OpenQuoteContext(OpenContextBase):
                 参数                      类型                        说明
                 =====================   ===========   ==============================================================
                 code                     str            股票代码
-                time_key                 str            时间
+                time_key                 str            时间（美股默认是美东时间，港股A股默认是北京时间）
                 open                     float          开盘价
                 close                    float          收盘价
                 high                     float          最高价
                 low                      float          最低价
                 volume                   int            成交量
                 turnover                 float          成交额
-                pe_ratio                 float          市盈率
+                pe_ratio                 float          市盈率（该字段为比例字段，默认不展示%）
                 turnover_rate            float          换手率
                 last_close               float          昨收价
                 =====================   ===========   ==============================================================
@@ -1229,7 +1451,7 @@ class OpenQuoteContext(OpenContextBase):
                                        autype=AuType.QFQ,
                                        no_data_mode=KLNoDataMode.FORWARD):
         '''
-        获取多支股票多个时间点的指定数据列
+        从本地历史K线中获取多支股票多个时间点的指定数据列
 
         :param code_list: 单个或多个股票 'HK.00700'  or  ['HK.00700', 'HK.00001']
         :param dates: 单个或多个日期 '2017-01-01' or ['2017-01-01', '2017-01-02']
@@ -1249,12 +1471,12 @@ class OpenQuoteContext(OpenContextBase):
             code                str            股票代码
             time_point          str            请求的时间
             data_status         str            数据点是否有效，参见KLDataStatus
-            time_key            str            k线时间
+            time_key            str            k线时间（美股默认是美东时间，港股A股默认是北京时间）
             open                float          开盘价
             close               float          收盘价
             high                float          最高价
             low                 float          最低价
-            pe_ratio            float          市盈率
+            pe_ratio            float          市盈率（该字段为比例字段，默认不展示%）
             turnover_rate       float          换手率
             volume              int            成交量
             turnover            float          成交额
@@ -1345,7 +1567,7 @@ class OpenQuoteContext(OpenContextBase):
                 lot_size            int            每手数量
                 stock_type          str            证券类型，参见SecurityType
                 stock_name          str            证券名字
-                list_time           str            上市时间
+                list_time           str            上市时间（美股默认是美东时间，港股A股默认是北京时间）
                 wrt_valid           bool           是否是涡轮，如果为True，下面wrt开头的字段有效
                 wrt_type            str            涡轮类型，参见WrtType
                 wrt_code            str            所属正股
@@ -1376,3 +1598,202 @@ class OpenQuoteContext(OpenContextBase):
 
         pd_frame = pd.DataFrame(data_list, columns=col_list)
         return RET_OK, pd_frame
+
+    def get_owner_plate(self, code_list):
+        """
+        获取单支或多支股票的所属板块信息列表
+
+        :param code_list: 股票代码列表，仅支持正股、指数。list或str。例如：['HK.00700', 'HK.00001']或者'HK.00700,HK.00001'。
+        :return: (ret, data)
+
+                ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
+
+                ret != RET_OK 返回错误字符串
+
+                =====================   ===========   ==============================================================
+                参数                      类型                        说明
+                =====================   ===========   ==============================================================
+                code                    str            证券代码
+                plate_code              str            板块代码
+                plate_name              str            板块名字
+                plate_type              str            板块类型（行业板块或概念板块），futuquant.common.constant.Plate
+                =====================   ===========   ==============================================================
+        """
+        if is_str(code_list):
+            code_list = code_list.split(',')
+        elif isinstance(code_list, list):
+            pass
+        else:
+            return RET_ERROR, "code list must be like ['HK.00001', 'HK.00700'] or 'HK.00001,HK.00700'"
+
+        code_list = unique_and_normalize_list(code_list)
+        for code in code_list:
+            if code is None or is_str(code) is False:
+                error_str = ERROR_STR_PREFIX + "the type of param in code_list is wrong"
+                return RET_ERROR, error_str
+
+        query_processor = self._get_sync_query_processor(
+            OwnerPlateQuery.pack_req, OwnerPlateQuery.unpack_rsp)
+        kargs = {
+            "code_list": code_list,
+            "conn_id": self.get_sync_conn_id()
+        }
+
+        ret_code, msg, owner_plate_list = query_processor(**kargs)
+        if ret_code == RET_ERROR:
+            return ret_code, msg
+
+        col_list = [
+            'code', 'plate_code', 'plate_name', 'plate_type'
+        ]
+
+        owner_plate_table = pd.DataFrame(owner_plate_list, columns=col_list)
+
+        return RET_OK, owner_plate_table
+
+    def get_holding_change_list(self, code, holder_type, start=None, end=None):
+        """
+        获取大股东持股变动列表,只提供美股数据
+
+        :param code: 股票代码. 例如：'US.AAPL'
+        :param holder_type: 持有者类别，StockHolder_
+        :param start: 开始时间. 例如：'2016-10-01'
+        :param end: 结束时间，例如：'2017-10-01'。
+            start与end的组合如下：
+            ==========    ==========    ========================================
+             start类型      end类型       说明
+            ==========    ==========    ========================================
+             str            str           start和end分别为指定的日期
+             None           str           start为end往前365天
+             str            None          end为start往后365天
+             None           None          end为当前日期，start为end往前365天
+            ==========    ==========    ========================================
+
+        :return: (ret, data)
+
+                ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下
+
+                ret != RET_OK 返回错误字符串
+
+                =====================   ===========   ==============================================================
+                参数                      类型                        说明
+                =====================   ===========   ==============================================================
+                holder_name             str            高管名称
+                holding_qty             float          持股数
+                holding_ratio           float          持股比例（该字段为比例字段，默认不展示%）
+                change_qty              float          变动数
+                change_ratio            float          变动比例（该字段为比例字段，默认不展示%）
+                time                    str            发布时间（美股的时间默认是美东）
+                =====================   ===========   ==============================================================
+        """
+        holder_type = STOCK_HOLDER_CLASS_MAP[holder_type]
+        if code is None or is_str(code) is False:
+            msg = ERROR_STR_PREFIX + "the type of code param is wrong"
+            return RET_ERROR, msg
+
+        if holder_type < 1 or holder_type > len(STOCK_HOLDER_CLASS_MAP):
+            msg = ERROR_STR_PREFIX + "the type {0} is wrong, total number of types is {1}".format(holder_type, len(STOCK_HOLDER_CLASS_MAP))
+            return RET_ERROR, msg
+
+        ret_code, msg, start, end = normalize_start_end_date(start, end, delta_days=365)
+        if ret_code != RET_OK:
+            return  ret_code, msg
+
+        query_processor = self._get_sync_query_processor(
+            HoldingChangeList.pack_req, HoldingChangeList.unpack_rsp)
+        kargs = {
+            "code": code,
+            "holder_type": holder_type,
+            "conn_id": self.get_sync_conn_id(),
+            "start_date": start,
+            "end_date": end
+        }
+
+        ret_code, msg, owner_plate_list = query_processor(**kargs)
+        if ret_code == RET_ERROR:
+            return ret_code, msg
+
+        col_list = [
+            'holder_name', 'holding_qty', 'holding_ratio', 'change_qty', 'change_ratio', 'time'
+        ]
+
+        holding_change_list = pd.DataFrame(owner_plate_list, columns=col_list)
+
+        return RET_OK, holding_change_list
+
+    def get_option_chain(self, code, start=None, end=None, option_type=OptionType.ALL, option_cond_type=OptionCondType.ALL):
+        """
+        通过标的股查询期权
+
+        :param code: 股票代码,例如：'HK.02318'
+        :param start: 开始日期，该日期指到期日，例如'2017-08-01'
+        :param end: 结束日期（包括这一天），该日期指到期日，例如'2017-08-30'。 注意，时间范围最多30天
+                start和end的组合如下：
+                ==========    ==========    ========================================
+                 start类型      end类型       说明
+                ==========    ==========    ========================================
+                 str            str           start和end分别为指定的日期
+                 None           str           start为end往前30天
+                 str            None          end为start往后30天
+                 None           None          start为当前日期，end往后30天
+                ==========    ==========    ========================================
+        :param option_type: 期权类型,默认全部，全部/看涨/看跌，futuquant.common.constant.OptionType
+        :param option_cond_type: 默认全部，全部/价内/价外，futuquant.common.constant.OptionCondType
+        :return: (ret, data)
+
+                ret == RET_OK 返回pd dataframe数据，数据列格式如下
+
+                ret != RET_OK 返回错误字符串
+
+                ==================   ===========   ==============================================================
+                参数                      类型                        说明
+                ==================   ===========   ==============================================================
+                code                 str           股票代码
+                name                 str           名字
+                lot_size             int           每手数量
+                stock_type           str           股票类型，参见SecurityType
+                option_type          str           期权类型，Qot_Common.OptionType
+                stock_owner          str           标的股
+                strike_time          str           行权日（美股默认是美东时间，港股A股默认是北京时间）
+                strike_price         float         行权价
+                suspension           bool          是否停牌(True表示停牌)
+                stock_id             int           股票id
+                ==================   ===========   ==============================================================
+
+        """
+
+        if code is None or is_str(code) is False:
+            error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
+            return RET_ERROR, error_str
+
+        ret_code, msg, start, end = normalize_start_end_date(start, end, delta_days=29, prefer_end_now=False)
+        if ret_code != RET_OK:
+            return ret_code, msg
+
+        query_processor = self._get_sync_query_processor(
+            OptionChain.pack_req, OptionChain.unpack_rsp)
+        kargs = {
+            "code": code,
+            "conn_id": self.get_sync_conn_id(),
+            "start_date": start,
+            "end_date": end,
+            "option_cond_type": option_cond_type,
+            "option_type": option_type
+        }
+
+        ret_code, msg, option_chain_list = query_processor(**kargs)
+        if ret_code == RET_ERROR:
+            return ret_code, msg
+
+        col_list = [
+            'code', 'name', 'lot_size', 'stock_type',
+            'option_type', 'stock_owner', 'strike_time', 'strike_price', 'suspension',
+            'stock_id'
+        ]
+
+        option_chain = pd.DataFrame(option_chain_list, columns=col_list)
+
+        option_chain.sort_values(by=["strike_time", "strike_price"], axis=0, ascending=True, inplace=True)
+        option_chain.index = range(len(option_chain))
+
+        return RET_OK, option_chain

@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 import os
+import sys
+import traceback
+from futuquant.common import bytes_utf8, IS_PY2, str_utf8
 from futuquant.common.constant import *
 from futuquant.common.ft_logger import logger
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5 as Cipher_pkcs1
 from Crypto import Random
+
 
 class SysConfig(object):
     IS_PROTO_ENCRYPT = False                # api通讯协议是否加密
@@ -152,7 +156,7 @@ class SysConfig(object):
             f = open(file_path, 'rb')
             df = f.read()
             if type(df) is not str:
-                df = str(df, encoding='utf8')
+                df = str_utf8(df)
 
             rsa = RSA.importKey(df)
             pub_key = rsa.publickey().exportKey()
@@ -179,7 +183,7 @@ class RsaCrypt(object):
             RsaCrypt.CHIPPER = Cipher_pkcs1.new(rsa)
 
         if type(data) is not bytes:
-            data = bytes(str(data), encoding='utf8')
+            data = bytes_utf8(str(data))
 
         # 单次加密串的长度最大为(key_size / 8) - 11
         # 1024 bit的证书用100， 2048 bit的证书用 200
@@ -198,8 +202,14 @@ class RsaCrypt(object):
         # 1024 bit的证书用128，2048 bit证书用256位
         one_len = 128
         ret_data = b''
+
+        # python2下需转成str类型,否则异常
+        if IS_PY2:
+            data = str(data)
+
         for i in range(0, len(data), one_len):
             ret_data += RsaCrypt.CHIPPER.decrypt(data[i:i + one_len], RsaCrypt.RANDOM_GENERATOR)
+
         return ret_data
 
 

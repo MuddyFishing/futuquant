@@ -4,7 +4,7 @@ import time
 from abc import ABCMeta, abstractmethod
 from collections import namedtuple
 from time import sleep
-from typing import Optional
+# from typing import Optional
 from threading import Timer
 from datetime import datetime
 from threading import RLock, Thread
@@ -207,30 +207,28 @@ class OpenContextBase(object):
             self._status = ContextStatus.Connecting
             logger.info("try connecting: host={}; port={};".format(self.__host, self.__port))
             ret, msg, conn_id = self._net_mgr.connect((self.__host, self.__port), self, 5)
-            if ret != RET_OK:
-                return ret, msg
-            self._conn_id = conn_id
+            if ret == RET_OK:
+                self._conn_id = conn_id
+            else:
+                logger.warning(msg)
 
-        # start_time = datetime.now()
-        while True:
-            with self._lock:
-                if self._sync_req_ret is not None:
-                    if self._sync_req_ret.ret == RET_OK:
-                        self._status = ContextStatus.Ready
-                    else:
-                        ret, msg = self._sync_req_ret.ret, self._sync_req_ret.msg
-                    self._sync_req_ret = None
-                    break
-            # elapsed_time = datetime.now() - start_time
-            # if elapsed_time.seconds >= 6:
-            #     ret, msg = RET_ERROR, Err.Timeout.text
-            #     break
-            sleep(0.01)
+        if ret == RET_OK:
+            while True:
+                with self._lock:
+                    if self._sync_req_ret is not None:
+                        if self._sync_req_ret.ret == RET_OK:
+                            self._status = ContextStatus.Ready
+                        else:
+                            ret, msg = self._sync_req_ret.ret, self._sync_req_ret.msg
+                        self._sync_req_ret = None
+                        break
+                sleep(0.01)
+
         if ret == RET_OK:
             ret, msg = self.on_api_socket_reconnected()
         else:
             self._wait_reconnect()
-        return ret, msg
+        return RET_OK, ''
 
     def get_sync_conn_id(self):
         with self._lock:
@@ -330,9 +328,9 @@ class OpenContextBase(object):
             if handler_ctx:
                 handler_ctx.recv_func(rsp_pb, proto_id)
         else:
-            logger.warning('Recv packet error: proto_id={}; ret={}; msg={};', proto_id, ret, msg)
+            logger.warning('Recv packet error: proto_id={}; ret={}; msg={};'.format(proto_id, ret, msg))
 
-    def on_activate(self, conn_id, now: datetime):
+    def on_activate(self, conn_id, now):
         with self._lock:
             if self._status != ContextStatus.Ready:
                 return

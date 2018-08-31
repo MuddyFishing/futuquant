@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import logging
 from datetime import datetime
 import os
@@ -26,7 +28,6 @@ if is_file_log:
         os.makedirs(tempPath)
     filepath = os.path.join(tempPath, filename)
     fileHandler = logging.FileHandler(filepath)
-    fileHandler.setLevel(log_level)
     fileHandler.setFormatter(formatter)
     logger.addHandler(fileHandler)
 

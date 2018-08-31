@@ -163,7 +163,6 @@ class StockBasicInfoQuery:
             return RET_ERROR, ret_msg, None
 
         raw_basic_info_list = rsp_pb.s2c.staticInfoList
-
         basic_info_list = [{
             "code": merge_qot_mkt_stock_str(record.basic.security.market,
                                             record.basic.security.code),
@@ -176,8 +175,17 @@ class StockBasicInfoQuery:
                 if record.warrantExData.type in QUOTE.REV_WRT_TYPE_MAP else WrtType.NONE,
             "stock_owner":merge_qot_mkt_stock_str(
                     record.warrantExData.owner.market,
-                    record.warrantExData.owner.code) if record.HasField('warrantExData') else "",
-            "listing_date": record.basic.listTime,
+                    record.warrantExData.owner.code) if record.HasField('warrantExData') else (
+                    merge_qot_mkt_stock_str(
+                    record.optionExData.owner.market,
+                    record.optionExData.owner.code) if record.HasField('optionExData')
+                    else ""),
+            "listing_date": "N/A" if record.HasField('optionExData') else record.basic.listTime,
+            "option_type": QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
+                if record.HasField('optionExData') else "",
+            "strike_time": record.optionExData.strikeTime,
+            "strike_price": record.optionExData.strikePrice if record.HasField('optionExData') else "NaN",
+            "suspension": record.optionExData.suspend if record.HasField('optionExData') else "N/A",
         } for record in raw_basic_info_list]
         return RET_OK, "", basic_info_list
 
@@ -198,8 +206,7 @@ class MarketSnapshotQuery:
         for stock_str in stock_list:
             ret_code, content = split_stock_str(stock_str)
             if ret_code != RET_OK:
-                msg = content
-                error_str = ERROR_STR_PREFIX + msg
+                error_str = content
                 failure_tuple_list.append((ret_code, error_str))
                 continue
 
@@ -229,6 +236,7 @@ class MarketSnapshotQuery:
             return RET_ERROR, ret_msg, None
 
         raw_snapshot_list = rsp_pb.s2c.snapshotList
+
         snapshot_list = []
         for record in raw_snapshot_list:
             snapshot_tmp = {}
@@ -244,30 +252,34 @@ class MarketSnapshotQuery:
             snapshot_tmp['turnover'] = record.basic.turnover
             snapshot_tmp['turnover_rate'] = record.basic.turnoverRate
             snapshot_tmp['suspension'] = record.basic.isSuspend
-            snapshot_tmp['listing_date'] = record.basic.listTime
+            snapshot_tmp['listing_date'] = "N/A" if record.HasField('optionExData') else record.basic.listTime
             snapshot_tmp['price_spread'] = record.basic.priceSpread
             snapshot_tmp['lot_size'] = record.basic.lotSize
 
+            snapshot_tmp['equity_valid'] = False
             # equityExData
-            snapshot_tmp[
-                'circular_market_val'] = record.equityExData.outstandingMarketVal
-            snapshot_tmp[
-                'total_market_val'] = record.equityExData.issuedMarketVal
-            snapshot_tmp[
-                'issued_shares'] = record.equityExData.issuedShares
-            snapshot_tmp['net_asset'] = record.equityExData.netAsset
-            snapshot_tmp['net_profit'] = record.equityExData.netProfit
-            snapshot_tmp[
-                'earning_per_share'] = record.equityExData.earningsPershare
-            snapshot_tmp[
-                'outstanding_shares'] = record.equityExData.outstandingShares
-            snapshot_tmp[
-                'net_asset_per_share'] = record.equityExData.netAssetPershare
-            snapshot_tmp['ey_ratio'] = record.equityExData.eyRate
-            snapshot_tmp['pe_ratio'] = record.equityExData.peRate
-            snapshot_tmp['pb_ratio'] = record.equityExData.pbRate
-            snapshot_tmp['wrt_valid'] = False
+            if record.HasField('equityExData'):
+                snapshot_tmp['equity_valid'] = True
+                snapshot_tmp[
+                    'issued_shares'] = record.equityExData.issuedShares
+                snapshot_tmp[
+                    'total_market_val'] = record.equityExData.issuedMarketVal
+                snapshot_tmp['net_asset'] = record.equityExData.netAsset
+                snapshot_tmp['net_profit'] = record.equityExData.netProfit
+                snapshot_tmp[
+                    'earning_per_share'] = record.equityExData.earningsPershare
+                snapshot_tmp[
+                    'outstanding_shares'] = record.equityExData.outstandingShares
+                snapshot_tmp[
+                    'circular_market_val'] = record.equityExData.outstandingMarketVal
+                snapshot_tmp[
+                    'net_asset_per_share'] = record.equityExData.netAssetPershare
+                snapshot_tmp['ey_ratio'] = record.equityExData.eyRate
+                snapshot_tmp['pe_ratio'] = record.equityExData.peRate
+                snapshot_tmp['pb_ratio'] = record.equityExData.pbRate
+                snapshot_tmp['pe_ttm_ratio'] = record.equityExData.peTTMRate
 
+            snapshot_tmp['wrt_valid'] = False
             if record.basic.type == SEC_TYPE_MAP[SecurityType.WARRANT]:
                 snapshot_tmp['wrt_valid'] = True
                 snapshot_tmp[
@@ -280,7 +292,7 @@ class MarketSnapshotQuery:
                     'wrt_maturity_date'] = record.warrantExData.maturityTime
                 snapshot_tmp[
                     'wrt_end_trade'] = record.warrantExData.endTradeTime
-                snapshot_tmp['wrt_code'] = merge_qot_mkt_stock_str(
+                snapshot_tmp['stock_owner'] = merge_qot_mkt_stock_str(
                     record.warrantExData.owner.market,
                     record.warrantExData.owner.code)
                 snapshot_tmp[
@@ -295,6 +307,33 @@ class MarketSnapshotQuery:
                 snapshot_tmp[
                     'wrt_implied_volatility'] = record.warrantExData.impliedVolatility
                 snapshot_tmp['wrt_premium'] = record.warrantExData.premium
+
+            snapshot_tmp['option_valid'] = False
+            if record.basic.type == SEC_TYPE_MAP[SecurityType.DRVT]:
+                snapshot_tmp['option_valid'] = True
+                snapshot_tmp[
+                    'option_type'] = QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
+                snapshot_tmp['stock_owner'] = merge_qot_mkt_stock_str(
+                    record.optionExData.owner.market, record.optionExData.owner.code)
+                snapshot_tmp[
+                    'strike_time'] = record.optionExData.strikeTime
+                snapshot_tmp[
+                    'option_strike_price'] = record.optionExData.strikePrice
+                snapshot_tmp[
+                    'option_contract_size'] = record.optionExData.contractSize
+                snapshot_tmp[
+                    'option_open_interest'] = record.optionExData.openInterest
+                snapshot_tmp['option_implied_volatility'] = record.optionExData.impliedVolatility
+                snapshot_tmp[
+                    'option_premium'] = record.optionExData.premium
+                snapshot_tmp[
+                    'option_delta'] = record.optionExData.delta
+                snapshot_tmp[
+                    'option_gamma'] = record.optionExData.gamma
+                snapshot_tmp[
+                    'option_vega'] = record.optionExData.vega
+                snapshot_tmp['option_theta'] = record.optionExData.theta
+                snapshot_tmp['option_rho'] = record.optionExData.rho
             else:
                 pass
             snapshot_list.append(snapshot_tmp)
@@ -501,7 +540,7 @@ class BrokerQueueQuery:
         return RET_OK, "", (stock_code, bid_list, ask_list)
 
 
-class HistoryKlineQuery:
+class GetHistoryKlineQuery:
     """
     Query Conversion for getting historic Kline data.
     """
@@ -594,6 +633,95 @@ class HistoryKlineQuery:
 
         return RET_OK, "", (list_ret, has_next, next_time)
 
+
+class RequestHistoryKlineQuery:
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pack_req(cls, code, start_date, end_date, ktype, autype, fields,
+                 max_num, conn_id, next_req_key):
+        ret, content = split_stock_str(code)
+        if ret == RET_ERROR:
+            error_str = content
+            return RET_ERROR, error_str, None
+
+        market_code, stock_code = content
+
+        # check k line type
+        if ktype not in KTYPE_MAP:
+            error_str = ERROR_STR_PREFIX + "ktype is %s, which is not valid. (%s)" \
+                        % (ktype, ", ".join([x for x in KTYPE_MAP]))
+            return RET_ERROR, error_str, None
+
+        if autype not in AUTYPE_MAP:
+            error_str = ERROR_STR_PREFIX + "autype is %s, which is not valid. (%s)" \
+                        % (autype, ", ".join([str(x) for x in AUTYPE_MAP]))
+            return RET_ERROR, error_str, None
+
+        from futuquant.common.pb.Qot_RequestHistoryKL_pb2 import Request
+
+        req = Request()
+        req.c2s.rehabType = AUTYPE_MAP[autype]
+        req.c2s.klType = KTYPE_MAP[ktype]
+        req.c2s.security.market = market_code
+        req.c2s.security.code = stock_code
+        if start_date:
+            req.c2s.beginTime = start_date
+        if end_date:
+            req.c2s.endTime = end_date
+        req.c2s.maxAckKLNum = max_num
+        req.c2s.needKLFieldsFlag = KL_FIELD.kl_fields_to_flag_val(fields)
+        if next_req_key is not None:
+            req.c2s.nextReqKey = next_req_key
+
+        return pack_pb_req(req, ProtoId.Qot_RequestHistoryKL, conn_id)
+
+    @classmethod
+    def unpack_rsp(cls, rsp_pb):
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, None
+
+        has_next = False
+        next_req_key = None
+        if rsp_pb.s2c.HasField('nextReqKey'):
+            has_next = True
+            next_req_key = bytes(rsp_pb.s2c.nextReqKey)
+
+        stock_code = merge_qot_mkt_stock_str(rsp_pb.s2c.security.market,
+                                     rsp_pb.s2c.security.code)
+
+        list_ret = []
+        dict_data = {}
+        raw_kline_list = rsp_pb.s2c.klList
+        for record in raw_kline_list:
+            dict_data['code'] = stock_code
+            dict_data['time_key'] = record.time
+            if record.isBlank:
+                continue
+            if record.HasField('openPrice'):
+                dict_data['open'] = record.openPrice
+            if record.HasField('highPrice'):
+                dict_data['high'] = record.highPrice
+            if record.HasField('lowPrice'):
+                dict_data['low'] = record.lowPrice
+            if record.HasField('closePrice'):
+                dict_data['close'] = record.closePrice
+            if record.HasField('volume'):
+                dict_data['volume'] = record.volume
+            if record.HasField('turnover'):
+                dict_data['turnover'] = record.turnover
+            if record.HasField('pe'):
+                dict_data['pe_ratio'] = record.pe
+            if record.HasField('turnoverRate'):
+                dict_data['turnover_rate'] = record.turnoverRate
+            if record.HasField('changeRate'):
+                dict_data['change_rate'] = record.changeRate
+            if record.HasField('lastClosePrice'):
+                dict_data['last_close'] = record.lastClosePrice
+            list_ret.append(dict_data.copy())
+
+        return RET_OK, "", (list_ret, has_next, next_req_key)
 
 class ExrightQuery:
     """
@@ -702,7 +830,7 @@ class SubscriptionQuery:
         pass
 
     @classmethod
-    def pack_sub_or_unsub_req(cls, code_list, subtype_list, is_sub, conn_id, is_first_push):
+    def pack_sub_or_unsub_req(cls, code_list, subtype_list, is_sub, conn_id, is_first_push, reg_or_unreg_push):
 
         stock_tuple_list = []
         for code in code_list:
@@ -722,12 +850,13 @@ class SubscriptionQuery:
             req.c2s.subTypeList.append(SUBTYPE_MAP[subtype])
         req.c2s.isSubOrUnSub = is_sub
         req.c2s.isFirstPush = is_first_push
+        req.c2s.isRegOrUnRegPush = reg_or_unreg_push
 
         return pack_pb_req(req, ProtoId.Qot_Sub, conn_id)
 
     @classmethod
     def pack_subscribe_req(cls, code_list, subtype_list, conn_id, is_first_push):
-        return SubscriptionQuery.pack_sub_or_unsub_req(code_list, subtype_list, True, conn_id, is_first_push)
+        return SubscriptionQuery.pack_sub_or_unsub_req(code_list, subtype_list, True, conn_id, is_first_push, True)
 
     @classmethod
     def unpack_subscribe_rsp(cls, rsp_pb):
@@ -740,7 +869,7 @@ class SubscriptionQuery:
     @classmethod
     def pack_unsubscribe_req(cls, code_list, subtype_list, conn_id):
 
-        return SubscriptionQuery.pack_sub_or_unsub_req(code_list, subtype_list, False, conn_id, False)
+        return SubscriptionQuery.pack_sub_or_unsub_req(code_list, subtype_list, False, conn_id, False, False)
 
     @classmethod
     def unpack_unsubscribe_rsp(cls, rsp_pb):
@@ -884,7 +1013,17 @@ class StockQuoteQuery:
             'suspension': record.isSuspended,
             'listing_date': record.listTime,
             'price_spread': record.priceSpread if record.HasField('priceSpread') else 0,
-            'dark_status': QUOTE.REV_DARK_STATUS_MAP[record.darkStatus] if record.HasField('darkStatus') else DarkStatus.NONE
+            'dark_status': QUOTE.REV_DARK_STATUS_MAP[record.darkStatus] if record.HasField('darkStatus') else DarkStatus.NONE,
+            "strike_price": record.optionExData.strikePrice,
+            "contract_size": record.optionExData.contractSize,
+            "open_interest": record.optionExData.openInterest,
+            "implied_volatility": record.optionExData.impliedVolatility,
+            "premium": record.optionExData.premium,
+            "delta": record.optionExData.delta,
+            "gamma": record.optionExData.gamma,
+            'vega': record.optionExData.vega,
+            'theta': record.optionExData.theta,
+            'rho': record.optionExData.rho,
         } for record in raw_quote_list]
 
         return RET_OK, "", quote_list
@@ -1395,3 +1534,220 @@ class StockReferenceList:
             data_list.append(data)
 
         return RET_OK, '', data_list
+
+
+class OwnerPlateQuery:
+    """
+    Query Conversion for getting owner plate information.
+    """
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pack_req(cls, code_list, conn_id):
+
+        stock_tuple_list = []
+        failure_tuple_list = []
+        for stock_str in code_list:
+            ret_code, content = split_stock_str(stock_str)
+            if ret_code != RET_OK:
+                error_str = content
+                failure_tuple_list.append((ret_code, error_str))
+                continue
+            market_code, stock_code = content
+            stock_tuple_list.append((market_code, stock_code))
+
+        if len(failure_tuple_list) > 0:
+            error_str = '\n'.join([x[1] for x in failure_tuple_list])
+            return RET_ERROR, error_str, None
+
+        from futuquant.common.pb.Qot_GetOwnerPlate_pb2 import Request
+        req = Request()
+        for market_code, stock_code in stock_tuple_list:
+            stock_inst = req.c2s.securityList.add()
+            stock_inst.market = market_code
+            stock_inst.code = stock_code
+
+        return pack_pb_req(req, ProtoId.Qot_GetOwnerPlate, conn_id)
+
+    @classmethod
+    def unpack_rsp(cls, rsp_pb):
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, []
+        raw_quote_list = rsp_pb.s2c.ownerPlateList
+
+        data_list = []
+        for record in raw_quote_list:
+            plate_info_list = record.plateInfoList
+            for plate_info in plate_info_list:
+                quote_list = {
+                    'code': merge_qot_mkt_stock_str(record.security.market, record.security.code),
+                    'plate_code': merge_qot_mkt_stock_str(plate_info.plate.market, plate_info.plate.code),
+                    'plate_name': str(plate_info.name),
+                    'plate_type': PLATE_TYPE_ID_TO_NAME[plate_info.plateType]
+                }
+                data_list.append(quote_list)
+
+        return RET_OK, "", data_list
+
+
+class HoldingChangeList:
+    """
+    Query Conversion for getting holding change list.
+    """
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pack_req(cls, code, holder_type, conn_id, start_date, end_date=None):
+
+        ret, content = split_stock_str(code)
+        if ret == RET_ERROR:
+            error_str = content
+            return RET_ERROR, error_str, None
+
+        market_code, stock_code = content
+
+        if start_date is None:
+            msg = "The start date is none."
+            return RET_ERROR, msg, None
+        else:
+            ret, msg = check_date_str_format(start_date)
+            if ret != RET_OK:
+                return ret, msg, None
+            start_date = normalize_date_format(start_date)
+
+        if end_date is None:
+            today = datetime.today()
+            end_date = today.strftime("%Y-%m-%d")
+        else:
+            ret, msg = check_date_str_format(end_date)
+            if ret != RET_OK:
+                return ret, msg, None
+            end_date = normalize_date_format(end_date)
+
+        from futuquant.common.pb.Qot_GetHoldingChangeList_pb2 import Request
+        req = Request()
+        req.c2s.security.market = market_code
+        req.c2s.security.code = stock_code
+        req.c2s.holderCategory = holder_type
+        req.c2s.beginTime = start_date
+        if end_date:
+            req.c2s.endTime = end_date
+
+        return pack_pb_req(req, ProtoId.Qot_GetHoldingChangeList, conn_id)
+
+    @classmethod
+    def unpack_rsp(cls, rsp_pb):
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, []
+        raw_quote_list = rsp_pb.s2c.holdingChangeList
+
+        data_list = []
+        for record in raw_quote_list:
+            quote_list = {
+                'holder_name': record.holderName,
+                'holding_qty': record.holdingQty,
+                'holding_ratio': record.holdingRatio,
+                'change_qty': record.changeQty,
+                'change_ratio': record.changeRatio,
+                'time': record.time,
+            }
+            data_list.append(quote_list)
+
+        return RET_OK, "", data_list
+
+
+class OptionChain:
+    """
+    Query Conversion for getting option chain information.
+    """
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pack_req(cls, code, conn_id, start_date, end_date=None, option_type=OptionType.ALL, option_cond_type=OptionCondType.ALL):
+
+        ret, content = split_stock_str(code)
+        if ret == RET_ERROR:
+            error_str = content
+            return RET_ERROR, error_str, None
+
+        market_code, stock_code = content
+
+        if start_date is None:
+            msg = "The start date is none."
+            return RET_ERROR, msg, None
+        else:
+            ret, msg = check_date_str_format(start_date)
+            if ret != RET_OK:
+                return ret, msg, None
+            start_date = normalize_date_format(start_date)
+
+        if end_date is None:
+            today = datetime.today()
+            end_date = today.strftime("%Y-%m-%d")
+        else:
+            ret, msg = check_date_str_format(end_date)
+            if ret != RET_OK:
+                return ret, msg, None
+            end_date = normalize_date_format(end_date)
+
+        option_cond_type = OPTION_COND_TYPE_CLASS_MAP[option_cond_type]
+        if option_cond_type == 0:
+            option_cond_type = None
+
+        option_type = OPTION_TYPE_CLASS_MAP[option_type]
+        if option_type == 0:
+            option_type = None
+
+        from futuquant.common.pb.Qot_GetOptionChain_pb2 import Request
+        req = Request()
+        req.c2s.owner.market = market_code
+        req.c2s.owner.code = stock_code
+        req.c2s.beginTime = start_date
+        req.c2s.endTime = end_date
+        if option_type:
+            req.c2s.type = option_type
+        if option_cond_type:
+            req.c2s.condition = option_cond_type
+
+        return pack_pb_req(req, ProtoId.Qot_GetOptionChain, conn_id)
+
+    @classmethod
+    def unpack_rsp(cls, rsp_pb):
+        if rsp_pb.retType != RET_OK:
+            return RET_ERROR, rsp_pb.retMsg, []
+        raw_quote_list = rsp_pb.s2c.optionChain
+
+        data_list = []
+        for OptionItem in raw_quote_list:
+            for record_all in OptionItem.option:
+                record_list = []
+                if record_all.HasField('call'):
+                    record_list.append(record_all.call)
+                if record_all.HasField('put'):
+                    record_list.append(record_all.put)
+
+                for record in record_list:
+                    quote_list = {
+                        'code': merge_qot_mkt_stock_str(int(record.basic.security.market), record.basic.security.code),
+                        "stock_id": record.basic.id,
+                        "name": record.basic.name,
+                        "lot_size": record.basic.lotSize,
+                        "stock_type": QUOTE.REV_SEC_TYPE_MAP[record.basic.secType]
+                            if record.basic.secType in QUOTE.REV_SEC_TYPE_MAP else SecurityType.NONE,
+                        "option_type": QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
+                            if record.HasField('optionExData') else "",
+                        "stock_owner": merge_qot_mkt_stock_str(int(record.optionExData.owner.market), record.optionExData.owner.code)
+                            if record.HasField('optionExData') else "",
+                        "strike_time": record.optionExData.strikeTime,
+                        "strike_price": record.optionExData.strikePrice if record.HasField('optionExData') else "NaN",
+                        "suspension": record.optionExData.suspend if record.HasField('optionExData') else "N/A",
+                    }
+                    data_list.append(quote_list)
+
+        return RET_OK, "", data_list

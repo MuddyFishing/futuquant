@@ -47,7 +47,9 @@ class StockQuoteHandlerBase(RspHandlerBase):
                 'code', 'data_date', 'data_time', 'last_price', 'open_price',
                 'high_price', 'low_price', 'prev_close_price', 'volume',
                 'turnover', 'turnover_rate', 'amplitude', 'suspension',
-                'listing_date', 'price_spread', 'dark_status'
+                'listing_date', 'price_spread', 'dark_status', 'strike_price',
+                'contract_size', 'open_interest', 'implied_volatility',
+                'premium', 'delta', 'gamma', 'vega', 'theta', 'rho'
             ]
 
             quote_frame_table = pd.DataFrame(content, columns=col_list)
@@ -268,7 +270,9 @@ class BrokerHandlerBase(RspHandlerBase):
         注意该回调是在独立子线程中
 
         :param rsp_pb: 派生类中不需要直接处理该参数
-        :return: 参见get_broker_queue的返回值
+        :return: 成功时返回(RET_OK, stock_code, [bid_frame_table, ask_frame_table]), 相关frame table含义见 get_broker_queue_ 的返回值说明
+
+                 失败时返回(RET_ERROR, ERR_MSG, None)
         """
         ret_code, content = self.parse_rsp_pb(rsp_pb)
         if ret_code != RET_OK:
