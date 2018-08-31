@@ -1,15 +1,16 @@
-import socket
-import selectors
 import errno
 import datetime
 import threading
-from struct import pack
 from time import sleep
 from futuquant.common.utils import *
 from futuquant.quote.quote_query import parse_head
 from .err import Err
 from .utils import ProtoInfo
 from .ft_logger import make_log_msg
+if IS_PY2:
+    import selectors2 as selectors
+else:
+    import selectors
 
 class ConnStatus:
     Start = 0
