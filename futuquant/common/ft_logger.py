@@ -32,3 +32,13 @@ if is_file_log:
     logger.addHandler(fileHandler)
 
 
+def make_log_msg(title, **kwargs):
+    msg = ''
+    if len(kwargs) > 0:
+        msg = ':'
+        for k, v in kwargs.items():
+            msg += ' {0}={1};'.format(k, v)
+    return title + msg
+
+
+

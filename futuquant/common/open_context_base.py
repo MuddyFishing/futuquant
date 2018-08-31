@@ -13,10 +13,12 @@ from futuquant.common.handler_context import HandlerContext
 from futuquant.quote.quote_query import InitConnect
 from futuquant.quote.quote_response_handler import AsyncHandler_InitConnect
 from futuquant.quote.quote_query import GlobalStateQuery
-from futuquant.quote.quote_query import KeepAlive
+from futuquant.quote.quote_query import KeepAlive, parse_head
 from futuquant.common.conn_mng import FutuConnMng
 from futuquant.common.network_manager import NetManager
 from .err import Err
+from .ft_logger import make_log_msg
+from .callback_executor import callback_executor, CallbackItem
 
 _SyncReqRet = namedtuple('_SyncReqRet', ('ret', 'msg'))
 
@@ -39,13 +41,13 @@ class OpenContextBase(object):
         self._lock = RLock()
         self._status = ContextStatus.Start
         self._proc_run = True
-        self._sync_req_ret = None   # type: Optional[_SyncReqRet]
+        self._sync_req_ret = None
         self._sync_conn_id = 0
         self._conn_id = 0
         self._keep_alive_interval = 10
         self._last_keep_alive_time = datetime.now()
         self._reconnect_timer = None
-
+        self._keep_alive_fail_count = 0
         self._net_mgr.start()
         self._socket_reconnect_and_wait_ready()
         while True:
@@ -168,7 +170,7 @@ class OpenContextBase(object):
                 sleep(0.01)
 
             try:
-                ret_code, msg, req_str = pack_func(**kargs)
+                ret_code, msg, proto_info, req_str = pack_func(**kargs)
                 if ret_code != RET_OK:
                     return ret_code, msg, None
 
@@ -195,7 +197,7 @@ class OpenContextBase(object):
                 return RET_ERROR, 'Context closed or not ready'
             conn_id = self._conn_id
             net_mgr = self._net_mgr
-        return net_mgr.send(conn_id, req_str)
+        return net_mgr.do_send(conn_id, req_str)
 
     def _socket_reconnect_and_wait_ready(self):
         """
@@ -290,9 +292,11 @@ class OpenContextBase(object):
             'recv_notify': True,
         }
 
-        ret, msg, req_str = InitConnect.pack_req(**kargs)
+        ret, msg, proto_info, req_str = InitConnect.pack_req(**kargs)
         if ret == RET_OK:
-            ret, msg = self._net_mgr.send(conn_id, req_str)
+            ret, msg = self._net_mgr.send(conn_id, proto_info, req_str)
+        else:
+            logger.warning(make_log_msg('InitConnect.pack_req fail', msg=msg))
 
         if ret != RET_OK:
             with self._lock:
@@ -319,16 +323,14 @@ class OpenContextBase(object):
         with self._lock:
             self._sync_req_ret = _SyncReqRet(RET_ERROR, Err.Timeout.text)
 
-    def on_packet(self, conn_id, proto_id, ret, msg, rsp_pb):
-        if proto_id == ProtoId.InitConnect:
-            self._handle_init_connect(conn_id, proto_id, ret, msg, rsp_pb)
-        elif ret == RET_OK:
-            with self._lock:
-                handler_ctx = self._handler_ctx
-            if handler_ctx:
-                handler_ctx.recv_func(rsp_pb, proto_id)
-        else:
-            logger.warning('Recv packet error: proto_id={}; ret={}; msg={};'.format(proto_id, ret, msg))
+    def on_packet(self, conn_id, proto_info, ret_code, msg, rsp_pb):
+        if proto_info.proto_id == ProtoId.InitConnect:
+            self._handle_init_connect(conn_id, proto_info.proto_id, ret_code, msg, rsp_pb)
+        elif proto_info.proto_id == ProtoId.KeepAlive:
+            self._handle_keep_alive(conn_id, proto_info.proto_id, ret_code, msg, rsp_pb)
+        elif ret_code == RET_OK:
+            item = CallbackItem(self, proto_info.proto_id, rsp_pb)
+            callback_executor.queue.put(item)
 
     def on_activate(self, conn_id, now):
         with self._lock:
@@ -337,18 +339,28 @@ class OpenContextBase(object):
             time_elapsed = now - self._last_keep_alive_time
             if time_elapsed.total_seconds() < self._keep_alive_interval:
                 return
-            ret, msg, req = KeepAlive.pack_req(self.get_sync_conn_id())
+
+            logger.debug("Keepalive: conn_id={};".format(conn_id))
+            ret, msg, proto_info, req = KeepAlive.pack_req(self.get_sync_conn_id())
             if ret != RET_OK:
                 logger.warning("KeepAlive.pack_req fail: {0}".format(msg))
                 return
-            ret, msg = self._net_mgr.send(conn_id, req)
+            ret, msg = self._net_mgr.send(conn_id, proto_info, req)
             if ret != RET_OK:
-                logger.warning("send fail: err={0}; conn_id={1}; proto_id={2}".format(msg, conn_id, ProtoId.KeepAlive))
                 return
-            logger.debug("Keepalive: conn_id={};".format(conn_id))
+
             self._last_keep_alive_time = now
 
-    def _handle_init_connect(self, conn_id, proto_id, ret, msg, rsp_pb):
+    def packet_callback(self, proto_id, rsp_pb):
+        with self._lock:
+            if self._status != ContextStatus.Ready:
+                return
+
+            handler_ctx = self._handler_ctx
+        if handler_ctx:
+            handler_ctx.recv_func(rsp_pb, proto_id)
+
+    def _handle_init_connect(self, conn_id, proto_info, ret, msg, rsp_pb):
         data = None
         if ret == RET_OK:
             ret, msg, data = InitConnect.unpack_rsp(rsp_pb)
@@ -362,14 +374,30 @@ class OpenContextBase(object):
                 self._net_mgr.set_conn_info(conn_id, conn_info)
                 self._last_keep_alive_time = datetime.now()
                 FutuConnMng.add_conn(conn_info)
-                logger.info("sync socket init_connect ok: {}".format(conn_info))
+                logger.info(make_log_msg("InitConnect ok", conn_id=conn_id, info=conn_info))
             else:
-                logger.error("sync socket init_connect error: {}".format(msg))
+                logger.warning(make_log_msg("InitConnect error", msg=msg))
+                self._wait_reconnect()
+
+    def _handle_keep_alive(self, conn_id, proto_info, ret_code, msg, rsp_pb):
+        should_reconnect = False
+        with self._lock:
+            if ret_code == RET_OK:
+                self._keep_alive_fail_count = 0
+            else:
+                self._keep_alive_fail_count += 1
+
+            if self._keep_alive_fail_count >= 3:
+                logger.warning('Fail to recv KeepAlive for 3 times')
+                should_reconnect = True
+
+        if should_reconnect:
+            self._wait_reconnect()
 
     def _wait_reconnect(self):
         wait_reconnect_interval = 8
         net_mgr = None
-        conn_id = self._conn_id
+        conn_id = 0
         with self._lock:
             if self._status == ContextStatus.Closed or self._reconnect_timer is not None:
                 return
@@ -381,6 +409,7 @@ class OpenContextBase(object):
             self._status = ContextStatus.Connecting
             self._sync_conn_id = 0
             self._conn_id = 0
+            self._keep_alive_fail_count = 0
             self._reconnect_timer = Timer(wait_reconnect_interval, self._reconnect)
             self._reconnect_timer.start()
 
