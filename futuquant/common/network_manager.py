@@ -3,7 +3,7 @@ import selectors
 import errno
 import datetime
 import threading
-from struct import pack
+import queue
 from time import sleep
 from futuquant.common.utils import *
 from futuquant.quote.quote_query import parse_head
@@ -11,11 +11,21 @@ from .err import Err
 from .utils import ProtoInfo
 from .ft_logger import make_log_msg
 
+
 class ConnStatus:
     Start = 0
     Connecting = 1
     Connected = 2
     Closed = 3
+
+
+class SyncReqRspInfo:
+    def __init__(self):
+        self.event = threading.Event()
+        self.ret = RET_OK
+        self.msg = ''
+        self.data = None
+
 
 class Connection:
     def __init__(self, conn_id, sock, addr, handler):
@@ -36,6 +46,7 @@ class Connection:
         self.sync_req_evt = threading.Event()     # internal use
         self.sync_req_sent = False
         self.req_dict = {}  # ProtoInfo -> req time
+        self.sync_req_dict = {}  # ProtoInfo -> result list
 
     @property
     def conn_id(self):
@@ -77,6 +88,7 @@ class NetManager:
         self._is_polling = False
         self._next_conn_id = 1
         self._lock = threading.RLock()
+        self._req_queue = queue.Queue()
         self._sync_req_timeout = 10
         self._thread = None
         self._use_count = 0
@@ -87,71 +99,80 @@ class NetManager:
         self._last_check_req_time = now
 
     def connect(self, addr, handler, timeout):
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM, socket.IPPROTO_TCP)
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 1024*1024)
         with self._lock:
-            conn = Connection(self._next_conn_id, sock, addr, handler)
+            conn_id = self._next_conn_id
+            self._next_conn_id += 1
+
+        def work():
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM, socket.IPPROTO_TCP)
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 1024*1024)
+            conn = Connection(conn_id, sock, addr, handler)
             conn.status = ConnStatus.Connecting
             conn.start_time = datetime.now()
             conn.timeout = timeout
             sock.setblocking(False)
-            self._next_conn_id += 1
             self._selector.register(sock, selectors.EVENT_READ | selectors.EVENT_WRITE, conn)
 
             try:
                 sock.connect(addr)
             except Exception as e:
                 if not is_socket_exception_wouldblock(e):
+                    conn.handler.on_error(conn.conn_id, str(e))
                     self.close(conn.conn_id)
                     return RET_ERROR, str(e), 0
-        return RET_OK, '', conn.conn_id
+
+            return RET_OK, '', conn_id
+
+        self._req_queue.put(work)
+        return RET_OK, '', conn_id
 
     def poll(self):
-        with self._lock:
-            if len(self._selector.get_map()) == 0:
-                return
+        while True:
+            try:
+                work = self._req_queue.get(block=False)
+                work()
+            except queue.Empty:
+                break
 
-            self._is_polling = True
+        if len(self._selector.get_map()) == 0:
+            return
 
-            now = datetime.now()
-            events = self._selector.select(0)
-            for key, evt_mask in events:
+        self._is_polling = True
+
+        now = datetime.now()
+        events = self._selector.select(0)
+        for key, evt_mask in events:
+            conn = key.data
+            if evt_mask & selectors.EVENT_WRITE != 0:
+                self._on_write(conn)
+
+            if evt_mask & selectors.EVENT_READ != 0:
+                self._on_read(conn)
+
+        activate_elapsed_time = now - self._last_activate_time
+        check_req_elapsed_time = now - self._last_check_req_time
+        is_activate = activate_elapsed_time.total_seconds() >= 0.05
+        is_check_req = check_req_elapsed_time.total_seconds() >= 0.1
+
+        if is_activate or is_check_req:
+            for sock, key in self._selector.get_map().items():
                 conn = key.data
-                if evt_mask & selectors.EVENT_WRITE != 0:
-                    self._on_write(conn)
+                if conn.status == ConnStatus.Connecting:
+                    if is_activate:
+                        self._check_connect_timeout(conn, now)
+                elif conn.status == ConnStatus.Connected:
+                    if is_activate:
+                        conn.handler.on_activate(conn.conn_id, now)
+                    if is_check_req:
+                        self._check_req(conn, now)
 
-                if evt_mask & selectors.EVENT_READ != 0:
-                    self._on_read(conn)
+        if is_activate:
+            self._last_activate_time = now
+        if is_check_req:
+            self._last_check_req_time = now
 
-                if conn.sync_req_data is not None and conn.sync_rsp_data is None:
-                    elapsed_time = datetime.now() - conn.start_time
-                    if elapsed_time.total_seconds() >= self._sync_req_timeout:
-                        conn.sync_rsp_data = (RET_ERROR, Err.Timeout.text, None)
-                        conn.sync_req_evt.set()
+        self._is_polling = False
 
-            activate_elapsed_time = now - self._last_activate_time
-            check_req_elapsed_time = now - self._last_check_req_time
-            is_activate = activate_elapsed_time.total_seconds() >= 0.05
-            is_check_req = check_req_elapsed_time.total_seconds() >= 0.1
-
-            if is_activate or is_check_req:
-                for sock, key in self._selector.get_map().items():
-                    conn = key.data
-                    if conn.status == ConnStatus.Connecting:
-                        if is_activate:
-                            self._check_connect_timeout(conn, now)
-                    elif conn.status == ConnStatus.Connected:
-                        if is_activate:
-                            conn.handler.on_activate(conn.conn_id, now)
-                        if is_check_req:
-                            self._check_req(conn, now)
-
-            if is_activate:
-                self._last_activate_time = now
-            if is_check_req:
-                self._last_check_req_time = now
-
-            self._is_polling = False
 
     def _check_connect_timeout(self, conn, now):
         time_delta = now - conn.start_time
@@ -172,22 +193,22 @@ class NetManager:
             elapsed_time = now - req_time
             if elapsed_time.total_seconds() >= self._sync_req_timeout:
                 self._on_packet(conn, proto_info._asdict(), Err.Timeout.code, Err.Timeout.text, None)
-                del conn.req_dict[proto_info]
-
 
     def _thread_func(self):
         while True:
+            is_alive = True
             with self._lock:
-                if self.is_alive():
-                    self.poll()
-                else:
-                    self._close_all()
+                is_alive = self.is_alive()
+
+            if is_alive:
+                self.poll()
+            else:
+                self._close_all()
+                self._selector.close()
+                self._next_conn_id = 1
+                with self._lock:
                     self._thread = None
-                    self._selector.close()
-                    self._next_conn_id = 1
-                    self._is_polling = False
-                    break
-            time.sleep(0.001)
+                break
 
     def start(self):
         """
@@ -230,6 +251,62 @@ class NetManager:
         with self._lock:
             return self._use_count > 0
 
+    def do_send(self, conn_id, proto_info, data):
+        logger.debug('Send: conn_id={}; proto_id={}; serial_no={}; total_len={};'.format(conn_id, proto_info.proto_id,
+                                                                                         proto_info.serial_no,
+                                                                                         len(data)))
+        now = datetime.now()
+        ret_code = RET_OK
+        msg = ''
+        conn = self._get_conn(conn_id)  # type: Connection
+        sync_req_rsp = None
+        if not conn:
+            ret_code, msg = RET_ERROR, Err.ConnectionLost.text
+        else:
+            sync_req_rsp = conn.sync_req_dict.get(proto_info, None)
+
+        if conn.status != ConnStatus.Connected:
+            ret_code, msg = RET_ERROR, Err.NotConnected.text
+
+        if ret_code != RET_OK:
+            logger.warning(make_log_msg('Send fail', proto_id=proto_info.proto_id, serial_no=proto_info.serial_no,
+                                        conn_id=conn_id, msg=msg))
+            if sync_req_rsp:
+                sync_req_rsp.ret, sync_req_rsp.msg = RET_ERROR, msg
+                sync_req_rsp.event.set()
+
+            return ret_code, msg
+
+        conn.req_dict[proto_info] = now
+        size = 0
+        try:
+            if len(conn.writebuf) > 0:
+                conn.writebuf.extend(data)
+            else:
+                size = conn.sock.send(data)
+                # logger.debug('send: total_len={}; sent_len={};'.format(len(data), size))
+                # logger.debug(data[:size])
+        except Exception as e:
+            if is_socket_exception_wouldblock(e):
+                pass
+            else:
+                # conn.writebuf.extend(data)
+                # self._watch_write(conn, True)
+                ret_code, msg = RET_ERROR, e.strerror
+
+        if size > 0 and size < len(data):
+            conn.writebuf.extend(data[size:])
+            self._watch_write(conn, True)
+
+        if ret_code != RET_OK:
+            logger.warning(make_log_msg('Send error', conn_id=conn_id, msg=msg))
+            if sync_req_rsp:
+                sync_req_rsp.ret, sync_req_rsp.msg = RET_ERROR, msg
+                sync_req_rsp.event.set()
+            return ret_code, msg
+
+        return RET_OK, ''
+
     def send(self, conn_id, proto_info, data):
         """
 
@@ -239,55 +316,17 @@ class NetManager:
         :param data:
         :return:
         """
-        logger.debug('Send: conn_id={}; proto_id={}; serial_no={}; total_len={};'.format(conn_id, proto_info.proto_id,
-                                                                                         proto_info.serial_no,
-                                                                                         len(data)))
-        now = datetime.now()
-        ret_code = RET_OK
-        msg = ''
-        with self._lock:
-            conn = self._get_conn(conn_id)  # type: Connection
-            if not conn:
-                ret_code, msg = RET_ERROR, Err.ConnectionLost.text
-            if conn.status != ConnStatus.Connected:
-                ret_code, msg = RET_ERROR, Err.NotConnected.text
 
-            if ret_code != RET_OK:
-                logger.warning(make_log_msg('Send fail', proto_id=proto_info.proto_id, serial_no=proto_info.serial_no,
-                                            conn_id=conn_id, msg=msg))
-                return ret_code, msg
+        def work():
+            self.do_send(conn_id, proto_info, data)
 
-            conn.req_dict[proto_info] = now
-            size = 0
-            try:
-                if len(conn.writebuf) > 0:
-                    conn.writebuf.extend(data)
-                else:
-                    size = conn.sock.send(data)
-                    # logger.debug('send: total_len={}; sent_len={};'.format(len(data), size))
-                    # logger.debug(data[:size])
-            except Exception as e:
-                if is_socket_exception_wouldblock(e):
-                    pass
-                else:
-                    conn.writebuf.extend(data)
-                    self._watch_write(conn, True)
-                    ret_code, msg = RET_ERROR, e.strerror
-
-            if size > 0 and size < len(data):
-                conn.writebuf.extend(data[size:])
-                self._watch_write(conn, True)
-
-            if ret_code != RET_OK:
-                logger.warning(make_log_msg('Send error', conn_id=conn_id, msg=msg))
-                return ret_code, msg
-
-        return RET_OK, ''
+        self._req_queue.put(work)
+        return RET_OK, None
 
 
     def close(self, conn_id):
-        with self._lock:
-            conn = self._get_conn(conn_id)
+        def work():
+            conn = self._get_conn(conn_id)  # type: Connection
             if not conn:
                 return
             if conn.sock is None:
@@ -297,8 +336,11 @@ class NetManager:
             conn.sock.close()
             conn.sock = None
             conn.status = ConnStatus.Closed
-            if conn.sync_req_data is not None:
-                conn.sync_req_evt.set()
+            for proto_info, sync_req_rsp in conn.sync_req_dict.items():  # type: ProtoInfo, SyncReqRspInfo
+                sync_req_rsp.event.set()
+
+        self._req_queue.put(work)
+
 
     def _watch_read(self, conn, is_watch):
         try:
@@ -340,31 +382,27 @@ class NetManager:
     def sync_query(self, conn_id, req_str):
         head_dict = self._parse_req_head(req_str)
         proto_info = ProtoInfo(head_dict['proto_id'], head_dict['serial_no'])
-        while True:
-            with self._lock:
-                conn = self._get_conn(conn_id)
-                if not conn:
-                    return RET_ERROR, Err.ConnectionLost.text, None
-                if conn.sync_req_data is None and conn.status == ConnStatus.Connected:
-                    conn.sync_req_data = (head_dict, req_str)
-                    conn.sync_rsp_data = None
-                    conn.start_time = datetime.now()
-                    sync_req_evt = conn.sync_req_evt
-                    self.send(conn_id, proto_info, req_str)
-                    break
-            sleep(0)
+        rsp_info = SyncReqRspInfo()
 
-        sync_req_evt.wait()
-        sync_req_evt.clear()
+        def work():
+            conn = self._get_conn(conn_id)  # type: Connection
+            ret, msg = RET_OK, ''
+            if not conn:
+                ret = RET_ERROR
+                msg = Err.ConnectionLost.text
+            else:
+                conn.sync_req_dict[proto_info] = rsp_info
+                self.do_send(conn_id, proto_info, req_str)
 
-        with self._lock:
-            rsp = conn.sync_rsp_data
-            conn.sync_req_data = None
-            conn.sync_rsp_data = None
-        if rsp is not None:
-            return rsp
-        else:
-            return RET_ERROR, Err.ConnectionLost.text, None
+            if ret != RET_OK:
+                rsp_info.ret = ret
+                rsp_info.msg = msg
+                rsp_info.event.set()
+
+        self._req_queue.put(work)
+
+        rsp_info.event.wait()
+        return rsp_info.ret, rsp_info.msg, rsp_info.data
 
     def _parse_req_head(self, req_str):
         head_len = get_message_head_len()
@@ -490,16 +528,13 @@ class NetManager:
             logger.warning(log_msg)
 
         ret_code = RET_OK if err_code == Err.Ok.code else RET_ERROR
-        is_sync_rsp = False
-        if conn.sync_req_data is not None:
-            sync_req_head = conn.sync_req_data[0]
-            if head_dict['proto_id'] == sync_req_head['proto_id'] and head_dict['serial_no'] == sync_req_head['serial_no']:
-                conn.sync_rsp_data = (ret_code, msg, rsp_pb)
-                conn.sync_req_evt.set()
-                is_sync_rsp = True
-
-        conn.req_dict.pop(proto_info, None)
-        if not is_sync_rsp:
+        sync_rsp_info = conn.sync_req_dict.get(proto_info, None)  # type: SyncReqRspInfo
+        conn.req_dict.pop(proto_info)
+        if sync_rsp_info:
+            sync_rsp_info.ret, sync_rsp_info.msg, sync_rsp_info.data = ret_code, msg, rsp_pb
+            sync_rsp_info.event.set()
+            conn.sync_req_dict.pop(proto_info)
+        else:
             conn.handler.on_packet(conn.conn_id, proto_info, ret_code, msg, rsp_pb)
 
     @staticmethod
