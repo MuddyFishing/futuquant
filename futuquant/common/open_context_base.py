@@ -286,6 +286,7 @@ class OpenContextBase(object):
         return RET_OK, state_dict
 
     def on_connected(self, conn_id):
+        logger.warning('Connected : conn_id={0}; '.format(conn_id))
         kargs = {
             'client_ver': int(SysConfig.get_client_ver()),
             'client_id': str(SysConfig.get_client_id()),

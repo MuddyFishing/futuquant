@@ -168,10 +168,10 @@ class NetManager:
         :return:
         """
         timeout_req_set = set()
-        for proto_info, req_time in conn.req_dict.items():  # type: ProtoInfo, datetime
+        for proto_info, req_time in dict(conn.req_dict.items()):  # type: ProtoInfo, datetime
             elapsed_time = now - req_time
             if elapsed_time.total_seconds() >= self._sync_req_timeout:
-                self._on_packet(conn.conn_id, proto_info._asdict(), Err.Timeout.code, Err.Timeout.text, None)
+                self._on_packet(conn, proto_info._asdict(), Err.Timeout.code, Err.Timeout.text, None)
                 timeout_req_set.add(proto_info)
 
         for proto_info in timeout_req_set:
@@ -415,8 +415,10 @@ class NetManager:
             self._on_packet(conn, head_dict, Err.Ok.code, '', rsp_body)
 
         if is_closed:
+            self.close(conn.conn_id)
             conn.handler.on_closed(conn.conn_id)
         elif err:
+            self.close(conn.conn_id)
             conn.handler.on_error(conn.conn_id, err)
 
     def _on_write(self, conn):
@@ -451,6 +453,7 @@ class NetManager:
             self._watch_write(conn, False)
 
         if err:
+            self.close(conn.conn_id)
             conn.handler.on_error(conn.conn_id, err)
 
     def _on_connect_timeout(self, conn):
