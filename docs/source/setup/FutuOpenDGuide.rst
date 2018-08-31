@@ -5,7 +5,7 @@ FutuOpenD使用说明
 基本介绍
 ----------
 
-  FutuOpenD运行与客户本机或服务器，接收API协议，中转协议到富途后台并将处理后的数据返回给协议请求连接。
+  FutuOpenD运行于客户本机或服务器，接收API协议，中转协议到富途后台并将处理后的数据返回给协议请求连接。
 
   FutuOpenD程序暂时不提供安装程序，直接提供程序压缩包。压缩包内除了各平台的执行程序，还有带有默认FutuOpenD配置文件（FutuOpenD.xml），默认FutuHisData配置文件（FutuHistData.xml）以及程序打包数据（Appdata.dat）。
   
