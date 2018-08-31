@@ -207,7 +207,7 @@ class OpenContextBase(object):
         logger.info("Start connecting: host={}; port={};".format(self.__host, self.__port))
         with self._lock:
             self._status = ContextStatus.Connecting
-            logger.info("try connecting: host={}; port={};".format(self.__host, self.__port))
+            # logger.info("try connecting: host={}; port={};".format(self.__host, self.__port))
             ret, msg, conn_id = self._net_mgr.connect((self.__host, self.__port), self, 5)
             if ret == RET_OK:
                 self._conn_id = conn_id
@@ -286,6 +286,7 @@ class OpenContextBase(object):
         return RET_OK, state_dict
 
     def on_connected(self, conn_id):
+        logger.info('Connected : conn_id={0}; '.format(conn_id))
         kargs = {
             'client_ver': int(SysConfig.get_client_ver()),
             'client_id': str(SysConfig.get_client_id()),

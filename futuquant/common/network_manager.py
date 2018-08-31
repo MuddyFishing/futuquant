@@ -114,7 +114,7 @@ class NetManager:
             self._is_polling = True
 
             now = datetime.now()
-            events = self._selector.select(0.02)
+            events = self._selector.select(0)
             for key, evt_mask in events:
                 conn = key.data
                 if evt_mask & selectors.EVENT_WRITE != 0:
@@ -167,15 +167,13 @@ class NetManager:
         :type now: datetime
         :return:
         """
-        timeout_req_set = set()
-        for proto_info, req_time in conn.req_dict.items():  # type: ProtoInfo, datetime
+        req_dict = dict(conn.req_dict.items())
+        for proto_info, req_time in req_dict.items():  # type: ProtoInfo, datetime
             elapsed_time = now - req_time
             if elapsed_time.total_seconds() >= self._sync_req_timeout:
-                self._on_packet(conn.conn_id, proto_info._asdict(), Err.Timeout.code, Err.Timeout.text, None)
-                timeout_req_set.add(proto_info)
+                self._on_packet(conn, proto_info._asdict(), Err.Timeout.code, Err.Timeout.text, None)
+                del conn.req_dict[proto_info]
 
-        for proto_info in timeout_req_set:
-            del conn.req_dict[proto_info]
 
     def _thread_func(self):
         while True:
@@ -354,7 +352,7 @@ class NetManager:
                     sync_req_evt = conn.sync_req_evt
                     self.send(conn_id, proto_info, req_str)
                     break
-            sleep(0.01)
+            sleep(0)
 
         sync_req_evt.wait()
         sync_req_evt.clear()
@@ -415,8 +413,10 @@ class NetManager:
             self._on_packet(conn, head_dict, Err.Ok.code, '', rsp_body)
 
         if is_closed:
+            self.close(conn.conn_id)
             conn.handler.on_closed(conn.conn_id)
         elif err:
+            self.close(conn.conn_id)
             conn.handler.on_error(conn.conn_id, err)
 
     def _on_write(self, conn):
@@ -451,6 +451,7 @@ class NetManager:
             self._watch_write(conn, False)
 
         if err:
+            self.close(conn.conn_id)
             conn.handler.on_error(conn.conn_id, err)
 
     def _on_connect_timeout(self, conn):
