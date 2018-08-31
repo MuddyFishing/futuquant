@@ -17,25 +17,35 @@ class TestAll(object):
 
 
     def test_on_recv_rsp(self,tradeEnv):
-        quote_ctx=OpenQuoteContext(host='172.18.7.65',port=11111)
+        logger = Logs().getNewLogger('test_on_recv_rsp', TestAll.dir)
+
+        host = '172.18.7.65'
+        port = 11111
+        #行情
+        quote_ctx=OpenQuoteContext(host,port)
         quote_ctx.start()
         subTypes = [SubType.QUOTE, SubType.ORDER_BOOK, SubType.BROKER, SubType.TICKER, SubType.RT_DATA, SubType.K_1M,
                     SubType.K_5M, SubType.K_15M, SubType.K_30M, SubType.K_60M, SubType.K_DAY, SubType.K_WEEK,SubType.K_MON]
         print('subscribe ',quote_ctx.subscribe(code_list = ['HK.00700'], subtype_list=subTypes))
         handlers = [BrokerTest(), CurKlineTest(), OrderBookTest(), RTDataTest(), TickerTest(), StockQuoteTest()]
+        #设置推送监听
         for h in handlers:
             quote_ctx.set_handler(h)
 
-        host = '172.18.7.65'
-        port = 11111
-
-        if tradeEnv == TrdEnv.REAL:
-            trade_cn = OpenHKCCTradeContext(host, port)  # A股通
-        else:
+        #交易
+        trade_cn = OpenHKCCTradeContext(host, port)  # A股通
+        if tradeEnv == TrdEnv.SIMULATE:
             trade_cn = OpenCNTradeContext(host, port)  # web模拟交易
-
         trade_hk = OpenHKTradeContext(host, port)
         trade_us = OpenUSTradeContext(host, port)
+
+        #设置推送监听
+        trade_hk.set_handler(TradeOrderTest())
+        trade_hk.set_handler(TradeDealTest())
+        trade_us.set_handler(TradeOrderTest())
+        trade_us.set_handler(TradeDealTest())
+        trade_cn.set_handler(TradeOrderTest())
+        trade_cn.set_handler(TradeDealTest())
 
         logger.info('交易环境：' + str(tradeEnv))
         # 解锁交易unlock
@@ -516,7 +526,7 @@ class TestAll(object):
         price_hk = 4.01
         qty_hk = 500
         code_hk = 'HK.01357'
-        tradeEnv = True
+        tradeEnv = TrdEnv.REAL
         logger.info(trade_hk.place_order(price=price_hk, qty=qty_hk,
                                          code=code_hk,
                                          trd_side=TrdSide.BUY,
@@ -536,7 +546,7 @@ class BrokerTest(BrokerHandlerBase):
         BrokerTest.logger.info(ret_data)
 
         ta = TestAll()
-        ta.test_symple(logger)
+        ta.test_symple(BrokerTest.logger)
 
         # ta.test_quote(logger)
         # ta.test_quote_async(logger)
@@ -556,7 +566,7 @@ class CurKlineTest(CurKlineHandlerBase):
         CurKlineTest.logger.info(ret_data)
 
         ta = TestAll()
-        ta.test_symple(logger)
+        ta.test_symple(CurKlineTest.logger)
 
         # ta.test_quote(logger)
         # ta.test_quote_async(logger)
@@ -576,7 +586,7 @@ class OrderBookTest(OrderBookHandlerBase):
         OrderBookTest.logger.info(ret_data)
 
         ta = TestAll()
-        ta.test_symple(logger)
+        ta.test_symple(OrderBookTest.logger)
 
         # ta.test_quote(logger)
         # ta.test_quote_async(logger)
@@ -595,7 +605,7 @@ class RTDataTest(RTDataHandlerBase):
         RTDataTest.logger.info(ret_data)
 
         ta = TestAll()
-        ta.test_symple(logger)
+        ta.test_symple(RTDataTest.logger)
 
         # ta.test_quote(logger)
         # ta.test_quote_async(logger)
@@ -615,7 +625,7 @@ class TickerTest(TickerHandlerBase):
         TickerTest.logger.info(ret_data)
 
         ta = TestAll()
-        ta.test_symple(logger)
+        ta.test_symple(TickerTest.logger)
 
         # ta.test_quote(logger)
         # ta.test_quote_async(logger)
@@ -635,7 +645,7 @@ class StockQuoteTest(StockQuoteHandlerBase):
         StockQuoteTest.logger.info(ret_data)
 
         ta = TestAll()
-        ta.test_symple(logger)
+        ta.test_symple(StockQuoteTest.logger)
 
         # ta.test_quote(logger)
         # ta.test_quote_async(logger)
@@ -655,7 +665,7 @@ class TradeOrderTest(TradeOrderHandlerBase):
         TradeOrderTest.logger.info(ret_data)
 
         ta = TestAll()
-        ta.test_symple(logger)
+        ta.test_symple(TradeOrderTest.logger)
 
         # ta.test_quote(logger)
         # ta.test_quote_async(logger)
@@ -674,7 +684,7 @@ class TradeDealTest(TradeDealHandlerBase):
         TradeDealTest.logger.info(ret_data)
 
         ta = TestAll()
-        ta.test_symple(logger)
+        ta.test_symple(TradeDealTest.logger)
 
         # ta.test_quote(logger)
         # ta.test_quote_async(logger)
@@ -686,4 +696,4 @@ class TradeDealTest(TradeDealHandlerBase):
 
 if __name__ =='__main__':
     ta = TestAll()
-    ta.test_on_recv_rsp(True)
+    ta.test_on_recv_rsp(TrdEnv.REAL)
