@@ -172,8 +172,6 @@ class NetManager:
             elapsed_time = now - req_time
             if elapsed_time.total_seconds() >= self._sync_req_timeout:
                 self._on_packet(conn, proto_info._asdict(), Err.Timeout.code, Err.Timeout.text, None)
-                del conn.req_dict[proto_info]
-
 
     def _thread_func(self):
         while True:
