@@ -5,7 +5,7 @@ from futuquant.testcase.person.eva.utils.logUtil import Logs
 import pandas
 
 class TestAll(object):
-    dir = 'mac'
+    dir = 'mac20180831'
 
     def __init__(self):
         # 加密通道
@@ -37,9 +37,9 @@ class TestAll(object):
         trade_hk = OpenHKTradeContext(host, port)
         trade_us = OpenUSTradeContext(host, port)
 
-        logger.info('交易环境：' + tradeEnv)
+        logger.info('交易环境：' + str(tradeEnv))
         # 解锁交易unlock
-        trade_pwd = '123123'
+        trade_pwd = '321321'
         logger.info('HK解锁交易')
         logger.info(trade_hk.unlock_trade(trade_pwd))
         logger.info('US解锁交易')
@@ -501,6 +501,29 @@ class TestAll(object):
                                   price=price_us - 1, adjust_limit=0,
                                   trd_env=tradeEnv, acc_id=0))
 
+    def test_symple(self,logger):
+
+        logger.info('--------------------test_symple()-------------------------')
+        quote_ctx = OpenQuoteContext(host='172.18.7.65', port=11111)
+        trade_hk = OpenHKTradeContext(host='172.18.7.65', port=11111)
+        logger.info('获取交易日 get_trading_days')
+        logger.info(quote_ctx.get_trading_days(market=Market.HK, start=None, end=None))
+        trade_pwd = '123123'
+        logger.info('HK解锁交易')
+        logger.info(trade_hk.unlock_trade(trade_pwd))
+
+        logger.info('港股普通订单-买入')
+        price_hk = 4.01
+        qty_hk = 500
+        code_hk = 'HK.01357'
+        tradeEnv = True
+        logger.info(trade_hk.place_order(price=price_hk, qty=qty_hk,
+                                         code=code_hk,
+                                         trd_side=TrdSide.BUY,
+                                         order_type=OrderType.NORMAL,
+                                         adjust_limit=0, trd_env=tradeEnv,
+                                         acc_id=0))
+
 
 class BrokerTest(BrokerHandlerBase):
     logger = Logs().getNewLogger('BrokerTest',TestAll.dir)
@@ -513,9 +536,11 @@ class BrokerTest(BrokerHandlerBase):
         BrokerTest.logger.info(ret_data)
 
         ta = TestAll()
-        ta.test_quote(logger)
+        ta.test_symple(logger)
+
+        # ta.test_quote(logger)
         # ta.test_quote_async(logger)
-        ta.test_trade(logger,False)
+        # ta.test_trade(logger,True)
         # ta.test_trade_async(logger,False)
 
         return RET_OK,ret_data
@@ -531,10 +556,13 @@ class CurKlineTest(CurKlineHandlerBase):
         CurKlineTest.logger.info(ret_data)
 
         ta = TestAll()
-        ta.test_quote(logger)
+        ta.test_symple(logger)
+
+        # ta.test_quote(logger)
         # ta.test_quote_async(logger)
-        ta.test_trade(logger, False)
+        # ta.test_trade(logger, True)
         # ta.test_trade_async(logger,False)
+
         return RET_OK, ret_data
 
 class OrderBookTest(OrderBookHandlerBase):
@@ -548,9 +576,11 @@ class OrderBookTest(OrderBookHandlerBase):
         OrderBookTest.logger.info(ret_data)
 
         ta = TestAll()
-        ta.test_quote(logger)
+        ta.test_symple(logger)
+
+        # ta.test_quote(logger)
         # ta.test_quote_async(logger)
-        ta.test_trade(logger, False)
+        # ta.test_trade(logger, True)
         # ta.test_trade_async(logger,False)
 
         return RET_OK, ret_data
@@ -565,9 +595,11 @@ class RTDataTest(RTDataHandlerBase):
         RTDataTest.logger.info(ret_data)
 
         ta = TestAll()
-        ta.test_quote(logger)
+        ta.test_symple(logger)
+
+        # ta.test_quote(logger)
         # ta.test_quote_async(logger)
-        ta.test_trade(logger, False)
+        # ta.test_trade(logger, True)
         # ta.test_trade_async(logger,False)
 
         return RET_OK,ret_data
@@ -583,9 +615,11 @@ class TickerTest(TickerHandlerBase):
         TickerTest.logger.info(ret_data)
 
         ta = TestAll()
-        ta.test_quote(logger)
+        ta.test_symple(logger)
+
+        # ta.test_quote(logger)
         # ta.test_quote_async(logger)
-        ta.test_trade(logger, False)
+        # ta.test_trade(logger, True)
         # ta.test_trade_async(logger,False)
 
         return RET_OK, ret_data
@@ -601,9 +635,11 @@ class StockQuoteTest(StockQuoteHandlerBase):
         StockQuoteTest.logger.info(ret_data)
 
         ta = TestAll()
-        ta.test_quote(logger)
+        ta.test_symple(logger)
+
+        # ta.test_quote(logger)
         # ta.test_quote_async(logger)
-        ta.test_trade(logger, False)
+        # ta.test_trade(logger, True)
         # ta.test_trade_async(logger,False)
 
         return RET_OK, ret_data
@@ -619,9 +655,11 @@ class TradeOrderTest(TradeOrderHandlerBase):
         TradeOrderTest.logger.info(ret_data)
 
         ta = TestAll()
-        ta.test_quote(logger)
+        ta.test_symple(logger)
+
+        # ta.test_quote(logger)
         # ta.test_quote_async(logger)
-        ta.test_trade(logger, False)
+        # ta.test_trade(logger, True)
         # ta.test_trade_async(logger,False)
 
         return RET_OK,ret_data
@@ -636,9 +674,11 @@ class TradeDealTest(TradeDealHandlerBase):
         TradeDealTest.logger.info(ret_data)
 
         ta = TestAll()
-        ta.test_quote(logger)
+        ta.test_symple(logger)
+
+        # ta.test_quote(logger)
         # ta.test_quote_async(logger)
-        ta.test_trade(logger, False)
+        # ta.test_trade(logger, True)
         # ta.test_trade_async(logger,False)
 
         return RET_OK,ret_data
