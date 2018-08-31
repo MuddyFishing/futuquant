@@ -187,7 +187,7 @@ class NetManager:
                     self._next_conn_id = 1
                     self._is_polling = False
                     break
-            time.sleep(0)
+            time.sleep(0.001)
 
     def start(self):
         """
