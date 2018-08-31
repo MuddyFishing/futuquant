@@ -197,7 +197,7 @@ class OpenContextBase(object):
                 return RET_ERROR, 'Context closed or not ready'
             conn_id = self._conn_id
             net_mgr = self._net_mgr
-        return net_mgr.do_send(conn_id, proto_info, req_str)
+        return net_mgr.send(conn_id, proto_info, req_str)
 
     def _socket_reconnect_and_wait_ready(self):
         """
