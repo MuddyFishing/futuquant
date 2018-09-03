@@ -136,7 +136,7 @@ class NetManager:
             is_check_req = check_req_elapsed_time.total_seconds() >= 0.1
 
             if is_activate or is_check_req:
-                for sock, key in self._selector.get_map().items():
+                for key in list(self._selector.get_map().values()):
                     conn = key.data
                     if conn.status == ConnStatus.Connecting:
                         if is_activate:
