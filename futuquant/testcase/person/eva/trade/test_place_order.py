@@ -49,11 +49,11 @@ class PlaceOrder(object):
 
 
     def test_hk(self):
-        host =  '127.0.0.1'
-        port = 11113      #ubuntu
+        host =  '172.18.7.65'
+        port = 11111
         trade = OpenHKTradeContext(host, port)
 
-        ret_code_unlock_trade, ret_data_unlock_trade = trade.unlock_trade(password='123123')
+        ret_code_unlock_trade, ret_data_unlock_trade = trade.unlock_trade(password='321321')
         print('unlock_trade  ret_code= %d, ret_data= %s' % (ret_code_unlock_trade, ret_data_unlock_trade))
         # 设置监听
         handler_tradeOrder = TradeOrderTest()
@@ -66,8 +66,8 @@ class PlaceOrder(object):
         # ret_code, ret_data = trade_hk.place_order(price = 2.64, qty= 2000, code= 'HK.01758', trd_side= TrdSide.BUY, order_type= OrderType.ABSOLUTE_LIMIT, adjust_limit=0, trd_env= TrdEnv.REAL,acc_id=0)
         # print('真实环境',ret_code)
         # print('真实环境',ret_data)
-        print(trade.place_order(price = 18.55, qty=2, code='US.AMD', trd_side=TrdSide.BUY, order_type=OrderType.NORMAL,
-                    adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=281756460277401516))
+        print(trade.place_order(price = 3.97, qty=500, code='HK.01357', trd_side=TrdSide.BUY, order_type=OrderType.NORMAL,
+                    adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0))
 
     def test_us(self):
         host = '127.0.0.1'
@@ -159,5 +159,5 @@ class PlaceOrder(object):
 
 if __name__ == '__main__':
     po = PlaceOrder()
-    # po.test_us()
-    po.test1()
+    po.test_hk()
+    # po.test1()
