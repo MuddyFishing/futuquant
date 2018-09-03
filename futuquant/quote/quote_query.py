@@ -472,12 +472,7 @@ class PlateStockQuery:
             stock_tmp['lot_size'] = record.basic.lotSize
             stock_tmp['code'] = merge_qot_mkt_stock_str(record.basic.security.market, record.basic.security.code)
             stock_tmp['stock_name'] = record.basic.name
-            stock_tmp['stock_owner'] = merge_qot_mkt_stock_str(
-                record.warrantExData.owner.market,
-                record.warrantExData.owner.code) if record.HasField('warrantExData') else ""
             stock_tmp['list_time'] = record.basic.listTime
-            stock_tmp['stock_child_type'] = QUOTE.REV_WRT_TYPE_MAP[
-                record.warrantExData.type] if record.HasField('warrantExData') else ""
             stock_tmp['stock_type'] = QUOTE.REV_SEC_TYPE_MAP[record.basic.secType] if record.basic.secType in QUOTE.REV_SEC_TYPE_MAP else SecurityType.NONE
             stock_list.append(stock_tmp)
 
