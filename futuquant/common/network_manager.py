@@ -229,15 +229,14 @@ class NetManager:
         with self._lock:
             return self._use_count > 0
 
-    def send(self, conn_id, proto_info, data):
+    def send(self, conn_id, data):
         """
 
         :param conn_id:
-        :param proto_info:
-        :type proto_info: ProtoInfo
         :param data:
         :return:
         """
+        proto_info = self._parse_req_head_proto_info(data)
         logger.debug('Send: conn_id={}; proto_id={}; serial_no={}; total_len={};'.format(conn_id, proto_info.proto_id,
                                                                                          proto_info.serial_no,
                                                                                          len(data)))
@@ -338,7 +337,7 @@ class NetManager:
 
     def sync_query(self, conn_id, req_str):
         head_dict = self._parse_req_head(req_str)
-        proto_info = ProtoInfo(head_dict['proto_id'], head_dict['serial_no'])
+        proto_info = self._parse_req_head_proto_info(req_str)
         while True:
             with self._lock:
                 conn = self._get_conn(conn_id)
@@ -349,7 +348,7 @@ class NetManager:
                     conn.sync_rsp_data = None
                     conn.start_time = datetime.now()
                     sync_req_evt = conn.sync_req_evt
-                    self.send(conn_id, proto_info, req_str)
+                    self.send(conn_id, req_str)
                     break
             sleep(0)
 
@@ -369,6 +368,11 @@ class NetManager:
         head_len = get_message_head_len()
         req_head_dict = parse_head(req_str[:head_len])
         return req_head_dict
+
+    def _parse_req_head_proto_info(selfs, req_str):
+        head_len = get_message_head_len()
+        proto_info = parse_proto_info(req_str[:head_len])
+        return proto_info
 
     def _get_conn(self, conn_id):
         for sock, sel_key in self._selector.get_map().items():

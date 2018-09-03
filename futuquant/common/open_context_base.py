@@ -170,7 +170,7 @@ class OpenContextBase(object):
                 sleep(0.01)
 
             try:
-                ret_code, msg, proto_info, req_str = pack_func(**kargs)
+                ret_code, msg, req_str = pack_func(**kargs)
                 if ret_code != RET_OK:
                     return ret_code, msg, None
 
@@ -189,7 +189,7 @@ class OpenContextBase(object):
 
         return sync_query_processor
 
-    def _send_async_req(self, proto_info, req_str):
+    def _send_async_req(self, req_str):
         conn_id = 0
         net_mgr = None
         with self._lock:
@@ -197,7 +197,7 @@ class OpenContextBase(object):
                 return RET_ERROR, 'Context closed or not ready'
             conn_id = self._conn_id
             net_mgr = self._net_mgr
-        return net_mgr.send(conn_id, proto_info, req_str)
+        return net_mgr.send(conn_id, req_str)
 
     def _socket_reconnect_and_wait_ready(self):
         """
@@ -293,9 +293,9 @@ class OpenContextBase(object):
             'recv_notify': True,
         }
 
-        ret, msg, proto_info, req_str = InitConnect.pack_req(**kargs)
+        ret, msg, req_str = InitConnect.pack_req(**kargs)
         if ret == RET_OK:
-            ret, msg = self._net_mgr.send(conn_id, proto_info, req_str)
+            ret, msg = self._net_mgr.send(conn_id, req_str)
         else:
             logger.warning(make_log_msg('InitConnect.pack_req fail', msg=msg))
 
@@ -342,11 +342,11 @@ class OpenContextBase(object):
                 return
 
             logger.debug("Keepalive: conn_id={};".format(conn_id))
-            ret, msg, proto_info, req = KeepAlive.pack_req(self.get_sync_conn_id())
+            ret, msg, req = KeepAlive.pack_req(self.get_sync_conn_id())
             if ret != RET_OK:
                 logger.warning("KeepAlive.pack_req fail: {0}".format(msg))
                 return
-            ret, msg = self._net_mgr.send(conn_id, proto_info, req)
+            ret, msg = self._net_mgr.send(conn_id, req)
             if ret != RET_OK:
                 return
 

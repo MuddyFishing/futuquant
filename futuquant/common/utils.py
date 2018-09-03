@@ -490,20 +490,19 @@ def binary2pb(b, proto_id, proto_fmt_type):
 def pack_pb_req(pb_req, proto_id, conn_id, serial_no=0):
     proto_fmt = SysConfig.get_proto_fmt()
     serial_no = serial_no if serial_no else get_unique_id32()
-    proto_info = ProtoInfo(proto_id, serial_no)
 
     if proto_fmt == ProtoFMT.Json:
         req_json = MessageToJson(pb_req)
         ret, msg, req = _joint_head(proto_id, proto_fmt, len(req_json),
                           req_json.encode(), conn_id, serial_no)
-        return ret, msg, proto_info, req
+        return ret, msg, req
 
     elif proto_fmt == ProtoFMT.Protobuf:
         ret, msg, req = _joint_head(proto_id, proto_fmt, pb_req.ByteSize(), pb_req, conn_id, serial_no)
-        return ret, msg, proto_info, req
+        return ret, msg, req
     else:
         error_str = ERROR_STR_PREFIX + 'unknown protocol format, %d' % proto_fmt
-        return RET_ERROR, error_str, None, None
+        return RET_ERROR, error_str, None
 
 
 def _joint_head(proto_id, proto_fmt_type, body_len, str_body, conn_id, serial_no):
@@ -544,6 +543,11 @@ def parse_head(head_bytes):
     head_dict['serial_no'], head_dict['body_len'], head_dict['sha20'], \
     head_dict['reserve8'], = struct.unpack(MESSAGE_HEAD_FMT, head_bytes)
     return head_dict
+
+
+def parse_proto_info(head_bytes):
+    unpacked = struct.unpack(MESSAGE_HEAD_FMT, head_bytes)
+    return ProtoInfo(unpacked[2], unpacked[5])
 
 
 def decrypt_rsp_body(rsp_body, head_dict, conn_id):
