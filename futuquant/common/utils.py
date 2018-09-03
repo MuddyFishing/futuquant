@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import hashlib, json, os, sys, socket, traceback, time, struct
+import hashlib, json, os, sys, socket, traceback, time, struct, collections
 from datetime import datetime, timedelta
 from struct import calcsize
 from google.protobuf.json_format import MessageToJson
@@ -11,6 +11,9 @@ from futuquant.common.conn_mng import *
 from futuquant.common.sys_config import *
 from futuquant.common.pbjson import json2pb
 from futuquant.common.ft_logger import logger
+
+
+ProtoInfo = collections.namedtuple('ProtoInfo', ['proto_id', 'serial_no'])
 
 
 def get_message_head_len():
@@ -486,18 +489,21 @@ def binary2pb(b, proto_id, proto_fmt_type):
 
 def pack_pb_req(pb_req, proto_id, conn_id, serial_no=0):
     proto_fmt = SysConfig.get_proto_fmt()
+    serial_no = serial_no if serial_no else get_unique_id32()
+    proto_info = ProtoInfo(proto_id, serial_no)
+
     if proto_fmt == ProtoFMT.Json:
         req_json = MessageToJson(pb_req)
         ret, msg, req = _joint_head(proto_id, proto_fmt, len(req_json),
                           req_json.encode(), conn_id, serial_no)
-        return ret, msg, req
+        return ret, msg, proto_info, req
 
     elif proto_fmt == ProtoFMT.Protobuf:
         ret, msg, req = _joint_head(proto_id, proto_fmt, pb_req.ByteSize(), pb_req, conn_id, serial_no)
-        return ret, msg, req
+        return ret, msg, proto_info, req
     else:
         error_str = ERROR_STR_PREFIX + 'unknown protocol format, %d' % proto_fmt
-        return RET_ERROR, error_str, None
+        return RET_ERROR, error_str, None, None
 
 
 def _joint_head(proto_id, proto_fmt_type, body_len, str_body, conn_id, serial_no):
@@ -525,11 +531,8 @@ def _joint_head(proto_id, proto_fmt_type, body_len, str_body, conn_id, serial_no
 
     fmt = "%s%ds" % (MESSAGE_HEAD_FMT, body_len)
 
-    head_serial_no = serial_no if serial_no else get_unique_id32()
-    # print("serial no = {} proto_id = {}".format(head_serial_no, proto_id))
-
     bin_head = struct.pack(fmt, b'F', b'T', proto_id, proto_fmt_type,
-                           API_PROTO_VER, head_serial_no, body_len, sha20, reserve8, str_body)
+                           API_PROTO_VER, serial_no, body_len, sha20, reserve8, str_body)
 
     return RET_OK, "", bin_head
 
@@ -571,3 +574,14 @@ def decrypt_rsp_body(rsp_body, head_dict, conn_id):
     return ret_code, msg, rsp_body
 
 
+def make_from_namedtuple(t, **kwargs):
+    """
+    t是namedtuple，复制一份t，但其中部分字段更新为kwargs的值
+    :param t:
+    :param kwargs:
+    :return:
+    """
+    d = t._asdict()
+    d.update(kwargs)
+    cls = type(t)
+    return cls(**d)
