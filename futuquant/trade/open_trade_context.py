@@ -6,6 +6,7 @@ import datetime as dt
 from futuquant.common.open_context_base import OpenContextBase
 from futuquant.trade.trade_query import *
 from futuquant.trade.trade_response_handler import AsyncHandler_TrdSubAccPush
+from futuquant.common.err import Err
 
 class OpenTradeContextBase(OpenContextBase):
     """Class for set context of HK stock trade"""
@@ -78,14 +79,20 @@ class OpenTradeContextBase(OpenContextBase):
         return RET_OK, acc_table
 
     def unlock_trade(self, password, password_md5=None, is_unlock=True):
-        '''
+        """
         交易解锁，安全考虑，所有的交易api,需成功解锁后才可操作
         :param password: 明文密码字符串 (二选一）
         :param password_md5: 密码的md5字符串（二选一）
         :param is_unlock: 解锁 = True, 锁定 = False
         :return:(ret, data) ret == RET_OK时, data为None，如果之前已经解锁过了，data为提示字符串，指示出已经解锁
                             ret != RET_OK时， data为错误字符串
-        '''
+        """
+
+        # 仅支持真实交易的市场可以解锁，模拟交易不需要解锁
+        ret = TRADE.check_mkt_envtype(self.__trd_mkt, TrdEnv.REAL)
+        if not ret:
+            return RET_ERROR, Err.NoNeedUnlock.text
+
         # 解锁要求先拉一次帐户列表, 目前仅真实环境需要解锁
         ret, msg, acc_id = self._check_acc_id(TrdEnv.REAL, 0)
         if ret != RET_OK:
