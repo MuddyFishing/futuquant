@@ -58,7 +58,7 @@ class TestAll(object):
         logger.info(trade_cn.unlock_trade(trade_pwd))
 
         # 股票信息
-        price_hk = 4.01
+        price_hk = 3.98
         qty_hk = 500
         code_hk = 'HK.01357'
         price_us = 32.14
@@ -95,6 +95,33 @@ class TestAll(object):
                                          order_type=OrderType.NORMAL,
                                          adjust_limit=0,
                                          trd_env=tradeEnv, acc_id=0))
+
+    def test_on_recv_rsp_nest(self):
+        #回调中订阅并设置监听
+        logger = Logs().getNewLogger('test_on_recv_rsp', TestAll.dir)
+
+        host = '172.18.7.65'
+        port = 11111
+        # 行情
+        quote_ctx = OpenQuoteContext(host, port)
+        quote_ctx.start()
+        subTypes = [SubType.QUOTE]
+        print('subscribe ', quote_ctx.subscribe(code_list=['HK.00700'], subtype_list=subTypes))
+        print('set_handler(StockQuoteTest()) ',quote_ctx.set_handler(StockQuoteTest()))
+
+    def test_close(self):
+        host = '172.18.7.65'
+        port = 11111
+        # 行情
+        quote_ctx = OpenQuoteContext(host, port)
+        quote_ctx.start()
+        subTypes = [SubType.BROKER]
+        print('subscribe ', quote_ctx.subscribe(code_list=['HK.00700'], subtype_list=subTypes))
+        print('set_handler(BrokerTest()) ', quote_ctx.set_handler(BrokerTest()))
+        # time.sleep(20)
+        # print('time.sleep(5)   end！')
+        # quote_ctx.close()
+
 
     def test_quote(self,logger):
         logger.info('---------------test_quote()-----------------')
@@ -235,7 +262,7 @@ class TestAll(object):
         logger.info(trade_cn.unlock_trade(trade_pwd))
 
         # 股票信息
-        price_hk = 4.01
+        price_hk = 3.98
         qty_hk = 500
         code_hk = 'HK.01357'
         price_us = 32.14
@@ -419,7 +446,7 @@ class TestAll(object):
         trade_cn.start()
 
         # 股票信息
-        price_hk = 4.01
+        price_hk = 3.98
         qty_hk = 500
         code_hk = 'HK.01357'
         price_us = 32.14
@@ -517,13 +544,13 @@ class TestAll(object):
         quote_ctx = OpenQuoteContext(host='172.18.7.65', port=11111)
         trade_hk = OpenHKTradeContext(host='172.18.7.65', port=11111)
         logger.info('获取交易日 get_trading_days')
-        logger.info(quote_ctx.get_trading_days(market=Market.HK, start=None, end=None))
+        logger.info(quote_ctx.get_trading_days(market=Market.HK, start='2018-8-1', end='2018-8-31'))
         trade_pwd = '123123'
         logger.info('HK解锁交易')
         logger.info(trade_hk.unlock_trade(trade_pwd))
 
         logger.info('港股普通订单-买入')
-        price_hk = 4.01
+        price_hk = 3.98
         qty_hk = 500
         code_hk = 'HK.01357'
         tradeEnv = TrdEnv.REAL
@@ -533,6 +560,7 @@ class TestAll(object):
                                          order_type=OrderType.NORMAL,
                                          adjust_limit=0, trd_env=tradeEnv,
                                          acc_id=0))
+
 
 
 class BrokerTest(BrokerHandlerBase):
@@ -645,6 +673,8 @@ class StockQuoteTest(StockQuoteHandlerBase):
         StockQuoteTest.logger.info(ret_data)
 
         ta = TestAll()
+        # ta.test_close()
+
         ta.test_symple(StockQuoteTest.logger)
 
         # ta.test_quote(logger)
@@ -696,4 +726,5 @@ class TradeDealTest(TradeDealHandlerBase):
 
 if __name__ =='__main__':
     ta = TestAll()
-    ta.test_on_recv_rsp(TrdEnv.REAL)
+    # ta.test_on_recv_rsp_nest()
+    ta.test_on_recv_rsp()

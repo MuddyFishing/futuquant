@@ -30,18 +30,18 @@ class ModifyOrder(object):
         trade_ctx_sh = OpenHKCCTradeContext(host, port)
         trade_ctx_sh.unlock_trade('123123')
 
-        print(trade_ctx_sh.modify_order(modify_order_op= ModifyOrderOp.CANCEL, order_id= '4781797335570056618', qty = 0, price = 0.123, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0))
+        print(trade_ctx_sh.modify_order(modify_order_op= ModifyOrderOp.CANCEL, order_id= '4889665077392585169', qty = 0, price = 0.123, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0))
 
     def test1(self):
-        host = '127.0.0.1'
+        host = '172.18.7.65'
         port = 11111
 
         trade_hk = OpenHKTradeContext(host, port)
         trade_us = OpenUSTradeContext(host, port)
         trade_sh = OpenHKCCTradeContext(host,port)
         trade_sh_m = OpenCNTradeContext(host, port)
-        trade_hk.unlock_trade('123123')
-        print(trade_hk.modify_order(modify_order_op = ModifyOrderOp.NORMAL, order_id = 7274184711611580451, qty = 1000, price = 5.81, adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
+        trade_hk.unlock_trade('321321')
+        print(trade_hk.modify_order(modify_order_op = ModifyOrderOp.CANCEL, order_id = 4889665077392585169, qty = 1000, price = 5.81, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0))
 
 if __name__ == '__main__':
     mo = ModifyOrder()

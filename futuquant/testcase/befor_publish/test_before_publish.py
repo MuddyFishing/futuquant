@@ -454,7 +454,7 @@ class TradeDealTest(TradeDealHandlerBase):
 
 if __name__ == '__main__':
     aa = BeforePublishTest()
-    # aa.test_quotation()
+    aa.test_quotation()
     aa.test_trade(TrdEnv.REAL)
     aa.test_trade(TrdEnv.SIMULATE)
 
