@@ -856,13 +856,14 @@
 		required string endTime = 5; //结束时间字符串
 		optional int32 maxAckKLNum = 6; //最多返回多少根K线，如果未指定表示不限制
 		optional int64 needKLFieldsFlag = 7; //指定返回K线结构体特定某几项数据，KLFields枚举值或组合，如果未指定返回全部字段
+		optional bytes nextReqKey = 8; //分页请求key
 	}
 
 	message S2C
 	{
 		required Qot_Common.Security security = 1;
 		repeated Qot_Common.KLine klList = 2; //K线数据
-		optional string nextKLTime = 3; //如请求不指定maxAckKLNum值，则不会返回该字段，该字段表示超过指定限制的下一K线时间字符串
+		optional bytes nextReqKey = 3; //分页请求key。一次请求没有返回所有数据时，下次请求带上这个key，会接着请求
 	}
 
 	message Request
@@ -879,7 +880,6 @@
 		optional S2C s2c = 4;
 	}
 
-
 .. note::
 	
 	* 复权类型参考 `RehabType <base_define.html#rehabtype-k>`_
@@ -888,6 +888,7 @@
 	* K线结构参考 `KLine <base_define.html#kline-k>`_
 	* K线字段类型参考 `KLFields <base_define.html#klfields-k>`_
 	* 请求最大个数参考OpenAPI用户等级权限
+	* 分页请求的key。如果start和end之间的数据点多于max_count，那么后续请求时，要传入上次调用返回的page_req_key。初始请求时应该传None。
 -------------------------------------
 
 `Qot_GetTradeDate.proto <https://github.com/FutunnOpen/futuquant/blob/master/futuquant/common/pb/Qot_GetTradeDate.proto>`_ - 3200获取市场交易日
