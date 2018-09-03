@@ -830,11 +830,7 @@ start和end的组合如下：</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>(ret, data, page_req_key)</p>
 <blockquote>
-<div><dl class="docutils">
-<dt>ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下。page_req_key在分页请求时（即max_count&gt;0）</dt>
-<dd><p class="first last">可能返回，并且需要在后续的请求中传入。如果没有更多数据，page_req_key返回None。</p>
-</dd>
-</dl>
+<div><p>ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下。page_req_key在分页请求时（即max_count&gt;0）可能返回，并且需要在后续的请求中传入。如果没有更多数据，page_req_key返回None。</p>
 <p>ret != RET_OK 返回错误字符串</p>
 </div></blockquote>
 <table border="1" class="docutils">
@@ -1435,14 +1431,6 @@ start和end的组合如下：</p>
 <td>str</td>
 <td>股票名称</td>
 </tr>
-<tr class="row-odd"><td>stock_owner</td>
-<td>str</td>
-<td>所属正股的代码</td>
-</tr>
-<tr class="row-even"><td>stock_child_type</td>
-<td>str</td>
-<td>股票子类型，参见WrtType</td>
-</tr>
 <tr class="row-odd"><td>stock_type</td>
 <td>str</td>
 <td>股票类型，参见SecurityType</td>
@@ -1736,7 +1724,7 @@ start和end的组合如下：</p>
 <h4>subscribe<a class="headerlink" href="#subscribe" title="Permalink to this headline">¶</a></h4>
 <dl class="function">
 <dt>
-<code class="descname">subscribe</code><span class="sig-paren">(</span><em>self</em>, <em>code_list</em>, <em>subtype_list</em><span class="sig-paren">)</span></dt>
+<code class="descname">subscribe</code><span class="sig-paren">(</span><em>self</em>, <em>code_list</em>, <em>subtype_list</em>, <em>is_first_push=True</em><span class="sig-paren">)</span></dt>
 <dd><p>订阅注册需要的实时信息，指定股票和订阅的数据类型即可，港股订阅需要Lv2行情。</p>
 <p>注意：len(code_list) * 订阅的K线类型的数量 &lt;= 100</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1746,6 +1734,7 @@ start和end的组合如下：</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>code_list</strong> &#8211; 需要订阅的股票代码列表</li>
 <li><strong>subtype_list</strong> &#8211; 需要订阅的数据类型列表，参见 <a class="reference external" href="Base_API.html#subtype">SubType</a></li>
+<li><strong>is_first_push</strong> &#8211; 订阅成功之后是否马上推送一次数据</li>
 </ul>
 </td>
 </tr>
