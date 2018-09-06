@@ -1019,6 +1019,8 @@ class StockQuoteQuery:
             'vega': record.optionExData.vega,
             'theta': record.optionExData.theta,
             'rho': record.optionExData.rho,
+            'recv_timestamp': record.recvTime,
+            'date_time': record.updateTime,
         } for record in raw_quote_list]
 
         return RET_OK, "", quote_list
@@ -1227,13 +1229,17 @@ class OrderBookQuery:
         order_book['code'] = merge_qot_mkt_stock_str(rsp_pb.s2c.security.market, rsp_pb.s2c.security.code)
         order_book['Bid'] = []
         order_book['Ask'] = []
+        order_book['recv_timestamp'] = 0
 
         for record in raw_order_book_bid:
             order_book['Bid'].append((record.price, record.volume,
                                       record.orederCount))
+            order_book['recv_timestamp'] = record.recvTime
+
         for record in raw_order_book_ask:
             order_book['Ask'].append((record.price, record.volume,
                                       record.orederCount))
+            order_book['recv_timestamp'] = record.recvTime
 
         return RET_OK, "", order_book
 
@@ -1328,6 +1334,7 @@ class GlobalStateQuery:
             'timestamp': str(state.time),
             'qot_logined': "1" if state.qotLogined else "0",
             'local_timestamp': state.localTime if state.HasField('localTime') else time.time(),
+            'lastLocalSvrTimeDiff': state.lastLocalSvrTimeDiff,
         }
         return RET_OK, "", state_dict
 
