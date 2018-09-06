@@ -317,6 +317,7 @@ message Ticker
 	optional double recvTime = 7; //收到推送数据的本地时间戳，用于定位延迟
 	optional int32 type = 8; //TickerType, 逐笔类型
 	optional int32 typeSign = 9; //逐笔类型符号
+	optional bool byConnDis = 10; //行情连接断开重连后，拉取一次逐笔用于补充连接断开中间（最多750根），该标志用于区分该种情况
 }
 
 message OrderBook
