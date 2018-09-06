@@ -1,8 +1,8 @@
 #-*-coding:utf-8-*-
 
 import futuquant
-from evatest.utils.logUtil import Logs
-from evatest.datas.collect_stock import *
+from futuquant.testcase.person.eva.utils.logUtil import Logs
+from futuquant.testcase.person.eva.datas.collect_stock import *
 
 class GetCurKline(object):
     #获取实时K线 get_cur_kline 和 CurKlineHandlerBase
@@ -14,8 +14,8 @@ class GetCurKline(object):
         handler = CurKlineTest()
         quote_ctx.set_handler(handler)
         #待测数据
-        codes = ['HK.00939', 'US.AAPL', 'SH.601318', 'SZ.000001']    #'HK.00700', 'US.AAPL', 'SH.601318', 'SZ.000001'
-        kTypes = [SubType.K_1M,SubType.K_DAY,SubType.K_15M,SubType.K_60M,SubType.K_WEEK,SubType.K_MON]  #,SubType.K_15M,SubType.K_60M,SubType.K_WEEK,SubType.K_MON
+        codes = ['HK.00700', 'US.AAPL', 'SH.601318', 'SZ.000001']
+        kTypes = [SubType.K_1M,SubType.K_DAY,SubType.K_15M,SubType.K_60M,SubType.K_WEEK,SubType.K_MON]
         # 订阅股票
         # quote_ctx.subscribe(codes, kTypes)
         for code in codes:
@@ -31,12 +31,27 @@ class GetCurKline(object):
         quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1',port=11111)
         quote_ctx.start()
         # 设置异步数据监听
-        handler = CurKlineTest()
-        quote_ctx.set_handler(handler)
+        # handler = CurKlineTest()
+        # quote_ctx.set_handler(handler)
         # codes = get_codes_cvs()[:2]
-        print(quote_ctx.subscribe('HK.00857', SubType.K_1M))
-        # print(quote_ctx.get_cur_kline('HK.00700', 0, SubType.K_1M, AuType.QFQ))
+        print(quote_ctx.subscribe('HK.00700', SubType.K_1M))
+        ret_code,ret_data = quote_ctx.get_cur_kline('HK.00700', 1000, SubType.K_1M, AuType.QFQ)
+
+        for row in ret_data.iterrows():
+            print(row)
+
         # quote_ctx.close()
+
+    def test3(self):
+        quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1', port=11111)
+        quote_ctx.start()
+        # 设置异步数据监听
+        handler = CurKlineTest()
+        print('set_handler',quote_ctx.set_handler(handler))
+        # 待测数据
+        codes = ['HK.00700']
+        kTypes = [SubType.K_1M]
+        print('subscribe',quote_ctx.subscribe(codes, kTypes))
 
 class CurKlineTest(CurKlineHandlerBase):
     '''获取实时K线 get_cur_kline 和 CurKlineHandlerBase'''
@@ -51,4 +66,4 @@ class CurKlineTest(CurKlineHandlerBase):
 
 if __name__ == '__main__':
     gck = GetCurKline()
-    gck.test1()
+    gck.test3()

@@ -50,7 +50,7 @@ class PlaceOrder(object):
 
     def test_hk(self):
         host =  '127.0.0.1'
-        port = 11113      #ubuntu
+        port = 11111      #ubuntu
         trade = OpenHKTradeContext(host, port)
 
         ret_code_unlock_trade, ret_data_unlock_trade = trade.unlock_trade(password='123123')
@@ -115,20 +115,20 @@ class PlaceOrder(object):
         trade_us.start()
         trade_sh_m.start()
         #解锁
-        print(trade_hk.unlock_trade('123123'))
+        print(trade_hk.unlock_trade('321321'))
         #下单
         print('港股下单place_order\n',trade_hk.place_order(price = 5.82, qty = 1000, code = 'HK.01357', trd_side=TrdSide.BUY,
-                                  order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
+                                  order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0))
 
         # price = 3.04, qty = 10, code = 'US.DDE'
         # price = 192, qty = 10, code = 'US.AAPL'
-        print('美股下单place_order\n',trade_us.place_order(price = 36.34, qty = 2, code = 'US.JD', trd_side=TrdSide.BUY,
-                                   order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
+        # print('美股下单place_order\n',trade_us.place_order(price = 36.34, qty = 2, code = 'US.JD', trd_side=TrdSide.BUY,
+        #                            order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
         # price = 9.62, qty = 200, code = 'SZ.002078'
         # price=10.2, qty=200, code='SH.601007'
-        print('A股下单place_order\n',trade_sh_m.place_order(price=10.27, qty=100, code='SZ.000001', trd_side=TrdSide.BUY,
-                                   order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
+        # print('A股下单place_order\n',trade_sh_m.place_order(price=10.27, qty=100, code='SZ.000001', trd_side=TrdSide.BUY,
+        #                            order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
     def test2(self):
         host = '127.0.0.1'

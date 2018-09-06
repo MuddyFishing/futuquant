@@ -41,7 +41,7 @@ class ModifyOrder(object):
         trade_sh = OpenHKCCTradeContext(host,port)
         trade_sh_m = OpenCNTradeContext(host, port)
         trade_hk.unlock_trade('123123')
-        print(trade_hk.modify_order(modify_order_op = ModifyOrderOp.NORMAL, order_id = 7274184711611580451, qty = 1000, price = 5.81, adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
+        print(trade_us.modify_order(modify_order_op = ModifyOrderOp.NORMAL, order_id = 7270800882972635906, qty = 5, price = 33, adjust_limit=0, trd_env=TrdEnv.SIMULATE, acc_id=0))
 
 if __name__ == '__main__':
     mo = ModifyOrder()

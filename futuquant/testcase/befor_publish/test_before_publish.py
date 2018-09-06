@@ -28,7 +28,7 @@ class BeforePublishTest(object):
         pandas.set_option('max_columns',100)
         pandas.set_option('display.width',1000)
         self.host = '127.0.0.1'
-        self.port = 11112
+        self.port = 11111
 
 
     def test_quotation(self):
@@ -152,7 +152,7 @@ class BeforePublishTest(object):
             trade_cn = OpenCNTradeContext(self.host, self.port)   #web模拟交易
         logger.info('交易环境：'+tradeEnv)
         #解锁交易unlock
-        trade_pwd = '123123'
+        trade_pwd = '321321'
         logger.info('HK解锁交易')
         logger.info(trade_hk.unlock_trade(trade_pwd))
         logger.info('US解锁交易')
@@ -174,7 +174,7 @@ class BeforePublishTest(object):
         trade_cn.start()
 
         #股票信息
-        price_hk = 4.01
+        price_hk = 4.15
         qty_hk = 500
         code_hk = 'HK.01357'
         price_us = 32.14
@@ -195,55 +195,54 @@ class BeforePublishTest(object):
                                             adjust_limit=0, trd_env=tradeEnv, acc_id=0, acc_index=0))
 
         # 下单 place_order
-        for i in range(3):
-            #港股普通订单-买入
-            logger.info('港股普通订单-买入')
-            logger.info(trade_hk.place_order(price=price_hk - i, qty=qty_hk * i,
-                                 code=code_hk,
-                                 trd_side=TrdSide.BUY,
-                                 order_type=OrderType.NORMAL,
-                                 adjust_limit=0, trd_env=tradeEnv,
-                                 acc_id=0))
+        #港股普通订单-买入
+        logger.info('港股普通订单-买入')
+        logger.info(trade_hk.place_order(price=price_hk, qty=qty_hk,
+                             code=code_hk,
+                             trd_side=TrdSide.BUY,
+                             order_type=OrderType.NORMAL,
+                             adjust_limit=0, trd_env=tradeEnv,
+                             acc_id=0))
 
-            #港股普通订单-卖出
-            logger.info('港股普通订单-卖出')
-            logger.info(trade_hk.place_order(price=price_hk + i, qty=qty_hk * i,
-                                       code=code_hk,
-                                       trd_side=TrdSide.SELL,
-                                       order_type=OrderType.NORMAL,
-                                       adjust_limit=0, trd_env=tradeEnv,
-                                       acc_id=0))
-            #美股普通订单-买入
-            logger.info('美股普通订单-买入')
-            logger.info(trade_us.place_order(price=price_us - i, qty=qty_us * i,
-                                       code=code_us,
-                                       trd_side=TrdSide.BUY,
-                                       order_type=OrderType.NORMAL,
-                                       adjust_limit=0, trd_env=tradeEnv,
-                                       acc_id=0))
-            # 美股普通订单-卖出
-            logger.info('美股普通订单-卖出')
-            logger.info(trade_us.place_order(price=price_us + i, qty=qty_us * i,
-                                 code=code_us,
-                                 trd_side=TrdSide.SELL,
-                                 order_type=OrderType.NORMAL,
-                                 adjust_limit=0, trd_env=tradeEnv,
-                                 acc_id=0))
-            #A股普通订单-买入
-            logger.info('A股普通订单-买入')
-            logger.info(trade_cn.place_order(price=price_cn + i, qty=qty_cn * i,
-                                      code=code_cn,
-                                      trd_side=TrdSide.SELL,
-                                      order_type=OrderType.NORMAL,
-                                      adjust_limit=0,
-                                      trd_env=tradeEnv, acc_id=0))
-            logger.info('A股普通订单-卖出')
-            logger.info(trade_cn.place_order(price=price_cn + i, qty=qty_cn * i,
-                                            code=code_cn,
-                                            trd_side=TrdSide.SELL,
-                                            order_type=OrderType.NORMAL,
-                                            adjust_limit=0,
-                                            trd_env=tradeEnv, acc_id=0))
+        #港股普通订单-卖出
+        logger.info('港股普通订单-卖出')
+        logger.info(trade_hk.place_order(price=price_hk+1, qty=qty_hk,
+                                   code=code_hk,
+                                   trd_side=TrdSide.SELL,
+                                   order_type=OrderType.NORMAL,
+                                   adjust_limit=0, trd_env=tradeEnv,
+                                   acc_id=0))
+        #美股普通订单-买入
+        logger.info('美股普通订单-买入')
+        logger.info(trade_us.place_order(price=price_us, qty=qty_us,
+                                   code=code_us,
+                                   trd_side=TrdSide.BUY,
+                                   order_type=OrderType.NORMAL,
+                                   adjust_limit=0, trd_env=tradeEnv,
+                                   acc_id=0))
+        # 美股普通订单-卖出
+        logger.info('美股普通订单-卖出')
+        logger.info(trade_us.place_order(price=price_us+1, qty=qty_us,
+                             code=code_us,
+                             trd_side=TrdSide.SELL,
+                             order_type=OrderType.NORMAL,
+                             adjust_limit=0, trd_env=tradeEnv,
+                             acc_id=0))
+        #A股普通订单-买入
+        logger.info('A股普通订单-买入')
+        logger.info(trade_cn.place_order(price=price_cn, qty=qty_cn,
+                                  code=code_cn,
+                                  trd_side=TrdSide.SELL,
+                                  order_type=OrderType.NORMAL,
+                                  adjust_limit=0,
+                                  trd_env=tradeEnv, acc_id=0))
+        logger.info('A股普通订单-卖出')
+        logger.info(trade_cn.place_order(price=price_cn+1, qty=qty_cn,
+                                        code=code_cn,
+                                        trd_side=TrdSide.SELL,
+                                        order_type=OrderType.NORMAL,
+                                        adjust_limit=0,
+                                        trd_env=tradeEnv, acc_id=0))
 
         #查询今日订单 order_list_query
         ret_code_order_list_query_hk, ret_data_order_list_query_hk = trade_hk.order_list_query(order_id="",
@@ -456,6 +455,7 @@ if __name__ == '__main__':
     aa = BeforePublishTest()
     # aa.test_quotation()
     aa.test_trade(TrdEnv.REAL)
+    time.sleep(30)
     aa.test_trade(TrdEnv.SIMULATE)
 
 
