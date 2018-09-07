@@ -1034,7 +1034,7 @@ start和end的组合如下：</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">param code_list:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">股票列表，股票个数限制参考 <a class="reference external" href="Quote_API.html#id15">OpenAPI用户等级权限</a></p>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">股票列表，股票个数限制参考 <a class="reference external" href="Quote_API.html#id12">OpenAPI用户等级权限</a></p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">return:</th><td class="field-body"><p class="first">(ret, data)</p>
@@ -1496,67 +1496,64 @@ start和end的组合如下：</p>
 <tr class="row-odd"><td>HK.999911</td>
 <td>港股创业板</td>
 </tr>
-<tr class="row-even"><td>HK.999999</td>
-<td>全部港股(正股)</td>
-</tr>
-<tr class="row-odd"><td>HK.BK1911</td>
+<tr class="row-even"><td>HK.BK1911</td>
 <td>主板H股</td>
 </tr>
-<tr class="row-even"><td>HK.BK1912</td>
+<tr class="row-odd"><td>HK.BK1912</td>
 <td>创业板H股</td>
 </tr>
-<tr class="row-odd"><td>HK.900075</td>
+<tr class="row-even"><td>HK.900075</td>
 <td>港股基金</td>
 </tr>
-<tr class="row-even"><td>HK.BK1600</td>
+<tr class="row-odd"><td>HK.BK1600</td>
 <td>富途热门(港)</td>
 </tr>
-<tr class="row-odd"><td>SH.3000000</td>
+<tr class="row-even"><td>SH.3000000</td>
 <td>上海主板</td>
 </tr>
-<tr class="row-even"><td>SH.BK0901</td>
+<tr class="row-odd"><td>SH.BK0901</td>
 <td>上证B股</td>
 </tr>
-<tr class="row-odd"><td>SH.BK0902</td>
+<tr class="row-even"><td>SH.BK0902</td>
 <td>深证B股</td>
 </tr>
-<tr class="row-even"><td>SH.3000002</td>
+<tr class="row-odd"><td>SH.3000002</td>
 <td>沪深指数</td>
 </tr>
-<tr class="row-odd"><td>SH.3000005</td>
+<tr class="row-even"><td>SH.3000005</td>
 <td>沪深全部A股</td>
 </tr>
-<tr class="row-even"><td>SH.BK0600</td>
+<tr class="row-odd"><td>SH.BK0600</td>
 <td>富途热门(沪深)</td>
 </tr>
-<tr class="row-odd"><td>SZ.3000001</td>
+<tr class="row-even"><td>SZ.3000001</td>
 <td>深证主板</td>
 </tr>
-<tr class="row-even"><td>SZ.3000003</td>
+<tr class="row-odd"><td>SZ.3000003</td>
 <td>中小企业板块</td>
 </tr>
-<tr class="row-odd"><td>SZ.3000004</td>
+<tr class="row-even"><td>SZ.3000004</td>
 <td>深证创业板</td>
 </tr>
-<tr class="row-even"><td>US.BK2600</td>
+<tr class="row-odd"><td>US.BK2600</td>
 <td>富途热门(美)</td>
 </tr>
-<tr class="row-odd"><td>US.200306</td>
+<tr class="row-even"><td>US.USAALL</td>
 <td>全部美股(正股)</td>
 </tr>
-<tr class="row-even"><td>US.200301</td>
+<tr class="row-odd"><td>US.NYSE</td>
 <td>纽交所</td>
 </tr>
-<tr class="row-odd"><td>US.200302</td>
+<tr class="row-even"><td>US.NASDAQ</td>
 <td>纳斯达克</td>
 </tr>
-<tr class="row-even"><td>US.200303</td>
+<tr class="row-odd"><td>US.AMEX</td>
 <td>美交所</td>
 </tr>
-<tr class="row-odd"><td>US.200304</td>
+<tr class="row-even"><td>US.RPCCS</td>
 <td>美中概股</td>
 </tr>
-<tr class="row-even"><td>US.200305</td>
+<tr class="row-odd"><td>US.STARCS</td>
 <td>美明星股</td>
 </tr>
 </tbody>
@@ -3093,7 +3090,7 @@ start和end的组合如下：</p>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>get_market_snapshot</td>
-<td>参考 <a class="reference external" href="Quote_API.html#id15">OpenAPI用户等级权限</a></td>
+<td>参考 <a class="reference external" href="Quote_API.html#id12">OpenAPI用户等级权限</a></td>
 </tr>
 <tr class="row-odd"><td>get_rt_ticker</td>
 <td>可获取逐笔最多最近1000个</td>
@@ -3131,7 +3128,7 @@ start和end的组合如下：</p>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>get_market_snapshot</td>
-<td>参考 <a class="reference external" href="Quote_API.html#id15">OpenAPI用户等级权限</a></td>
+<td>参考 <a class="reference external" href="Quote_API.html#id12">OpenAPI用户等级权限</a></td>
 </tr>
 <tr class="row-odd"><td>get_plate_list</td>
 <td>10</td>
@@ -3162,7 +3159,7 @@ start和end的组合如下：</p>
 <p>1.使用高频数据接口前，需要订阅（调用subscribe），订阅有额度限制：</p>
 <blockquote>
 <div>用户额度 &gt;= 订阅K线股票数 * K线权重 + 订阅逐笔股票数 * 逐笔权重 + 订阅报价股票数 * 报价权重 + 订阅摆盘股票数 * 摆盘权重</div></blockquote>
-<p>2.目前所有订阅类型占用额度均为1，用户总额度与用户等级相关，参考 <a class="reference external" href="Quote_API.html#id15">OpenAPI用户等级权限</a>。</p>
+<p>2.目前所有订阅类型占用额度均为1，用户总额度与用户等级相关，参考 <a class="reference external" href="Quote_API.html#id12">OpenAPI用户等级权限</a>。</p>
 <p>3.订阅至少一分钟才可以反订阅</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>

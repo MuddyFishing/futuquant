@@ -33,7 +33,7 @@
 	pwd_unlock = '123456'
 	trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
 	print(trd_ctx.unlock_trade(pwd_unlock))
-	print(trd_ctx.place_order(price=700.0, qty=100, code="HK.00700", trd_side=TrdSide.SELL))
+	print(trd_ctx.place_order(price=700.0, qty=100, code="HK.00700", trd_side=TrdSide.BUY))
 	trd_ctx.close()
 
 
@@ -189,6 +189,8 @@ place_order - 下单
 ..  py:function:: place_order(self, price, qty, code, trd_side=TrdSide.NONE, order_type=OrderType.NORMAL, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0)
 
  下单交易。
+ 
+ 注意，由于python api是同步的，但网络收发是异步的，当place_order对应的应答数据包与订单成交推送（TradeDealHandlerBase）或订单状态变化推送（TradeOrderHandlerBase）间隔很短时，就可能出现虽然是place_order的数据包先返回，但推送的回调会先被调用的情况。例如可能先调用了TradeOrderHandlerBase，然后place_order这个接口才返回。
 
  :param price: float，订单价格，3位精度(A股2位)，当订单是市价单或竞价单类型，忽略该参数传值
  :param qty: float，订单数量，2位精度，期权单位是"张"
@@ -488,7 +490,9 @@ on_recv_rsp - 响应订单推送
 
 ..  py:function:: on_recv_rsp(self, rsp_pb)
 
- 响应订单推送。OpenD会主动推送订单的最新更新数据过来，需要客户端响应处理
+ 响应订单推送。OpenD会主动推送订单的最新更新数据过来，需要客户端响应处理。
+ 
+ 该类与place_order返回的顺序参见 place_order_ 的说明。
  
  :param rsp_pb: class，订单推送协议pb对象
  :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟上面的 order-list-query_ (获取订单列表)相同
@@ -529,6 +533,8 @@ on_recv_rsp - 响应成交推送
 ..  py:function:: on_recv_rsp(self, rsp_pb)
 
  响应成交推送。OpenD会主动推送新的成交数据过来，需要客户端响应处理
+ 
+ 该类与place_order返回的顺序参见 place_order_ 的说明。
  
  :param rsp_pb: class，成交推送协议pb对象
  :return(ret_code, ret_data): ret_code为RET_OK时，ret_data为DataFrame数据，否则为错误原因字符串，DataFrame数据跟上面的 deal-list-query_ (获取成交列表)相同
