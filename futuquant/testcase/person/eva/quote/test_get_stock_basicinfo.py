@@ -18,7 +18,7 @@ class GetStockBasicinfo(object):
         # ret_code,ret_data = quote_ctx.get_stock_basicinfo(market = Market.US, stock_type=SecurityType.DRVT, code_list=['US.AAPL180928C172500'])
         # print(ret_code)
         # print(ret_data)
-        print(quote_ctx.get_stock_basicinfo(market=Market.HK, stock_type=SecurityType.STOCK, code_list=None))
+        print(quote_ctx.get_stock_basicinfo(market=Market.HK, stock_type=SecurityType.BOND, code_list=None))
         # print(quote_ctx.get_stock_basicinfo(market=Market.US, stock_type=SecurityType.STOCK, code_list=None))
         # for data in ret_data.iterrows():
         #     print(data)
