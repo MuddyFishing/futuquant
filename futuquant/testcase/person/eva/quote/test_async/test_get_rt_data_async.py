@@ -3,7 +3,7 @@
 import futuquant
 from futuquant.quote.quote_response_handler import RTDataHandlerBase
 from futuquant.common.constant import *
-from evatest.utils.logUtil import Logs
+from futuquant.testcase.person.eva.utils.logUtil import Logs
 
 class GetRtData():
     #获取分时数据 get_rt_data 和 RTDataHandlerBase
@@ -58,4 +58,4 @@ class RTDataTest(RTDataHandlerBase):
 
 if __name__ == '__main__':
    grd = GetRtData()
-   grd.test3()
+   grd.test1()

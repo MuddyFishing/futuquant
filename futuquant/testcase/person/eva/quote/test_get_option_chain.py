@@ -12,8 +12,8 @@ class GetOptionChain(object):
         host = '127.0.0.1'#'172.18.6.144'
         port = 11111
         quote_ctx = OpenQuoteContext(host,port)
-        print(quote_ctx.get_option_chain(code = 'US.DIS', start='2018-9-1',
-                                         end='2018-9-30', option_type=OptionType.ALL,
+        print(quote_ctx.get_option_chain(code = 'US.DIS', start='',
+                                         end='', option_type=OptionType.CALL,
                                          option_cond_type=OptionCondType.OUTSIDE))
         quote_ctx.close()
 

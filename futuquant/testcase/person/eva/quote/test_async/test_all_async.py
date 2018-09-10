@@ -3,7 +3,7 @@
 import futuquant
 from futuquant.quote.quote_response_handler import *
 from futuquant.common.constant import *
-from evatest.utils.logUtil import Logs
+from futuquant.testcase.person.eva.utils.logUtil import Logs
 
 class TestAll(object):
     dir = 'one_CentOs7'

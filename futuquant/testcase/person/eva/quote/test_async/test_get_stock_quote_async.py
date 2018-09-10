@@ -16,7 +16,7 @@ class GetStockQuote(object):
 
 
     def test1(self):
-        quote_ctx = futuquant.OpenQuoteContext(host='172.18.6.144',port=11111) #mac-kathy:172.18.6.144
+        quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1',port=11111) #mac-kathy:172.18.6.144
         quote_ctx.start()
         # 设置异步数据监听
         handler = StockQuoteTest()
@@ -24,7 +24,7 @@ class GetStockQuote(object):
         #获取股票列表
         # print(quote_ctx.get_stock_basicinfo(Market.HK,SecurityType.STOCK))
         # codes = ret_data_stock_basicinfo['code'].tolist()[:10]
-        codes = ['US.TCEHY']    #,'US.AAPL','HK.62423','US.MSFT','SH.601318','SZ.000001'
+        codes = ['HK_FUTURE.999010']    #,'US.AAPL','HK.62423','US.MSFT','SH.601318','SZ.000001'
         #订阅股票
         for code in codes:
             quote_ctx.subscribe(code,SubType.QUOTE)

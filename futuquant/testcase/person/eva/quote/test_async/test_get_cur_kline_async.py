@@ -50,7 +50,7 @@ class GetCurKline(object):
         print('set_handler',quote_ctx.set_handler(handler))
         # 待测数据
         codes = ['HK.00700']
-        kTypes = [SubType.K_1M]
+        kTypes = [SubType.K_1M, SubType.K_5M, SubType.K_15M, SubType.K_60M, SubType.K_DAY, SubType.K_WEEK, SubType.K_MON]
         print('subscribe',quote_ctx.subscribe(codes, kTypes))
 
 class CurKlineTest(CurKlineHandlerBase):
