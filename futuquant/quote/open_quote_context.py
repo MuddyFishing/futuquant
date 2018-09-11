@@ -1130,11 +1130,11 @@ class OpenQuoteContext(OpenContextBase):
         if ret_code != RET_OK:
             return RET_ERROR, msg
 
-        ret_code, msg, proto_info, unpush_req_str = SubscriptionQuery.pack_unpush_req(code_list, subtype_list, self.get_async_conn_id())
+        ret_code, msg, unpush_req_str = SubscriptionQuery.pack_unpush_req(code_list, subtype_list, self.get_async_conn_id())
         if ret_code != RET_OK:
             return RET_ERROR, msg
 
-        ret_code, msg = self._send_async_req(proto_info, unpush_req_str)
+        ret_code, msg = self._send_async_req(unpush_req_str)
         if ret_code != RET_OK:
             return RET_ERROR, msg
 

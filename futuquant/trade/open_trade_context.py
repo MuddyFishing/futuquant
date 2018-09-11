@@ -134,9 +134,9 @@ class OpenTradeContextBase(OpenContextBase):
             'acc_id_list': acc_id_list,
             'conn_id': self.get_async_conn_id(),
         }
-        ret_code, msg, proto_info, push_req_str = SubAccPush.pack_req(**kargs)
+        ret_code, msg, push_req_str = SubAccPush.pack_req(**kargs)
         if ret_code == RET_OK:
-            self._send_async_req(proto_info, push_req_str)
+            self._send_async_req(push_req_str)
 
         return RET_OK, None
 

@@ -316,8 +316,7 @@ request_history_kline
  :param page_req_key: 分页请求的key。如果start和end之间的数据点多于max_count，那么后续请求时，要传入上次调用返回的page_req_key。初始请求时应该传None。
  :return: (ret, data, page_req_key)
 
-        ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下。page_req_key在分页请求时（即max_count>0）
-                可能返回，并且需要在后续的请求中传入。如果没有更多数据，page_req_key返回None。
+        ret == RET_OK 返回pd dataframe数据，data.DataFrame数据, 数据列格式如下。page_req_key在分页请求时（即max_count>0）可能返回，并且需要在后续的请求中传入。如果没有更多数据，page_req_key返回None。
 
         ret != RET_OK 返回错误字符串
 
@@ -531,8 +530,6 @@ get_plate_stock
         code                    str            股票代码
         lot_size                int            每手股数
         stock_name              str            股票名称
-        stock_owner             str            所属正股的代码
-        stock_child_type        str            股票子类型，参见WrtType
         stock_type              str            股票类型，参见SecurityType
         list_time               str            上市时间（美股默认是美东时间，港股A股默认是北京时间）
         stock_id                int            股票id
@@ -568,7 +565,6 @@ get_plate_stock
         HK.999902                  国指成份股
         HK.999910                  港股主板
         HK.999911                  港股创业板
-        HK.999999                  全部港股(正股)
         HK.BK1911                  主板H股
         HK.BK1912                  创业板H股
         HK.900075                  港股基金
@@ -583,12 +579,12 @@ get_plate_stock
         SZ.3000003                 中小企业板块
         SZ.3000004                 深证创业板
         US.BK2600                  富途热门(美)
-        US.200306                  全部美股(正股)
-        US.200301                  纽交所
-        US.200302                  纳斯达克
-        US.200303                  美交所
-        US.200304                  美中概股
-        US.200305                  美明星股
+        US.USAALL                  全部美股(正股)
+        US.NYSE                    纽交所
+        US.NASDAQ                  纳斯达克
+        US.AMEX                    美交所
+        US.RPCCS                   美中概股
+        US.STARCS                  美明星股
         =====================  ==============================================================
    
         
@@ -671,7 +667,7 @@ get_broker_queue
 subscribe
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: subscribe(self, code_list, subtype_list)
+..  py:function:: subscribe(self, code_list, subtype_list, is_first_push=True)
 
  订阅注册需要的实时信息，指定股票和订阅的数据类型即可，港股订阅需要Lv2行情。
  
@@ -679,6 +675,7 @@ subscribe
 
  :param code_list: 需要订阅的股票代码列表
  :param subtype_list: 需要订阅的数据类型列表，参见 SubType_
+ :param is_first_push: 订阅成功之后是否马上推送一次数据
  :return: (ret, err_message)
 
         ret == RET_OK err_message为None
