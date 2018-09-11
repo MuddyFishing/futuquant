@@ -5,7 +5,7 @@ from time import sleep
 from futuquant.common.utils import *
 from futuquant.quote.quote_query import parse_head
 from .err import Err
-from .utils import ProtoInfo
+from .sys_config import SysConfig
 from .ft_logger import make_log_msg
 
 if IS_PY2:
@@ -248,6 +248,7 @@ class NetManager:
             if self._thread is None:
                 self._create_all()
                 self._thread = threading.Thread(target=self._thread_func)
+                self._thread.setDaemon(SysConfig.get_all_thread_daemon())
                 self._thread.start()
 
     def stop(self):
