@@ -25,12 +25,18 @@ class TinyStrateBase(object):
 
     @abstractmethod
     def on_init_strate(self):
-        """策略加载完配置"""
+        """策略加载完配置后的回调
+        1. 可修改symbol_pools 或策略内部其它变量的初始化
+        2. 此时还不能调用futu api的接口
+        """
         pass
 
     @abstractmethod
     def on_start(self):
-        """策略启动入口"""
+        """策略启动完成后的回调
+        1. 框架已经完成初始化， 可调用任意的futu api接口
+        2. 修改symbol_pools无效, 不会有动态的行情数据回调
+        """
         pass
 
     @abstractmethod
@@ -61,13 +67,13 @@ class TinyStrateBase(object):
 
     @abstractmethod
     def on_before_trading(self, date_time):
-        """开盘时触发一次回调, 港股是09:30:00"""
+        """开盘时触发一次回调, 脚本挂机切换交易日时，港股会在09:30:00回调"""
         str_log = "on_before_trading - %s" % date_time.strftime('%Y-%m-%d %H:%M:%S')
         self.log(str_log)
 
     @abstractmethod
     def on_after_trading(self, date_time):
-        """收盘时触发一次回调, 港股是16:00:00"""
+        """收盘时触发一次回调, 脚本挂机时，港股会在16:00:00回调"""
         str_log = "on_after_trading - %s" % date_time.strftime('%Y-%m-%d %H:%M:%S')
         self.log(str_log)
 
