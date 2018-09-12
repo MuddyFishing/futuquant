@@ -476,7 +476,7 @@ def binary2pb(b, proto_id, proto_fmt_type):
     if proto_fmt_type == ProtoFMT.Json:
         return json2pb(type(rsp), b.decode('utf-8'))
     elif proto_fmt_type == ProtoFMT.Protobuf:
-        rsp.Clear()
+        rsp = type(rsp)()
         # logger.debug((proto_id))
         if IS_PY2:
             rsp.ParseFromString(str(b))
