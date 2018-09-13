@@ -24,7 +24,7 @@ class GetStockQuote(object):
         #获取股票列表
         # print(quote_ctx.get_stock_basicinfo(Market.HK,SecurityType.STOCK))
         # codes = ret_data_stock_basicinfo['code'].tolist()[:10]
-        codes = ['HK_FUTURE.999010']    #,'US.AAPL','HK.62423','US.MSFT','SH.601318','SZ.000001'
+        codes = ['HK.00700']    #,'US.AAPL','HK.62423','US.MSFT','SH.601318','SZ.000001'
         #订阅股票
         for code in codes:
             quote_ctx.subscribe(code,SubType.QUOTE)

@@ -1,0 +1,6 @@
+2018-09-13 15:14:23,955 - INFO - unlock (0, 'Trade is already unlocked')
+2018-09-13 15:14:24,227 - INFO - subscribe
+2018-09-13 15:14:24,229 - INFO - (0, None)
+2018-09-13 15:14:24,347 - INFO - place_order °æ¬Ú»Î°ø
+2018-09-13 15:14:24,347 - INFO - code=US.GNK price=11.780000000000001
+2018-09-13 15:14:34,422 - INFO - (-1, 'Timeout')

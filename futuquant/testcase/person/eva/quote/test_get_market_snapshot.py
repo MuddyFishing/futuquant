@@ -38,7 +38,7 @@ class GetMarketSnapshot(object):
         quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
 
         ret_code, ret_data = quote_ctx.get_market_snapshot(
-            code_list=['HK.00700', 'US.AAPL', 'SZ.000700', 'HK.13597', 'US.DIS180824C111000'])
+            code_list=['HK.00700', 'US.AAPL', 'SZ.000700', 'HK.13597']) #, 'US.DIS180824C111000'
         quote_ctx.close()
         print(ret_code)
         print(ret_data)

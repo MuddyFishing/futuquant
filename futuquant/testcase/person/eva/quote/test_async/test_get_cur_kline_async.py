@@ -43,7 +43,7 @@ class GetCurKline(object):
         # quote_ctx.close()
 
     def test3(self):
-        quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1', port=11111)
+        quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1', port=11112)
         quote_ctx.start()
         # 设置异步数据监听
         handler = CurKlineTest()

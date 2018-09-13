@@ -1,0 +1,1823 @@
+2018-09-12 16:01:06,465 - INFO - unlock (0, None)
+2018-09-12 16:01:06,691 - INFO - subscribe
+2018-09-12 16:01:06,694 - INFO - (0, None)
+2018-09-12 16:01:06,814 - INFO - place_order 【买入】
+2018-09-12 16:01:06,814 - INFO - code=US.GNK price=12.08
+2018-09-12 16:01:16,842 - INFO - (-1, 'Timeout')
+2018-09-12 16:01:26,842 - INFO - position_list_query
+2018-09-12 16:01:26,849 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 16:01:26,859 - INFO - place_order 【卖出】
+2018-09-12 16:01:26,859 - INFO - code=US.GNK price=12.28
+2018-09-12 16:01:36,947 - INFO - (-1, 'Timeout')
+2018-09-12 16:01:46,948 - INFO - position_list_query
+2018-09-12 16:01:46,953 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 16:11:46,963 - INFO - unsubscribe
+2018-09-12 16:11:46,965 - INFO - (0, None)
+2018-09-12 16:11:46,965 - INFO - subscribe
+2018-09-12 16:11:46,967 - INFO - (0, None)
+2018-09-12 16:11:47,108 - INFO - place_order 【买入】
+2018-09-12 16:11:47,108 - INFO - code=US.IDRA price=8.3
+2018-09-12 16:11:57,112 - INFO - (-1, 'Timeout')
+2018-09-12 16:12:07,113 - INFO - position_list_query
+2018-09-12 16:12:07,117 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 16:12:07,126 - INFO - place_order 【卖出】
+2018-09-12 16:12:07,126 - INFO - code=US.IDRA price=8.5
+2018-09-12 16:12:17,221 - INFO - (-1, 'Timeout')
+2018-09-12 16:12:27,222 - INFO - position_list_query
+2018-09-12 16:12:27,226 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 16:22:27,235 - INFO - unsubscribe
+2018-09-12 16:22:27,240 - INFO - (0, None)
+2018-09-12 16:22:27,241 - INFO - subscribe
+2018-09-12 16:22:27,245 - INFO - (0, None)
+2018-09-12 16:22:27,388 - INFO - place_order 【买入】
+2018-09-12 16:22:27,388 - INFO - code=US.BOFI price=34.8
+2018-09-12 16:22:37,412 - INFO - (-1, 'Timeout')
+2018-09-12 16:22:47,412 - INFO - position_list_query
+2018-09-12 16:22:47,416 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 16:22:47,425 - INFO - place_order 【卖出】
+2018-09-12 16:22:47,425 - INFO - code=US.BOFI price=35.0
+2018-09-12 16:22:47,813 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 16:22:57,813 - INFO - position_list_query
+2018-09-12 16:22:57,817 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 16:32:57,827 - INFO - unsubscribe
+2018-09-12 16:32:57,828 - INFO - (0, None)
+2018-09-12 16:32:57,828 - INFO - subscribe
+2018-09-12 16:32:57,830 - INFO - (0, None)
+2018-09-12 16:32:58,001 - INFO - place_order 【买入】
+2018-09-12 16:32:58,001 - INFO - code=US.NIHD price=-0.2
+2018-09-12 16:32:58,031 - INFO - (-1, '订单价格填写错误')
+2018-09-12 16:33:08,032 - INFO - position_list_query
+2018-09-12 16:33:08,037 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 16:33:08,046 - INFO - place_order 【卖出】
+2018-09-12 16:33:08,046 - INFO - code=US.NIHD price=0.0
+2018-09-12 16:33:08,061 - INFO - (-1, '订单价格填写错误')
+2018-09-12 16:33:18,061 - INFO - position_list_query
+2018-09-12 16:33:18,067 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 16:43:18,079 - INFO - unsubscribe
+2018-09-12 16:43:18,081 - INFO - (0, None)
+2018-09-12 16:43:18,081 - INFO - subscribe
+2018-09-12 16:43:18,083 - INFO - (0, None)
+2018-09-12 16:43:18,226 - INFO - place_order 【买入】
+2018-09-12 16:43:18,226 - INFO - code=US.TNET price=48.8
+2018-09-12 16:43:28,284 - INFO - (-1, 'Timeout')
+2018-09-12 16:43:38,284 - INFO - position_list_query
+2018-09-12 16:43:38,289 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 16:43:38,299 - INFO - place_order 【卖出】
+2018-09-12 16:43:38,299 - INFO - code=US.TNET price=49.0
+2018-09-12 16:43:38,467 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 16:43:48,467 - INFO - position_list_query
+2018-09-12 16:43:48,472 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 16:53:48,481 - INFO - unsubscribe
+2018-09-12 16:53:48,483 - INFO - (0, None)
+2018-09-12 16:53:48,483 - INFO - subscribe
+2018-09-12 16:53:48,485 - INFO - (0, None)
+2018-09-12 16:53:48,630 - INFO - place_order 【买入】
+2018-09-12 16:53:48,631 - INFO - code=US.TRVN price=1.3
+2018-09-12 16:53:58,724 - INFO - (-1, 'Timeout')
+2018-09-12 16:54:08,725 - INFO - position_list_query
+2018-09-12 16:54:08,728 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 16:54:08,738 - INFO - place_order 【卖出】
+2018-09-12 16:54:08,738 - INFO - code=US.TRVN price=1.5
+2018-09-12 16:54:08,942 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 16:54:18,942 - INFO - position_list_query
+2018-09-12 16:54:18,949 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 17:04:18,958 - INFO - unsubscribe
+2018-09-12 17:04:18,961 - INFO - (0, None)
+2018-09-12 17:04:18,961 - INFO - subscribe
+2018-09-12 17:04:18,963 - INFO - (0, None)
+2018-09-12 17:04:19,105 - INFO - place_order 【买入】
+2018-09-12 17:04:19,105 - INFO - code=US.KODK price=2.5999999999999996
+2018-09-12 17:04:29,187 - INFO - (-1, 'Timeout')
+2018-09-12 17:04:39,187 - INFO - position_list_query
+2018-09-12 17:04:39,191 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 17:04:39,201 - INFO - place_order 【卖出】
+2018-09-12 17:04:39,201 - INFO - code=US.KODK price=2.8
+2018-09-12 17:04:39,563 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 17:04:49,563 - INFO - position_list_query
+2018-09-12 17:04:49,568 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 17:14:49,577 - INFO - unsubscribe
+2018-09-12 17:14:49,579 - INFO - (0, None)
+2018-09-12 17:14:49,579 - INFO - subscribe
+2018-09-12 17:14:49,581 - INFO - (0, None)
+2018-09-12 17:14:49,722 - INFO - place_order 【买入】
+2018-09-12 17:14:49,722 - INFO - code=US.WSTG price=-0.2
+2018-09-12 17:14:49,762 - INFO - (-1, '订单价格填写错误')
+2018-09-12 17:14:59,762 - INFO - position_list_query
+2018-09-12 17:14:59,774 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 17:14:59,784 - INFO - place_order 【卖出】
+2018-09-12 17:14:59,784 - INFO - code=US.WSTG price=0.0
+2018-09-12 17:14:59,801 - INFO - (-1, '订单价格填写错误')
+2018-09-12 17:15:09,801 - INFO - position_list_query
+2018-09-12 17:15:09,813 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 17:25:09,824 - INFO - unsubscribe
+2018-09-12 17:25:09,825 - INFO - (0, None)
+2018-09-12 17:25:09,825 - INFO - subscribe
+2018-09-12 17:25:09,827 - INFO - (0, None)
+2018-09-12 17:25:09,967 - INFO - place_order 【买入】
+2018-09-12 17:25:09,967 - INFO - code=US.PEIX price=1.35
+2018-09-12 17:25:20,066 - INFO - (-1, 'Timeout')
+2018-09-12 17:25:30,066 - INFO - position_list_query
+2018-09-12 17:25:30,072 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 17:25:30,082 - INFO - place_order 【卖出】
+2018-09-12 17:25:30,082 - INFO - code=US.PEIX price=1.55
+2018-09-12 17:25:30,171 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 17:25:40,171 - INFO - position_list_query
+2018-09-12 17:25:40,174 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 17:35:40,185 - INFO - unsubscribe
+2018-09-12 17:35:40,188 - INFO - (0, None)
+2018-09-12 17:35:40,188 - INFO - subscribe
+2018-09-12 17:35:40,193 - INFO - (0, None)
+2018-09-12 17:35:40,330 - INFO - place_order 【买入】
+2018-09-12 17:35:40,330 - INFO - code=US.CETV price=3.4
+2018-09-12 17:35:50,419 - INFO - (-1, 'Timeout')
+2018-09-12 17:36:00,419 - INFO - position_list_query
+2018-09-12 17:36:00,433 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 17:36:00,443 - INFO - place_order 【卖出】
+2018-09-12 17:36:00,443 - INFO - code=US.CETV price=3.6
+2018-09-12 17:36:00,614 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 17:36:10,614 - INFO - position_list_query
+2018-09-12 17:36:10,621 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 17:46:10,630 - INFO - unsubscribe
+2018-09-12 17:46:10,631 - INFO - (0, None)
+2018-09-12 17:46:10,631 - INFO - subscribe
+2018-09-12 17:46:10,633 - INFO - (0, None)
+2018-09-12 17:46:10,777 - INFO - place_order 【买入】
+2018-09-12 17:46:10,777 - INFO - code=US.GME price=15.72
+2018-09-12 17:46:20,832 - INFO - (-1, 'Timeout')
+2018-09-12 17:46:30,833 - INFO - position_list_query
+2018-09-12 17:46:30,837 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 17:46:30,847 - INFO - place_order 【卖出】
+2018-09-12 17:46:30,847 - INFO - code=US.GME price=15.92
+2018-09-12 17:46:30,933 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 17:46:40,934 - INFO - position_list_query
+2018-09-12 17:46:40,939 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 17:56:40,950 - INFO - unsubscribe
+2018-09-12 17:56:40,951 - INFO - (0, None)
+2018-09-12 17:56:40,951 - INFO - subscribe
+2018-09-12 17:56:40,953 - INFO - (0, None)
+2018-09-12 17:56:41,097 - INFO - place_order 【买入】
+2018-09-12 17:56:41,098 - INFO - code=US.CBK price=-0.02
+2018-09-12 17:56:41,117 - INFO - (-1, '订单价格填写错误')
+2018-09-12 17:56:51,118 - INFO - position_list_query
+2018-09-12 17:56:51,122 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 17:56:51,132 - INFO - place_order 【卖出】
+2018-09-12 17:56:51,132 - INFO - code=US.CBK price=0.0
+2018-09-12 17:56:51,148 - INFO - (-1, '订单价格填写错误')
+2018-09-12 17:57:01,148 - INFO - position_list_query
+2018-09-12 17:57:01,153 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 18:07:01,164 - INFO - unsubscribe
+2018-09-12 18:07:01,166 - INFO - (0, None)
+2018-09-12 18:07:01,166 - INFO - subscribe
+2018-09-12 18:07:01,168 - INFO - (0, None)
+2018-09-12 18:07:01,312 - INFO - place_order 【买入】
+2018-09-12 18:07:01,312 - INFO - code=US.VNCE price=-0.2
+2018-09-12 18:07:01,327 - INFO - (-1, '订单价格填写错误')
+2018-09-12 18:07:11,328 - INFO - position_list_query
+2018-09-12 18:07:11,333 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 18:07:11,343 - INFO - place_order 【卖出】
+2018-09-12 18:07:11,343 - INFO - code=US.VNCE price=0.0
+2018-09-12 18:07:11,360 - INFO - (-1, '订单价格填写错误')
+2018-09-12 18:07:21,360 - INFO - position_list_query
+2018-09-12 18:07:21,365 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 18:17:21,374 - INFO - unsubscribe
+2018-09-12 18:17:21,376 - INFO - (0, None)
+2018-09-12 18:17:21,376 - INFO - subscribe
+2018-09-12 18:17:21,378 - INFO - (0, None)
+2018-09-12 18:17:21,512 - INFO - place_order 【买入】
+2018-09-12 18:17:21,512 - INFO - code=US.BITA price=19.8
+2018-09-12 18:17:31,589 - INFO - (-1, 'Timeout')
+2018-09-12 18:17:41,590 - INFO - position_list_query
+2018-09-12 18:17:41,595 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 18:17:41,604 - INFO - place_order 【卖出】
+2018-09-12 18:17:41,604 - INFO - code=US.BITA price=20.0
+2018-09-12 18:17:41,706 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 18:17:51,706 - INFO - position_list_query
+2018-09-12 18:17:51,710 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 18:27:51,720 - INFO - unsubscribe
+2018-09-12 18:27:51,722 - INFO - (0, None)
+2018-09-12 18:27:51,722 - INFO - subscribe
+2018-09-12 18:27:51,724 - INFO - (0, None)
+2018-09-12 18:27:51,864 - INFO - place_order 【买入】
+2018-09-12 18:27:51,864 - INFO - code=US.CYTR price=-0.2
+2018-09-12 18:27:51,881 - INFO - (-1, '订单价格填写错误')
+2018-09-12 18:28:01,881 - INFO - position_list_query
+2018-09-12 18:28:01,885 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 18:28:01,894 - INFO - place_order 【卖出】
+2018-09-12 18:28:01,894 - INFO - code=US.CYTR price=0.0
+2018-09-12 18:28:01,911 - INFO - (-1, '订单价格填写错误')
+2018-09-12 18:28:11,911 - INFO - position_list_query
+2018-09-12 18:28:11,923 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 18:38:11,932 - INFO - unsubscribe
+2018-09-12 18:38:11,934 - INFO - (0, None)
+2018-09-12 18:38:11,935 - INFO - subscribe
+2018-09-12 18:38:11,936 - INFO - (0, None)
+2018-09-12 18:38:12,081 - INFO - place_order 【买入】
+2018-09-12 18:38:12,081 - INFO - code=US.EDU price=65.96
+2018-09-12 18:38:22,159 - INFO - (-1, 'Timeout')
+2018-09-12 18:38:32,159 - INFO - position_list_query
+2018-09-12 18:38:32,162 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 18:38:32,172 - INFO - place_order 【卖出】
+2018-09-12 18:38:32,172 - INFO - code=US.EDU price=66.16
+2018-09-12 18:38:32,278 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 18:38:42,279 - INFO - position_list_query
+2018-09-12 18:38:42,283 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 18:48:42,293 - INFO - unsubscribe
+2018-09-12 18:48:42,294 - INFO - (0, None)
+2018-09-12 18:48:42,294 - INFO - subscribe
+2018-09-12 18:48:42,296 - INFO - (0, None)
+2018-09-12 18:48:42,433 - INFO - place_order 【买入】
+2018-09-12 18:48:42,433 - INFO - code=US.VRS price=-0.2
+2018-09-12 18:48:42,485 - INFO - (-1, '订单价格填写错误')
+2018-09-12 18:48:52,485 - INFO - position_list_query
+2018-09-12 18:48:52,488 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 18:48:52,498 - INFO - place_order 【卖出】
+2018-09-12 18:48:52,498 - INFO - code=US.VRS price=0.0
+2018-09-12 18:48:52,514 - INFO - (-1, '订单价格填写错误')
+2018-09-12 18:49:02,515 - INFO - position_list_query
+2018-09-12 18:49:02,521 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 18:59:02,531 - INFO - unsubscribe
+2018-09-12 18:59:02,533 - INFO - (0, None)
+2018-09-12 18:59:02,533 - INFO - subscribe
+2018-09-12 18:59:02,535 - INFO - (0, None)
+2018-09-12 18:59:02,682 - INFO - place_order 【买入】
+2018-09-12 18:59:02,682 - INFO - code=US.VBFC price=-0.2
+2018-09-12 18:59:02,700 - INFO - (-1, '订单价格填写错误')
+2018-09-12 18:59:12,701 - INFO - position_list_query
+2018-09-12 18:59:12,704 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 18:59:12,714 - INFO - place_order 【卖出】
+2018-09-12 18:59:12,714 - INFO - code=US.VBFC price=0.0
+2018-09-12 18:59:12,729 - INFO - (-1, '订单价格填写错误')
+2018-09-12 18:59:22,730 - INFO - position_list_query
+2018-09-12 18:59:22,734 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 19:09:22,743 - INFO - unsubscribe
+2018-09-12 19:09:22,745 - INFO - (0, None)
+2018-09-12 19:09:22,745 - INFO - subscribe
+2018-09-12 19:09:22,747 - INFO - (0, None)
+2018-09-12 19:09:22,890 - INFO - place_order 【买入】
+2018-09-12 19:09:22,890 - INFO - code=US.PGTI price=23.35
+2018-09-12 19:09:32,975 - INFO - (-1, 'Timeout')
+2018-09-12 19:09:42,975 - INFO - position_list_query
+2018-09-12 19:09:42,979 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 19:09:42,989 - INFO - place_order 【卖出】
+2018-09-12 19:09:42,989 - INFO - code=US.PGTI price=23.55
+2018-09-12 19:09:43,088 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 19:09:53,089 - INFO - position_list_query
+2018-09-12 19:09:53,093 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 19:19:53,103 - INFO - unsubscribe
+2018-09-12 19:19:53,105 - INFO - (0, None)
+2018-09-12 19:19:53,106 - INFO - subscribe
+2018-09-12 19:19:53,107 - INFO - (0, None)
+2018-09-12 19:19:53,244 - INFO - place_order 【买入】
+2018-09-12 19:19:53,245 - INFO - code=US.ARTX price=2.8
+2018-09-12 19:20:03,343 - INFO - (-1, 'Timeout')
+2018-09-12 19:20:13,343 - INFO - position_list_query
+2018-09-12 19:20:13,348 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 19:20:13,358 - INFO - place_order 【卖出】
+2018-09-12 19:20:13,358 - INFO - code=US.ARTX price=3.0
+2018-09-12 19:20:13,445 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 19:20:23,445 - INFO - position_list_query
+2018-09-12 19:20:23,451 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 19:30:23,460 - INFO - unsubscribe
+2018-09-12 19:30:23,462 - INFO - (0, None)
+2018-09-12 19:30:23,462 - INFO - subscribe
+2018-09-12 19:30:23,464 - INFO - (0, None)
+2018-09-12 19:30:23,610 - INFO - place_order 【买入】
+2018-09-12 19:30:23,610 - INFO - code=US.IMMR price=10.0
+2018-09-12 19:30:33,616 - INFO - (-1, 'Timeout')
+2018-09-12 19:30:43,616 - INFO - position_list_query
+2018-09-12 19:30:43,622 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 19:30:43,631 - INFO - place_order 【卖出】
+2018-09-12 19:30:43,631 - INFO - code=US.IMMR price=10.2
+2018-09-12 19:30:43,746 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 19:30:53,746 - INFO - position_list_query
+2018-09-12 19:30:53,750 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 19:40:53,761 - INFO - unsubscribe
+2018-09-12 19:40:53,765 - INFO - (0, None)
+2018-09-12 19:40:53,765 - INFO - subscribe
+2018-09-12 19:40:53,767 - INFO - (0, None)
+2018-09-12 19:40:53,908 - INFO - place_order 【买入】
+2018-09-12 19:40:53,908 - INFO - code=US.DSWL price=3.07
+2018-09-12 19:41:03,997 - INFO - (-1, 'Timeout')
+2018-09-12 19:41:13,997 - INFO - position_list_query
+2018-09-12 19:41:14,000 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 19:41:14,010 - INFO - place_order 【卖出】
+2018-09-12 19:41:14,010 - INFO - code=US.DSWL price=3.27
+2018-09-12 19:41:14,107 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 19:41:24,107 - INFO - position_list_query
+2018-09-12 19:41:24,111 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 19:51:24,122 - INFO - unsubscribe
+2018-09-12 19:51:24,124 - INFO - (0, None)
+2018-09-12 19:51:24,125 - INFO - subscribe
+2018-09-12 19:51:24,126 - INFO - (0, None)
+2018-09-12 19:51:24,264 - INFO - place_order 【买入】
+2018-09-12 19:51:24,265 - INFO - code=US.KOSS price=1.6
+2018-09-12 19:51:34,354 - INFO - (-1, 'Timeout')
+2018-09-12 19:51:44,354 - INFO - position_list_query
+2018-09-12 19:51:44,358 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 19:51:44,368 - INFO - place_order 【卖出】
+2018-09-12 19:51:44,368 - INFO - code=US.KOSS price=1.8
+2018-09-12 19:51:54,443 - INFO - (-1, 'Timeout')
+2018-09-12 19:52:04,443 - INFO - position_list_query
+2018-09-12 19:52:04,450 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 20:02:04,459 - INFO - unsubscribe
+2018-09-12 20:02:04,462 - INFO - (0, None)
+2018-09-12 20:02:04,462 - INFO - subscribe
+2018-09-12 20:02:04,464 - INFO - (0, None)
+2018-09-12 20:02:04,595 - INFO - place_order 【买入】
+2018-09-12 20:02:04,595 - INFO - code=US.IDSA price=1.95
+2018-09-12 20:02:14,664 - INFO - (-1, 'Timeout')
+2018-09-12 20:02:24,664 - INFO - position_list_query
+2018-09-12 20:02:24,669 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 20:02:24,678 - INFO - place_order 【卖出】
+2018-09-12 20:02:24,678 - INFO - code=US.IDSA price=2.15
+2018-09-12 20:02:34,759 - INFO - (-1, 'Timeout')
+2018-09-12 20:02:44,759 - INFO - position_list_query
+2018-09-12 20:02:44,764 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 20:12:44,773 - INFO - unsubscribe
+2018-09-12 20:12:44,777 - INFO - (0, None)
+2018-09-12 20:12:44,777 - INFO - subscribe
+2018-09-12 20:12:44,781 - INFO - (0, None)
+2018-09-12 20:12:44,920 - INFO - place_order 【买入】
+2018-09-12 20:12:44,920 - INFO - code=US.WBAI price=-0.19
+2018-09-12 20:12:44,953 - INFO - (-1, '订单价格填写错误')
+2018-09-12 20:12:54,954 - INFO - position_list_query
+2018-09-12 20:12:54,956 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 20:12:54,967 - INFO - place_order 【卖出】
+2018-09-12 20:12:54,967 - INFO - code=US.WBAI price=0.010000000000000009
+2018-09-12 20:12:55,186 - INFO - (-1, '订单价格填写错误')
+2018-09-12 20:13:05,188 - INFO - position_list_query
+2018-09-12 20:13:05,191 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 20:23:05,201 - INFO - unsubscribe
+2018-09-12 20:23:05,203 - INFO - (0, None)
+2018-09-12 20:23:05,203 - INFO - subscribe
+2018-09-12 20:23:05,205 - INFO - (0, None)
+2018-09-12 20:23:05,344 - INFO - place_order 【买入】
+2018-09-12 20:23:05,344 - INFO - code=US.OESX price=0.88
+2018-09-12 20:23:15,431 - INFO - (-1, 'Timeout')
+2018-09-12 20:23:25,431 - INFO - position_list_query
+2018-09-12 20:23:25,436 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 20:23:25,445 - INFO - place_order 【卖出】
+2018-09-12 20:23:25,445 - INFO - code=US.OESX price=0.9
+2018-09-12 20:23:25,544 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 20:23:35,544 - INFO - position_list_query
+2018-09-12 20:23:35,548 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 20:33:35,558 - INFO - unsubscribe
+2018-09-12 20:33:35,560 - INFO - (0, None)
+2018-09-12 20:33:35,560 - INFO - subscribe
+2018-09-12 20:33:35,562 - INFO - (0, None)
+2018-09-12 20:33:35,701 - INFO - place_order 【买入】
+2018-09-12 20:33:35,701 - INFO - code=US.HRB price=24.61
+2018-09-12 20:33:45,798 - INFO - (-1, 'Timeout')
+2018-09-12 20:33:55,798 - INFO - position_list_query
+2018-09-12 20:33:55,803 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 20:33:55,812 - INFO - place_order 【卖出】
+2018-09-12 20:33:55,812 - INFO - code=US.HRB price=24.81
+2018-09-12 20:33:55,971 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 20:34:05,972 - INFO - position_list_query
+2018-09-12 20:34:05,975 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 20:44:05,986 - INFO - unsubscribe
+2018-09-12 20:44:05,987 - INFO - (0, None)
+2018-09-12 20:44:05,987 - INFO - subscribe
+2018-09-12 20:44:05,989 - INFO - (0, None)
+2018-09-12 20:44:06,128 - INFO - place_order 【买入】
+2018-09-12 20:44:06,129 - INFO - code=US.ELY price=22.3
+2018-09-12 20:44:16,200 - INFO - (-1, 'Timeout')
+2018-09-12 20:44:26,200 - INFO - position_list_query
+2018-09-12 20:44:26,210 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 20:44:26,220 - INFO - place_order 【卖出】
+2018-09-12 20:44:26,220 - INFO - code=US.ELY price=22.5
+2018-09-12 20:44:26,365 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 20:44:36,365 - INFO - position_list_query
+2018-09-12 20:44:36,369 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 20:54:36,379 - INFO - unsubscribe
+2018-09-12 20:54:36,380 - INFO - (0, None)
+2018-09-12 20:54:36,380 - INFO - subscribe
+2018-09-12 20:54:36,383 - INFO - (0, None)
+2018-09-12 20:54:36,526 - INFO - place_order 【买入】
+2018-09-12 20:54:36,527 - INFO - code=US.ASTC price=3.13
+2018-09-12 20:54:46,567 - INFO - (-1, 'Timeout')
+2018-09-12 20:54:56,568 - INFO - position_list_query
+2018-09-12 20:54:56,574 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 20:54:56,583 - INFO - place_order 【卖出】
+2018-09-12 20:54:56,583 - INFO - code=US.ASTC price=3.33
+2018-09-12 20:54:56,715 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 20:55:06,716 - INFO - position_list_query
+2018-09-12 20:55:06,722 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 21:05:06,732 - INFO - unsubscribe
+2018-09-12 21:05:06,737 - INFO - (0, None)
+2018-09-12 21:05:06,737 - INFO - subscribe
+2018-09-12 21:05:06,742 - INFO - (0, None)
+2018-09-12 21:05:06,876 - INFO - place_order 【买入】
+2018-09-12 21:05:06,876 - INFO - code=US.DMD price=-0.02
+2018-09-12 21:05:06,893 - INFO - (-1, '订单价格填写错误')
+2018-09-12 21:05:16,893 - INFO - position_list_query
+2018-09-12 21:05:16,899 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 21:05:16,909 - INFO - place_order 【卖出】
+2018-09-12 21:05:16,909 - INFO - code=US.DMD price=0.0
+2018-09-12 21:05:16,924 - INFO - (-1, '订单价格填写错误')
+2018-09-12 21:05:26,924 - INFO - position_list_query
+2018-09-12 21:05:26,930 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 21:15:26,940 - INFO - unsubscribe
+2018-09-12 21:15:26,944 - INFO - (0, None)
+2018-09-12 21:15:26,944 - INFO - subscribe
+2018-09-12 21:15:26,948 - INFO - (0, None)
+2018-09-12 21:15:27,084 - INFO - place_order 【买入】
+2018-09-12 21:15:27,084 - INFO - code=US.QIWI price=13.3
+2018-09-12 21:15:37,131 - INFO - (-1, 'Timeout')
+2018-09-12 21:15:47,131 - INFO - position_list_query
+2018-09-12 21:15:47,135 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 21:15:47,144 - INFO - place_order 【卖出】
+2018-09-12 21:15:47,144 - INFO - code=US.QIWI price=13.5
+2018-09-12 21:15:47,340 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 21:15:57,340 - INFO - position_list_query
+2018-09-12 21:15:57,351 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 21:25:57,360 - INFO - unsubscribe
+2018-09-12 21:25:57,361 - INFO - (0, None)
+2018-09-12 21:25:57,361 - INFO - subscribe
+2018-09-12 21:25:57,363 - INFO - (0, None)
+2018-09-12 21:25:57,513 - INFO - place_order 【买入】
+2018-09-12 21:25:57,513 - INFO - code=US.VECO price=-0.2
+2018-09-12 21:25:57,529 - INFO - (-1, '订单价格填写错误')
+2018-09-12 21:26:07,530 - INFO - position_list_query
+2018-09-12 21:26:07,534 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 21:26:07,543 - INFO - place_order 【卖出】
+2018-09-12 21:26:07,544 - INFO - code=US.VECO price=0.0
+2018-09-12 21:26:10,785 - INFO - (-1, '订单价格填写错误')
+2018-09-12 21:26:20,785 - INFO - position_list_query
+2018-09-12 21:26:20,789 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 21:36:20,799 - INFO - unsubscribe
+2018-09-12 21:36:20,800 - INFO - (0, None)
+2018-09-12 21:36:20,800 - INFO - subscribe
+2018-09-12 21:36:20,802 - INFO - (0, None)
+2018-09-12 21:36:20,939 - INFO - place_order 【买入】
+2018-09-12 21:36:20,939 - INFO - code=US.HGG price=-0.02
+2018-09-12 21:36:20,954 - INFO - (-1, '订单价格填写错误')
+2018-09-12 21:36:30,954 - INFO - position_list_query
+2018-09-12 21:36:30,956 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 21:36:30,966 - INFO - place_order 【卖出】
+2018-09-12 21:36:30,967 - INFO - code=US.HGG price=0.0
+2018-09-12 21:36:30,982 - INFO - (-1, '订单价格填写错误')
+2018-09-12 21:36:40,983 - INFO - position_list_query
+2018-09-12 21:36:40,987 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 21:46:40,996 - INFO - unsubscribe
+2018-09-12 21:46:40,998 - INFO - (0, None)
+2018-09-12 21:46:40,998 - INFO - subscribe
+2018-09-12 21:46:41,000 - INFO - (0, None)
+2018-09-12 21:46:41,146 - INFO - place_order 【买入】
+2018-09-12 21:46:41,147 - INFO - code=US.AXN price=-0.02
+2018-09-12 21:46:51,187 - INFO - (-1, 'Timeout')
+2018-09-12 21:47:01,187 - INFO - position_list_query
+2018-09-12 21:47:01,191 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 21:47:01,201 - INFO - place_order 【卖出】
+2018-09-12 21:47:01,201 - INFO - code=US.AXN price=0.0
+2018-09-12 21:47:01,217 - INFO - (-1, '订单价格填写错误')
+2018-09-12 21:47:11,218 - INFO - position_list_query
+2018-09-12 21:47:11,221 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 21:57:11,231 - INFO - unsubscribe
+2018-09-12 21:57:11,232 - INFO - (0, None)
+2018-09-12 21:57:11,232 - INFO - subscribe
+2018-09-12 21:57:11,234 - INFO - (0, None)
+2018-09-12 21:57:11,380 - INFO - place_order 【买入】
+2018-09-12 21:57:11,381 - INFO - code=US.QUIK price=0.8200000000000001
+2018-09-12 21:57:21,482 - INFO - (-1, 'Timeout')
+2018-09-12 21:57:31,483 - INFO - position_list_query
+2018-09-12 21:57:31,488 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 21:57:31,498 - INFO - place_order 【卖出】
+2018-09-12 21:57:31,498 - INFO - code=US.QUIK price=1.02
+2018-09-12 21:57:31,657 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 21:57:41,657 - INFO - position_list_query
+2018-09-12 21:57:41,662 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 22:07:41,672 - INFO - unsubscribe
+2018-09-12 22:07:41,673 - INFO - (0, None)
+2018-09-12 22:07:41,673 - INFO - subscribe
+2018-09-12 22:07:41,675 - INFO - (0, None)
+2018-09-12 22:07:41,813 - INFO - place_order 【买入】
+2018-09-12 22:07:41,813 - INFO - code=US.GASS price=3.36
+2018-09-12 22:07:51,914 - INFO - (-1, 'Timeout')
+2018-09-12 22:08:01,914 - INFO - position_list_query
+2018-09-12 22:08:01,921 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 22:08:01,930 - INFO - place_order 【卖出】
+2018-09-12 22:08:01,930 - INFO - code=US.GASS price=3.56
+2018-09-12 22:08:02,293 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 22:08:12,294 - INFO - position_list_query
+2018-09-12 22:08:12,300 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 22:18:12,309 - INFO - unsubscribe
+2018-09-12 22:18:12,311 - INFO - (0, None)
+2018-09-12 22:18:12,311 - INFO - subscribe
+2018-09-12 22:18:12,313 - INFO - (0, None)
+2018-09-12 22:18:12,457 - INFO - place_order 【买入】
+2018-09-12 22:18:12,457 - INFO - code=US.GSAT price=0.479
+2018-09-12 22:18:22,557 - INFO - (-1, 'Timeout')
+2018-09-12 22:18:32,557 - INFO - position_list_query
+2018-09-12 22:18:32,560 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 22:18:32,570 - INFO - place_order 【卖出】
+2018-09-12 22:18:32,570 - INFO - code=US.GSAT price=0.499
+2018-09-12 22:18:32,718 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 22:18:42,719 - INFO - position_list_query
+2018-09-12 22:18:42,723 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 22:28:42,732 - INFO - unsubscribe
+2018-09-12 22:28:42,734 - INFO - (0, None)
+2018-09-12 22:28:42,734 - INFO - subscribe
+2018-09-12 22:28:42,736 - INFO - (0, None)
+2018-09-12 22:28:42,877 - INFO - place_order 【买入】
+2018-09-12 22:28:42,877 - INFO - code=US.HK price=4.6
+2018-09-12 22:28:52,892 - INFO - (-1, 'Timeout')
+2018-09-12 22:29:02,892 - INFO - position_list_query
+2018-09-12 22:29:02,896 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 22:29:02,905 - INFO - place_order 【卖出】
+2018-09-12 22:29:02,905 - INFO - code=US.HK price=4.8
+2018-09-12 22:29:03,119 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 22:29:13,120 - INFO - position_list_query
+2018-09-12 22:29:13,124 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 22:39:13,133 - INFO - unsubscribe
+2018-09-12 22:39:13,135 - INFO - (0, None)
+2018-09-12 22:39:13,135 - INFO - subscribe
+2018-09-12 22:39:13,137 - INFO - (0, None)
+2018-09-12 22:39:13,279 - INFO - place_order 【买入】
+2018-09-12 22:39:13,279 - INFO - code=US.KONE price=7.1
+2018-09-12 22:39:23,293 - INFO - (-1, 'Timeout')
+2018-09-12 22:39:33,294 - INFO - position_list_query
+2018-09-12 22:39:33,297 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 22:39:33,307 - INFO - place_order 【卖出】
+2018-09-12 22:39:33,307 - INFO - code=US.KONE price=7.3
+2018-09-12 22:39:33,468 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 22:39:43,468 - INFO - position_list_query
+2018-09-12 22:39:43,472 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 22:49:43,482 - INFO - unsubscribe
+2018-09-12 22:49:43,486 - INFO - (0, None)
+2018-09-12 22:49:43,487 - INFO - subscribe
+2018-09-12 22:49:43,491 - INFO - (0, None)
+2018-09-12 22:49:43,629 - INFO - place_order 【买入】
+2018-09-12 22:49:43,629 - INFO - code=US.CLWT price=3.65
+2018-09-12 22:49:53,671 - INFO - (-1, 'Timeout')
+2018-09-12 22:50:03,672 - INFO - position_list_query
+2018-09-12 22:50:03,676 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 22:50:03,685 - INFO - place_order 【卖出】
+2018-09-12 22:50:03,685 - INFO - code=US.CLWT price=3.85
+2018-09-12 22:50:03,949 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 22:50:13,949 - INFO - position_list_query
+2018-09-12 22:50:13,953 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 23:00:13,962 - INFO - unsubscribe
+2018-09-12 23:00:13,964 - INFO - (0, None)
+2018-09-12 23:00:13,964 - INFO - subscribe
+2018-09-12 23:00:13,966 - INFO - (0, None)
+2018-09-12 23:00:14,105 - INFO - place_order 【买入】
+2018-09-12 23:00:14,105 - INFO - code=US.SQNS price=1.4200000000000002
+2018-09-12 23:00:24,160 - INFO - (-1, 'Timeout')
+2018-09-12 23:00:34,161 - INFO - position_list_query
+2018-09-12 23:00:34,165 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 23:00:34,175 - INFO - place_order 【卖出】
+2018-09-12 23:00:34,175 - INFO - code=US.SQNS price=1.62
+2018-09-12 23:00:34,368 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 23:00:44,369 - INFO - position_list_query
+2018-09-12 23:00:44,376 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 23:10:44,386 - INFO - unsubscribe
+2018-09-12 23:10:44,387 - INFO - (0, None)
+2018-09-12 23:10:44,387 - INFO - subscribe
+2018-09-12 23:10:44,389 - INFO - (0, None)
+2018-09-12 23:10:44,526 - INFO - place_order 【买入】
+2018-09-12 23:10:44,527 - INFO - code=US.MERC price=17.1
+2018-09-12 23:10:54,582 - INFO - (-1, 'Timeout')
+2018-09-12 23:11:04,582 - INFO - position_list_query
+2018-09-12 23:11:04,588 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 23:11:04,597 - INFO - place_order 【卖出】
+2018-09-12 23:11:04,597 - INFO - code=US.MERC price=17.3
+2018-09-12 23:11:04,764 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 23:11:14,764 - INFO - position_list_query
+2018-09-12 23:11:14,769 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 23:21:14,780 - INFO - unsubscribe
+2018-09-12 23:21:14,783 - INFO - (0, None)
+2018-09-12 23:21:14,783 - INFO - subscribe
+2018-09-12 23:21:14,785 - INFO - (0, None)
+2018-09-12 23:21:14,928 - INFO - place_order 【买入】
+2018-09-12 23:21:14,928 - INFO - code=US.CORT price=14.110000000000001
+2018-09-12 23:21:24,998 - INFO - (-1, 'Timeout')
+2018-09-12 23:21:34,998 - INFO - position_list_query
+2018-09-12 23:21:35,004 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 23:21:35,013 - INFO - place_order 【卖出】
+2018-09-12 23:21:35,013 - INFO - code=US.CORT price=14.31
+2018-09-12 23:21:35,190 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 23:21:45,190 - INFO - position_list_query
+2018-09-12 23:21:45,196 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 23:31:45,206 - INFO - unsubscribe
+2018-09-12 23:31:45,208 - INFO - (0, None)
+2018-09-12 23:31:45,208 - INFO - subscribe
+2018-09-12 23:31:45,210 - INFO - (0, None)
+2018-09-12 23:31:45,343 - INFO - place_order 【买入】
+2018-09-12 23:31:45,343 - INFO - code=US.GTN price=16.75
+2018-09-12 23:31:55,373 - INFO - (-1, 'Timeout')
+2018-09-12 23:32:05,373 - INFO - position_list_query
+2018-09-12 23:32:05,378 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 23:32:05,388 - INFO - place_order 【卖出】
+2018-09-12 23:32:05,388 - INFO - code=US.GTN price=16.95
+2018-09-12 23:32:05,582 - INFO - (-1, '错误，请稍候再试')
+2018-09-12 23:32:15,582 - INFO - position_list_query
+2018-09-12 23:32:15,586 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 23:42:15,596 - INFO - unsubscribe
+2018-09-12 23:42:15,598 - INFO - (0, None)
+2018-09-12 23:42:15,598 - INFO - subscribe
+2018-09-12 23:42:15,600 - INFO - (0, None)
+2018-09-12 23:42:15,735 - INFO - place_order 【买入】
+2018-09-12 23:42:15,735 - INFO - code=US.BSPM price=1.6400000000000001
+2018-09-12 23:42:25,791 - INFO - (-1, 'Timeout')
+2018-09-12 23:42:35,792 - INFO - position_list_query
+2018-09-12 23:42:35,797 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 23:42:35,806 - INFO - place_order 【卖出】
+2018-09-12 23:42:35,806 - INFO - code=US.BSPM price=1.84
+2018-09-12 23:42:45,886 - INFO - (-1, 'Timeout')
+2018-09-12 23:42:55,886 - INFO - position_list_query
+2018-09-12 23:42:55,890 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 23:52:55,901 - INFO - unsubscribe
+2018-09-12 23:52:55,903 - INFO - (0, None)
+2018-09-12 23:52:55,903 - INFO - subscribe
+2018-09-12 23:52:55,905 - INFO - (0, None)
+2018-09-12 23:52:56,048 - INFO - place_order 【买入】
+2018-09-12 23:52:56,049 - INFO - code=US.VNET price=8.860000000000001
+2018-09-12 23:53:06,081 - INFO - (-1, 'Timeout')
+2018-09-12 23:53:16,081 - INFO - position_list_query
+2018-09-12 23:53:16,087 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-12 23:53:16,096 - INFO - place_order 【卖出】
+2018-09-12 23:53:16,096 - INFO - code=US.VNET price=9.06
+2018-09-12 23:53:26,177 - INFO - (-1, 'Timeout')
+2018-09-12 23:53:36,177 - INFO - position_list_query
+2018-09-12 23:53:36,181 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 00:03:36,190 - INFO - unsubscribe
+2018-09-13 00:03:36,194 - INFO - (0, None)
+2018-09-13 00:03:36,195 - INFO - subscribe
+2018-09-13 00:03:36,198 - INFO - (0, None)
+2018-09-13 00:03:36,326 - INFO - place_order 【买入】
+2018-09-13 00:03:36,326 - INFO - code=US.CLNT price=-0.02
+2018-09-13 00:03:36,464 - INFO - (-1, '订单价格填写错误')
+2018-09-13 00:03:46,465 - INFO - position_list_query
+2018-09-13 00:03:46,471 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 00:03:46,480 - INFO - place_order 【卖出】
+2018-09-13 00:03:46,480 - INFO - code=US.CLNT price=0.0
+2018-09-13 00:03:46,496 - INFO - (-1, '订单价格填写错误')
+2018-09-13 00:03:56,496 - INFO - position_list_query
+2018-09-13 00:03:56,503 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 00:13:56,514 - INFO - unsubscribe
+2018-09-13 00:13:56,515 - INFO - (0, None)
+2018-09-13 00:13:56,515 - INFO - subscribe
+2018-09-13 00:13:56,517 - INFO - (0, None)
+2018-09-13 00:13:56,662 - INFO - place_order 【买入】
+2018-09-13 00:13:56,662 - INFO - code=US.CRDC price=-0.02
+2018-09-13 00:13:56,810 - INFO - (-1, '订单价格填写错误')
+2018-09-13 00:14:06,810 - INFO - position_list_query
+2018-09-13 00:14:06,814 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 00:14:06,824 - INFO - place_order 【卖出】
+2018-09-13 00:14:06,824 - INFO - code=US.CRDC price=0.0
+2018-09-13 00:14:06,840 - INFO - (-1, '订单价格填写错误')
+2018-09-13 00:14:16,840 - INFO - position_list_query
+2018-09-13 00:14:16,843 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 00:24:16,853 - INFO - unsubscribe
+2018-09-13 00:24:16,855 - INFO - (0, None)
+2018-09-13 00:24:16,855 - INFO - subscribe
+2018-09-13 00:24:16,857 - INFO - (0, None)
+2018-09-13 00:24:16,995 - INFO - place_order 【买入】
+2018-09-13 00:24:16,995 - INFO - code=US.MTOR price=20.91
+2018-09-13 00:24:17,370 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 00:24:27,371 - INFO - position_list_query
+2018-09-13 00:24:27,376 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 00:24:27,385 - INFO - place_order 【卖出】
+2018-09-13 00:24:27,385 - INFO - code=US.MTOR price=21.11
+2018-09-13 00:24:27,402 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 00:24:37,403 - INFO - position_list_query
+2018-09-13 00:24:37,413 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 00:34:37,423 - INFO - unsubscribe
+2018-09-13 00:34:37,424 - INFO - (0, None)
+2018-09-13 00:34:37,424 - INFO - subscribe
+2018-09-13 00:34:37,426 - INFO - (0, None)
+2018-09-13 00:34:37,559 - INFO - place_order 【买入】
+2018-09-13 00:34:37,559 - INFO - code=US.AMG price=142.22
+2018-09-13 00:34:37,695 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 00:34:47,696 - INFO - position_list_query
+2018-09-13 00:34:47,700 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 00:34:47,709 - INFO - place_order 【卖出】
+2018-09-13 00:34:47,709 - INFO - code=US.AMG price=142.42
+2018-09-13 00:34:47,728 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 00:34:57,729 - INFO - position_list_query
+2018-09-13 00:34:57,734 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 00:44:57,743 - INFO - unsubscribe
+2018-09-13 00:44:57,745 - INFO - (0, None)
+2018-09-13 00:44:57,746 - INFO - subscribe
+2018-09-13 00:44:57,747 - INFO - (0, None)
+2018-09-13 00:44:57,879 - INFO - place_order 【买入】
+2018-09-13 00:44:57,879 - INFO - code=US.MNI price=8.72
+2018-09-13 00:44:58,134 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 00:45:08,135 - INFO - position_list_query
+2018-09-13 00:45:08,138 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 00:45:08,147 - INFO - place_order 【卖出】
+2018-09-13 00:45:08,148 - INFO - code=US.MNI price=8.92
+2018-09-13 00:45:08,166 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 00:45:18,166 - INFO - position_list_query
+2018-09-13 00:45:18,170 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 00:55:18,180 - INFO - unsubscribe
+2018-09-13 00:55:18,181 - INFO - (0, None)
+2018-09-13 00:55:18,181 - INFO - subscribe
+2018-09-13 00:55:18,183 - INFO - (0, None)
+2018-09-13 00:55:18,322 - INFO - place_order 【买入】
+2018-09-13 00:55:18,322 - INFO - code=US.CSIQ price=14.770000000000001
+2018-09-13 00:55:18,676 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 00:55:28,676 - INFO - position_list_query
+2018-09-13 00:55:28,680 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 00:55:28,690 - INFO - place_order 【卖出】
+2018-09-13 00:55:28,690 - INFO - code=US.CSIQ price=14.97
+2018-09-13 00:55:28,708 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 00:55:38,709 - INFO - position_list_query
+2018-09-13 00:55:38,713 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 01:05:38,723 - INFO - unsubscribe
+2018-09-13 01:05:38,725 - INFO - (0, None)
+2018-09-13 01:05:38,725 - INFO - subscribe
+2018-09-13 01:05:38,727 - INFO - (0, None)
+2018-09-13 01:05:38,853 - INFO - place_order 【买入】
+2018-09-13 01:05:38,854 - INFO - code=US.NTES price=192.27
+2018-09-13 01:05:39,124 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 01:05:49,125 - INFO - position_list_query
+2018-09-13 01:05:49,129 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 01:05:49,139 - INFO - place_order 【卖出】
+2018-09-13 01:05:49,139 - INFO - code=US.NTES price=192.47
+2018-09-13 01:05:49,157 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 01:05:59,158 - INFO - position_list_query
+2018-09-13 01:05:59,163 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 01:15:59,172 - INFO - unsubscribe
+2018-09-13 01:15:59,174 - INFO - (0, None)
+2018-09-13 01:15:59,174 - INFO - subscribe
+2018-09-13 01:15:59,177 - INFO - (0, None)
+2018-09-13 01:15:59,309 - INFO - place_order 【买入】
+2018-09-13 01:15:59,309 - INFO - code=US.RDCM price=16.85
+2018-09-13 01:15:59,689 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 01:16:09,689 - INFO - position_list_query
+2018-09-13 01:16:09,693 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 01:16:09,703 - INFO - place_order 【卖出】
+2018-09-13 01:16:09,703 - INFO - code=US.RDCM price=17.05
+2018-09-13 01:16:09,721 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 01:16:19,722 - INFO - position_list_query
+2018-09-13 01:16:19,727 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 01:26:19,737 - INFO - unsubscribe
+2018-09-13 01:26:19,739 - INFO - (0, None)
+2018-09-13 01:26:19,740 - INFO - subscribe
+2018-09-13 01:26:19,741 - INFO - (0, None)
+2018-09-13 01:26:19,872 - INFO - place_order 【买入】
+2018-09-13 01:26:19,872 - INFO - code=US.OSN price=1.8099999999999998
+2018-09-13 01:26:19,975 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 01:26:29,975 - INFO - position_list_query
+2018-09-13 01:26:29,979 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 01:26:29,989 - INFO - place_order 【卖出】
+2018-09-13 01:26:29,989 - INFO - code=US.OSN price=2.01
+2018-09-13 01:26:30,008 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 01:26:40,009 - INFO - position_list_query
+2018-09-13 01:26:40,013 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 01:36:40,022 - INFO - unsubscribe
+2018-09-13 01:36:40,023 - INFO - (0, None)
+2018-09-13 01:36:40,023 - INFO - subscribe
+2018-09-13 01:36:40,025 - INFO - (0, None)
+2018-09-13 01:36:40,151 - INFO - place_order 【买入】
+2018-09-13 01:36:40,151 - INFO - code=US.TUES price=2.75
+2018-09-13 01:36:40,405 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 01:36:50,406 - INFO - position_list_query
+2018-09-13 01:36:50,411 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 01:36:50,421 - INFO - place_order 【卖出】
+2018-09-13 01:36:50,421 - INFO - code=US.TUES price=2.95
+2018-09-13 01:36:50,439 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 01:37:00,439 - INFO - position_list_query
+2018-09-13 01:37:00,442 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 01:47:00,453 - INFO - unsubscribe
+2018-09-13 01:47:00,454 - INFO - (0, None)
+2018-09-13 01:47:00,454 - INFO - subscribe
+2018-09-13 01:47:00,456 - INFO - (0, None)
+2018-09-13 01:47:00,591 - INFO - place_order 【买入】
+2018-09-13 01:47:00,591 - INFO - code=US.PTEN price=17.25
+2018-09-13 01:47:00,977 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 01:47:10,978 - INFO - position_list_query
+2018-09-13 01:47:10,981 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 01:47:10,991 - INFO - place_order 【卖出】
+2018-09-13 01:47:10,991 - INFO - code=US.PTEN price=17.45
+2018-09-13 01:47:11,009 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 01:47:21,009 - INFO - position_list_query
+2018-09-13 01:47:21,013 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 01:57:21,023 - INFO - unsubscribe
+2018-09-13 01:57:21,024 - INFO - (0, None)
+2018-09-13 01:57:21,024 - INFO - subscribe
+2018-09-13 01:57:21,026 - INFO - (0, None)
+2018-09-13 01:57:21,167 - INFO - place_order 【买入】
+2018-09-13 01:57:21,167 - INFO - code=US.GNMK price=7.6
+2018-09-13 01:57:21,304 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 01:57:31,305 - INFO - position_list_query
+2018-09-13 01:57:31,308 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 01:57:31,318 - INFO - place_order 【卖出】
+2018-09-13 01:57:31,318 - INFO - code=US.GNMK price=7.8
+2018-09-13 01:57:31,335 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 01:57:41,336 - INFO - position_list_query
+2018-09-13 01:57:41,340 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 02:07:41,350 - INFO - unsubscribe
+2018-09-13 02:07:41,352 - INFO - (0, None)
+2018-09-13 02:07:41,352 - INFO - subscribe
+2018-09-13 02:07:41,354 - INFO - (0, None)
+2018-09-13 02:07:41,481 - INFO - place_order 【买入】
+2018-09-13 02:07:41,481 - INFO - code=US.PJC price=73.5
+2018-09-13 02:07:41,896 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 02:07:51,896 - INFO - position_list_query
+2018-09-13 02:07:51,899 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 02:07:51,909 - INFO - place_order 【卖出】
+2018-09-13 02:07:51,909 - INFO - code=US.PJC price=73.7
+2018-09-13 02:07:51,928 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 02:08:01,929 - INFO - position_list_query
+2018-09-13 02:08:01,936 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 02:18:01,948 - INFO - unsubscribe
+2018-09-13 02:18:01,949 - INFO - (0, None)
+2018-09-13 02:18:01,949 - INFO - subscribe
+2018-09-13 02:18:01,951 - INFO - (0, None)
+2018-09-13 02:18:02,087 - INFO - place_order 【买入】
+2018-09-13 02:18:02,087 - INFO - code=US.WTW price=71.96
+2018-09-13 02:18:02,341 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 02:18:12,342 - INFO - position_list_query
+2018-09-13 02:18:12,346 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 02:18:12,356 - INFO - place_order 【卖出】
+2018-09-13 02:18:12,356 - INFO - code=US.WTW price=72.16
+2018-09-13 02:18:12,425 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 02:18:22,426 - INFO - position_list_query
+2018-09-13 02:18:22,430 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 02:28:22,440 - INFO - unsubscribe
+2018-09-13 02:28:22,442 - INFO - (0, None)
+2018-09-13 02:28:22,442 - INFO - subscribe
+2018-09-13 02:28:22,444 - INFO - (0, None)
+2018-09-13 02:28:22,576 - INFO - place_order 【买入】
+2018-09-13 02:28:22,576 - INFO - code=US.ATHX price=1.7
+2018-09-13 02:28:22,679 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 02:28:32,680 - INFO - position_list_query
+2018-09-13 02:28:32,686 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 02:28:32,696 - INFO - place_order 【卖出】
+2018-09-13 02:28:32,696 - INFO - code=US.ATHX price=1.9
+2018-09-13 02:28:32,712 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 02:28:42,713 - INFO - position_list_query
+2018-09-13 02:28:42,718 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 02:38:42,728 - INFO - unsubscribe
+2018-09-13 02:38:42,730 - INFO - (0, None)
+2018-09-13 02:38:42,730 - INFO - subscribe
+2018-09-13 02:38:42,732 - INFO - (0, None)
+2018-09-13 02:38:42,865 - INFO - place_order 【买入】
+2018-09-13 02:38:42,866 - INFO - code=US.IVAC price=4.95
+2018-09-13 02:38:42,995 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 02:38:52,995 - INFO - position_list_query
+2018-09-13 02:38:53,000 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 02:38:53,010 - INFO - place_order 【卖出】
+2018-09-13 02:38:53,010 - INFO - code=US.IVAC price=5.15
+2018-09-13 02:38:53,027 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 02:39:03,028 - INFO - position_list_query
+2018-09-13 02:39:03,032 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 02:49:03,042 - INFO - unsubscribe
+2018-09-13 02:49:03,044 - INFO - (0, None)
+2018-09-13 02:49:03,044 - INFO - subscribe
+2018-09-13 02:49:03,046 - INFO - (0, None)
+2018-09-13 02:49:03,184 - INFO - place_order 【买入】
+2018-09-13 02:49:03,184 - INFO - code=US.OCLR price=8.860000000000001
+2018-09-13 02:49:03,644 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 02:49:13,644 - INFO - position_list_query
+2018-09-13 02:49:13,648 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 02:49:13,658 - INFO - place_order 【卖出】
+2018-09-13 02:49:13,658 - INFO - code=US.OCLR price=9.06
+2018-09-13 02:49:13,676 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 02:49:23,677 - INFO - position_list_query
+2018-09-13 02:49:23,680 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 02:59:23,690 - INFO - unsubscribe
+2018-09-13 02:59:23,691 - INFO - (0, None)
+2018-09-13 02:59:23,691 - INFO - subscribe
+2018-09-13 02:59:23,693 - INFO - (0, None)
+2018-09-13 02:59:23,822 - INFO - place_order 【买入】
+2018-09-13 02:59:23,822 - INFO - code=US.TOWR price=31.5
+2018-09-13 02:59:24,108 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 02:59:34,109 - INFO - position_list_query
+2018-09-13 02:59:34,119 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 02:59:34,127 - INFO - place_order 【卖出】
+2018-09-13 02:59:34,127 - INFO - code=US.TOWR price=31.7
+2018-09-13 02:59:34,147 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 02:59:44,148 - INFO - position_list_query
+2018-09-13 02:59:44,159 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 03:09:44,168 - INFO - unsubscribe
+2018-09-13 03:09:44,169 - INFO - (0, None)
+2018-09-13 03:09:44,169 - INFO - subscribe
+2018-09-13 03:09:44,171 - INFO - (0, None)
+2018-09-13 03:09:44,309 - INFO - place_order 【买入】
+2018-09-13 03:09:44,309 - INFO - code=US.CTSH price=75.36999999999999
+2018-09-13 03:09:44,717 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 03:09:54,717 - INFO - position_list_query
+2018-09-13 03:09:54,720 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 03:09:54,730 - INFO - place_order 【卖出】
+2018-09-13 03:09:54,730 - INFO - code=US.CTSH price=75.57
+2018-09-13 03:09:54,748 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 03:10:04,749 - INFO - position_list_query
+2018-09-13 03:10:04,754 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 03:20:04,765 - INFO - unsubscribe
+2018-09-13 03:20:04,766 - INFO - (0, None)
+2018-09-13 03:20:04,766 - INFO - subscribe
+2018-09-13 03:20:04,768 - INFO - (0, None)
+2018-09-13 03:20:04,910 - INFO - place_order 【买入】
+2018-09-13 03:20:04,911 - INFO - code=US.CPA price=77.17999999999999
+2018-09-13 03:20:05,233 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 03:20:15,234 - INFO - position_list_query
+2018-09-13 03:20:15,238 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 03:20:15,248 - INFO - place_order 【卖出】
+2018-09-13 03:20:15,248 - INFO - code=US.CPA price=77.38
+2018-09-13 03:20:15,264 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 03:20:25,265 - INFO - position_list_query
+2018-09-13 03:20:25,275 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 03:30:25,284 - INFO - unsubscribe
+2018-09-13 03:30:25,286 - INFO - (0, None)
+2018-09-13 03:30:25,286 - INFO - subscribe
+2018-09-13 03:30:25,288 - INFO - (0, None)
+2018-09-13 03:30:25,425 - INFO - place_order 【买入】
+2018-09-13 03:30:25,425 - INFO - code=US.NAV price=40.309999999999995
+2018-09-13 03:30:25,592 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 03:30:35,592 - INFO - position_list_query
+2018-09-13 03:30:35,596 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 03:30:35,606 - INFO - place_order 【卖出】
+2018-09-13 03:30:35,606 - INFO - code=US.NAV price=40.51
+2018-09-13 03:30:35,624 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 03:30:45,624 - INFO - position_list_query
+2018-09-13 03:30:45,630 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 03:40:45,639 - INFO - unsubscribe
+2018-09-13 03:40:45,641 - INFO - (0, None)
+2018-09-13 03:40:45,641 - INFO - subscribe
+2018-09-13 03:40:45,643 - INFO - (0, None)
+2018-09-13 03:40:45,765 - INFO - place_order 【买入】
+2018-09-13 03:40:45,765 - INFO - code=US.EROS price=12.65
+2018-09-13 03:40:45,864 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 03:40:55,865 - INFO - position_list_query
+2018-09-13 03:40:55,870 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 03:40:55,880 - INFO - place_order 【卖出】
+2018-09-13 03:40:55,880 - INFO - code=US.EROS price=12.85
+2018-09-13 03:40:55,900 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 03:41:05,900 - INFO - position_list_query
+2018-09-13 03:41:05,905 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 03:51:05,915 - INFO - unsubscribe
+2018-09-13 03:51:05,917 - INFO - (0, None)
+2018-09-13 03:51:05,917 - INFO - subscribe
+2018-09-13 03:51:05,919 - INFO - (0, None)
+2018-09-13 03:51:06,058 - INFO - place_order 【买入】
+2018-09-13 03:51:06,058 - INFO - code=US.KINS price=18.400000000000002
+2018-09-13 03:51:06,296 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 03:51:16,297 - INFO - position_list_query
+2018-09-13 03:51:16,301 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 03:51:16,310 - INFO - place_order 【卖出】
+2018-09-13 03:51:16,310 - INFO - code=US.KINS price=18.6
+2018-09-13 03:51:16,328 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 03:51:26,328 - INFO - position_list_query
+2018-09-13 03:51:26,332 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 04:01:26,342 - INFO - unsubscribe
+2018-09-13 04:01:26,344 - INFO - (0, None)
+2018-09-13 04:01:26,344 - INFO - subscribe
+2018-09-13 04:01:26,346 - INFO - (0, None)
+2018-09-13 04:01:26,484 - INFO - place_order 【买入】
+2018-09-13 04:01:26,484 - INFO - code=US.AAV price=2.3
+2018-09-13 04:01:26,894 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 04:01:36,895 - INFO - position_list_query
+2018-09-13 04:01:36,899 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 04:01:36,908 - INFO - place_order 【卖出】
+2018-09-13 04:01:36,908 - INFO - code=US.AAV price=2.5
+2018-09-13 04:01:36,926 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 04:01:46,927 - INFO - position_list_query
+2018-09-13 04:01:46,931 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 04:11:46,940 - INFO - unsubscribe
+2018-09-13 04:11:46,942 - INFO - (0, None)
+2018-09-13 04:11:46,942 - INFO - subscribe
+2018-09-13 04:11:46,944 - INFO - (0, None)
+2018-09-13 04:11:47,074 - INFO - place_order 【买入】
+2018-09-13 04:11:47,074 - INFO - code=US.MDWD price=6.3
+2018-09-13 04:11:47,091 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 04:11:57,092 - INFO - position_list_query
+2018-09-13 04:11:57,096 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 04:11:57,105 - INFO - place_order 【卖出】
+2018-09-13 04:11:57,105 - INFO - code=US.MDWD price=6.5
+2018-09-13 04:11:57,123 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 04:12:07,123 - INFO - position_list_query
+2018-09-13 04:12:07,127 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 04:22:07,138 - INFO - unsubscribe
+2018-09-13 04:22:07,139 - INFO - (0, None)
+2018-09-13 04:22:07,139 - INFO - subscribe
+2018-09-13 04:22:07,141 - INFO - (0, None)
+2018-09-13 04:22:07,282 - INFO - place_order 【买入】
+2018-09-13 04:22:07,282 - INFO - code=US.NXST price=66.85
+2018-09-13 04:22:07,301 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 04:22:17,301 - INFO - position_list_query
+2018-09-13 04:22:17,306 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 04:22:17,315 - INFO - place_order 【卖出】
+2018-09-13 04:22:17,316 - INFO - code=US.NXST price=67.05
+2018-09-13 04:22:17,333 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 04:22:27,334 - INFO - position_list_query
+2018-09-13 04:22:27,338 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 04:32:27,348 - INFO - unsubscribe
+2018-09-13 04:32:27,350 - INFO - (0, None)
+2018-09-13 04:32:27,350 - INFO - subscribe
+2018-09-13 04:32:27,352 - INFO - (0, None)
+2018-09-13 04:32:27,483 - INFO - place_order 【买入】
+2018-09-13 04:32:27,483 - INFO - code=US.CRCM price=19.05
+2018-09-13 04:32:27,500 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 04:32:37,501 - INFO - position_list_query
+2018-09-13 04:32:37,505 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 04:32:37,515 - INFO - place_order 【卖出】
+2018-09-13 04:32:37,515 - INFO - code=US.CRCM price=19.25
+2018-09-13 04:32:37,532 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 04:32:47,533 - INFO - position_list_query
+2018-09-13 04:32:47,538 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 04:42:47,548 - INFO - unsubscribe
+2018-09-13 04:42:47,550 - INFO - (0, None)
+2018-09-13 04:42:47,550 - INFO - subscribe
+2018-09-13 04:42:47,552 - INFO - (0, None)
+2018-09-13 04:42:47,682 - INFO - place_order 【买入】
+2018-09-13 04:42:47,682 - INFO - code=US.ACFC price=-0.2
+2018-09-13 04:42:47,699 - INFO - (-1, '订单价格填写错误')
+2018-09-13 04:42:57,699 - INFO - position_list_query
+2018-09-13 04:42:57,704 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 04:42:57,714 - INFO - place_order 【卖出】
+2018-09-13 04:42:57,714 - INFO - code=US.ACFC price=0.0
+2018-09-13 04:42:57,731 - INFO - (-1, '订单价格填写错误')
+2018-09-13 04:43:07,732 - INFO - position_list_query
+2018-09-13 04:43:07,737 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 04:53:07,746 - INFO - unsubscribe
+2018-09-13 04:53:07,750 - INFO - (0, None)
+2018-09-13 04:53:07,751 - INFO - subscribe
+2018-09-13 04:53:07,756 - INFO - (0, None)
+2018-09-13 04:53:07,887 - INFO - place_order 【买入】
+2018-09-13 04:53:07,887 - INFO - code=US.NEM price=29.82
+2018-09-13 04:53:07,911 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 04:53:17,911 - INFO - position_list_query
+2018-09-13 04:53:17,915 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 04:53:17,925 - INFO - place_order 【卖出】
+2018-09-13 04:53:17,925 - INFO - code=US.NEM price=30.02
+2018-09-13 04:53:17,943 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 04:53:27,944 - INFO - position_list_query
+2018-09-13 04:53:27,949 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 05:03:27,958 - INFO - unsubscribe
+2018-09-13 05:03:27,960 - INFO - (0, None)
+2018-09-13 05:03:27,960 - INFO - subscribe
+2018-09-13 05:03:27,962 - INFO - (0, None)
+2018-09-13 05:03:28,090 - INFO - place_order 【买入】
+2018-09-13 05:03:28,090 - INFO - code=US.LIVE price=6.18
+2018-09-13 05:03:28,108 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 05:03:38,108 - INFO - position_list_query
+2018-09-13 05:03:38,112 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 05:03:38,121 - INFO - place_order 【卖出】
+2018-09-13 05:03:38,121 - INFO - code=US.LIVE price=6.38
+2018-09-13 05:03:38,140 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 05:03:48,140 - INFO - position_list_query
+2018-09-13 05:03:48,146 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 05:13:48,156 - INFO - unsubscribe
+2018-09-13 05:13:48,157 - INFO - (0, None)
+2018-09-13 05:13:48,157 - INFO - subscribe
+2018-09-13 05:13:48,159 - INFO - (0, None)
+2018-09-13 05:13:48,290 - INFO - place_order 【买入】
+2018-09-13 05:13:48,290 - INFO - code=US.TOPS price=0.888
+2018-09-13 05:13:48,309 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 05:13:58,310 - INFO - position_list_query
+2018-09-13 05:13:58,314 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 05:13:58,323 - INFO - place_order 【卖出】
+2018-09-13 05:13:58,323 - INFO - code=US.TOPS price=0.908
+2018-09-13 05:13:58,343 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 05:14:08,344 - INFO - position_list_query
+2018-09-13 05:14:08,348 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 05:24:08,358 - INFO - unsubscribe
+2018-09-13 05:24:08,359 - INFO - (0, None)
+2018-09-13 05:24:08,359 - INFO - subscribe
+2018-09-13 05:24:08,361 - INFO - (0, None)
+2018-09-13 05:24:08,502 - INFO - place_order 【买入】
+2018-09-13 05:24:08,502 - INFO - code=US.BWLD price=-0.02
+2018-09-13 05:24:08,520 - INFO - (-1, '订单价格填写错误')
+2018-09-13 05:24:18,521 - INFO - position_list_query
+2018-09-13 05:24:18,527 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 05:24:18,536 - INFO - place_order 【卖出】
+2018-09-13 05:24:18,536 - INFO - code=US.BWLD price=0.0
+2018-09-13 05:24:18,554 - INFO - (-1, '订单价格填写错误')
+2018-09-13 05:24:28,554 - INFO - position_list_query
+2018-09-13 05:24:28,558 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 05:34:28,568 - INFO - unsubscribe
+2018-09-13 05:34:28,570 - INFO - (0, None)
+2018-09-13 05:34:28,570 - INFO - subscribe
+2018-09-13 05:34:28,571 - INFO - (0, None)
+2018-09-13 05:34:28,714 - INFO - place_order 【买入】
+2018-09-13 05:34:28,714 - INFO - code=US.NM price=0.591
+2018-09-13 05:34:28,733 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 05:34:38,734 - INFO - position_list_query
+2018-09-13 05:34:38,740 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 05:34:38,750 - INFO - place_order 【卖出】
+2018-09-13 05:34:38,750 - INFO - code=US.NM price=0.611
+2018-09-13 05:34:38,770 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 05:34:48,770 - INFO - position_list_query
+2018-09-13 05:34:48,776 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 05:44:48,787 - INFO - unsubscribe
+2018-09-13 05:44:48,789 - INFO - (0, None)
+2018-09-13 05:44:48,789 - INFO - subscribe
+2018-09-13 05:44:48,791 - INFO - (0, None)
+2018-09-13 05:44:48,929 - INFO - place_order 【买入】
+2018-09-13 05:44:48,930 - INFO - code=US.WNC price=18.05
+2018-09-13 05:44:48,948 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 05:44:58,948 - INFO - position_list_query
+2018-09-13 05:44:58,952 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 05:44:58,962 - INFO - place_order 【卖出】
+2018-09-13 05:44:58,962 - INFO - code=US.WNC price=18.25
+2018-09-13 05:44:58,979 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 05:45:08,980 - INFO - position_list_query
+2018-09-13 05:45:08,984 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 05:55:08,994 - INFO - unsubscribe
+2018-09-13 05:55:08,996 - INFO - (0, None)
+2018-09-13 05:55:08,997 - INFO - subscribe
+2018-09-13 05:55:08,998 - INFO - (0, None)
+2018-09-13 05:55:09,137 - INFO - place_order 【买入】
+2018-09-13 05:55:09,137 - INFO - code=US.AGM.A price=72.6
+2018-09-13 05:55:09,154 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 05:55:19,154 - INFO - position_list_query
+2018-09-13 05:55:19,160 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 05:55:19,170 - INFO - place_order 【卖出】
+2018-09-13 05:55:19,170 - INFO - code=US.AGM.A price=72.8
+2018-09-13 05:55:19,188 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 05:55:29,189 - INFO - position_list_query
+2018-09-13 05:55:29,195 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 06:05:29,206 - INFO - unsubscribe
+2018-09-13 06:05:29,208 - INFO - (0, None)
+2018-09-13 06:05:29,208 - INFO - subscribe
+2018-09-13 06:05:29,210 - INFO - (0, None)
+2018-09-13 06:05:29,342 - INFO - place_order 【买入】
+2018-09-13 06:05:29,342 - INFO - code=US.CYOU price=12.8
+2018-09-13 06:05:29,360 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 06:05:39,361 - INFO - position_list_query
+2018-09-13 06:05:39,367 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 06:05:39,377 - INFO - place_order 【卖出】
+2018-09-13 06:05:39,377 - INFO - code=US.CYOU price=13.0
+2018-09-13 06:05:39,395 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 06:05:49,395 - INFO - position_list_query
+2018-09-13 06:05:49,402 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 06:15:49,412 - INFO - unsubscribe
+2018-09-13 06:15:49,416 - INFO - (0, None)
+2018-09-13 06:15:49,416 - INFO - subscribe
+2018-09-13 06:15:49,420 - INFO - (0, None)
+2018-09-13 06:15:49,556 - INFO - place_order 【买入】
+2018-09-13 06:15:49,556 - INFO - code=US.EVC price=4.8
+2018-09-13 06:15:49,575 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 06:15:59,576 - INFO - position_list_query
+2018-09-13 06:15:59,580 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 06:15:59,590 - INFO - place_order 【卖出】
+2018-09-13 06:15:59,590 - INFO - code=US.EVC price=5.0
+2018-09-13 06:15:59,608 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 06:16:09,609 - INFO - position_list_query
+2018-09-13 06:16:09,615 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 06:26:09,626 - INFO - unsubscribe
+2018-09-13 06:26:09,627 - INFO - (0, None)
+2018-09-13 06:26:09,627 - INFO - subscribe
+2018-09-13 06:26:09,629 - INFO - (0, None)
+2018-09-13 06:26:09,762 - INFO - place_order 【买入】
+2018-09-13 06:26:09,762 - INFO - code=US.WIX price=105.05
+2018-09-13 06:26:09,780 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 06:26:19,781 - INFO - position_list_query
+2018-09-13 06:26:19,787 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 06:26:19,797 - INFO - place_order 【卖出】
+2018-09-13 06:26:19,797 - INFO - code=US.WIX price=105.25
+2018-09-13 06:26:19,816 - INFO - (-1, '当前交易时段不能进行此操作')
+2018-09-13 06:26:29,816 - INFO - position_list_query
+2018-09-13 06:26:29,821 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 06:36:29,831 - INFO - unsubscribe
+2018-09-13 06:36:29,832 - INFO - (0, None)
+2018-09-13 06:36:29,832 - INFO - subscribe
+2018-09-13 06:36:29,834 - INFO - (0, None)
+2018-09-13 06:36:29,964 - INFO - place_order 【买入】
+2018-09-13 06:36:29,964 - INFO - code=US.CBPO price=79.8
+2018-09-13 06:36:39,981 - INFO - (-1, 'Timeout')
+2018-09-13 06:36:49,981 - INFO - position_list_query
+2018-09-13 06:36:49,986 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 06:36:49,996 - INFO - place_order 【卖出】
+2018-09-13 06:36:49,996 - INFO - code=US.CBPO price=80.0
+2018-09-13 06:37:00,085 - INFO - (-1, 'Timeout')
+2018-09-13 06:37:10,086 - INFO - position_list_query
+2018-09-13 06:37:10,090 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 06:47:10,099 - INFO - unsubscribe
+2018-09-13 06:47:10,101 - INFO - (0, None)
+2018-09-13 06:47:10,101 - INFO - subscribe
+2018-09-13 06:47:10,103 - INFO - (0, None)
+2018-09-13 06:47:10,233 - INFO - place_order 【买入】
+2018-09-13 06:47:10,234 - INFO - code=US.SFUN price=2.32
+2018-09-13 06:47:20,280 - INFO - (-1, 'Timeout')
+2018-09-13 06:47:30,281 - INFO - position_list_query
+2018-09-13 06:47:30,284 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 06:47:30,294 - INFO - place_order 【卖出】
+2018-09-13 06:47:30,294 - INFO - code=US.SFUN price=2.52
+2018-09-13 06:47:40,374 - INFO - (-1, 'Timeout')
+2018-09-13 06:47:50,374 - INFO - position_list_query
+2018-09-13 06:47:50,389 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 06:57:50,410 - INFO - unsubscribe
+2018-09-13 06:57:50,412 - INFO - (0, None)
+2018-09-13 06:57:50,413 - INFO - subscribe
+2018-09-13 06:57:50,414 - INFO - (0, None)
+2018-09-13 06:57:50,547 - INFO - place_order 【买入】
+2018-09-13 06:57:50,547 - INFO - code=US.CLR price=60.309999999999995
+2018-09-13 06:58:00,638 - INFO - (-1, 'Timeout')
+2018-09-13 06:58:10,639 - INFO - position_list_query
+2018-09-13 06:58:10,643 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 06:58:10,653 - INFO - place_order 【卖出】
+2018-09-13 06:58:10,653 - INFO - code=US.CLR price=60.51
+2018-09-13 06:58:20,720 - INFO - (-1, 'Timeout')
+2018-09-13 06:58:30,720 - INFO - position_list_query
+2018-09-13 06:58:30,729 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 07:08:30,739 - INFO - unsubscribe
+2018-09-13 07:08:30,741 - INFO - (0, None)
+2018-09-13 07:08:30,741 - INFO - subscribe
+2018-09-13 07:08:30,743 - INFO - (0, None)
+2018-09-13 07:08:30,872 - INFO - place_order 【买入】
+2018-09-13 07:08:30,872 - INFO - code=US.PNK price=33.26
+2018-09-13 07:08:40,939 - INFO - (-1, 'Timeout')
+2018-09-13 07:08:50,939 - INFO - position_list_query
+2018-09-13 07:08:50,950 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 07:08:50,959 - INFO - place_order 【卖出】
+2018-09-13 07:08:50,959 - INFO - code=US.PNK price=33.46
+2018-09-13 07:09:01,031 - INFO - (-1, 'Timeout')
+2018-09-13 07:09:11,032 - INFO - position_list_query
+2018-09-13 07:09:11,036 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 07:19:11,045 - INFO - unsubscribe
+2018-09-13 07:19:11,046 - INFO - (0, None)
+2018-09-13 07:19:11,046 - INFO - subscribe
+2018-09-13 07:19:11,048 - INFO - (0, None)
+2018-09-13 07:19:11,190 - INFO - place_order 【买入】
+2018-09-13 07:19:11,190 - INFO - code=US.JKS price=11.81
+2018-09-13 07:19:21,272 - INFO - (-1, 'Timeout')
+2018-09-13 07:19:31,273 - INFO - position_list_query
+2018-09-13 07:19:31,279 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 07:19:31,288 - INFO - place_order 【卖出】
+2018-09-13 07:19:31,288 - INFO - code=US.JKS price=12.01
+2018-09-13 07:19:41,362 - INFO - (-1, 'Timeout')
+2018-09-13 07:19:51,363 - INFO - position_list_query
+2018-09-13 07:19:51,368 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 07:29:51,377 - INFO - unsubscribe
+2018-09-13 07:29:51,378 - INFO - (0, None)
+2018-09-13 07:29:51,378 - INFO - subscribe
+2018-09-13 07:29:51,380 - INFO - (0, None)
+2018-09-13 07:29:51,510 - INFO - place_order 【买入】
+2018-09-13 07:29:51,510 - INFO - code=US.GTIM price=4.35
+2018-09-13 07:30:01,585 - INFO - (-1, 'Timeout')
+2018-09-13 07:30:11,585 - INFO - position_list_query
+2018-09-13 07:30:11,588 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 07:30:11,598 - INFO - place_order 【卖出】
+2018-09-13 07:30:11,598 - INFO - code=US.GTIM price=4.55
+2018-09-13 07:30:21,670 - INFO - (-1, 'Timeout')
+2018-09-13 07:30:31,670 - INFO - position_list_query
+2018-09-13 07:30:31,677 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 07:40:31,688 - INFO - unsubscribe
+2018-09-13 07:40:31,690 - INFO - (0, None)
+2018-09-13 07:40:31,690 - INFO - subscribe
+2018-09-13 07:40:31,692 - INFO - (0, None)
+2018-09-13 07:40:31,827 - INFO - place_order 【买入】
+2018-09-13 07:40:31,827 - INFO - code=US.OPY price=30.650000000000002
+2018-09-13 07:40:41,912 - INFO - (-1, 'Timeout')
+2018-09-13 07:40:51,913 - INFO - position_list_query
+2018-09-13 07:40:51,918 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 07:40:51,927 - INFO - place_order 【卖出】
+2018-09-13 07:40:51,927 - INFO - code=US.OPY price=30.85
+2018-09-13 07:41:02,010 - INFO - (-1, 'Timeout')
+2018-09-13 07:41:12,010 - INFO - position_list_query
+2018-09-13 07:41:12,013 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 07:51:12,023 - INFO - unsubscribe
+2018-09-13 07:51:12,025 - INFO - (0, None)
+2018-09-13 07:51:12,026 - INFO - subscribe
+2018-09-13 07:51:12,028 - INFO - (0, None)
+2018-09-13 07:51:12,155 - INFO - place_order 【买入】
+2018-09-13 07:51:12,156 - INFO - code=US.PTIE price=0.942
+2018-09-13 07:51:22,201 - INFO - (-1, 'Timeout')
+2018-09-13 07:51:32,201 - INFO - position_list_query
+2018-09-13 07:51:32,205 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 07:51:32,215 - INFO - place_order 【卖出】
+2018-09-13 07:51:32,215 - INFO - code=US.PTIE price=0.962
+2018-09-13 07:51:42,290 - INFO - (-1, 'Timeout')
+2018-09-13 07:51:52,290 - INFO - position_list_query
+2018-09-13 07:51:52,294 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 08:01:52,304 - INFO - unsubscribe
+2018-09-13 08:01:52,306 - INFO - (0, None)
+2018-09-13 08:01:52,306 - INFO - subscribe
+2018-09-13 08:01:52,308 - INFO - (0, None)
+2018-09-13 08:01:52,449 - INFO - place_order 【买入】
+2018-09-13 08:01:52,449 - INFO - code=US.CRR price=7.74
+2018-09-13 08:02:02,491 - INFO - (-1, 'Timeout')
+2018-09-13 08:02:12,492 - INFO - position_list_query
+2018-09-13 08:02:12,497 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 08:02:12,506 - INFO - place_order 【卖出】
+2018-09-13 08:02:12,506 - INFO - code=US.CRR price=7.94
+2018-09-13 08:02:22,593 - INFO - (-1, 'Timeout')
+2018-09-13 08:02:32,594 - INFO - position_list_query
+2018-09-13 08:02:32,599 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 08:12:32,610 - INFO - unsubscribe
+2018-09-13 08:12:32,612 - INFO - (0, None)
+2018-09-13 08:12:32,612 - INFO - subscribe
+2018-09-13 08:12:32,614 - INFO - (0, None)
+2018-09-13 08:12:32,745 - INFO - place_order 【买入】
+2018-09-13 08:12:32,746 - INFO - code=US.FRO price=4.24
+2018-09-13 08:12:42,830 - INFO - (-1, 'Timeout')
+2018-09-13 08:12:52,831 - INFO - position_list_query
+2018-09-13 08:12:52,836 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 08:12:52,846 - INFO - place_order 【卖出】
+2018-09-13 08:12:52,846 - INFO - code=US.FRO price=4.44
+2018-09-13 08:13:02,925 - INFO - (-1, 'Timeout')
+2018-09-13 08:13:12,926 - INFO - position_list_query
+2018-09-13 08:13:12,930 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 08:23:12,941 - INFO - unsubscribe
+2018-09-13 08:23:12,943 - INFO - (0, None)
+2018-09-13 08:23:12,944 - INFO - subscribe
+2018-09-13 08:23:12,945 - INFO - (0, None)
+2018-09-13 08:23:13,095 - INFO - place_order 【买入】
+2018-09-13 08:23:13,095 - INFO - code=US.ACH price=9.0
+2018-09-13 08:23:23,181 - INFO - (-1, 'Timeout')
+2018-09-13 08:23:33,181 - INFO - position_list_query
+2018-09-13 08:23:33,186 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 08:23:33,195 - INFO - place_order 【卖出】
+2018-09-13 08:23:33,196 - INFO - code=US.ACH price=9.2
+2018-09-13 08:23:43,262 - INFO - (-1, 'Timeout')
+2018-09-13 08:23:53,263 - INFO - position_list_query
+2018-09-13 08:23:53,267 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 08:33:53,278 - INFO - unsubscribe
+2018-09-13 08:33:53,282 - INFO - (0, None)
+2018-09-13 08:33:53,283 - INFO - subscribe
+2018-09-13 08:33:53,287 - INFO - (0, None)
+2018-09-13 08:33:53,416 - INFO - place_order 【买入】
+2018-09-13 08:33:53,416 - INFO - code=US.SALM price=3.5999999999999996
+2018-09-13 08:34:03,479 - INFO - (-1, 'Timeout')
+2018-09-13 08:34:13,479 - INFO - position_list_query
+2018-09-13 08:34:13,483 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 08:34:13,492 - INFO - place_order 【卖出】
+2018-09-13 08:34:13,492 - INFO - code=US.SALM price=3.8
+2018-09-13 08:34:23,573 - INFO - (-1, 'Timeout')
+2018-09-13 08:34:33,574 - INFO - position_list_query
+2018-09-13 08:34:33,578 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 08:44:33,587 - INFO - unsubscribe
+2018-09-13 08:44:33,589 - INFO - (0, None)
+2018-09-13 08:44:33,589 - INFO - subscribe
+2018-09-13 08:44:33,591 - INFO - (0, None)
+2018-09-13 08:44:33,730 - INFO - place_order 【买入】
+2018-09-13 08:44:33,730 - INFO - code=US.MAGS price=4.08
+2018-09-13 08:44:43,826 - INFO - (-1, 'Timeout')
+2018-09-13 08:44:53,826 - INFO - position_list_query
+2018-09-13 08:44:53,831 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 08:44:53,841 - INFO - place_order 【卖出】
+2018-09-13 08:44:53,841 - INFO - code=US.MAGS price=4.28
+2018-09-13 08:45:03,914 - INFO - (-1, 'Timeout')
+2018-09-13 08:45:13,915 - INFO - position_list_query
+2018-09-13 08:45:13,918 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 08:55:13,928 - INFO - unsubscribe
+2018-09-13 08:55:13,930 - INFO - (0, None)
+2018-09-13 08:55:13,930 - INFO - subscribe
+2018-09-13 08:55:13,932 - INFO - (0, None)
+2018-09-13 08:55:14,060 - INFO - place_order 【买入】
+2018-09-13 08:55:14,060 - INFO - code=US.PESI price=4.35
+2018-09-13 08:55:24,102 - INFO - (-1, 'Timeout')
+2018-09-13 08:55:34,102 - INFO - position_list_query
+2018-09-13 08:55:34,106 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 08:55:34,115 - INFO - place_order 【卖出】
+2018-09-13 08:55:34,116 - INFO - code=US.PESI price=4.55
+2018-09-13 08:55:44,192 - INFO - (-1, 'Timeout')
+2018-09-13 08:55:54,192 - INFO - position_list_query
+2018-09-13 08:55:54,199 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 09:05:54,208 - INFO - unsubscribe
+2018-09-13 09:05:54,210 - INFO - (0, None)
+2018-09-13 09:05:54,210 - INFO - subscribe
+2018-09-13 09:05:54,212 - INFO - (0, None)
+2018-09-13 09:05:54,351 - INFO - place_order 【买入】
+2018-09-13 09:05:54,352 - INFO - code=US.HDS price=41.449999999999996
+2018-09-13 09:06:04,388 - INFO - (-1, 'Timeout')
+2018-09-13 09:06:14,388 - INFO - position_list_query
+2018-09-13 09:06:14,392 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 09:06:14,402 - INFO - place_order 【卖出】
+2018-09-13 09:06:14,402 - INFO - code=US.HDS price=41.65
+2018-09-13 09:06:24,482 - INFO - (-1, 'Timeout')
+2018-09-13 09:06:34,482 - INFO - position_list_query
+2018-09-13 09:06:34,486 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 09:16:34,495 - INFO - unsubscribe
+2018-09-13 09:16:34,498 - INFO - (0, None)
+2018-09-13 09:16:34,498 - INFO - subscribe
+2018-09-13 09:16:34,500 - INFO - (0, None)
+2018-09-13 09:16:34,636 - INFO - place_order 【买入】
+2018-09-13 09:16:34,636 - INFO - code=US.STEM price=-0.02
+2018-09-13 09:16:34,650 - INFO - (-1, '订单价格填写错误')
+2018-09-13 09:16:44,651 - INFO - position_list_query
+2018-09-13 09:16:44,656 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 09:16:44,665 - INFO - place_order 【卖出】
+2018-09-13 09:16:44,665 - INFO - code=US.STEM price=0.0
+2018-09-13 09:16:44,679 - INFO - (-1, '订单价格填写错误')
+2018-09-13 09:16:54,680 - INFO - position_list_query
+2018-09-13 09:16:54,686 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 09:26:54,695 - INFO - unsubscribe
+2018-09-13 09:26:54,697 - INFO - (0, None)
+2018-09-13 09:26:54,697 - INFO - subscribe
+2018-09-13 09:26:54,699 - INFO - (0, None)
+2018-09-13 09:26:54,841 - INFO - place_order 【买入】
+2018-09-13 09:26:54,841 - INFO - code=US.JOE price=12.950000000000001
+2018-09-13 09:27:04,876 - INFO - (-1, 'Timeout')
+2018-09-13 09:27:14,876 - INFO - position_list_query
+2018-09-13 09:27:14,879 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 09:27:14,889 - INFO - place_order 【卖出】
+2018-09-13 09:27:14,889 - INFO - code=US.JOE price=13.15
+2018-09-13 09:27:24,973 - INFO - (-1, 'Timeout')
+2018-09-13 09:27:34,973 - INFO - position_list_query
+2018-09-13 09:27:34,980 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 09:37:34,990 - INFO - unsubscribe
+2018-09-13 09:37:34,992 - INFO - (0, None)
+2018-09-13 09:37:34,992 - INFO - subscribe
+2018-09-13 09:37:34,994 - INFO - (0, None)
+2018-09-13 09:37:35,133 - INFO - place_order 【买入】
+2018-09-13 09:37:35,133 - INFO - code=US.GNVC price=-0.02
+2018-09-13 09:37:35,148 - INFO - (-1, '订单价格填写错误')
+2018-09-13 09:37:45,149 - INFO - position_list_query
+2018-09-13 09:37:45,158 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 09:37:45,167 - INFO - place_order 【卖出】
+2018-09-13 09:37:45,167 - INFO - code=US.GNVC price=0.0
+2018-09-13 09:37:45,181 - INFO - (-1, '订单价格填写错误')
+2018-09-13 09:37:55,182 - INFO - position_list_query
+2018-09-13 09:37:55,185 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 09:47:55,196 - INFO - unsubscribe
+2018-09-13 09:47:55,198 - INFO - (0, None)
+2018-09-13 09:47:55,198 - INFO - subscribe
+2018-09-13 09:47:55,200 - INFO - (0, None)
+2018-09-13 09:47:55,338 - INFO - place_order 【买入】
+2018-09-13 09:47:55,338 - INFO - code=US.PAR price=19.1
+2018-09-13 09:48:05,364 - INFO - (-1, 'Timeout')
+2018-09-13 09:48:15,364 - INFO - position_list_query
+2018-09-13 09:48:15,378 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 09:48:15,389 - INFO - place_order 【卖出】
+2018-09-13 09:48:15,389 - INFO - code=US.PAR price=19.3
+2018-09-13 09:48:25,445 - INFO - (-1, 'Timeout')
+2018-09-13 09:48:35,445 - INFO - position_list_query
+2018-09-13 09:48:35,449 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 09:58:35,459 - INFO - unsubscribe
+2018-09-13 09:58:35,460 - INFO - (0, None)
+2018-09-13 09:58:35,460 - INFO - subscribe
+2018-09-13 09:58:35,462 - INFO - (0, None)
+2018-09-13 09:58:35,611 - INFO - place_order 【买入】
+2018-09-13 09:58:35,611 - INFO - code=US.TEX price=35.949999999999996
+2018-09-13 09:58:45,667 - INFO - (-1, 'Timeout')
+2018-09-13 09:58:55,667 - INFO - position_list_query
+2018-09-13 09:58:55,672 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 09:58:55,682 - INFO - place_order 【卖出】
+2018-09-13 09:58:55,682 - INFO - code=US.TEX price=36.15
+2018-09-13 09:59:05,765 - INFO - (-1, 'Timeout')
+2018-09-13 09:59:15,766 - INFO - position_list_query
+2018-09-13 09:59:15,768 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 10:09:15,780 - INFO - unsubscribe
+2018-09-13 10:09:15,782 - INFO - (0, None)
+2018-09-13 10:09:15,782 - INFO - subscribe
+2018-09-13 10:09:15,784 - INFO - (0, None)
+2018-09-13 10:09:15,953 - INFO - place_order 【买入】
+2018-09-13 10:09:15,953 - INFO - code=US.MPEL price=-0.02
+2018-09-13 10:09:15,977 - INFO - (-1, '订单价格填写错误')
+2018-09-13 10:09:25,977 - INFO - position_list_query
+2018-09-13 10:09:25,982 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 10:09:25,992 - INFO - place_order 【卖出】
+2018-09-13 10:09:25,992 - INFO - code=US.MPEL price=0.0
+2018-09-13 10:09:26,006 - INFO - (-1, '订单价格填写错误')
+2018-09-13 10:09:36,006 - INFO - position_list_query
+2018-09-13 10:09:36,013 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 10:19:36,022 - INFO - unsubscribe
+2018-09-13 10:19:36,025 - INFO - (0, None)
+2018-09-13 10:19:36,025 - INFO - subscribe
+2018-09-13 10:19:36,027 - INFO - (0, None)
+2018-09-13 10:19:36,166 - INFO - place_order 【买入】
+2018-09-13 10:19:36,166 - INFO - code=US.GPRE price=12.25
+2018-09-13 10:19:46,204 - INFO - (-1, 'Timeout')
+2018-09-13 10:19:56,204 - INFO - position_list_query
+2018-09-13 10:19:56,216 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 10:19:56,225 - INFO - place_order 【卖出】
+2018-09-13 10:19:56,225 - INFO - code=US.GPRE price=12.45
+2018-09-13 10:20:06,295 - INFO - (-1, 'Timeout')
+2018-09-13 10:20:16,295 - INFO - position_list_query
+2018-09-13 10:20:16,300 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 10:30:16,311 - INFO - unsubscribe
+2018-09-13 10:30:16,312 - INFO - (0, None)
+2018-09-13 10:30:16,312 - INFO - subscribe
+2018-09-13 10:30:16,314 - INFO - (0, None)
+2018-09-13 10:30:16,458 - INFO - place_order 【买入】
+2018-09-13 10:30:16,458 - INFO - code=US.IHC price=34.3
+2018-09-13 10:30:26,558 - INFO - (-1, 'Timeout')
+2018-09-13 10:30:36,558 - INFO - position_list_query
+2018-09-13 10:30:36,561 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 10:30:36,571 - INFO - place_order 【卖出】
+2018-09-13 10:30:36,571 - INFO - code=US.IHC price=34.5
+2018-09-13 10:30:46,661 - INFO - (-1, 'Timeout')
+2018-09-13 10:30:56,662 - INFO - position_list_query
+2018-09-13 10:30:56,666 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 10:40:56,676 - INFO - unsubscribe
+2018-09-13 10:40:56,678 - INFO - (0, None)
+2018-09-13 10:40:56,679 - INFO - subscribe
+2018-09-13 10:40:56,680 - INFO - (0, None)
+2018-09-13 10:40:56,809 - INFO - place_order 【买入】
+2018-09-13 10:40:56,809 - INFO - code=US.CTRN price=30.25
+2018-09-13 10:41:06,890 - INFO - (-1, 'Timeout')
+2018-09-13 10:41:16,890 - INFO - position_list_query
+2018-09-13 10:41:16,895 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 10:41:16,905 - INFO - place_order 【卖出】
+2018-09-13 10:41:16,905 - INFO - code=US.CTRN price=30.45
+2018-09-13 10:41:26,986 - INFO - (-1, 'Timeout')
+2018-09-13 10:41:36,987 - INFO - position_list_query
+2018-09-13 10:41:36,992 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 10:51:37,002 - INFO - unsubscribe
+2018-09-13 10:51:37,004 - INFO - (0, None)
+2018-09-13 10:51:37,004 - INFO - subscribe
+2018-09-13 10:51:37,006 - INFO - (0, None)
+2018-09-13 10:51:37,137 - INFO - place_order 【买入】
+2018-09-13 10:51:37,137 - INFO - code=US.NICE price=111.91
+2018-09-13 10:51:47,223 - INFO - (-1, 'Timeout')
+2018-09-13 10:51:57,223 - INFO - position_list_query
+2018-09-13 10:51:57,230 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 10:51:57,239 - INFO - place_order 【卖出】
+2018-09-13 10:51:57,239 - INFO - code=US.NICE price=112.11
+2018-09-13 10:52:07,244 - INFO - (-1, 'Timeout')
+2018-09-13 10:52:17,245 - INFO - position_list_query
+2018-09-13 10:52:17,248 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 11:02:17,259 - INFO - unsubscribe
+2018-09-13 11:02:17,261 - INFO - (0, None)
+2018-09-13 11:02:17,261 - INFO - subscribe
+2018-09-13 11:02:17,263 - INFO - (0, None)
+2018-09-13 11:02:17,404 - INFO - place_order 【买入】
+2018-09-13 11:02:17,404 - INFO - code=US.CATO price=20.3
+2018-09-13 11:02:27,504 - INFO - (-1, 'Timeout')
+2018-09-13 11:02:37,505 - INFO - position_list_query
+2018-09-13 11:02:37,508 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 11:02:37,517 - INFO - place_order 【卖出】
+2018-09-13 11:02:37,517 - INFO - code=US.CATO price=20.5
+2018-09-13 11:02:47,619 - INFO - (-1, 'Timeout')
+2018-09-13 11:02:57,620 - INFO - position_list_query
+2018-09-13 11:02:57,623 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 11:12:57,633 - INFO - unsubscribe
+2018-09-13 11:12:57,635 - INFO - (0, None)
+2018-09-13 11:12:57,635 - INFO - subscribe
+2018-09-13 11:12:57,637 - INFO - (0, None)
+2018-09-13 11:12:57,779 - INFO - place_order 【买入】
+2018-09-13 11:12:57,779 - INFO - code=US.KGC price=2.4899999999999998
+2018-09-13 11:13:07,862 - INFO - (-1, 'Timeout')
+2018-09-13 11:13:17,864 - INFO - position_list_query
+2018-09-13 11:13:17,868 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 11:13:17,877 - INFO - place_order 【卖出】
+2018-09-13 11:13:17,877 - INFO - code=US.KGC price=2.69
+2018-09-13 11:13:27,953 - INFO - (-1, 'Timeout')
+2018-09-13 11:13:37,953 - INFO - position_list_query
+2018-09-13 11:13:37,957 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 11:23:37,968 - INFO - unsubscribe
+2018-09-13 11:23:37,970 - INFO - (0, None)
+2018-09-13 11:23:37,970 - INFO - subscribe
+2018-09-13 11:23:37,972 - INFO - (0, None)
+2018-09-13 11:23:38,105 - INFO - place_order 【买入】
+2018-09-13 11:23:38,105 - INFO - code=US.CLNE price=2.4299999999999997
+2018-09-13 11:23:48,137 - INFO - (-1, 'Timeout')
+2018-09-13 11:23:58,137 - INFO - position_list_query
+2018-09-13 11:23:58,140 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 11:23:58,151 - INFO - place_order 【卖出】
+2018-09-13 11:23:58,151 - INFO - code=US.CLNE price=2.63
+2018-09-13 11:24:08,166 - INFO - (-1, 'Timeout')
+2018-09-13 11:24:18,166 - INFO - position_list_query
+2018-09-13 11:24:18,171 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 11:34:18,181 - INFO - unsubscribe
+2018-09-13 11:34:18,182 - INFO - (0, None)
+2018-09-13 11:34:18,182 - INFO - subscribe
+2018-09-13 11:34:18,184 - INFO - (0, None)
+2018-09-13 11:34:18,327 - INFO - place_order 【买入】
+2018-09-13 11:34:18,327 - INFO - code=US.OXGN price=-0.02
+2018-09-13 11:34:18,546 - INFO - (-1, '订单价格填写错误')
+2018-09-13 11:34:28,547 - INFO - position_list_query
+2018-09-13 11:34:28,551 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 11:34:28,561 - INFO - place_order 【卖出】
+2018-09-13 11:34:28,561 - INFO - code=US.OXGN price=0.0
+2018-09-13 11:34:28,574 - INFO - (-1, '订单价格填写错误')
+2018-09-13 11:34:38,575 - INFO - position_list_query
+2018-09-13 11:34:38,578 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 11:44:38,588 - INFO - unsubscribe
+2018-09-13 11:44:38,589 - INFO - (0, None)
+2018-09-13 11:44:38,589 - INFO - subscribe
+2018-09-13 11:44:38,591 - INFO - (0, None)
+2018-09-13 11:44:38,728 - INFO - place_order 【买入】
+2018-09-13 11:44:38,728 - INFO - code=US.DF price=7.109999999999999
+2018-09-13 11:44:48,794 - INFO - (-1, 'Timeout')
+2018-09-13 11:44:58,795 - INFO - position_list_query
+2018-09-13 11:44:58,800 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)
+2018-09-13 11:44:58,808 - INFO - place_order 【卖出】
+2018-09-13 11:44:58,808 - INFO - code=US.DF price=7.31
+2018-09-13 11:45:08,890 - INFO - (-1, 'Timeout')
+2018-09-13 11:45:18,891 - INFO - position_list_query
+2018-09-13 11:45:18,897 - INFO - (0,       code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.AAPL         苹果  1.0           1.0      224.45                 1      223.85         223.85  -0.26732               1    -0.6             1            1.0         224.45          -0.6             0.0             0.0          LONG)

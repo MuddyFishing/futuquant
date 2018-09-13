@@ -3,7 +3,7 @@
 import futuquant
 from futuquant.quote.quote_response_handler import OrderBookHandlerBase
 from futuquant.common.constant import *
-from evatest.utils.logUtil import Logs
+from futuquant.testcase.person.eva.utils.logUtil import Logs
 
 class GetOrderBook(object):
     #获取摆盘 get_order_book 和 OrderBookHandlerBase
@@ -16,7 +16,7 @@ class GetOrderBook(object):
         quote_ctx.set_handler(handler)
 
         #订阅股票
-        code = 'HK.999010'
+        code = 'US.AAPL'
         quote_ctx.subscribe(code,SubType.ORDER_BOOK)
         #调用待测接口
         ret_code ,ret_data = quote_ctx.get_order_book(code)

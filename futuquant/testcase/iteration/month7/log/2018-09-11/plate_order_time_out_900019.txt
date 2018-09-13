@@ -1,0 +1,1173 @@
+2018-09-11 18:08:10,085 - INFO - unlock (0, 'Trade is already unlocked')
+2018-09-11 18:08:10,325 - INFO - subscribe
+2018-09-11 18:08:10,327 - INFO - (0, None)
+2018-09-11 18:08:10,442 - INFO - place_order 【买入】
+2018-09-11 18:08:10,442 - INFO - code=US.GNK price=12.08
+2018-09-11 18:08:20,479 - INFO - (-1, 'Timeout')
+2018-09-11 21:30:16,534 - INFO - unlock (0, 'Trade is already unlocked')
+2018-09-11 21:30:16,752 - INFO - subscribe
+2018-09-11 21:30:16,754 - INFO - (0, None)
+2018-09-11 21:30:16,871 - INFO - place_order 【买入】
+2018-09-11 21:30:16,871 - INFO - code=US.GNK price=12.31
+2018-09-11 21:30:26,915 - INFO - (-1, 'Timeout')
+2018-09-11 21:30:36,915 - INFO - position_list_query
+2018-09-11 21:30:36,919 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 21:30:36,929 - INFO - place_order 【卖出】
+2018-09-11 21:30:36,929 - INFO - code=US.GNK price=12.51
+2018-09-11 21:30:37,002 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-11 21:30:47,003 - INFO - position_list_query
+2018-09-11 21:30:47,008 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 21:40:47,019 - INFO - unsubscribe
+2018-09-11 21:40:47,020 - INFO - (0, None)
+2018-09-11 21:40:47,020 - INFO - subscribe
+2018-09-11 21:40:47,022 - INFO - (0, None)
+2018-09-11 21:40:47,141 - INFO - place_order 【买入】
+2018-09-11 21:40:47,141 - INFO - code=US.IDRA price=9.020000000000001
+2018-09-11 21:40:57,234 - INFO - (-1, 'Timeout')
+2018-09-11 21:41:07,235 - INFO - position_list_query
+2018-09-11 21:41:07,239 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 21:41:07,248 - INFO - place_order 【卖出】
+2018-09-11 21:41:07,248 - INFO - code=US.IDRA price=9.22
+2018-09-11 21:41:07,325 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-11 21:41:17,326 - INFO - position_list_query
+2018-09-11 21:41:17,338 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 21:51:17,347 - INFO - unsubscribe
+2018-09-11 21:51:17,348 - INFO - (0, None)
+2018-09-11 21:51:17,348 - INFO - subscribe
+2018-09-11 21:51:17,351 - INFO - (0, None)
+2018-09-11 21:51:17,469 - INFO - place_order 【买入】
+2018-09-11 21:51:17,469 - INFO - code=US.BOFI price=36.269999999999996
+2018-09-11 21:51:27,521 - INFO - (-1, 'Timeout')
+2018-09-11 21:51:37,521 - INFO - position_list_query
+2018-09-11 21:51:37,525 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 21:51:37,534 - INFO - place_order 【卖出】
+2018-09-11 21:51:37,534 - INFO - code=US.BOFI price=36.47
+2018-09-11 21:51:37,611 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-11 21:51:47,611 - INFO - position_list_query
+2018-09-11 21:51:47,615 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 22:01:47,625 - INFO - unsubscribe
+2018-09-11 22:01:47,627 - INFO - (0, None)
+2018-09-11 22:01:47,627 - INFO - subscribe
+2018-09-11 22:01:47,629 - INFO - (0, None)
+2018-09-11 22:01:47,752 - INFO - place_order 【买入】
+2018-09-11 22:01:47,752 - INFO - code=US.NIHD price=5.01
+2018-09-11 22:01:57,851 - INFO - (-1, 'Timeout')
+2018-09-11 22:02:07,851 - INFO - position_list_query
+2018-09-11 22:02:07,854 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 22:02:07,864 - INFO - place_order 【卖出】
+2018-09-11 22:02:07,864 - INFO - code=US.NIHD price=5.21
+2018-09-11 22:02:07,927 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-11 22:02:17,927 - INFO - position_list_query
+2018-09-11 22:02:17,932 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 22:12:17,942 - INFO - unsubscribe
+2018-09-11 22:12:17,943 - INFO - (0, None)
+2018-09-11 22:12:17,943 - INFO - subscribe
+2018-09-11 22:12:17,945 - INFO - (0, None)
+2018-09-11 22:12:18,069 - INFO - place_order 【买入】
+2018-09-11 22:12:18,070 - INFO - code=US.TNET price=55.89
+2018-09-11 22:12:28,084 - INFO - (-1, 'Timeout')
+2018-09-11 22:12:38,084 - INFO - position_list_query
+2018-09-11 22:12:38,091 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 22:12:38,100 - INFO - place_order 【卖出】
+2018-09-11 22:12:38,100 - INFO - code=US.TNET price=56.09
+2018-09-11 22:12:38,174 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-11 22:12:48,175 - INFO - position_list_query
+2018-09-11 22:12:48,178 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 22:22:48,189 - INFO - unsubscribe
+2018-09-11 22:22:48,190 - INFO - (0, None)
+2018-09-11 22:22:48,190 - INFO - subscribe
+2018-09-11 22:22:48,192 - INFO - (0, None)
+2018-09-11 22:22:48,316 - INFO - place_order 【买入】
+2018-09-11 22:22:48,317 - INFO - code=US.TRVN price=1.48
+2018-09-11 22:22:58,371 - INFO - (-1, 'Timeout')
+2018-09-11 22:23:08,371 - INFO - position_list_query
+2018-09-11 22:23:08,376 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 22:23:08,386 - INFO - place_order 【卖出】
+2018-09-11 22:23:08,386 - INFO - code=US.TRVN price=1.68
+2018-09-11 22:23:08,463 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-11 22:23:18,463 - INFO - position_list_query
+2018-09-11 22:23:18,468 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 22:33:18,479 - INFO - unsubscribe
+2018-09-11 22:33:18,481 - INFO - (0, None)
+2018-09-11 22:33:18,481 - INFO - subscribe
+2018-09-11 22:33:18,483 - INFO - (0, None)
+2018-09-11 22:33:18,603 - INFO - place_order 【买入】
+2018-09-11 22:33:18,603 - INFO - code=US.KODK price=2.6999999999999997
+2018-09-11 22:33:28,641 - INFO - (-1, 'Timeout')
+2018-09-11 22:33:38,641 - INFO - position_list_query
+2018-09-11 22:33:38,645 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 22:33:38,654 - INFO - place_order 【卖出】
+2018-09-11 22:33:38,654 - INFO - code=US.KODK price=2.9
+2018-09-11 22:33:38,735 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-11 22:33:48,736 - INFO - position_list_query
+2018-09-11 22:33:48,742 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 22:43:48,752 - INFO - unsubscribe
+2018-09-11 22:43:48,754 - INFO - (0, None)
+2018-09-11 22:43:48,754 - INFO - subscribe
+2018-09-11 22:43:48,756 - INFO - (0, None)
+2018-09-11 22:43:48,880 - INFO - place_order 【买入】
+2018-09-11 22:43:48,880 - INFO - code=US.WSTG price=11.850000000000001
+2018-09-11 22:43:58,908 - INFO - (-1, 'Timeout')
+2018-09-11 22:44:08,909 - INFO - position_list_query
+2018-09-11 22:44:08,916 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 22:44:08,926 - INFO - place_order 【卖出】
+2018-09-11 22:44:08,926 - INFO - code=US.WSTG price=12.05
+2018-09-11 22:44:08,985 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-11 22:44:18,985 - INFO - position_list_query
+2018-09-11 22:44:18,996 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 22:54:19,006 - INFO - unsubscribe
+2018-09-11 22:54:19,008 - INFO - (0, None)
+2018-09-11 22:54:19,008 - INFO - subscribe
+2018-09-11 22:54:19,010 - INFO - (0, None)
+2018-09-11 22:54:19,138 - INFO - place_order 【买入】
+2018-09-11 22:54:19,138 - INFO - code=US.PEIX price=1.5
+2018-09-11 22:54:29,237 - INFO - (-1, 'Timeout')
+2018-09-11 22:54:39,238 - INFO - position_list_query
+2018-09-11 22:54:39,243 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 22:54:39,253 - INFO - place_order 【卖出】
+2018-09-11 22:54:39,253 - INFO - code=US.PEIX price=1.7
+2018-09-11 22:54:39,339 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-11 22:54:49,339 - INFO - position_list_query
+2018-09-11 22:54:49,350 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 23:04:49,361 - INFO - unsubscribe
+2018-09-11 23:04:49,364 - INFO - (0, None)
+2018-09-11 23:04:49,364 - INFO - subscribe
+2018-09-11 23:04:49,366 - INFO - (0, None)
+2018-09-11 23:04:49,491 - INFO - place_order 【买入】
+2018-09-11 23:04:50,125 - INFO - code=US.CETV price=3.4
+2018-09-11 23:05:00,168 - INFO - (-1, 'Timeout')
+2018-09-11 23:05:10,168 - INFO - position_list_query
+2018-09-11 23:05:10,171 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 23:05:10,181 - INFO - place_order 【卖出】
+2018-09-11 23:05:10,181 - INFO - code=US.CETV price=3.6
+2018-09-11 23:05:10,255 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-11 23:05:20,255 - INFO - position_list_query
+2018-09-11 23:05:20,262 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 23:15:20,272 - INFO - unsubscribe
+2018-09-11 23:15:20,273 - INFO - (0, None)
+2018-09-11 23:15:20,273 - INFO - subscribe
+2018-09-11 23:15:20,275 - INFO - (0, None)
+2018-09-11 23:15:20,395 - INFO - place_order 【买入】
+2018-09-11 23:15:20,395 - INFO - code=US.GME price=16.27
+2018-09-11 23:15:30,411 - INFO - (-1, 'Timeout')
+2018-09-11 23:15:40,412 - INFO - position_list_query
+2018-09-11 23:15:40,416 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 23:15:40,425 - INFO - place_order 【卖出】
+2018-09-11 23:15:40,425 - INFO - code=US.GME price=16.47
+2018-09-11 23:15:40,503 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-11 23:15:50,503 - INFO - position_list_query
+2018-09-11 23:15:50,515 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 23:25:50,524 - INFO - unsubscribe
+2018-09-11 23:25:50,528 - INFO - (0, None)
+2018-09-11 23:25:50,528 - INFO - subscribe
+2018-09-11 23:25:50,532 - INFO - (0, None)
+2018-09-11 23:25:50,648 - INFO - place_order 【买入】
+2018-09-11 23:25:50,648 - INFO - code=US.CBK price=0.78
+2018-09-11 23:26:00,733 - INFO - (-1, 'Timeout')
+2018-09-11 23:26:10,734 - INFO - position_list_query
+2018-09-11 23:26:10,739 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 23:26:10,748 - INFO - place_order 【卖出】
+2018-09-11 23:26:10,748 - INFO - code=US.CBK price=0.8
+2018-09-11 23:26:10,833 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-11 23:26:20,833 - INFO - position_list_query
+2018-09-11 23:26:20,840 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 23:36:20,849 - INFO - unsubscribe
+2018-09-11 23:36:20,851 - INFO - (0, None)
+2018-09-11 23:36:20,851 - INFO - subscribe
+2018-09-11 23:36:20,853 - INFO - (0, None)
+2018-09-11 23:36:20,968 - INFO - place_order 【买入】
+2018-09-11 23:36:20,968 - INFO - code=US.VNCE price=17.91
+2018-09-11 23:36:30,999 - INFO - (-1, 'Timeout')
+2018-09-11 23:36:40,999 - INFO - position_list_query
+2018-09-11 23:36:41,006 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 23:36:41,016 - INFO - place_order 【卖出】
+2018-09-11 23:36:41,016 - INFO - code=US.VNCE price=18.11
+2018-09-11 23:36:41,086 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-11 23:36:51,086 - INFO - position_list_query
+2018-09-11 23:36:51,092 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 23:46:51,102 - INFO - unsubscribe
+2018-09-11 23:46:51,103 - INFO - (0, None)
+2018-09-11 23:46:51,103 - INFO - subscribe
+2018-09-11 23:46:51,105 - INFO - (0, None)
+2018-09-11 23:46:51,222 - INFO - place_order 【买入】
+2018-09-11 23:46:51,222 - INFO - code=US.BITA price=20.12
+2018-09-11 23:47:01,297 - INFO - (-1, 'Timeout')
+2018-09-11 23:47:11,297 - INFO - position_list_query
+2018-09-11 23:47:11,301 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 23:47:11,310 - INFO - place_order 【卖出】
+2018-09-11 23:47:11,311 - INFO - code=US.BITA price=20.32
+2018-09-11 23:47:11,379 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-11 23:47:21,380 - INFO - position_list_query
+2018-09-11 23:47:21,384 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 23:57:21,393 - INFO - unsubscribe
+2018-09-11 23:57:21,395 - INFO - (0, None)
+2018-09-11 23:57:21,395 - INFO - subscribe
+2018-09-11 23:57:21,397 - INFO - (0, None)
+2018-09-11 23:57:21,513 - INFO - place_order 【买入】
+2018-09-11 23:57:21,513 - INFO - code=US.CYTR price=0.8500000000000001
+2018-09-11 23:57:31,563 - INFO - (-1, 'Timeout')
+2018-09-11 23:57:41,564 - INFO - position_list_query
+2018-09-11 23:57:41,576 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-11 23:57:41,585 - INFO - place_order 【卖出】
+2018-09-11 23:57:41,585 - INFO - code=US.CYTR price=1.05
+2018-09-11 23:57:41,658 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-11 23:57:51,658 - INFO - position_list_query
+2018-09-11 23:57:51,662 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 00:07:51,673 - INFO - unsubscribe
+2018-09-12 00:07:51,674 - INFO - (0, None)
+2018-09-12 00:07:51,674 - INFO - subscribe
+2018-09-12 00:07:51,676 - INFO - (0, None)
+2018-09-12 00:07:51,797 - INFO - place_order 【买入】
+2018-09-12 00:07:51,797 - INFO - code=US.EDU price=70.67999999999999
+2018-09-12 00:08:01,833 - INFO - (-1, 'Timeout')
+2018-09-12 00:08:11,833 - INFO - position_list_query
+2018-09-12 00:08:11,839 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 00:08:11,849 - INFO - place_order 【卖出】
+2018-09-12 00:08:11,849 - INFO - code=US.EDU price=70.88
+2018-09-12 00:08:11,921 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 00:08:21,922 - INFO - position_list_query
+2018-09-12 00:08:21,926 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 00:18:21,935 - INFO - unsubscribe
+2018-09-12 00:18:21,936 - INFO - (0, None)
+2018-09-12 00:18:21,936 - INFO - subscribe
+2018-09-12 00:18:21,938 - INFO - (0, None)
+2018-09-12 00:18:22,061 - INFO - place_order 【买入】
+2018-09-12 00:18:22,662 - INFO - code=US.VRS price=29.46
+2018-09-12 00:18:32,732 - INFO - (-1, 'Timeout')
+2018-09-12 00:18:42,733 - INFO - position_list_query
+2018-09-12 00:18:42,737 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 00:18:42,747 - INFO - place_order 【卖出】
+2018-09-12 00:18:42,747 - INFO - code=US.VRS price=29.66
+2018-09-12 00:18:42,804 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 00:18:52,804 - INFO - position_list_query
+2018-09-12 00:18:52,807 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 00:28:52,818 - INFO - unsubscribe
+2018-09-12 00:28:52,820 - INFO - (0, None)
+2018-09-12 00:28:52,820 - INFO - subscribe
+2018-09-12 00:28:52,822 - INFO - (0, None)
+2018-09-12 00:28:52,939 - INFO - place_order 【买入】
+2018-09-12 00:28:52,939 - INFO - code=US.VBFC price=33.55
+2018-09-12 00:29:02,968 - INFO - (-1, 'Timeout')
+2018-09-12 00:29:12,968 - INFO - position_list_query
+2018-09-12 00:29:12,974 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 00:29:12,984 - INFO - place_order 【卖出】
+2018-09-12 00:29:12,984 - INFO - code=US.VBFC price=33.75
+2018-09-12 00:29:13,060 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 00:29:23,061 - INFO - position_list_query
+2018-09-12 00:29:23,066 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 00:39:23,076 - INFO - unsubscribe
+2018-09-12 00:39:23,078 - INFO - (0, None)
+2018-09-12 00:39:23,078 - INFO - subscribe
+2018-09-12 00:39:23,080 - INFO - (0, None)
+2018-09-12 00:39:23,200 - INFO - place_order 【买入】
+2018-09-12 00:39:23,200 - INFO - code=US.PGTI price=25.8
+2018-09-12 00:39:33,286 - INFO - (-1, 'Timeout')
+2018-09-12 00:39:43,287 - INFO - position_list_query
+2018-09-12 00:39:43,291 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 00:39:43,301 - INFO - place_order 【卖出】
+2018-09-12 00:39:43,301 - INFO - code=US.PGTI price=26.0
+2018-09-12 00:39:43,372 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 00:39:53,373 - INFO - position_list_query
+2018-09-12 00:39:53,385 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 00:49:53,394 - INFO - unsubscribe
+2018-09-12 00:49:53,396 - INFO - (0, None)
+2018-09-12 00:49:53,397 - INFO - subscribe
+2018-09-12 00:49:53,398 - INFO - (0, None)
+2018-09-12 00:49:53,523 - INFO - place_order 【买入】
+2018-09-12 00:49:53,523 - INFO - code=US.ARTX price=3.05
+2018-09-12 00:50:03,546 - INFO - (-1, 'Timeout')
+2018-09-12 00:50:13,547 - INFO - position_list_query
+2018-09-12 00:50:13,551 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 00:50:13,561 - INFO - place_order 【卖出】
+2018-09-12 00:50:13,561 - INFO - code=US.ARTX price=3.25
+2018-09-12 00:50:13,637 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 00:50:23,637 - INFO - position_list_query
+2018-09-12 00:50:23,641 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 01:00:23,651 - INFO - unsubscribe
+2018-09-12 01:00:23,652 - INFO - (0, None)
+2018-09-12 01:00:23,652 - INFO - subscribe
+2018-09-12 01:00:23,654 - INFO - (0, None)
+2018-09-12 01:00:23,776 - INFO - place_order 【买入】
+2018-09-12 01:00:23,776 - INFO - code=US.IMMR price=10.09
+2018-09-12 01:00:33,847 - INFO - (-1, 'Timeout')
+2018-09-12 01:00:43,847 - INFO - position_list_query
+2018-09-12 01:00:43,852 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 01:00:43,862 - INFO - place_order 【卖出】
+2018-09-12 01:00:43,862 - INFO - code=US.IMMR price=10.29
+2018-09-12 01:00:43,932 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 01:00:53,932 - INFO - position_list_query
+2018-09-12 01:00:53,935 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 01:10:53,946 - INFO - unsubscribe
+2018-09-12 01:10:53,947 - INFO - (0, None)
+2018-09-12 01:10:53,947 - INFO - subscribe
+2018-09-12 01:10:53,949 - INFO - (0, None)
+2018-09-12 01:10:54,075 - INFO - place_order 【买入】
+2018-09-12 01:10:54,075 - INFO - code=US.DSWL price=3.1999999999999997
+2018-09-12 01:11:04,093 - INFO - (-1, 'Timeout')
+2018-09-12 01:11:14,093 - INFO - position_list_query
+2018-09-12 01:11:14,097 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 01:11:14,107 - INFO - place_order 【卖出】
+2018-09-12 01:11:14,107 - INFO - code=US.DSWL price=3.4
+2018-09-12 01:11:14,179 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 01:11:24,180 - INFO - position_list_query
+2018-09-12 01:11:24,187 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 01:21:24,196 - INFO - unsubscribe
+2018-09-12 01:21:24,198 - INFO - (0, None)
+2018-09-12 01:21:24,198 - INFO - subscribe
+2018-09-12 01:21:24,200 - INFO - (0, None)
+2018-09-12 01:21:24,325 - INFO - place_order 【买入】
+2018-09-12 01:21:24,325 - INFO - code=US.KOSS price=2.5
+2018-09-12 01:21:34,370 - INFO - (-1, 'Timeout')
+2018-09-12 01:21:44,371 - INFO - position_list_query
+2018-09-12 01:21:44,375 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 01:21:44,385 - INFO - place_order 【卖出】
+2018-09-12 01:21:44,385 - INFO - code=US.KOSS price=2.7
+2018-09-12 01:21:44,460 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 01:21:54,460 - INFO - position_list_query
+2018-09-12 01:21:54,464 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 01:31:54,473 - INFO - unsubscribe
+2018-09-12 01:31:54,474 - INFO - (0, None)
+2018-09-12 01:31:54,474 - INFO - subscribe
+2018-09-12 01:31:54,476 - INFO - (0, None)
+2018-09-12 01:31:54,602 - INFO - place_order 【买入】
+2018-09-12 01:31:55,156 - INFO - code=US.IDSA price=2.05
+2018-09-12 01:32:05,219 - INFO - (-1, 'Timeout')
+2018-09-12 01:32:15,219 - INFO - position_list_query
+2018-09-12 01:32:15,224 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 01:32:15,234 - INFO - place_order 【卖出】
+2018-09-12 01:32:15,234 - INFO - code=US.IDSA price=2.25
+2018-09-12 01:32:15,302 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 01:32:25,302 - INFO - position_list_query
+2018-09-12 01:32:25,317 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 01:42:25,328 - INFO - unsubscribe
+2018-09-12 01:42:25,330 - INFO - (0, None)
+2018-09-12 01:42:25,330 - INFO - subscribe
+2018-09-12 01:42:25,332 - INFO - (0, None)
+2018-09-12 01:42:25,451 - INFO - place_order 【买入】
+2018-09-12 01:42:25,451 - INFO - code=US.WBAI price=11.5
+2018-09-12 01:42:35,478 - INFO - (-1, 'Timeout')
+2018-09-12 01:42:45,478 - INFO - position_list_query
+2018-09-12 01:42:45,483 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 01:42:45,493 - INFO - place_order 【卖出】
+2018-09-12 01:42:45,493 - INFO - code=US.WBAI price=11.7
+2018-09-12 01:42:45,569 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 01:42:55,570 - INFO - position_list_query
+2018-09-12 01:42:55,574 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 01:52:55,584 - INFO - unsubscribe
+2018-09-12 01:52:55,585 - INFO - (0, None)
+2018-09-12 01:52:55,585 - INFO - subscribe
+2018-09-12 01:52:55,587 - INFO - (0, None)
+2018-09-12 01:52:55,710 - INFO - place_order 【买入】
+2018-09-12 01:52:55,710 - INFO - code=US.OESX price=0.9299999999999999
+2018-09-12 01:53:05,793 - INFO - (-1, 'Timeout')
+2018-09-12 01:53:15,793 - INFO - position_list_query
+2018-09-12 01:53:15,796 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 01:53:15,806 - INFO - place_order 【卖出】
+2018-09-12 01:53:15,806 - INFO - code=US.OESX price=0.95
+2018-09-12 01:53:15,877 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 01:53:25,878 - INFO - position_list_query
+2018-09-12 01:53:25,882 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 02:03:25,892 - INFO - unsubscribe
+2018-09-12 02:03:25,894 - INFO - (0, None)
+2018-09-12 02:03:25,894 - INFO - subscribe
+2018-09-12 02:03:25,896 - INFO - (0, None)
+2018-09-12 02:03:26,012 - INFO - place_order 【买入】
+2018-09-12 02:03:26,012 - INFO - code=US.HRB price=25.16
+2018-09-12 02:03:36,071 - INFO - (-1, 'Timeout')
+2018-09-12 02:03:46,072 - INFO - position_list_query
+2018-09-12 02:03:46,077 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 02:03:46,086 - INFO - place_order 【卖出】
+2018-09-12 02:03:46,086 - INFO - code=US.HRB price=25.36
+2018-09-12 02:03:46,155 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 02:03:56,155 - INFO - position_list_query
+2018-09-12 02:03:56,159 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 02:13:56,168 - INFO - unsubscribe
+2018-09-12 02:13:56,170 - INFO - (0, None)
+2018-09-12 02:13:56,170 - INFO - subscribe
+2018-09-12 02:13:56,172 - INFO - (0, None)
+2018-09-12 02:13:56,297 - INFO - place_order 【买入】
+2018-09-12 02:13:56,297 - INFO - code=US.ELY price=23.080000000000002
+2018-09-12 02:14:06,324 - INFO - (-1, 'Timeout')
+2018-09-12 02:14:16,325 - INFO - position_list_query
+2018-09-12 02:14:16,329 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 02:14:16,339 - INFO - place_order 【卖出】
+2018-09-12 02:14:16,339 - INFO - code=US.ELY price=23.28
+2018-09-12 02:14:16,412 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 02:14:26,412 - INFO - position_list_query
+2018-09-12 02:14:26,415 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 02:24:26,426 - INFO - unsubscribe
+2018-09-12 02:24:26,428 - INFO - (0, None)
+2018-09-12 02:24:26,428 - INFO - subscribe
+2018-09-12 02:24:26,430 - INFO - (0, None)
+2018-09-12 02:24:26,547 - INFO - place_order 【买入】
+2018-09-12 02:24:26,547 - INFO - code=US.ASTC price=3.1399999999999997
+2018-09-12 02:24:36,566 - INFO - (-1, 'Timeout')
+2018-09-12 02:24:46,566 - INFO - position_list_query
+2018-09-12 02:24:46,570 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 02:24:46,579 - INFO - place_order 【卖出】
+2018-09-12 02:24:46,579 - INFO - code=US.ASTC price=3.34
+2018-09-12 02:24:46,651 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 02:24:56,652 - INFO - position_list_query
+2018-09-12 02:24:56,655 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 02:34:56,665 - INFO - unsubscribe
+2018-09-12 02:34:56,666 - INFO - (0, None)
+2018-09-12 02:34:56,666 - INFO - subscribe
+2018-09-12 02:34:56,668 - INFO - (0, None)
+2018-09-12 02:34:56,795 - INFO - place_order 【买入】
+2018-09-12 02:34:56,795 - INFO - code=US.DMD price=-0.02
+2018-09-12 02:34:56,806 - INFO - (-1, '订单价格填写错误')
+2018-09-12 02:35:06,807 - INFO - position_list_query
+2018-09-12 02:35:06,812 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 02:35:06,821 - INFO - place_order 【卖出】
+2018-09-12 02:35:06,821 - INFO - code=US.DMD price=0.0
+2018-09-12 02:35:06,832 - INFO - (-1, '订单价格填写错误')
+2018-09-12 02:35:16,833 - INFO - position_list_query
+2018-09-12 02:35:16,836 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 02:45:16,848 - INFO - unsubscribe
+2018-09-12 02:45:16,850 - INFO - (0, None)
+2018-09-12 02:45:16,850 - INFO - subscribe
+2018-09-12 02:45:16,852 - INFO - (0, None)
+2018-09-12 02:45:16,971 - INFO - place_order 【买入】
+2018-09-12 02:45:16,971 - INFO - code=US.QIWI price=13.31
+2018-09-12 02:45:26,990 - INFO - (-1, 'Timeout')
+2018-09-12 02:45:36,991 - INFO - position_list_query
+2018-09-12 02:45:36,995 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 02:45:37,005 - INFO - place_order 【卖出】
+2018-09-12 02:45:37,005 - INFO - code=US.QIWI price=13.51
+2018-09-12 02:45:37,082 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 02:45:47,083 - INFO - position_list_query
+2018-09-12 02:45:47,086 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 02:55:47,096 - INFO - unsubscribe
+2018-09-12 02:55:47,098 - INFO - (0, None)
+2018-09-12 02:55:47,098 - INFO - subscribe
+2018-09-12 02:55:47,100 - INFO - (0, None)
+2018-09-12 02:55:47,229 - INFO - place_order 【买入】
+2018-09-12 02:55:47,607 - INFO - code=US.VECO price=10.600000000000001
+2018-09-12 02:55:57,663 - INFO - (-1, 'Timeout')
+2018-09-12 02:56:07,663 - INFO - position_list_query
+2018-09-12 02:56:07,667 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 02:56:07,676 - INFO - place_order 【卖出】
+2018-09-12 02:56:07,677 - INFO - code=US.VECO price=10.8
+2018-09-12 02:56:07,752 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 02:56:17,752 - INFO - position_list_query
+2018-09-12 02:56:17,755 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 03:06:17,766 - INFO - unsubscribe
+2018-09-12 03:06:17,767 - INFO - (0, None)
+2018-09-12 03:06:17,767 - INFO - subscribe
+2018-09-12 03:06:17,769 - INFO - (0, None)
+2018-09-12 03:06:17,889 - INFO - place_order 【买入】
+2018-09-12 03:06:17,889 - INFO - code=US.HGG price=-0.02
+2018-09-12 03:06:17,899 - INFO - (-1, '订单价格填写错误')
+2018-09-12 03:06:27,899 - INFO - position_list_query
+2018-09-12 03:06:27,904 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 03:06:27,913 - INFO - place_order 【卖出】
+2018-09-12 03:06:27,913 - INFO - code=US.HGG price=0.0
+2018-09-12 03:06:27,923 - INFO - (-1, '订单价格填写错误')
+2018-09-12 03:06:37,924 - INFO - position_list_query
+2018-09-12 03:06:37,928 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 03:16:37,937 - INFO - unsubscribe
+2018-09-12 03:16:37,938 - INFO - (0, None)
+2018-09-12 03:16:37,938 - INFO - subscribe
+2018-09-12 03:16:37,940 - INFO - (0, None)
+2018-09-12 03:16:38,062 - INFO - place_order 【买入】
+2018-09-12 03:16:38,062 - INFO - code=US.AXN price=-0.02
+2018-09-12 03:16:38,073 - INFO - (-1, '订单价格填写错误')
+2018-09-12 03:16:48,073 - INFO - position_list_query
+2018-09-12 03:16:48,078 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 03:16:48,088 - INFO - place_order 【卖出】
+2018-09-12 03:16:48,088 - INFO - code=US.AXN price=0.0
+2018-09-12 03:16:48,099 - INFO - (-1, '订单价格填写错误')
+2018-09-12 03:16:58,100 - INFO - position_list_query
+2018-09-12 03:16:58,103 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 03:26:58,114 - INFO - unsubscribe
+2018-09-12 03:26:58,116 - INFO - (0, None)
+2018-09-12 03:26:58,116 - INFO - subscribe
+2018-09-12 03:26:58,118 - INFO - (0, None)
+2018-09-12 03:26:58,232 - INFO - place_order 【买入】
+2018-09-12 03:26:58,232 - INFO - code=US.QUIK price=0.81
+2018-09-12 03:27:08,257 - INFO - (-1, 'Timeout')
+2018-09-12 03:27:18,258 - INFO - position_list_query
+2018-09-12 03:27:18,261 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 03:27:18,271 - INFO - place_order 【卖出】
+2018-09-12 03:27:18,271 - INFO - code=US.QUIK price=1.01
+2018-09-12 03:27:18,344 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 03:27:28,344 - INFO - position_list_query
+2018-09-12 03:27:28,355 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 03:37:28,364 - INFO - unsubscribe
+2018-09-12 03:37:28,366 - INFO - (0, None)
+2018-09-12 03:37:28,366 - INFO - subscribe
+2018-09-12 03:37:28,368 - INFO - (0, None)
+2018-09-12 03:37:28,480 - INFO - place_order 【买入】
+2018-09-12 03:37:28,480 - INFO - code=US.GASS price=3.3699999999999997
+2018-09-12 03:37:38,561 - INFO - (-1, 'Timeout')
+2018-09-12 03:37:48,561 - INFO - position_list_query
+2018-09-12 03:37:48,566 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 03:37:48,575 - INFO - place_order 【卖出】
+2018-09-12 03:37:48,576 - INFO - code=US.GASS price=3.57
+2018-09-12 03:37:48,649 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 03:37:58,650 - INFO - position_list_query
+2018-09-12 03:37:58,655 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 03:47:58,664 - INFO - unsubscribe
+2018-09-12 03:47:58,665 - INFO - (0, None)
+2018-09-12 03:47:58,665 - INFO - subscribe
+2018-09-12 03:47:58,667 - INFO - (0, None)
+2018-09-12 03:47:58,786 - INFO - place_order 【买入】
+2018-09-12 03:47:58,787 - INFO - code=US.GSAT price=0.484
+2018-09-12 03:48:08,865 - INFO - (-1, 'Timeout')
+2018-09-12 03:48:18,865 - INFO - position_list_query
+2018-09-12 03:48:18,871 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 03:48:18,880 - INFO - place_order 【卖出】
+2018-09-12 03:48:18,880 - INFO - code=US.GSAT price=0.504
+2018-09-12 03:48:18,953 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 03:48:28,954 - INFO - position_list_query
+2018-09-12 03:48:28,959 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 03:58:28,969 - INFO - unsubscribe
+2018-09-12 03:58:28,970 - INFO - (0, None)
+2018-09-12 03:58:28,970 - INFO - subscribe
+2018-09-12 03:58:28,972 - INFO - (0, None)
+2018-09-12 03:58:29,086 - INFO - place_order 【买入】
+2018-09-12 03:58:29,086 - INFO - code=US.HK price=4.6
+2018-09-12 03:58:39,094 - INFO - (-1, 'Timeout')
+2018-09-12 03:58:49,094 - INFO - position_list_query
+2018-09-12 03:58:49,100 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 03:58:49,110 - INFO - place_order 【卖出】
+2018-09-12 03:58:49,110 - INFO - code=US.HK price=4.8
+2018-09-12 03:58:49,185 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 03:58:59,186 - INFO - position_list_query
+2018-09-12 03:58:59,190 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 04:08:59,200 - INFO - unsubscribe
+2018-09-12 04:08:59,202 - INFO - (0, None)
+2018-09-12 04:08:59,202 - INFO - subscribe
+2018-09-12 04:08:59,205 - INFO - (0, None)
+2018-09-12 04:08:59,324 - INFO - place_order 【买入】
+2018-09-12 04:08:59,324 - INFO - code=US.KONE price=6.8
+2018-09-12 04:09:09,353 - INFO - (-1, 'Timeout')
+2018-09-12 04:09:19,353 - INFO - position_list_query
+2018-09-12 04:09:19,357 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 04:09:19,367 - INFO - place_order 【卖出】
+2018-09-12 04:09:19,367 - INFO - code=US.KONE price=7.0
+2018-09-12 04:09:19,447 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 04:09:29,447 - INFO - position_list_query
+2018-09-12 04:09:29,452 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 04:19:29,462 - INFO - unsubscribe
+2018-09-12 04:19:29,464 - INFO - (0, None)
+2018-09-12 04:19:29,465 - INFO - subscribe
+2018-09-12 04:19:29,466 - INFO - (0, None)
+2018-09-12 04:19:29,592 - INFO - place_order 【买入】
+2018-09-12 04:19:29,592 - INFO - code=US.CLWT price=3.65
+2018-09-12 04:19:39,658 - INFO - (-1, 'Timeout')
+2018-09-12 04:19:49,659 - INFO - position_list_query
+2018-09-12 04:19:49,663 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 04:19:49,672 - INFO - place_order 【卖出】
+2018-09-12 04:19:49,672 - INFO - code=US.CLWT price=3.85
+2018-09-12 04:19:49,749 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 04:19:59,750 - INFO - position_list_query
+2018-09-12 04:19:59,755 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 04:29:59,766 - INFO - unsubscribe
+2018-09-12 04:29:59,768 - INFO - (0, None)
+2018-09-12 04:29:59,768 - INFO - subscribe
+2018-09-12 04:29:59,770 - INFO - (0, None)
+2018-09-12 04:29:59,888 - INFO - place_order 【买入】
+2018-09-12 04:29:59,888 - INFO - code=US.SQNS price=1.0
+2018-09-12 04:30:09,984 - INFO - (-1, 'Timeout')
+2018-09-12 04:30:19,985 - INFO - position_list_query
+2018-09-12 04:30:19,998 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 04:30:20,008 - INFO - place_order 【卖出】
+2018-09-12 04:30:20,008 - INFO - code=US.SQNS price=1.2
+2018-09-12 04:30:20,082 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 04:30:30,083 - INFO - position_list_query
+2018-09-12 04:30:30,097 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 04:40:30,108 - INFO - unsubscribe
+2018-09-12 04:40:30,113 - INFO - (0, None)
+2018-09-12 04:40:30,113 - INFO - subscribe
+2018-09-12 04:40:30,117 - INFO - (0, None)
+2018-09-12 04:40:30,235 - INFO - place_order 【买入】
+2018-09-12 04:40:30,236 - INFO - code=US.MERC price=17.1
+2018-09-12 04:40:40,320 - INFO - (-1, 'Timeout')
+2018-09-12 04:40:50,321 - INFO - position_list_query
+2018-09-12 04:40:50,325 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 04:40:50,334 - INFO - place_order 【卖出】
+2018-09-12 04:40:50,334 - INFO - code=US.MERC price=17.3
+2018-09-12 04:40:50,410 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 04:41:00,411 - INFO - position_list_query
+2018-09-12 04:41:00,415 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 04:51:00,425 - INFO - unsubscribe
+2018-09-12 04:51:00,427 - INFO - (0, None)
+2018-09-12 04:51:00,427 - INFO - subscribe
+2018-09-12 04:51:00,429 - INFO - (0, None)
+2018-09-12 04:51:00,546 - INFO - place_order 【买入】
+2018-09-12 04:51:00,546 - INFO - code=US.CORT price=13.65
+2018-09-12 04:51:10,649 - INFO - (-1, 'Timeout')
+2018-09-12 04:51:20,650 - INFO - position_list_query
+2018-09-12 04:51:20,653 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 04:51:20,663 - INFO - place_order 【卖出】
+2018-09-12 04:51:20,663 - INFO - code=US.CORT price=13.85
+2018-09-12 04:51:20,739 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 04:51:30,740 - INFO - position_list_query
+2018-09-12 04:51:30,744 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 05:01:30,754 - INFO - unsubscribe
+2018-09-12 05:01:30,756 - INFO - (0, None)
+2018-09-12 05:01:30,756 - INFO - subscribe
+2018-09-12 05:01:30,758 - INFO - (0, None)
+2018-09-12 05:01:30,876 - INFO - place_order 【买入】
+2018-09-12 05:01:30,876 - INFO - code=US.GTN price=16.55
+2018-09-12 05:01:40,927 - INFO - (-1, 'Timeout')
+2018-09-12 05:01:50,927 - INFO - position_list_query
+2018-09-12 05:01:50,933 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 05:01:50,943 - INFO - place_order 【卖出】
+2018-09-12 05:01:50,943 - INFO - code=US.GTN price=16.75
+2018-09-12 05:01:51,031 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 05:02:01,031 - INFO - position_list_query
+2018-09-12 05:02:01,037 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 05:12:01,047 - INFO - unsubscribe
+2018-09-12 05:12:01,049 - INFO - (0, None)
+2018-09-12 05:12:01,049 - INFO - subscribe
+2018-09-12 05:12:01,051 - INFO - (0, None)
+2018-09-12 05:12:01,179 - INFO - place_order 【买入】
+2018-09-12 05:12:01,179 - INFO - code=US.BSPM price=1.55
+2018-09-12 05:12:11,220 - INFO - (-1, 'Timeout')
+2018-09-12 05:12:21,221 - INFO - position_list_query
+2018-09-12 05:12:21,226 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 05:12:21,236 - INFO - place_order 【卖出】
+2018-09-12 05:12:21,236 - INFO - code=US.BSPM price=1.75
+2018-09-12 05:12:21,320 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 05:12:31,321 - INFO - position_list_query
+2018-09-12 05:12:31,326 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 05:22:31,335 - INFO - unsubscribe
+2018-09-12 05:22:31,337 - INFO - (0, None)
+2018-09-12 05:22:31,337 - INFO - subscribe
+2018-09-12 05:22:31,339 - INFO - (0, None)
+2018-09-12 05:22:31,452 - INFO - place_order 【买入】
+2018-09-12 05:22:31,453 - INFO - code=US.VNET price=8.850000000000001
+2018-09-12 05:22:41,542 - INFO - (-1, 'Timeout')
+2018-09-12 05:22:51,543 - INFO - position_list_query
+2018-09-12 05:22:51,547 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 05:22:51,556 - INFO - place_order 【卖出】
+2018-09-12 05:22:51,556 - INFO - code=US.VNET price=9.05
+2018-09-12 05:22:51,635 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 05:23:01,635 - INFO - position_list_query
+2018-09-12 05:23:01,639 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 05:33:01,649 - INFO - unsubscribe
+2018-09-12 05:33:01,650 - INFO - (0, None)
+2018-09-12 05:33:01,650 - INFO - subscribe
+2018-09-12 05:33:01,652 - INFO - (0, None)
+2018-09-12 05:33:01,769 - INFO - place_order 【买入】
+2018-09-12 05:33:01,769 - INFO - code=US.CLNT price=-0.02
+2018-09-12 05:33:01,780 - INFO - (-1, '订单价格填写错误')
+2018-09-12 05:33:11,780 - INFO - position_list_query
+2018-09-12 05:33:11,783 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 05:33:11,793 - INFO - place_order 【卖出】
+2018-09-12 05:33:11,793 - INFO - code=US.CLNT price=0.0
+2018-09-12 05:33:11,804 - INFO - (-1, '订单价格填写错误')
+2018-09-12 05:33:21,805 - INFO - position_list_query
+2018-09-12 05:33:21,808 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 05:43:21,819 - INFO - unsubscribe
+2018-09-12 05:43:21,821 - INFO - (0, None)
+2018-09-12 05:43:21,821 - INFO - subscribe
+2018-09-12 05:43:21,823 - INFO - (0, None)
+2018-09-12 05:43:21,948 - INFO - place_order 【买入】
+2018-09-12 05:43:21,948 - INFO - code=US.CRDC price=-0.02
+2018-09-12 05:43:21,960 - INFO - (-1, '订单价格填写错误')
+2018-09-12 05:43:31,961 - INFO - position_list_query
+2018-09-12 05:43:31,965 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 05:43:31,974 - INFO - place_order 【卖出】
+2018-09-12 05:43:31,974 - INFO - code=US.CRDC price=0.0
+2018-09-12 05:43:31,986 - INFO - (-1, '订单价格填写错误')
+2018-09-12 05:43:41,987 - INFO - position_list_query
+2018-09-12 05:43:41,991 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 05:53:42,000 - INFO - unsubscribe
+2018-09-12 05:53:42,002 - INFO - (0, None)
+2018-09-12 05:53:42,002 - INFO - subscribe
+2018-09-12 05:53:42,004 - INFO - (0, None)
+2018-09-12 05:53:42,124 - INFO - place_order 【买入】
+2018-09-12 05:53:42,743 - INFO - code=US.MTOR price=21.05
+2018-09-12 05:53:52,804 - INFO - (-1, 'Timeout')
+2018-09-12 05:54:02,805 - INFO - position_list_query
+2018-09-12 05:54:02,819 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 05:54:02,835 - INFO - place_order 【卖出】
+2018-09-12 05:54:02,836 - INFO - code=US.MTOR price=21.25
+2018-09-12 05:54:02,923 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 05:54:12,924 - INFO - position_list_query
+2018-09-12 05:54:12,930 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 06:04:12,941 - INFO - unsubscribe
+2018-09-12 06:04:12,943 - INFO - (0, None)
+2018-09-12 06:04:12,943 - INFO - subscribe
+2018-09-12 06:04:12,945 - INFO - (0, None)
+2018-09-12 06:04:13,061 - INFO - place_order 【买入】
+2018-09-12 06:04:13,061 - INFO - code=US.AMG price=139.8
+2018-09-12 06:04:23,068 - INFO - (-1, 'Timeout')
+2018-09-12 06:04:33,068 - INFO - position_list_query
+2018-09-12 06:04:33,072 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 06:04:33,082 - INFO - place_order 【卖出】
+2018-09-12 06:04:33,082 - INFO - code=US.AMG price=140.0
+2018-09-12 06:04:33,159 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 06:04:43,160 - INFO - position_list_query
+2018-09-12 06:04:43,163 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 06:14:43,174 - INFO - unsubscribe
+2018-09-12 06:14:43,176 - INFO - (0, None)
+2018-09-12 06:14:43,176 - INFO - subscribe
+2018-09-12 06:14:43,178 - INFO - (0, None)
+2018-09-12 06:14:43,294 - INFO - place_order 【买入】
+2018-09-12 06:14:43,294 - INFO - code=US.MNI price=8.59
+2018-09-12 06:14:53,332 - INFO - (-1, 'Timeout')
+2018-09-12 06:15:03,333 - INFO - position_list_query
+2018-09-12 06:15:03,337 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 06:15:03,347 - INFO - place_order 【卖出】
+2018-09-12 06:15:03,347 - INFO - code=US.MNI price=8.79
+2018-09-12 06:15:03,418 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 06:15:13,419 - INFO - position_list_query
+2018-09-12 06:15:13,423 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 06:25:13,433 - INFO - unsubscribe
+2018-09-12 06:25:13,434 - INFO - (0, None)
+2018-09-12 06:25:13,434 - INFO - subscribe
+2018-09-12 06:25:13,436 - INFO - (0, None)
+2018-09-12 06:25:13,560 - INFO - place_order 【买入】
+2018-09-12 06:25:13,560 - INFO - code=US.CSIQ price=13.71
+2018-09-12 06:25:23,584 - INFO - (-1, 'Timeout')
+2018-09-12 06:25:33,584 - INFO - position_list_query
+2018-09-12 06:25:33,587 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 06:25:33,597 - INFO - place_order 【卖出】
+2018-09-12 06:25:33,597 - INFO - code=US.CSIQ price=13.91
+2018-09-12 06:25:33,670 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 06:25:43,671 - INFO - position_list_query
+2018-09-12 06:25:43,675 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 06:35:43,684 - INFO - unsubscribe
+2018-09-12 06:35:43,686 - INFO - (0, None)
+2018-09-12 06:35:43,686 - INFO - subscribe
+2018-09-12 06:35:43,688 - INFO - (0, None)
+2018-09-12 06:35:43,803 - INFO - place_order 【买入】
+2018-09-12 06:35:43,803 - INFO - code=US.NTES price=183.60000000000002
+2018-09-12 06:35:53,828 - INFO - (-1, 'Timeout')
+2018-09-12 06:36:03,829 - INFO - position_list_query
+2018-09-12 06:36:03,834 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 06:36:03,844 - INFO - place_order 【卖出】
+2018-09-12 06:36:03,844 - INFO - code=US.NTES price=183.8
+2018-09-12 06:36:03,941 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 06:36:13,942 - INFO - position_list_query
+2018-09-12 06:36:13,945 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 06:46:13,955 - INFO - unsubscribe
+2018-09-12 06:46:13,955 - INFO - (0, None)
+2018-09-12 06:46:13,955 - INFO - subscribe
+2018-09-12 06:46:13,958 - INFO - (0, None)
+2018-09-12 06:46:14,077 - INFO - place_order 【买入】
+2018-09-12 06:46:14,077 - INFO - code=US.RDCM price=11.0
+2018-09-12 06:46:24,087 - INFO - (-1, 'Timeout')
+2018-09-12 06:46:34,087 - INFO - position_list_query
+2018-09-12 06:46:34,093 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 06:46:34,102 - INFO - place_order 【卖出】
+2018-09-12 06:46:34,102 - INFO - code=US.RDCM price=11.2
+2018-09-12 06:46:34,178 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 06:46:44,178 - INFO - position_list_query
+2018-09-12 06:46:44,182 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 06:56:44,192 - INFO - unsubscribe
+2018-09-12 06:56:44,194 - INFO - (0, None)
+2018-09-12 06:56:44,194 - INFO - subscribe
+2018-09-12 06:56:44,196 - INFO - (0, None)
+2018-09-12 06:56:44,309 - INFO - place_order 【买入】
+2018-09-12 06:56:44,309 - INFO - code=US.OSN price=1.74
+2018-09-12 06:56:54,315 - INFO - (-1, 'Timeout')
+2018-09-12 06:57:04,316 - INFO - position_list_query
+2018-09-12 06:57:04,322 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 06:57:04,331 - INFO - place_order 【卖出】
+2018-09-12 06:57:04,331 - INFO - code=US.OSN price=1.94
+2018-09-12 06:57:04,400 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 06:57:14,401 - INFO - position_list_query
+2018-09-12 06:57:14,406 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 07:07:14,416 - INFO - unsubscribe
+2018-09-12 07:07:14,418 - INFO - (0, None)
+2018-09-12 07:07:14,418 - INFO - subscribe
+2018-09-12 07:07:14,420 - INFO - (0, None)
+2018-09-12 07:07:14,538 - INFO - place_order 【买入】
+2018-09-12 07:07:14,539 - INFO - code=US.TUES price=2.4499999999999997
+2018-09-12 07:07:24,632 - INFO - (-1, 'Timeout')
+2018-09-12 07:07:34,633 - INFO - position_list_query
+2018-09-12 07:07:34,636 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 07:07:34,646 - INFO - place_order 【卖出】
+2018-09-12 07:07:34,646 - INFO - code=US.TUES price=2.65
+2018-09-12 07:07:34,722 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 07:07:44,723 - INFO - position_list_query
+2018-09-12 07:07:44,729 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 07:17:44,739 - INFO - unsubscribe
+2018-09-12 07:17:44,740 - INFO - (0, None)
+2018-09-12 07:17:44,740 - INFO - subscribe
+2018-09-12 07:17:44,742 - INFO - (0, None)
+2018-09-12 07:17:44,857 - INFO - place_order 【买入】
+2018-09-12 07:17:44,857 - INFO - code=US.PTEN price=16.720000000000002
+2018-09-12 07:17:54,950 - INFO - (-1, 'Timeout')
+2018-09-12 07:18:04,950 - INFO - position_list_query
+2018-09-12 07:18:04,954 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 07:18:04,964 - INFO - place_order 【卖出】
+2018-09-12 07:18:04,964 - INFO - code=US.PTEN price=16.92
+2018-09-12 07:18:05,040 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 07:18:15,041 - INFO - position_list_query
+2018-09-12 07:18:15,048 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 07:28:15,057 - INFO - unsubscribe
+2018-09-12 07:28:15,059 - INFO - (0, None)
+2018-09-12 07:28:15,059 - INFO - subscribe
+2018-09-12 07:28:15,061 - INFO - (0, None)
+2018-09-12 07:28:15,186 - INFO - place_order 【买入】
+2018-09-12 07:28:15,186 - INFO - code=US.GNMK price=6.99
+2018-09-12 07:28:25,278 - INFO - (-1, 'Timeout')
+2018-09-12 07:28:35,278 - INFO - position_list_query
+2018-09-12 07:28:35,281 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 07:28:35,291 - INFO - place_order 【卖出】
+2018-09-12 07:28:35,291 - INFO - code=US.GNMK price=7.19
+2018-09-12 07:28:35,392 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 07:28:45,393 - INFO - position_list_query
+2018-09-12 07:28:45,397 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 07:38:45,406 - INFO - unsubscribe
+2018-09-12 07:38:45,408 - INFO - (0, None)
+2018-09-12 07:38:45,408 - INFO - subscribe
+2018-09-12 07:38:45,410 - INFO - (0, None)
+2018-09-12 07:38:45,529 - INFO - place_order 【买入】
+2018-09-12 07:38:45,529 - INFO - code=US.PJC price=72.89999999999999
+2018-09-12 07:38:55,568 - INFO - (-1, 'Timeout')
+2018-09-12 07:39:05,568 - INFO - position_list_query
+2018-09-12 07:39:05,572 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 07:39:05,581 - INFO - place_order 【卖出】
+2018-09-12 07:39:05,581 - INFO - code=US.PJC price=73.1
+2018-09-12 07:39:05,661 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 07:39:15,662 - INFO - position_list_query
+2018-09-12 07:39:15,666 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 07:49:15,676 - INFO - unsubscribe
+2018-09-12 07:49:15,678 - INFO - (0, None)
+2018-09-12 07:49:15,678 - INFO - subscribe
+2018-09-12 07:49:15,680 - INFO - (0, None)
+2018-09-12 07:49:15,796 - INFO - place_order 【买入】
+2018-09-12 07:49:15,796 - INFO - code=US.WTW price=69.36
+2018-09-12 07:49:25,849 - INFO - (-1, 'Timeout')
+2018-09-12 07:49:35,850 - INFO - position_list_query
+2018-09-12 07:49:35,856 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 07:49:35,866 - INFO - place_order 【卖出】
+2018-09-12 07:49:35,866 - INFO - code=US.WTW price=69.56
+2018-09-12 07:49:35,948 - INFO - (-1, '您已有买入委托，不可卖空此股票')
+2018-09-12 07:49:45,949 - INFO - position_list_query
+2018-09-12 07:49:45,954 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 07:59:45,963 - INFO - unsubscribe
+2018-09-12 07:59:45,965 - INFO - (0, None)
+2018-09-12 07:59:45,965 - INFO - subscribe
+2018-09-12 07:59:45,967 - INFO - (0, None)
+2018-09-12 07:59:46,091 - INFO - place_order 【买入】
+2018-09-12 07:59:46,091 - INFO - code=US.ATHX price=1.7
+2018-09-12 07:59:56,113 - INFO - (-1, 'Timeout')
+2018-09-12 08:00:06,114 - INFO - position_list_query
+2018-09-12 08:00:06,117 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 08:00:06,127 - INFO - place_order 【卖出】
+2018-09-12 08:00:06,127 - INFO - code=US.ATHX price=1.9
+2018-09-12 08:00:06,139 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 08:00:16,139 - INFO - position_list_query
+2018-09-12 08:00:16,143 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 08:10:16,154 - INFO - unsubscribe
+2018-09-12 08:10:16,156 - INFO - (0, None)
+2018-09-12 08:10:16,156 - INFO - subscribe
+2018-09-12 08:10:16,158 - INFO - (0, None)
+2018-09-12 08:10:16,278 - INFO - place_order 【买入】
+2018-09-12 08:10:16,278 - INFO - code=US.IVAC price=4.8999999999999995
+2018-09-12 08:10:16,291 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 08:10:26,291 - INFO - position_list_query
+2018-09-12 08:10:26,298 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 08:10:26,307 - INFO - place_order 【卖出】
+2018-09-12 08:10:26,307 - INFO - code=US.IVAC price=5.1
+2018-09-12 08:10:26,321 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 08:10:36,322 - INFO - position_list_query
+2018-09-12 08:10:36,325 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 08:20:36,336 - INFO - unsubscribe
+2018-09-12 08:20:36,338 - INFO - (0, None)
+2018-09-12 08:20:36,338 - INFO - subscribe
+2018-09-12 08:20:36,340 - INFO - (0, None)
+2018-09-12 08:20:36,465 - INFO - place_order 【买入】
+2018-09-12 08:20:36,465 - INFO - code=US.OCLR price=8.8
+2018-09-12 08:20:36,480 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 08:20:46,481 - INFO - position_list_query
+2018-09-12 08:20:46,484 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 08:20:46,494 - INFO - place_order 【卖出】
+2018-09-12 08:20:46,494 - INFO - code=US.OCLR price=9.0
+2018-09-12 08:20:46,507 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 08:20:56,508 - INFO - position_list_query
+2018-09-12 08:20:56,512 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 08:30:56,521 - INFO - unsubscribe
+2018-09-12 08:30:56,522 - INFO - (0, None)
+2018-09-12 08:30:56,522 - INFO - subscribe
+2018-09-12 08:30:56,524 - INFO - (0, None)
+2018-09-12 08:30:56,639 - INFO - place_order 【买入】
+2018-09-12 08:30:56,639 - INFO - code=US.TOWR price=19.95
+2018-09-12 08:30:56,652 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 08:31:06,652 - INFO - position_list_query
+2018-09-12 08:31:06,657 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 08:31:06,667 - INFO - place_order 【卖出】
+2018-09-12 08:31:06,667 - INFO - code=US.TOWR price=20.15
+2018-09-12 08:31:06,681 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 08:31:16,681 - INFO - position_list_query
+2018-09-12 08:31:16,688 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 08:41:16,699 - INFO - unsubscribe
+2018-09-12 08:41:16,701 - INFO - (0, None)
+2018-09-12 08:41:16,701 - INFO - subscribe
+2018-09-12 08:41:16,703 - INFO - (0, None)
+2018-09-12 08:41:16,823 - INFO - place_order 【买入】
+2018-09-12 08:41:16,824 - INFO - code=US.CTSH price=74.89999999999999
+2018-09-12 08:41:16,844 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 08:41:26,844 - INFO - position_list_query
+2018-09-12 08:41:26,848 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 08:41:26,857 - INFO - place_order 【卖出】
+2018-09-12 08:41:26,857 - INFO - code=US.CTSH price=75.1
+2018-09-12 08:41:26,872 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 08:41:36,872 - INFO - position_list_query
+2018-09-12 08:41:36,876 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 08:51:36,887 - INFO - unsubscribe
+2018-09-12 08:51:36,889 - INFO - (0, None)
+2018-09-12 08:51:36,889 - INFO - subscribe
+2018-09-12 08:51:36,891 - INFO - (0, None)
+2018-09-12 08:51:37,004 - INFO - place_order 【买入】
+2018-09-12 08:51:37,004 - INFO - code=US.CPA price=73.92999999999999
+2018-09-12 08:51:37,017 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 08:51:47,018 - INFO - position_list_query
+2018-09-12 08:51:47,025 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 08:51:47,034 - INFO - place_order 【卖出】
+2018-09-12 08:51:47,034 - INFO - code=US.CPA price=74.13
+2018-09-12 08:51:47,047 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 08:51:57,047 - INFO - position_list_query
+2018-09-12 08:51:57,051 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 09:01:57,062 - INFO - unsubscribe
+2018-09-12 09:01:57,063 - INFO - (0, None)
+2018-09-12 09:01:57,063 - INFO - subscribe
+2018-09-12 09:01:57,065 - INFO - (0, None)
+2018-09-12 09:01:57,191 - INFO - place_order 【买入】
+2018-09-12 09:01:57,191 - INFO - code=US.NAV price=38.9
+2018-09-12 09:01:57,205 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 09:02:07,206 - INFO - position_list_query
+2018-09-12 09:02:07,210 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 09:02:07,220 - INFO - place_order 【卖出】
+2018-09-12 09:02:07,220 - INFO - code=US.NAV price=39.1
+2018-09-12 09:02:07,234 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 09:02:17,235 - INFO - position_list_query
+2018-09-12 09:02:17,239 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 09:12:17,249 - INFO - unsubscribe
+2018-09-12 09:12:17,250 - INFO - (0, None)
+2018-09-12 09:12:17,250 - INFO - subscribe
+2018-09-12 09:12:17,253 - INFO - (0, None)
+2018-09-12 09:12:17,367 - INFO - place_order 【买入】
+2018-09-12 09:12:17,367 - INFO - code=US.EROS price=10.75
+2018-09-12 09:12:17,381 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 09:12:27,382 - INFO - position_list_query
+2018-09-12 09:12:27,387 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 09:12:27,397 - INFO - place_order 【卖出】
+2018-09-12 09:12:27,397 - INFO - code=US.EROS price=10.95
+2018-09-12 09:12:27,409 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 09:12:37,409 - INFO - position_list_query
+2018-09-12 09:12:37,415 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 09:22:37,425 - INFO - unsubscribe
+2018-09-12 09:22:37,427 - INFO - (0, None)
+2018-09-12 09:22:37,427 - INFO - subscribe
+2018-09-12 09:22:37,429 - INFO - (0, None)
+2018-09-12 09:22:37,557 - INFO - place_order 【买入】
+2018-09-12 09:22:37,557 - INFO - code=US.KINS price=16.2
+2018-09-12 09:22:37,571 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 09:22:47,571 - INFO - position_list_query
+2018-09-12 09:22:47,575 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 09:22:47,584 - INFO - place_order 【卖出】
+2018-09-12 09:22:47,584 - INFO - code=US.KINS price=16.4
+2018-09-12 09:22:47,598 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 09:22:57,599 - INFO - position_list_query
+2018-09-12 09:22:57,607 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 09:32:57,617 - INFO - unsubscribe
+2018-09-12 09:32:57,619 - INFO - (0, None)
+2018-09-12 09:32:57,619 - INFO - subscribe
+2018-09-12 09:32:57,621 - INFO - (0, None)
+2018-09-12 09:32:57,747 - INFO - place_order 【买入】
+2018-09-12 09:32:57,747 - INFO - code=US.AAV price=1.3
+2018-09-12 09:32:57,758 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 09:33:07,759 - INFO - position_list_query
+2018-09-12 09:33:07,762 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 09:33:07,772 - INFO - place_order 【卖出】
+2018-09-12 09:33:07,772 - INFO - code=US.AAV price=1.5
+2018-09-12 09:33:07,786 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 09:33:17,786 - INFO - position_list_query
+2018-09-12 09:33:17,791 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 09:43:17,800 - INFO - unsubscribe
+2018-09-12 09:43:17,802 - INFO - (0, None)
+2018-09-12 09:43:17,802 - INFO - subscribe
+2018-09-12 09:43:17,804 - INFO - (0, None)
+2018-09-12 09:43:17,924 - INFO - place_order 【买入】
+2018-09-12 09:43:17,924 - INFO - code=US.MDWD price=4.85
+2018-09-12 09:43:17,937 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 09:43:27,937 - INFO - position_list_query
+2018-09-12 09:43:27,942 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 09:43:27,951 - INFO - place_order 【卖出】
+2018-09-12 09:43:27,951 - INFO - code=US.MDWD price=5.05
+2018-09-12 09:43:27,965 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 09:43:37,966 - INFO - position_list_query
+2018-09-12 09:43:37,971 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 09:53:37,981 - INFO - unsubscribe
+2018-09-12 09:53:37,982 - INFO - (0, None)
+2018-09-12 09:53:37,982 - INFO - subscribe
+2018-09-12 09:53:37,984 - INFO - (0, None)
+2018-09-12 09:53:38,109 - INFO - place_order 【买入】
+2018-09-12 09:53:38,110 - INFO - code=US.NXST price=66.85
+2018-09-12 09:53:38,124 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 09:53:48,125 - INFO - position_list_query
+2018-09-12 09:53:48,130 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 09:53:48,139 - INFO - place_order 【卖出】
+2018-09-12 09:53:48,139 - INFO - code=US.NXST price=67.05
+2018-09-12 09:53:48,155 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 09:53:58,156 - INFO - position_list_query
+2018-09-12 09:53:58,162 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 10:03:58,173 - INFO - unsubscribe
+2018-09-12 10:03:58,175 - INFO - (0, None)
+2018-09-12 10:03:58,175 - INFO - subscribe
+2018-09-12 10:03:58,176 - INFO - (0, None)
+2018-09-12 10:03:58,305 - INFO - place_order 【买入】
+2018-09-12 10:03:58,305 - INFO - code=US.CRCM price=19.42
+2018-09-12 10:03:58,318 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 10:04:08,318 - INFO - position_list_query
+2018-09-12 10:04:08,330 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
+2018-09-12 10:04:08,339 - INFO - place_order 【卖出】
+2018-09-12 10:04:08,339 - INFO - code=US.CRCM price=19.62
+2018-09-12 10:04:08,353 - INFO - (-1, '当前为非交易时段，美股可下单时间为北京时间16:00-次日8:00')
+2018-09-12 10:04:18,354 - INFO - position_list_query
+2018-09-12 10:04:18,359 - INFO - (0,     code stock_name  qty  can_sell_qty  cost_price  cost_price_valid  market_val  nominal_price  pl_ratio  pl_ratio_valid  pl_val  pl_val_valid  today_buy_qty  today_buy_val  today_pl_val  today_sell_qty  today_sell_val position_side
+0  US.JD         京东  2.0           2.0       27.69                 1        53.9          26.95 -2.672445               1   -1.48             1            0.0            0.0           0.0             0.0             0.0          LONG)
