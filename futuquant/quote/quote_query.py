@@ -14,6 +14,10 @@ from futuquant.common.pb.Common_pb2 import RetType
 from futuquant.common.sys_config import SysConfig
 import base64
 
+
+# 无数据时的值
+NoneDataType = 'N/A'
+
 class InitConnect:
     """
     A InitConnect request must be sent first
@@ -184,8 +188,9 @@ class StockBasicInfoQuery:
             "option_type": QUOTE.REV_OPTION_TYPE_CLASS_MAP[record.optionExData.type]
                 if record.HasField('optionExData') else "",
             "strike_time": record.optionExData.strikeTime,
-            "strike_price": record.optionExData.strikePrice if record.HasField('optionExData') else "NaN",
-            "suspension": record.optionExData.suspend if record.HasField('optionExData') else "N/A",
+            "strike_price": record.optionExData.strikePrice if record.HasField('optionExData') else NoneDataType,
+            "suspension": record.optionExData.suspend if record.HasField('optionExData') else NoneDataType,
+            "delisting": record.basic.delisting if record.basic.HasField('delisting') else NoneDataType
         } for record in raw_basic_info_list]
         return RET_OK, "", basic_info_list
 
@@ -1741,8 +1746,8 @@ class OptionChain:
                         "stock_owner": merge_qot_mkt_stock_str(int(record.optionExData.owner.market), record.optionExData.owner.code)
                             if record.HasField('optionExData') else "",
                         "strike_time": record.optionExData.strikeTime,
-                        "strike_price": record.optionExData.strikePrice if record.HasField('optionExData') else "NaN",
-                        "suspension": record.optionExData.suspend if record.HasField('optionExData') else "N/A",
+                        "strike_price": record.optionExData.strikePrice if record.HasField('optionExData') else NoneDataType,
+                        "suspension": record.optionExData.suspend if record.HasField('optionExData') else NoneDataType,
                     }
                     data_list.append(quote_list)
 

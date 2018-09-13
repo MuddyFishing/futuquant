@@ -1,4 +1,4 @@
-syntax = "proto2";
+﻿syntax = "proto2";
 package Qot_Common;
 
 import "Common.proto";
@@ -273,7 +273,7 @@ message SecurityStaticBasic
 	required int32 secType = 4; //Qot_Common.SecurityType,股票类型
 	required string name = 5; //股票名字
 	required string listTime = 6; //上市时间字符串
-
+	optional bool delisting = 7; //是否退市
 }
 
 message WarrantStaticExData
