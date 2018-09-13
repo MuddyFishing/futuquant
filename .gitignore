@@ -100,3 +100,4 @@ ENV/
 .idea/
 /dist/
 /futuquant.egg-info/
+futuquant/testcase/iteration/month7/log/2018-09-13/plate_order_time_out_100063.txt

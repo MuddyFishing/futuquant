@@ -12,10 +12,10 @@ class GetHistoryKline(object):
 
     def test1(self):
         quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1',port=11112)
-        code = 'HK.00700'
-        start = '2018-8-1 0:0:0'
-        end = '2018-8-1 0:0:0'
-        ktype = KLType.K_DAY
+        code = 'HK.999010'
+        start = '2018-5-1'
+        end = '2018-09-13'
+        ktype = KLType.K_MON
         autype = AuType.NONE
         fields = KL_FIELD.ALL_REAL
         ret_code , ret_data = quote_ctx.get_history_kline(code, start , end , ktype, autype, fields)

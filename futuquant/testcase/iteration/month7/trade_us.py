@@ -24,7 +24,7 @@ class TradeUS(object):
         quote_ctx = OpenQuoteContext(host,11112)
         trade_us = OpenUSTradeContext(host,port)
         #日志
-        logger = self.getNewLogger('plate_order_time_out_100068')
+        logger = self.getNewLogger('plate_order_time_out_100063')
         #解锁交易
         logger.info('unlock '+str(trade_us.unlock_trade('123123')))
         # 获取美股股票列表
@@ -47,20 +47,21 @@ class TradeUS(object):
             price_bid = ret_data_orderBook.get('Bid')[0][0]
             price = min(price_quote, price_bid)   #下单价格
             #下单
+            acc_index = 0
             logger.info('place_order 【买入】')
             price = price - (price_spread * price_spread_num) #下买入单，低于当前价20个档位
             logger.info('code='+code+' price='+str(price))
-            logger.info(trade_us.place_order(price = price, qty=1, code = code, trd_side=TrdSide.BUY, order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0,acc_index=1))
+            logger.info(trade_us.place_order(price = price, qty=1, code = code, trd_side=TrdSide.BUY, order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0,acc_index=acc_index))
             time.sleep(10)
             logger.info('position_list_query')
-            logger.info(trade_us.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL, acc_id=0,acc_index=1))
+            logger.info(trade_us.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL, acc_id=0,acc_index=acc_index))
             logger.info('place_order 【卖出】') #下卖出单，高于当前价20个档位
             price = price + (price_spread * price_spread_num)
             logger.info('code=' + code + ' price=' + str(price))
-            logger.info(trade_us.place_order(price=price, qty=1, code=code, trd_side=TrdSide.SELL, order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0,acc_index=1))
+            logger.info(trade_us.place_order(price=price, qty=1, code=code, trd_side=TrdSide.SELL, order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0,acc_index=acc_index))
             time.sleep(10)
             logger.info('position_list_query')
-            logger.info(trade_us.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL,acc_id=0,acc_index=1))
+            logger.info(trade_us.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL,acc_id=0,acc_index=acc_index))
             time.sleep(10*60)
             logger.info('unsubscribe')
             logger.info(quote_ctx.unsubscribe(code, SubType.QUOTE))
