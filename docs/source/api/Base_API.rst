@@ -97,14 +97,34 @@ set_init_rsa_file
    SysConfig.set_init_rsa_file("conn_key.txt")   # rsa 私钥文件路径
    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
    quote_ctx.close()
+   
+   
+--------------------------------------------
+
+set_all_thread_daemon
+~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: set_all_thread_daemon(cls, all_daemon)
+
+  设置是否所有内部创建的线程都是daemon线程。在主线程退出后，如果其余线程都是daemon线程，则进程退出。否则进程仍会继续运行。如果不设置，默认内部会创建非daemon线程。
+
+  :param all_daemon:  bool, 是否所有内部线程都是daemon线程
+  :return: None
+
+  :example:
+
+  .. code:: python
+
+   from futuquant import *
+   SysConfig.set_all_thread_daemon(True)
+   quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+   # 不调用quote_ctx.close()，进程也会退出
 
 --------------------------------------------
 
 
 枚举常量
 ---------
-
-----------------------------
 
 ret_code - 接口返回值
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -665,7 +685,7 @@ OptionCondType - 价内价外
 --------------------------------------
 
 SysNotifyType - 系统异步通知类型
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 系统异步通知类型定义
 

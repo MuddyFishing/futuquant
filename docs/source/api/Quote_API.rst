@@ -175,6 +175,7 @@ get_stock_basicinfo
         suspension          bool           是否停牌(True表示停牌)
         listing_date        str            上市时间
         stock_id            int            股票id
+		delisting           bool           是否退市
         =================   ===========   ==============================================================================
 
  :Example:
