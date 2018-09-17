@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>基础API &mdash; futuquant 3.2 documentation</title>
+  <title>基础API &mdash; futuquant 3.4 documentation</title>
   
 
   
@@ -25,23 +25,19 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-    <link rel="top" title="futuquant 3.2 documentation" href="../index.html"/>
-        <link rel="next" title="行情API" href="Quote_API.html"/>
-        <link rel="prev" title="下载历史数据" href="../setup/Hist_KLine_Download_Intro.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="行情API" href="Quote_API.html" />
+    <link rel="prev" title="下载历史数据" href="../setup/Hist_KLine_Download_Intro.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -63,7 +59,7 @@
             
             
               <div class="version">
-                3.2
+                3.4
               </div>
             
           
@@ -102,6 +98,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#set-proto-fmt">set_proto_fmt</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#enable-proto-encrypt">enable_proto_encrypt</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#set-init-rsa-file">set_init_rsa_file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#set-all-thread-daemon">set_all_thread_daemon</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#id1">枚举常量</a><ul>
@@ -160,7 +157,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">futuquant</a>
@@ -168,9 +165,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -199,7 +197,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/api/Base_API.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/api/Base_API.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -256,8 +254,8 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>client_id</strong> &#8211; str, client的标识</li>
-<li><strong>client_ver</strong> &#8211; int, client的版本号</li>
+<li><strong>client_id</strong> – str, client的标识</li>
+<li><strong>client_ver</strong> – int, client的版本号</li>
 </ul>
 </td>
 </tr>
@@ -288,7 +286,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>proto_fmt</strong> &#8211; <a class="reference external" href="#id2">ProtoFMT</a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>proto_fmt</strong> – <a class="reference external" href="#id2">ProtoFMT</a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
 </tr>
@@ -316,7 +314,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>is_encrypt</strong> &#8211; bool</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>is_encrypt</strong> – bool</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
 </tr>
@@ -345,7 +343,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file</strong> &#8211; str, 文件路径</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file</strong> – str, 文件路径</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
 </tr>
@@ -363,11 +361,38 @@
 </dd></dl>
 
 </div>
+<hr class="docutils" />
+<div class="section" id="set-all-thread-daemon">
+<h3>set_all_thread_daemon<a class="headerlink" href="#set-all-thread-daemon" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="set_all_thread_daemon">
+<code class="descname">set_all_thread_daemon</code><span class="sig-paren">(</span><em>cls</em>, <em>all_daemon</em><span class="sig-paren">)</span><a class="headerlink" href="#set_all_thread_daemon" title="Permalink to this definition">¶</a></dt>
+<dd><p>设置是否所有内部创建的线程都是daemon线程。在主线程退出后，如果其余线程都是daemon线程，则进程退出。否则进程仍会继续运行。如果不设置，默认内部会创建非daemon线程。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>all_daemon</strong> – bool, 是否所有内部线程都是daemon线程</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">futuquant</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">SysConfig</span><span class="o">.</span><span class="n">set_all_thread_daemon</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">quote_ctx</span> <span class="o">=</span> <span class="n">OpenQuoteContext</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+<span class="c1"># 不调用quote_ctx.close()，进程也会退出</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
 </div>
 <hr class="docutils" />
 <div class="section" id="id1">
 <h2>枚举常量<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<hr class="docutils" />
 <div class="section" id="ret-code">
 <h3>ret_code - 接口返回值<a class="headerlink" href="#ret-code" title="Permalink to this headline">¶</a></h3>
 <p>接口返回值定义</p>
@@ -411,7 +436,7 @@
 <hr class="docutils" />
 <div class="section" id="market">
 <h3>Market - 行情市场<a class="headerlink" href="#market" title="Permalink to this headline">¶</a></h3>
-<p>标识不同的行情市场，股票名称的前缀复用该字符串,如 <strong>&#8216;HK.00700&#8217;</strong>, <strong>&#8216;HK_FUTURE.999010&#8217;</strong></p>
+<p>标识不同的行情市场，股票名称的前缀复用该字符串,如 <strong>‘HK.00700’</strong>, <strong>‘HK_FUTURE.999010’</strong></p>
 <dl class="class">
 <dt id="Market">
 <em class="property">class </em><code class="descname">Market</code><a class="headerlink" href="#Market" title="Permalink to this definition">¶</a></dt>
@@ -1613,9 +1638,7 @@
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -1654,11 +1677,12 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'3.2',
+            VERSION:'3.4',
+            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -1672,14 +1696,11 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
-  
  
 <script type="text/javascript">
     console.log("Layout By FutuQuant");

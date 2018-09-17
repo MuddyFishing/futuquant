@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>基础定义 &mdash; futuquant 3.2 documentation</title>
+  <title>基础定义 &mdash; futuquant 3.4 documentation</title>
   
 
   
@@ -25,23 +25,19 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-    <link rel="top" title="futuquant 3.2 documentation" href="../index.html"/>
-        <link rel="next" title="行情协议" href="quote_protocol.html"/>
-        <link rel="prev" title="协议接口指南" href="intro.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="行情协议" href="quote_protocol.html" />
+    <link rel="prev" title="协议接口指南" href="intro.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -63,7 +59,7 @@
             
             
               <div class="version">
-                3.2
+                3.4
               </div>
             
           
@@ -183,7 +179,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">futuquant</a>
@@ -191,9 +187,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -222,7 +219,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/protocol/base_define.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/protocol/base_define.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -305,7 +302,7 @@
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
 <li>请求其它协议前必须等InitConnect协议先完成</li>
-<li>若FutuOpenD配置了加密， &#8220;connAESKey&#8221;将用于后续协议加密</li>
+<li>若FutuOpenD配置了加密， “connAESKey”将用于后续协议加密</li>
 <li>keepAliveInterval 为建议client发起心跳 <a class="reference external" href="#keepalive-proto-1004">KeepAlive</a> 的间隔</li>
 </ul>
 </div>
@@ -1350,9 +1347,7 @@
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -1391,11 +1386,12 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'3.2',
+            VERSION:'3.4',
+            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -1409,14 +1405,11 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
-  
  
 <script type="text/javascript">
     console.log("Layout By FutuQuant");
