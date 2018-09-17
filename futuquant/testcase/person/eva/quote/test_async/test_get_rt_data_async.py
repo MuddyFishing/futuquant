@@ -26,7 +26,7 @@ class GetRtData():
             print(ret_data)
 
     def test2(self):
-        quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1',port=11111)
+        quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1',port=11112)
         code = 'HK.00772'
         #订阅
         quote_ctx.subscribe(code,SubType.RT_DATA)
@@ -58,4 +58,4 @@ class RTDataTest(RTDataHandlerBase):
 
 if __name__ == '__main__':
    grd = GetRtData()
-   grd.test1()
+   grd.test2()

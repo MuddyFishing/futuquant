@@ -42,4 +42,4 @@ class TickerTest(TickerHandlerBase):
 
 if __name__ =='__main__':
     grt = GetRtTicker()
-    grt.test1()
+    grt.test2()

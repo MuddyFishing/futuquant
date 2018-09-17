@@ -33,6 +33,13 @@ class GetStockQuote(object):
         print('get_stock_quote ',ret_code)
         print(ret_data)
 
+    def test2(self):
+        quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1', port=11112)  # mac-kathy:172.18.6.144
+        quote_ctx.start()
+        code = ['HK.999010','US.AAPL']
+        quote_ctx.subscribe(code, SubType.QUOTE)
+        print(quote_ctx.get_stock_quote(code))
+
 class StockQuoteTest(StockQuoteHandlerBase):
     # 获取报价get_stock_quote和StockQuoteHandlerBase
     logger = Logs().getNewLogger(name='StockQuoteTest')
@@ -46,4 +53,4 @@ class StockQuoteTest(StockQuoteHandlerBase):
 
 if __name__ == '__main__':
     gsq = GetStockQuote()
-    gsq.test1()
+    gsq.test2()

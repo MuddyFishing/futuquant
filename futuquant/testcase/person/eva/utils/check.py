@@ -3,8 +3,8 @@
 class Check(object):
 
     def checkAwrite(self):
-        readF = 'C:\\Users\\admin\\Desktop\\CurKlineTest1535956408.txt'
-        writeF = 'C:\\Users\\admin\\Desktop\\CurKlineTest_00700_MON.txt'
+        readF = 'C:\\Users\\admin\\Desktop\\CurKlineTest.txt'
+        writeF = 'C:\\Users\\admin\\Desktop\\CurKlineTest_00700_mon.txt'
         w = open(writeF,'a')
         for line in open(readF):
             if line.__contains__('HK.00700') and line.__contains__('K_MON') :

@@ -20,7 +20,11 @@ class GetTradingDays(object):
 
         quote_ctx.close()
 
+    def test2(self):
+        quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11112)
+        print(quote_ctx.get_trading_days(Market.HK, '2018-9-4', '2018-9-4'))
+
 
 if __name__ == '__main__':
     gtd = GetTradingDays()
-    gtd.test1()
+    gtd.test2()
