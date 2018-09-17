@@ -1,8 +1,9 @@
-from Config import Config
-import requests
-from wx_push import WechatPush
+# -*- coding: utf-8 -*-
 
-config = Config()
+from .config import config
+import requests
+from .wx_push import WechatPush
+
 wp = WechatPush()
 RET_OK = 0
 RET_ERROR = -1
@@ -72,7 +73,7 @@ class CheckConfig:
             return ret, access_token
 
         if config.test_user_nickname == '':
-            return RET_ERROR, "Please fill your nickname in Config.py"
+            return RET_ERROR, "Please fill your nickname in config.py"
 
         # ---- send test msg to tester.
         # else:

@@ -1,4 +1,6 @@
-import requests
+# -*- coding: utf-8 -*-
+
+
 class Config:
     def __init__(self):
         # wechat
@@ -40,3 +42,4 @@ class Config:
         self.port = 11111
 
 
+config = Config()
