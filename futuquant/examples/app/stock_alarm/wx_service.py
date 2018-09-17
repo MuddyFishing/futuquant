@@ -2,13 +2,12 @@
 # filename:
 from flask import Flask, request, make_response
 import time, hashlib
-from receive_and_reply import reply
-from receive_and_reply import receive
-from sqlite_interface import SqliteInterface
-from Config import Config
+from .receive_and_reply import reply
+from .receive_and_reply import receive
+from .sqlite_interface import SqliteInterface
+from .config import config
 
 sqlite = SqliteInterface()
-config = Config()
 app = Flask(__name__)
 
 # 存储openid: [new_parameter_list, active_time]

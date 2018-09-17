@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+
 from futuquant import *
-import data_strategy
+from . import data_strategy
 
 
 class TickerTest(TickerHandlerBase):

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from collections import namedtuple
 
 _ErrField = namedtuple('_ErrField', ('code', 'text'))

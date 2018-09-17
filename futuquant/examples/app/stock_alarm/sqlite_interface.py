@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+
 import re
-from Config import Config
+from .config import config
 import sqlite3
 
-config = Config()
 
 class SqliteInterface:
     def __init__(self):
