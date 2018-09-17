@@ -25,8 +25,12 @@ class GetRtTicker(object):
     def test2(self):
         quote_ctx = futuquant.OpenQuoteContext(host='127.0.0.1', port=11111)
         codes = ['HK.00700', 'HK.00939', 'HK.00941', 'US.AAPL', 'US.GOOG']
+        # 订阅股票
+        print(quote_ctx.subscribe(codes, SubType.TICKER))
+        for code in codes:
+            print(quote_ctx.get_rt_ticker(code, 1000))
         # 反订阅股票
-        print(quote_ctx.unsubscribe(codes, SubType.TICKER))
+        # print(quote_ctx.unsubscribe(codes, SubType.TICKER))
 
 
 class TickerTest(TickerHandlerBase):
@@ -42,4 +46,4 @@ class TickerTest(TickerHandlerBase):
 
 if __name__ =='__main__':
     grt = GetRtTicker()
-    grt.test1()
+    grt.test2()

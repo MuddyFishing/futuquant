@@ -4,6 +4,7 @@ import pandas
 from futuquant.testcase.person.eva.trade.Handler import *
 from futuquant.trade.open_trade_context import *
 from futuquant import *
+import datetime
 import logging
 
 
@@ -15,59 +16,74 @@ class TradeUS(object):
         pandas.set_option('max_columns', 100)
         pandas.set_option('display.width', 1000)
 
-    def test_ubuntu(self):
+    def test_plateOrder_noPush(self):
 
-        host = '172.18.6.144'
-        port = 11112
+        host = '127.0.0.1'
+        port = 11113
 
-        quote_ctx = OpenQuoteContext(host,11111)
+        quote_ctx = OpenQuoteContext(host,11112)
         trade_us = OpenUSTradeContext(host,port)
-
-        ret_code,ret_data = quote_ctx.get_stock_basicinfo( market = Market.US, stock_type=SecurityType.STOCK,code_list=[])
+        #日志
+        logger = self.getNewLogger('plate_order_time_out_100068')
+        #解锁交易
+        logger.info('unlock '+str(trade_us.unlock_trade('123123')))
+        # 获取美股股票列表
+        ret_code_quote, ret_data = quote_ctx.get_stock_basicinfo(market=Market.US, stock_type=SecurityType.STOCK,code_list=[])
         codes = ret_data['code'].tolist()
-        # codes = ['US.XNET','US.X','US.WB','US.RUSL','US.DUC','US.BZUN','US.BRK.A','US.BIDU','US.BITA','US.A']
-        acc_id = 281756460277401516
-
-        # logger = self.getNewLogger('ubuntu_11115(2)')
-        logger = self.getNewLogger('plate_order_time_out_11112')
-        logger.info('unlock' )
-        logger.info(trade_us.unlock_trade('123123'))
-        # logger.info('subscribe')
-        # logger.info(quote_ctx.subscribe(codes,SubType.QUOTE))
+        #逐只股票获取报价并下单
         for code in codes:
             logger.info('subscribe')
-            logger.info(quote_ctx.subscribe(code, SubType.QUOTE))
-            ret_code,ret_data = quote_ctx.get_stock_quote([code])
-            if ret_code is not RET_OK:
-                logger.info('get_stock_quote '+str(ret_code)+ret_data)
-            price = ret_data['last_price'].tolist()[0]
+            logger.info(quote_ctx.subscribe(code, [SubType.QUOTE,SubType.ORDER_BOOK]))
+            ret_code_quote,ret_data_quote = quote_ctx.get_stock_quote([code])
+            ret_code_orderBook , ret_data_orderBook = quote_ctx.get_order_book(code)
+            if ret_code_quote == RET_ERROR:
+                logger.info('get_stock_quote '+str(ret_code_quote)+ret_data_quote)
+            if  ret_code_orderBook == RET_ERROR :
+                logger.info('get_order_book ' + str(ret_code_orderBook) + ret_data_orderBook)
+            #获取股票现价和价差
+            price_quote = ret_data_quote['last_price'].tolist()[0]
+            price_spread = ret_data_quote['price_spread'].tolist()[0]
+            price_spread_num = 20
+            price_bid = ret_data_orderBook.get('Bid')[0][0]
+            price = min(price_quote, price_bid)   #下单价格
+            #下单
+            acc_index = 0
             logger.info('place_order 【买入】')
+            price = price - (price_spread * price_spread_num) #下买入单，低于当前价20个档位
             logger.info('code='+code+' price='+str(price))
-            logger.info(trade_us.place_order(price = price, qty=1, code = code, trd_side=TrdSide.BUY, order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=acc_id))
-            time.sleep(5)
+            logger.info(trade_us.place_order(price = price, qty=1, code = code, trd_side=TrdSide.BUY, order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0,acc_index=acc_index))
+            time.sleep(10)
             logger.info('position_list_query')
-            logger.info(trade_us.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL, acc_id=acc_id))
-            logger.info('place_order 【卖出】')
+            logger.info(trade_us.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL, acc_id=0,acc_index=acc_index))
+            logger.info('place_order 【卖出】') #下卖出单，高于当前价20个档位
+            price = price + (price_spread * price_spread_num)
             logger.info('code=' + code + ' price=' + str(price))
-            logger.info(trade_us.place_order(price=price, qty=1, code=code, trd_side=TrdSide.SELL, order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=acc_id))
-            time.sleep(5)
+            logger.info(trade_us.place_order(price=price, qty=1, code=code, trd_side=TrdSide.SELL, order_type=OrderType.NORMAL,adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0,acc_index=acc_index))
+            time.sleep(10)
             logger.info('position_list_query')
-            logger.info(trade_us.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL,acc_id=acc_id))
+            logger.info(trade_us.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL,acc_id=0,acc_index=acc_index))
             time.sleep(10*60)
             logger.info('unsubscribe')
             logger.info(quote_ctx.unsubscribe(code, SubType.QUOTE))
 
+    def test_plate_order_noPush_timing(self):
+        start_time = datetime.datetime( 2018, 9, 17, 16, 30, 1)
+        while( start_time > datetime.datetime.now() ):
+            print(datetime.datetime.now())
+            sleep(60)
+        #美股开盘，触发下单
+        self.test_plateOrder_noPush()
+
     def test_mac(self):
-        host = '172.18.6.144'  # mac-patrick
+        host = '127.0.0.1'  # mac-patrick
         port = 11111
-        acc_id = 281756460277401311 #100063
+
         trade_us = OpenUSTradeContext(host, port)
         trade_us.unlock_trade('123123')
         logger = self.getNewLogger('mac_11111(2)')
         for i in range(1000):
             logger.info('position_list_query')
-            logger.info(trade_us.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None,
-                                                                         trd_env=TrdEnv.REAL, acc_id=acc_id))
+            logger.info(trade_us.position_list_query(code='', pl_ratio_min=None, pl_ratio_max=None,trd_env=TrdEnv.REAL, acc_id=0,acc_index=1))
             time.sleep(30*60)
 
     def getNewLogger(self,name,dir= None):
@@ -98,7 +114,7 @@ class TradeUS(object):
         return logger
 
 
-
 if __name__ == '__main__':
-    TradeUS().test_ubuntu()
-    # TradeUS().test_mac()
+    trd_us = TradeUS()
+    trd_us.test_plate_order_noPush_timing()
+
