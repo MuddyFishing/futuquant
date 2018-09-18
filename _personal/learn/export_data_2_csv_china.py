@@ -3,9 +3,17 @@
     query_history_change_stocks
     指定涨跌幅，查询本地下载的历史日k数据，返回符合条件的股票
 """
-
+# import sys
+# from os.path import dirname, abspath, join, sep
+# futuquant = dirname(dirname(dirname(abspath(__file__))))
+# print(futuquant)
+# print(futuquant.split(sep)[-1].lower())
+# assert futuquant.split(sep)[-1].lower() == 'futuquant'
+# # sys.path.append(futuquant)
+# sys.path.insert(0, futuquant)
+# print('futuquant folder appended to path: ', futuquant)
+import __init__
 from datetime import datetime
-
 from futuquant import *
 
 

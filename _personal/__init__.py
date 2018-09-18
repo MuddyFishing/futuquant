@@ -13,9 +13,3 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import sys
-from os.path import dirname, abspath, join, sep
-futuquant = dirname(dirname(abspath(__file__)))
-assert futuquant.split(sep)[-1].lower() == 'futuquant'
-sys.path.append(futuquant)
-print('futuquant folder appended to path: ', futuquant)
