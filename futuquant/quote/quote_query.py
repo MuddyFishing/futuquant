@@ -1236,14 +1236,12 @@ class OrderBookQuery:
                                       record.orederCount))
             if record.recvTime != 0:
                 ret_recv_time = max(record.recvTime, ret_recv_time)
-                break
 
         for record in raw_order_book_ask:
             order_book['Ask'].append((record.price, record.volume,
                                       record.orederCount))
             if record.recvTime != 0:
                 ret_recv_time = max(record.recvTime, ret_recv_time)
-                break
 
         order_book['recv_timestamp'] = ret_recv_time
 
