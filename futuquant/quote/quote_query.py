@@ -1229,17 +1229,23 @@ class OrderBookQuery:
         order_book['code'] = merge_qot_mkt_stock_str(rsp_pb.s2c.security.market, rsp_pb.s2c.security.code)
         order_book['Bid'] = []
         order_book['Ask'] = []
-        order_book['recv_timestamp'] = 0
+        ret_recv_time = 0
 
         for record in raw_order_book_bid:
             order_book['Bid'].append((record.price, record.volume,
                                       record.orederCount))
-            order_book['recv_timestamp'] = record.recvTime
+            if record.recvTime != 0:
+                ret_recv_time = max(record.recvTime, ret_recv_time)
+                break
 
         for record in raw_order_book_ask:
             order_book['Ask'].append((record.price, record.volume,
                                       record.orederCount))
-            order_book['recv_timestamp'] = record.recvTime
+            if record.recvTime != 0:
+                ret_recv_time = max(record.recvTime, ret_recv_time)
+                break
+
+        order_book['recv_timestamp'] = ret_recv_time
 
         return RET_OK, "", order_book
 
