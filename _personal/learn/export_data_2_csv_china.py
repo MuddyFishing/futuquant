@@ -3,22 +3,13 @@
     query_history_change_stocks
     指定涨跌幅，查询本地下载的历史日k数据，返回符合条件的股票
 """
-# import sys
-# from os.path import dirname, abspath, join, sep
-# futuquant = dirname(dirname(dirname(abspath(__file__))))
-# print(futuquant)
-# print(futuquant.split(sep)[-1].lower())
-# assert futuquant.split(sep)[-1].lower() == 'futuquant'
-# # sys.path.append(futuquant)
-# sys.path.insert(0, futuquant)
-# print('futuquant folder appended to path: ', futuquant)
+
 import __init__
 from datetime import datetime
 from futuquant import *
 
 
-
-def query_history_change_stocks(quote_context=None, markets=[Market.HK], start='2017-01-05', end='2017-1-10', change_min=5.0,
+def export_data_2_csv_china(quote_context=None, markets=[Market.HK], start='2017-01-05', end='2017-1-10', change_min=5.0,
                             change_max=None, stock_type=SecurityType.STOCK, ascend=True):
     '''
     :param quote_context: api 行情对象
@@ -71,6 +62,7 @@ def query_history_change_stocks(quote_context=None, markets=[Market.HK], start='
 
     # 合并数据
     data = data_start.append(data_end)
+    print('The number of stocks: %d' % len(data))
 
     dt = datetime.now() - dt_last
     print('get_multi_points_history_kline - run time = %s秒' % dt.seconds)
@@ -116,5 +108,5 @@ if __name__ == "__main__":
     change_max = 2
 
     quote_context = OpenQuoteContext(host=api_ip, port=api_port)
-    print(query_history_change_stocks(quote_context, [Market.HK], '2017-01-10', '2017-1-15', change_min, change_max, SecurityType.ETF))
+    print(export_data_2_csv_china(quote_context, [Market.SH, Market.SZ], '2017-01-10', '2017-1-15', change_min, change_max, SecurityType.ETF))
     quote_context.close()

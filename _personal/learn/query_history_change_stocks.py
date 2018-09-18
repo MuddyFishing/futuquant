@@ -3,7 +3,7 @@
     query_history_change_stocks
     指定涨跌幅，查询本地下载的历史日k数据，返回符合条件的股票
 """
-
+import __init__
 from datetime import datetime
 
 from futuquant import *

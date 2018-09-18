@@ -2,6 +2,7 @@
 """
 验证接口：获取某个市场的全部快照数据
 """
+import __init__
 import time
 
 import futuquant as ft
