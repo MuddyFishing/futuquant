@@ -1080,7 +1080,7 @@ class TickerQuery:
             "sequence": record.sequence,
             "recv_timestamp":record.recvTime,
             "type": QUOTE.REV_TICKER_TYPE_MAP[record.type] if record.type in QUOTE.REV_TICKER_TYPE_MAP else TickerType.UNKNOWN,
-			"by_conn_dis":record.byConnDis,
+			"push_data_type":QUOTE.REV_PUSH_DATA_TYPE_MAP[record.pushDataType] if record.pushDataType in QUOTE.REV_PUSH_DATA_TYPE_MAP else PushDataType.NONE,
         } for record in raw_ticker_list]
         return RET_OK, "", ticker_list
 

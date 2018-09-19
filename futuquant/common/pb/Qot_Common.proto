@@ -195,6 +195,15 @@ enum HolderCategory
 	HolderCategory_SeniorManager = 3; //高管
 }
 
+//推送数据的分类，目前只有逐笔在使用
+enum PushDataType
+{
+	PushDataType_Unknow = 0;
+	PushDataType_Realtime = 1; //实时推送的数据
+	PushDataType_ByDisConn = 2; //对后台行情连接断开期间拉取补充的数据 最多750个
+	PushDataType_Cache = 3; //OpenD中已有的数据，常见于后连接上的连接订阅首推
+}
+
  //两个字段确定一支股票
 message Security
 {
@@ -317,7 +326,7 @@ message Ticker
 	optional double recvTime = 7; //收到推送数据的本地时间戳，用于定位延迟
 	optional int32 type = 8; //TickerType, 逐笔类型
 	optional int32 typeSign = 9; //逐笔类型符号
-	optional bool byConnDis = 10; //行情连接断开重连后，拉取一次逐笔用于补充连接断开中间（最多750根），该标志用于区分该种情况
+	optional int32 pushDataType = 10; //用于区分推送情况
 }
 
 message OrderBook
