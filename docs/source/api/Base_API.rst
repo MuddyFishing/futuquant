@@ -659,6 +659,26 @@ OptionType - 期权类型
  
   跌
   
+--------------------------------------
+
+PushDataType - 推送数据类型
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+推送数据类型定义
+
+..  py:class:: PushDataType
+
+ ..  py:attribute:: REALTIME
+ 
+  实时推送数据
+  
+ ..  py:attribute:: BYDISCONN
+ 
+  行情连接断开重连后，OpenD拉取补充断开期间的数据，最多750根
+  
+ ..  py:attribute:: CACHE
+ 
+  非实时推送数据，非连接断开补充数据
   
 --------------------------------------
 

@@ -38,6 +38,7 @@
  
  .. _SecurityReferenceType: Base_API.html#securityreferencetype
  
+ .. _PushDataType: Base_API.html#pushdatatype
  
 
 一分钟上手
@@ -104,6 +105,7 @@ set_handler
             ===============================    =========================
              类名                                 说明
             ===============================    =========================
+			SysNotifyHandlerBase				OpenD通知处理基类
             StockQuoteHandlerBase               报价处理基类
             OrderBookHandlerBase                摆盘处理基类
             CurKlineHandlerBase                 实时k线处理基类
@@ -1090,7 +1092,7 @@ get_holding_change_list
 
 ..  py:function:: get_holding_change_list(self, code, holder_type, start, end=None)
 
- 获取大股东持股变动列表,只提供美股数据
+ 获取大股东持股变动列表,只提供美股数据,并最多只返回前100个
 
  :param code: 股票代码. 例如：'US.AAPL'
  :param holder_type: 持有者类别，查看 StockHolder_
@@ -1188,6 +1190,55 @@ get_option_chain
 
 
 ---------------------------------------------------------------------    
+
+
+SysNotifyHandlerBase - OpenD通知回调处理类
+-------------------------------------------
+
+通知OpenD一些重要消息，类似连接断开等。
+
+.. code:: python
+    
+    import time
+    from futuquant import *
+	
+    class SysNotifyTest(SysNotifyHandlerBase):
+	    def on_recv_rsp(self, rsp_pb):
+        ret_code, content = super(SysNotifyTest, self).on_recv_rsp(rsp_pb)
+        notify_type, sub_type, msg = content
+        if ret_code != RET_OK:
+            logger.debug("SysNotifyTest: error, msg: %s" % msg)
+            return RET_ERROR, content
+        print(msg)
+        return ret_code, content
+			
+    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+    handler = SysNotifyTest()
+    quote_ctx.set_handler(handler)
+                
+-------------------------------------------
+
+on_recv_rsp
+~~~~~~~~~~~
+
+..  py:function:: on_recv_rsp(self, rsp_pb)
+
+ 在收到OpenD通知推送后会回调到该函数，使用者需要在派生类中覆盖此方法
+
+ 注意该回调是在独立子线程中
+
+ :param rsp_pb: 派生类中不需要直接处理该参数
+ :return: ret_code, notify_type, sub_type, msg
+ 
+==================   ===========   ===========
+参数                 类型          说明
+==================   ===========   ===========
+notify_type          int           通知类型
+sub_type             int           消息类型
+msg              	 str           消息描述
+==================   ===========   ===========
+  
+----------------------------
 
 StockQuoteHandlerBase - 实时报价回调处理类
 -------------------------------------------
@@ -1350,7 +1401,10 @@ TickerHandlerBase - 实时逐笔推送回调处理类
 	quote_ctx.subscribe(['HK.00700'], [SubType.TICKER])
 	time.sleep(15)  
 	quote_ctx.close()
+	
+.. note::
 
+    * 行情连接断开重连后，OpenD拉取补充断开期间的逐笔数据（最多750根）并推送
 -------------------------------------------
 
 on_recv_rsp
@@ -1364,7 +1418,7 @@ on_recv_rsp
  注意该回调是在独立子线程中
 
  :param rsp_pb: 派生类中不需要直接处理该参数
- :return: 参见 get_rt_ticker_ 的返回值
+ :return: 参见 get_rt_ticker_ 的返回值，回调比get_rt_ticker多返回一个字段：push_data_type，该字段指明数据来源，参见 PushDataType_
 
 ----------------------------
 
