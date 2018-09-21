@@ -106,7 +106,7 @@ set_all_thread_daemon
 
 ..  py:function:: set_all_thread_daemon(cls, all_daemon)
 
-  设置是否所有内部创建的线程都是daemon线程。在主线程退出后，如果其余线程都是daemon线程，则进程退出。否则进程仍会继续运行。如果不设置，默认内部会创建非daemon线程。
+  设置是否所有内部创建的线程都是daemon线程。在主线程退出后，如果其余线程都是daemon线程，则进程退出。否则进程仍会继续运行。如果不设置，默认内部会创建非daemon线程。默认情况下，行情和交易的context连接上FutuOpenD后，如果不调用close，即使主线程退出，进程也不会退出。因此，如果行情和交易的context设置了接收数据推送，并且也设置了daemon线程，则要自己保证主线程存活，否则进程将退出，也就不会再收到推送数据了。
 
   :param all_daemon:  bool, 是否所有内部线程都是daemon线程
   :return: None

@@ -44,6 +44,21 @@
 OpenHKTradeContext、OpenUSTradeContext、OpenHKCCTradeContext(A股通)、OpenCNTradeContext - 交易接口类
 ---------------------------------------------------------------------------------------------------------------------------
 
+close
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: close
+
+关闭上下文对象。默认情况下，futuquant内部创建的线程会阻止进程退出，只有当所有context都close后，进程才能正常退出。但通过SysConfig.set_all_thread_daemon可以设置所有内部线程为daemon线程，这时即使没有调用context的close，进程也可以正常退出。
+
+.. code:: python
+
+    from futuquant import *
+    quote_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+    quote_ctx.close()
+	
+
+
 get_acc_list - 获取交易业务账户列表
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
