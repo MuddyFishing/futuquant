@@ -40,6 +40,9 @@
  
  .. _PushDataType: Base_API.html#pushdatatype
  
+ .. _TickerType: Base_API.html#tickertype
+
+ .. _DarkStatus: Base_API.html#darkstatus
 
 一分钟上手
 ============
@@ -156,7 +159,7 @@ get_stock_basicinfo
  获取指定市场中特定类型的股票基本信息
  
  :param market: 市场类型 Market_
- :param stock_type: 股票类型，该参数不支持SecurityType.DRVT SecurityType_ 
+ :param stock_type: 股票类型，参见 SecurityType_，但不支持SecurityType.DRVT 
  :param code_list: 如果不为None，应该是股票code的iterable类型，将只返回指定的股票信息
  :return: (ret_code, content)
 
@@ -440,7 +443,7 @@ get_market_snapshot
  stock_owner                     str            所属正股的代码
  wrt_valid                       bool           是否是窝轮（为true时以下涡轮相关的字段才有合法数据）
  wrt_conversion_ratio            float          换股比率（该字段为比例字段，默认不展示%）
- wrt_type                        str            窝轮类型，参见WrtType
+ wrt_type                        str            窝轮类型，参见 WrtType_
  wrt_strike_price                float          行使价格
  wrt_maturity_date               str            格式化窝轮到期时间
  wrt_end_trade                   str            格式化窝轮最后交易时间
@@ -455,7 +458,7 @@ get_market_snapshot
  lot_size                        int            每手股数
  price_spread                    float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
  option_valid                    bool           是否是期权（为true时以下期权相关的字段才有合法数值）
- option_type                     str            期权类型，参见OptionType
+ option_type                     str            期权类型，参见 OptionType_
  owner                           str            标的股
  strike_time                     str            行权日（美股默认是美东时间，港股A股默认是北京时间）
  option_strike_price             float          行权价
@@ -533,7 +536,7 @@ get_plate_stock
         code                    str            股票代码
         lot_size                int            每手股数
         stock_name              str            股票名称
-        stock_type              str            股票类型，参见SecurityType
+        stock_type              str            股票类型，参见 SecurityType_
         list_time               str            上市时间（美股默认是美东时间，港股A股默认是北京时间）
         stock_id                int            股票id
         =====================   ===========   ==============================================================
@@ -598,8 +601,8 @@ get_plate_list
 
  获取板块集合下的子板块列表
 
- :param market: 市场标识，注意这里不区分沪，深,输入沪或者深都会返回沪深市场的子板块（这个是和客户端保持一致的）参见Market
- :param plate_class: 板块分类，参见Plate
+ :param market: 市场标识，注意这里不区分沪，深,输入沪或者深都会返回沪深市场的子板块（这个是和客户端保持一致的）参见 Market_
+ :param plate_class: 板块分类，参见 Plate_
  :return (ret, data): ret == RET_OK 返回pd Dataframe数据，数据列格式如下
 
         ret != RET_OK 返回错误字符串
@@ -772,11 +775,11 @@ get_global_state
 		=====================   ===========   ==============================================================
 		key                      value类型                        说明
 		=====================   ===========   ==============================================================
-		market_sz               str            深圳市场状态，参见MarketState
-		market_us               str            美国市场状态，参见MarketState
-		market_sh               str            上海市场状态，参见MarketState
-		market_hk               str            香港市场状态，参见MarketState
-		market_hkfuture           str            香港期货市场状态，参见MarketState
+		market_sz               str            深圳市场状态，参见 MarketState_
+		market_us               str            美国市场状态，参见 MarketState_
+		market_sh               str            上海市场状态，参见 MarketState_
+		market_hk               str            香港市场状态，参见 MarketState_
+		market_hkfuture           str            香港期货市场状态，参见 MarketState_
 		server_ver              str            FutuOpenD版本号
 		trd_logined             str            '1'：已登录交易服务器，'0': 未登录交易服务器
 		qot_logined             str            '1'：已登录行情服务器，'0': 未登录行情服务器
@@ -825,7 +828,7 @@ get_stock_quote
         suspension              bool           是否停牌(True表示停牌)
         listing_date            str            上市日期 (yyyy-MM-dd)
         price_spread            float          当前价差，亦即摆盘数据的买档或卖档的相邻档位的报价差
-		dark_status             str            暗盘交易状态，见DarkStatus
+		dark_status             str            暗盘交易状态，见 DarkStatus_
         strike_price            float          行权价
         contract_size           int            每份合约数
         open_interest           int            未平仓合约数
@@ -874,7 +877,7 @@ get_rt_ticker
         volume                   int            成交数量（股数）
         turnover                 float          成交金额
         ticker_direction         str            逐笔方向
-        type                     str            逐笔类型，参见TickerType
+        type                     str            逐笔类型，参见 TickerType_
         =====================   ===========   ==============================================================
 
  :Example:
@@ -990,7 +993,7 @@ get_multi_points_history_kline
     =================   ===========   ==============================================================================
     code                str            股票代码
     time_point          str            请求的时间（美股默认是美东时间，港股A股默认是北京时间）
-    data_status         str            数据点是否有效，参见KLDataStatus
+    data_status         str            数据点是否有效，参见 KLDataStatus_
     time_key            str            k线时间（美股默认是美东时间，港股A股默认是北京时间）
     open                float          开盘价
     close               float          收盘价
@@ -1036,11 +1039,11 @@ get_referencestock_list
 		=================   ===========   ==============================================================================
 		code                str            证券代码
 		lot_size            int            每手数量
-		stock_type          str            证券类型，参见SecurityType
+		stock_type          str            证券类型，参见 SecurityType_
 		stock_name          str            证券名字
 		list_time           str            上市时间（美股默认是美东时间，港股A股默认是北京时间）
 		wrt_valid           bool           是否是窝轮，如果为True，下面wrt开头的字段有效
-		wrt_type            str            窝轮类型，参见WrtType
+		wrt_type            str            窝轮类型，参见 WrtType_
 		wrt_code            str            所属正股
 		=================   ===========   ==============================================================================
 		
