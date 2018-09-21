@@ -139,4 +139,3 @@ class TinyStrateSample(TinyStrateBase):
         if array:
             return result
         return result[-1]
-
