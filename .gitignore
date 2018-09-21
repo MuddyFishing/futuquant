@@ -100,3 +100,7 @@ ENV/
 .idea/
 /dist/
 /futuquant.egg-info/
+
+
+Config.py
+stock_alarm.db
