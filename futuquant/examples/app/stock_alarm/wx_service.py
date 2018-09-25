@@ -56,6 +56,8 @@ def wechat():
     else:
         global new_setting_cache
         rec_msg = receive.parse_xml(request.stream.read())
+        if rec_msg is None:
+            return 'success'
 
         if rec_msg.MsgType == 'text':
             content = rec_msg.Content.decode('utf-8')
@@ -70,6 +72,10 @@ def wechat():
                     pass
                 rep_text_msg = reply.TextMsg(rec_msg.FromUserName, rec_msg.ToUserName,
                                              ("{0}\n{1}".format(msg, get_time())))
+                return rep_text_msg.send()
+            elif content.startswith(u'whoami'):
+                rep_text_msg = reply.TextMsg(rec_msg.FromUserName, rec_msg.ToUserName,
+                                             rec_msg.FromUserName)
                 return rep_text_msg.send()
             elif rec_msg.FromUserName in new_setting_cache:
                 # 进入设置确认逻辑
