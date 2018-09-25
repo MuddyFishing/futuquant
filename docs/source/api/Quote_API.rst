@@ -1202,18 +1202,17 @@ SysNotifyHandlerBase - OpenD通知回调处理类
 
 .. code:: python
     
-    import time
     from futuquant import *
 	
-    class SysNotifyTest(SysNotifyHandlerBase):
-	    def on_recv_rsp(self, rsp_pb):
-        ret_code, content = super(SysNotifyTest, self).on_recv_rsp(rsp_pb)
-        notify_type, sub_type, msg = content
-        if ret_code != RET_OK:
-            logger.debug("SysNotifyTest: error, msg: %s" % msg)
-            return RET_ERROR, content
-        print(msg)
-        return ret_code, content
+    class StockQuoteTest(StockQuoteHandlerBase):
+        def on_recv_rsp(self, rsp_str):
+            ret_code, data = super(SysNotifyTest, self).on_recv_rsp(rsp_pb)
+            notify_type, sub_type, msg = data
+            if ret_code != RET_OK:
+                logger.debug("SysNotifyTest: error, msg: %s" % msg)
+                return RET_ERROR, data
+            print(msg)
+            return RET_OK, data
 			
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
     handler = SysNotifyTest()
