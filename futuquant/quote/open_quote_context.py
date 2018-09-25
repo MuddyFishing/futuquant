@@ -257,7 +257,7 @@ class OpenQuoteContext(OpenContextBase):
         for code in codelist:
             ret, data = self.get_history_kline(code, start, end, ktype, autype)
             if ret != RET_OK:
-                return RET_ERROR, 'get history kline error {},{},{},{}'.format(code, start, end, ktype)
+                return RET_ERROR, 'get history kline error: {}, {},{},{},{}'.format(data, code, start, end, ktype)
             result.append(data)
         return 0, result
 
