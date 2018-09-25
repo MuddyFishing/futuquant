@@ -1204,7 +1204,7 @@ SysNotifyHandlerBase - OpenD通知回调处理类
     
     from futuquant import *
 	
-    class StockQuoteTest(StockQuoteHandlerBase):
+    class SysNotifyTest(SysNotifyHandlerBase):
         def on_recv_rsp(self, rsp_str):
             ret_code, data = super(SysNotifyTest, self).on_recv_rsp(rsp_pb)
             notify_type, sub_type, msg = data
