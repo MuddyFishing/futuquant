@@ -354,6 +354,8 @@ class NetManager:
             conn.sock = None
             conn.status = ConnStatus.Closed
             for proto_info, sync_req_rsp in conn.sync_req_dict.items():  # type: ProtoInfo, SyncReqRspInfo
+                sync_req_rsp.ret = RET_ERROR
+                sync_req_rsp.msg = Err.ConnectionClosed.text
                 sync_req_rsp.event.set()
 
         self._req_queue.put(work)

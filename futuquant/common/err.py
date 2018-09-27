@@ -16,5 +16,6 @@ class Err:
     Timeout = _ErrField(2, 'Timeout')
     NotConnected = _ErrField(3, 'Not connected')
     PacketDataErr = _ErrField(4, 'Packet data error')
+    ConnectionClosed = _ErrField(5, 'Connection closed')
 
     NoNeedUnlock = _ErrField(2000, 'No need to unlock, because REAL trade is not supported in this market')
