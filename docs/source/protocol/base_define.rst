@@ -499,6 +499,22 @@ TickerType - 逐笔类型
 	
 -----------------------------------------------
 
+PushDataType - 推送数据来源分类，目前只有逐笔在使用
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ .. code-block:: protobuf
+
+	 //推送数据来源分类，目前只有逐笔在使用
+	enum PushDataType
+	{
+		PushDataType_Unknow = 0;
+		PushDataType_Realtime = 1; //实时推送的数据
+		PushDataType_ByDisConn = 2; //对后台行情连接断开期间拉取补充的数据 最多750个
+		PushDataType_Cache = 3; //非实时非连接断开补充数据
+	}
+	
+-----------------------------------------------
+
 DarkStatus - 暗盘交易状态
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -718,6 +734,7 @@ Ticker - 逐笔成交
 		optional double recvTime = 7; //收到推送数据的本地时间戳，用于定位延迟
 		optional int32 type = 8; //TickerType, 逐笔类型
 		optional int32 typeSign = 9; //逐笔类型符号
+		optional int32 pushDataType = 10; //用于区分推送情况，仅推送时有该字段
 	}
 	
 -----------------------------------------------

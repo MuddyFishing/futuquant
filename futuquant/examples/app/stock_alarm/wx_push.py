@@ -1,14 +1,14 @@
-# pip3 install requests
+# -*- coding: utf-8 -*-
+
 import requests
 import json
 import time
-from Config import Config
+from .config import config
 from futuquant.common import bytes_utf8
 
 
 RET_ERROR = -1
 RET_OK = 0
-config = Config()
 
 
 class WechatPush(object):

@@ -38,7 +38,11 @@
  
  .. _SecurityReferenceType: Base_API.html#securityreferencetype
  
+ .. _PushDataType: Base_API.html#pushdatatype
  
+ .. _TickerType: Base_API.html#tickertype
+
+ .. _DarkStatus: Base_API.html#darkstatus
 
 一分钟上手
 ============
@@ -67,7 +71,7 @@ close
 
 ..  py:function:: close
 
-关闭上下文对象。
+关闭上下文对象。默认情况下，futuquant内部创建的线程会阻止进程退出，只有当所有context都close后，进程才能正常退出。但通过SysConfig.set_all_thread_daemon可以设置所有内部线程为daemon线程，这时即使没有调用context的close，进程也可以正常退出。
 
 .. code:: python
 
@@ -104,6 +108,7 @@ set_handler
             ===============================    =========================
              类名                                 说明
             ===============================    =========================
+			SysNotifyHandlerBase				OpenD通知处理基类
             StockQuoteHandlerBase               报价处理基类
             OrderBookHandlerBase                摆盘处理基类
             CurKlineHandlerBase                 实时k线处理基类
@@ -154,7 +159,7 @@ get_stock_basicinfo
  获取指定市场中特定类型的股票基本信息
  
  :param market: 市场类型 Market_
- :param stock_type: 股票类型，该参数不支持SecurityType.DRVT SecurityType_ 
+ :param stock_type: 股票类型，参见 SecurityType_，但不支持SecurityType.DRVT 
  :param code_list: 如果不为None，应该是股票code的iterable类型，将只返回指定的股票信息
  :return: (ret_code, content)
 
@@ -175,6 +180,7 @@ get_stock_basicinfo
         suspension          bool           是否停牌(True表示停牌)
         listing_date        str            上市时间
         stock_id            int            股票id
+		delisting           bool           是否退市
         =================   ===========   ==============================================================================
 
  :Example:
@@ -437,7 +443,7 @@ get_market_snapshot
  stock_owner                     str            所属正股的代码
  wrt_valid                       bool           是否是窝轮（为true时以下涡轮相关的字段才有合法数据）
  wrt_conversion_ratio            float          换股比率（该字段为比例字段，默认不展示%）
- wrt_type                        str            窝轮类型，参见WrtType
+ wrt_type                        str            窝轮类型，参见 WrtType_
  wrt_strike_price                float          行使价格
  wrt_maturity_date               str            格式化窝轮到期时间
  wrt_end_trade                   str            格式化窝轮最后交易时间
@@ -452,7 +458,7 @@ get_market_snapshot
  lot_size                        int            每手股数
  price_spread                    float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
  option_valid                    bool           是否是期权（为true时以下期权相关的字段才有合法数值）
- option_type                     str            期权类型，参见OptionType
+ option_type                     str            期权类型，参见 OptionType_
  owner                           str            标的股
  strike_time                     str            行权日（美股默认是美东时间，港股A股默认是北京时间）
  option_strike_price             float          行权价
@@ -530,7 +536,7 @@ get_plate_stock
         code                    str            股票代码
         lot_size                int            每手股数
         stock_name              str            股票名称
-        stock_type              str            股票类型，参见SecurityType
+        stock_type              str            股票类型，参见 SecurityType_
         list_time               str            上市时间（美股默认是美东时间，港股A股默认是北京时间）
         stock_id                int            股票id
         =====================   ===========   ==============================================================
@@ -595,8 +601,8 @@ get_plate_list
 
  获取板块集合下的子板块列表
 
- :param market: 市场标识，注意这里不区分沪，深,输入沪或者深都会返回沪深市场的子板块（这个是和客户端保持一致的）参见Market
- :param plate_class: 板块分类，参见Plate
+ :param market: 市场标识，注意这里不区分沪，深,输入沪或者深都会返回沪深市场的子板块（这个是和客户端保持一致的）参见 Market_
+ :param plate_class: 板块分类，参见 Plate_
  :return (ret, data): ret == RET_OK 返回pd Dataframe数据，数据列格式如下
 
         ret != RET_OK 返回错误字符串
@@ -769,11 +775,11 @@ get_global_state
 		=====================   ===========   ==============================================================
 		key                      value类型                        说明
 		=====================   ===========   ==============================================================
-		market_sz               str            深圳市场状态，参见MarketState
-		market_us               str            美国市场状态，参见MarketState
-		market_sh               str            上海市场状态，参见MarketState
-		market_hk               str            香港市场状态，参见MarketState
-		market_hkfuture           str            香港期货市场状态，参见MarketState
+		market_sz               str            深圳市场状态，参见 MarketState_
+		market_us               str            美国市场状态，参见 MarketState_
+		market_sh               str            上海市场状态，参见 MarketState_
+		market_hk               str            香港市场状态，参见 MarketState_
+		market_hkfuture           str            香港期货市场状态，参见 MarketState_
 		server_ver              str            FutuOpenD版本号
 		trd_logined             str            '1'：已登录交易服务器，'0': 未登录交易服务器
 		qot_logined             str            '1'：已登录行情服务器，'0': 未登录行情服务器
@@ -822,7 +828,7 @@ get_stock_quote
         suspension              bool           是否停牌(True表示停牌)
         listing_date            str            上市日期 (yyyy-MM-dd)
         price_spread            float          当前价差，亦即摆盘数据的买档或卖档的相邻档位的报价差
-		dark_status             str            暗盘交易状态，见DarkStatus
+		dark_status             str            暗盘交易状态，见 DarkStatus_
         strike_price            float          行权价
         contract_size           int            每份合约数
         open_interest           int            未平仓合约数
@@ -871,7 +877,7 @@ get_rt_ticker
         volume                   int            成交数量（股数）
         turnover                 float          成交金额
         ticker_direction         str            逐笔方向
-        type                     str            逐笔类型，参见TickerType
+        type                     str            逐笔类型，参见 TickerType_
         =====================   ===========   ==============================================================
 
  :Example:
@@ -987,7 +993,7 @@ get_multi_points_history_kline
     =================   ===========   ==============================================================================
     code                str            股票代码
     time_point          str            请求的时间（美股默认是美东时间，港股A股默认是北京时间）
-    data_status         str            数据点是否有效，参见KLDataStatus
+    data_status         str            数据点是否有效，参见 KLDataStatus_
     time_key            str            k线时间（美股默认是美东时间，港股A股默认是北京时间）
     open                float          开盘价
     close               float          收盘价
@@ -1033,11 +1039,11 @@ get_referencestock_list
 		=================   ===========   ==============================================================================
 		code                str            证券代码
 		lot_size            int            每手数量
-		stock_type          str            证券类型，参见SecurityType
+		stock_type          str            证券类型，参见 SecurityType_
 		stock_name          str            证券名字
 		list_time           str            上市时间（美股默认是美东时间，港股A股默认是北京时间）
 		wrt_valid           bool           是否是窝轮，如果为True，下面wrt开头的字段有效
-		wrt_type            str            窝轮类型，参见WrtType
+		wrt_type            str            窝轮类型，参见 WrtType_
 		wrt_code            str            所属正股
 		=================   ===========   ==============================================================================
 		
@@ -1089,7 +1095,7 @@ get_holding_change_list
 
 ..  py:function:: get_holding_change_list(self, code, holder_type, start, end=None)
 
- 获取大股东持股变动列表,只提供美股数据
+ 获取大股东持股变动列表,只提供美股数据,并最多只返回前100个
 
  :param code: 股票代码. 例如：'US.AAPL'
  :param holder_type: 持有者类别，查看 StockHolder_
@@ -1187,6 +1193,54 @@ get_option_chain
 
 
 ---------------------------------------------------------------------    
+
+
+SysNotifyHandlerBase - OpenD通知回调处理类
+-------------------------------------------
+
+通知OpenD一些重要消息，类似连接断开等。
+
+.. code:: python
+    
+    from futuquant import *
+	
+    class SysNotifyTest(SysNotifyHandlerBase):
+        def on_recv_rsp(self, rsp_str):
+            ret_code, data = super(SysNotifyTest, self).on_recv_rsp(rsp_pb)
+            notify_type, sub_type, msg = data
+            if ret_code != RET_OK:
+                logger.debug("SysNotifyTest: error, msg: %s" % msg)
+                return RET_ERROR, data
+            print(msg)
+            return RET_OK, data
+			
+    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+    handler = SysNotifyTest()
+    quote_ctx.set_handler(handler)
+                
+-------------------------------------------
+
+on_recv_rsp
+~~~~~~~~~~~
+
+..  py:function:: on_recv_rsp(self, rsp_pb)
+
+ 在收到OpenD通知推送后会回调到该函数，使用者需要在派生类中覆盖此方法
+
+ 注意该回调是在独立子线程中
+
+ :param rsp_pb: 派生类中不需要直接处理该参数
+ :return: ret_code, notify_type, sub_type, msg
+ 
+==================   ===========   ===========
+参数                 类型          说明
+==================   ===========   ===========
+notify_type          int           通知类型
+sub_type             int           消息类型
+msg              	 str           消息描述
+==================   ===========   ===========
+  
+----------------------------
 
 StockQuoteHandlerBase - 实时报价回调处理类
 -------------------------------------------
@@ -1349,7 +1403,10 @@ TickerHandlerBase - 实时逐笔推送回调处理类
 	quote_ctx.subscribe(['HK.00700'], [SubType.TICKER])
 	time.sleep(15)  
 	quote_ctx.close()
+	
+.. note::
 
+    * 行情连接断开重连后，OpenD拉取断开期间的逐笔数据（最多750根）并推送，可通过push_data_type字段区分
 -------------------------------------------
 
 on_recv_rsp
@@ -1363,7 +1420,7 @@ on_recv_rsp
  注意该回调是在独立子线程中
 
  :param rsp_pb: 派生类中不需要直接处理该参数
- :return: 参见 get_rt_ticker_ 的返回值
+ :return: 参见 get_rt_ticker_ 的返回值，回调比get_rt_ticker多返回一个字段：push_data_type，该字段指明数据来源，参见 PushDataType_
 
 ----------------------------
 
