@@ -141,6 +141,7 @@ accinfo_query - 获取账户资金数据
   from futuquant import *
   pwd_unlock = '123456'
   trd_ctx = OpenHKTradeContext(host='127.0.0.1', port=11111)
+  trd_ctx.unlock_trade(pwd_unlock)
   print(trd_ctx.accinfo_query())
   trd_ctx.close()
   
@@ -604,6 +605,8 @@ on_recv_rsp - 响应成交推送
 3.不支持成交数据，包括今日成交，历史成交，成交推送
 
 4.下单仅支持Normal类型
+
+5.模拟交易不需要解锁交易
 
 可视数据可跳转至 `模拟交易 <https://m-match.futunn.com/simulate/>`_，该页面仅支持手机浏览器访问。
 
