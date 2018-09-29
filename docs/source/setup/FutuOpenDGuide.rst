@@ -21,7 +21,7 @@ FutuOpenD使用说明
 
 
 登录参数使用优先级
---------------
+----------------
   1.命令行证书登录
   
   2.命令行帐号密码密文登录
@@ -69,6 +69,11 @@ FutuOpenD配置
   32位MD5密文如下图红框区域（e10adc3949ba59abbe56e057f20f883e）：
   
   .. image:: ../_static/MD5.png
+
+  FutuOpenD默认读取同目录下的FutuOpenD.xml。在MacOS上，由于系统保护机制，FutuOpenD.app在运行时会被分配一个随机路径，导致无法找到原本的路径。此时有以下方法：
+
+  1. 执行xattr -r -d com.apple.quarantine path/FutuOpenD.app  去掉文件特殊标志。
+  2. 用命令行参数-cfg_file指定配置文件路径，见下面说明
  
   
 RSA私钥文件
