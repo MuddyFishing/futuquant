@@ -932,7 +932,11 @@ get_cur_kline
     quote_ctx.subscribe(['HK.00700'], [SubType.K_DAY])
     print(quote_ctx.get_cur_kline('HK.00700', 10, SubType.K_DAY, AuType.QFQ))
     quote_ctx.close()
-        
+
+.. note::
+
+    * 市盈率,换手率字段只有日K及日K以上周期的正股才有数据。
+	
 get_order_book
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1372,7 +1376,7 @@ on_recv_rsp
  注意该回调是在独立子线程中
 
  :param rsp_pb: 派生类中不需要直接处理该参数
- :return: 参见 get_cur_kline_ 的返回值
+ :return: 参见 get_cur_kline_ 的返回值，推送回调比 get_cur_kline_ 少了市盈率和换手率字段
     
 ----------------------------
 
