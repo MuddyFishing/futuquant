@@ -72,7 +72,7 @@ FutuOpenD配置
 
   FutuOpenD默认读取同目录下的FutuOpenD.xml。在MacOS上，由于系统保护机制，FutuOpenD.app在运行时会被分配一个随机路径，导致无法找到原本的路径。此时有以下方法：
 
-  1. 执行xattr -r -d com.apple.quarantine path/FutuOpenD.app  去掉文件特殊标志。
+  1. 执行tar包下的fixrun.sh
   2. 用命令行参数-cfg_file指定配置文件路径，见下面说明
  
   
