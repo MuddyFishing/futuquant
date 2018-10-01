@@ -160,6 +160,7 @@ class OpenQuoteContext(OpenContextBase):
             suspension          bool           是否停牌(True表示停牌)
             listing_date        str            上市时间
             stock_id            int            股票id
+            delisting           bool           是否退市
             =================   ===========   ==============================================================================
 
         :example:
@@ -203,7 +204,7 @@ class OpenQuoteContext(OpenContextBase):
         col_list = [
             'code', 'name', 'lot_size', 'stock_type', 'stock_child_type', 'stock_owner',
             'option_type', 'strike_time', 'strike_price', 'suspension',
-            'listing_date', 'stock_id'
+            'listing_date', 'stock_id', 'delisting'
         ]
 
         basic_info_table = pd.DataFrame(basic_info_list, columns=col_list)
@@ -256,7 +257,7 @@ class OpenQuoteContext(OpenContextBase):
         for code in codelist:
             ret, data = self.get_history_kline(code, start, end, ktype, autype)
             if ret != RET_OK:
-                return RET_ERROR, 'get history kline error {},{},{},{}'.format(code, start, end, ktype)
+                return RET_ERROR, 'get history kline error: {}, {},{},{},{}'.format(data, code, start, end, ktype)
             result.append(data)
         return 0, result
 

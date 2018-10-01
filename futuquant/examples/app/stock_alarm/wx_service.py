@@ -2,13 +2,12 @@
 # filename:
 from flask import Flask, request, make_response
 import time, hashlib
-from receive_and_reply import reply
-from receive_and_reply import receive
-from sqlite_interface import SqliteInterface
-from Config import Config
+from .receive_and_reply import reply
+from .receive_and_reply import receive
+from .sqlite_interface import SqliteInterface
+from .config import config
 
 sqlite = SqliteInterface()
-config = Config()
 app = Flask(__name__)
 
 # 存储openid: [new_parameter_list, active_time]
@@ -57,6 +56,8 @@ def wechat():
     else:
         global new_setting_cache
         rec_msg = receive.parse_xml(request.stream.read())
+        if rec_msg is None:
+            return 'success'
 
         if rec_msg.MsgType == 'text':
             content = rec_msg.Content.decode('utf-8')
@@ -71,6 +72,10 @@ def wechat():
                     pass
                 rep_text_msg = reply.TextMsg(rec_msg.FromUserName, rec_msg.ToUserName,
                                              ("{0}\n{1}".format(msg, get_time())))
+                return rep_text_msg.send()
+            elif content.startswith(u'whoami'):
+                rep_text_msg = reply.TextMsg(rec_msg.FromUserName, rec_msg.ToUserName,
+                                             rec_msg.FromUserName)
                 return rep_text_msg.send()
             elif rec_msg.FromUserName in new_setting_cache:
                 # 进入设置确认逻辑
@@ -107,4 +112,3 @@ def get_time():
     return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
 
-app.run(host='0.0.0.0', port=80, debug=True)

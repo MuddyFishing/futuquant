@@ -17,6 +17,7 @@ class SysConfig(object):
     PROTO_FMT = None                        # 协议格式
     CLINET_ID = None                        # Client标识
     CLIENT_VER = None                       # Client ver
+    ALL_THREAD_DAEMON = False               # 是否所有产生的线程都是daemon线程
 
     @classmethod
     def set_client_info(cls, client_id, client_ver):
@@ -171,6 +172,19 @@ class SysConfig(object):
             err_msg = "Fatal error occurred in getting proto key, detail:{}".format(err)
             logger.error(err_msg)
             raise Exception(err_msg)
+
+    @classmethod
+    def set_all_thread_daemon(cls, all_daemon):
+        """
+        设置是否所有内部创建的线程都是daemon线程
+        :param all_daemon: bool
+        :return:
+        """
+        SysConfig.ALL_THREAD_DAEMON = all_daemon
+
+    @classmethod
+    def get_all_thread_daemon(cls):
+        return SysConfig.ALL_THREAD_DAEMON
 
 
 class RsaCrypt(object):

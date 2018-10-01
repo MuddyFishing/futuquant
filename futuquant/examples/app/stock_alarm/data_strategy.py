@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-from wx_push import WechatPush
+
+
+from .wx_push import WechatPush
 import logging
-from sqlite_interface import SqliteInterface
-from Config import Config
+from .sqlite_interface import SqliteInterface
+from .config import config
 import time
 
 sqlite = SqliteInterface()
 wp = WechatPush()
-config = Config()
 warning_time_list = {}
 
 

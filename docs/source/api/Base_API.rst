@@ -97,14 +97,34 @@ set_init_rsa_file
    SysConfig.set_init_rsa_file("conn_key.txt")   # rsa 私钥文件路径
    quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
    quote_ctx.close()
+   
+   
+--------------------------------------------
+
+set_all_thread_daemon
+~~~~~~~~~~~~~~~~~~~~~~
+
+..  py:function:: set_all_thread_daemon(cls, all_daemon)
+
+  设置是否所有内部创建的线程都是daemon线程。在主线程退出后，如果其余线程都是daemon线程，则进程退出。否则进程仍会继续运行。如果不设置，默认内部会创建非daemon线程。默认情况下，行情和交易的context连接上FutuOpenD后，如果不调用close，即使主线程退出，进程也不会退出。因此，如果行情和交易的context设置了接收数据推送，并且也设置了daemon线程，则要自己保证主线程存活，否则进程将退出，也就不会再收到推送数据了。
+
+  :param all_daemon:  bool, 是否所有内部线程都是daemon线程
+  :return: None
+
+  :example:
+
+  .. code:: python
+
+   from futuquant import *
+   SysConfig.set_all_thread_daemon(True)
+   quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+   # 不调用quote_ctx.close()，进程也会退出
 
 --------------------------------------------
 
 
 枚举常量
 ---------
-
-----------------------------
 
 ret_code - 接口返回值
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -572,6 +592,157 @@ TickerDirect - 逐笔方向
   
 --------------------------------------
 
+TickerType - 逐笔类型
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+逐笔类型定义
+
+..  py:class:: TickerType
+
+	..  py:attribute:: AUTO_MATCH
+
+	自动对盘
+
+	..  py:attribute:: LATE
+
+	开市前成交盘
+
+	..  py:attribute:: NON_AUTO_MATCH
+
+	非自动对盘
+
+	..  py:attribute:: INTER_AUTO_MATCH
+
+	同一证券商自动对盘
+
+	..  py:attribute:: INTER_NON_AUTO_MATCH
+
+	同一证券商非自动对盘
+
+	..  py:attribute:: ODD_LOT
+
+	碎股交易
+
+	..  py:attribute:: AUCTION
+
+	竞价交易
+
+	..  py:attribute:: BULK
+
+	批量交易
+
+	..  py:attribute:: CRASH
+
+	现金交易
+
+	..  py:attribute:: CROSS_MARKET
+
+	跨市场交易
+
+	..  py:attribute:: BULK_SOLD
+
+	批量卖出
+
+	..  py:attribute:: FREE_ON_BOARD
+
+	离价交易
+
+	..  py:attribute:: RULE127_OR_155
+
+	第127条交易（纽交所规则）或第155条交易
+
+	..  py:attribute:: DELAY
+
+	延迟交易
+
+	..  py:attribute:: MARKET_CENTER_CLOSE_PRICE
+
+	中央收市价
+
+	..  py:attribute:: NEXT_DAY
+
+	隔日交易
+
+	..  py:attribute:: MARKET_CENTER_OPENING
+
+	中央开盘价交易
+
+	..  py:attribute:: PRIOR_REFERENCE_PRICE
+
+	前参考价
+
+	..  py:attribute:: MARKET_CENTER_OPEN_PRICE
+
+	中央开盘价
+
+	..  py:attribute:: SELLER
+
+	卖方
+
+	..  py:attribute:: T
+
+	T类交易(盘前和盘后交易)
+
+	..  py:attribute:: EXTENDED_TRADING_HOURS
+
+	延长交易时段
+
+	..  py:attribute:: CONTINGENT
+
+	合单交易
+
+	..  py:attribute:: AVERAGE_PRICE
+
+	平均价成交
+
+	..  py:attribute:: OTC_SOLD
+
+	场外售出
+
+	..  py:attribute:: ODD_LOT_CROSS_MARKET
+
+	碎股跨市场交易
+
+	..  py:attribute:: DERIVATIVELY_PRICED
+
+	衍生工具定价
+
+	..  py:attribute:: REOPENINGP_RICED
+
+	再开盘定价
+
+	..  py:attribute:: CLOSING_PRICED
+
+	收盘定价
+
+	..  py:attribute:: COMPREHENSIVE_DELAY_PRICE
+
+	综合延迟价格
+  
+--------------------------------------
+
+DarkStatus - 暗盘状态
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+暗盘状态定义
+
+..  py:class:: DarkStatus
+
+ ..  py:attribute:: NONE
+ 
+  无暗盘交易
+  
+ ..  py:attribute:: TRADING
+ 
+  暗盘交易中
+  
+ ..  py:attribute:: END
+ 
+  暗盘交易结束
+  
+
+--------------------------------------
+
 Plate - 板块集合分类
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -639,6 +810,26 @@ OptionType - 期权类型
  
   跌
   
+--------------------------------------
+
+PushDataType - 推送数据类型
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+推送数据类型定义
+
+..  py:class:: PushDataType
+
+ ..  py:attribute:: REALTIME
+ 
+  实时推送数据
+  
+ ..  py:attribute:: BYDISCONN
+ 
+  行情连接断开重连后，OpenD拉取补充断开期间的数据，最多750根
+  
+ ..  py:attribute:: CACHE
+ 
+  非实时推送数据，非连接断开补充数据
   
 --------------------------------------
 
@@ -665,7 +856,7 @@ OptionCondType - 价内价外
 --------------------------------------
 
 SysNotifyType - 系统异步通知类型
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 系统异步通知类型定义
 

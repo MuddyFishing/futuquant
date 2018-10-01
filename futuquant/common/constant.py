@@ -743,6 +743,19 @@ DARK_STATUS_MAP = {
     DarkStatus.END: Qot_Common_pb2.DarkStatus_End
 }
 
+class PushDataType:
+    NONE = 'N/A'
+    REALTIME = 'REALTIME'
+    BYDISCONN = 'BYDISCONN'
+    CACHE = 'CACHE'
+
+PUSH_DATA_TYPE_MAP = {
+    PushDataType.NONE: Qot_Common_pb2.PushDataType_Unknow,
+    PushDataType.REALTIME: Qot_Common_pb2.PushDataType_Realtime,
+    PushDataType.BYDISCONN: Qot_Common_pb2.PushDataType_ByDisConn,
+    PushDataType.CACHE: Qot_Common_pb2.PushDataType_Cache
+}
+
 class TickerType:
     UNKNOWN = 'UNKNOWN'
     AUTO_MATCH = 'AUTO_MATCH'
@@ -824,6 +837,7 @@ class QUOTE(object):
     REV_TICKER_DIRECTION = {TICKER_DIRECTION[x]: x for x in TICKER_DIRECTION}
     REV_MARKET_STATE_MAP = {MARKET_STATE_MAP[x]: x for x in MARKET_STATE_MAP}
     REV_DARK_STATUS_MAP = {DARK_STATUS_MAP[x]: x for x in DARK_STATUS_MAP}
+    REV_PUSH_DATA_TYPE_MAP = {PUSH_DATA_TYPE_MAP[x]: x for x in PUSH_DATA_TYPE_MAP}
     REV_TICKER_TYPE_MAP = {TICKER_TYPE_MAP[x]: x for x in TICKER_TYPE_MAP}
     REV_OPTION_TYPE_CLASS_MAP = {OPTION_TYPE_CLASS_MAP[x]: x for x in OPTION_TYPE_CLASS_MAP}
     REV_OPTION_COND_TYPE_CLASS_MAP = {OPTION_COND_TYPE_CLASS_MAP[x]: x for x in OPTION_COND_TYPE_CLASS_MAP}

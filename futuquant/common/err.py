@@ -16,5 +16,24 @@ class Err:
     Timeout = _ErrField(2, 'Timeout')
     NotConnected = _ErrField(3, 'Not connected')
     PacketDataErr = _ErrField(4, 'Packet data error')
+    ConnectionClosed = _ErrField(5, 'Connection closed')
+    ParamErr = _ErrField(6, 'Parameter error')
 
     NoNeedUnlock = _ErrField(2000, 'No need to unlock, because REAL trade is not supported in this market')
+
+
+def _make_kwargs_str(**kwargs):
+    msg = ''
+    if len(kwargs) > 0:
+        msg = ':'
+        for k, v in kwargs.items():
+            msg += ' {0}={1};'.format(k, v)
+    return msg
+
+
+def make_msg(err, msg_=None, **kwargs):
+    msg_ = '' if msg_ is None else ': ' + msg_
+    if isinstance(err, str):
+        return err + msg_ + _make_kwargs_str(**kwargs)
+    else:
+        return err.text + msg_ + _make_kwargs_str(**kwargs)
