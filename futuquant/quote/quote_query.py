@@ -80,19 +80,19 @@ class TradeDayQuery:
 
             start_date = start.strftime("%Y-%m-%d")
         else:
-            ret, msg = check_date_str_format(start_date)
+            ret, msg = normalize_date_format(start_date)
             if ret != RET_OK:
                 return ret, msg, None
-            start_date = normalize_date_format(start_date)
+            start_date = msg
 
         if end_date is None:
             today = datetime.today()
             end_date = today.strftime("%Y-%m-%d")
         else:
-            ret, msg = check_date_str_format(end_date)
+            ret, msg = normalize_date_format(end_date)
             if ret != RET_OK:
                 return ret, msg, None
-            end_date = normalize_date_format(end_date)
+            end_date = msg
 
         # pack to json
         mkt = MKT_MAP[market]
@@ -1615,19 +1615,19 @@ class HoldingChangeList:
             msg = "The start date is none."
             return RET_ERROR, msg, None
         else:
-            ret, msg = check_date_str_format(start_date)
+            ret, msg = normalize_date_format(start_date)
             if ret != RET_OK:
                 return ret, msg, None
-            start_date = normalize_date_format(start_date)
+            start_date = msg
 
         if end_date is None:
             today = datetime.today()
             end_date = today.strftime("%Y-%m-%d")
         else:
-            ret, msg = check_date_str_format(end_date)
+            ret, msg = normalize_date_format(end_date)
             if ret != RET_OK:
                 return ret, msg, None
-            end_date = normalize_date_format(end_date)
+            end_date = msg
 
         from futuquant.common.pb.Qot_GetHoldingChangeList_pb2 import Request
         req = Request()
@@ -1683,19 +1683,19 @@ class OptionChain:
             msg = "The start date is none."
             return RET_ERROR, msg, None
         else:
-            ret, msg = check_date_str_format(start_date)
+            ret, msg = normalize_date_format(start_date)
             if ret != RET_OK:
                 return ret, msg, None
-            start_date = normalize_date_format(start_date)
+            start_date = msg
 
         if end_date is None:
             today = datetime.today()
             end_date = today.strftime("%Y-%m-%d")
         else:
-            ret, msg = check_date_str_format(end_date)
+            ret, msg = normalize_date_format(end_date)
             if ret != RET_OK:
                 return ret, msg, None
-            end_date = normalize_date_format(end_date)
+            end_date = msg
 
         option_cond_type = OPTION_COND_TYPE_CLASS_MAP[option_cond_type]
         if option_cond_type == 0:
