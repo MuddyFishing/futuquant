@@ -525,7 +525,8 @@ class OpenTradeContextBase(OpenContextBase):
         return RET_OK, modify_order_table
 
     def change_order(self, order_id, price, qty, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0):
-        return self.modify_order(ModifyOrderOp.NORMAL, order_id, price, qty, adjust_limit, trd_env, acc_id)
+        return self.modify_order(ModifyOrderOp.NORMAL, order_id=order_id, qty=qty, price=price,
+                                 adjust_limit=adjust_limit, trd_env=trd_env, acc_id=acc_id)
 
     def deal_list_query(self, code="", trd_env=TrdEnv.REAL, acc_id=0, acc_index=0):
         """for querying deal list"""
