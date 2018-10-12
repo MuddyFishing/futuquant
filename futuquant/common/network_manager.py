@@ -129,7 +129,7 @@ class NetManager:
         self._selector = selectors.DefaultSelector()
         self._next_conn_id = 1
         self._req_queue = queue.Queue()
-        self._sync_req_timeout = 10
+        self._sync_req_timeout = 12
         self._thread = None
         now = datetime.now()
         self._last_activate_time = now
