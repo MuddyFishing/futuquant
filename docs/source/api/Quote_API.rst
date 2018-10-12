@@ -108,7 +108,7 @@ set_handler
             ===============================    =========================
              类名                                 说明
             ===============================    =========================
-			SysNotifyHandlerBase				OpenD通知处理基类
+            SysNotifyHandlerBase				OpenD通知处理基类
             StockQuoteHandlerBase               报价处理基类
             OrderBookHandlerBase                摆盘处理基类
             CurKlineHandlerBase                 实时k线处理基类
@@ -180,7 +180,7 @@ get_stock_basicinfo
         suspension          bool           是否停牌(True表示停牌)
         listing_date        str            上市时间
         stock_id            int            股票id
-		delisting           bool           是否退市
+        delisting           bool           是否退市
         =================   ===========   ==============================================================================
 
  :Example:

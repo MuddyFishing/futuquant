@@ -30,7 +30,7 @@ Futu Open API 项目，涵盖了常规交易品种（证券、衍生品）：
 ------------
 
 futuquant安装
------
+-------------
 .. code-block:: bash
 
     $ pip install futuquant
