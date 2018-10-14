@@ -108,7 +108,7 @@ set_handler
             ===============================    =========================
              类名                                 说明
             ===============================    =========================
-			SysNotifyHandlerBase				OpenD通知处理基类
+            SysNotifyHandlerBase				OpenD通知处理基类
             StockQuoteHandlerBase               报价处理基类
             OrderBookHandlerBase                摆盘处理基类
             CurKlineHandlerBase                 实时k线处理基类
@@ -180,7 +180,7 @@ get_stock_basicinfo
         suspension          bool           是否停牌(True表示停牌)
         listing_date        str            上市时间
         stock_id            int            股票id
-		delisting           bool           是否退市
+        delisting           bool           是否退市
         =================   ===========   ==============================================================================
 
  :Example:
@@ -932,7 +932,11 @@ get_cur_kline
     quote_ctx.subscribe(['HK.00700'], [SubType.K_DAY])
     print(quote_ctx.get_cur_kline('HK.00700', 10, SubType.K_DAY, AuType.QFQ))
     quote_ctx.close()
-        
+
+.. note::
+
+    * 市盈率,换手率字段只有日K及日K以上周期的正股才有数据。
+	
 get_order_book
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1372,7 +1376,7 @@ on_recv_rsp
  注意该回调是在独立子线程中
 
  :param rsp_pb: 派生类中不需要直接处理该参数
- :return: 参见 get_cur_kline_ 的返回值
+ :return: 参见 get_cur_kline_ 的返回值，推送回调比 get_cur_kline_ 少了市盈率和换手率字段
     
 ----------------------------
 
@@ -1406,7 +1410,7 @@ TickerHandlerBase - 实时逐笔推送回调处理类
 	
 .. note::
 
-    * 行情连接断开重连后，OpenD拉取断开期间的逐笔数据（最多750根）并推送，可通过push_data_type字段区分
+    * 行情连接断开重连后，OpenD拉取断开期间的逐笔数据（最多50根）并推送，可通过push_data_type字段区分
 -------------------------------------------
 
 on_recv_rsp

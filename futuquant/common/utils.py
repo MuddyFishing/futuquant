@@ -42,7 +42,7 @@ def normalize_date_format(date_str, default_time="00:00:00"):
     if ret_code != RET_OK:
         return ret_code, ret_data
 
-    return ret_data.strftime("%Y-%m-%d %H:%M:%S")
+    return RET_OK, ret_data.strftime("%Y-%m-%d %H:%M:%S")
 
 
 def normalize_start_end_date(start, end, delta_days=0, default_time_start="00:00:00", default_time_end="23:59:59", prefer_end_now=True):

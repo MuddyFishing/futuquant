@@ -509,7 +509,7 @@ PushDataType - 推送数据来源分类，目前只有逐笔在使用
 	{
 		PushDataType_Unknow = 0;
 		PushDataType_Realtime = 1; //实时推送的数据
-		PushDataType_ByDisConn = 2; //对后台行情连接断开期间拉取补充的数据 最多750个
+		PushDataType_ByDisConn = 2; //对后台行情连接断开期间拉取补充的数据 最多50个
 		PushDataType_Cache = 3; //非实时非连接断开补充数据
 	}
 	

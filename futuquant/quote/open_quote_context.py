@@ -1767,7 +1767,7 @@ class OpenQuoteContext(OpenContextBase):
             error_str = ERROR_STR_PREFIX + "the type of code param is wrong"
             return RET_ERROR, error_str
 
-        ret_code, msg, start, end = normalize_start_end_date(start, end, delta_days=29, prefer_end_now=False)
+        ret_code, msg, start, end = normalize_start_end_date(start, end, delta_days=29, default_time_end='00:00:00', prefer_end_now=False)
         if ret_code != RET_OK:
             return ret_code, msg
 

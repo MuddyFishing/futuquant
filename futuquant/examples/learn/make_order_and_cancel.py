@@ -52,7 +52,7 @@ def make_order_and_cancel(api_svr_ip, api_svr_port, unlock_password, test_code, 
     while not is_fire_trade:
         sleep(2)
         # 解锁交易
-        if not is_unlock_trade:
+        if not is_unlock_trade and trade_env == ft.TrdEnv.REAL:
             print("unlocking trade...")
             ret_code, ret_data = trade_ctx.unlock_trade(unlock_password)
             is_unlock_trade = (ret_code == ft.RET_OK)

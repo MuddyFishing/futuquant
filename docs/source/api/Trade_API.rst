@@ -151,7 +151,7 @@ accinfo_query - 获取账户资金数据
 position_list_query - 获取账户持仓列表
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: position_list_query(self, code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL, acc_id=0)
+..  py:function:: position_list_query(self, code='', pl_ratio_min=None, pl_ratio_max=None, trd_env=TrdEnv.REAL, acc_id=0, acc_index=0)
 
  获取账户持仓列表。获取账户的证券持仓列表。
 
@@ -202,7 +202,7 @@ position_list_query - 获取账户持仓列表
 place_order - 下单
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: place_order(self, price, qty, code, trd_side=TrdSide.NONE, order_type=OrderType.NORMAL, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0)
+..  py:function:: place_order(self, price, qty, code, trd_side=TrdSide.NONE, order_type=OrderType.NORMAL, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0, acc_index=0)
 
  下单交易。
  
@@ -285,7 +285,7 @@ order_list_query - 获取订单列表
 modify_order - 修改订单
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: modify_order(self, modify_order_op, order_id, qty, price, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0)
+..  py:function:: modify_order(self, modify_order_op, order_id, qty, price, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0, acc_index=0)
 
  修改订单。修改订单，包括修改订单的价格和数量(即以前的改单)、撤单、失效、生效、删除等。
  
@@ -356,7 +356,7 @@ change_order - 改单(老接口，兼容以前)
 deal_list_query - 获取成交列表
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: deal_list_query(self, code="", trd_env=TrdEnv.REAL, acc_id=0)
+..  py:function:: deal_list_query(self, code="", trd_env=TrdEnv.REAL, acc_id=0, acc_index=0)
 
  获取成交列表。获取账户的交易成交列表。
 
@@ -398,7 +398,7 @@ deal_list_query - 获取成交列表
 history_order_list_query - 获取历史订单列表
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: history_order_list_query(self, status_filter_list=[], code='', start='', end='', trd_env=TrdEnv.REAL, acc_id=0)
+..  py:function:: history_order_list_query(self, status_filter_list=[], code='', start='', end='', trd_env=TrdEnv.REAL, acc_id=0, acc_index=0)
 
  获取历史订单列表。获取账户的历史交易订单列表。
 
@@ -428,7 +428,7 @@ history_order_list_query - 获取历史订单列表
 history_deal_list_query - 获取历史成交列表
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: history_deal_list_query(self, code, start='', end='', trd_env=TrdEnv.REAL, acc_id=0)
+..  py:function:: history_deal_list_query(self, code, start='', end='', trd_env=TrdEnv.REAL, acc_id=0, acc_index=0)
 
  获取历史成交列表。获取账户的历史交易成交列表。
 
@@ -458,7 +458,7 @@ history_deal_list_query - 获取历史成交列表
 acctradinginfo_query - 查询账户下最大可买卖数量
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-..  py:function:: acctradinginfo_query(self, order_type, code, price, order_id, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0)
+..  py:function:: acctradinginfo_query(self, order_type, code, price, order_id, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0, acc_index=0)
 
  查询账户下最大可买卖数量
  

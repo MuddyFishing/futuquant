@@ -69,7 +69,7 @@ Anaconda python是Python科学技术包的合集，提供了很多用于科学�
 
 .. note::
 
-    *   下载地址：https://github.com/FutunnOpen/futuquant/tree/v3.0
+    *   下载地址：https://github.com/FutunnOpen/futuquant
        .. image:: ../_static/git-download.png    
     *   解压，在解压文件夹按住Shift右键打开PowerShell或命令窗口，执行 :code:`pip install .` 进行安装
        .. image:: ../_static/powershell-install-futuquant.png

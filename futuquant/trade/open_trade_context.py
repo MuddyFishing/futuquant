@@ -525,7 +525,8 @@ class OpenTradeContextBase(OpenContextBase):
         return RET_OK, modify_order_table
 
     def change_order(self, order_id, price, qty, adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0):
-        return self.modify_order(ModifyOrderOp.NORMAL, order_id, price, qty, adjust_limit, trd_env, acc_id)
+        return self.modify_order(ModifyOrderOp.NORMAL, order_id=order_id, qty=qty, price=price,
+                                 adjust_limit=adjust_limit, trd_env=trd_env, acc_id=acc_id)
 
     def deal_list_query(self, code="", trd_env=TrdEnv.REAL, acc_id=0, acc_index=0):
         """for querying deal list"""
@@ -739,7 +740,7 @@ class OpenUSTradeContext(OpenTradeContextBase):
 # A股通交易接口
 class OpenHKCCTradeContext(OpenTradeContextBase):
     def __init__(self, host="127.0.0.1", port=11111):
-        super().__init__(TrdMarket.HKCC, host, port)
+        super(OpenHKCCTradeContext, self).__init__(TrdMarket.HKCC, host, port)
 
     def order_list_query(self, order_id="", status_filter_list=[], code='', start='', end='',
                          trd_env=TrdEnv.REAL, acc_id=0, acc_index=0):
@@ -753,7 +754,7 @@ class OpenHKCCTradeContext(OpenTradeContextBase):
         :param acc_id:
         :return: 返回值见基类及接口文档，但order_type仅有OrderType.NORMAL, order_status没有OrderStatus.DISABLED
         """
-        return super().order_list_query(order_id, status_filter_list, code, start, end, trd_env, acc_id, acc_index)
+        return super(OpenHKCCTradeContext, self).order_list_query(order_id, status_filter_list, code, start, end, trd_env, acc_id, acc_index)
 
     def place_order(self, price, qty, code, trd_side=TrdSide.NONE, order_type=OrderType.NORMAL,
                     adjust_limit=0, trd_env=TrdEnv.REAL, acc_id=0, acc_index=0):
@@ -770,7 +771,7 @@ class OpenHKCCTradeContext(OpenTradeContextBase):
         :param acc_index:
         :return: 返回值见基类接口注释，但order_type仅有OrderType.NORMAL
         """
-        return super().place_order(price=price, qty=qty, code=code, trd_side=trd_side,
+        return super(OpenHKCCTradeContext, self).place_order(price=price, qty=qty, code=code, trd_side=trd_side,
                                    order_type=order_type, adjust_limit=adjust_limit,
                                    trd_env=trd_env, acc_id=acc_id, acc_index=acc_index)
 
@@ -786,7 +787,7 @@ class OpenHKCCTradeContext(OpenTradeContextBase):
         :param acc_id:
         :return:
         """
-        return super().modify_order(modify_order_op=modify_order_op,
+        return super(OpenHKCCTradeContext, self).modify_order(modify_order_op=modify_order_op,
                                     order_id=order_id,
                                     qty=qty,
                                     price=price,
@@ -807,7 +808,7 @@ class OpenHKCCTradeContext(OpenTradeContextBase):
         :param acc_id:
         :return: 详细说明见基类接口文档，但有以下不同：返回值没有counter_broker_id、counter_broker_name字段
         """
-        return super().deal_list_query(code=code, trd_env=trd_env, acc_id=acc_id, acc_index=acc_index)
+        return super(OpenHKCCTradeContext, self).deal_list_query(code=code, trd_env=trd_env, acc_id=acc_id, acc_index=acc_index)
 
     def history_order_list_query(self, status_filter_list=[], code='', start='', end='',
                                  trd_env=TrdEnv.REAL, acc_id=0, acc_index=0):
@@ -822,7 +823,7 @@ class OpenHKCCTradeContext(OpenTradeContextBase):
         :param acc_index:
         :return: 返回值见基类及接口文档，但order_type仅有OrderType.NORMAL, order_status没有OrderStatus.DISABLED
         """
-        return super().history_order_list_query(status_filter_list=status_filter_list,
+        return super(OpenHKCCTradeContext, self).history_order_list_query(status_filter_list=status_filter_list,
                                                 code=code,
                                                 start=start,
                                                 end=end,
